@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C76DC1AD-FC7E-4168-BD19-101FF84A43F7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>GeneticSharp.Domain</RootNamespace>
+    <AssemblyName>GeneticSharp.Domain</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>GeneticSharp.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>GeneticSharp.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="HelperSharp">
+      <HintPath>..\packages\HelperSharp.0.0.2.7\lib\net35\HelperSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="SmartThreadPool">
+      <HintPath>..\packages\SmartThreadPool.dll.2.2.3\lib\SmartThreadPool.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Chromosomes\ChromosomeBase.cs" />
+    <Compile Include="Crossovers\CrossoverBase.cs" />
+    <Compile Include="Crossovers\OnePointCrossover.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Chromosomes\IChromosome.cs" />
+    <Compile Include="Selections\ISelection.cs" />
+    <Compile Include="Chromosomes\Gene.cs" />
+    <Compile Include="Populations\Population.cs" />
+    <Compile Include="Populations\Generation.cs" />
+    <Compile Include="Fitnesses\IFitness.cs" />
+    <Compile Include="Mutations\IMutation.cs" />
+    <Compile Include="Mutations\UniformMutation.cs" />
+    <Compile Include="Crossovers\ICrossover.cs" />
+    <Compile Include="Randomizations\IRandomization.cs" />
+    <Compile Include="Randomizations\RandomizationProvider.cs" />
+    <Compile Include="Randomizations\BasicRandomization.cs" />
+    <Compile Include="Selections\RouletteWheelSelection.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
+  </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <DotNetNamingPolicy DirectoryNamespaceAssociation="PrefixedHierarchical" ResourceNamePolicy="FileFormatDefault" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
+  <ItemGroup>
+    <None Include="GeneticSharp.snk" />
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>
