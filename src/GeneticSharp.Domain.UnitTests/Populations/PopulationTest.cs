@@ -10,6 +10,7 @@ using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Chromosomes;
 using System.Collections.Generic;
 using HelperSharp;
+using System.Diagnostics;
 
 namespace GeneticSharp.Domain.UnitTests
 {
@@ -131,36 +132,38 @@ namespace GeneticSharp.Domain.UnitTests
 		[Test()]
 		public void RunGeneration_NotParallelManyGenerations_Optimization ()
 		{
-			var selection = new RouletteWheelSelection();
-            var crossover = new OnePointCrossover(1);
+			var selection = new EliteSelection();
+            var crossover = new OnePointCrossover(2);
             var mutation = new UniformMutation();
             var chromosome = new ChromosomeStub();
 			var target = new Population (
-				6, 
-                12,
+				50, 
+                50,
                 chromosome,
 				new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
 
-			Assert.AreEqual (6, target.MinSize);
-            Assert.IsInstanceOf<RouletteWheelSelection>(target.Selection);
+			Assert.AreEqual (50, target.MinSize);
+			Assert.IsInstanceOf<EliteSelection>(target.Selection);
             Assert.IsInstanceOf<OnePointCrossover>(target.Crossover);
             Assert.IsInstanceOf<UniformMutation>(target.Mutation);
 
-           
+			target.RunGenerations (25);
+			Assert.AreEqual(25, target.Generations.Count);
 
-			FlowAssert.IsAtLeastOneAttemptOk (100, () => {
-				target.RunGeneration();
-                Assert.IsTrue(target.CurrentGeneration.Chromosomes.Count >= 6);
-				Assert.IsTrue(target.CurrentGeneration.Chromosomes.Count <= 12);
-				Assert.IsNotNull(target.BestChromosome);
-				Assert.AreEqual (1.0, target.BestChromosome.Fitness);
-			});
+			var lastFitness = 0.0;
+
+			foreach (var g in target.Generations) {
+				Assert.GreaterOrEqual(g.BestChromosome.Fitness.Value, lastFitness);
+				lastFitness = g.BestChromosome.Fitness.Value;
+			}
+
+			Assert.GreaterOrEqual (lastFitness, 0.9);
 		}
 
 		[Test()]
 		public void RunGeneration_ParallelManyGenerations_Optimization ()
 		{
-			var selection = new RouletteWheelSelection();
+			var selection = new EliteSelection();
 			var crossover = new OnePointCrossover(1);
 			var mutation = new UniformMutation();
 			var chromosome = new ChromosomeStub();
@@ -171,18 +174,46 @@ namespace GeneticSharp.Domain.UnitTests
 				new FitnessStub() { SupportsParallel = true }, selection, crossover, mutation);
 
 			Assert.AreEqual (100, target.MinSize);
-			Assert.IsInstanceOf<RouletteWheelSelection>(target.Selection);
+			Assert.IsInstanceOf<EliteSelection>(target.Selection);
 			Assert.IsInstanceOf<OnePointCrossover>(target.Crossover);
 			Assert.IsInstanceOf<UniformMutation>(target.Mutation);
 
 
 
-			FlowAssert.IsAtLeastOneAttemptOk (100, () => {
+			FlowAssert.IsAtLeastOneAttemptOk (8, () => {
 				target.RunGeneration();
                 Assert.IsTrue(target.CurrentGeneration.Chromosomes.Count > 100);
                 Assert.IsTrue(target.CurrentGeneration.Chromosomes.Count <= 150);
 				Assert.IsNotNull(target.BestChromosome);
-				Assert.AreEqual (1.0, target.BestChromosome.Fitness);
+				Assert.IsTrue (target.BestChromosome.Fitness >= 0.9);
+			});
+
+			FlowAssert.IsAtLeastOneAttemptOk (8, () => {
+				target.RunGeneration();
+				Assert.IsTrue(target.CurrentGeneration.Chromosomes.Count > 100);
+				Assert.IsTrue(target.CurrentGeneration.Chromosomes.Count <= 150);
+				Assert.IsNotNull(target.BestChromosome);
+				Assert.IsTrue (target.BestChromosome.Fitness >= 0.9);
+			});
+
+			Assert.IsTrue (target.Generations.Count > 0);
+		}
+
+		[Test()]
+		public void RunGeneration_ParallelManySlowFitness_Timeout ()
+		{
+			var selection = new RouletteWheelSelection();
+			var crossover = new OnePointCrossover(1);
+			var mutation = new UniformMutation();
+			var chromosome = new ChromosomeStub();
+			var target = new Population (
+				100, 
+				150,
+				chromosome,
+				new FitnessStub() { SupportsParallel = true, ParallelSleep = 1500 }, selection, crossover, mutation);
+
+			ExceptionAssert.IsThrowing (new TimeoutException("The RunGeneration reach the 1000 milliseconds timeout."), () => {
+				target.RunGeneration (1000);
 			});
 		}
 	}

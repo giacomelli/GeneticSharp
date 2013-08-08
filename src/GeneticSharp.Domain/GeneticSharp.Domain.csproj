@@ -30,9 +30,6 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
     <AssemblyOriginatorKeyFile>GeneticSharp.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
@@ -48,10 +45,11 @@
     <Compile Include="Chromosomes\ChromosomeBase.cs" />
     <Compile Include="Crossovers\CrossoverBase.cs" />
     <Compile Include="Crossovers\OnePointCrossover.cs" />
+    <Compile Include="Crossovers\TwoPointCrossover.cs" />
+    <Compile Include="Crossovers\UniformCrossover.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Chromosomes\IChromosome.cs" />
-    <Compile Include="Selections\ISelection.cs" />
     <Compile Include="Chromosomes\Gene.cs" />
     <Compile Include="Populations\Population.cs" />
     <Compile Include="Populations\Generation.cs" />
@@ -62,7 +60,10 @@
     <Compile Include="Randomizations\IRandomization.cs" />
     <Compile Include="Randomizations\RandomizationProvider.cs" />
     <Compile Include="Randomizations\BasicRandomization.cs" />
+    <Compile Include="Selections\EliteSelection.cs" />
     <Compile Include="Selections\RouletteWheelSelection.cs" />
+    <Compile Include="Selections\ISelection.cs" />
+    <Compile Include="Selections\SelectionBase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

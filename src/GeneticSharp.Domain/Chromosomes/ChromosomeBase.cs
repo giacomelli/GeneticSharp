@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using HelperSharp;
 
 namespace GeneticSharp.Domain.Chromosomes
 {
@@ -44,6 +45,11 @@ namespace GeneticSharp.Domain.Chromosomes
 
 		public void ReplaceGene(int index, Gene gene)
 		{
+			if(index < 0 || index >= m_genes.Count)
+			{
+				throw new ArgumentOutOfRangeException ("index", "There is no Gene on index {0} to be replaced.".With(index));
+			}
+
 			m_genes [index] = gene;
 			Fitness = null;
 		}

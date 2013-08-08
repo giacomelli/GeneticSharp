@@ -78,7 +78,7 @@ namespace GeneticSharp.Domain.UnitTests
             // Just one selected chromosome is c2.
             FlowAssert.IsAtLeastOneAttemptOk(100, () =>
             {
-                var actual = target.SelectChromosomes(2, generation);
+				var actual = target.SelectChromosomes(2, generation);
                 Assert.AreEqual(2, actual.Count);
                 Assert.AreEqual(1, actual.Count(c => c.Fitness == 0.5));
             });
@@ -86,7 +86,7 @@ namespace GeneticSharp.Domain.UnitTests
             // All selected chromosome is c2.
             FlowAssert.IsAtLeastOneAttemptOk(1000, () =>
             {
-                var actual = target.SelectChromosomes(2, generation);
+				var actual = target.SelectChromosomes(2, generation);
                 Assert.AreEqual(2, actual.Count);
                 Assert.IsTrue(actual.All(c => c.Fitness == 0.5));
             });
@@ -94,7 +94,7 @@ namespace GeneticSharp.Domain.UnitTests
             // None selected chromosome is c3.
             FlowAssert.IsAtLeastOneAttemptOk(100, () =>
             {
-                var actual = target.SelectChromosomes(2, generation);
+				var actual = target.SelectChromosomes(2, generation);
                 Assert.AreEqual(2, actual.Count);
                 Assert.AreEqual(0, actual.Count(c => c.Fitness == 0.0));
             });
@@ -102,7 +102,7 @@ namespace GeneticSharp.Domain.UnitTests
             // Just one selected chromosome is c4.
             FlowAssert.IsAtLeastOneAttemptOk(100, () =>
             {
-                var actual = target.SelectChromosomes(2, generation);
+				var actual = target.SelectChromosomes(2, generation);
                 Assert.AreEqual(2, actual.Count);
                 Assert.AreEqual(1, actual.Count(c => c.Fitness == 0.7));
             });
@@ -110,7 +110,7 @@ namespace GeneticSharp.Domain.UnitTests
             // All selected chromosome is c4.
             FlowAssert.IsAtLeastOneAttemptOk(1000, () =>
             {
-                var actual = target.SelectChromosomes(2, generation);
+				var actual = target.SelectChromosomes(2, generation);
                 Assert.AreEqual(2, actual.Count);
                 Assert.IsTrue(actual.All(c => c.Fitness == 0.7));
             });

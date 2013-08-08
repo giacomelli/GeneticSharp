@@ -15,7 +15,12 @@ namespace GeneticSharp.Domain.Populations
 	public class Population
     {
         #region Fields
+        public event EventHandler GenerationRan;
+        #endregion
+
+        #region Fields
         private IChromosome m_adamChromosome;
+		private SmartThreadPool m_threadPool;
         #endregion
 
         #region Constructors
@@ -73,32 +78,53 @@ namespace GeneticSharp.Domain.Populations
 		#endregion
 
 		#region Methods
-		public void RunGeneration()
+		public void RunGeneration(int timeout = 0)
 		{
 			if (Generations.Count == 0) {
 				CurrentGeneration = CreateNewGeneration (CreateInitialChromosomes ());
-				EvaluateFitness ();
-				CurrentGeneration.Chromosomes = Select ();
+				EvaluateFitness (timeout);
+				CurrentGeneration.Chromosomes = SelectParents ();
 			} else {
-				EvaluateFitness ();
-				CurrentGeneration = CreateNewGeneration(Select ());
+				EvaluateFitness (timeout);
+				CurrentGeneration = CreateNewGeneration(SelectParents ());
 			}
-
-			Cross ();
-			Mutate ();
-
+			
+			Mutate (Cross ());
+            EvaluateFitness(timeout);
+            ElectBestChromosome();
             FinalizeGeneration();
+
+            if (GenerationRan != null)
+            {
+                GenerationRan(this, EventArgs.Empty);
+            }
+		}
+
+		public void RunGenerations(int generations, int timeoutPerGeneration = 0)
+		{
+			for (var i = 0; i < generations; i++) {
+				RunGeneration (timeoutPerGeneration);
+			}
+		}
+
+		public void AbortGeneration (int timeout = 60000)
+		{
+			if (m_threadPool != null) {
+				m_threadPool.Shutdown (true, timeout);
+			}
 		}
 
 		void FinalizeGeneration ()
 		{
-            CurrentGeneration.Chromosomes.Each((c) => c.Age++);
-            CurrentGeneration.Chromosomes = CurrentGeneration.Chromosomes
-                .OrderBy(c => c.Age)
-                .ThenByDescending(c=> c.Fitness)
-                .Take(MaxSize).ToList();
+			if(CurrentGeneration.Chromosomes.Count > MaxSize)
+			{
+                CurrentGeneration.Chromosomes = Selection.SelectChromosomes(MaxSize, CurrentGeneration);
 
-            BestChromosome = CurrentGeneration.Chromosomes.OrderByDescending(c => c.Fitness).First();
+				if (!CurrentGeneration.Chromosomes.Any (c => c == CurrentGeneration.BestChromosome)) {
+					CurrentGeneration.Chromosomes.RemoveAt (CurrentGeneration.Chromosomes.Count - 1);
+					CurrentGeneration.Chromosomes.Add (CurrentGeneration.BestChromosome);
+				}
+			}
 		}
 
         private IChromosome CreateChromosome()
@@ -110,7 +136,10 @@ namespace GeneticSharp.Domain.Populations
 
 		private Generation CreateNewGeneration(IList<IChromosome> chromosomes)
 		{
-			return new Generation (Generations.Count + 1, chromosomes);
+			var g = new Generation (Generations.Count + 1, chromosomes);
+			Generations.Add (g);
+
+			return g;
 		}
 
 		private IList<IChromosome> CreateInitialChromosomes ()
@@ -126,64 +155,109 @@ namespace GeneticSharp.Domain.Populations
 			return chromosomes;
 		}
 
-		private void EvaluateFitness ()
+		private void EvaluateFitness (int timeout)
 		{
-            using (var smartThreadPool = new SmartThreadPool())
-            {
+			m_threadPool = new SmartThreadPool();
 
-                if (Fitness.SupportsParallel)
+			try {
+	            if (Fitness.SupportsParallel)
+	            {
+					m_threadPool.MinThreads = MinSize;
+					m_threadPool.MaxThreads = MinSize;
+	            }
+	            else
+	            {
+					m_threadPool.MaxThreads = 1;
+	            }
+
+	            var chromosomesWithoutFitness = CurrentGeneration.Chromosomes.Where(c => !c.Fitness.HasValue).ToList();
+	            var workItemResults = new IWorkItemResult[chromosomesWithoutFitness.Count];
+
+	            for (int i = 0; i < chromosomesWithoutFitness.Count; i++)
+	            {
+	                var c = chromosomesWithoutFitness[i];
+
+	                try
+	                {
+						workItemResults[i] = m_threadPool.QueueWorkItem(new WorkItemCallback(RunEvaluateFitness), c);
+	                }
+	                catch (Exception ex)
+	                {
+	                    throw new InvalidOperationException("Error executing Fitness.Evaluate for chromosome {0}: {1}".With(c.Id, ex.Message), ex);
+	                }
+	            }                
+				
+                m_threadPool.Start ();                
+
+				if(!m_threadPool.WaitForIdle (timeout == 0 ? int.MaxValue : timeout))
+				{
+					throw new TimeoutException("The RunGeneration reach the {0} milliseconds timeout.".With(timeout));
+				}
+
+                foreach (var wi in workItemResults)
                 {
-                    smartThreadPool.MinThreads = MinSize;
-                    smartThreadPool.MaxThreads = MinSize;
-                }
-                else
-                {
-                    smartThreadPool.MaxThreads = 1;
-                }
+                    Exception ex;
+                    wi.GetResult(out ex);
 
-                var chromosomesWithoutFitness = CurrentGeneration.Chromosomes.Where(c => !c.Fitness.HasValue).ToList();
-                var workItemResults = new IWorkItemResult[chromosomesWithoutFitness.Count];
-
-                for (int i = 0; i < chromosomesWithoutFitness.Count; i++)
-                {
-                    var c = chromosomesWithoutFitness[i];
-
-                    try
+                    if (ex != null)
                     {
-
-                        workItemResults[i] = smartThreadPool.QueueWorkItem(() =>
-                        {
-                            c.Fitness = Fitness.Evaluate(c);
-                        });
-
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new InvalidOperationException("Error executing Fitness.Evaluate for chromosome {0}: {1}".With(c.Id, ex.Message), ex);
+                        throw ex;
                     }
                 }
 
-                SmartThreadPool.WaitAll(workItemResults);
-                smartThreadPool.Shutdown();
-
-
-                foreach (var c in chromosomesWithoutFitness)
-                {
-                    if (c.Fitness < 0 || c.Fitness > 1)
-                    {
-                        throw new InvalidOperationException("The {0}.Evaluate returns a fitness with value {1}. The fitness value should be between 0.0 and 1.0."
-                                                             .With(Fitness.GetType(), c.Fitness));
-                    }
-                }
-            }
+				foreach (var c in chromosomesWithoutFitness)
+				{
+					if (c.Fitness < 0 || c.Fitness > 1)
+					{
+						throw new InvalidOperationException("The {0}.Evaluate returns a fitness with value {1}. The fitness value should be between 0.0 and 1.0."
+						                                    .With(Fitness.GetType(), c.Fitness));
+					}
+				}
+			}
+			finally {
+				m_threadPool.Shutdown(true, 1000);
+			}
 		}
 
-		private IList<IChromosome> Select ()
+		private void ElectBestChromosome()
+		{
+			BestChromosome = CurrentGeneration.Chromosomes.OrderByDescending(c => c.Fitness.Value).First();
+			CurrentGeneration.BestChromosome = BestChromosome;
+			ValidateBestChromosome (BestChromosome);
+		}
+
+		private void ValidateBestChromosome(IChromosome chromosome)
+		{
+			if (!chromosome.Fitness.HasValue) {
+				throw new InvalidOperationException (
+					"There is unknown problem in current population, because BestChromosome should have a Fitness value. BestChromosome: Id:{0}, age: {1} and length: {2}"
+					.With (chromosome.Id, chromosome.Age, chromosome.Length));
+			}
+		}
+
+
+		private object RunEvaluateFitness(object state)
+		{
+			var c = state as IChromosome;
+
+            try
+            {
+                c.Fitness = Fitness.Evaluate(c);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("Error executing Fitness.Evaluate for chromosome {0}: {1}".With(c.Id, ex.Message), ex);
+            }
+
+			return c.Fitness;
+		}
+
+		private IList<IChromosome> SelectParents ()
 		{
 			return Selection.SelectChromosomes (MinSize, CurrentGeneration);
 		}
 
-		private void Cross ()
+		private IList<IChromosome> Cross ()
 		{
 			var children = new List<IChromosome>();
 
@@ -199,11 +273,13 @@ namespace GeneticSharp.Domain.Populations
 			foreach (var c in children) {
 				CurrentGeneration.Chromosomes.Add (c);
 			}
+
+			return children;
 		}
 
-		private void Mutate ()
+		private void Mutate (IList<IChromosome> chromosomes)
 		{
-			foreach(var c in CurrentGeneration.Chromosomes)
+			foreach(var c in chromosomes)
 			{
 				if (RandomizationProvider.Current.GetDouble () <= MutationProbability)
 				{

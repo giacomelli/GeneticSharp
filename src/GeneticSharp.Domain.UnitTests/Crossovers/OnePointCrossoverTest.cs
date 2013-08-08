@@ -12,13 +12,13 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
     public class OnePointCrossoverTest
     {
         [Test]
-        public void Cross_LessChromosomesThenSwapPoint_Exception()
+        public void Cross_LessGenesThenSwapPoint_Exception()
         {
-            var target = new OnePointCrossover(2);
+            var target = new OnePointCrossover(1);
             var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>();
 
             chromosome1.AddGenes(new List<Gene>() { new Gene() });
-            ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("parents", "The swap point gene index is 2, but there is only 1 genes. The swap should result at least one gene to each side."), () =>
+            ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("parents", "The swap point index is 1, but there is only 1 genes. The swap should result at least one gene to each side."), () =>
             {
                 target.Cross(new List<IChromosome>() {
                     chromosome1,
@@ -28,7 +28,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
 			var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>();
 			chromosome2.AddGenes(new List<Gene>() { new Gene(), new Gene() });
-            ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("parents", "The swap point gene index is 2, but there is only 2 genes. The swap should result at least one gene to each side."), () =>
+            ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("parents", "The swap point index is 1, but there is only 2 genes. The swap should result at least one gene to each side."), () =>
             {
                 target.Cross(new List<IChromosome>() {
                     chromosome2,
@@ -40,7 +40,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         [Test]
         public void Cross_ParentsWithTwoGenes_Cross()
         {
-            var target = new OnePointCrossover(1);
+            var target = new OnePointCrossover(0);
 			var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>();
             chromosome1.AddGenes(new List<Gene>() 
             { 
@@ -61,6 +61,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             Assert.AreEqual(2, actual.Count);
             Assert.AreEqual(2, actual[0].Length);
+            Assert.AreEqual(2, actual[1].Length);
 
             Assert.AreEqual(1, actual[0].GetGene(0).Value);
             Assert.AreEqual(4, actual[0].GetGene(1).Value);

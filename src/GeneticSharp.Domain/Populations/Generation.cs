@@ -30,6 +30,7 @@ namespace GeneticSharp.Domain.Populations
 		#region Properties
 		public int Number { get; private set; }
 		public IList<IChromosome> Chromosomes { get; internal set; }
+		public IChromosome BestChromosome { get; internal set; }
 		#endregion
 	}
 }

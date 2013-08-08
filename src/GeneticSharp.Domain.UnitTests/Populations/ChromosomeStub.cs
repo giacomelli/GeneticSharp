@@ -13,6 +13,8 @@ namespace GeneticSharp.Domain.UnitTests
         {
             AddGene(GenerateGene(0));
             AddGene(GenerateGene(1));
+			AddGene(GenerateGene(2));
+			AddGene(GenerateGene(3));
         }
 
         public override Gene GenerateGene(int geneIndex)

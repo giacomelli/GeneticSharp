@@ -16,33 +16,34 @@ namespace GeneticSharp.Domain.Selections
 	/// and for each random number an array element which can have higher value is searched for. Therefore, individuals are selected according to their 
 	/// probabilities of selection. 
 	/// </summary>
-	public class RouletteWheelSelection : ISelection
+	public class RouletteWheelSelection : SelectionBase
 	{
-		#region ISelection implementation
-		public IList<IChromosome> SelectChromosomes (int number, Generation generation)
+		#region Constructors
+		public RouletteWheelSelection() : base(2)
 		{
-			if (number < 2) {
-				throw new ArgumentOutOfRangeException ("number", "The number of selected chromosomes should be at least 2.");
-			}
+		}
+		#endregion
 
-			ExceptionHelper.ThrowIfNull ("generation", generation);
-
+		#region ISelection implementation
+		protected override IList<IChromosome> PerformSelectChromosomes (int number, Generation generation)
+		{
 			var chromosomes = generation.Chromosomes;
 			var selected = new List<IChromosome> ();
 			var sumFitness = chromosomes.Sum(c => c.Fitness.Value);		
-            var rouleteWheel = new Dictionary<IChromosome, double>();
+            var rouleteWheel = new List<double>();
             var accumulativePercent = 0.0;
 
             foreach (var c in chromosomes)
             {
                 accumulativePercent += c.Fitness.Value / sumFitness;
-                rouleteWheel.Add(c, accumulativePercent);
+                rouleteWheel.Add(accumulativePercent);
             }
 
 			for(int i = 0; i < number; i++)
 			{
 				var pointer = RandomizationProvider.Current.GetDouble ();
-				selected.Add (rouleteWheel.FirstOrDefault (c => c.Value >= pointer).Key);
+				var chromosomeIndex = rouleteWheel.Select ((value, index) => new { Value = value, Index = index }).FirstOrDefault (r => r.Value >= pointer).Index; 
+				selected.Add (chromosomes[chromosomeIndex]);
 			}
 
 			return selected;
