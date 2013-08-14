@@ -29,9 +29,8 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         public void Cross_ChromosomeLengthLowerThan3_Exception()
         {
             var target = new TwoPointCrossover(0, 1);
-            var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>();
+            var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(2);
 
-            chromosome1.AddGenes(new List<Gene>() { new Gene(), new Gene() });
 
             ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("parents", "A Two Point Crossover needs chromosomes with, at least, 3 genes."), () =>
             {
@@ -46,9 +45,8 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         public void Cross_LessGenesThenSecondSwapPoint_Exception()
         {
             var target = new TwoPointCrossover(1, 3);
-            var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>();
+            var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(3);
 
-            chromosome1.AddGenes(new List<Gene>() { new Gene(), new Gene(), new Gene() });
             ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("parents", "The swap point two index is 3, but there is only 3 genes. The swap should result at least one gene to each sides."), () =>
             {
                 target.Cross(new List<IChromosome>() {
@@ -57,9 +55,9 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
                 });
             });
 
-            var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>();
-            chromosome2.AddGenes(new List<Gene>() { new Gene(), new Gene(), new Gene(), new Gene() } );
-            ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("parents", "The swap point two index is 3, but there is only 4 genes. The swap should result at least one gene to each sides."), () =>
+            var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(4);
+            
+			ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("parents", "The swap point two index is 3, but there is only 4 genes. The swap should result at least one gene to each sides."), () =>
             {
                 target.Cross(new List<IChromosome>() {
                     chromosome2,
@@ -72,25 +70,25 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         public void Cross_ParentsWithTwoGenes_Cross()
         {
             var target = new TwoPointCrossover(0, 1);
-            var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>();
-            chromosome1.AddGenes(new List<Gene>() 
+            var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(4);
+            chromosome1.ReplaceGenes(0, new Gene[] 
             { 
                 new Gene() { Value = 1 },
                 new Gene() { Value = 2 },
                 new Gene() { Value = 3 },
                 new Gene() { Value = 4 },
             });
-            chromosome1.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>());
+            chromosome1.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(4));
 
-            var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>();
-            chromosome2.AddGenes(new List<Gene>() 
+            var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(4);
+			chromosome2.ReplaceGenes(0, new Gene[] 
             { 
                 new Gene() { Value = 5 },
                 new Gene() { Value = 6 },
                 new Gene() { Value = 7 },
                 new Gene() { Value = 8 }
             });
-            chromosome2.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>());
+            chromosome2.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(4));
 
             var actual = target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
 

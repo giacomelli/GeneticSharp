@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using HelperSharp;
+using System.Linq;
 
 namespace GeneticSharp.Domain.Chromosomes
 {
@@ -9,17 +10,20 @@ namespace GeneticSharp.Domain.Chromosomes
     public abstract class ChromosomeBase : IChromosome
     {
 		#region Fields
-		private List<Gene> m_genes;
+		private Gene[] m_genes;
+        private int m_length;
 		#endregion
 
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="ChromosomeBase"/> class.
+        /// <param name="length">The length, in genes, of the chromosome.</param>
         /// </summary>
-        protected ChromosomeBase()
+        protected ChromosomeBase(int length)
         {
+            m_length = length;
             Id = Guid.NewGuid().ToString();
-			m_genes = new List<Gene>();
+			m_genes = new Gene[length];
        }
         #endregion
 
@@ -30,22 +34,16 @@ namespace GeneticSharp.Domain.Chromosomes
 
         public int Age { get; set; }
 
-		public int Length { get { return m_genes.Count; } }
+        public int Length { get { return m_length; } }
         #endregion
 
         #region Methods
         public abstract Gene GenerateGene (int geneIndex);
         public abstract IChromosome CreateNew();
-
-        public void AddGene(Gene gene)
-		{
-			m_genes.Add (gene);
-			Fitness = null;
-		}
-
+	       
 		public void ReplaceGene(int index, Gene gene)
 		{
-			if(index < 0 || index >= m_genes.Count)
+            if (index < 0 || index >= m_length)
 			{
 				throw new ArgumentOutOfRangeException ("index", "There is no Gene on index {0} to be replaced.".With(index));
 			}
@@ -54,27 +52,26 @@ namespace GeneticSharp.Domain.Chromosomes
 			Fitness = null;
 		}
 
+		public void ReplaceGenes(int startIndex, Gene[] genes)
+		{
+            if (startIndex < 0 || startIndex >= m_length)
+			{
+				throw new ArgumentOutOfRangeException ("index", "There is no Gene on index {0} to be replaced.".With(startIndex));
+			}
+
+			Array.Copy (genes, 0, m_genes, startIndex, genes.Length);
+			Fitness = null;
+		}
+
 		public Gene GetGene(int index)
 		{
 			return m_genes[index];
 		}
 
-		public IList<Gene> GetGenes()
+		public Gene[] GetGenes()
 		{
 			return m_genes;
-		}
-
-		public void AddGenes (IEnumerable<Gene> genes)
-		{
-			m_genes.AddRange (genes);
-			Fitness = null;
-		}
-
-		public void ClearGenes ()
-		{
-			m_genes.Clear ();
-			Fitness = null;
-		}      
+		}    
         
         public int CompareTo(IChromosome other)
         {

@@ -21,29 +21,29 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         [Test]
         public void Cross_ParentsWithTwoGenesProbabilityDiffPercents_DiffChildren()
         {
-            var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>();
-            chromosome1.AddGenes(new List<Gene>() 
+            var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(4);
+			chromosome1.ReplaceGenes(0, new Gene[]  
             { 
                 new Gene() { Value = 1 },
                 new Gene() { Value = 2 },
                 new Gene() { Value = 3 },
                 new Gene() { Value = 4 },
             });
-            chromosome1.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>());
+            chromosome1.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(4));
 
-            var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>();
-            chromosome2.AddGenes(new List<Gene>() 
+            var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(4);
+			chromosome2.ReplaceGenes(0, new Gene[] 
             { 
                 new Gene() { Value = 5 },
                 new Gene() { Value = 6 },
                 new Gene() { Value = 7 },
                 new Gene() { Value = 8 }
             });
-            chromosome2.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>());
+            chromosome2.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(4));
             var parents = new List<IChromosome>() { chromosome1, chromosome2 };
 
             var mock = new MockRepository();
-            var rnd = mock.CreateMock<IRandomization>();
+            var rnd = mock.StrictMock<IRandomization>();
 
             using (mock.Ordered())
             {
@@ -77,7 +77,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             // 70%
             mock = new MockRepository();
-            rnd = mock.CreateMock<IRandomization>();
+            rnd = mock.StrictMock<IRandomization>();
 
             using (mock.Ordered())
             {

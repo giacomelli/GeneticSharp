@@ -16,6 +16,7 @@ namespace GeneticSharp.Domain.Populations
     {
         #region Fields
         public event EventHandler GenerationRan;
+		public event EventHandler BestChromosomeChanged;
         #endregion
 
         #region Fields
@@ -155,21 +156,41 @@ namespace GeneticSharp.Domain.Populations
 			return chromosomes;
 		}
 
-		private void EvaluateFitness (int timeout)
+        private void EvaluateFitness(int timeout)
+        {
+            if (Fitness.SupportsParallel)
+            {
+                EvaluateFitnessParallel(timeout);
+            }
+            else
+            {
+                EvaluateFitnessLinear(timeout);
+            }
+        }
+
+        private void EvaluateFitnessLinear(int timeout)
+        {
+            var chromosomesWithoutFitness = CurrentGeneration.Chromosomes.Where(c => !c.Fitness.HasValue);
+             
+			foreach(var c in chromosomesWithoutFitness)
+            {
+                c.Fitness = Fitness.Evaluate(c);
+
+                if (c.Fitness < 0 || c.Fitness > 1)
+                {
+                    throw new FitnessException(Fitness, "The {0}.Evaluate returns a fitness with value {1}. The fitness value should be between 0.0 and 1.0."
+                                                        .With(Fitness.GetType(), c.Fitness));
+                }
+            }          
+        }
+
+		private void EvaluateFitnessParallel (int timeout)
 		{
 			m_threadPool = new SmartThreadPool();
 
 			try {
-	            if (Fitness.SupportsParallel)
-	            {
-					m_threadPool.MinThreads = MinSize;
-					m_threadPool.MaxThreads = MinSize;
-	            }
-	            else
-	            {
-					m_threadPool.MaxThreads = 1;
-	            }
-
+	            m_threadPool.MinThreads = MinSize;
+				m_threadPool.MaxThreads = MinSize;	            
 	            var chromosomesWithoutFitness = CurrentGeneration.Chromosomes.Where(c => !c.Fitness.HasValue).ToList();
 	            var workItemResults = new IWorkItemResult[chromosomesWithoutFitness.Count];
 
@@ -209,7 +230,7 @@ namespace GeneticSharp.Domain.Populations
 				{
 					if (c.Fitness < 0 || c.Fitness > 1)
 					{
-						throw new InvalidOperationException("The {0}.Evaluate returns a fitness with value {1}. The fitness value should be between 0.0 and 1.0."
+						throw new FitnessException(Fitness, "The {0}.Evaluate returns a fitness with value {1}. The fitness value should be between 0.0 and 1.0."
 						                                    .With(Fitness.GetType(), c.Fitness));
 					}
 				}
@@ -221,9 +242,16 @@ namespace GeneticSharp.Domain.Populations
 
 		private void ElectBestChromosome()
 		{
-			BestChromosome = CurrentGeneration.Chromosomes.OrderByDescending(c => c.Fitness.Value).First();
-			CurrentGeneration.BestChromosome = BestChromosome;
-			ValidateBestChromosome (BestChromosome);
+			var newBestChromosome = CurrentGeneration.Chromosomes.OrderByDescending(c => c.Fitness.Value).First();
+			ValidateBestChromosome (newBestChromosome);
+			CurrentGeneration.BestChromosome = newBestChromosome;
+		
+			if (newBestChromosome != BestChromosome) {
+				BestChromosome = newBestChromosome;
+				if (BestChromosomeChanged != null) {
+					BestChromosomeChanged (this, EventArgs.Empty);
+				}
+			}
 		}
 
 		private void ValidateBestChromosome(IChromosome chromosome)
@@ -246,7 +274,7 @@ namespace GeneticSharp.Domain.Populations
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException("Error executing Fitness.Evaluate for chromosome {0}: {1}".With(c.Id, ex.Message), ex);
+                throw new FitnessException(Fitness, "Error executing Fitness.Evaluate for chromosome {0}: {1}".With(c.Id, ex.Message), ex);
             }
 
 			return c.Fitness;
@@ -281,10 +309,7 @@ namespace GeneticSharp.Domain.Populations
 		{
 			foreach(var c in chromosomes)
 			{
-				if (RandomizationProvider.Current.GetDouble () <= MutationProbability)
-				{
-					Mutation.Mutate (c);
-				}
+				Mutation.Mutate (c, MutationProbability);
 			}
 		}
 		#endregion

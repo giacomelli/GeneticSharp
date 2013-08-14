@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GeneticSharp.Runner.WinApp")]
+[assembly: AssemblyTitle("GeneticSharp.Runner.ConsoleApp")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("GeneticSharp.Runner.WinApp")]
+[assembly: AssemblyProduct("GeneticSharp.Runner.ConsoleApp")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("6436272a-dcf3-4623-9f6c-006cad855f13")]
+[assembly: Guid("6948eb89-b397-4757-b935-2b15e5595ade")]
 
 // Version information for an assembly consists of the following four values:
 //

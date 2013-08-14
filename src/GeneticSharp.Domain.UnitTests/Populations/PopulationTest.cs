@@ -1,16 +1,15 @@
-using NUnit.Framework;
 using System;
-using GeneticSharp.Domain.Populations;
-using TestSharp;
-using Rhino.Mocks;
-using GeneticSharp.Domain.Fitnesses;
-using GeneticSharp.Domain.Selections;
-using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Domain.Chromosomes;
-using System.Collections.Generic;
-using HelperSharp;
 using System.Diagnostics;
+using GeneticSharp.Domain.Chromosomes;
+using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Fitnesses;
+using GeneticSharp.Domain.Mutations;
+using GeneticSharp.Domain.Populations;
+using GeneticSharp.Domain.Selections;
+using HelperSharp;
+using NUnit.Framework;
+using Rhino.Mocks;
+using TestSharp;
 
 namespace GeneticSharp.Domain.UnitTests
 {
@@ -109,7 +108,7 @@ namespace GeneticSharp.Domain.UnitTests
                 chromosome,
                 fitness, selection, crossover, mutation);
 
-            ExceptionAssert.IsThrowing(new InvalidOperationException("The {0}.Evaluate returns a fitness with value 1.1. The fitness value should be between 0.0 and 1.0.".With(fitness.GetType())), () => {
+            ExceptionAssert.IsThrowing(new FitnessException(fitness, "The {0}.Evaluate returns a fitness with value 1.1. The fitness value should be between 0.0 and 1.0.".With(fitness.GetType())), () => {
                 target.RunGeneration();
             });
 
@@ -122,7 +121,7 @@ namespace GeneticSharp.Domain.UnitTests
                 chromosome,
                 fitness, selection, crossover, mutation);
 
-            ExceptionAssert.IsThrowing(new InvalidOperationException("The {0}.Evaluate returns a fitness with value -0.1. The fitness value should be between 0.0 and 1.0.".With(fitness.GetType())), () =>
+			ExceptionAssert.IsThrowing(new FitnessException(fitness, "The {0}.Evaluate returns a fitness with value -0.1. The fitness value should be between 0.0 and 1.0.".With(fitness.GetType())), () =>
             {
                 target.RunGeneration();
             });
@@ -216,6 +215,26 @@ namespace GeneticSharp.Domain.UnitTests
 				target.RunGeneration (1000);
 			});
 		}
+
+        [Test()]
+        public void RunGeneration_NotParallelManyGenerations_Fast()
+        {
+            var selection = new EliteSelection();
+            var crossover = new OnePointCrossover(2);
+            var mutation = new UniformMutation();
+            var chromosome = new ChromosomeStub();
+            var target = new Population(
+                100,
+                100,
+                chromosome,
+                new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
+
+			TimeAssert.LessThan (200, () => {
+				target.RunGenerations(100);
+			});
+           
+            Assert.AreEqual(100, target.Generations.Count);        
+        }
 	}
 }
 

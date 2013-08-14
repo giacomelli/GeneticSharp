@@ -3,14 +3,16 @@ using System.Drawing;
 
 namespace GeneticSharp.Extensions.Tsp
 {
-	public class TspCity
-	{
+    public class TspCity
+    {
         public TspCity(int x, int y)
         {
-            Location = new Point(x, y);
+            X = x;
+            Y = y;
         }
 
-		public Point Location { get; set; }
-	}
+        public int X { get; set; }
+        public int Y { get; set; }
+    }
 }
 

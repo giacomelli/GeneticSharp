@@ -9,12 +9,12 @@ namespace GeneticSharp.Domain.UnitTests
 {
     public class ChromosomeStub : ChromosomeBase
     {
-        public ChromosomeStub()
+        public ChromosomeStub() : base(4)
         {
-            AddGene(GenerateGene(0));
-            AddGene(GenerateGene(1));
-			AddGene(GenerateGene(2));
-			AddGene(GenerateGene(3));
+            ReplaceGene(0, GenerateGene(0));
+			ReplaceGene(1, GenerateGene(1));
+			ReplaceGene(2, GenerateGene(2));
+			ReplaceGene(3, GenerateGene(3));
         }
 
         public override Gene GenerateGene(int geneIndex)

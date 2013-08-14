@@ -36,20 +36,18 @@ namespace GeneticSharp.Domain.Crossovers
             var secondParent = parents[1];
             var firstChild = firstParent.CreateNew();
             var secondChild = secondParent.CreateNew();
-            firstChild.ClearGenes();
-            secondChild.ClearGenes();
 
             for (int i = 0; i < firstParent.Length; i++)
             {
                 if (RandomizationProvider.Current.GetDouble() < MixProbability)
                 {
-                    firstChild.AddGene(firstParent.GetGene(i));
-                    secondChild.AddGene(secondParent.GetGene(i));
+                    firstChild.ReplaceGene(i, firstParent.GetGene(i));
+                    secondChild.ReplaceGene(i, secondParent.GetGene(i));
                 }
                 else
                 {
-                    firstChild.AddGene(secondParent.GetGene(i));
-                    secondChild.AddGene(firstParent.GetGene(i));
+					firstChild.ReplaceGene(i, secondParent.GetGene(i));
+					secondChild.ReplaceGene(i, firstParent.GetGene(i));
                 }
             }
 

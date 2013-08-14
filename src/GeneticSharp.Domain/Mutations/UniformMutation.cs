@@ -2,6 +2,7 @@ using System;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
 using HelperSharp;
+using System.Linq;
 
 namespace GeneticSharp.Domain.Mutations
 {
@@ -13,34 +14,45 @@ namespace GeneticSharp.Domain.Mutations
 	public class UniformMutation : IMutation
 	{
 		#region Fields
-		private int[] m_genesIndexes;
+		private int[] m_mutableGenesIndexes;
+		private bool m_allGenesMutables;
 		#endregion
 
 		#region Constructors
-		public UniformMutation(params int[] genesIndexes)
+		public UniformMutation(params int[] mutableGenesIndexes)
 		{
-			m_genesIndexes = genesIndexes;
+			m_mutableGenesIndexes = mutableGenesIndexes;
+		}
+
+		public UniformMutation(bool allGenesMutables)
+		{
+			m_allGenesMutables = allGenesMutables;
 		}
 		#endregion
 
 		#region IMutation implementation
-		public void Mutate (IChromosome chromosome)
+		public void Mutate (IChromosome chromosome, float probability)
 		{
             ExceptionHelper.ThrowIfNull("chromosome", chromosome);
 
 			var genesLength = chromosome.Length;
 
-			if (m_genesIndexes == null || m_genesIndexes.Length == 0) {
-				m_genesIndexes = RandomizationProvider.Current.GetInts (1, 0, genesLength);
+			if (m_mutableGenesIndexes == null || m_mutableGenesIndexes.Length == 0) {
+				if (m_allGenesMutables) {
+					m_mutableGenesIndexes = Enumerable.Range (0, genesLength).ToArray ();
+				} else {
+					m_mutableGenesIndexes = RandomizationProvider.Current.GetInts (1, 0, genesLength);
+				}
 			}
 
-			foreach (var i in m_genesIndexes) {
+			foreach (var i in m_mutableGenesIndexes) {
 				if (i >= genesLength) {
-					throw new ArgumentOutOfRangeException ("chromosome", 
-					                                       "The chromosome has no gene on index {0}. The chromosome genes lenght is {1}.".With(i, genesLength));
+					throw new MutationException (this, "The chromosome has no gene on index {0}. The chromosome genes lenght is {1}.".With(i, genesLength));
 				}
 
-				chromosome.ReplaceGene(i, chromosome.GenerateGene(i));
+				if (RandomizationProvider.Current.GetDouble () <= probability) {
+					chromosome.ReplaceGene (i, chromosome.GenerateGene (i));
+				}
 			}
 		}
 		#endregion

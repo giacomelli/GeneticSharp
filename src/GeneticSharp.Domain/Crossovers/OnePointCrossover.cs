@@ -63,9 +63,8 @@ namespace GeneticSharp.Domain.Crossovers
         {
             var cutGenesCount = m_swapPointIndex + 1;
             var child = leftParent.CreateNew();
-            child.ClearGenes();
-            child.AddGenes(leftParent.GetGenes().Take(cutGenesCount));
-            child.AddGenes(rightParent.GetGenes().Skip(cutGenesCount));
+            child.ReplaceGenes(0, leftParent.GetGenes().Take(cutGenesCount).ToArray());
+			child.ReplaceGenes(cutGenesCount, rightParent.GetGenes().Skip(cutGenesCount).ToArray());
             
             return child;
         }

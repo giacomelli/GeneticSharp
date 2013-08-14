@@ -17,7 +17,8 @@ namespace GeneticSharp.Domain.Selections
 		#region ISelection implementation
 		protected override IList<IChromosome> PerformSelectChromosomes (int number, Generation generation)
 		{
-			return generation.Chromosomes.OrderByDescending (c => c.Fitness).Take (number).ToList ();
+			var ordered = generation.Chromosomes.OrderByDescending (c => c.Fitness);
+			return ordered.Take (number).ToList ();
 		}
 
 		#endregion

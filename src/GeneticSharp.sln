@@ -5,11 +5,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticSharp.Domain", "Gene
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticSharp.Domain.UnitTests", "GeneticSharp.Domain.UnitTests\GeneticSharp.Domain.UnitTests.csproj", "{E415AA4F-C497-4908-96FC-CBA4F7604892}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticSharp.Runner.WinApp", "GeneticSharp.Runner.WinApp\GeneticSharp.Runner.WinApp.csproj", "{66972389-CDF9-452E-9B6D-2193CDC1AD20}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticSharp.Extensions", "GeneticSharp.Extensions\GeneticSharp.Extensions.csproj", "{699AF592-1E11-4084-B87E-9AC72ED7861B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticSharp.Runner.GtkApp", "GeneticSharp.Runner.GtkApp\GeneticSharp.Runner.GtkApp.csproj", "{3B5D7E7E-28B3-490E-AFF0-A231F246A963}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticSharp.Extensions.UnitTests", "GeneticSharp.Extensions.UnitTests\GeneticSharp.Extensions.UnitTests.csproj", "{7A40EB21-E80F-4FD6-9503-A76D83B0620D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticSharp.Runner.ConsoleApp", "GeneticSharp.Runner.ConsoleApp\GeneticSharp.Runner.ConsoleApp.csproj", "{A8BF51F3-7574-4AB3-BEF2-5C38E5AA0341}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,14 +23,18 @@ Global
 		{3B5D7E7E-28B3-490E-AFF0-A231F246A963}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B5D7E7E-28B3-490E-AFF0-A231F246A963}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B5D7E7E-28B3-490E-AFF0-A231F246A963}.Release|Any CPU.Build.0 = Release|Any CPU
-		{66972389-CDF9-452E-9B6D-2193CDC1AD20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{66972389-CDF9-452E-9B6D-2193CDC1AD20}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{66972389-CDF9-452E-9B6D-2193CDC1AD20}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{66972389-CDF9-452E-9B6D-2193CDC1AD20}.Release|Any CPU.Build.0 = Release|Any CPU
 		{699AF592-1E11-4084-B87E-9AC72ED7861B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{699AF592-1E11-4084-B87E-9AC72ED7861B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{699AF592-1E11-4084-B87E-9AC72ED7861B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{699AF592-1E11-4084-B87E-9AC72ED7861B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A40EB21-E80F-4FD6-9503-A76D83B0620D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A40EB21-E80F-4FD6-9503-A76D83B0620D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A40EB21-E80F-4FD6-9503-A76D83B0620D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A40EB21-E80F-4FD6-9503-A76D83B0620D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8BF51F3-7574-4AB3-BEF2-5C38E5AA0341}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8BF51F3-7574-4AB3-BEF2-5C38E5AA0341}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8BF51F3-7574-4AB3-BEF2-5C38E5AA0341}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8BF51F3-7574-4AB3-BEF2-5C38E5AA0341}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C76DC1AD-FC7E-4168-BD19-101FF84A43F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C76DC1AD-FC7E-4168-BD19-101FF84A43F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C76DC1AD-FC7E-4168-BD19-101FF84A43F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
