@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using GeneticSharp.Domain.Chromosomes;
 using HelperSharp;
+using GeneticSharp.Domain.Chromosomes;
 
 namespace GeneticSharp.Domain.Crossovers
 {
@@ -12,13 +12,15 @@ namespace GeneticSharp.Domain.Crossovers
         #region Constructors
         protected CrossoverBase(int parentsNumber, int childrenNumber)
         {
-            ParentsNumber = parentsNumber;
+	        ParentsNumber = parentsNumber;
 			ChildrenNumber = childrenNumber;
         }
         #endregion
 
+		#region Properties
         public int ParentsNumber { get; private set; }
 		public int ChildrenNumber  { get; private set; }
+		#endregion
 
         public IList<IChromosome> Cross(IList<IChromosome> parents)
         {

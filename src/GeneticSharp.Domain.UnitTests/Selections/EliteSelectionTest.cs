@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using GeneticSharp.Domain.Populations;
 using System.Linq;
 
-namespace GeneticSharp.Domain.UnitTests
+namespace GeneticSharp.Domain.UnitTests.Selections
 {
 	[TestFixture()]
 	public class EliteSelectionTest

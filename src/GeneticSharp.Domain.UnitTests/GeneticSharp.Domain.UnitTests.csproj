@@ -68,6 +68,8 @@
     <Compile Include="Selections\RouletteWheelSelectionTest.cs" />
     <Compile Include="Selections\EliteSelectionTest.cs" />
     <Compile Include="Mutations\ReverseSequenceMutationTest.cs" />
+    <Compile Include="Crossovers\CrossoverServiceTest.cs" />
+    <Compile Include="Mutations\MutationServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj">

@@ -2,7 +2,7 @@ using NUnit.Framework;
 using System;
 using GeneticSharp.Domain.Randomizations;
 
-namespace GeneticSharp.Domain.UnitTests
+namespace GeneticSharp.Domain.UnitTests.Randomizations
 {
 	[TestFixture()]
 	public class RandomizationProviderTest

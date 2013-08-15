@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using HelperSharp;
+using System.ComponentModel;
 
 namespace GeneticSharp.Domain.Crossovers
 {
@@ -11,7 +12,8 @@ namespace GeneticSharp.Domain.Crossovers
     /// Everything between the two points is swapped between the parents, rendering two children.
     /// http://en.wikipedia.org/wiki/Crossover_(genetic_algorithm)#Two-point_crossover
     /// </summary>
-    public class TwoPointCrossover : CrossoverBase
+	[DisplayName("Two-Point")]
+	public class TwoPointCrossover : CrossoverBase
     {
         #region Fields
         private int m_swapPointOneGeneIndex;

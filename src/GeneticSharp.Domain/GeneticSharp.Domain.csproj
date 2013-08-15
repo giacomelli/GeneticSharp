@@ -44,6 +44,8 @@
     <Reference Include="Troschuetz.Random">
       <HintPath>..\references\Troschuetz.Random.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework" />
+    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chromosomes\ChromosomeBase.cs" />
@@ -78,6 +80,9 @@
     <Compile Include="Selections\SelectionBase.cs" />
     <Compile Include="Mutations\MutationException.cs" />
     <Compile Include="Fitnesses\FitnessException.cs" />
+    <Compile Include="Crossovers\CrossoverService.cs" />
+    <Compile Include="Mutations\MutationService.cs" />
+    <Compile Include="Helpers\TypeHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -95,5 +100,8 @@
   <ItemGroup>
     <None Include="GeneticSharp.snk" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
   </ItemGroup>
 </Project>

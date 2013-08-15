@@ -2,6 +2,7 @@
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
 using HelperSharp;
+using System.ComponentModel;
 
 namespace GeneticSharp.Domain.Mutations
 {
@@ -11,7 +12,8 @@ namespace GeneticSharp.Domain.Mutations
     /// <see href="http://arxiv.org/ftp/arxiv/papers/1203/1203.3099.pdf">Analyzing the Performance of Mutation Operators to Solve the Travelling Salesman Problem</see>
     /// </remarks>
     /// </summary>
-    public class TworsMutation : IMutation
+	[DisplayName("Twors")]
+	public class TworsMutation : IMutation
     {
         #region Methods
         /// <summary>

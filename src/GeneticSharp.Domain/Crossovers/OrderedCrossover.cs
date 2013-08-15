@@ -5,6 +5,7 @@ using System.Text;
 using HelperSharp;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
+using System.ComponentModel;
 
 namespace GeneticSharp.Domain.Crossovers
 {
@@ -29,11 +30,12 @@ namespace GeneticSharp.Domain.Crossovers
 	/// <see href="http://www.rubicite.com/Tutorials/GeneticAlgorithms/CrossoverOperators/Order1CrossoverOperator.aspx">Order 1 Crossover</see>
 	/// </remarks>
     /// </summary>
-    public class OrderedCrossover : CrossoverBase
+	[DisplayName("Ordered (OX1)")]
+	public class OrderedCrossover : CrossoverBase
     {
         #region Constructors
         public OrderedCrossover()
-            : base(2, 2)
+			: base(2, 2)
         {
         }
         #endregion

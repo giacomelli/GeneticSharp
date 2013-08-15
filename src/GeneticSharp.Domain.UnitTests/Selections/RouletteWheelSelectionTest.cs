@@ -7,12 +7,19 @@ using GeneticSharp.Domain.Selections;
 using NUnit.Framework;
 using Rhino.Mocks;
 using TestSharp;
+using GeneticSharp.Domain.Randomizations;
 
-namespace GeneticSharp.Domain.UnitTests
+namespace GeneticSharp.Domain.UnitTests.Selections
 {
 	[TestFixture()]
 	public class RouletteWheelSelectionTest
 	{
+		[SetUp]
+		public void Cleanup()
+		{
+			RandomizationProvider.Current = new BasicRandomization();
+		}
+
 		[Test()]
 		public void SelectChromosomes_InvalidNumber_Exception ()
 		{

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using GeneticSharp.Domain.Randomizations;
 using TestSharp;
 
-namespace GeneticSharp.Domain.UnitTests
+namespace GeneticSharp.Domain.UnitTests.Mutations
 {
 	[TestFixture()]
 	public class UniformMutationTest

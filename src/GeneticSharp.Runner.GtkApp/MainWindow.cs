@@ -8,6 +8,7 @@ using GeneticSharp.Domain.Selections;
 using GeneticSharp.Extensions.Tsp;
 using Gtk;
 using HelperSharp;
+using System.Collections.Generic;
 
 public partial class MainWindow: Gtk.Window
 {	
@@ -29,8 +30,7 @@ public partial class MainWindow: Gtk.Window
 
 		DeleteEvent+=delegate {Application.Quit(); };
 		btnGenerateCities.Clicked += delegate { GenerateCities(); };
-        btnRunGeneration.Clicked += delegate { RunGenerations(1); };
-        btnRunGenerations.Clicked += delegate { RunGenerations(10000); };
+        btnRunGenerations.Clicked += delegate { Run(); };
 	
 		m_gc = new Gdk.GC(drawingArea.GdkWindow);
 		m_gc.RgbFgColor = new Gdk.Color(255,50,50);
@@ -46,56 +46,87 @@ public partial class MainWindow: Gtk.Window
 			GenerateCities();
 		};
 
-
-
 		drawingArea.ConfigureEvent += delegate {
 			ResetBuffer ();
-			DrawCities ();
-			DrawBuffer ();
+			UpdateMap();
 		};
 
+		drawingArea.ExposeEvent += delegate {
+			DrawBuffer();
+		};
+
+		LoadComboBox (cmbCrossover, CrossoverService.GetCrossoverNames ());
+		LoadComboBox (cmbMutation, MutationService.GetMutationNames ());
+
 		ShowAll();
+		ResetBuffer ();
+		UpdateMap ();
 	}
 	#endregion
 
 	#region Methods
-    private void RunGenerations(int generations)
+    private void Run()
     {
-        m_currentGenerationsBeginDateTime = DateTime.Now;
-        m_population.RunGenerations(generations);  
-		var x = m_population.BestChromosome;
+		try {
+			if (m_population != null) {
+				m_population.GenerationRan -= HandleGenerationRan;
+				m_currentGenerationsTimeSpend = null;
+			}        
+
+			var selection = CreateSelection ();
+			var crossover = CrossoverService.CreateCrossoverByName (cmbCrossover.ActiveText);
+			var mutation = MutationService.CreateMutationByName(cmbMutation.ActiveText);
+			var chromosome = new TspChromosome(m_fitness.Cities.Count);
+
+			m_population = new Population(
+				Convert.ToInt32(sbtPopulationMinSize.Value),
+				Convert.ToInt32(sbtPopulationMaxSize.Value),
+				chromosome,
+				m_fitness,
+				selection, crossover, mutation);
+
+			m_population.GenerationRan += HandleGenerationRan; 
+	        m_currentGenerationsBeginDateTime = DateTime.Now;
+
+	        m_population.RunGenerations(Convert.ToInt32(sbtGenerations.Value)); 
+		}
+		catch(Exception ex) {
+			var msg = new MessageDialog (this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, ex.Message);
+			msg.Run ();
+			msg.Destroy ();
+		}
     }
 
 	private void GenerateCities()
 	{
-		if (m_population != null) {
-			m_population.GenerationRan -= HandleGenerationRan;
-            m_currentGenerationsTimeSpend = null;
-		}        
-
 		int numberOfCities = Convert.ToInt32(hslNumberOfCities.Value - (hslNumberOfCities.Value % 2));
 		hslNumberOfCities.Value = numberOfCities;
-		var selection = new EliteSelection();
-		var crossover = new OrderedCrossover();
-        //var mutation = new TworsMutation();
-		var mutation = new ReverseSequenceMutation ();
-		var chromosome = new TspChromosome(numberOfCities);
 		m_fitness = new TspFitness (numberOfCities, 50, drawingArea.Allocation.Width -50, 50, drawingArea.Allocation.Height - 50);
-
-		m_population = new Population(
-			Convert.ToInt32(hslMinPopulationSize.Value),
-			Convert.ToInt32(hslMaxPopulationSize.Value),
-			chromosome,
-			m_fitness,
-			selection, crossover, mutation);
-
-		m_population.GenerationRan += HandleGenerationRan; 
 	
 		DrawCities ();
 		DrawBuffer ();
 	}
 
-	
+	ISelection CreateSelection ()
+	{
+		switch (cmbSelection.ActiveText) {
+		case "Roulette Wheel":
+			return new RouletteWheelSelection();
+
+		default:
+			return new EliteSelection ();
+		}
+	}
+
+	void LoadComboBox (ComboBox cmb, IList<string> names)
+	{
+		foreach (var c in names) {
+			cmb.AppendText (c);
+		}
+
+		cmb.Active = 0;
+	}
+
 	void HandleGenerationRan (object sender, EventArgs e)
 	{
         m_currentGenerationsTimeSpend = DateTime.Now - m_currentGenerationsBeginDateTime;
@@ -106,7 +137,7 @@ public partial class MainWindow: Gtk.Window
 	{
 		DrawCities ();
 
-		if (m_population.CurrentGeneration != null) {
+		if (m_population != null && m_population.CurrentGeneration != null) {
 			var genes = m_population.BestChromosome.GetGenes ();
 
 			for (int i = 0; i < genes.Length; i += 2) {
@@ -133,11 +164,11 @@ public partial class MainWindow: Gtk.Window
 			var lastCity = m_fitness.Cities [Convert.ToInt32 (genes [genes.Length - 1].Value)];
 			var firstCity = m_fitness.Cities [Convert.ToInt32 (genes [0].Value)];
 			m_buffer.DrawLine (m_gc, lastCity.X, lastCity.Y, firstCity.X, firstCity.Y);
+		
+			WriteText(0, 0, "Generation: {0}", m_population.Generations.Count);
+			WriteText(0, 20, "Distance: {0:n2}", ((TspChromosome) m_population.BestChromosome).Distance);
+			WriteText(0, 40, "Time: {0}", m_currentGenerationsTimeSpend);
 		}
-
-        WriteText(0, 0, "Generation: {0}", m_population.Generations.Count);
-        WriteText(0, 20, "Distance: {0:n2}", ((TspChromosome) m_population.BestChromosome).Distance);
-        WriteText(0, 40, "Time: {0}", m_currentGenerationsTimeSpend);
 
 		DrawBuffer ();
 	}
@@ -171,16 +202,6 @@ public partial class MainWindow: Gtk.Window
 	{
 		drawingArea.GdkWindow.DrawDrawable (m_gc, m_buffer, 0, 0, 0, 0, drawingArea.Allocation.Width, drawingArea.Allocation.Height);
 	}
-
-	protected override bool OnConfigureEvent (EventConfigure evnt)
-	{
-		ResetBuffer ();
-		DrawCities ();
-		DrawBuffer ();
-
-		return base.OnConfigureEvent (evnt);
-	}
-	
 
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 	{

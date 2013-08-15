@@ -7,7 +7,7 @@ using GeneticSharp.Domain.Chromosomes;
 using TestSharp;
 using HelperSharp;
 
-namespace GeneticSharp.Domain.UnitTests
+namespace GeneticSharp.Domain.UnitTests.Mutations
 {
 	[TestFixture()]
 	public class ReverseSequenceMutationTest

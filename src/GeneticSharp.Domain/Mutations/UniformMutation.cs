@@ -3,6 +3,7 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
 using HelperSharp;
 using System.Linq;
+using System.ComponentModel;
 
 namespace GeneticSharp.Domain.Mutations
 {
@@ -11,6 +12,7 @@ namespace GeneticSharp.Domain.Mutations
 	/// between the user-specified upper and lower bounds for that gene. 
 	/// http://en.wikipedia.org/wiki/Mutation_(genetic_algorithm)
 	/// </summary>
+	[DisplayName("Uniform")]
 	public class UniformMutation : IMutation
 	{
 		#region Fields

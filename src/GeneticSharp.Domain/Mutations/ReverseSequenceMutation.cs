@@ -5,11 +5,12 @@ using System.Text;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
 using HelperSharp;
+using System.ComponentModel;
 
 namespace GeneticSharp.Domain.Mutations
 {
 	/// <summary>
-	/// Reverse sequence mutation (RSM).
+	/// Reverse Sequence Mutation (RSM).
 	/// <remarks>
 	/// In the reverse sequence mutation operator, we take a sequence S limited by two 
 	/// positions i and j randomly chosen, such that i&lt;j. The gene order in this sequence 
@@ -17,7 +18,8 @@ namespace GeneticSharp.Domain.Mutations
 	/// <see href="http://arxiv.org/ftp/arxiv/papers/1203/1203.3099.pdf">Analyzing the Performance of Mutation Operators to Solve the Travelling Salesman Problem</see>
 	/// </remarks>
 	/// </summary>
-    public class ReverseSequenceMutation : IMutation
+    [DisplayName("Reverse Sequence (RSM)")]
+	public class ReverseSequenceMutation : IMutation
     {
 		#region IMutation implementation
 		/// <summary>

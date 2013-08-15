@@ -10,12 +10,19 @@ using HelperSharp;
 using NUnit.Framework;
 using Rhino.Mocks;
 using TestSharp;
+using GeneticSharp.Domain.Randomizations;
 
-namespace GeneticSharp.Domain.UnitTests
+namespace GeneticSharp.Domain.UnitTests.Populations
 {
 	[TestFixture()]
 	public class PopulationTest
 	{
+		[TearDown]
+		public void Cleanup()
+		{
+			RandomizationProvider.Current = new BasicRandomization();
+		}
+
 		[Test()]
 		public void Constructor_InvalidMinSize_Exception ()
 		{

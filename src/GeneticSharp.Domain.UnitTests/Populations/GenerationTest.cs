@@ -6,7 +6,7 @@ using GeneticSharp.Domain.Chromosomes;
 using System.Collections.Generic;
 using Rhino.Mocks;
 
-namespace GeneticSharp.Domain.UnitTests
+namespace GeneticSharp.Domain.UnitTests.Populations
 {
 	[TestFixture()]
 	public class GenerationTest

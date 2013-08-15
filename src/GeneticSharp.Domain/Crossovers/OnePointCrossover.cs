@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using HelperSharp;
+using System.ComponentModel;
 
 namespace GeneticSharp.Domain.Crossovers
 {
@@ -26,7 +27,8 @@ namespace GeneticSharp.Domain.Crossovers
     /// |0|0|1| and |1|1|0|
     /// </example>
     /// </summary>
-    public sealed class OnePointCrossover : CrossoverBase
+	[DisplayName("One-Point")]
+	public sealed class OnePointCrossover : CrossoverBase
     {
         #region Fields
         private int m_swapPointIndex;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
+using System.ComponentModel;
 
 namespace GeneticSharp.Domain.Crossovers
 {
@@ -15,7 +16,8 @@ namespace GeneticSharp.Domain.Crossovers
     /// </remarks>
     /// http://en.wikipedia.org/wiki/Crossover_(genetic_algorithm)#Uniform_Crossover_and_Half_Uniform_Crossover
     /// </summary>
-    public class UniformCrossover : CrossoverBase
+    [DisplayName("Uniform")]
+	public class UniformCrossover : CrossoverBase
     {
         #region Constructors
         public UniformCrossover(float mixProbability)

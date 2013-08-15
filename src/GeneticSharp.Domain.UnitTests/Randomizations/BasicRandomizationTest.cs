@@ -4,7 +4,7 @@ using GeneticSharp.Domain.Randomizations;
 using TestSharp;
 using System.Linq;
 
-namespace GeneticSharp.Domain.UnitTests
+namespace GeneticSharp.Domain.UnitTests.Randomizations
 {
 	[TestFixture()]
 	public class BasicRandomizationTest
