@@ -41,6 +41,16 @@ namespace GeneticSharp.Domain.Crossovers
 		{
 			return TypeHelper.CreateInstanceByName<ICrossover> (name, constructorArgs);
 		}
+
+		/// <summary>
+		/// Gets the crossover type by the name.
+		/// </summary>
+		/// <returns>The crossover type.</returns>
+		/// <param name="name">The name of crossover.</param>
+		public static Type GetCrossoverTypeByName(string name)
+		{
+			return TypeHelper.GetTypeByName<ICrossover> (name);
+		}
 		#endregion
 	}
 }

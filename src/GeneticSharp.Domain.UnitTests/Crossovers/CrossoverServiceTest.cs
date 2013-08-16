@@ -43,8 +43,8 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 		[Test()]
 		public void CreateCrossoverByName_ValidNameButInvalidConstructorArgs_Exception ()
 		{
-			ExceptionAssert.IsThrowing (new ArgumentException ("A ICrossover's implementation with name 'One-Point' was found, but seems the constructor args was invalid.", "constructorArgs"), () => {
-				CrossoverService.CreateCrossoverByName("One-Point");
+			ExceptionAssert.IsThrowing (new ArgumentException ("A ICrossover's implementation with name 'One-Point' was found, but seems the constructor args were invalid.", "constructorArgs"), () => {
+				CrossoverService.CreateCrossoverByName("One-Point", 1, 2, 3);
 			});
 		}
 
@@ -62,6 +62,30 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
 			actual = CrossoverService.CreateCrossoverByName ("Uniform", 1f) as UniformCrossover;
 			Assert.IsNotNull (actual);
+		}
+
+		[Test()]
+		public void GetCrossoverTypeByName_InvalidName_Exception ()
+		{
+			ExceptionAssert.IsThrowing (new ArgumentException ("There is no ICrossover implementation with name 'Test'.", "name"), () => {
+				CrossoverService.GetCrossoverTypeByName("Test");
+			});
+		}
+
+		[Test()]
+		public void GetCrossoverTypeByName_ValidName_CrossoverTpe()
+		{
+			var actual = CrossoverService.GetCrossoverTypeByName ("One-Point");
+			Assert.AreEqual (typeof(OnePointCrossover), actual);
+
+			actual = CrossoverService.GetCrossoverTypeByName ("Ordered (OX1)");
+			Assert.AreEqual (typeof(OrderedCrossover), actual);
+
+			actual = CrossoverService.GetCrossoverTypeByName ("Two-Point");
+			Assert.AreEqual (typeof(TwoPointCrossover), actual);
+
+			actual = CrossoverService.GetCrossoverTypeByName ("Uniform");
+			Assert.AreEqual (typeof(UniformCrossover), actual);
 		}
 	}
 }

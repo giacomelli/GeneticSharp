@@ -7,7 +7,7 @@ namespace GeneticSharp.Domain.Fitnesses
     /// Defines an interface for fitness function.
     /// <remarks>
     /// A fitness function is a particular type of objective function that is used to summarise, as a single figure of merit, how close a given design solution is to achieving the set aims.
-    /// <see href="http://en.wikipedia.org/wiki/Fitness_function"/>http://en.wikipedia.org/wiki/Fitness_function</see>
+    /// <see href="http://en.wikipedia.org/wiki/Fitness_function">Wikipedia</see>
     /// </remarks>
     /// </summary>
 	public interface IFitness

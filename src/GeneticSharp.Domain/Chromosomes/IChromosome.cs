@@ -50,30 +50,21 @@ namespace GeneticSharp.Domain.Chromosomes
 		Gene GenerateGene(int geneIndex);
 
 		/// <summary>
-		/// Adds the gene in the end of the chromosome.
-		/// </summary>
-		/// <param name="gene">Gene.</param>
-		//void AddGene (Gene gene);
-
-		/// <summary>
-		/// Adds the genes in the end of the chromosome.
-		/// </summary>
-		/// <param name="genes">Genes.</param>
-		//void AddGenes (IEnumerable<Gene> genes);
-
-		/// <summary>
 		/// Replaces the gene in the specified index.
 		/// </summary>
 		/// <param name="index">Index.</param>
 		/// <param name="gene">Gene.</param>
 		void ReplaceGene (int index, Gene gene);
 
-		void ReplaceGenes (int startIndex, Gene[] genes);
-
 		/// <summary>
-		/// Clears the genes.
+		/// Replaces the genes starting in the specified index.
 		/// </summary>
-		//void ClearGenes();
+		/// <remarks>
+		/// The genes to be replaced can't be greater than the available space between the start index and the end of the chromosome.
+		/// </remarks>
+		/// <param name="startIndex">Start index.</param>
+		/// <param name="genes">Genes.</param>
+		void ReplaceGenes (int startIndex, Gene[] genes);
 
 		/// <summary>
 		/// Gets the gene in the specified index.

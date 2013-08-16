@@ -5,9 +5,17 @@ using HelperSharp;
 
 namespace GeneticSharp.Domain.Populations
 {
+	/// <summary>
+	/// Represents a generation of a population.
+	/// </summary>
 	public sealed class Generation
 	{
 		#region Constructors
+		/// <summary>
+		/// Initializes a new instance of the <see cref="GeneticSharp.Domain.Populations.Generation"/> class.
+		/// </summary>
+		/// <param name="number">The generation number.</param>
+		/// <param name="chromosomes">The chromosomes of the generation..</param>
 		public Generation(int number, IList<IChromosome> chromosomes)
 		{
 			if(number < 1)
@@ -28,8 +36,22 @@ namespace GeneticSharp.Domain.Populations
 		#endregion
 
 		#region Properties
+		/// <summary>
+		/// Gets the number.
+		/// </summary>
+		/// <value>The number.</value>
 		public int Number { get; private set; }
+
+		/// <summary>
+		/// Gets or sets the chromosomes.
+		/// </summary>
+		/// <value>The chromosomes.</value>
 		public IList<IChromosome> Chromosomes { get; internal set; }
+
+		/// <summary>
+		/// Gets or sets the best chromosome.
+		/// </summary>
+		/// <value>The best chromosome.</value>
 		public IChromosome BestChromosome { get; internal set; }
 		#endregion
 	}

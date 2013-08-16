@@ -41,7 +41,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
 		[Test()]
 		public void CreateMutationByName_ValidNameButInvalidConstructorArgs_Exception ()
 		{
-			ExceptionAssert.IsThrowing (new ArgumentException ("A IMutation's implementation with name 'Uniform' was found, but seems the constructor args was invalid.", "constructorArgs"), () => {
+			ExceptionAssert.IsThrowing (new ArgumentException ("A IMutation's implementation with name 'Uniform' was found, but seems the constructor args were invalid.", "constructorArgs"), () => {
 				MutationService.CreateMutationByName("Uniform", 1f);
 			});
 		}
@@ -57,6 +57,27 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
 
 			actual = MutationService.CreateMutationByName ("Uniform", true) as UniformMutation;
 			Assert.IsNotNull (actual);
+		}
+
+		[Test()]
+		public void GetMutationTypeByName_InvalidName_Exception ()
+		{
+			ExceptionAssert.IsThrowing (new ArgumentException ("There is no IMutation implementation with name 'Test'.", "name"), () => {
+				MutationService.GetMutationTypeByName("Test");
+			});
+		}
+
+		[Test()]
+		public void GetMutationTypeByName_ValidName_CrossoverTpe()
+		{
+			var actual = MutationService.GetMutationTypeByName ("Reverse Sequence (RSM)");
+			Assert.AreEqual (typeof(ReverseSequenceMutation), actual);
+
+			actual = MutationService.GetMutationTypeByName ("Twors");
+			Assert.AreEqual (typeof(TworsMutation), actual);
+
+			actual = MutationService.GetMutationTypeByName ("Uniform");
+			Assert.AreEqual (typeof(UniformMutation), actual);
 		}
 	}
 }

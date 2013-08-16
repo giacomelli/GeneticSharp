@@ -26,5 +26,5 @@ using System.Runtime.InteropServices;
 
 //[assembly: AssemblyDelaySign(false)]
 //[assembly: AssemblyKeyFile("")]
-[assembly:CLSCompliant(true)]
+[assembly:CLSCompliant(false)]
 [assembly:ComVisible(false)]

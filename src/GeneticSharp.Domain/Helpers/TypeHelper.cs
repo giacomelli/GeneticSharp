@@ -47,6 +47,23 @@ namespace GeneticSharp.Domain.Helpers
 		/// <param name="constructorArgs">Constructor arguments.</param>
 		public static TInterface CreateInstanceByName<TInterface>(string name, params object[] constructorArgs)
 		{
+			var crossoverType = GetTypeByName<TInterface> (name);
+
+			try {
+				return (TInterface) Activator.CreateInstance (crossoverType, constructorArgs);
+			}
+			catch(MissingMethodException ex) {
+				throw new ArgumentException ("A {0}'s implementation with name '{1}' was found, but seems the constructor args were invalid.".With (typeof(TInterface).Name, name), "constructorArgs", ex);
+			}
+		}
+
+		/// <summary>
+		/// Gets the TInterface's implementation with the specified name.
+		/// </summary>
+		/// <returns>The TInterface's implementation type.</returns>
+		/// <param name="name">The TInterface's implementation name.</param>
+		public static Type GetTypeByName<TInterface> (string name)
+		{
 			var interfaceName = typeof(TInterface).Name;
 			var crossoverType =  GetTypesByInterface<TInterface> ()
 				.Where (t => ((DisplayNameAttribute)t.GetCustomAttributes (false).First ()).DisplayName.Equals (name, StringComparison.OrdinalIgnoreCase))
@@ -56,12 +73,7 @@ namespace GeneticSharp.Domain.Helpers
 				throw new ArgumentException ("There is no {0} implementation with name '{1}'.".With(interfaceName, name), "name");
 			}
 
-			try {
-				return (TInterface) Activator.CreateInstance (crossoverType, constructorArgs);
-			}
-			catch(MissingMethodException ex) {
-				throw new ArgumentException ("A {0}'s implementation with name '{1}' was found, but seems the constructor args was invalid.".With (interfaceName, name), "constructorArgs", ex);
-			}
+			return crossoverType;
 		}
 		#endregion
 	}

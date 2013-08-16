@@ -36,6 +36,48 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         }
 
         [Test]
+        public void Cross_ParentWithNoOrderedGenes_Exception()
+        {
+            var target = new OrderedCrossover();
+
+            var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(10);
+            chromosome1.ReplaceGenes(0, new Gene[] { 
+				new Gene() { Value = 8 },
+				new Gene() { Value = 4 },
+				new Gene() { Value = 7 },
+				new Gene() { Value = 3 },
+				new Gene() { Value = 6 },
+				new Gene() { Value = 2 },
+				new Gene() { Value = 5 },
+				new Gene() { Value = 1 },
+				new Gene() { Value = 9 },
+				new Gene() { Value = 0 }
+			});
+            chromosome1.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(10));
+            
+            var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(10);
+            chromosome2.ReplaceGenes(0, new Gene[] 
+            { 
+				new Gene() { Value = 0 },
+				new Gene() { Value = 1 },
+				new Gene() { Value = 2 },
+				new Gene() { Value = 3 },
+				new Gene() { Value = 5 },
+				new Gene() { Value = 5 },
+				new Gene() { Value = 6 },
+				new Gene() { Value = 7 },
+				new Gene() { Value = 8 },
+				new Gene() { Value = 9 },
+            });
+            chromosome2.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(10));
+
+            ExceptionAssert.IsThrowing(new CrossoverException(target, "The Ordered Crossover (OX1) can be only used with ordered chromosomes. The specified chromosome has 1 repeated genes."), () =>
+            {
+                target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });       
+            });            
+        }
+
+        [Test]
         public void Cross_ParentsWith10Genes_Cross()
         {
             var target = new OrderedCrossover();

@@ -70,6 +70,7 @@
     <Compile Include="Mutations\ReverseSequenceMutationTest.cs" />
     <Compile Include="Crossovers\CrossoverServiceTest.cs" />
     <Compile Include="Mutations\MutationServiceTest.cs" />
+    <Compile Include="Selections\SelectionServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj">

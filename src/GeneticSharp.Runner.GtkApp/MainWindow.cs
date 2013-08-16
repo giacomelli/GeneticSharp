@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using Gdk;
 using GeneticSharp.Domain.Crossovers;
@@ -8,8 +9,11 @@ using GeneticSharp.Domain.Selections;
 using GeneticSharp.Extensions.Tsp;
 using Gtk;
 using HelperSharp;
-using System.Collections.Generic;
+using GeneticSharp.Runner.GtkApp;
 
+/// <summary>
+/// Main window.
+/// </summary>
 public partial class MainWindow: Gtk.Window
 {	
 	#region Fields
@@ -20,18 +24,31 @@ public partial class MainWindow: Gtk.Window
 	private Pixmap m_buffer;
     private DateTime m_currentGenerationsBeginDateTime;
     private TimeSpan? m_currentGenerationsTimeSpend;
+	private ISelection m_selection;
+	private ICrossover m_crossover;
+	private IMutation m_mutation;
 	#endregion
 
 	#region Constructors
 	public MainWindow (): base (Gtk.WindowType.Toplevel)
 	{
 		Build ();
-		SetDefaultSize(800, 600);
-
+	
 		DeleteEvent+=delegate {Application.Quit(); };
 		btnGenerateCities.Clicked += delegate { GenerateCities(); };
         btnRunGenerations.Clicked += delegate { Run(); };
-	
+		btnEditSelection.Clicked += delegate {
+			m_selection = ShowEditorProperty<ISelection>(SelectionService.GetSelectionTypeByName(cmbSelection.ActiveText), m_selection);
+		};
+
+		btnEditCrossover.Clicked += delegate {
+			m_crossover = ShowEditorProperty<ICrossover>(CrossoverService.GetCrossoverTypeByName(cmbCrossover.ActiveText), m_crossover);
+		};
+
+		btnEditMutation.Clicked += delegate {
+			m_mutation = ShowEditorProperty<IMutation>(MutationService.GetMutationTypeByName(cmbMutation.ActiveText), m_mutation);
+		};
+
 		m_gc = new Gdk.GC(drawingArea.GdkWindow);
 		m_gc.RgbFgColor = new Gdk.Color(255,50,50);
 		m_gc.RgbBgColor = new Gdk.Color(255, 255, 255);
@@ -55,12 +72,41 @@ public partial class MainWindow: Gtk.Window
 			DrawBuffer();
 		};
 
+		LoadComboBox (cmbSelection, SelectionService.GetSelectionNames ());
 		LoadComboBox (cmbCrossover, CrossoverService.GetCrossoverNames ());
 		LoadComboBox (cmbMutation, MutationService.GetMutationNames ());
 
+		m_selection = SelectionService.CreateSelectionByName (cmbSelection.ActiveText);
+		m_crossover = CrossoverService.CreateCrossoverByName (cmbCrossover.ActiveText);
+		m_mutation = MutationService.CreateMutationByName(cmbMutation.ActiveText);
+
+		cmbSelection.Changed += delegate {
+			m_selection = SelectionService.CreateSelectionByName (cmbSelection.ActiveText);
+			ShowButtonByEditableProperties(btnEditSelection, m_selection);
+		};
+
+		cmbCrossover.Changed += delegate {
+			m_crossover = CrossoverService.CreateCrossoverByName (cmbCrossover.ActiveText);
+			ShowButtonByEditableProperties(btnEditCrossover, m_crossover);
+		};
+
+		cmbMutation.Changed += delegate {
+			m_mutation = MutationService.CreateMutationByName(cmbMutation.ActiveText);
+			ShowButtonByEditableProperties(btnEditMutation, m_mutation);
+		};
+
+		hslCrossoverProbability.Value = Population.DefaultCrossoverProbability;
+		hslMutationProbability.Value = Population.DefaultMutationProbability;
+
+		cmbCrossover.Active = 1;
+
 		ShowAll();
+		ShowButtonByEditableProperties(btnEditSelection, m_selection);
+		ShowButtonByEditableProperties(btnEditCrossover, m_crossover);
+		ShowButtonByEditableProperties(btnEditMutation, m_mutation);
+
 		ResetBuffer ();
-		UpdateMap ();
+		UpdateMap ();	
 	}
 	#endregion
 
@@ -73,9 +119,6 @@ public partial class MainWindow: Gtk.Window
 				m_currentGenerationsTimeSpend = null;
 			}        
 
-			var selection = CreateSelection ();
-			var crossover = CrossoverService.CreateCrossoverByName (cmbCrossover.ActiveText);
-			var mutation = MutationService.CreateMutationByName(cmbMutation.ActiveText);
 			var chromosome = new TspChromosome(m_fitness.Cities.Count);
 
 			m_population = new Population(
@@ -83,16 +126,25 @@ public partial class MainWindow: Gtk.Window
 				Convert.ToInt32(sbtPopulationMaxSize.Value),
 				chromosome,
 				m_fitness,
-				selection, crossover, mutation);
+				m_selection, m_crossover, m_mutation);
 
+			m_population.CrossoverProbability = Convert.ToSingle(hslCrossoverProbability.Value);
+			m_population.MutationProbability = Convert.ToSingle(hslMutationProbability.Value);
 			m_population.GenerationRan += HandleGenerationRan; 
 	        m_currentGenerationsBeginDateTime = DateTime.Now;
 
 	        m_population.RunGenerations(Convert.ToInt32(sbtGenerations.Value)); 
 		}
 		catch(Exception ex) {
-			var msg = new MessageDialog (this, DialogFlags.Modal, MessageType.Error, ButtonsType.Ok, ex.Message);
-			msg.Run ();
+			var msg = new MessageDialog (this, DialogFlags.Modal, MessageType.Error, ButtonsType.YesNo, "{0}\n\nDo you want to see more details about this error?", ex.Message);
+          
+            if (msg.Run() == (int)ResponseType.Yes)
+            {
+                var details = new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, ex.StackTrace);
+                details.Run();
+                details.Destroy();
+            }
+
 			msg.Destroy ();
 		}
     }
@@ -107,17 +159,6 @@ public partial class MainWindow: Gtk.Window
 		DrawBuffer ();
 	}
 
-	ISelection CreateSelection ()
-	{
-		switch (cmbSelection.ActiveText) {
-		case "Roulette Wheel":
-			return new RouletteWheelSelection();
-
-		default:
-			return new EliteSelection ();
-		}
-	}
-
 	void LoadComboBox (ComboBox cmb, IList<string> names)
 	{
 		foreach (var c in names) {
@@ -125,6 +166,17 @@ public partial class MainWindow: Gtk.Window
 		}
 
 		cmb.Active = 0;
+	}
+
+	void ShowButtonByEditableProperties(Button btn, object objectInstance)
+	{
+		if(PropertyEditor.HasEditableProperties(objectInstance.GetType()))
+		{
+			btn.Show(); 
+		}
+		else {
+			btn.Hide();
+		}
 	}
 
 	void HandleGenerationRan (object sender, EventArgs e)
@@ -201,6 +253,13 @@ public partial class MainWindow: Gtk.Window
 	private void DrawBuffer()
 	{
 		drawingArea.GdkWindow.DrawDrawable (m_gc, m_buffer, 0, 0, 0, 0, drawingArea.Allocation.Width, drawingArea.Allocation.Height);
+	}
+
+	private TInterface ShowEditorProperty<TInterface>(Type objectType, object objectInstance)
+	{
+		var editor = new PropertyEditor(objectType, objectInstance);
+		editor.Run();
+		return (TInterface) editor.ObjectInstance;
 	}
 
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a)

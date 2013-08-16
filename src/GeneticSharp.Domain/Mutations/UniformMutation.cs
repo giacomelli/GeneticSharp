@@ -1,38 +1,51 @@
 using System;
+using System.ComponentModel;
+using System.Linq;
+using HelperSharp;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
-using HelperSharp;
-using System.Linq;
-using System.ComponentModel;
 
 namespace GeneticSharp.Domain.Mutations
 {
 	/// <summary>
 	/// This operator replaces the value of the chosen gene with a uniform random value selected 
 	/// between the user-specified upper and lower bounds for that gene. 
-	/// http://en.wikipedia.org/wiki/Mutation_(genetic_algorithm)
+	/// <see href="http://en.wikipedia.org/wiki/Mutation_(genetic_algorithm)">Wikipedia</see>
 	/// </summary>
 	[DisplayName("Uniform")]
 	public class UniformMutation : IMutation
 	{
 		#region Fields
 		private int[] m_mutableGenesIndexes;
-		private bool m_allGenesMutables;
+		private bool m_allGenesMutable;
 		#endregion
 
 		#region Constructors
+		/// <summary>
+		/// Initializes a new instance of the <see cref="GeneticSharp.Domain.Mutations.UniformMutation"/> class.
+		/// </summary>
+		/// <param name="mutableGenesIndexes">Mutable genes indexes.</param>
 		public UniformMutation(params int[] mutableGenesIndexes)
 		{
 			m_mutableGenesIndexes = mutableGenesIndexes;
 		}
 
-		public UniformMutation(bool allGenesMutables)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="GeneticSharp.Domain.Mutations.UniformMutation"/> class.
+		/// </summary>
+		/// <param name="allGenesMutable">If set to <c>true</c> all genes are mutable.</param>
+		public UniformMutation(bool allGenesMutable)
 		{
-			m_allGenesMutables = allGenesMutables;
+			m_allGenesMutable = allGenesMutable;
 		}
 		#endregion
 
 		#region IMutation implementation
+		/// <summary>
+		/// Mutate the specified chromosome.
+		/// </summary>
+		/// <param name="chromosome">The chromosome.</param>
+		/// <param name="probability">The probability to mutate each chromosome.</param>
 		public void Mutate (IChromosome chromosome, float probability)
 		{
             ExceptionHelper.ThrowIfNull("chromosome", chromosome);
@@ -40,7 +53,7 @@ namespace GeneticSharp.Domain.Mutations
 			var genesLength = chromosome.Length;
 
 			if (m_mutableGenesIndexes == null || m_mutableGenesIndexes.Length == 0) {
-				if (m_allGenesMutables) {
+				if (m_allGenesMutable) {
 					m_mutableGenesIndexes = Enumerable.Range (0, genesLength).ToArray ();
 				} else {
 					m_mutableGenesIndexes = RandomizationProvider.Current.GetInts (1, 0, genesLength);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Amib.Threading;
 using HelperSharp;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
@@ -8,14 +9,35 @@ using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Selections;
-using Amib.Threading;
 
 namespace GeneticSharp.Domain.Populations
 {
+	/// <summary>
+	/// Represents a population of candidate solutions (chromosomes).
+	/// </summary>
 	public class Population
     {
-        #region Fields
+		#region Constants
+		/// <summary>
+		/// The default crossover probability.
+		/// </summary>
+		public const float DefaultCrossoverProbability = 0.75f;
+
+		/// <summary>
+		/// The default mutation probability.
+		/// </summary>
+		public const float DefaultMutationProbability = 0.1f;
+		#endregion
+
+        #region Events
+		/// <summary>
+		/// Occurs when generation ran.
+		/// </summary>
         public event EventHandler GenerationRan;
+
+		/// <summary>
+		/// Occurs when best chromosome changed.
+		/// </summary>
 		public event EventHandler BestChromosomeChanged;
         #endregion
 
@@ -25,6 +47,16 @@ namespace GeneticSharp.Domain.Populations
         #endregion
 
         #region Constructors
+		/// <summary>
+		/// Initializes a new instance of the <see cref="GeneticSharp.Domain.Populations.Population"/> class.
+		/// </summary>
+		/// <param name="minSize">The minimum size (chromosomes).</param>
+		/// <param name="maxSize">The maximum size (chromosomes).</param>
+		/// <param name="adamChromosome">The original chromosome of all population ;).</param>
+		/// <param name="fitness">The fitness evaluation function.</param>
+		/// <param name="selection">The selection operator.</param>
+		/// <param name="crossover">The crossover operator.</param>
+		/// <param name="mutation">The mutation operator.</param>
         public Population(int minSize, 
                           int maxSize,
                           IChromosome adamChromosome,
@@ -58,27 +90,80 @@ namespace GeneticSharp.Domain.Populations
 			Mutation = mutation;
 
 			Generations = new List<Generation> ();
-			CrossoverProbability = 0.75f;
-			MutationProbability = 0.1f;
+			CrossoverProbability = DefaultCrossoverProbability;
+			MutationProbability = DefaultMutationProbability;
 
 		}
 		#endregion
 
 		#region Properties
+		/// <summary>
+		/// Gets the generations.
+		/// </summary>
+		/// <value>The generations.</value>
 		public IList<Generation> Generations { get; private set; }
+
+		/// <summary>
+		/// Gets the current generation.
+		/// </summary>
+		/// <value>The current generation.</value>
 		public Generation CurrentGeneration { get; private set; }
+
+		/// <summary>
+		/// Gets the minimum size.
+		/// </summary>
+		/// <value>The minimum size.</value>
 		public int MinSize { get; private set; }
+
+		/// <summary>
+		/// Gets the size of the max.
+		/// </summary>
+		/// <value>The size of the max.</value>
         public int MaxSize { get; private set; }
+
+		/// <summary>
+		/// Gets the fitness function.
+		/// </summary>
 		public IFitness Fitness { get; private set; }
+
+		/// <summary>
+		/// Gets the selection operator.
+		/// </summary>
 		public ISelection Selection { get; private set; }
+
+		/// <summary>
+		/// Gets the crossover operator.
+		/// </summary>
+		/// <value>The crossover.</value>
 		public ICrossover Crossover { get; private set; }
+
+		/// <summary>
+		/// Gets or sets the crossover probability.
+		/// </summary>
 		public float CrossoverProbability  { get; set; }
+
+		/// <summary>
+		/// Gets the mutation operator.
+		/// </summary>
 		public IMutation Mutation { get; private set; }
+
+		/// <summary>
+		/// Gets or sets the mutation probability.
+		/// </summary>
 		public float MutationProbability  { get; set; }
+
+		/// <summary>
+		/// Gets the best chromosome.
+		/// </summary>
+		/// <value>The best chromosome.</value>
         public IChromosome BestChromosome { get; private set; }
 		#endregion
 
-		#region Methods
+		#region Public methods
+		/// <summary>
+		/// Runs a generation.
+		/// </summary>
+		/// <param name="timeout">The timeout to run the generation.</param>
 		public void RunGeneration(int timeout = 0)
 		{
 			if (Generations.Count == 0) {
@@ -101,6 +186,11 @@ namespace GeneticSharp.Domain.Populations
             }
 		}
 
+		/// <summary>
+		/// Runs the generations.
+		/// </summary>
+		/// <param name="generations">The number of generations to run.</param>
+		/// <param name="timeoutPerGeneration">Timeout per generation.</param>
 		public void RunGenerations(int generations, int timeoutPerGeneration = 0)
 		{
 			for (var i = 0; i < generations; i++) {
@@ -108,14 +198,23 @@ namespace GeneticSharp.Domain.Populations
 			}
 		}
 
+		/// <summary>
+		/// Aborts the generation.
+		/// </summary>
+		/// <param name="timeout">Timeout to wait to abort.</param>
 		public void AbortGeneration (int timeout = 60000)
 		{
 			if (m_threadPool != null) {
 				m_threadPool.Shutdown (true, timeout);
 			}
 		}
+		#endregion
 
-		void FinalizeGeneration ()
+		#region Private methods
+		/// <summary>
+		/// Finalizes the generation.
+		/// </summary>
+		private void FinalizeGeneration ()
 		{
 			if(CurrentGeneration.Chromosomes.Count > MaxSize)
 			{
@@ -127,14 +226,12 @@ namespace GeneticSharp.Domain.Populations
 				}
 			}
 		}
-
-        private IChromosome CreateChromosome()
-        {
-            var newOne = m_adamChromosome.CreateNew();
-
-            return newOne;
-        }
-
+	
+		/// <summary>
+		/// Creates a new generation.
+		/// </summary>
+		/// <returns>The new generation.</returns>
+		/// <param name="chromosomes">Chromosomes.</param>
 		private Generation CreateNewGeneration(IList<IChromosome> chromosomes)
 		{
 			var g = new Generation (Generations.Count + 1, chromosomes);
@@ -143,19 +240,27 @@ namespace GeneticSharp.Domain.Populations
 			return g;
 		}
 
+		/// <summary>
+		/// Creates the initial chromosomes.
+		/// </summary>
+		/// <returns>The initial chromosomes.</returns>
 		private IList<IChromosome> CreateInitialChromosomes ()
 		{
 			var chromosomes = new List<IChromosome> ();
 
 			for(int i = 0; i < MinSize; i++)
 			{
-                var c = CreateChromosome();
+				var c = m_adamChromosome.CreateNew ();
 				chromosomes.Add (c);
 			}
 
 			return chromosomes;
 		}
 
+		/// <summary>
+		/// Evaluates the fitness.
+		/// </summary>
+		/// <param name="timeout">Timeout.</param>
         private void EvaluateFitness(int timeout)
         {
             if (Fitness.SupportsParallel)
@@ -168,6 +273,10 @@ namespace GeneticSharp.Domain.Populations
             }
         }
 
+		/// <summary>
+		/// Evaluates the fitness linear.
+		/// </summary>
+		/// <param name="timeout">Timeout.</param>
         private void EvaluateFitnessLinear(int timeout)
         {
             var chromosomesWithoutFitness = CurrentGeneration.Chromosomes.Where(c => !c.Fitness.HasValue);
@@ -184,6 +293,10 @@ namespace GeneticSharp.Domain.Populations
             }          
         }
 
+		/// <summary>
+		/// Evaluates the fitness parallel.
+		/// </summary>
+		/// <param name="timeout">Timeout.</param>
 		private void EvaluateFitnessParallel (int timeout)
 		{
 			m_threadPool = new SmartThreadPool();
@@ -240,6 +353,30 @@ namespace GeneticSharp.Domain.Populations
 			}
 		}
 
+		/// <summary>
+		/// Runs the evaluate fitness.
+		/// </summary>
+		/// <returns>The evaluate fitness.</returns>
+		/// <param name="state">State.</param>
+		private object RunEvaluateFitness(object state)
+		{
+			var c = state as IChromosome;
+
+			try
+			{
+				c.Fitness = Fitness.Evaluate(c);
+			}
+			catch (Exception ex)
+			{
+				throw new FitnessException(Fitness, "Error executing Fitness.Evaluate for chromosome {0}: {1}".With(c.Id, ex.Message), ex);
+			}
+
+			return c.Fitness;
+		}
+
+		/// <summary>
+		/// Elects the best chromosome.
+		/// </summary>
 		private void ElectBestChromosome()
 		{
 			var newBestChromosome = CurrentGeneration.Chromosomes.OrderByDescending(c => c.Fitness.Value).First();
@@ -254,6 +391,10 @@ namespace GeneticSharp.Domain.Populations
 			}
 		}
 
+		/// <summary>
+		/// Validates the best chromosome.
+		/// </summary>
+		/// <param name="chromosome">Chromosome.</param>
 		private void ValidateBestChromosome(IChromosome chromosome)
 		{
 			if (!chromosome.Fitness.HasValue) {
@@ -263,28 +404,18 @@ namespace GeneticSharp.Domain.Populations
 			}
 		}
 
-
-		private object RunEvaluateFitness(object state)
-		{
-			var c = state as IChromosome;
-
-            try
-            {
-                c.Fitness = Fitness.Evaluate(c);
-            }
-            catch (Exception ex)
-            {
-                throw new FitnessException(Fitness, "Error executing Fitness.Evaluate for chromosome {0}: {1}".With(c.Id, ex.Message), ex);
-            }
-
-			return c.Fitness;
-		}
-
+		/// <summary>
+		/// Selects the parents.
+		/// </summary>
+		/// <returns>The parents.</returns>
 		private IList<IChromosome> SelectParents ()
 		{
 			return Selection.SelectChromosomes (MinSize, CurrentGeneration);
 		}
 
+		/// <summary>
+		/// Cross this instance.
+		/// </summary>
 		private IList<IChromosome> Cross ()
 		{
 			var children = new List<IChromosome>();
@@ -301,10 +432,14 @@ namespace GeneticSharp.Domain.Populations
 			foreach (var c in children) {
 				CurrentGeneration.Chromosomes.Add (c);
 			}
-
+                        
 			return children;
-		}
+		}        
 
+		/// <summary>
+		/// Mutate the specified chromosomes.
+		/// </summary>
+		/// <param name="chromosomes">Chromosomes.</param>
 		private void Mutate (IList<IChromosome> chromosomes)
 		{
 			foreach(var c in chromosomes)

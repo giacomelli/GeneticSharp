@@ -22,7 +22,7 @@ namespace GeneticSharp.Domain.Crossovers
     /// partitioning them into a left, middle and right portion. The 
     /// ordered two-point crossover behaves in the following way: 
     /// child1 inherits its left and right section from parent1, and its middle section is determined.
-	/// <see href="http://arxiv.org/ftp/arxiv/papers/1203/1203.3097.pdf>A Comparative Study of Adaptive Crossover Operators for Genetic Algorithms to Resolve the Traveling Salesman Problem</see>
+	/// <see href="http://arxiv.org/ftp/arxiv/papers/1203/1203.3097.pdf">A Comparative Study of Adaptive Crossover Operators for Genetic Algorithms to Resolve the Traveling Salesman Problem</see>
     /// 
     /// Order 1 Crossover is a fairly simple permutation crossover. 
     /// Basically, a swath of consecutive alleles from parent 1 drops down, 
@@ -34,6 +34,9 @@ namespace GeneticSharp.Domain.Crossovers
 	public class OrderedCrossover : CrossoverBase
     {
         #region Constructors
+		/// <summary>
+		/// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.OrderedCrossover"/> class.
+		/// </summary>
         public OrderedCrossover()
 			: base(2, 2)
         {
@@ -41,6 +44,11 @@ namespace GeneticSharp.Domain.Crossovers
         #endregion
 
         #region Methods
+		/// <summary>
+		/// Performs the cross with specified parents generating the children.
+		/// </summary>
+		/// <param name="parents">Parents.</param>
+		/// <returns>The offspring (children) of the parents.</returns>
         protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
         {
 			var firstParent = parents [0];
@@ -49,6 +57,18 @@ namespace GeneticSharp.Domain.Crossovers
 			if (firstParent.Length < 2) {
 				throw new CrossoverException(this, "A chromosome should have, at least, 2 genes. {0} has only {1} gene.".With(firstParent.GetType().Name, firstParent.Length));
 			}
+
+            foreach (var p in parents)
+            {
+                var notRepeatedGenesLength = p.GetGenes().Distinct().Count();
+
+                // This can happen when used with a IMutation's implementation that not keep the chromosome ordered, like OnePointCrossover, TwoPointCrossover and UniformCrossover.
+                if (notRepeatedGenesLength < p.Length)
+                {
+                    throw new CrossoverException(this, "The Ordered Crossover (OX1) can be only used with ordered chromosomes. The specified chromosome has {0} repeated genes."
+                        .With(p.Length - notRepeatedGenesLength));
+                }
+            }
 
 			var middleSectionIndexes = RandomizationProvider.Current.GetInts (2, 0, firstParent.Length);
 			var middleSectionBeginIndex = middleSectionIndexes [0];
@@ -59,6 +79,14 @@ namespace GeneticSharp.Domain.Crossovers
 			return new List<IChromosome> () { firstChild, secondChild };
         }
 
+		/// <summary>
+		/// Creates the child.
+		/// </summary>
+		/// <returns>The child.</returns>
+		/// <param name="firstParent">First parent.</param>
+		/// <param name="secondParent">Second parent.</param>
+		/// <param name="middleSectionBeginIndex">Middle section begin index.</param>
+		/// <param name="middleSectionEndIndex">Middle section end index.</param>
 		private IChromosome CreateChild(IChromosome firstParent, IChromosome secondParent, int middleSectionBeginIndex, int middleSectionEndIndex)
 		{
 			var middleSectionGenes = firstParent.GetGenes ().Skip (middleSectionBeginIndex).Take ((middleSectionEndIndex - middleSectionBeginIndex) + 1);

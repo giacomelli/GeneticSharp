@@ -50,6 +50,8 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
 				new Gene() { Value = 1 } 
 			});
 
+            chromosome.Expect(c => c.GenerateGene(0)).Return(new Gene() { Value = 0 });
+
 			RandomizationProvider.Current = MockRepository.GenerateMock<IRandomization> ();
 
 			ExceptionAssert.IsThrowing (new MutationException (target, "The chromosome has no gene on index 3. The chromosome genes lenght is 3."), () => {
