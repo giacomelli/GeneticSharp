@@ -16,7 +16,7 @@ namespace GeneticSharp.Domain.Crossovers
     /// From the replaced portion on, the rest is filled up by the remaining genes, where already present genes are omitted and the order is preserved.
 	/// <see href="http://en.wikipedia.org/wiki/Crossover_(genetic_algorithm)#Crossover_for_Ordered_Chromosomes">Crossover for Ordered Chromosomes</see>
     /// 
-    /// The Ordered Crossover method is presented by Goldberg[8], is used when the problem is of order based, 
+    /// The Ordered Crossover method is presented by Goldberg, is used when the problem is of order based, 
     /// for example in Ushaped assembly line balancing etc. Given two parent 
     /// chromosomes, two random crossover points are selected 
     /// partitioning them into a left, middle and right portion. The 
@@ -24,6 +24,10 @@ namespace GeneticSharp.Domain.Crossovers
     /// child1 inherits its left and right section from parent1, and its middle section is determined.
 	/// <see href="http://arxiv.org/ftp/arxiv/papers/1203/1203.3097.pdf">A Comparative Study of Adaptive Crossover Operators for Genetic Algorithms to Resolve the Traveling Salesman Problem</see>
     /// 
+	/// The order crossover operator (Figure 4) was proposed by Davis (1985). 
+	/// The OX1 exploits a property of the path representation, that the order of cities (not their positions) are important. 
+	/// <see href="http://lev4projdissertation.googlecode.com/svn-history/r100/trunk/reading/read/aiRev99.pdf>Genetic Algorithms for the Travelling Salesman Problem - A Review of Representations and Operators</see>
+	/// 
     /// Order 1 Crossover is a fairly simple permutation crossover. 
     /// Basically, a swath of consecutive alleles from parent 1 drops down, 
     /// and remaining values are placed in the child in the order which they appear in parent 2.
@@ -31,7 +35,7 @@ namespace GeneticSharp.Domain.Crossovers
 	/// </remarks>
     /// </summary>
 	[DisplayName("Ordered (OX1)")]
-	public class OrderedCrossover : CrossoverBase
+	public sealed class OrderedCrossover : CrossoverBase
     {
         #region Constructors
 		/// <summary>
@@ -54,23 +58,12 @@ namespace GeneticSharp.Domain.Crossovers
 			var firstParent = parents [0];
 			var secondParent = parents [1];
 
-			if (firstParent.Length < 2) {
-				throw new CrossoverException(this, "A chromosome should have, at least, 2 genes. {0} has only {1} gene.".With(firstParent.GetType().Name, firstParent.Length));
+			if (parents.AnyHasRepeatedGene ()) {
+				throw new CrossoverException(this, "The Ordered Crossover (OX1) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
 			}
 
-            foreach (var p in parents)
-            {
-                var notRepeatedGenesLength = p.GetGenes().Distinct().Count();
-
-                // This can happen when used with a IMutation's implementation that not keep the chromosome ordered, like OnePointCrossover, TwoPointCrossover and UniformCrossover.
-                if (notRepeatedGenesLength < p.Length)
-                {
-                    throw new CrossoverException(this, "The Ordered Crossover (OX1) can be only used with ordered chromosomes. The specified chromosome has {0} repeated genes."
-                        .With(p.Length - notRepeatedGenesLength));
-                }
-            }
-
-			var middleSectionIndexes = RandomizationProvider.Current.GetInts (2, 0, firstParent.Length);
+			var middleSectionIndexes = RandomizationProvider.Current.GetUniqueInts (2, 0, firstParent.Length);
+			Array.Sort (middleSectionIndexes);
 			var middleSectionBeginIndex = middleSectionIndexes [0];
 			var middleSectionEndIndex = middleSectionIndexes [1];
 			var firstChild = CreateChild (firstParent, secondParent, middleSectionBeginIndex, middleSectionEndIndex);

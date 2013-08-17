@@ -30,6 +30,12 @@ namespace GeneticSharp.Domain.Crossovers
 		/// </summary>
 		/// <value>The children number.</value>
 		int ChildrenNumber  { get; }
+
+		/// <summary>
+		/// Gets the minimum length of the chromosome supported by the crossover.
+		/// </summary>
+		/// <value>The minimum length of the chromosome.</value>
+		int MinChromosomeLength { get; }
 		#endregion
 
 		#region Methods

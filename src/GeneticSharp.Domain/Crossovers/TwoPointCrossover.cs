@@ -25,7 +25,7 @@ namespace GeneticSharp.Domain.Crossovers
 		/// <param name="swapPointOneGeneIndex">Swap point one gene index.</param>
 		/// <param name="swapPointTwoGeneIndex">Swap point two gene index.</param>
         public TwoPointCrossover(int swapPointOneGeneIndex, int swapPointTwoGeneIndex)
-            : base(2, 2)
+            : base(2, 2, 3)
         {
             if (swapPointOneGeneIndex >= swapPointTwoGeneIndex)
             {
@@ -69,14 +69,7 @@ namespace GeneticSharp.Domain.Crossovers
             var firstParent = parents[0];
             var secondParent = parents[1];
             var parentLength = firstParent.Length;
-
-            if (parentLength < 3)
-            {
-                throw new ArgumentOutOfRangeException("parents", "A Two Point Crossover needs chromosomes with, at least, 3 genes.");
-            }
-
             var swapPointsLength = parentLength - 1;
-
 
             if (SwapPointTwoGeneIndex >= swapPointsLength)
             {

@@ -84,6 +84,11 @@
     <Compile Include="Mutations\MutationService.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
     <Compile Include="Selections\SelectionService.cs" />
+    <Compile Include="Crossovers\PartiallyMappedCrossover.cs" />
+    <Compile Include="Chromosomes\ChromosomeExtensions.cs" />
+    <Compile Include="Terminations\ITermination.cs" />
+    <Compile Include="Terminations\GenerationNumberTermination.cs" />
+    <Compile Include="Terminations\TerminationBase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -104,5 +109,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Helpers\" />
+    <Folder Include="Terminations\" />
   </ItemGroup>
 </Project>

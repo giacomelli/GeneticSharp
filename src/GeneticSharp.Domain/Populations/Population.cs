@@ -9,6 +9,7 @@ using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Selections;
+using GeneticSharp.Domain.Terminations;
 
 namespace GeneticSharp.Domain.Populations
 {
@@ -39,6 +40,11 @@ namespace GeneticSharp.Domain.Populations
 		/// Occurs when best chromosome changed.
 		/// </summary>
 		public event EventHandler BestChromosomeChanged;
+
+		/// <summary>
+		/// Occurs when termination reached.
+		/// </summary>
+		public event EventHandler TerminationReached;
         #endregion
 
         #region Fields
@@ -88,6 +94,7 @@ namespace GeneticSharp.Domain.Populations
 			Selection = selection;
 			Crossover = crossover;
 			Mutation = mutation;
+			Termination = new GenerationNumberTermination (1);
 
 			Generations = new List<Generation> ();
 			CrossoverProbability = DefaultCrossoverProbability;
@@ -153,6 +160,11 @@ namespace GeneticSharp.Domain.Populations
 		public float MutationProbability  { get; set; }
 
 		/// <summary>
+		/// Gets or sets the termination condition.
+		/// </summary>
+		public ITermination Termination { get; set; }
+
+		/// <summary>
 		/// Gets the best chromosome.
 		/// </summary>
 		/// <value>The best chromosome.</value>
@@ -164,7 +176,7 @@ namespace GeneticSharp.Domain.Populations
 		/// Runs a generation.
 		/// </summary>
 		/// <param name="timeout">The timeout to run the generation.</param>
-		public void RunGeneration(int timeout = 0)
+		public bool RunGeneration(int timeout = 0)
 		{
 			if (Generations.Count == 0) {
 				CurrentGeneration = CreateNewGeneration (CreateInitialChromosomes ());
@@ -184,18 +196,31 @@ namespace GeneticSharp.Domain.Populations
             {
                 GenerationRan(this, EventArgs.Empty);
             }
+
+			if (Termination.HasReached (CurrentGeneration)) {
+				if (TerminationReached != null) {
+					TerminationReached (this, EventArgs.Empty);
+				}
+
+				return true;
+			}
+
+			return false;
 		}
 
 		/// <summary>
 		/// Runs the generations.
 		/// </summary>
-		/// <param name="generations">The number of generations to run.</param>
 		/// <param name="timeoutPerGeneration">Timeout per generation.</param>
-		public void RunGenerations(int generations, int timeoutPerGeneration = 0)
+		public bool RunGenerations(int timeoutPerGeneration = 0)
 		{
-			for (var i = 0; i < generations; i++) {
-				RunGeneration (timeoutPerGeneration);
-			}
+			bool terminationConditionReached = false;
+
+			do {
+				terminationConditionReached = RunGeneration (timeoutPerGeneration);
+			} while(!terminationConditionReached);
+
+			return terminationConditionReached;
 		}
 
 		/// <summary>

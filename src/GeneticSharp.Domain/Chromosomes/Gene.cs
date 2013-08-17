@@ -7,7 +7,7 @@ namespace GeneticSharp.Domain.Chromosomes
 	/// Represents a gene of a chromosome.
 	/// </summary>
     [DebuggerDisplay("{Value}")]
-	public sealed class Gene : IComparable<Gene>
+	public sealed class Gene : IEquatable<Gene>
 	{
 		#region Constructors
 		/// <summary>
@@ -21,7 +21,7 @@ namespace GeneticSharp.Domain.Chromosomes
 		/// Initializes a new instance of the <see cref="GeneticSharp.Domain.Chromosomes.Gene"/> class.
 		/// </summary>
 		/// <param name="value">The gene intial value.</param>
-		public Gene(IComparable value)
+		public Gene(object value)
 		{
 			Value = value;
 		}
@@ -32,29 +32,25 @@ namespace GeneticSharp.Domain.Chromosomes
 		/// Gets or sets the value.
 		/// </summary>
 		/// <value>The value.</value>
-		public IComparable Value { get; set; }
+		public Object Value { get; set; }
 		#endregion
+	
 
 		#region Methods
-        /// <summary>
-        /// Compares the current object with another object of the same type.
-        /// </summary>
-        /// <returns>The to.</returns>
-        /// <param name="other">Other.</param>
-		public int CompareTo(Gene other)
+		/// <summary>
+		/// Determines whether the specified <see cref="GeneticSharp.Domain.Chromosomes.Gene"/> is equal to the current <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>.
+		/// </summary>
+		/// <param name="other">The <see cref="GeneticSharp.Domain.Chromosomes.Gene"/> to compare with the current <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>.</param>
+		/// <returns><c>true</c> if the specified <see cref="GeneticSharp.Domain.Chromosomes.Gene"/> is equal to the current
+		/// <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>; otherwise, <c>false</c>.</returns>
+		public bool Equals (Gene other)
 		{
 			if (other == null)
 			{
-				return -1;
+				return false;
 			}
 
-			if (Value == null) {
-				return 1;
-			}
-
-			var otherValue = other.Value;
-
-			return Value.CompareTo (otherValue);
+			return Value.Equals (other.Value);
 		}
 
 		/// <summary>
@@ -72,7 +68,7 @@ namespace GeneticSharp.Domain.Chromosomes
 				return false;
 			}
 
-			return CompareTo(other) == 0;
+			return Value.Equals(other.Value);
 		}
 
 		/// <summary>
@@ -104,7 +100,7 @@ namespace GeneticSharp.Domain.Chromosomes
 				return false;
 			}
 
-			return first.CompareTo(second) == 0;
+			return first.Equals(second);
 		}
 
 		/// <param name="first">First.</param>
@@ -112,33 +108,6 @@ namespace GeneticSharp.Domain.Chromosomes
 		public static bool operator !=(Gene first, Gene second)
 		{
 			return !(first == second);
-		}
-
-		/// <param name="first">First.</param>
-		/// <param name="second">Second.</param>
-		public static bool operator <(Gene first, Gene second)
-		{
-			if (Object.ReferenceEquals(first, second))
-			{
-				return false;
-			}
-			else if ((object)first == null)
-			{
-				return true;
-			}
-			else if ((object)second == null)
-			{
-				return false;
-			}
-
-			return first.CompareTo(second) < 0;
-		}
-
-		/// <param name="first">First.</param>
-		/// <param name="second">Second.</param>
-		public static bool operator >(Gene first, Gene second)
-		{
-			return !(first == second) && !(first < second);
 		}
 		#endregion
 	}

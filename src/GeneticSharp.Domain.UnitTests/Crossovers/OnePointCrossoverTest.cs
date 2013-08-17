@@ -5,6 +5,7 @@ using GeneticSharp.Domain.Crossovers;
 using NUnit.Framework;
 using Rhino.Mocks;
 using TestSharp;
+using HelperSharp;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
@@ -17,7 +18,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             var target = new OnePointCrossover(1);
             var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(1);
 
-            ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("parents", "The swap point index is 1, but there is only 1 genes. The swap should result at least one gene to each side."), () =>
+			ExceptionAssert.IsThrowing(new CrossoverException(target, "A chromosome should have, at least, 2 genes. {0} has only 1 gene.".With(chromosome1.GetType().Name)), () =>
             {
                 target.Cross(new List<IChromosome>() {
                     chromosome1,

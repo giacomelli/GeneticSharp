@@ -7,6 +7,7 @@ using GeneticSharp.Extensions.Tsp;
 using GeneticSharp.Domain.Selections;
 using TestSharp;
 using GeneticSharp.Domain.Randomizations;
+using GeneticSharp.Domain.Terminations;
 
 namespace GeneticSharp.Extensions.UnitTests
 {
@@ -33,9 +34,11 @@ namespace GeneticSharp.Extensions.UnitTests
             population.RunGeneration();
             var firstDistance = ((TspChromosome)population.BestChromosome).Distance;
 
+			population.Termination = new GenerationNumberTermination (1001);
+
             TimeAssert.LessThan(3000, () =>
             {
-                population.RunGenerations(1000);
+                population.RunGenerations();
             });
 
             var lastDistance = ((TspChromosome)population.BestChromosome).Distance;

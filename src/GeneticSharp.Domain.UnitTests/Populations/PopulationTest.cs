@@ -9,8 +9,9 @@ using GeneticSharp.Domain.Selections;
 using HelperSharp;
 using NUnit.Framework;
 using Rhino.Mocks;
-using TestSharp;
+using TestSharp; 
 using GeneticSharp.Domain.Randomizations;
+using GeneticSharp.Domain.Terminations;
 
 namespace GeneticSharp.Domain.UnitTests.Populations
 {
@@ -153,7 +154,8 @@ namespace GeneticSharp.Domain.UnitTests.Populations
             Assert.IsInstanceOf<OnePointCrossover>(target.Crossover);
             Assert.IsInstanceOf<UniformMutation>(target.Mutation);
 
-			target.RunGenerations (25);
+			target.Termination = new GenerationNumberTermination (25);
+			target.RunGenerations ();
 			Assert.AreEqual(25, target.Generations.Count);
 
 			var lastFitness = 0.0;
@@ -236,8 +238,10 @@ namespace GeneticSharp.Domain.UnitTests.Populations
                 chromosome,
                 new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
 
+			target.Termination = new GenerationNumberTermination (100);
+
 			TimeAssert.LessThan (200, () => {
-				target.RunGenerations(100);
+				target.RunGenerations();
 			});
            
             Assert.AreEqual(100, target.Generations.Count);        

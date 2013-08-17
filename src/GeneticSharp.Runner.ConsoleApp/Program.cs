@@ -9,6 +9,7 @@ using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Extensions.Tsp;
+using GeneticSharp.Domain.Terminations;
 
 namespace GeneticSharp.Runner.ConsoleApp
 {
@@ -32,11 +33,12 @@ namespace GeneticSharp.Runner.ConsoleApp
                 fitness,
                 selection, crossover, mutation);
 
+			population.Termination = new GenerationNumberTermination (1000);
             population.GenerationRan += delegate { Console.Write("."); };
 
             var sw = new Stopwatch();
             sw.Start();
-            population.RunGenerations(1000);
+            population.RunGenerations();
             sw.Stop();
 
             Console.WriteLine("\nDone in {0}.", sw.Elapsed);

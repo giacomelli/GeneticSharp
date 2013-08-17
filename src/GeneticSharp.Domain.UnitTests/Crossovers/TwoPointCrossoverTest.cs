@@ -5,6 +5,7 @@ using GeneticSharp.Domain.Crossovers;
 using NUnit.Framework;
 using Rhino.Mocks;
 using TestSharp;
+using HelperSharp;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
@@ -32,7 +33,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(2);
 
 
-            ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("parents", "A Two Point Crossover needs chromosomes with, at least, 3 genes."), () =>
+			ExceptionAssert.IsThrowing(new CrossoverException(target, "A chromosome should have, at least, 3 genes. {0} has only 2 gene.".With(chromosome1.GetType().Name)), () =>
             {
                 target.Cross(new List<IChromosome>() {
                     chromosome1,

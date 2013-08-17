@@ -10,6 +10,7 @@ using GeneticSharp.Extensions.Tsp;
 using Gtk;
 using HelperSharp;
 using GeneticSharp.Runner.GtkApp;
+using GeneticSharp.Domain.Terminations;
 
 /// <summary>
 /// Main window.
@@ -133,7 +134,8 @@ public partial class MainWindow: Gtk.Window
 			m_population.GenerationRan += HandleGenerationRan; 
 	        m_currentGenerationsBeginDateTime = DateTime.Now;
 
-	        m_population.RunGenerations(Convert.ToInt32(sbtGenerations.Value)); 
+			m_population.Termination = new GenerationNumberTermination(Convert.ToInt32(sbtGenerations.Value));
+	        m_population.RunGenerations(); 
 		}
 		catch(Exception ex) {
 			var msg = new MessageDialog (this, DialogFlags.Modal, MessageType.Error, ButtonsType.YesNo, "{0}\n\nDo you want to see more details about this error?", ex.Message);

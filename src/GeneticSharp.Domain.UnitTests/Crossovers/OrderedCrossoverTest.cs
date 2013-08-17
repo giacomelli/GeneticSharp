@@ -71,7 +71,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             });
             chromosome2.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(10));
 
-            ExceptionAssert.IsThrowing(new CrossoverException(target, "The Ordered Crossover (OX1) can be only used with ordered chromosomes. The specified chromosome has 1 repeated genes."), () =>
+            ExceptionAssert.IsThrowing(new CrossoverException(target, "The Ordered Crossover (OX1) can be only used with ordered chromosomes. The specified chromosome has repeated genes."), () =>
             {
                 target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });       
             });            
@@ -118,12 +118,12 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 			// Child one: 0 4 7 3 6 2 5 1 8 9 
             // Child two: 8 2 1 3 4 5 6 7 9 0
             var rnd = MockRepository.GenerateMock<IRandomization>();
-            rnd.Expect(r => r.GetInts(2, 0, 10)).Return(new int[] { 3, 7 });
+            rnd.Expect(r => r.GetUniqueInts(2, 0, 10)).Return(new int[] { 7, 3 });
             RandomizationProvider.Current = rnd;
 
 			IList<IChromosome> actual = null;;
 
-			TimeAssert.LessThan (10, () => {
+			TimeAssert.LessThan (30, () => {
 				actual = target.Cross (new List<IChromosome> () { chromosome1, chromosome2 });
 			});
 
