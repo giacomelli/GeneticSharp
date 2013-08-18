@@ -31,6 +31,7 @@ namespace GeneticSharp.Domain.Populations
 			}
 
 			Number = number;
+			CreationDate = DateTime.Now;
 			Chromosomes = chromosomes;
 		}
 		#endregion
@@ -41,6 +42,11 @@ namespace GeneticSharp.Domain.Populations
 		/// </summary>
 		/// <value>The number.</value>
 		public int Number { get; private set; }
+
+		/// <summary>
+		/// Gets the creation date.
+		/// </summary>
+		public DateTime CreationDate { get; private set; }
 
 		/// <summary>
 		/// Gets or sets the chromosomes.

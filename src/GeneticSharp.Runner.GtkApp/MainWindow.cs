@@ -11,6 +11,7 @@ using Gtk;
 using HelperSharp;
 using GeneticSharp.Runner.GtkApp;
 using GeneticSharp.Domain.Terminations;
+using System.Threading;
 
 /// <summary>
 /// Main window.
@@ -23,11 +24,11 @@ public partial class MainWindow: Gtk.Window
 	private Gdk.GC m_gc;
 	private Pango.Layout m_layout;
 	private Pixmap m_buffer;
-    private DateTime m_currentGenerationsBeginDateTime;
     private TimeSpan? m_currentGenerationsTimeSpend;
 	private ISelection m_selection;
 	private ICrossover m_crossover;
 	private IMutation m_mutation;
+	private ITermination m_termination;
 	#endregion
 
 	#region Constructors
@@ -37,7 +38,8 @@ public partial class MainWindow: Gtk.Window
 	
 		DeleteEvent+=delegate {Application.Quit(); };
 		btnGenerateCities.Clicked += delegate { GenerateCities(); };
-        btnRunGenerations.Clicked += delegate { Run(); };
+		btnRunGenerations.Clicked += delegate { Run(); };
+
 		btnEditSelection.Clicked += delegate {
 			m_selection = ShowEditorProperty<ISelection>(SelectionService.GetSelectionTypeByName(cmbSelection.ActiveText), m_selection);
 		};
@@ -50,6 +52,10 @@ public partial class MainWindow: Gtk.Window
 			m_mutation = ShowEditorProperty<IMutation>(MutationService.GetMutationTypeByName(cmbMutation.ActiveText), m_mutation);
 		};
 
+		btnEditTermination.Clicked += delegate {
+			m_termination = ShowEditorProperty<ITermination>(TerminationService.GetTerminationTypeByName(cmbTermination.ActiveText), m_termination);
+		};
+
 		m_gc = new Gdk.GC(drawingArea.GdkWindow);
 		m_gc.RgbFgColor = new Gdk.Color(255,50,50);
 		m_gc.RgbBgColor = new Gdk.Color(255, 255, 255);
@@ -60,7 +66,7 @@ public partial class MainWindow: Gtk.Window
 		m_layout.Alignment = Pango.Alignment.Center;
 		m_layout.FontDescription = Pango.FontDescription.FromString("Arial 16");	
 
-		hslNumberOfCities.ValueChanged += delegate {
+		spbCitiesNumber.ValueChanged += delegate {
 			GenerateCities();
 		};
 
@@ -76,10 +82,12 @@ public partial class MainWindow: Gtk.Window
 		LoadComboBox (cmbSelection, SelectionService.GetSelectionNames ());
 		LoadComboBox (cmbCrossover, CrossoverService.GetCrossoverNames ());
 		LoadComboBox (cmbMutation, MutationService.GetMutationNames ());
+		LoadComboBox (cmbTermination, TerminationService.GetTerminationNames ());
 
 		m_selection = SelectionService.CreateSelectionByName (cmbSelection.ActiveText);
 		m_crossover = CrossoverService.CreateCrossoverByName (cmbCrossover.ActiveText);
 		m_mutation = MutationService.CreateMutationByName(cmbMutation.ActiveText);
+		m_termination = TerminationService.CreateTerminationByName (cmbTermination.ActiveText);
 
 		cmbSelection.Changed += delegate {
 			m_selection = SelectionService.CreateSelectionByName (cmbSelection.ActiveText);
@@ -96,6 +104,11 @@ public partial class MainWindow: Gtk.Window
 			ShowButtonByEditableProperties(btnEditMutation, m_mutation);
 		};
 
+		cmbTermination.Changed += delegate {
+			m_termination = TerminationService.CreateTerminationByName(cmbTermination.ActiveText);
+			ShowButtonByEditableProperties(btnEditTermination, m_termination);
+		};
+
 		hslCrossoverProbability.Value = Population.DefaultCrossoverProbability;
 		hslMutationProbability.Value = Population.DefaultMutationProbability;
 
@@ -105,6 +118,7 @@ public partial class MainWindow: Gtk.Window
 		ShowButtonByEditableProperties(btnEditSelection, m_selection);
 		ShowButtonByEditableProperties(btnEditCrossover, m_crossover);
 		ShowButtonByEditableProperties(btnEditMutation, m_mutation);
+		ShowButtonByEditableProperties(btnEditTermination, m_termination);
 
 		ResetBuffer ();
 		UpdateMap ();	
@@ -116,7 +130,8 @@ public partial class MainWindow: Gtk.Window
     {
 		try {
 			if (m_population != null) {
-				m_population.GenerationRan -= HandleGenerationRan;
+				m_population.GenerationRan -= HandlePopulationUpdated;
+				m_population.TerminationReached -= HandlePopulationUpdated;
 				m_currentGenerationsTimeSpend = null;
 			}        
 
@@ -131,10 +146,10 @@ public partial class MainWindow: Gtk.Window
 
 			m_population.CrossoverProbability = Convert.ToSingle(hslCrossoverProbability.Value);
 			m_population.MutationProbability = Convert.ToSingle(hslMutationProbability.Value);
-			m_population.GenerationRan += HandleGenerationRan; 
-	        m_currentGenerationsBeginDateTime = DateTime.Now;
-
-			m_population.Termination = new GenerationNumberTermination(Convert.ToInt32(sbtGenerations.Value));
+			m_population.GenerationRan += HandlePopulationUpdated;
+			m_population.TerminationReached -= HandlePopulationUpdated;
+	    
+			m_population.Termination = m_termination;
 	        m_population.RunGenerations(); 
 		}
 		catch(Exception ex) {
@@ -153,8 +168,8 @@ public partial class MainWindow: Gtk.Window
 
 	private void GenerateCities()
 	{
-		int numberOfCities = Convert.ToInt32(hslNumberOfCities.Value - (hslNumberOfCities.Value % 2));
-		hslNumberOfCities.Value = numberOfCities;
+		int numberOfCities = Convert.ToInt32(spbCitiesNumber.Value - (spbCitiesNumber.Value % 2));
+		spbCitiesNumber.Value = numberOfCities;
 		m_fitness = new TspFitness (numberOfCities, 50, drawingArea.Allocation.Width -50, 50, drawingArea.Allocation.Height - 50);
 	
 		DrawCities ();
@@ -181,9 +196,9 @@ public partial class MainWindow: Gtk.Window
 		}
 	}
 
-	void HandleGenerationRan (object sender, EventArgs e)
+	void HandlePopulationUpdated (object sender, EventArgs e)
 	{
-        m_currentGenerationsTimeSpend = DateTime.Now - m_currentGenerationsBeginDateTime;
+        m_currentGenerationsTimeSpend = DateTime.Now - m_population.Generations[0].CreationDate;
 		UpdateMap ();
 	}
 

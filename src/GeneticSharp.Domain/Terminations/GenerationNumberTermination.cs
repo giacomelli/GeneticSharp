@@ -1,5 +1,6 @@
 using System;
 using GeneticSharp.Domain.Populations;
+using System.ComponentModel;
 
 namespace GeneticSharp.Domain.Terminations
 {
@@ -9,9 +10,20 @@ namespace GeneticSharp.Domain.Terminations
 	/// The genetic algorithm will be terminate when a number of generation be reached.
 	/// </remarks>
 	/// </summary>
+	[DisplayName("Generation Number")]
 	public class GenerationNumberTermination : ITermination
 	{
 		#region Constructors
+		/// <summary>
+		/// Initializes a new instance of the <see cref="GeneticSharp.Domain.Terminations.GenerationNumberTermination"/> class.
+		/// </summary>
+		/// <remarks>
+		/// The defaul generation number is 100.
+		/// </remarks>
+		public GenerationNumberTermination () : this(100)
+		{
+		}
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GeneticSharp.Domain.Terminations.GenerationNumberTermination"/> class.
 		/// </summary>
@@ -27,7 +39,7 @@ namespace GeneticSharp.Domain.Terminations
 		/// Gets or sets the generation number to consider that termination has been reached.
 		/// </summary>
 		/// <value>The generation number.</value>
-		private int GenerationNumber { get; set; }
+		public int GenerationNumber { get; set; }
 		#endregion
 
 

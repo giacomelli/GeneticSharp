@@ -6,7 +6,7 @@ public partial class MainWindow
 	private global::Gtk.DrawingArea drawingArea;
 	private global::Gtk.VBox vbxButtonBar;
 	private global::Gtk.Label label4;
-	private global::Gtk.HScale hslNumberOfCities;
+	private global::Gtk.SpinButton spbCitiesNumber;
 	private global::Gtk.Button btnGenerateCities;
 	private global::Gtk.HSeparator hseparator1;
 	private global::Gtk.Label label1;
@@ -38,9 +38,11 @@ public partial class MainWindow
 	private global::Gtk.ComboBox cmbMutation;
 	private global::Gtk.Button btnEditMutation;
 	private global::Gtk.HSeparator hseparator3;
-	private global::Gtk.HBox hbox4;
-	private global::Gtk.Label label6;
-	private global::Gtk.SpinButton sbtGenerations;
+	private global::Gtk.Label label11;
+	private global::Gtk.HBox hbox10;
+	private global::Gtk.ComboBox cmbTermination;
+	private global::Gtk.Button btnEditTermination;
+	private global::Gtk.HSeparator hseparator6;
 	private global::Gtk.Button btnRunGenerations;
 
 	protected virtual void Build ()
@@ -81,20 +83,16 @@ public partial class MainWindow
 		w2.Expand = false;
 		w2.Fill = false;
 		// Container child vbxButtonBar.Gtk.Box+BoxChild
-		this.hslNumberOfCities = new global::Gtk.HScale (null);
-		this.hslNumberOfCities.CanFocus = true;
-		this.hslNumberOfCities.Name = "hslNumberOfCities";
-		this.hslNumberOfCities.Adjustment.Lower = 2;
-		this.hslNumberOfCities.Adjustment.Upper = 102;
-		this.hslNumberOfCities.Adjustment.PageIncrement = 10;
-		this.hslNumberOfCities.Adjustment.PageSize = 2;
-		this.hslNumberOfCities.Adjustment.StepIncrement = 2;
-		this.hslNumberOfCities.Adjustment.Value = 20;
-		this.hslNumberOfCities.DrawValue = true;
-		this.hslNumberOfCities.Digits = 0;
-		this.hslNumberOfCities.ValuePos = ((global::Gtk.PositionType)(2));
-		this.vbxButtonBar.Add (this.hslNumberOfCities);
-		global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vbxButtonBar [this.hslNumberOfCities]));
+		this.spbCitiesNumber = new global::Gtk.SpinButton (2, 10000, 1);
+		this.spbCitiesNumber.CanFocus = true;
+		this.spbCitiesNumber.Name = "spbCitiesNumber";
+		this.spbCitiesNumber.Adjustment.PageIncrement = 10;
+		this.spbCitiesNumber.Adjustment.PageSize = 1;
+		this.spbCitiesNumber.ClimbRate = 1;
+		this.spbCitiesNumber.Numeric = true;
+		this.spbCitiesNumber.Value = 20;
+		this.vbxButtonBar.Add (this.spbCitiesNumber);
+		global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vbxButtonBar [this.spbCitiesNumber]));
 		w3.Position = 1;
 		w3.Expand = false;
 		w3.Fill = false;
@@ -400,36 +398,51 @@ public partial class MainWindow
 		w34.Expand = false;
 		w34.Fill = false;
 		// Container child vbxButtonBar.Gtk.Box+BoxChild
-		this.hbox4 = new global::Gtk.HBox ();
-		this.hbox4.Name = "hbox4";
-		this.hbox4.Spacing = 6;
-		// Container child hbox4.Gtk.Box+BoxChild
-		this.label6 = new global::Gtk.Label ();
-		this.label6.Name = "label6";
-		this.label6.LabelProp = global::Mono.Unix.Catalog.GetString ("Generations");
-		this.hbox4.Add (this.label6);
-		global::Gtk.Box.BoxChild w35 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.label6]));
-		w35.Position = 0;
+		this.label11 = new global::Gtk.Label ();
+		this.label11.Name = "label11";
+		this.label11.LabelProp = global::Mono.Unix.Catalog.GetString ("Termination");
+		this.vbxButtonBar.Add (this.label11);
+		global::Gtk.Box.BoxChild w35 = ((global::Gtk.Box.BoxChild)(this.vbxButtonBar [this.label11]));
+		w35.Position = 19;
 		w35.Expand = false;
 		w35.Fill = false;
-		// Container child hbox4.Gtk.Box+BoxChild
-		this.sbtGenerations = new global::Gtk.SpinButton (2, 10000, 1);
-		this.sbtGenerations.CanFocus = true;
-		this.sbtGenerations.Name = "sbtGenerations";
-		this.sbtGenerations.Adjustment.PageIncrement = 10;
-		this.sbtGenerations.ClimbRate = 1;
-		this.sbtGenerations.Numeric = true;
-		this.sbtGenerations.Value = 100;
-		this.hbox4.Add (this.sbtGenerations);
-		global::Gtk.Box.BoxChild w36 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.sbtGenerations]));
-		w36.Position = 1;
+		// Container child vbxButtonBar.Gtk.Box+BoxChild
+		this.hbox10 = new global::Gtk.HBox ();
+		this.hbox10.Name = "hbox10";
+		this.hbox10.Spacing = 6;
+		// Container child hbox10.Gtk.Box+BoxChild
+		this.cmbTermination = global::Gtk.ComboBox.NewText ();
+		this.cmbTermination.WidthRequest = 200;
+		this.cmbTermination.Name = "cmbTermination";
+		this.hbox10.Add (this.cmbTermination);
+		global::Gtk.Box.BoxChild w36 = ((global::Gtk.Box.BoxChild)(this.hbox10 [this.cmbTermination]));
+		w36.Position = 0;
 		w36.Expand = false;
 		w36.Fill = false;
-		this.vbxButtonBar.Add (this.hbox4);
-		global::Gtk.Box.BoxChild w37 = ((global::Gtk.Box.BoxChild)(this.vbxButtonBar [this.hbox4]));
-		w37.Position = 19;
+		// Container child hbox10.Gtk.Box+BoxChild
+		this.btnEditTermination = new global::Gtk.Button ();
+		this.btnEditTermination.CanFocus = true;
+		this.btnEditTermination.Name = "btnEditTermination";
+		this.btnEditTermination.UseUnderline = true;
+		this.btnEditTermination.Label = global::Mono.Unix.Catalog.GetString ("Edit");
+		this.hbox10.Add (this.btnEditTermination);
+		global::Gtk.Box.BoxChild w37 = ((global::Gtk.Box.BoxChild)(this.hbox10 [this.btnEditTermination]));
+		w37.Position = 1;
 		w37.Expand = false;
 		w37.Fill = false;
+		this.vbxButtonBar.Add (this.hbox10);
+		global::Gtk.Box.BoxChild w38 = ((global::Gtk.Box.BoxChild)(this.vbxButtonBar [this.hbox10]));
+		w38.Position = 20;
+		w38.Expand = false;
+		w38.Fill = false;
+		// Container child vbxButtonBar.Gtk.Box+BoxChild
+		this.hseparator6 = new global::Gtk.HSeparator ();
+		this.hseparator6.Name = "hseparator6";
+		this.vbxButtonBar.Add (this.hseparator6);
+		global::Gtk.Box.BoxChild w39 = ((global::Gtk.Box.BoxChild)(this.vbxButtonBar [this.hseparator6]));
+		w39.Position = 21;
+		w39.Expand = false;
+		w39.Fill = false;
 		// Container child vbxButtonBar.Gtk.Box+BoxChild
 		this.btnRunGenerations = new global::Gtk.Button ();
 		this.btnRunGenerations.CanFocus = true;
@@ -437,16 +450,16 @@ public partial class MainWindow
 		this.btnRunGenerations.UseUnderline = true;
 		this.btnRunGenerations.Label = global::Mono.Unix.Catalog.GetString ("_Run");
 		this.vbxButtonBar.Add (this.btnRunGenerations);
-		global::Gtk.Box.BoxChild w38 = ((global::Gtk.Box.BoxChild)(this.vbxButtonBar [this.btnRunGenerations]));
-		w38.Position = 20;
-		w38.Expand = false;
-		w38.Fill = false;
+		global::Gtk.Box.BoxChild w40 = ((global::Gtk.Box.BoxChild)(this.vbxButtonBar [this.btnRunGenerations]));
+		w40.Position = 22;
+		w40.Expand = false;
+		w40.Fill = false;
 		this.hbox1.Add (this.vbxButtonBar);
-		global::Gtk.Box.BoxChild w39 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.vbxButtonBar]));
-		w39.Position = 1;
-		w39.Expand = false;
-		w39.Fill = false;
-		w39.Padding = ((uint)(10));
+		global::Gtk.Box.BoxChild w41 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.vbxButtonBar]));
+		w41.Position = 1;
+		w41.Expand = false;
+		w41.Fill = false;
+		w41.Padding = ((uint)(10));
 		this.Add (this.hbox1);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();

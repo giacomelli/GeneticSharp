@@ -8,7 +8,7 @@
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <widget-library name="../bin/Debug/GeneticSharp.Runner.GtkApp.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="MainWindow" design-size="1090 565">
+  <widget class="Gtk.Window" id="MainWindow" design-size="1090 599">
     <property name="MemberName" />
     <property name="Title" translatable="yes">GeneticSharp :: Runner</property>
     <property name="Icon">file:./Icon.png</property>
@@ -50,18 +50,17 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.HScale" id="hslNumberOfCities">
+              <widget class="Gtk.SpinButton" id="spbCitiesNumber">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
                 <property name="Lower">2</property>
-                <property name="Upper">102</property>
+                <property name="Upper">10000</property>
                 <property name="PageIncrement">10</property>
-                <property name="PageSize">2</property>
-                <property name="StepIncrement">2</property>
+                <property name="PageSize">1</property>
+                <property name="StepIncrement">1</property>
+                <property name="ClimbRate">1</property>
+                <property name="Numeric">True</property>
                 <property name="Value">20</property>
-                <property name="DrawValue">True</property>
-                <property name="Digits">0</property>
-                <property name="ValuePos">Top</property>
               </widget>
               <packing>
                 <property name="Position">1</property>
@@ -481,13 +480,27 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.HBox" id="hbox4">
+              <widget class="Gtk.Label" id="label11">
+                <property name="MemberName" />
+                <property name="LabelProp" translatable="yes">Termination</property>
+              </widget>
+              <packing>
+                <property name="Position">19</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.HBox" id="hbox10">
                 <property name="MemberName" />
                 <property name="Spacing">6</property>
                 <child>
-                  <widget class="Gtk.Label" id="label6">
+                  <widget class="Gtk.ComboBox" id="cmbTermination">
                     <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">Generations</property>
+                    <property name="WidthRequest">200</property>
+                    <property name="IsTextCombo">True</property>
+                    <property name="Items" />
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -497,16 +510,12 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="Gtk.SpinButton" id="sbtGenerations">
+                  <widget class="Gtk.Button" id="btnEditTermination">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
-                    <property name="Lower">2</property>
-                    <property name="Upper">10000</property>
-                    <property name="PageIncrement">10</property>
-                    <property name="StepIncrement">1</property>
-                    <property name="ClimbRate">1</property>
-                    <property name="Numeric">True</property>
-                    <property name="Value">100</property>
+                    <property name="Type">TextOnly</property>
+                    <property name="Label" translatable="yes">Edit</property>
+                    <property name="UseUnderline">True</property>
                   </widget>
                   <packing>
                     <property name="Position">1</property>
@@ -517,7 +526,18 @@
                 </child>
               </widget>
               <packing>
-                <property name="Position">19</property>
+                <property name="Position">20</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.HSeparator" id="hseparator6">
+                <property name="MemberName" />
+              </widget>
+              <packing>
+                <property name="Position">21</property>
                 <property name="AutoSize">True</property>
                 <property name="Expand">False</property>
                 <property name="Fill">False</property>
@@ -532,7 +552,7 @@
                 <property name="UseUnderline">True</property>
               </widget>
               <packing>
-                <property name="Position">20</property>
+                <property name="Position">22</property>
                 <property name="AutoSize">True</property>
                 <property name="Expand">False</property>
                 <property name="Fill">False</property>
