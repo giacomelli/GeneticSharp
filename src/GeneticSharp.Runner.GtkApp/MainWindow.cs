@@ -12,6 +12,7 @@ using HelperSharp;
 using GeneticSharp.Runner.GtkApp;
 using GeneticSharp.Domain.Terminations;
 using System.Threading;
+using GeneticSharp.Domain;
 
 /// <summary>
 /// Main window.
@@ -19,16 +20,18 @@ using System.Threading;
 public partial class MainWindow: Gtk.Window
 {	
 	#region Fields
+	private GeneticAlgorithm m_ga;
 	private Population m_population;
 	private TspFitness m_fitness;
-	private Gdk.GC m_gc;
-	private Pango.Layout m_layout;
-	private Pixmap m_buffer;
-    private TimeSpan? m_currentGenerationsTimeSpend;
 	private ISelection m_selection;
 	private ICrossover m_crossover;
 	private IMutation m_mutation;
 	private ITermination m_termination;
+
+	private Gdk.GC m_gc;
+	private Pango.Layout m_layout;
+	private Pixmap m_buffer;
+    private TimeSpan? m_currentGenerationsTimeSpend;
 	#endregion
 
 	#region Constructors
@@ -109,8 +112,8 @@ public partial class MainWindow: Gtk.Window
 			ShowButtonByEditableProperties(btnEditTermination, m_termination);
 		};
 
-		hslCrossoverProbability.Value = Population.DefaultCrossoverProbability;
-		hslMutationProbability.Value = Population.DefaultMutationProbability;
+		hslCrossoverProbability.Value = GeneticAlgorithm.DefaultCrossoverProbability;
+		hslMutationProbability.Value = GeneticAlgorithm.DefaultMutationProbability;
 
 		cmbCrossover.Active = 1;
 
@@ -129,28 +132,31 @@ public partial class MainWindow: Gtk.Window
     private void Run()
     {
 		try {
-			if (m_population != null) {
-				m_population.GenerationRan -= HandlePopulationUpdated;
-				m_population.TerminationReached -= HandlePopulationUpdated;
+			if (m_ga != null) {
+				m_ga.GenerationRan -= HandleGAUpdated;
+				m_ga.TerminationReached -= HandleGAUpdated;
 				m_currentGenerationsTimeSpend = null;
 			}        
-
-			var chromosome = new TspChromosome(m_fitness.Cities.Count);
 
 			m_population = new Population(
 				Convert.ToInt32(sbtPopulationMinSize.Value),
 				Convert.ToInt32(sbtPopulationMaxSize.Value),
-				chromosome,
-				m_fitness,
-				m_selection, m_crossover, m_mutation);
+				new TspChromosome(m_fitness.Cities.Count));
 
-			m_population.CrossoverProbability = Convert.ToSingle(hslCrossoverProbability.Value);
-			m_population.MutationProbability = Convert.ToSingle(hslMutationProbability.Value);
-			m_population.GenerationRan += HandlePopulationUpdated;
-			m_population.TerminationReached -= HandlePopulationUpdated;
+			m_ga = new GeneticAlgorithm(
+				m_population,
+				m_fitness,
+				m_selection, 
+				m_crossover,
+				m_mutation);
+
+			m_ga.CrossoverProbability = Convert.ToSingle(hslCrossoverProbability.Value);
+			m_ga.MutationProbability = Convert.ToSingle(hslMutationProbability.Value);
+			m_ga.GenerationRan += HandleGAUpdated;
+			m_ga.TerminationReached -= HandleGAUpdated;
 	    
-			m_population.Termination = m_termination;
-	        m_population.RunGenerations(); 
+			m_ga.Termination = m_termination;
+			m_ga.Evolve(); 
 		}
 		catch(Exception ex) {
 			var msg = new MessageDialog (this, DialogFlags.Modal, MessageType.Error, ButtonsType.YesNo, "{0}\n\nDo you want to see more details about this error?", ex.Message);
@@ -171,7 +177,7 @@ public partial class MainWindow: Gtk.Window
 		int numberOfCities = Convert.ToInt32(spbCitiesNumber.Value - (spbCitiesNumber.Value % 2));
 		spbCitiesNumber.Value = numberOfCities;
 		m_fitness = new TspFitness (numberOfCities, 50, drawingArea.Allocation.Width -50, 50, drawingArea.Allocation.Height - 50);
-	
+
 		DrawCities ();
 		DrawBuffer ();
 	}
@@ -196,7 +202,7 @@ public partial class MainWindow: Gtk.Window
 		}
 	}
 
-	void HandlePopulationUpdated (object sender, EventArgs e)
+	void HandleGAUpdated (object sender, EventArgs e)
 	{
         m_currentGenerationsTimeSpend = DateTime.Now - m_population.Generations[0].CreationDate;
 		UpdateMap ();
@@ -207,7 +213,7 @@ public partial class MainWindow: Gtk.Window
 		DrawCities ();
 
 		if (m_population != null && m_population.CurrentGeneration != null) {
-			var genes = m_population.BestChromosome.GetGenes ();
+			var genes = m_ga.Population.BestChromosome.GetGenes ();
 
 			for (int i = 0; i < genes.Length; i += 2) {
 				var cityOneIndex = Convert.ToInt32 (genes [i].Value);
@@ -235,7 +241,7 @@ public partial class MainWindow: Gtk.Window
 			m_buffer.DrawLine (m_gc, lastCity.X, lastCity.Y, firstCity.X, firstCity.Y);
 		
 			WriteText(0, 0, "Generation: {0}", m_population.Generations.Count);
-			WriteText(0, 20, "Distance: {0:n2}", ((TspChromosome) m_population.BestChromosome).Distance);
+			WriteText(0, 20, "Distance: {0:n2}", ((TspChromosome) m_ga.Population.BestChromosome).Distance);
 			WriteText(0, 40, "Time: {0}", m_currentGenerationsTimeSpend);
 		}
 

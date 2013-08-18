@@ -10,6 +10,7 @@ using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Extensions.Tsp;
 using GeneticSharp.Domain.Terminations;
+using GeneticSharp.Domain;
 
 namespace GeneticSharp.Runner.ConsoleApp
 {
@@ -25,20 +26,15 @@ namespace GeneticSharp.Runner.ConsoleApp
             var mutation = new TworsMutation();
             var chromosome = new TspChromosome(numberOfCities);
             var fitness = new TspFitness(numberOfCities, 0, 1000, 0, 1000);
-
-            var population = new Population(
-                40,
-                40,
-                chromosome,
-                fitness,
-                selection, crossover, mutation);
-
-			population.Termination = new GenerationNumberTermination (1000);
-            population.GenerationRan += delegate { Console.Write("."); };
+			var population = new Population (40, 40, chromosome);
+	
+			var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
+			ga.Termination = new GenerationNumberTermination (1000);
+			ga.GenerationRan += delegate { Console.Write("."); };
 
             var sw = new Stopwatch();
             sw.Start();
-            population.RunGenerations();
+			ga.Evolve();
             sw.Stop();
 
             Console.WriteLine("\nDone in {0}.", sw.Elapsed);

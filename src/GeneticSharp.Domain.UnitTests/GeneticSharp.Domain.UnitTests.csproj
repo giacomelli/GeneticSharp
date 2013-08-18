@@ -77,6 +77,7 @@
     <Compile Include="Terminations\GenerationNumberTerminationTest.cs" />
     <Compile Include="Terminations\TimeTerminationTest.cs" />
     <Compile Include="Terminations\TerminationServiceTest.cs" />
+    <Compile Include="GeneticAlgorithmTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj">

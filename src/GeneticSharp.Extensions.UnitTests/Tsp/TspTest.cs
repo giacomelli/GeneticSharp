@@ -8,6 +8,7 @@ using GeneticSharp.Domain.Selections;
 using TestSharp;
 using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Terminations;
+using GeneticSharp.Domain;
 
 namespace GeneticSharp.Extensions.UnitTests
 {
@@ -15,7 +16,7 @@ namespace GeneticSharp.Extensions.UnitTests
 	public class TspTest
 	{
 		[Test()]
-		public void RunGenerations_ManyGenerations_Fast ()
+		public void Evolve_ManyGenerations_Fast ()
 		{
 			int numberOfCities = 40;
 			var selection = new EliteSelection();
@@ -24,24 +25,21 @@ namespace GeneticSharp.Extensions.UnitTests
 			var chromosome = new TspChromosome(numberOfCities);
 			var fitness = new TspFitness (numberOfCities, 0, 1000, 0, 1000);
 
-			var population = new Population(
-				40,
-				40,
-				chromosome,
-				fitness,
-				selection, crossover, mutation);
+			var population = new Population (40, 40, chromosome);
 
-            population.RunGeneration();
-            var firstDistance = ((TspChromosome)population.BestChromosome).Distance;
+			var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
 
-			population.Termination = new GenerationNumberTermination (1001);
+			ga.Evolve();
+			var firstDistance = ((TspChromosome)ga.Population.BestChromosome).Distance;
+
+			ga.Termination = new GenerationNumberTermination (1001);
 
             TimeAssert.LessThan(3000, () =>
             {
-                population.RunGenerations();
+                ga.Evolve();
             });
 
-            var lastDistance = ((TspChromosome)population.BestChromosome).Distance;
+			var lastDistance = ((TspChromosome)ga.Population.BestChromosome).Distance;
 
             Assert.Less(lastDistance, firstDistance);
 		}

@@ -91,6 +91,7 @@
     <Compile Include="Terminations\TerminationBase.cs" />
     <Compile Include="Terminations\TimeTermination.cs" />
     <Compile Include="Terminations\TerminationService.cs" />
+    <Compile Include="GeneticAlgorithm.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
