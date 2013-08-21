@@ -3,7 +3,7 @@ GeneticSharp
 
 GeneticSharp is a fast, extensible, multi-platform and multithreading C# Genetic Algorithm library that simplifies the development of applications using Genetic Algorithms (GAs).
 
-GeneticSharp can be used in ASP .NET MVC, Web Forms, Windows Forms, GTK# and Unity3D applications.
+Can be used in ASP .NET MVC, Web Forms, Windows Forms, GTK# and Unity3D applications.
 
 --------
 
@@ -50,7 +50,6 @@ Features
  - 100% code documentation
  - FxCop validated
  - Good (and good used) design patterns  
- - 
 
 --------
 
@@ -112,7 +111,7 @@ ga.Evolve();
 
 Roadmap
 --------
- - Improvement Runner.GtkApp
+ - Improve Runner.GtkApp
  - Create and publish NuGet package
  - Add new crossovers
  - Add new mutations
