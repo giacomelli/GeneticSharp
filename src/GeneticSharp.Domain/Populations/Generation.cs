@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using HelperSharp;
+using System.Linq;
+using GeneticSharp.Domain.Selections;
 
 namespace GeneticSharp.Domain.Populations
 {
@@ -59,6 +61,48 @@ namespace GeneticSharp.Domain.Populations
 		/// </summary>
 		/// <value>The best chromosome.</value>
 		public IChromosome BestChromosome { get; internal set; }
+		#endregion
+
+		#region Methods
+		/// <summary>
+		/// Elects the best chromosome.
+		/// </summary>
+		private void ElectBestChromosome()
+		{
+			var newBestChromosome = Chromosomes.First();
+			ValidateBestChromosome (newBestChromosome);
+
+			BestChromosome = newBestChromosome;
+		}
+
+		/// <summary>
+		/// Ends the generation.
+		/// </summary>
+		/// <param name="chromosomesNumber">Chromosomes number to keep on generation.</param>
+		public void End (int chromosomesNumber)
+		{
+			Chromosomes = Chromosomes.OrderByDescending (c => c.Fitness.Value).ToList ();
+
+            if(Chromosomes.Count > chromosomesNumber)
+			{
+                Chromosomes = Chromosomes.Take(chromosomesNumber).ToList();
+			}
+
+			ElectBestChromosome ();
+		}
+
+		/// <summary>
+		/// Validates the best chromosome.
+		/// </summary>
+		/// <param name="chromosome">Chromosome.</param>
+		private static void ValidateBestChromosome(IChromosome chromosome)
+		{
+			if (!chromosome.Fitness.HasValue) {
+				throw new InvalidOperationException (
+					"There is unknown problem in current generation, because BestChromosome should have a Fitness value. BestChromosome: Id:{0}, age: {1} and length: {2}"
+					.With (chromosome.Id, chromosome.Age, chromosome.Length));
+			}
+		}
 		#endregion
 	}
 }

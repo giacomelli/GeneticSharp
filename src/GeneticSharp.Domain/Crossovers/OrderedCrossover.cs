@@ -26,7 +26,7 @@ namespace GeneticSharp.Domain.Crossovers
     /// 
 	/// The order crossover operator (Figure 4) was proposed by Davis (1985). 
 	/// The OX1 exploits a property of the path representation, that the order of cities (not their positions) are important. 
-	/// <see href="http://lev4projdissertation.googlecode.com/svn-history/r100/trunk/reading/read/aiRev99.pdf>Genetic Algorithms for the Travelling Salesman Problem - A Review of Representations and Operators</see>
+	/// <see href="http://lev4projdissertation.googlecode.com/svn-history/r100/trunk/reading/read/aiRev99.pdf">Genetic Algorithms for the Travelling Salesman Problem - A Review of Representations and Operators</see>
 	/// 
     /// Order 1 Crossover is a fairly simple permutation crossover. 
     /// Basically, a swath of consecutive alleles from parent 1 drops down, 
@@ -80,7 +80,7 @@ namespace GeneticSharp.Domain.Crossovers
 		/// <param name="secondParent">Second parent.</param>
 		/// <param name="middleSectionBeginIndex">Middle section begin index.</param>
 		/// <param name="middleSectionEndIndex">Middle section end index.</param>
-		private IChromosome CreateChild(IChromosome firstParent, IChromosome secondParent, int middleSectionBeginIndex, int middleSectionEndIndex)
+		private static IChromosome CreateChild(IChromosome firstParent, IChromosome secondParent, int middleSectionBeginIndex, int middleSectionEndIndex)
 		{
 			var middleSectionGenes = firstParent.GetGenes ().Skip (middleSectionBeginIndex).Take ((middleSectionEndIndex - middleSectionBeginIndex) + 1);
 			var secondParentRemainingGenes = secondParent.GetGenes ().Except (middleSectionGenes).GetEnumerator ();		

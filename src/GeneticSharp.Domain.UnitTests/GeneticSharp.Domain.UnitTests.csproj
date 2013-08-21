@@ -49,7 +49,9 @@
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Chromosomes\ChromosomeBaseTest.cs" />
     <Compile Include="Crossovers\CrossoverBaseTest.cs" />
@@ -61,6 +63,8 @@
     <Compile Include="Mutations\UniformMutationTest.cs" />
     <Compile Include="Populations\ChromosomeStub.cs" />
     <Compile Include="Populations\GenerationTest.cs" />
+    <Compile Include="Populations\PerformanceGenerationStrategyTest.cs" />
+    <Compile Include="Populations\TrackingGenerationStrategyTest.cs" />
     <Compile Include="Randomizations\BasicRandomizationTest.cs" />
     <Compile Include="Randomizations\RandomizationProviderTest.cs" />
     <Compile Include="Populations\PopulationTest.cs" />
@@ -73,11 +77,14 @@
     <Compile Include="Selections\SelectionServiceTest.cs" />
     <Compile Include="Crossovers\PartiallyMappedCrossoverTest.cs" />
     <Compile Include="Chromosomes\ChromosomeExtensionsTest.cs" />
+    <Compile Include="Selections\TournamentSelectionTest.cs" />
     <Compile Include="Terminations\TerminationBaseTest.cs" />
     <Compile Include="Terminations\GenerationNumberTerminationTest.cs" />
-    <Compile Include="Terminations\TimeTerminationTest.cs" />
+    <Compile Include="Terminations\TimeEvolvingTerminationTest.cs" />
     <Compile Include="Terminations\TerminationServiceTest.cs" />
     <Compile Include="GeneticAlgorithmTest.cs" />
+    <Compile Include="Terminations\FitnessThresholdTerminationTest.cs" />
+    <Compile Include="Populations\PopulationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj">
@@ -89,8 +96,5 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Folder Include="Helpers\" />
-    <Folder Include="Terminations\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

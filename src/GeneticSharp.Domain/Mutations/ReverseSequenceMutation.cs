@@ -19,15 +19,15 @@ namespace GeneticSharp.Domain.Mutations
 	/// </remarks>
 	/// </summary>
     [DisplayName("Reverse Sequence (RSM)")]
-	public class ReverseSequenceMutation : IMutation
+    public class ReverseSequenceMutation : MutationBase
     {
-		#region IMutation implementation
+		#region Methods
 		/// <summary>
 		/// Mutate the specified chromosome.
 		/// </summary>
 		/// <param name="chromosome">The chromosome.</param>
 		/// <param name="probability">The probability to mutate each chromosome.</param>
-		public void Mutate (IChromosome chromosome, float probability)
+        protected override void PerformMutate(IChromosome chromosome, float probability)
 		{
 			if (chromosome.Length < 3)
 			{

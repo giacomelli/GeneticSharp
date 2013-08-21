@@ -13,7 +13,7 @@ namespace GeneticSharp.Domain.Mutations
     /// </remarks>
     /// </summary>
 	[DisplayName("Twors")]
-	public class TworsMutation : IMutation
+	public class TworsMutation : MutationBase
     {
         #region Methods
         /// <summary>
@@ -21,7 +21,7 @@ namespace GeneticSharp.Domain.Mutations
         /// </summary>
         /// <param name="chromosome">The chromosome.</param>
         /// <param name="probability">The probability to mutate each chromosome.</param>
-        public void Mutate(IChromosome chromosome, float probability)
+        protected override void PerformMutate(IChromosome chromosome, float probability)
         {
             if (chromosome.Length < 2)
             {

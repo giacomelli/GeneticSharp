@@ -67,6 +67,19 @@ namespace GeneticSharp.Domain.Chromosomes
 		/// </summary>
 		/// <returns>The new chromosome.</returns>
         public abstract IChromosome CreateNew();
+
+		/// <summary>
+		/// Creates a clone.
+		/// </summary>
+		public virtual IChromosome Clone()
+		{
+			var clone = CreateNew();
+			clone.ReplaceGenes (0, GetGenes ());
+			clone.Age = Age;
+			clone.Fitness = Fitness;
+
+			return clone;
+		}
 	       
 		/// <summary>
 		/// Replaces the gene in the specified index.

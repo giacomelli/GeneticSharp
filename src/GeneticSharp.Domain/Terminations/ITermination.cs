@@ -7,7 +7,7 @@ namespace GeneticSharp.Domain.Terminations
 	/// Defines the interface for a termination condition.
 	/// </summary>
 	/// <remarks>
-	/// <see href="http://en.wikipedia.org/wiki/Genetic_algorithm#Termination">Wikipedia</a> 
+	/// <see href="http://en.wikipedia.org/wiki/Genetic_algorithm#Termination">Wikipedia</see> 
 	/// </remarks>
 	public interface ITermination
 	{

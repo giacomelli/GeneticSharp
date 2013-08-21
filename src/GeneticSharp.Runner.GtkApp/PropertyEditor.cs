@@ -73,7 +73,12 @@ namespace GeneticSharp.Runner.GtkApp
 					spinButton.Value = Convert.ToDouble (value);
 					input = spinButton;
 				}
-				else if (p.PropertyType == typeof(float)) {
+				if (p.PropertyType == typeof(bool)) {
+					var toggle = new ToggleButton();
+					toggle.Active = Convert.ToBoolean (value);
+					input = toggle;
+				}
+				else if (p.PropertyType == typeof(float) || p.PropertyType == typeof(double)) {
 					var hScale = new HScale (0, 1, 0.05);
 
 					if (ObjectInstance != null) {
@@ -108,9 +113,13 @@ namespace GeneticSharp.Runner.GtkApp
 			foreach (var m in m_widgetMap) {
 				if (m.Key.PropertyType == typeof(int)) {
 					m.Key.SetValue (ObjectInstance, ((SpinButton)m.Value).ValueAsInt, new object[0]);
-				} else if (m.Key.PropertyType == typeof(float)) {
+				} else if (m.Key.PropertyType == typeof(bool)) {
+					m.Key.SetValue (ObjectInstance, ((ToggleButton)m.Value).Active, new object[0]);
+				}else if (m.Key.PropertyType == typeof(float)) {
 					m.Key.SetValue (ObjectInstance, Convert.ToSingle (((HScale)m.Value).Value), new object[0]);
-				} else if (m.Key.PropertyType == typeof(TimeSpan)) {
+				} else if (m.Key.PropertyType == typeof(double)) {
+					m.Key.SetValue (ObjectInstance, ((HScale)m.Value).Value, new object[0]);
+				}else if (m.Key.PropertyType == typeof(TimeSpan)) {
 					var hbox = (HBox)m.Value;
 					var seconds = ((SpinButton)hbox.Children [0]).Value;
 					m.Key.SetValue (ObjectInstance, TimeSpan.FromSeconds(seconds), new object[0]);

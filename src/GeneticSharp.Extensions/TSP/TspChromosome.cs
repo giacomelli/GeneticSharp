@@ -65,6 +65,17 @@ namespace GeneticSharp.Extensions.Tsp
 		{
 			return new TspChromosome(m_numberOfCities);
 		}
+
+		/// <summary>
+		/// Creates a clone.
+		/// </summary>
+		public override IChromosome Clone ()
+		{
+			var clone = base.Clone () as TspChromosome;
+			clone.Distance = Distance;
+
+			return clone;
+		}
 		#endregion
 	}
 }

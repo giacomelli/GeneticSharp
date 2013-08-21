@@ -1,20 +1,32 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Amib.Threading;
+using HelperSharp;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
+using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
-using HelperSharp;
-using Amib.Threading;
-using System.Linq;
-using GeneticSharp.Domain.Randomizations;
 
 namespace GeneticSharp.Domain
 {
-	public class GeneticAlgorithm
+	/// <summary>
+	/// A genetic algorithm (GA) is a search heuristic that mimics the process of natural selection. 
+	/// This heuristic (also sometimes called a metaheuristic) is routinely used to generate useful solutions 
+	/// to optimization and search problems.[1] Genetic algorithms belong to the larger class of evolutionary 
+	/// algorithms (EA), which generate solutions to optimization problems using techniques inspired by natural evolution, 
+	/// such as inheritance, mutation, selection, and crossover.
+	/// 
+	/// Genetic algorithms find application in bioinformatics, phylogenetics, computational science, engineering, 
+	/// economics, chemistry, manufacturing, mathematics, physics, pharmacometrics, game development and other fields.
+	/// 
+	/// <see href="http://http://en.wikipedia.org/wiki/Genetic_algorithm">Wikipedia</see>
+	/// </summary>
+	public sealed class GeneticAlgorithm : IDisposable
 	{
 		#region Fields
 		private SmartThreadPool m_threadPool;
@@ -48,8 +60,7 @@ namespace GeneticSharp.Domain
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GeneticSharp.Domain.GeneticAlgorithm"/> class.
 		/// </summary>
-		/// <param name="minSize">The minimum size (chromosomes).</param>
-		/// <param name="maxSize">The maximum size (chromosomes).</param>
+        /// <param name="population">The chromosomes population.</param>
 		/// <param name="fitness">The fitness evaluation function.</param>
 		/// <param name="selection">The selection operator.</param>
 		/// <param name="crossover">The crossover operator.</param>
@@ -75,6 +86,7 @@ namespace GeneticSharp.Domain
 
 			CrossoverProbability = DefaultCrossoverProbability;
 			MutationProbability = DefaultMutationProbability;
+			TimeEvolving = TimeSpan.Zero;
 		}
 		#endregion
 
@@ -120,46 +132,92 @@ namespace GeneticSharp.Domain
 		/// Gets or sets the termination condition.
 		/// </summary>
 		public ITermination Termination { get; set; }
+
+		/// <summary>
+		/// Gets the time evolving.
+		/// </summary>
+		public TimeSpan TimeEvolving { get; private set; }  
 		#endregion
 
 		#region Methods
-		public bool Evolve(int timeoutPerGeneration = 0)
+        /// <summary>
+        /// Evolves the genetic algorithm using population, fitness, selection, crossover, mutation and termination configured.
+        /// </summary>
+        /// <returns>True if termination condition has been reached.</returns>
+        public bool Evolve()
+        {
+            return Evolve(0);
+        }
+
+        /// <summary>
+        /// Evolves the genetic algorithm using population, fitness, selection, crossover, mutation and termination configured.
+        /// </summary>
+        /// <param name="timeoutPerGeneration">The timeout per generation.</param>
+        /// <returns>True if termination condition has been reached.</returns>
+		public bool Evolve(int timeoutPerGeneration)
 		{
+			var startDateTime = DateTime.Now;
 			bool terminationConditionReached = false;
+            
+            Population.CreateInitialGeneration();
+			if (EndCurrentGeneration (timeoutPerGeneration)) {
+				return true;
+			}
 
 			do {
 				terminationConditionReached = EvolveOneGeneration (timeoutPerGeneration);
+				TimeEvolving = DateTime.Now - startDateTime;
+
 			} while(!terminationConditionReached);
 
 			return terminationConditionReached;
 		}
 
+        /// <summary>
+        /// Aborts the evolution.
+        /// <remarks>
+        /// The default timeout is 60000 milliseconds.
+        /// </remarks>
+        /// </summary>
+        public void AbortEvolution()
+        {
+            AbortEvolution(60000);
+        }
+
 		/// <summary>
 		/// Aborts the evolution.
 		/// </summary>
 		/// <param name="timeout">Timeout to wait to abort.</param>
-		public void AbortEvolution (int timeout = 60000)
+		public void AbortEvolution (int timeout)
 		{
 			if (m_threadPool != null) {
 				m_threadPool.Shutdown (true, timeout);
 			}
 		}
 
+        /// <summary>
+        /// Evolve one generation.
+        /// </summary>
+        /// <param name="timeout">The timeout to evolve.</param>
+        /// <returns>True if termination has been reached, otherwise false.</returns>
 		private bool EvolveOneGeneration (int timeout = 0)
 		{
-			if (Population.Generations.Count == 0) {
-				Population.CreateInitialGeneration ();
-				EvaluateFitness (timeout);
-				Population.CurrentGeneration.Chromosomes = SelectParents ();
-			} else {
-				EvaluateFitness (timeout);
-				Population.CreateNewGeneration(SelectParents ());
-			}
+            var parents = SelectParents();
+            var children = Cross(parents);
+            Mutate(children);            
+            Population.CreateNewGeneration(children);
+			return EndCurrentGeneration (timeout);
+		}
 
-			Mutate (Cross ());
+		/// <summary>
+		/// Ends the current generation.
+		/// </summary>
+		/// <returns><c>true</c>, if current generation was ended, <c>false</c> otherwise.</returns>
+		/// <param name="timeout">Timeout.</param>
+		private bool EndCurrentGeneration(int timeout)
+		{
 			EvaluateFitness(timeout);
-			Population.ElectBestChromosome();
-			Population.FinalizeGeneration(Selection);
+			Population.EndCurrentGeneration ();
 
 			if (GenerationRan != null)
 			{
@@ -189,15 +247,16 @@ namespace GeneticSharp.Domain
 			}
 			else
 			{
-				EvaluateFitnessLinear(timeout);
+				EvaluateFitnessLinear();
 			}
+
+            Population.CurrentGeneration.Chromosomes = Population.CurrentGeneration.Chromosomes.OrderByDescending(c => c.Fitness.Value).ToList();
 		}
 
 		/// <summary>
 		/// Evaluates the fitness linear.
-		/// </summary>
-		/// <param name="timeout">Timeout.</param>
-		private void EvaluateFitnessLinear(int timeout)
+		/// </summary>		
+		private void EvaluateFitnessLinear()
 		{
 			var chromosomesWithoutFitness = Population.CurrentGeneration.Chromosomes.Where(c => !c.Fitness.HasValue);
 
@@ -306,21 +365,20 @@ namespace GeneticSharp.Domain
 		/// <summary>
 		/// Cross this instance.
 		/// </summary>
-		private IList<IChromosome> Cross ()
+		private IList<IChromosome> Cross (IList<IChromosome> parents)
 		{
 			var children = new List<IChromosome>();
 
 			for ( int i = 0; i < Population.MinSize; i += Crossover.ParentsNumber )
 			{
-				if (RandomizationProvider.Current.GetDouble() <= CrossoverProbability)
-				{
-					var child = Crossover.Cross (Population.CurrentGeneration.Chromosomes.Skip(i).Take(Crossover.ParentsNumber).ToList());
-					children.AddRange (child);
-				}
-			}
+				var selectedParents = parents.Skip (i).Take (Crossover.ParentsNumber).ToList ();
 
-			foreach (var c in children) {
-				Population.CurrentGeneration.Chromosomes.Add (c);
+				//  If match the probabilith cross is made, else not the offspring is an exact copy of the parents.
+				if (RandomizationProvider.Current.GetDouble () <= CrossoverProbability) {
+					children.AddRange ( Crossover.Cross (selectedParents));
+				} else {
+					children.AddRange (selectedParents.Select(c => c.Clone()));
+				}
 			}
 
 			return children;
@@ -337,7 +395,19 @@ namespace GeneticSharp.Domain
 				Mutation.Mutate (c, MutationProbability);
 			}
 		}
-		#endregion
-	}
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public void Dispose()
+        {
+            if (m_threadPool != null)
+            {
+                m_threadPool.Dispose();
+            }
+        }
+		#endregion       
+    }
 }
 

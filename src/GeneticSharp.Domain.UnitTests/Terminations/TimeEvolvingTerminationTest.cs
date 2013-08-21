@@ -9,12 +9,12 @@ using System.Threading;
 namespace GeneticSharp.Domain.UnitTests.Terminations
 {
 	[TestFixture()]
-	public class TimeTerminationTest
+	public class TimeEvolvingTerminationTest
 	{
 		[Test()]
 		public void HasReached_TimeLowerThanMaxTime_False ()
 		{
-			var target = new TimeTermination (TimeSpan.FromSeconds(1));
+			var target = new TimeEvolvingTermination (TimeSpan.FromSeconds(1));
 			Assert.IsFalse(target.HasReached( new Generation (1, new List<IChromosome>() { new ChromosomeStub(), new ChromosomeStub() })));
 			Assert.IsFalse(target.HasReached( new Generation (9, new List<IChromosome>() { new ChromosomeStub(), new ChromosomeStub() })));
 		}
@@ -22,9 +22,9 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
 		[Test()]
 		public void HasReached_TimeGreaterOrEqualMaxTime_True()
 		{
-			var target = new TimeTermination (TimeSpan.FromSeconds(1));
+			var target = new TimeEvolvingTermination (TimeSpan.FromSeconds(1));
 			Assert.IsFalse(target.HasReached(new Generation (1, new List<IChromosome>() { new ChromosomeStub(), new ChromosomeStub() })));
-			Thread.Sleep (1000);
+			Thread.Sleep (1001);
 			Assert.IsTrue(target.HasReached(new Generation (9, new List<IChromosome>() { new ChromosomeStub(), new ChromosomeStub() })));
 		}
 	}

@@ -60,7 +60,7 @@
                 <property name="StepIncrement">1</property>
                 <property name="ClimbRate">1</property>
                 <property name="Numeric">True</property>
-                <property name="Value">20</property>
+                <property name="Value">15</property>
               </widget>
               <packing>
                 <property name="Position">1</property>
@@ -143,6 +143,50 @@
                     <property name="Padding">3</property>
                   </packing>
                 </child>
+                <child>
+                  <widget class="Gtk.HBox" id="hbox3">
+                    <property name="MemberName" />
+                    <property name="Spacing">6</property>
+                    <child>
+                      <widget class="Gtk.Label" id="label3">
+                        <property name="MemberName" />
+                        <property name="LabelProp" translatable="yes">Max</property>
+                      </widget>
+                      <packing>
+                        <property name="Position">0</property>
+                        <property name="AutoSize">True</property>
+                        <property name="Expand">False</property>
+                        <property name="Fill">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="Gtk.SpinButton" id="sbtPopulationMaxSize">
+                        <property name="MemberName" />
+                        <property name="CanFocus">True</property>
+                        <property name="Lower">2</property>
+                        <property name="Upper">10000</property>
+                        <property name="PageIncrement">10</property>
+                        <property name="StepIncrement">1</property>
+                        <property name="ClimbRate">1</property>
+                        <property name="Numeric">True</property>
+                        <property name="Value">70</property>
+                      </widget>
+                      <packing>
+                        <property name="Position">1</property>
+                        <property name="AutoSize">True</property>
+                        <property name="Expand">False</property>
+                        <property name="Fill">False</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="PackType">End</property>
+                    <property name="Position">2</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
               </widget>
               <packing>
                 <property name="Position">5</property>
@@ -152,13 +196,15 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.HBox" id="hbox3">
+              <widget class="Gtk.HBox" id="hbox11">
                 <property name="MemberName" />
                 <property name="Spacing">6</property>
                 <child>
-                  <widget class="Gtk.Label" id="label3">
+                  <widget class="Gtk.ComboBox" id="cmbGenerationStrategy">
                     <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">Max</property>
+                    <property name="WidthRequest">200</property>
+                    <property name="IsTextCombo">True</property>
+                    <property name="Items" />
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -168,16 +214,12 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="Gtk.SpinButton" id="sbtPopulationMaxSize">
+                  <widget class="Gtk.Button" id="btnEditGenerationStrategy">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
-                    <property name="Lower">2</property>
-                    <property name="Upper">10000</property>
-                    <property name="PageIncrement">10</property>
-                    <property name="StepIncrement">1</property>
-                    <property name="ClimbRate">1</property>
-                    <property name="Numeric">True</property>
-                    <property name="Value">70</property>
+                    <property name="Type">TextOnly</property>
+                    <property name="Label" translatable="yes">Edit</property>
+                    <property name="UseUnderline">True</property>
                   </widget>
                   <packing>
                     <property name="Position">1</property>
@@ -544,11 +586,11 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.Button" id="btnRunGenerations">
+              <widget class="Gtk.Button" id="btnEvolve">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
                 <property name="Type">TextOnly</property>
-                <property name="Label" translatable="yes">_Run</property>
+                <property name="Label" translatable="yes">_Evolve</property>
                 <property name="UseUnderline">True</property>
               </widget>
               <packing>

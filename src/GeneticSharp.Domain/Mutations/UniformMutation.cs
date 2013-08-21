@@ -13,7 +13,7 @@ namespace GeneticSharp.Domain.Mutations
 	/// <see href="http://en.wikipedia.org/wiki/Mutation_(genetic_algorithm)">Wikipedia</see>
 	/// </summary>
 	[DisplayName("Uniform")]
-	public class UniformMutation : IMutation
+    public class UniformMutation : MutationBase
 	{
 		#region Fields
 		private int[] m_mutableGenesIndexes;
@@ -40,13 +40,13 @@ namespace GeneticSharp.Domain.Mutations
 		}
 		#endregion
 
-		#region IMutation implementation
-		/// <summary>
-		/// Mutate the specified chromosome.
-		/// </summary>
-		/// <param name="chromosome">The chromosome.</param>
-		/// <param name="probability">The probability to mutate each chromosome.</param>
-		public void Mutate (IChromosome chromosome, float probability)
+        #region Methods
+        /// <summary>
+        /// Mutate the specified chromosome.
+        /// </summary>
+        /// <param name="chromosome">The chromosome.</param>
+        /// <param name="probability">The probability to mutate each chromosome.</param>
+        protected override void PerformMutate(IChromosome chromosome, float probability)
 		{
             ExceptionHelper.ThrowIfNull("chromosome", chromosome);
 

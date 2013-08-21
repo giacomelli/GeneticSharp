@@ -5,13 +5,13 @@ using System.ComponentModel;
 namespace GeneticSharp.Domain.Terminations
 {
 	/// <summary>
-	/// Generation number termination.
+	/// Time Evolving Termination.
 	/// <remarks>
-	/// The genetic algorithm will be terminate when the execution exceed the max time specified.
+	/// The genetic algorithm will be terminate when the evolving exceed the max time specified.
 	/// </remarks>
 	/// </summary>
-	[DisplayName("Time")]
-	public class TimeTermination : TerminationBase
+	[DisplayName("Time Evolving")]
+	public class TimeEvolvingTermination : TerminationBase
 	{
 		#region Fields
 		private DateTime m_terminationTime;
@@ -19,20 +19,20 @@ namespace GeneticSharp.Domain.Terminations
 
 		#region Constructors
 		/// <summary>
-		/// Initializes a new instance of the <see cref="GeneticSharp.Domain.Terminations.TimeTermination"/> class.
+		/// Initializes a new instance of the <see cref="GeneticSharp.Domain.Terminations.TimeEvolvingTermination"/> class.
 		/// </summary>
 		/// <remarks>
 		/// The default MaxTime is 1 minute.
 		/// </remarks>
-		public TimeTermination () : this(TimeSpan.FromMinutes(1))
+		public TimeEvolvingTermination () : this(TimeSpan.FromMinutes(1))
 		{
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="GeneticSharp.Domain.Terminations.TimeTermination"/> class.
+		/// Initializes a new instance of the <see cref="GeneticSharp.Domain.Terminations.TimeEvolvingTermination"/> class.
 		/// </summary>
 		/// <param name="maxTime">The execution time to consider the termination has been reached.</param>
-		public TimeTermination (TimeSpan maxTime)
+		public TimeEvolvingTermination (TimeSpan maxTime)
 		{
 			MaxTime = maxTime;
 		}

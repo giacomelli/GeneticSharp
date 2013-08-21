@@ -1,15 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Amib.Threading;
-using HelperSharp;
 using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Fitnesses;
-using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Selections;
-using GeneticSharp.Domain.Terminations;
+using HelperSharp;
+using System.Linq;
 
 namespace GeneticSharp.Domain.Populations
 {
@@ -26,7 +20,8 @@ namespace GeneticSharp.Domain.Populations
 		#endregion
 
         #region Fields
-        private IChromosome m_adamChromosome;
+        private IChromosome m_adamChromosome;   
+		private Generation m_previousGeneration;
         #endregion
 
         #region Constructors
@@ -54,14 +49,19 @@ namespace GeneticSharp.Domain.Populations
         
 			MinSize = minSize;
             MaxSize = maxSize;
+            EliteNumber = 2;
             m_adamChromosome = adamChromosome;
 			Generations = new List<Generation> ();
+            GenerationStrategy = new TrackingGenerationStrategy();
 		}
 		#endregion
 
 		#region Properties
 		/// <summary>
 		/// Gets the generations.
+        /// <remarks>
+        /// The information of Generations can vary depending of the IGenerationStrategy used.
+        /// </remarks>
 		/// </summary>
 		/// <value>The generations.</value>
 		public IList<Generation> Generations { get; private set; }
@@ -71,6 +71,14 @@ namespace GeneticSharp.Domain.Populations
 		/// </summary>
 		/// <value>The current generation.</value>
 		public Generation CurrentGeneration { get; private set; }
+
+        /// <summary>
+        /// Gets the total number of generations executed.
+        /// <remarks>
+        /// Use this information to know how many generations have been executed, because Generations.Count can vary depending of the IGenerationStrategy used.
+        /// </remarks>
+        /// </summary>
+        public int GenerationsNumber { get; private set; }
 
 		/// <summary>
 		/// Gets the minimum size.
@@ -84,11 +92,24 @@ namespace GeneticSharp.Domain.Populations
 		/// <value>The size of the max.</value>
         public int MaxSize { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the number of elite chromosomes that will be copied to each generation.
+        /// </summary>
+        /// <remarks>
+        /// The default value is 2.
+        /// </remarks>
+        public int EliteNumber { get; set; }
+
 		/// <summary>
 		/// Gets the best chromosome.
 		/// </summary>
 		/// <value>The best chromosome.</value>
 		public IChromosome BestChromosome { get; private set; }
+
+        /// <summary>
+        /// Gets os sets the generation strategy.
+        /// </summary>
+        public IGenerationStrategy GenerationStrategy { get; set; }
 		#endregion
 
 		#region Public methods
@@ -108,22 +129,6 @@ namespace GeneticSharp.Domain.Populations
 
 			CreateNewGeneration(chromosomes);
 		}
-
-		/// <summary>
-		/// Finalizes the current generation.
-		/// </summary>
-		public void FinalizeGeneration (ISelection selection)
-		{
-			if(CurrentGeneration.Chromosomes.Count > MaxSize)
-			{
-				CurrentGeneration.Chromosomes = selection.SelectChromosomes(MaxSize, CurrentGeneration);
-
-				if (!CurrentGeneration.Chromosomes.Any (c => c == CurrentGeneration.BestChromosome)) {
-					CurrentGeneration.Chromosomes.RemoveAt (CurrentGeneration.Chromosomes.Count - 1);
-					CurrentGeneration.Chromosomes.Add (CurrentGeneration.BestChromosome);
-				}
-			}
-		}
 	
 		/// <summary>
 		/// Creates a new generation.
@@ -132,37 +137,38 @@ namespace GeneticSharp.Domain.Populations
 		/// <param name="chromosomes">Chromosomes.</param>
 		public void CreateNewGeneration(IList<IChromosome> chromosomes)
 		{
-			CurrentGeneration = new Generation (Generations.Count + 1, chromosomes);
+            ExceptionHelper.ThrowIfNull("chromosomes", chromosomes);
+
+			m_previousGeneration = CurrentGeneration;
+
+            CurrentGeneration = new Generation(++GenerationsNumber, chromosomes);
 			Generations.Add (CurrentGeneration);
+            GenerationStrategy.RegisterNewGeneration(this);
 		}
 
 		/// <summary>
-		/// Elects the best chromosome.
-		/// </summary>
-		public void ElectBestChromosome()
+		/// Ends the current generation.
+		/// </summary>		
+		public void EndCurrentGeneration()
 		{
-			var newBestChromosome = CurrentGeneration.Chromosomes.OrderByDescending(c => c.Fitness.Value).First();
-			ValidateBestChromosome (newBestChromosome);
-			CurrentGeneration.BestChromosome = newBestChromosome;
+			if (m_previousGeneration != null)
+			{
+				var eliteChromosomes = m_previousGeneration.Chromosomes.Take(EliteNumber);
 
-			if (newBestChromosome != BestChromosome) {
-				BestChromosome = newBestChromosome;
+				foreach (var e in eliteChromosomes)
+				{
+					CurrentGeneration.Chromosomes.Add(e.Clone());
+				}
+			}
+
+			CurrentGeneration.End (MaxSize);
+
+			if (BestChromosome != CurrentGeneration.BestChromosome) {
+				BestChromosome = CurrentGeneration.BestChromosome;
+
 				if (BestChromosomeChanged != null) {
 					BestChromosomeChanged (this, EventArgs.Empty);
 				}
-			}
-		}
-
-		/// <summary>
-		/// Validates the best chromosome.
-		/// </summary>
-		/// <param name="chromosome">Chromosome.</param>
-		private void ValidateBestChromosome(IChromosome chromosome)
-		{
-			if (!chromosome.Fitness.HasValue) {
-				throw new InvalidOperationException (
-					"There is unknown problem in current population, because BestChromosome should have a Fitness value. BestChromosome: Id:{0}, age: {1} and length: {2}"
-					.With (chromosome.Id, chromosome.Age, chromosome.Length));
 			}
 		}
 		#endregion

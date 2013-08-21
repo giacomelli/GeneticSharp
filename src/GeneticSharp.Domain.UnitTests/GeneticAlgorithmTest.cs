@@ -195,6 +195,7 @@ namespace GeneticSharp.Domain.UnitTests
 			});
 
 			Assert.AreEqual(100, target.Population.Generations.Count);        
+			Assert.Greater (target.TimeEvolving.TotalMilliseconds, 1);
 		}
 	}
 }

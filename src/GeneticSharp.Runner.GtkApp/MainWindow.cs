@@ -1,18 +1,18 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using Gdk;
+using GeneticSharp.Domain;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Selections;
+using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.Tsp;
+using GeneticSharp.Runner.GtkApp;
 using Gtk;
 using HelperSharp;
-using GeneticSharp.Runner.GtkApp;
-using GeneticSharp.Domain.Terminations;
-using System.Threading;
-using GeneticSharp.Domain;
 
 /// <summary>
 /// Main window.
@@ -27,21 +27,21 @@ public partial class MainWindow: Gtk.Window
 	private ICrossover m_crossover;
 	private IMutation m_mutation;
 	private ITermination m_termination;
+    private IGenerationStrategy m_generationStrategy;
 
 	private Gdk.GC m_gc;
 	private Pango.Layout m_layout;
 	private Pixmap m_buffer;
-    private TimeSpan? m_currentGenerationsTimeSpend;
-	#endregion
+    #endregion
 
 	#region Constructors
 	public MainWindow (): base (Gtk.WindowType.Toplevel)
 	{
 		Build ();
-	
+
 		DeleteEvent+=delegate {Application.Quit(); };
 		btnGenerateCities.Clicked += delegate { GenerateCities(); };
-		btnRunGenerations.Clicked += delegate { Run(); };
+		btnEvolve.Clicked += delegate { Run(); };
 
 		btnEditSelection.Clicked += delegate {
 			m_selection = ShowEditorProperty<ISelection>(SelectionService.GetSelectionTypeByName(cmbSelection.ActiveText), m_selection);
@@ -57,6 +57,10 @@ public partial class MainWindow: Gtk.Window
 
 		btnEditTermination.Clicked += delegate {
 			m_termination = ShowEditorProperty<ITermination>(TerminationService.GetTerminationTypeByName(cmbTermination.ActiveText), m_termination);
+		};
+
+		btnEditGenerationStrategy.Clicked += delegate {
+			m_generationStrategy = ShowEditorProperty<IGenerationStrategy>(PopulationService.GetGenerationStrategyTypeByName(cmbGenerationStrategy.ActiveText), m_generationStrategy);
 		};
 
 		m_gc = new Gdk.GC(drawingArea.GdkWindow);
@@ -86,11 +90,13 @@ public partial class MainWindow: Gtk.Window
 		LoadComboBox (cmbCrossover, CrossoverService.GetCrossoverNames ());
 		LoadComboBox (cmbMutation, MutationService.GetMutationNames ());
 		LoadComboBox (cmbTermination, TerminationService.GetTerminationNames ());
+		LoadComboBox (cmbGenerationStrategy, PopulationService.GetGenerationStrategyNames ());
 
 		m_selection = SelectionService.CreateSelectionByName (cmbSelection.ActiveText);
 		m_crossover = CrossoverService.CreateCrossoverByName (cmbCrossover.ActiveText);
 		m_mutation = MutationService.CreateMutationByName(cmbMutation.ActiveText);
 		m_termination = TerminationService.CreateTerminationByName (cmbTermination.ActiveText);
+		m_generationStrategy = PopulationService.CreateGenerationStrategyByName (cmbGenerationStrategy.ActiveText);
 
 		cmbSelection.Changed += delegate {
 			m_selection = SelectionService.CreateSelectionByName (cmbSelection.ActiveText);
@@ -112,10 +118,16 @@ public partial class MainWindow: Gtk.Window
 			ShowButtonByEditableProperties(btnEditTermination, m_termination);
 		};
 
+		cmbGenerationStrategy.Changed += delegate {
+			m_generationStrategy = PopulationService.CreateGenerationStrategyByName(cmbGenerationStrategy.ActiveText);
+			ShowButtonByEditableProperties(btnEditGenerationStrategy, m_generationStrategy);
+		};
+
 		hslCrossoverProbability.Value = GeneticAlgorithm.DefaultCrossoverProbability;
 		hslMutationProbability.Value = GeneticAlgorithm.DefaultMutationProbability;
 
 		cmbCrossover.Active = 1;
+		cmbTermination.Active = 1;
 
 		ShowAll();
 		ShowButtonByEditableProperties(btnEditSelection, m_selection);
@@ -135,13 +147,14 @@ public partial class MainWindow: Gtk.Window
 			if (m_ga != null) {
 				m_ga.GenerationRan -= HandleGAUpdated;
 				m_ga.TerminationReached -= HandleGAUpdated;
-				m_currentGenerationsTimeSpend = null;
 			}        
 
 			m_population = new Population(
 				Convert.ToInt32(sbtPopulationMinSize.Value),
 				Convert.ToInt32(sbtPopulationMaxSize.Value),
 				new TspChromosome(m_fitness.Cities.Count));
+
+			m_population.GenerationStrategy = m_generationStrategy;
 
 			m_ga = new GeneticAlgorithm(
 				m_population,
@@ -176,7 +189,7 @@ public partial class MainWindow: Gtk.Window
 	{
 		int numberOfCities = Convert.ToInt32(spbCitiesNumber.Value - (spbCitiesNumber.Value % 2));
 		spbCitiesNumber.Value = numberOfCities;
-		m_fitness = new TspFitness (numberOfCities, 50, drawingArea.Allocation.Width -50, 50, drawingArea.Allocation.Height - 50);
+		m_fitness = new TspFitness (numberOfCities, 100, drawingArea.Allocation.Width -100, 100, drawingArea.Allocation.Height - 100);
 
 		DrawCities ();
 		DrawBuffer ();
@@ -204,7 +217,6 @@ public partial class MainWindow: Gtk.Window
 
 	void HandleGAUpdated (object sender, EventArgs e)
 	{
-        m_currentGenerationsTimeSpend = DateTime.Now - m_population.Generations[0].CreationDate;
 		UpdateMap ();
 	}
 
@@ -240,9 +252,11 @@ public partial class MainWindow: Gtk.Window
 			var firstCity = m_fitness.Cities [Convert.ToInt32 (genes [0].Value)];
 			m_buffer.DrawLine (m_gc, lastCity.X, lastCity.Y, firstCity.X, firstCity.Y);
 		
-			WriteText(0, 0, "Generation: {0}", m_population.Generations.Count);
-			WriteText(0, 20, "Distance: {0:n2}", ((TspChromosome) m_ga.Population.BestChromosome).Distance);
-			WriteText(0, 40, "Time: {0}", m_currentGenerationsTimeSpend);
+			var bestChromosome = (TspChromosome)m_ga.Population.BestChromosome;
+			WriteText(0, 0, "Generation: {0}", m_population.GenerationsNumber);
+			WriteText(0, 20, "Fitness: {0:n2}", bestChromosome.Fitness);
+			WriteText(0, 40, "Distance: {0:n2}", bestChromosome.Distance);
+			WriteText(0, 60, "Time: {0}", m_ga.TimeEvolving);
 		}
 
 		DrawBuffer ();

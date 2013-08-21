@@ -13,9 +13,10 @@ namespace GeneticSharp.Domain.UnitTests.Selections
 		{
 			var actual = SelectionService.GetSelectionTypes ();
 
-			Assert.AreEqual (2, actual.Count);
+			Assert.AreEqual (3, actual.Count);
 			Assert.AreEqual (typeof(EliteSelection), actual [0]);
 			Assert.AreEqual (typeof(RouletteWheelSelection), actual [1]);
+            Assert.AreEqual(typeof(TournamentSelection), actual[2]);
 		}
 
 		[Test()]
@@ -23,9 +24,10 @@ namespace GeneticSharp.Domain.UnitTests.Selections
 		{
 			var actual = SelectionService.GetSelectionNames ();
 
-			Assert.AreEqual (2, actual.Count);
+			Assert.AreEqual (3, actual.Count);
 			Assert.AreEqual ("Elite", actual [0]);
 			Assert.AreEqual ("Roulette Wheel", actual [1]);
+            Assert.AreEqual("Tournament", actual[2]);
 		}
 
 		[Test()]
@@ -52,6 +54,9 @@ namespace GeneticSharp.Domain.UnitTests.Selections
 
 			actual = SelectionService.CreateSelectionByName ("Roulette Wheel") as RouletteWheelSelection;
 			Assert.IsNotNull (actual);
+
+            actual = SelectionService.CreateSelectionByName("Tournament") as TournamentSelection;
+            Assert.IsNotNull(actual);
 		}
 
 		[Test()]
@@ -70,6 +75,9 @@ namespace GeneticSharp.Domain.UnitTests.Selections
 
 			actual = SelectionService.GetSelectionTypeByName ("Roulette Wheel");
 			Assert.AreEqual (typeof(RouletteWheelSelection), actual);
+
+            actual = SelectionService.GetSelectionTypeByName("Tournament");
+            Assert.AreEqual(typeof(TournamentSelection), actual);
 		}
 	}
 }

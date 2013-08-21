@@ -32,7 +32,7 @@ namespace GeneticSharp.Domain.Selections
 		/// </summary>
 		/// <returns>The selected chromosomes.</returns>
 		/// <param name="number">The number of chromosomes to select.</param>
-		/// <param name="generation">The generation where the selection will be maed.</param>
+		/// <param name="generation">The generation where the selection will be made.</param>
 		public IList<IChromosome> SelectChromosomes (int number, Generation generation)
 		{
 			if (number < m_minNumberChromosomes) {
@@ -49,7 +49,7 @@ namespace GeneticSharp.Domain.Selections
 		/// </summary>
 		/// <returns>The selected chromosomes.</returns>
 		/// <param name="number">The number of chromosomes to select.</param>
-		/// <param name="generation">The generation where the selection will be maed.</param>
+		/// <param name="generation">The generation where the selection will be made.</param>
 		protected abstract IList<IChromosome> PerformSelectChromosomes (int number, Generation generation);
 		#endregion
 	}

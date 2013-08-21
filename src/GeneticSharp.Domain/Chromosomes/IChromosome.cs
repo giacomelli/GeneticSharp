@@ -84,6 +84,11 @@ namespace GeneticSharp.Domain.Chromosomes
 		/// </summary>
 		/// <returns>The new chromosome.</returns>
         IChromosome CreateNew();
+
+		/// <summary>
+		/// Creates a clone.
+		/// </summary>
+		IChromosome Clone ();
 		#endregion
 	}
 }

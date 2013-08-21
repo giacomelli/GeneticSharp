@@ -18,26 +18,54 @@ namespace GeneticSharp.Runner.ConsoleApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("GeneticSharp - TSP");
-
-            int numberOfCities = 40;
+            int numberOfCities = 20;
             var selection = new EliteSelection();
             var crossover = new OrderedCrossover();
-            var mutation = new TworsMutation();
+            var mutation = new ReverseSequenceMutation();
             var chromosome = new TspChromosome(numberOfCities);
             var fitness = new TspFitness(numberOfCities, 0, 1000, 0, 1000);
-			var population = new Population (40, 40, chromosome);
+			var population = new Population (50, 70, chromosome);
 	
 			var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
-			ga.Termination = new GenerationNumberTermination (1000);
-			ga.GenerationRan += delegate { Console.Write("."); };
+            ga.MutationProbability = 0.2f;
+            ga.Termination = new GenerationNumberTermination(100);
+			TspChromosome bestChromosome = null;
 
-            var sw = new Stopwatch();
-            sw.Start();
-			ga.Evolve();
-            sw.Stop();
+            ga.GenerationRan += delegate 
+            {
+                Console.CursorLeft = 0;
+                Console.CursorTop = 2;
+                
+                bestChromosome =  (TspChromosome) ga.Population.BestChromosome;
+                Console.WriteLine("Generations: {0}", ga.Population.GenerationsNumber);
+                Console.WriteLine("Fitness: {0:n4}", bestChromosome.Fitness);
+                Console.WriteLine("Distance: {0:n2}", bestChromosome.Distance);
+                Console.WriteLine("Time: {0}", ga.TimeEvolving);
+                Console.WriteLine("City tour: {0}", String.Join(", ", bestChromosome.GetGenes().Select(g => g.Value)));
+            };
 
-            Console.WriteLine("\nDone in {0}.", sw.Elapsed);
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine("GeneticSharp - ConsoleApp");
+            Console.ResetColor();
+
+            try
+            {
+                ga.Evolve();
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine();
+                Console.WriteLine("Error: {0}", ex.Message);
+                Console.ResetColor();
+                Console.ReadKey();
+                return;
+            }
+
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine();
+            Console.WriteLine("Evolved.");
+            Console.ResetColor();
             Console.ReadKey();
         }
     }

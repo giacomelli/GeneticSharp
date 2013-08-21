@@ -9,7 +9,10 @@ namespace GeneticSharp.Domain.Selections
 {
 	/// <summary>
 	/// Selects the chromosomes with the best fitness.
-	/// </summary>
+    /// </summary>
+    /// <remarks>
+    /// Also know as: Trucation Selection.
+    /// </remarks>    
 	[DisplayName("Elite")]
 	public sealed class EliteSelection : SelectionBase
 	{
@@ -27,7 +30,7 @@ namespace GeneticSharp.Domain.Selections
 		/// Performs the selection of chromosomes from the generation specified.
 		/// </summary>
 		/// <param name="number">The number of chromosomes to select.</param>
-		/// <param name="generation">The generation where the selection will be maed.</param>
+		/// <param name="generation">The generation where the selection will be made.</param>
 		/// <returns>The select chromosomes.</returns>
 		protected override IList<IChromosome> PerformSelectChromosomes (int number, Generation generation)
 		{

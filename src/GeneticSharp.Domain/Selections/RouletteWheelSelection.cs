@@ -10,8 +10,11 @@ using System.ComponentModel;
 namespace GeneticSharp.Domain.Selections
 {
 	/// <summary>
-	/// Roulette Wheel Selection or Fitness proportionate selection.
-	/// 
+	/// Roulette Wheel Selection
+	/// <remarks>
+    /// Is a kind of Fitness Proportionate Selection. 
+    /// <see href=" http://watchmaker.uncommons.org/manual/ch03s02.html">Fitness-Proportionate Selection</see>
+    /// 
 	/// In the Roulette wheel selection method [Holland, 1992], the first step is to calculate the cumulative fitness of the 
 	/// whole population through the sum of the fitness of all individuals. After that, the probability of selection is 
 	/// calculated for each individual.
@@ -21,6 +24,7 @@ namespace GeneticSharp.Domain.Selections
 	/// probabilities of selection. 
 	/// 
 	/// <see href="http://en.wikipedia.org/wiki/Fitness_proportionate_selection">Wikipedia</see>
+    /// </remarks>
 	/// </summary>
 	[DisplayName("Roulette Wheel")]
 	public class RouletteWheelSelection : SelectionBase
@@ -39,7 +43,7 @@ namespace GeneticSharp.Domain.Selections
 		/// Performs the selection of chromosomes from the generation specified.
 		/// </summary>
 		/// <param name="number">The number of chromosomes to select.</param>
-		/// <param name="generation">The generation where the selection will be maed.</param>
+		/// <param name="generation">The generation where the selection will be made.</param>
 		/// <returns>The select chromosomes.</returns>
 		protected override IList<IChromosome> PerformSelectChromosomes (int number, Generation generation)
 		{
