@@ -1,3 +1,8 @@
+GeneticSharp
+===========
+
+Introduction
+===
 GeneticSharp is a fast, extensible, multi-platform and multithreading C# Genetic Algorithm library that simplifies the development of applications using Genetic Algorithms (GAs).
 
 GeneticSharp can be used in ASP .NET MVC, Web Forms, Windows Forms, GTK# and Unity3D applications.
@@ -7,7 +12,7 @@ GeneticSharp can be used in ASP .NET MVC, Web Forms, Windows Forms, GTK# and Uni
 Features
 ===
  - Chromosomes
-   - Add your chromosome representation implementing IChromosome interface or extending ChromosomeBase.  
+   - Add your own chromosome representation implementing IChromosome interface or extending ChromosomeBase.  
  - Crossovers
    - One-Point
    - Ordered OX1
@@ -46,7 +51,7 @@ Features
  - 100% Unit Tests coveraged 
  - 100% code documentation
  - FxCop validated
- - Good (and good use) design patterns  
+ - Good (and good used) design patterns  
  - 
 
 --------
@@ -96,7 +101,7 @@ var selection = new EliteSelection();
 var crossover = new OrderedCrossover();
 var mutation = new ReverseSequenceMutation();
 var fitness = new YourIFitnessImplementation();
-var chromosome = new YourIChrosomeImplementation(); // please, don't names like that ;)
+var chromosome = new YourIChrosomeImplementation(); // please, don't use names like that ;)
 var population = new Population (50, 70, chromosome);
 
 var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
@@ -124,6 +129,22 @@ Roadmap
  - Parallel populations (islands)
  
 --------
+
+How to improve it?
+======
+
+Create a fork of [Swagger.Net](https://github.com/giacomelli/GeneticSharp/fork). 
+
+Did you change it? [Submit a pull request](https://github.com/giacomelli/GeneticSharp/pull/new/master).
+
+
+License
+======
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at [apache.org/licenses/LICENSE-2.0](http://apache.org/licenses/LICENSE-2.0)
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+
 
 Change Log
 ======
