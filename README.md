@@ -133,7 +133,7 @@ Roadmap
 How to improve it?
 ======
 
-Create a fork of [Swagger.Net](https://github.com/giacomelli/GeneticSharp/fork). 
+Create a fork of [GeneticSharp](https://github.com/giacomelli/GeneticSharp/fork). 
 
 Did you change it? [Submit a pull request](https://github.com/giacomelli/GeneticSharp/pull/new/master).
 
