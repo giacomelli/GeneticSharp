@@ -13,10 +13,11 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
 		{
 			var actual = TerminationService.GetTerminationTypes ();
 
-			Assert.AreEqual (3, actual.Count);
-			Assert.AreEqual (typeof(FitnessThresholdTermination), actual [0]);
-			Assert.AreEqual (typeof(GenerationNumberTermination), actual [1]);
-			Assert.AreEqual (typeof(TimeEvolvingTermination), actual [2]);
+			Assert.AreEqual (4, actual.Count);
+			Assert.AreEqual (typeof(FitnessStagnationTermination), actual [0]);
+            Assert.AreEqual(typeof(FitnessThresholdTermination), actual[1]);
+			Assert.AreEqual (typeof(GenerationNumberTermination), actual [2]);
+			Assert.AreEqual (typeof(TimeEvolvingTermination), actual [3]);
 		}
 
 		[Test()]
@@ -24,10 +25,11 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
 		{
 			var actual = TerminationService.GetTerminationNames ();
 
-			Assert.AreEqual (3, actual.Count);
-			Assert.AreEqual ("Fitness Threshold", actual [0]);
-			Assert.AreEqual ("Generation Number", actual [1]);
-			Assert.AreEqual ("Time Evolving", actual [2]);
+			Assert.AreEqual (4, actual.Count);
+            Assert.AreEqual("Fitness Stagnation", actual[0]);
+			Assert.AreEqual ("Fitness Threshold", actual [1]);
+			Assert.AreEqual ("Generation Number", actual [2]);
+			Assert.AreEqual ("Time Evolving", actual [3]);
 		}
 
 		[Test()]
@@ -49,7 +51,13 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
 		[Test()]
 		public void CreateTerminationByName_ValidName_TerminationCreated()
 		{
-			ITermination actual = TerminationService.CreateTerminationByName ("Generation Number") as GenerationNumberTermination;
+            ITermination actual = TerminationService.CreateTerminationByName("Fitness Stagnation") as FitnessStagnationTermination;
+            Assert.IsNotNull(actual);
+
+            actual = TerminationService.CreateTerminationByName("Fitness Threshold") as FitnessThresholdTermination;
+            Assert.IsNotNull(actual);
+
+			actual = TerminationService.CreateTerminationByName ("Generation Number") as GenerationNumberTermination;
 			Assert.IsNotNull (actual);
 
 			actual = TerminationService.CreateTerminationByName ("Time Evolving") as TimeEvolvingTermination;
@@ -75,6 +83,9 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
 
 			actual = TerminationService.GetTerminationTypeByName ("Fitness Threshold");
 			Assert.AreEqual (typeof(FitnessThresholdTermination), actual);
+
+            actual = TerminationService.GetTerminationTypeByName("Fitness Stagnation");
+            Assert.AreEqual(typeof(FitnessStagnationTermination), actual);
 		}
 	}
 }

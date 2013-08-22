@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="GeneticSharp.Domain.Randomizations.RandomizationProvider">
+    <Position X="2" Y="0.5" Width="2" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Randomizations\RandomizationProvider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Randomizations.RandomizationBase" Collapsed="true">
+    <Position X="5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAgAAAAAAAAAAAAAAAEAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Randomizations\RandomizationBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GeneticSharp.Domain.Randomizations.BasicRandomization" Collapsed="true">
+    <Position X="4.75" Y="3.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAgAAAAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Randomizations\BasicRandomization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Randomizations.FastRandomRandomization" Collapsed="true">
+    <Position X="7" Y="3.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAgAAAAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Randomizations\FastRandomRandomization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Randomizations.TroschuetzRandomization" Collapsed="true">
+    <Position X="2.25" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAQAAAAAACAAAA=</HashCode>
+      <FileName>Randomizations\TroschuetzRandomization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="GeneticSharp.Domain.Randomizations.IRandomization">
+    <Position X="4.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAgAAAAAAAAAAAAAAAEAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Randomizations\IRandomization.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

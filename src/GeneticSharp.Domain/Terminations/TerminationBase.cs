@@ -26,8 +26,7 @@ namespace GeneticSharp.Domain.Terminations
 		/// <summary>
 		/// Determines whether the specified generation reached the termination condition.
 		/// </summary>
-		/// <returns>true</returns>
-		/// <c>false</c>
+		/// <returns>True if termination has been reached, otherwise false.</returns>
 		/// <param name="generation">The generation.</param>
 		protected abstract bool PerformHasReached (Generation generation);
 		#endregion

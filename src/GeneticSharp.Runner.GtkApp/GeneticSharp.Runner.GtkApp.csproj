@@ -58,6 +58,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyEditor.cs" />
     <Compile Include="gtk-gui\GeneticSharp.Runner.GtkApp.PropertyEditor.cs" />
+    <Compile Include="Samples\ISampleController.cs" />
+    <Compile Include="Samples\SampleControllerBase.cs" />
+    <Compile Include="Samples\SampleContext.cs" />
+    <Compile Include="Samples\TspSampleController.cs" />
+    <Compile Include="Samples\SampleService.cs" />
+    <Compile Include="Samples\CheckersSampleController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -68,6 +74,10 @@
     <ProjectReference Include="..\GeneticSharp.Extensions\GeneticSharp.Extensions.csproj">
       <Project>{699AF592-1E11-4084-B87E-9AC72ED7861B}</Project>
       <Name>GeneticSharp.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj">
+      <Project>{1498D792-D02B-4A9E-8AFC-24AEBA0DEE54}</Project>
+      <Name>GeneticSharp.Infrastructure.Framework</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

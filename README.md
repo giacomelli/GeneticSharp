@@ -44,6 +44,7 @@ Features
    - Generation number
    - Time evolving
    - Fitness threshold  
+ - Runner app (GTK#) showing the library solving TSP (Travelling Salesman Problem). 
  - Mono support
  - Fully tested on Windows and MacOSX
  - 100% Unit Tests coveraged 
@@ -112,17 +113,35 @@ ga.Evolve();
 Roadmap
 --------
  - Improve Runner.GtkApp
+   - Add new problems/classic samples
+      - Checkers 
+	  - Time series   
  - Create and publish NuGet package
+ - Create the wiki
  - Add new crossovers
+   - Three parent
+   - Cycle crossover (CX)
+   - Order-based (OX2)
+   - Position-based (POS)
+   - Voting recombination
+   - Alternating-position (AP)
+   - Sequential Constructive (SCX) 
+   - Cut and splice 
+   - Shuffle crossover
  - Add new mutations
+   - Non-Uniform
+   - Flip Bit
+   - Boundary
+   - Gaussian 
  - Add new selections
+   - Stochastic Universal Sampling 
+   - Reward-based
  - Add new terminations
+   - Fitness convergence 
    - Population convergence
    - Chromosome convergence   
  - Unity3d game sample
  - MonoTouch Runner app (sample)
- - New classic samples
-   - Time series   
  - Parallel populations (islands)
  
 --------
@@ -145,4 +164,4 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
 Change Log
 ======
-1.0.0 First version.
+0.5.0 First version.

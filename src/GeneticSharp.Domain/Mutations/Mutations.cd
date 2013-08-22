@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="GeneticSharp.Domain.Mutations.MutationBase" Collapsed="true">
+    <Position X="3.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABACAAAAAAAAAA=</HashCode>
+      <FileName>Mutations\MutationBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GeneticSharp.Domain.Mutations.MutationException" Collapsed="true">
+    <Position X="7.25" Y="2.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>Mutations\MutationException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Mutations.MutationService">
+    <Position X="7.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAQAAAAgAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Mutations\MutationService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Mutations.ReverseSequenceMutation" Collapsed="true">
+    <Position X="3.25" Y="3.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Mutations\ReverseSequenceMutation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Mutations.TworsMutation" Collapsed="true">
+    <Position X="6" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Mutations\TworsMutation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Mutations.UniformMutation" Collapsed="true">
+    <Position X="1" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAgAAAAAAAAABAAAAAAAAAEAA=</HashCode>
+      <FileName>Mutations\UniformMutation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="GeneticSharp.Domain.Mutations.IMutation">
+    <Position X="3.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Mutations\IMutation.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

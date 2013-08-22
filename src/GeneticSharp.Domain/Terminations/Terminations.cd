@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="GeneticSharp.Domain.Terminations.FitnessThresholdTermination" Collapsed="true">
+    <Position X="1.75" Y="4" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Terminations\FitnessThresholdTermination.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Terminations.GenerationNumberTermination" Collapsed="true">
+    <Position X="4.5" Y="4" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Terminations\GenerationNumberTermination.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Terminations.TerminationBase" Collapsed="true">
+    <Position X="4.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Terminations\TerminationBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GeneticSharp.Domain.Terminations.TerminationService">
+    <Position X="8.5" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAEAAAAACA=</HashCode>
+      <FileName>Terminations\TerminationService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticSharp.Domain.Terminations.TimeEvolvingTermination" Collapsed="true">
+    <Position X="7.5" Y="4" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAIAAAAAAAEAAAAA=</HashCode>
+      <FileName>Terminations\TimeEvolvingTermination.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="GeneticSharp.Domain.Terminations.ITermination">
+    <Position X="4.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Terminations\ITermination.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

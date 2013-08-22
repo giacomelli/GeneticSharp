@@ -78,6 +78,7 @@
     <Compile Include="Crossovers\PartiallyMappedCrossoverTest.cs" />
     <Compile Include="Chromosomes\ChromosomeExtensionsTest.cs" />
     <Compile Include="Selections\TournamentSelectionTest.cs" />
+    <Compile Include="Terminations\FitnessStagnationTerminationTest.cs" />
     <Compile Include="Terminations\TerminationBaseTest.cs" />
     <Compile Include="Terminations\GenerationNumberTerminationTest.cs" />
     <Compile Include="Terminations\TimeEvolvingTerminationTest.cs" />
