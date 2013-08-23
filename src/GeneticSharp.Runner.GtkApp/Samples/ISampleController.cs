@@ -19,7 +19,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 		/// <summary>
 		/// Occurs when the sample is reconfigured in the config widget.
 		/// </summary>
-        event EventHandler Reconfigured;
+        event EventHandler Reconfigured;        
 		#endregion
 
 		#region Properties
@@ -47,12 +47,22 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 		/// Creates the chromosome.
 		/// </summary>
 		/// <returns>The chromosome.</returns>
-        IChromosome CreateChromosome();    
+        IChromosome CreateChromosome();
+
+        /// <summary>
+        /// Resets the sample.
+        /// </summary>
+        void Reset();
+
+        /// <summary>
+        /// Updates the sample.
+        /// </summary>
+        void Update();
 
 		/// <summary>
 		/// Draws the sample.
 		/// </summary>
-        void Draw();
+        void Draw();       
 		#endregion
     }
 }

@@ -21,8 +21,7 @@ namespace GeneticSharp.Domain.Populations
 
         #region Fields
         private IChromosome m_adamChromosome;   
-		private Generation m_previousGeneration;
-        #endregion
+	    #endregion
 
         #region Constructors
 		/// <summary>
@@ -49,7 +48,6 @@ namespace GeneticSharp.Domain.Populations
         
 			MinSize = minSize;
             MaxSize = maxSize;
-            EliteNumber = 2;
             m_adamChromosome = adamChromosome;
 			Generations = new List<Generation> ();
             GenerationStrategy = new TrackingGenerationStrategy();
@@ -92,15 +90,7 @@ namespace GeneticSharp.Domain.Populations
 		/// <value>The size of the max.</value>
         public int MaxSize { get; private set; }
 
-        /// <summary>
-        /// Gets or sets the number of elite chromosomes that will be copied to each generation.
-        /// </summary>
-        /// <remarks>
-        /// The default value is 2.
-        /// </remarks>
-        public int EliteNumber { get; set; }
-
-		/// <summary>
+    	/// <summary>
 		/// Gets the best chromosome.
 		/// </summary>
 		/// <value>The best chromosome.</value>
@@ -119,6 +109,9 @@ namespace GeneticSharp.Domain.Populations
 		/// <returns>The initial generation.</returns>
 		public void CreateInitialGeneration ()
 		{
+            Generations = new List<Generation>();
+            GenerationsNumber = 0;
+
 			var chromosomes = new List<IChromosome> ();
 
 			for(int i = 0; i < MinSize; i++)
@@ -139,9 +132,7 @@ namespace GeneticSharp.Domain.Populations
 		{
             ExceptionHelper.ThrowIfNull("chromosomes", chromosomes);
 
-			m_previousGeneration = CurrentGeneration;
-
-            CurrentGeneration = new Generation(++GenerationsNumber, chromosomes);
+		    CurrentGeneration = new Generation(++GenerationsNumber, chromosomes);
 			Generations.Add (CurrentGeneration);
             GenerationStrategy.RegisterNewGeneration(this);
 		}
@@ -151,16 +142,6 @@ namespace GeneticSharp.Domain.Populations
 		/// </summary>		
 		public void EndCurrentGeneration()
 		{
-			if (m_previousGeneration != null)
-			{
-				var eliteChromosomes = m_previousGeneration.Chromosomes.Take(EliteNumber);
-
-				foreach (var e in eliteChromosomes)
-				{
-					CurrentGeneration.Chromosomes.Add(e.Clone());
-				}
-			}
-
 			CurrentGeneration.End (MaxSize);
 
 			if (BestChromosome != CurrentGeneration.BestChromosome) {

@@ -76,7 +76,7 @@ public partial class MainWindow: Gtk.Window
 		
 		drawingArea.ConfigureEvent += delegate {
 			ResetBuffer ();
-			DrawSample();
+            UpdateSample();
 		};
 
 		drawingArea.ExposeEvent += delegate {
@@ -102,7 +102,7 @@ public partial class MainWindow: Gtk.Window
         layout.Alignment = Pango.Alignment.Center;
         layout.FontDescription = Pango.FontDescription.FromString("Arial 16");	
 
-        m_sampleContext = new SampleContext(drawingArea.GdkWindow)
+        m_sampleContext = new SampleContext(drawingArea.GdkWindow, this)
         {
             Layout = layout
         };
@@ -196,6 +196,7 @@ public partial class MainWindow: Gtk.Window
                 m_ga.TerminationReached -= HandleGAUpdated;
             }
 
+            m_sampleController.Reset();
             m_sampleContext.Population = new Population(
                 Convert.ToInt32(sbtPopulationMinSize.Value),
                 Convert.ToInt32(sbtPopulationMaxSize.Value),
@@ -217,7 +218,7 @@ public partial class MainWindow: Gtk.Window
 
             m_ga.Termination = m_termination;
 
-            m_ga.Evolve();
+            m_ga.Start();
 	    }
 		catch(ThreadAbortException) {
 			Console.WriteLine ("Thread aborted.");
@@ -237,10 +238,9 @@ public partial class MainWindow: Gtk.Window
 
 	            msg.Destroy();
 			});
-
         }
         finally
-        {            
+        {           
 			Application.Invoke(delegate
 			{
 				vbxButtonBar.Sensitive = true;
@@ -279,23 +279,39 @@ public partial class MainWindow: Gtk.Window
 
     private void HandleGAUpdated(object sender, EventArgs e)
 	{
-        // Avoid to update the map so quickly that makes the UI freeze.
-        if (m_ga.Population.GenerationsNumber % 10 == 0)
+        UpdateSample();
+	}
+
+    private void UpdateSample()
+    {
+        if (m_sampleContext.Population == null)
         {
             Application.Invoke(delegate
             {
                 DrawSample();
             });
         }
-	}
+        else {
+            // Avoid to update the map so quickly that makes the UI freeze.
+            if (m_sampleContext.Population.GenerationsNumber % 10 == 0)
+            {                
+                Application.Invoke(delegate
+                {
+                    m_sampleController.Update();
+                    DrawSample();
+                });
+            }
+        }
+    }
 
     private void ResetSample()
     {
         m_sampleContext.Population = null;
         var r = drawingArea.Allocation;
         m_sampleContext.DrawingArea = new Rectangle(0, 100, r.Width, r.Height - 100);
+        m_sampleController.Reset();
         m_fitness = m_sampleController.CreateFitness();
-        DrawSample();
+        UpdateSample();
     }
 
     private void DrawSample()

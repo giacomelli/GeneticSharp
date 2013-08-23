@@ -47,7 +47,17 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 		/// Creates the chromosome.
 		/// </summary>
 		/// <returns>The chromosome.</returns>
-        public abstract IChromosome CreateChromosome();  
+        public abstract IChromosome CreateChromosome();
+
+        /// <summary>
+        /// Resets the sample.
+        /// </summary>
+        public abstract void Reset();
+
+        /// <summary>
+        /// Updates the sample.
+        /// </summary>
+        public abstract void Update();
 
 		/// <summary>
 		/// Draws the sample.

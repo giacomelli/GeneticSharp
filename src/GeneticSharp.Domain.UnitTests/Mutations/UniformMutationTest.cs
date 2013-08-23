@@ -20,12 +20,12 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             var chromosome = MockRepository.GenerateStub<ChromosomeBase>(3);
 			chromosome.ReplaceGenes(0, new Gene[] 
 			{ 
-				new Gene() { Value = 1 },
-				new Gene() { Value = 1 },
-				new Gene() { Value = 1 } 
+				new Gene(1),
+				new Gene(1),
+				new Gene(1) 
 			});
 
-			chromosome.Expect (c => c.GenerateGene(1)).Return (new Gene() { Value = 0 });
+			chromosome.Expect (c => c.GenerateGene(1)).Return (new Gene(0));
 			RandomizationProvider.Current = MockRepository.GenerateMock<IRandomization> ();
 			RandomizationProvider.Current.Expect (r => r.GetInts (1, 0, 3)).Return(new int[] {1});
 
@@ -45,12 +45,12 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             var chromosome = MockRepository.GenerateStub<ChromosomeBase>(3);
 			chromosome.ReplaceGenes(0, new Gene[] 
 			                                         { 
-				new Gene() { Value = 1 },
-				new Gene() { Value = 1 },
-				new Gene() { Value = 1 } 
+				new Gene(1),
+				new Gene(1),
+				new Gene(1) 
 			});
 
-            chromosome.Expect(c => c.GenerateGene(0)).Return(new Gene() { Value = 0 });
+            chromosome.Expect(c => c.GenerateGene(0)).Return(new Gene(0));
 
 			RandomizationProvider.Current = MockRepository.GenerateMock<IRandomization> ();
 
@@ -69,13 +69,13 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             var chromosome = MockRepository.GenerateStub<ChromosomeBase>(3);
 			chromosome.ReplaceGenes(0, new Gene[] 
 			                                         { 
-				new Gene() { Value = 1 },
-				new Gene() { Value = 1 },
-				new Gene() { Value = 1 } 
+				new Gene(1),
+				new Gene(1),
+				new Gene(1) 
 			});
 
-			chromosome.Expect (c => c.GenerateGene(0)).Return (new Gene() { Value = 0 });
-			chromosome.Expect (c => c.GenerateGene(2)).Return (new Gene() { Value = 10 });
+			chromosome.Expect (c => c.GenerateGene(0)).Return (new Gene(0));
+			chromosome.Expect (c => c.GenerateGene(2)).Return (new Gene(10));
 			RandomizationProvider.Current = MockRepository.GenerateMock<IRandomization> ();
 
 			target.Mutate (chromosome, 1);
@@ -94,14 +94,14 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
 			var chromosome = MockRepository.GenerateStub<ChromosomeBase>(3);
 			chromosome.ReplaceGenes(0, new Gene[] 
 			                     { 
-				new Gene() { Value = 1 },
-				new Gene() { Value = 1 },
-				new Gene() { Value = 1 } 
+				new Gene(1),
+				new Gene(1),
+				new Gene(1) 
 			});
 
-			chromosome.Expect (c => c.GenerateGene(0)).Return (new Gene() { Value = 0 });
-			chromosome.Expect (c => c.GenerateGene(1)).Return (new Gene() { Value = 10 });
-			chromosome.Expect (c => c.GenerateGene(2)).Return (new Gene() { Value = 20 });
+			chromosome.Expect (c => c.GenerateGene(0)).Return (new Gene(0));
+			chromosome.Expect (c => c.GenerateGene(1)).Return (new Gene(10));
+			chromosome.Expect (c => c.GenerateGene(2)).Return (new Gene(20));
 			RandomizationProvider.Current = MockRepository.GenerateMock<IRandomization> ();
 
 			target.Mutate (chromosome, 1);

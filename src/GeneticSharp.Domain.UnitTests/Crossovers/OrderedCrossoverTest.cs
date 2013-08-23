@@ -42,32 +42,32 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(10);
             chromosome1.ReplaceGenes(0, new Gene[] { 
-				new Gene() { Value = 8 },
-				new Gene() { Value = 4 },
-				new Gene() { Value = 7 },
-				new Gene() { Value = 3 },
-				new Gene() { Value = 6 },
-				new Gene() { Value = 2 },
-				new Gene() { Value = 5 },
-				new Gene() { Value = 1 },
-				new Gene() { Value = 9 },
-				new Gene() { Value = 0 }
+				new Gene(8),
+				new Gene(4),
+				new Gene(7),
+				new Gene(3),
+				new Gene(6),
+				new Gene(2),
+				new Gene(5),
+				new Gene(1),
+				new Gene(9),
+				new Gene(0)
 			});
             chromosome1.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(10));
             
             var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(10);
             chromosome2.ReplaceGenes(0, new Gene[] 
             { 
-				new Gene() { Value = 0 },
-				new Gene() { Value = 1 },
-				new Gene() { Value = 2 },
-				new Gene() { Value = 3 },
-				new Gene() { Value = 5 },
-				new Gene() { Value = 5 },
-				new Gene() { Value = 6 },
-				new Gene() { Value = 7 },
-				new Gene() { Value = 8 },
-				new Gene() { Value = 9 },
+				new Gene(0),
+				new Gene(1),
+				new Gene(2),
+				new Gene(3),
+				new Gene(5),
+				new Gene(5),
+				new Gene(6),
+				new Gene(7),
+				new Gene(8),
+				new Gene(9),
             });
             chromosome2.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(10));
 
@@ -85,16 +85,16 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 			// 8 4 7 3 6 2 5 1 9 0
 			var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(10);
 			chromosome1.ReplaceGenes(0, new Gene[] { 
-				new Gene() { Value = 8 },
-				new Gene() { Value = 4 },
-				new Gene() { Value = 7 },
-				new Gene() { Value = 3 },
-				new Gene() { Value = 6 },
-				new Gene() { Value = 2 },
-				new Gene() { Value = 5 },
-				new Gene() { Value = 1 },
-				new Gene() { Value = 9 },
-				new Gene() { Value = 0 }
+				new Gene(8),
+				new Gene(4),
+				new Gene(7),
+				new Gene(3),
+				new Gene(6),
+				new Gene(2),
+				new Gene(5),
+				new Gene(1),
+				new Gene(9),
+				new Gene(0)
 			});
             chromosome1.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(10));
 
@@ -102,16 +102,16 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(10);
             chromosome2.ReplaceGenes(0, new Gene[] 
             { 
-				new Gene() { Value = 0 },
-				new Gene() { Value = 1 },
-				new Gene() { Value = 2 },
-				new Gene() { Value = 3 },
-				new Gene() { Value = 4 },
-				new Gene() { Value = 5 },
-				new Gene() { Value = 6 },
-				new Gene() { Value = 7 },
-				new Gene() { Value = 8 },
-				new Gene() { Value = 9 },
+				new Gene(0),
+				new Gene(1),
+				new Gene(2),
+				new Gene(3),
+				new Gene(4),
+				new Gene(5),
+				new Gene(6),
+				new Gene(7),
+				new Gene(8),
+				new Gene(9),
             });
             chromosome2.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(10));
 

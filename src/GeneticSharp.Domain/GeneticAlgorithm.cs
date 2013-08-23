@@ -9,6 +9,7 @@ using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Randomizations;
+using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 
@@ -30,6 +31,7 @@ namespace GeneticSharp.Domain
 	{
 		#region Fields
 		private SmartThreadPool m_threadPool;
+        private bool m_stopRequested;
 		#endregion
 
 		#region Constants
@@ -82,6 +84,7 @@ namespace GeneticSharp.Domain
 			Selection = selection;
 			Crossover = crossover;
 			Mutation = mutation;
+			Reinsertion = new ElitistReinsertion ();
 			Termination = new GenerationNumberTermination (1);
 
 			CrossoverProbability = DefaultCrossoverProbability;
@@ -128,6 +131,11 @@ namespace GeneticSharp.Domain
 		/// </summary>
 		public float MutationProbability  { get; set; }
 
+        /// <summary>
+        /// Gets or sets the reinsertion operator.
+        /// </summary>
+        public IReinsertion Reinsertion { get; set; }
+
 		/// <summary>
 		/// Gets or sets the termination condition.
 		/// </summary>
@@ -141,55 +149,100 @@ namespace GeneticSharp.Domain
 
 		#region Methods
         /// <summary>
-        /// Evolves the genetic algorithm using population, fitness, selection, crossover, mutation and termination configured.
+        /// Starts the genetic algorithm using population, fitness, selection, crossover, mutation and termination configured.
         /// </summary>
         /// <returns>True if termination condition has been reached.</returns>
-        public bool Evolve()
+        public void Start()
         {
-            return Evolve(0);
+            Start(0);
         }
 
         /// <summary>
-        /// Evolves the genetic algorithm using population, fitness, selection, crossover, mutation and termination configured.
+        /// Starts the genetic algorithm using population, fitness, selection, crossover, mutation and termination configured.
         /// </summary>
         /// <param name="timeoutPerGeneration">The timeout per generation.</param>
-        /// <returns>True if termination condition has been reached.</returns>
-		public bool Evolve(int timeoutPerGeneration)
-		{
-			var startDateTime = DateTime.Now;
-			bool terminationConditionReached = false;
-            
+        public void Start(int timeoutPerGeneration)
+		{            
+			var startDateTime = DateTime.Now;			
             Population.CreateInitialGeneration();
-			if (EndCurrentGeneration (timeoutPerGeneration)) {
-				return true;
-			}
+            TimeEvolving = DateTime.Now - startDateTime;
 
-			do {
-				terminationConditionReached = EvolveOneGeneration (timeoutPerGeneration);
-				TimeEvolving = DateTime.Now - startDateTime;
-
-			} while(!terminationConditionReached);
-
-			return terminationConditionReached;
+            Resume(timeoutPerGeneration);
 		}
 
         /// <summary>
-        /// Aborts the evolution.
+        /// Resumes the last evolution of the genetic algorithm.
+        /// <remarks>
+        /// If genetic algorithm was not explicit Stop (calling Stop method), you will need provide a new extended Termination.
+        /// </remarks>
+        /// </summary>
+        public void Resume()
+        {
+            Resume(0);
+        }
+
+        /// <summary>
+        /// Resumes the last evolution of the genetic algorithm.
+        /// <remarks>
+        /// If genetic algorithm was not explicit Stop (calling Stop method), you will need provide a new extended Termination.
+        /// </remarks>
+        /// </summary>
+        /// <param name="timeoutPerGeneration">The timeout per generation.</param>
+        public void Resume(int timeoutPerGeneration)
+        {
+            m_stopRequested = false; 
+
+            if (Population.GenerationsNumber == 0)
+            {
+                throw new InvalidOperationException("Attempt to resume a genetic algorithm which was not yet started.");
+            }
+
+            if (EndCurrentGeneration(timeoutPerGeneration))
+            {
+                return;
+            }
+
+            bool terminationConditionReached = false;
+            DateTime startDateTime;
+
+            do
+            {
+                if (m_stopRequested)
+                {
+                    break;
+                }
+
+                startDateTime = DateTime.Now;
+                terminationConditionReached = EvolveOneGeneration(timeoutPerGeneration);
+                TimeEvolving += DateTime.Now - startDateTime;
+
+            } while (!terminationConditionReached);
+        }
+
+        /// <summary>
+        /// Stops the genetic algorithm.
         /// <remarks>
         /// The default timeout is 60000 milliseconds.
         /// </remarks>
         /// </summary>
-        public void AbortEvolution()
+        public void Stop()
         {
-            AbortEvolution(60000);
+            Stop(60000);
         }
 
 		/// <summary>
-		/// Aborts the evolution.
+        /// Stops the genetic algorithm..
 		/// </summary>
 		/// <param name="timeout">Timeout to wait to abort.</param>
-		public void AbortEvolution (int timeout)
+		public void Stop (int timeout)
 		{
+            if (Population.GenerationsNumber == 0)
+            {
+                throw new InvalidOperationException("Attempt to stop a genetic algorithm which was not yet started.");
+            }
+
+            m_stopRequested = true;
+
 			if (m_threadPool != null) {
 				m_threadPool.Shutdown (true, timeout);
 			}
@@ -203,11 +256,12 @@ namespace GeneticSharp.Domain
 		private bool EvolveOneGeneration (int timeout = 0)
 		{
             var parents = SelectParents();
-            var children = Cross(parents);
-            Mutate(children);            
-            Population.CreateNewGeneration(children);
+            var offsprings = Cross(parents);
+            Mutate(offsprings);
+            var newGenerationChromosomes = Reinsert(offsprings, parents);
+            Population.CreateNewGeneration(newGenerationChromosomes);
 			return EndCurrentGeneration (timeout);
-		}
+		}        
 
 		/// <summary>
 		/// Ends the current generation.
@@ -367,21 +421,21 @@ namespace GeneticSharp.Domain
 		/// </summary>
 		private IList<IChromosome> Cross (IList<IChromosome> parents)
 		{
-			var children = new List<IChromosome>();
+			var offsprings = new List<IChromosome>();
 
 			for ( int i = 0; i < Population.MinSize; i += Crossover.ParentsNumber )
 			{
 				var selectedParents = parents.Skip (i).Take (Crossover.ParentsNumber).ToList ();
 
-				//  If match the probabilith cross is made, else not the offspring is an exact copy of the parents.
-				if (RandomizationProvider.Current.GetDouble () <= CrossoverProbability) {
-					children.AddRange ( Crossover.Cross (selectedParents));
-				} else {
-					children.AddRange (selectedParents.Select(c => c.Clone()));
+				// If match the probability cross is made, otherwise the offspring is an exact copy of the parents.
+                // Checks if the number of selected parents is equal which the crossover expect, because the in the of the list we can
+                // have some rest chromosomes.
+				if (selectedParents.Count == Crossover.ParentsNumber && RandomizationProvider.Current.GetDouble () <= CrossoverProbability) {
+					offsprings.AddRange ( Crossover.Cross (selectedParents));
 				}
 			}
 
-			return children;
+			return offsprings;
 		}        
 
 		/// <summary>
@@ -395,6 +449,16 @@ namespace GeneticSharp.Domain
 				Mutation.Mutate (c, MutationProbability);
 			}
 		}
+
+		/// <summary>
+		/// Reinsert the specified offsprings and parents.
+		/// </summary>
+		/// <param name="offsprings">Offsprings.</param>
+		/// <param name="parents">Parents.</param>
+        private IList<IChromosome> Reinsert(IList<IChromosome> offsprings, IList<IChromosome> parents)
+        {
+            return Reinsertion.SelectChromosomes(Population, offsprings, parents); 
+        }
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.

@@ -13,12 +13,13 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 		{
 			var actual = CrossoverService.GetCrossoverTypes ();
 
-			Assert.AreEqual (5, actual.Count);
+			Assert.AreEqual (6, actual.Count);
 			Assert.AreEqual (typeof(OnePointCrossover), actual [0]);
 			Assert.AreEqual (typeof(OrderedCrossover), actual [1]);
 			Assert.AreEqual (typeof(PartiallyMappedCrossover), actual [2]);
-			Assert.AreEqual (typeof(TwoPointCrossover), actual [3]);
-			Assert.AreEqual (typeof(UniformCrossover), actual [4]);
+            Assert.AreEqual(typeof(ThreeParentCrossover), actual[3]);
+			Assert.AreEqual (typeof(TwoPointCrossover), actual [4]);
+			Assert.AreEqual (typeof(UniformCrossover), actual [5]);
 		}
 
 		[Test()]
@@ -26,12 +27,13 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 		{
 			var actual = CrossoverService.GetCrossoverNames ();
 
-			Assert.AreEqual (5, actual.Count);
+			Assert.AreEqual (6, actual.Count);
 			Assert.AreEqual ("One-Point", actual [0]);
 			Assert.AreEqual ("Ordered (OX1)", actual [1]);
 			Assert.AreEqual ("Partially Mapped (PMX)", actual [2]);
-			Assert.AreEqual ("Two-Point", actual [3]);
-			Assert.AreEqual ("Uniform", actual [4]);
+            Assert.AreEqual("Three Parent", actual[3]);
+			Assert.AreEqual ("Two-Point", actual [4]);
+			Assert.AreEqual ("Uniform", actual [5]);
 		}
 
 		[Test()]
@@ -67,6 +69,9 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
 			actual = CrossoverService.CreateCrossoverByName ("Partially Mapped (PMX)") as PartiallyMappedCrossover;
 			Assert.IsNotNull (actual);
+
+            actual = CrossoverService.CreateCrossoverByName("Three Parent") as ThreeParentCrossover;
+            Assert.IsNotNull(actual);
 		}
 
 		[Test()]
@@ -94,6 +99,9 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
 			actual = CrossoverService.GetCrossoverTypeByName ("Partially Mapped (PMX)");
 			Assert.AreEqual (typeof(PartiallyMappedCrossover), actual);
+
+            actual = CrossoverService.GetCrossoverTypeByName("Three Parent");
+            Assert.AreEqual(typeof(ThreeParentCrossover), actual);
 		}
 	}
 }

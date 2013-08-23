@@ -92,12 +92,7 @@ namespace GeneticSharp.Domain.Chromosomes
 			{
 				throw new ArgumentOutOfRangeException ("index", "There is no Gene on index {0} to be replaced.".With(index));
 			}
-
-            if (gene == null)
-            {
-                throw new ArgumentNullException("gene", "A gene can't be replaced by a null gene.");
-            }
-
+     
 			m_genes [index] = gene;
 			Fitness = null;
 		}
@@ -118,14 +113,6 @@ namespace GeneticSharp.Domain.Chromosomes
             ExceptionHelper.ThrowIfNull("genes", genes);
 
             var genesToBeReplacedLength = genes.Length;
-
-            for (int i = 0; i < genesToBeReplacedLength; i++)
-            {
-                if(genes[i] == null)
-                {
-                    throw new ArgumentException("genes", "A gene can't be replaced by a null gene. The gene on index {0} is null.".With(i));
-                }
-            }
 
             var availableSpaceLength = (m_length - startIndex);
 

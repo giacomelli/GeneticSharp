@@ -37,11 +37,11 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
 			Assert.IsTrue (target.Fitness.HasValue);
 
 			target.Fitness = 0.5;
-			target.ReplaceGene (0, new Gene());
+			target.ReplaceGene (0, new Gene(0));
 			Assert.IsFalse (target.Fitness.HasValue);
 
 			target.Fitness = 0.5;
-			target.ReplaceGenes (0, new Gene[]{ new Gene() });
+			target.ReplaceGenes (0, new Gene[]{ new Gene(0) });
 			Assert.IsFalse (target.Fitness.HasValue);
 
 			target.Fitness = 0.5;
@@ -49,7 +49,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
 			Assert.IsTrue (target.Fitness.HasValue);
 
 			target.Fitness = 0.5;
-			target.ReplaceGene (0, new Gene ());
+			target.ReplaceGene (0, new Gene (0));
 			Assert.IsFalse (target.Fitness.HasValue);
 		}
 
@@ -59,24 +59,13 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
 			var target = MockRepository.GenerateStub<ChromosomeBase>(2);
 
 			ExceptionAssert.IsThrowing (new ArgumentOutOfRangeException("index", "There is no Gene on index 2 to be replaced."), () => {
-				target.ReplaceGene (2, new Gene ());
+				target.ReplaceGene (2, new Gene (0));
 			});
 
 			ExceptionAssert.IsThrowing (new ArgumentOutOfRangeException("index", "There is no Gene on index 3 to be replaced."), () => {
-				target.ReplaceGene (3, new Gene ());
+				target.ReplaceGene (3, new Gene (0));
 			});
-		}
-
-        [Test]
-        public void ReplaceGene_NullGene_Exception()
-        {
-            var target = MockRepository.GenerateStub<ChromosomeBase>(2);
-
-            ExceptionAssert.IsThrowing(new ArgumentNullException("gene", "A gene can't be replaced by a null gene."), () =>
-            {
-                target.ReplaceGene(0, null);
-            });
-        }
+		}       
 
 		[Test]
 		public void ReplaceGene_ValidIndex_Replaced()
@@ -115,18 +104,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
             {
                 target.ReplaceGenes(0, null);
             });
-        }
-
-        [Test]
-        public void ReplaceGenes_NullGene_Exception()
-        {
-            var target = MockRepository.GenerateStub<ChromosomeBase>(2);
-
-            ExceptionAssert.IsThrowing(new ArgumentException("genes", "A gene can't be replaced by a null gene. The gene on index 1 is null."), () =>
-            {
-                target.ReplaceGenes(0, new Gene[] { new Gene(1), null, new Gene(3)});
-            });
-        }       
+        }     
 
         [Test]
         public void ReplaceGenes_GenesExceedChromosomeLength_Exception()

@@ -7,23 +7,20 @@ namespace GeneticSharp.Domain.Chromosomes
 	/// Represents a gene of a chromosome.
 	/// </summary>
     [DebuggerDisplay("{Value}")]
-	public sealed class Gene : IEquatable<Gene>
-	{
-		#region Constructors
-		/// <summary>
-		/// Initializes a new instance of the <see cref="GeneticSharp.Domain.Chromosomes.Gene"/> class.
-		/// </summary>
-        public Gene()
-        {
-        }
+	public struct Gene : IEquatable<Gene>
+    {
+        #region Fields
+        private object m_value;
+        #endregion
 
-		/// <summary>
+        #region Constructors
+        /// <summary>
 		/// Initializes a new instance of the <see cref="GeneticSharp.Domain.Chromosomes.Gene"/> class.
 		/// </summary>
 		/// <param name="value">The gene intial value.</param>
 		public Gene(object value)
 		{
-			Value = value;
+            m_value = value;
 		}
 		#endregion
 
@@ -32,10 +29,9 @@ namespace GeneticSharp.Domain.Chromosomes
 		/// Gets or sets the value.
 		/// </summary>
 		/// <value>The value.</value>
-		public Object Value { get; set; }
+        public Object Value { get { return m_value; } } 
 		#endregion
 	
-
 		#region Methods
 		/// <summary>
 		/// Determines whether the specified <see cref="GeneticSharp.Domain.Chromosomes.Gene"/> is equal to the current <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>.
@@ -45,11 +41,6 @@ namespace GeneticSharp.Domain.Chromosomes
 		/// <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>; otherwise, <c>false</c>.</returns>
 		public bool Equals (Gene other)
 		{
-			if (other == null)
-			{
-				return false;
-			}
-
 			return Value.Equals (other.Value);
 		}
 
@@ -61,12 +52,7 @@ namespace GeneticSharp.Domain.Chromosomes
 		/// <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>; otherwise, <c>false</c>.</returns>
 		public override bool Equals(object obj)
 		{
-			var other = obj as Gene;
-
-			if (other == null)
-			{
-				return false;
-			}
+			var other = (Gene) obj;
 
 			return Value.Equals(other.Value);
 		}

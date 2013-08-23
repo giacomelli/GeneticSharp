@@ -32,7 +32,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 			m_playerTwoGC = Context.CreateGC (new Gdk.Color (100, 100, 100));
 
 			var container = new VBox();
-			var boardSize = new SpinButton(2, 10000, 2);
+			var boardSize = new SpinButton(8, 100, 2);
 			boardSize.Text = "Board size";
 			boardSize.Value = m_boardSize;
 			boardSize.ValueChanged += delegate
@@ -48,21 +48,10 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 			movesAhead.Value = m_movesAhead;
 			movesAhead.ValueChanged += delegate
 			{
-				m_boardSize = movesAhead.ValueAsInt - (movesAhead.ValueAsInt  % 2);
-				movesAhead.Value = m_movesAhead;
+                m_movesAhead = movesAhead.ValueAsInt;
 				OnReconfigured();
 			};
-			container.Add(movesAhead);
-
-			var generateButton = new Button();
-			generateButton.Label = "Generate board";
-			generateButton.Clicked += delegate
-			{
-				m_boardSize = boardSize.ValueAsInt;
-				OnReconfigured();
-			};
-
-			container.Add(generateButton);
+			container.Add(movesAhead);			
 
 			return container;
 		}
@@ -86,6 +75,28 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 		{
 			return new CheckersChromosome (m_movesAhead, m_boardSize);
 		}
+
+        /// <summary>
+        /// Resets the sample.
+        /// </summary>
+        public override void Reset()
+        {
+            if (m_fitness != null)
+            {
+                m_fitness.Reset();
+            }
+        }
+
+        /// <summary>
+        /// Updates the sample.
+        /// </summary>
+        public override void Update()
+        {
+            m_fitness.Update(Context.Population.BestChromosome as CheckersChromosome);
+            var msg = new MessageDialog(Context.GtkWindow, DialogFlags.Modal, MessageType.Error, ButtonsType.YesNo, "TESTE");
+            msg.Run();
+            msg.Destroy();
+        }
 
 		/// <summary>
 		/// Draws the sample.

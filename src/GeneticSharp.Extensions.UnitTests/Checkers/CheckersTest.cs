@@ -36,14 +36,14 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
                 }
             };
 
-            ga.Evolve();
+            ga.Start();
             var firstFitness = ((CheckersChromosome)ga.Population.BestChromosome).Fitness;
 
             ga.Termination = new GenerationNumberTermination(1001);
 
             TimeAssert.LessThan(3000, () =>
             {
-                ga.Evolve();
+                ga.Start();
             });
 
             var lastFitness = ((CheckersChromosome)ga.Population.BestChromosome).Fitness;

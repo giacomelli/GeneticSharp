@@ -29,14 +29,14 @@ namespace GeneticSharp.Extensions.UnitTests
 
 			var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
 
-			ga.Evolve();
+			ga.Start();
 			var firstDistance = ((TspChromosome)ga.Population.BestChromosome).Distance;
 
 			ga.Termination = new GenerationNumberTermination (1001);
 
             TimeAssert.LessThan(3000, () =>
             {
-                ga.Evolve();
+                ga.Start();
             });
 
 			var lastDistance = ((TspChromosome)ga.Population.BestChromosome).Distance;

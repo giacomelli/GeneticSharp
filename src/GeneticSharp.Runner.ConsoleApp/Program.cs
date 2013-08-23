@@ -50,7 +50,7 @@ namespace GeneticSharp.Runner.ConsoleApp
 
             try
             {
-                ga.Evolve();
+                ga.Start();
             }
             catch (Exception ex)
             {

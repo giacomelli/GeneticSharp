@@ -51,12 +51,14 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Helpers\" />
+    <Folder Include="Reinsertions\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chromosomes\ChromosomeBaseTest.cs" />
     <Compile Include="Crossovers\CrossoverBaseTest.cs" />
     <Compile Include="Crossovers\OnePointCrossoverTest.cs" />
     <Compile Include="Crossovers\OrderedCrossoverTest.cs" />
+    <Compile Include="Crossovers\ThreeParentCrossoverTest.cs" />
     <Compile Include="Crossovers\TwoPointCrossoverTest.cs" />
     <Compile Include="Crossovers\UniformCrossoverTest.cs" />
     <Compile Include="Mutations\TworsMutationTest.cs" />
@@ -86,6 +88,11 @@
     <Compile Include="GeneticAlgorithmTest.cs" />
     <Compile Include="Terminations\FitnessThresholdTerminationTest.cs" />
     <Compile Include="Populations\PopulationService.cs" />
+    <Compile Include="Reinsertions\PureReinsertionTest.cs" />
+    <Compile Include="Reinsertions\ReinsertionBaseTest.cs" />
+    <Compile Include="Reinsertions\UniformReinsertionTest.cs" />
+    <Compile Include="Reinsertions\ElitistReinsertionTest.cs" />
+    <Compile Include="Reinsertions\FitnessBasedReinsertionTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj">

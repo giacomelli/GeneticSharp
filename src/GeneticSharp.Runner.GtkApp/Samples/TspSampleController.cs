@@ -22,6 +22,8 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 		#region Fields
         private TspFitness m_fitness;
         private int m_numberOfCities = 10;
+        private bool m_showIndexes = true;
+        private TspChromosome m_bestChromosome;
 		#endregion
 
 		#region Methods
@@ -50,8 +52,16 @@ namespace GeneticSharp.Runner.GtkApp.Samples
                 m_numberOfCities = citiesNumber.ValueAsInt;
                 OnReconfigured();
             };
-
             container.Add(generateButton);
+
+            var showIndexes = new CheckButton();
+            showIndexes.Active = m_showIndexes;
+            showIndexes.Label = "Show indexes";
+            showIndexes.Toggled += delegate {
+                m_showIndexes = showIndexes.Active;
+            };
+
+            container.Add(showIndexes);
 
             return container;
         }
@@ -77,6 +87,27 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             return new TspChromosome(m_numberOfCities);
         }
 
+        /// <summary>
+        /// Resets the sample.
+        /// </summary>
+        public override void Reset()
+        {
+            m_bestChromosome = null;
+        }
+
+        /// <summary>
+        /// Updates the sample.
+        /// </summary>
+        public override void Update()
+        {
+            var population = Context.Population;
+
+            if (population != null && population.CurrentGeneration != null)
+            {
+                m_bestChromosome = population.BestChromosome as TspChromosome;
+            }  
+        }
+
 		/// <summary>
 		/// Draws the sample.
 		/// </summary>
@@ -85,17 +116,16 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             var buffer = Context.Buffer;
             var gc = Context.GC;
             var layout = Context.Layout;
-            var population = Context.Population;
-
+            
             // Draw cities.
             foreach (var c in m_fitness.Cities)
             {
                 buffer.DrawRectangle(gc, true, c.X - 2, c.Y - 2, 4, 4);
             }
 
-            if (population != null && population.CurrentGeneration != null)
+            if (m_bestChromosome != null)
             {
-                var genes = population.BestChromosome.GetGenes();
+                var genes = m_bestChromosome.GetGenes();
 
                 for (int i = 0; i < genes.Length; i += 2)
                 {
@@ -112,20 +142,21 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 
                     buffer.DrawLine(gc, cityOne.X, cityOne.Y, cityTwo.X, cityTwo.Y);
 
+                    if (m_showIndexes)
+                    {
+                        layout.SetMarkup("<span color='black'>{0}</span>".With(i));
+                        buffer.DrawLayout(gc, cityOne.X, cityOne.Y, layout);
 
-                    layout.SetMarkup("<span color='black'>{0}</span>".With(i));
-                    buffer.DrawLayout(gc, cityOne.X, cityOne.Y, layout);
-
-                    layout.SetMarkup("<span color='black'>{0}</span>".With(i + 1));
-                    buffer.DrawLayout(gc, cityTwo.X, cityTwo.Y, layout);
+                        layout.SetMarkup("<span color='black'>{0}</span>".With(i + 1));
+                        buffer.DrawLayout(gc, cityTwo.X, cityTwo.Y, layout);
+                    }
                 }
 
                 var lastCity = m_fitness.Cities[Convert.ToInt32(genes[genes.Length - 1].Value)];
                 var firstCity = m_fitness.Cities[Convert.ToInt32(genes[0].Value)];
                 buffer.DrawLine(gc, lastCity.X, lastCity.Y, firstCity.X, firstCity.Y);
 
-                var bestChromosome = (TspChromosome)population.BestChromosome;                
-                Context.WriteText("Distance: {0:n2}", bestChromosome.Distance);                
+                Context.WriteText("Distance: {0:n2}", m_bestChromosome.Distance);                
             }
         }
 		#endregion

@@ -12,15 +12,17 @@ namespace GeneticSharp.Runner.GtkApp.Samples
     public class SampleContext
     {
         #region Fields
-        private int m_lastTextY = 0;
-		private Gdk.Window m_window;
+        private int m_lastTextY = 0;		
         #endregion
 
-		public SampleContext(Gdk.Window window)
+		public SampleContext(Gdk.Window gdkWindow, Gtk.Window gtkWindow)
 		{
-			m_window = window;
+			GdkWindow = gdkWindow;
+            GtkWindow = gtkWindow;
 		}
 
+        public Gdk.Window GdkWindow { get; private set; }
+        public Gtk.Window GtkWindow { get; private set; }
         public Gdk.GC GC { get; set; }
         public Pixmap Buffer { get; set; }
         public Pango.Layout Layout { get; set; }
@@ -42,7 +44,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 
 		public Gdk.GC CreateGC(Gdk.Color foregroundColor)
 		{
-			var gc = new Gdk.GC(m_window);
+			var gc = new Gdk.GC(GdkWindow);
 			gc.RgbFgColor = foregroundColor;
 			gc.RgbBgColor = new Gdk.Color(255, 255, 255);
 			gc.Background = new Gdk.Color(255, 255, 255);

@@ -10,40 +10,47 @@ Can be used in ASP .NET MVC, Web Forms, Windows Forms, GTK# and Unity3D applicat
 Features
 ===
  - Chromosomes
-   - Add your own chromosome representation implementing IChromosome interface or extending ChromosomeBase.  
- - Crossovers
-   - One-Point
-   - Ordered OX1
-   - Partially Mapped (PMX)
-   - Two-Point
-   - Uniform
-   - Others crossovers can be added implementing ICrossover interface or extending CrossoverBase.    
+   - Add your own chromosome representation implementing IChromosome interface or extending ChromosomeBase.   
  - Fitness
    - Add your own fitness evaluation, implementing IFitness interface.
- - Mutations
-   - Reverse Sequence (RSM)
-   - Twors
-   - Uniform	
-   - Others mutations can be added implementing IMutation interface or extending MutationBase.
  - Populations
    - Generations
    - Generation strategy
      - Performance strategy
      - Tracking strategy  
- - Randomizations
-   - Basic randomization (using System.Random)
-   - Fast random
-   - Troschuetz
-   - If you need a special kind of randomization for your GA, just implement the IRandomization interface.
  - Selections
    - Elite (also know as Truncate or Truncation)
    - Roulette Wheel
    - Tournament  
    - Others selections can be added implementing ISelection interface or extending SelectionBase. 
+ - Crossovers
+   - One-Point
+   - Ordered OX1
+   - Partially Mapped (PMX)
+   - Three parent
+   - Two-Point
+   - Uniform
+   - Others crossovers can be added implementing ICrossover interface or extending CrossoverBase.   
+ - Mutations
+   - Reverse Sequence (RSM)
+   - Twors
+   - Uniform	
+   - Others mutations can be added implementing IMutation interface or extending MutationBase.
+ - Reinsertions
+   - Elitist
+   - Fitness Based
+   - Pure
+   - Uniform
  - Terminations
    - Generation number
    - Time evolving
+   - Fitness stagnation
    - Fitness threshold  
+ - Randomizations
+   - Basic randomization (using System.Random)
+   - Fast random
+   - Troschuetz
+   - If you need a special kind of randomization for your GA, just implement the IRandomization interface.
  - Runner app (GTK#) showing the library solving TSP (Travelling Salesman Problem). 
  - Mono support
  - Fully tested on Windows and MacOSX
@@ -104,7 +111,7 @@ var population = new Population (50, 70, chromosome);
 
 var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
 
-ga.Evolve();
+ga.Start();
 
 ```
 
@@ -118,8 +125,10 @@ Roadmap
 	  - Time series   
  - Create and publish NuGet package
  - Create the wiki
+ - Add new selections
+   - Stochastic Universal Sampling 
+   - Reward-based
  - Add new crossovers
-   - Three parent
    - Cycle crossover (CX)
    - Order-based (OX2)
    - Position-based (POS)
@@ -128,14 +137,12 @@ Roadmap
    - Sequential Constructive (SCX) 
    - Cut and splice 
    - Shuffle crossover
+   - Precedence Preservative Crossover (PPX)
  - Add new mutations
    - Non-Uniform
    - Flip Bit
    - Boundary
    - Gaussian 
- - Add new selections
-   - Stochastic Universal Sampling 
-   - Reward-based
  - Add new terminations
    - Fitness convergence 
    - Population convergence

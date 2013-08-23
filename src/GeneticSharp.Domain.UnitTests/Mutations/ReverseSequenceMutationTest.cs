@@ -25,7 +25,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
 			var chromosome = MockRepository.GenerateStub<ChromosomeBase>(2);
 			chromosome.ReplaceGenes(0, new Gene[] 
 			                        { 
-				new Gene() { Value = 1 },				
+				new Gene(1),				
 			});
 
 			ExceptionAssert.IsThrowing(new MutationException(target, "A chromosome should have, at least, 3 genes. {0} has only 2 gene.".With(chromosome.GetType().Name)), () =>
@@ -41,10 +41,10 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
 			var chromosome = MockRepository.GenerateStub<ChromosomeBase>(4);
 			chromosome.ReplaceGenes(0, new Gene[] 
 			                        { 
-				new Gene() { Value = 1 },
-				new Gene() { Value = 2 },
-				new Gene() { Value = 3 }, 
-				new Gene() { Value = 4 },
+				new Gene(1),
+				new Gene(2),
+				new Gene(3), 
+				new Gene(4),
 			});
 
 			var rnd = MockRepository.GenerateMock<IRandomization>();
@@ -70,12 +70,12 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
 			var chromosome = MockRepository.GenerateStub<ChromosomeBase>(6);
 			chromosome.ReplaceGenes(0, new Gene[] 
 			                        { 
-				new Gene() { Value = 1 },
-				new Gene() { Value = 2 },
-				new Gene() { Value = 3 }, 
-				new Gene() { Value = 4 },
-				new Gene() { Value = 5 },
-				new Gene() { Value = 6 },
+				new Gene(1),
+				new Gene(2),
+				new Gene(3), 
+				new Gene(4),
+				new Gene(5),
+				new Gene(6),
 			});
 
 			var rnd = MockRepository.GenerateMock<IRandomization>();

@@ -15,9 +15,9 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
 			var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(3);
 			chromosome1.ReplaceGenes(0, new Gene[] 
 			                         { 
-				new Gene() { Value = 1 },
-				new Gene() { Value = 2 },
-				new Gene() { Value = 3 }
+				new Gene(1),
+				new Gene(2),
+				new Gene(3)
 			});
 
 			var chromosomes = new List<IChromosome>() { chromosome1 };
@@ -26,9 +26,9 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
 			var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(3);
 			chromosome2.ReplaceGenes(0, new Gene[] 
 			                         { 
-				new Gene() { Value = 1 },
-				new Gene() { Value = 2 },
-				new Gene() { Value = 4 }
+				new Gene(1),
+				new Gene(2),
+				new Gene(4)
 			});
 
 			chromosomes.Add (chromosome2);
@@ -41,17 +41,17 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
 			var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(3);
 			chromosome1.ReplaceGenes(0, new Gene[] 
 			                         { 
-				new Gene() { Value = 1 },
-				new Gene() { Value = 2 },
-				new Gene() { Value = 3 }
+				new Gene(1),
+				new Gene(2),
+				new Gene(3)
 			});
 
 			var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(3);
 			chromosome1.ReplaceGenes(0, new Gene[] 
 			{ 
-				new Gene() { Value = 4 },
-				new Gene() { Value = 5 },
-				new Gene() { Value = 4 }
+				new Gene(4),
+				new Gene(5),
+				new Gene(4)
 			});
 
 			var chromosomes = new List<IChromosome>() { chromosome1, chromosome2 };

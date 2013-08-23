@@ -1,16 +1,18 @@
 using System;
-using NUnit.Framework;
-using GeneticSharp.Domain.Randomizations;
-using TestSharp;
-using GeneticSharp.Domain.Populations;
-using Rhino.Mocks;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Fitnesses;
-using GeneticSharp.Domain.Selections;
+using System.Threading;
+using System.Threading.Tasks;
 using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Mutations;
+using GeneticSharp.Domain.Populations;
+using GeneticSharp.Domain.Randomizations;
+using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 using HelperSharp;
+using NUnit.Framework;
+using Rhino.Mocks;
+using TestSharp;
+using System.Linq;
 
 namespace GeneticSharp.Domain.UnitTests
 {
@@ -69,7 +71,7 @@ namespace GeneticSharp.Domain.UnitTests
 		}
 
 		[Test()]
-		public void Evolve_InvalidFitnessEvaluateResult_Exception()
+		public void Start_InvalidFitnessEvaluateResult_Exception()
 		{
 			var selection = new RouletteWheelSelection();
 			var crossover = new OnePointCrossover(1);
@@ -83,7 +85,7 @@ namespace GeneticSharp.Domain.UnitTests
 				fitness, selection, crossover, mutation);
 
 			ExceptionAssert.IsThrowing(new FitnessException(fitness, "The {0}.Evaluate returns a fitness with value 1.1. The fitness value should be between 0.0 and 1.0.".With(fitness.GetType())), () => {
-				target.Evolve();
+				target.Start();
 			});
 
 			fitness = MockRepository.GenerateMock<IFitness>();
@@ -95,13 +97,13 @@ namespace GeneticSharp.Domain.UnitTests
 
 			ExceptionAssert.IsThrowing(new FitnessException(fitness, "The {0}.Evaluate returns a fitness with value -0.1. The fitness value should be between 0.0 and 1.0.".With(fitness.GetType())), () =>
 			                           {
-				target.Evolve();
+				target.Start();
 			});
 		}
 
 
 		[Test()]
-		public void Evolve_NotParallelManyGenerations_Optimization ()
+		public void Start_NotParallelManyGenerations_Optimization ()
 		{
 			var selection = new EliteSelection();
 			var crossover = new OnePointCrossover(2);
@@ -115,7 +117,7 @@ namespace GeneticSharp.Domain.UnitTests
 			Assert.IsInstanceOf<UniformMutation>(target.Mutation);
 
 			target.Termination = new GenerationNumberTermination (25);
-			target.Evolve ();
+			target.Start ();
 			Assert.AreEqual(25, target.Population.Generations.Count);
 
 			var lastFitness = 0.0;
@@ -129,42 +131,38 @@ namespace GeneticSharp.Domain.UnitTests
 		}
 
 		[Test()]
-		public void Evolve_ParallelManyGenerations_Optimization ()
+		public void Start_ParallelManyGenerations_Optimization ()
 		{
 			var selection = new EliteSelection();
 			var crossover = new OnePointCrossover(1);
 			var mutation = new UniformMutation();
-			var chromosome = new ChromosomeStub();
-			var target = new GeneticAlgorithm(new Population (100, 150, chromosome),
-				new FitnessStub() { SupportsParallel = true }, selection, crossover, mutation);
-
-			Assert.IsInstanceOf<EliteSelection>(target.Selection);
-			Assert.IsInstanceOf<OnePointCrossover>(target.Crossover);
-			Assert.IsInstanceOf<UniformMutation>(target.Mutation);
-
-
+			var chromosome = new ChromosomeStub();			
 
 			FlowAssert.IsAtLeastOneAttemptOk (8, () => {
-				target.Evolve();
-				Assert.IsTrue(target.Population.CurrentGeneration.Chromosomes.Count > 100);
+                var target = new GeneticAlgorithm(new Population(100, 150, chromosome),
+                new FitnessStub() { SupportsParallel = true }, selection, crossover, mutation);
+				target.Start();
+				Assert.IsTrue(target.Population.CurrentGeneration.Chromosomes.Count >= 100);
 				Assert.IsTrue(target.Population.CurrentGeneration.Chromosomes.Count <= 150);
 				Assert.IsNotNull(target.Population.BestChromosome);
 				Assert.IsTrue (target.Population.BestChromosome.Fitness >= 0.9);
+                Assert.IsTrue(target.Population.Generations.Count > 0);
 			});
 
 			FlowAssert.IsAtLeastOneAttemptOk (8, () => {
-				target.Evolve();
-				Assert.IsTrue(target.Population.CurrentGeneration.Chromosomes.Count > 100);
+                var target = new GeneticAlgorithm(new Population(100, 150, chromosome),
+                new FitnessStub() { SupportsParallel = true }, selection, crossover, mutation);
+				target.Start();
+				Assert.IsTrue(target.Population.CurrentGeneration.Chromosomes.Count >= 100);
 				Assert.IsTrue(target.Population.CurrentGeneration.Chromosomes.Count <= 150);
 				Assert.IsNotNull(target.Population.BestChromosome);
 				Assert.IsTrue (target.Population.BestChromosome.Fitness >= 0.9);
-			});
-
-			Assert.IsTrue (target.Population.Generations.Count > 0);
+                Assert.IsTrue(target.Population.Generations.Count > 0);
+			});			
 		}
 
 		[Test()]
-		public void Evolve_ParallelManySlowFitness_Timeout ()
+		public void Start_ParallelManySlowFitness_Timeout ()
 		{
 			var selection = new RouletteWheelSelection();
 			var crossover = new OnePointCrossover(1);
@@ -174,12 +172,12 @@ namespace GeneticSharp.Domain.UnitTests
 				new FitnessStub() { SupportsParallel = true, ParallelSleep = 1500 }, selection, crossover, mutation);
 
 			ExceptionAssert.IsThrowing (new TimeoutException("The RunGeneration reach the 1000 milliseconds timeout."), () => {
-				target.Evolve (1000);
+				target.Start (1000);
 			});
 		}
 
 		[Test()]
-		public void Evolve_NotParallelManyGenerations_Fast()
+		public void Start_NotParallelManyGenerations_Fast()
 		{
 			var selection = new EliteSelection();
 			var crossover = new OnePointCrossover(2);
@@ -191,12 +189,218 @@ namespace GeneticSharp.Domain.UnitTests
 			target.Termination = new GenerationNumberTermination (100);
 
 			TimeAssert.LessThan (200, () => {
-				target.Evolve();
+				target.Start();
 			});
 
 			Assert.AreEqual(100, target.Population.Generations.Count);        
 			Assert.Greater (target.TimeEvolving.TotalMilliseconds, 1);
 		}
+
+        [Test()]
+        public void Start_ThreeParentCrossover_KeepsMinSizePopulation()
+        {
+            var selection = new EliteSelection();
+            var crossover = new ThreeParentCrossover();
+            var mutation = new UniformMutation();
+            var chromosome = new ChromosomeStub();
+            var target = new GeneticAlgorithm(new Population(100, 199, chromosome),
+                    new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
+
+            target.Termination = new GenerationNumberTermination(100);
+
+            target.Start();
+            
+            Assert.AreEqual(100, target.Population.Generations.Count);
+            
+            Assert.IsTrue(target.Population.Generations.All(g => g.Chromosomes.Count >= 100));
+        }
+
+        [Test()]
+        public void Start_ManyCalls_NewEvolutions()
+        {
+            var selection = new EliteSelection();
+            var crossover = new OnePointCrossover(2);
+            var mutation = new UniformMutation();
+            var chromosome = new ChromosomeStub();
+            var target = new GeneticAlgorithm(new Population(100, 199, chromosome),
+                    new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
+
+            target.Termination = new GenerationNumberTermination(100);
+
+            target.Start();
+            var lastTimeEvolving = target.TimeEvolving.Ticks;
+            Assert.AreEqual(100, target.Population.Generations.Count);
+            Assert.Greater(target.TimeEvolving.TotalMilliseconds, 1);
+
+            target.Start();
+            Assert.AreEqual(100, target.Population.Generations.Count);
+            Assert.AreNotEqual(lastTimeEvolving, target.TimeEvolving.Ticks);
+
+            target.Start();
+            Assert.AreEqual(100, target.Population.Generations.Count);
+            Assert.AreNotEqual(lastTimeEvolving, target.TimeEvolving.Ticks);
+        }
+
+        [Test()]
+        public void Start_ManyCallsTerminationChanged_NewEvolutions()
+        {
+            var selection = new EliteSelection();
+            var crossover = new OnePointCrossover(2);
+            var mutation = new UniformMutation();
+            var chromosome = new ChromosomeStub();
+            var target = new GeneticAlgorithm(new Population(100, 199, chromosome),
+                    new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
+
+            target.Termination = new GenerationNumberTermination(100);
+
+            target.Start();
+            var lastTimeEvolving = target.TimeEvolving.TotalMilliseconds;
+            Assert.AreEqual(100, target.Population.Generations.Count);
+            Assert.Greater(target.TimeEvolving.TotalMilliseconds, 1);
+            Assert.Less(target.TimeEvolving.TotalMilliseconds, 1000);
+
+            target.Termination = new GenerationNumberTermination(50);
+            target.Start();
+            Assert.AreEqual(50, target.Population.Generations.Count);
+            Assert.Less(target.TimeEvolving.TotalMilliseconds, lastTimeEvolving);
+            lastTimeEvolving = target.TimeEvolving.TotalMilliseconds;
+
+            target.Termination = new GenerationNumberTermination(25);
+            target.Start();
+            Assert.AreEqual(25, target.Population.Generations.Count);
+            Assert.Less(target.TimeEvolving.TotalMilliseconds, lastTimeEvolving);
+        }
+
+        [Test()]
+        public void Stop_NotStarted_Exception()
+        {
+            var selection = new EliteSelection();
+            var crossover = new OnePointCrossover(2);
+            var mutation = new UniformMutation();
+            var chromosome = new ChromosomeStub();
+            var target = new GeneticAlgorithm(new Population(100, 199, chromosome),
+                    new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
+
+            ExceptionAssert.IsThrowing(new InvalidOperationException("Attempt to stop a genetic algorithm which was not yet started."), () =>
+            {
+                target.Stop();
+            });
+        }
+
+        [Test()]
+        public void Stop_Started_Stopped()
+        {
+            var selection = new EliteSelection();
+            var crossover = new OnePointCrossover(2);
+            var mutation = new UniformMutation();
+            var chromosome = new ChromosomeStub();
+            var target = new GeneticAlgorithm(new Population(100, 199, chromosome),
+                    new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
+
+            target.Termination = new GenerationNumberTermination(10000);
+
+            Parallel.Invoke(
+            () => target.Start(),
+            () =>
+            {
+                Thread.Sleep(10);
+                target.Stop();
+            });
+
+            Assert.Less(target.Population.Generations.Count, 10000);
+            Assert.Greater(target.TimeEvolving.TotalMilliseconds, 9);
+        }
+
+
+        [Test()]
+        public void Resume_NotStarted_Exception()
+        {
+            var selection = new EliteSelection();
+            var crossover = new OnePointCrossover(2);
+            var mutation = new UniformMutation();
+            var chromosome = new ChromosomeStub();
+            var target = new GeneticAlgorithm(new Population(100, 199, chromosome),
+                    new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
+
+            ExceptionAssert.IsThrowing(new InvalidOperationException("Attempt to resume a genetic algorithm which was not yet started."), () =>
+            {
+                target.Resume();
+            });
+        }
+
+        [Test()]
+        public void Resume_Stopped_Resumed()
+        {
+            var selection = new EliteSelection();
+            var crossover = new OnePointCrossover(2);
+            var mutation = new UniformMutation();
+            var chromosome = new ChromosomeStub();
+            var target = new GeneticAlgorithm(new Population(100, 199, chromosome),
+                    new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
+
+            target.Termination = new GenerationNumberTermination(10000);
+
+            Parallel.Invoke(
+            () => target.Start(),
+            () =>
+            {
+                Thread.Sleep(10);
+                target.Stop();
+            });
+
+            target.Resume();
+            Assert.AreEqual(target.Population.Generations.Count, 10000);            
+        }
+
+        [Test()]
+        public void Resume_TerminationReachedAndTerminationNotChanged_DoNothing()
+        {
+            var selection = new EliteSelection();
+            var crossover = new OnePointCrossover(2);
+            var mutation = new UniformMutation();
+            var chromosome = new ChromosomeStub();
+            var target = new GeneticAlgorithm(new Population(100, 199, chromosome),
+                    new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
+
+            target.Termination = new GenerationNumberTermination(10);
+            target.Start();
+            Assert.AreEqual(10, target.Population.Generations.Count);
+            var timeEvolving = target.TimeEvolving.Ticks;
+
+            target.Resume();
+            Assert.AreEqual(10, target.Population.Generations.Count);
+            Assert.AreEqual(timeEvolving, target.TimeEvolving.Ticks);
+
+            target.Resume();
+            Assert.AreEqual(10, target.Population.Generations.Count);
+            Assert.AreEqual(timeEvolving, target.TimeEvolving.Ticks);
+        }
+
+        [Test()]
+        public void Resume_TerminationReachedAndTerminationExtend_Resumed()
+        {
+            var selection = new EliteSelection();
+            var crossover = new OnePointCrossover(2);
+            var mutation = new UniformMutation();
+            var chromosome = new ChromosomeStub();
+            var target = new GeneticAlgorithm(new Population(100, 199, chromosome),
+                    new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
+
+            target.Termination = new GenerationNumberTermination(10);
+            target.Start();
+            Assert.AreEqual(target.Population.Generations.Count, 10);
+            var timeEvolving = target.TimeEvolving.Ticks;
+
+            target.Termination = new GenerationNumberTermination(20);
+            target.Resume();
+            Assert.AreEqual(target.Population.Generations.Count, 20);
+            Assert.Less(timeEvolving, target.TimeEvolving.Ticks);
+
+            target.Termination = new GenerationNumberTermination(30);
+            target.Resume();
+            Assert.AreEqual(target.Population.Generations.Count, 30);
+            Assert.Less(timeEvolving, target.TimeEvolving.Ticks);
+        }
 	}
 }
 

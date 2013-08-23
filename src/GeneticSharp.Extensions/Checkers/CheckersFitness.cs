@@ -25,28 +25,7 @@ namespace GeneticSharp.Extensions.Checkers
         {
             m_boardSize = boardSize;
             Board = new CheckersSquare[boardSize, boardSize];
-
-            for (int c = 0; c < boardSize; c++)
-            {
-                for (int r = 0; r < boardSize; r++)
-                {
-                    var square = new CheckersSquare(c, r);                    
-
-                    if(square.State == CheckersSquareState.Free)
-                    {
-                        if (r < 3)
-                        {
-                            square.State = CheckersSquareState.OccupiedByPlayerOne;
-                        }
-                        else if (r >= boardSize - 3)
-                        {
-                            square.State = CheckersSquareState.OccupiedByPlayerTwo;
-                        }
-                    }
-
-                    Board[c, r] = square;
-                }
-            }
+            Reset();             
         }
         #endregion
 
@@ -135,6 +114,34 @@ namespace GeneticSharp.Extensions.Checkers
             }
 
             return moveFitness;
+        }
+
+        /// <summary>
+        /// Resets the fitness.
+        /// </summary>
+        public void Reset()
+        {
+            for (int c = 0; c < m_boardSize; c++)
+            {
+                for (int r = 0; r < m_boardSize; r++)
+                {
+                    var square = new CheckersSquare(c, r);
+
+                    if (square.State == CheckersSquareState.Free)
+                    {
+                        if (r < 3)
+                        {
+                            square.State = CheckersSquareState.OccupiedByPlayerOne;
+                        }
+                        else if (r >= m_boardSize - 3)
+                        {
+                            square.State = CheckersSquareState.OccupiedByPlayerTwo;
+                        }
+                    }
+
+                    Board[c, r] = square;
+                }
+            }
         }
 
 		/// <summary>

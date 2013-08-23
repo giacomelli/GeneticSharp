@@ -53,6 +53,7 @@
     <Compile Include="Crossovers\CrossoverException.cs" />
     <Compile Include="Crossovers\OnePointCrossover.cs" />
     <Compile Include="Crossovers\OrderedCrossover.cs" />
+    <Compile Include="Crossovers\ThreeParentCrossover.cs" />
     <Compile Include="Crossovers\TwoPointCrossover.cs" />
     <Compile Include="Crossovers\UniformCrossover.cs" />
     <Compile Include="GlobalSuppressions.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Randomizations\RandomizationProvider.cs" />
     <Compile Include="Randomizations\BasicRandomization.cs" />
     <Compile Include="Randomizations\TroschuetzRandomization.cs" />
+    <Compile Include="Reinsertions\IReinsertion.cs" />
     <Compile Include="Selections\EliteSelection.cs" />
     <Compile Include="Selections\RouletteWheelSelection.cs" />
     <Compile Include="Selections\ISelection.cs" />
@@ -100,6 +102,12 @@
     <Compile Include="GeneticAlgorithm.cs" />
     <Compile Include="Terminations\FitnessThresholdTermination.cs" />
     <Compile Include="Populations\PopulationService.cs" />
+    <Compile Include="Reinsertions\PureReinsertion.cs" />
+    <Compile Include="Reinsertions\ReinsertionBase.cs" />
+    <Compile Include="Reinsertions\ReinsertionException.cs" />
+    <Compile Include="Reinsertions\UniformReinsertion.cs" />
+    <Compile Include="Reinsertions\ElitistReinsertion.cs" />
+    <Compile Include="Reinsertions\FitnessBasedReinsertion.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -128,8 +136,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj">
-      <Project>{1498d792-d02b-4a9e-8afc-24aeba0dee54}</Project>
+      <Project>{1498D792-D02B-4A9E-8AFC-24AEBA0DEE54}</Project>
       <Name>GeneticSharp.Infrastructure.Framework</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
 </Project>
