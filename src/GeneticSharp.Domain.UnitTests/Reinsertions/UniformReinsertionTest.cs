@@ -6,6 +6,7 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using System.Collections.Generic;
 using GeneticSharp.Domain.Randomizations;
+using TestSharp;
 
 namespace GeneticSharp.Domain.UnitTests.Reinsertions
 {
@@ -18,13 +19,33 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
 			RandomizationProvider.Current = new BasicRandomization();
 		}
 
+        [Test()]
+        public void SelectChromosomes_OffspringSizeEqualsZero_Exception()
+        {
+            var target = new UniformReinsertion ();
+            var population = new Population (6, 8, MockRepository.GenerateStub<ChromosomeBase> (1));
+			var offspring = new List<IChromosome> ();
+
+			var parents = new List<IChromosome> () { 
+				MockRepository.GenerateStub<ChromosomeBase> (5), 
+				MockRepository.GenerateStub<ChromosomeBase> (6), 
+				MockRepository.GenerateStub<ChromosomeBase> (7), 
+				MockRepository.GenerateStub<ChromosomeBase> (8)
+			};
+
+            ExceptionAssert.IsThrowing(new ReinsertionException(target, "The minimum size of the offspring is 1."), () =>
+            {
+                target.SelectChromosomes(population, offspring, parents);
+            });
+        }
+
 		[Test()]
-		public void SelectChromosomes_OffspringsSizeLowerThanMinSize_SelectOffsprings ()
+		public void SelectChromosomes_offspringSizeLowerThanMinSize_Selectoffspring ()
 		{
 			var target = new UniformReinsertion ();
 	
 			var population = new Population (6, 8, MockRepository.GenerateStub<ChromosomeBase> (1));
-			var offsprings = new List<IChromosome> () { 
+			var offspring = new List<IChromosome> () { 
 				MockRepository.GenerateStub<ChromosomeBase> (1), 
 				MockRepository.GenerateStub<ChromosomeBase> (2), 
 				MockRepository.GenerateStub<ChromosomeBase> (3), 
@@ -43,7 +64,7 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
 			rnd.Expect (r => r.GetInt (0, 5)).Return (3);
 			RandomizationProvider.Current = rnd;
 
-			var selected = target.SelectChromosomes (population, offsprings, parents);
+			var selected = target.SelectChromosomes (population, offspring, parents);
 			Assert.AreEqual (6, selected.Count);
 			Assert.AreEqual (1, selected [0].Length);
 			Assert.AreEqual (2, selected [1].Length);

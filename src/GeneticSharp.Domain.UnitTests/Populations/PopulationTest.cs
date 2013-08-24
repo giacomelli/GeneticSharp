@@ -60,6 +60,17 @@ namespace GeneticSharp.Domain.UnitTests.Populations
                 new Population(2, 2, null);
             });
         }
+
+        [Test()]
+        public void CreateInitialGeneration_AdamChromosomeCreateNewNull_Exception()
+        {
+            var population = new Population(2, 2, MockRepository.GenerateStub<ChromosomeBase>(4));
+
+            ExceptionAssert.IsThrowing(new InvalidOperationException("The Adam chromosome's 'CreateNew' method generated a null chromosome. This is a invalid behavior, please, check your chromosome code."), () =>
+            {
+                population.CreateInitialGeneration();    
+            });
+        }
 	}
 }
 

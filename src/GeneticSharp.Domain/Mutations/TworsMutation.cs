@@ -15,6 +15,16 @@ namespace GeneticSharp.Domain.Mutations
 	[DisplayName("Twors")]
 	public class TworsMutation : MutationBase
     {
+        #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TworsMutation"/> class.
+        /// </summary>
+        public TworsMutation()
+        {
+            IsOrdered = true;
+        }
+        #endregion
+
         #region Methods
         /// <summary>
         /// Mutate the specified chromosome.

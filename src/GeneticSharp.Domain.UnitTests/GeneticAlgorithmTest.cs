@@ -13,6 +13,8 @@ using NUnit.Framework;
 using Rhino.Mocks;
 using TestSharp;
 using System.Linq;
+using GeneticSharp.Domain.Reinsertions;
+using GeneticSharp.Domain.Chromosomes;
 
 namespace GeneticSharp.Domain.UnitTests
 {
@@ -213,6 +215,60 @@ namespace GeneticSharp.Domain.UnitTests
             Assert.AreEqual(100, target.Population.Generations.Count);
             
             Assert.IsTrue(target.Population.Generations.All(g => g.Chromosomes.Count >= 100));
+        }
+
+        [Test()]
+        public void Start_UsingAllConfigurationCombinationsAvailable_AllRun()
+        {
+            var selections = SelectionService.GetSelectionNames();
+            var crossovers = CrossoverService.GetCrossoverNames();
+            var mutations = MutationService.GetMutationNames();
+            var reinsertions = ReinsertionService.GetReinsertionNames();          
+            var chromosome = new OrderedChromosomeStub();
+            
+            foreach (var s in selections)
+            {
+                foreach (var c in crossovers)
+                {
+                    foreach (var m in mutations)
+                    {
+                        foreach (var r in reinsertions)
+                        {                            
+                            var selection = SelectionService.CreateSelectionByName(s);
+                            var crossover = CrossoverService.CreateCrossoverByName(c);
+                            var mutation = MutationService.CreateMutationByName(m);
+                            var reinsertion = ReinsertionService.CreateReinsertionByName(r);
+
+                            if (crossover.IsOrdered && !mutation.IsOrdered)
+                            {
+                                continue;
+                            }
+
+                            if (crossover.ParentsNumber > crossover.ChildrenNumber && !reinsertion.CanExpand)
+                            {
+                                continue;
+                            }
+
+                            var target = new GeneticAlgorithm(
+                                 new Population(50, 50, chromosome)
+                                 {
+                                     GenerationStrategy = new TrackingGenerationStrategy()
+                                 },
+                                 new FitnessStub() { SupportsParallel = false },
+                                 selection,
+                                 crossover,
+                                 mutation);
+
+                            target.Reinsertion = reinsertion;
+                            target.Termination = new GenerationNumberTermination(25);
+                            target.CrossoverProbability = reinsertion.CanExpand ? 0.75f : 1f;
+
+                            target.Start();
+                            Assert.AreEqual(25, target.Population.Generations.Count);                            
+                        }
+                    }
+                }
+            }            
         }
 
         [Test()]

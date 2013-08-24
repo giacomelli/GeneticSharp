@@ -9,7 +9,7 @@ namespace GeneticSharp.Domain.Chromosomes
 	/// <summary>
 	/// A base class for chromosomes.
 	/// </summary>
-	[DebuggerDisplay("{Id}: {Fitness} = {GetGenes()}")]
+	[DebuggerDisplay("Fitness:{Fitness}, Genes:{Length}")]
     public abstract class ChromosomeBase : IChromosome
     {
 		#region Fields
@@ -25,28 +25,15 @@ namespace GeneticSharp.Domain.Chromosomes
         protected ChromosomeBase(int length)
         {
             m_length = length;
-            Id = Guid.NewGuid().ToString();
 			m_genes = new Gene[length];
        }
         #endregion
 
         #region Properties
 		/// <summary>
-		/// Gets the unique identifier.
-		/// </summary>
-		/// <value>The identifier.</value>
-        public string Id { get; private set;  }
-      
-		/// <summary>
 		/// Gets or sets the fitness of the chromosome in the current problem.
 		/// </summary>
         public double? Fitness { get; set; }
-
-		/// <summary>
-		/// Gets or sets the age.
-		/// </summary>
-		/// <value>The age.</value>
-        public int Age { get; set; }
 
 		/// <summary>
 		/// Gets the length, in genes, of the chromosome.
@@ -75,7 +62,6 @@ namespace GeneticSharp.Domain.Chromosomes
 		{
 			var clone = CreateNew();
 			clone.ReplaceGenes (0, GetGenes ());
-			clone.Age = Age;
 			clone.Fitness = Fitness;
 
 			return clone;
@@ -194,7 +180,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </returns>
         public override int GetHashCode()
         {
-            return Id.GetHashCode();
+            return Fitness.GetHashCode();
         }
 
 		/// <param name="first">First.</param>

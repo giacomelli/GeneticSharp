@@ -7,12 +7,12 @@ using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
+using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
-using GeneticSharp.Extensions;
-using Gtk;
 using GeneticSharp.Runner.GtkApp;
 using GeneticSharp.Runner.GtkApp.Samples;
+using Gtk;
 
 /// <summary>
 /// Main window.
@@ -25,6 +25,7 @@ public partial class MainWindow: Gtk.Window
 	private ISelection m_selection;
 	private ICrossover m_crossover;
 	private IMutation m_mutation;
+    private IReinsertion m_reinsertion;
 	private ITermination m_termination;
     private IGenerationStrategy m_generationStrategy;
     
@@ -48,32 +49,12 @@ public partial class MainWindow: Gtk.Window
 				m_evolvingThread.Start();
 			}
 			else {
-				btnEvolve.Label = "Aborting...";
+				btnEvolve.Label = "Stopping...";
 				btnEvolve.Sensitive = false;
 				m_evolvingThread.Abort();
 			}
         };
-
-		btnEditSelection.Clicked += delegate {
-			m_selection = ShowEditorProperty<ISelection>(SelectionService.GetSelectionTypeByName(cmbSelection.ActiveText), m_selection);
-		};
-
-		btnEditCrossover.Clicked += delegate {
-			m_crossover = ShowEditorProperty<ICrossover>(CrossoverService.GetCrossoverTypeByName(cmbCrossover.ActiveText), m_crossover);
-		};
-
-		btnEditMutation.Clicked += delegate {
-			m_mutation = ShowEditorProperty<IMutation>(MutationService.GetMutationTypeByName(cmbMutation.ActiveText), m_mutation);
-		};
-
-		btnEditTermination.Clicked += delegate {
-			m_termination = ShowEditorProperty<ITermination>(TerminationService.GetTerminationTypeByName(cmbTermination.ActiveText), m_termination);
-		};
-
-		btnEditGenerationStrategy.Clicked += delegate {
-			m_generationStrategy = ShowEditorProperty<IGenerationStrategy>(PopulationService.GetGenerationStrategyTypeByName(cmbGenerationStrategy.ActiveText), m_generationStrategy);
-		};		
-		
+	
 		drawingArea.ConfigureEvent += delegate {
 			ResetBuffer ();
             UpdateSample();
@@ -81,105 +62,25 @@ public partial class MainWindow: Gtk.Window
 
 		drawingArea.ExposeEvent += delegate {
 			DrawBuffer();
-		};
+		};       		
 
-		LoadComboBox (cmbSelection, SelectionService.GetSelectionNames ());
-		LoadComboBox (cmbCrossover, CrossoverService.GetCrossoverNames ());
-		LoadComboBox (cmbMutation, MutationService.GetMutationNames ());
-		LoadComboBox (cmbTermination, TerminationService.GetTerminationNames ());
-		LoadComboBox (cmbGenerationStrategy, PopulationService.GetGenerationStrategyNames ());
-		LoadComboBox (cmbSample, SampleService.GetSampleControllerNames ());
+	    ShowAll();
 
-		m_selection = SelectionService.CreateSelectionByName (cmbSelection.ActiveText);
-		m_crossover = CrossoverService.CreateCrossoverByName (cmbCrossover.ActiveText);
-		m_mutation = MutationService.CreateMutationByName(cmbMutation.ActiveText);
-		m_termination = TerminationService.CreateTerminationByName (cmbTermination.ActiveText);
-		m_generationStrategy = PopulationService.CreateGenerationStrategyByName (cmbGenerationStrategy.ActiveText);
-		m_sampleController = SampleService.CreateSampleControllerByName (cmbSample.ActiveText);
+        PrepareComboBoxes();
+        PrepareSamples();
 
-        // Sample context.
-        var layout = new Pango.Layout(this.PangoContext);
-        layout.Alignment = Pango.Alignment.Center;
-        layout.FontDescription = Pango.FontDescription.FromString("Arial 16");	
-
-        m_sampleContext = new SampleContext(drawingArea.GdkWindow, this)
-        {
-            Layout = layout
-        };
-
-		m_sampleContext.GC = m_sampleContext.CreateGC (new Gdk.Color (255, 50, 50));
-
-        m_sampleController.Context = m_sampleContext;
-        m_sampleController.Reconfigured += delegate
-        {
-            ResetSample();
-        };
-
-		problemConfigWidgetContainer.Add(m_sampleController.CreateConfigWidget());
-
-		cmbSelection.Changed += delegate {
-			m_selection = SelectionService.CreateSelectionByName (cmbSelection.ActiveText);
-			ShowButtonByEditableProperties(btnEditSelection, m_selection);
-		};
-
-		cmbCrossover.Changed += delegate {
-			m_crossover = CrossoverService.CreateCrossoverByName (cmbCrossover.ActiveText);
-			ShowButtonByEditableProperties(btnEditCrossover, m_crossover);
-		};
-
-		cmbMutation.Changed += delegate {
-			m_mutation = MutationService.CreateMutationByName(cmbMutation.ActiveText);
-			ShowButtonByEditableProperties(btnEditMutation, m_mutation);
-		};
-
-		cmbTermination.Changed += delegate {
-			m_termination = TerminationService.CreateTerminationByName(cmbTermination.ActiveText);
-			ShowButtonByEditableProperties(btnEditTermination, m_termination);
-		};
-
-		cmbGenerationStrategy.Changed += delegate {
-			m_generationStrategy = PopulationService.CreateGenerationStrategyByName(cmbGenerationStrategy.ActiveText);
-			ShowButtonByEditableProperties(btnEditGenerationStrategy, m_generationStrategy);
-		};
-
-		cmbSample.Changed += delegate {
-			m_sampleController = SampleService.CreateSampleControllerByName(cmbSample.ActiveText);
-			m_sampleController.Context = m_sampleContext;
-			m_sampleController.Reconfigured += delegate
-			{
-				ResetSample();
-			};
-		
-			if(problemConfigWidgetContainer.Children.Length > 0)
-			{
-				problemConfigWidgetContainer.Children[0].Destroy();
-			}
-
-			problemConfigWidgetContainer.Add(m_sampleController.CreateConfigWidget());
-			problemConfigWidgetContainer.ShowAll();
-
-			ResetBuffer ();
-			ResetSample();
-		};
-
-		hslCrossoverProbability.Value = GeneticAlgorithm.DefaultCrossoverProbability;
-		hslMutationProbability.Value = GeneticAlgorithm.DefaultMutationProbability;
-
-		cmbCrossover.Active = 1;
-		cmbTermination.Active = 2;
-
-		ShowAll();
-		ShowButtonByEditableProperties(btnEditSelection, m_selection);
-		ShowButtonByEditableProperties(btnEditCrossover, m_crossover);
-		ShowButtonByEditableProperties(btnEditMutation, m_mutation);
-		ShowButtonByEditableProperties(btnEditTermination, m_termination);
+        cmbSample.Active = 1;
+        cmbCrossover.Active = 2;
+        cmbTermination.Active = 2;
+        hslCrossoverProbability.Value = GeneticAlgorithm.DefaultCrossoverProbability;
+        hslMutationProbability.Value = GeneticAlgorithm.DefaultMutationProbability;
 
 		ResetBuffer ();
         ResetSample();
-	}
+	}    
 	#endregion
 
-	#region Methods
+	#region GA methods
     private void Run()
     {
         try
@@ -216,6 +117,7 @@ public partial class MainWindow: Gtk.Window
             m_ga.GenerationRan += HandleGAUpdated;
             m_ga.TerminationReached -= HandleGAUpdated;
 
+            m_ga.Reinsertion = m_reinsertion;
             m_ga.Termination = m_termination;
 
             m_ga.Start();
@@ -244,43 +146,65 @@ public partial class MainWindow: Gtk.Window
 			Application.Invoke(delegate
 			{
 				vbxButtonBar.Sensitive = true;
-				btnEvolve.Label = "_Evolve";
+				btnEvolve.Label = "_Start";
 				btnEvolve.Sensitive = true;
 			});
         }
     }
+    #endregion
 
-    private void LoadComboBox(ComboBox cmb, IList<string> names)
-	{
-		foreach (var c in names) {
-			cmb.AppendText (c);
-		}
-
-		cmb.Active = 0;
-	}
-
-    private void ShowButtonByEditableProperties(Button btn, object objectInstance)
-	{
-		if(PropertyEditor.HasEditableProperties(objectInstance.GetType()))
-		{
-			btn.Show(); 
-		}
-		else {
-			btn.Hide();
-		}
-	}
-
-    private TInterface ShowEditorProperty<TInterface>(Type objectType, object objectInstance)
+    #region Sample methods
+    private void PrepareSamples()
     {
-        var editor = new PropertyEditor(objectType, objectInstance);
-        editor.Run();
-        return (TInterface)editor.ObjectInstance;
+        LoadComboBox(cmbSample, SampleService.GetSampleControllerNames());
+        m_sampleController = SampleService.CreateSampleControllerByName(cmbSample.ActiveText);
+
+        // Sample context.
+        var layout = new Pango.Layout(this.PangoContext);
+        layout.Alignment = Pango.Alignment.Center;
+        layout.FontDescription = Pango.FontDescription.FromString("Arial 16");
+
+        m_sampleContext = new SampleContext(drawingArea.GdkWindow, this)
+        {
+            Layout = layout
+        };
+
+        m_sampleContext.GC = m_sampleContext.CreateGC(new Gdk.Color(255, 50, 50));
+
+        m_sampleController.Context = m_sampleContext;
+        m_sampleController.Reconfigured += delegate
+        {
+            ResetSample();
+        };
+
+        problemConfigWidgetContainer.Add(m_sampleController.CreateConfigWidget());
+
+        cmbSample.Changed += delegate
+        {
+            m_sampleController = SampleService.CreateSampleControllerByName(cmbSample.ActiveText);
+            m_sampleController.Context = m_sampleContext;
+            m_sampleController.Reconfigured += delegate
+            {
+                ResetSample();
+            };
+
+            if (problemConfigWidgetContainer.Children.Length > 0)
+            {
+                problemConfigWidgetContainer.Children[0].Destroy();
+            }
+
+            problemConfigWidgetContainer.Add(m_sampleController.CreateConfigWidget());
+            problemConfigWidgetContainer.ShowAll();
+
+            ResetBuffer();
+            ResetSample();
+        };
     }
 
     private void HandleGAUpdated(object sender, EventArgs e)
-	{
+    {
         UpdateSample();
-	}
+    }
 
     private void UpdateSample()
     {
@@ -291,10 +215,11 @@ public partial class MainWindow: Gtk.Window
                 DrawSample();
             });
         }
-        else {
+        else
+        {
             // Avoid to update the map so quickly that makes the UI freeze.
             if (m_sampleContext.Population.GenerationsNumber % 10 == 0)
-            {                
+            {
                 Application.Invoke(delegate
                 {
                     m_sampleController.Update();
@@ -330,6 +255,115 @@ public partial class MainWindow: Gtk.Window
 
         DrawBuffer();
     }	
+    #endregion
+
+    #region Form methods
+    private void PrepareComboBoxes()
+    {
+        PrepareEditComboBox(
+           cmbSelection,
+           btnEditSelection,
+           SelectionService.GetSelectionNames,
+           SelectionService.GetSelectionTypeByName,
+           SelectionService.CreateSelectionByName,
+           () => m_selection,
+           (i) => m_selection = i);
+
+        PrepareEditComboBox(
+            cmbCrossover,
+            btnEditCrossover,
+            CrossoverService.GetCrossoverNames,
+            CrossoverService.GetCrossoverTypeByName,
+            CrossoverService.CreateCrossoverByName,
+            () => m_crossover,
+            (i) => m_crossover = i);
+
+        PrepareEditComboBox(
+            cmbMutation,
+            btnEditMutation,
+            MutationService.GetMutationNames,
+            MutationService.GetMutationTypeByName,
+            MutationService.CreateMutationByName,
+            () => m_mutation,
+            (i) => m_mutation = i);
+
+        PrepareEditComboBox(
+            cmbTermination,
+            btnEditTermination,
+            TerminationService.GetTerminationNames,
+            TerminationService.GetTerminationTypeByName,
+            TerminationService.CreateTerminationByName,
+            () => m_termination,
+            (i) => m_termination = i);
+
+        PrepareEditComboBox(
+            cmbTermination1,
+            btnEditReinsertion,
+            ReinsertionService.GetReinsertionNames,
+            ReinsertionService.GetReinsertionTypeByName,
+            ReinsertionService.CreateReinsertionByName,
+            () => m_reinsertion,
+            (i) => m_reinsertion = i);
+
+        PrepareEditComboBox(
+            cmbGenerationStrategy,
+            btnEditGenerationStrategy,
+            PopulationService.GetGenerationStrategyNames,
+            PopulationService.GetGenerationStrategyTypeByName,
+            PopulationService.CreateGenerationStrategyByName,
+            () => m_generationStrategy,
+            (i) => m_generationStrategy = i);
+    }
+
+    private void PrepareEditComboBox<TItem>(ComboBox comboBox, Button editButton, Func<IList<string>> getNames, Func<string, Type> getTypeByName, Func<string, object[], TItem> createItem, Func<TItem> getItem, Action<TItem> setItem)
+    {
+        // ComboBox.
+        LoadComboBox(comboBox, getNames());
+
+        comboBox.Changed += delegate
+        {
+            var item = createItem(comboBox.ActiveText, new object[0]);
+            setItem(item);
+            ShowButtonByEditableProperties(editButton, item);
+        };
+
+        setItem(createItem(comboBox.ActiveText, new object[0]));
+
+        comboBox.ExposeEvent += delegate
+        {
+            ShowButtonByEditableProperties(editButton, getItem());
+        };
+
+        // Edit button.
+        editButton.Clicked += delegate
+        {
+            var editor = new PropertyEditor(getTypeByName(comboBox.ActiveText), getItem());
+            editor.Run();
+            setItem((TItem)editor.ObjectInstance);
+        };
+    }
+
+    private void LoadComboBox(ComboBox cmb, IList<string> names)
+    {
+        foreach (var c in names)
+        {
+            cmb.AppendText(c);
+        }
+
+        cmb.Active = 0;
+    }
+
+    private void ShowButtonByEditableProperties(Button editButton, object item)
+    {
+        if (PropertyEditor.HasEditableProperties(item.GetType()))
+        {
+            editButton.Show();
+        }
+        else
+        {
+            editButton.Hide();
+        }
+    }
    
 	private void ResetBuffer()
 	{

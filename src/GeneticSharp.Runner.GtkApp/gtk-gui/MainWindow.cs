@@ -42,6 +42,10 @@ public partial class MainWindow
 	private global::Gtk.ComboBox cmbMutation;
 	private global::Gtk.Button btnEditMutation;
 	private global::Gtk.HSeparator hseparator3;
+	private global::Gtk.Label label12;
+	private global::Gtk.HBox hbox12;
+	private global::Gtk.ComboBox cmbTermination1;
+	private global::Gtk.Button btnEditReinsertion;
 	private global::Gtk.Label label11;
 	private global::Gtk.HBox hbox10;
 	private global::Gtk.ComboBox cmbTermination;
@@ -427,14 +431,52 @@ public partial class MainWindow
 		w37.Expand = false;
 		w37.Fill = false;
 		// Container child vbxButtonBar.Gtk.Box+BoxChild
+		this.label12 = new global::Gtk.Label ();
+		this.label12.Name = "label12";
+		this.label12.LabelProp = global::Mono.Unix.Catalog.GetString ("Reinsertion");
+		this.vbxButtonBar.Add (this.label12);
+		global::Gtk.Box.BoxChild w38 = ((global::Gtk.Box.BoxChild)(this.vbxButtonBar [this.label12]));
+		w38.Position = 19;
+		w38.Expand = false;
+		w38.Fill = false;
+		// Container child vbxButtonBar.Gtk.Box+BoxChild
+		this.hbox12 = new global::Gtk.HBox ();
+		this.hbox12.Name = "hbox12";
+		this.hbox12.Spacing = 6;
+		// Container child hbox12.Gtk.Box+BoxChild
+		this.cmbTermination1 = global::Gtk.ComboBox.NewText ();
+		this.cmbTermination1.WidthRequest = 200;
+		this.cmbTermination1.Name = "cmbTermination1";
+		this.hbox12.Add (this.cmbTermination1);
+		global::Gtk.Box.BoxChild w39 = ((global::Gtk.Box.BoxChild)(this.hbox12 [this.cmbTermination1]));
+		w39.Position = 0;
+		w39.Expand = false;
+		w39.Fill = false;
+		// Container child hbox12.Gtk.Box+BoxChild
+		this.btnEditReinsertion = new global::Gtk.Button ();
+		this.btnEditReinsertion.CanFocus = true;
+		this.btnEditReinsertion.Name = "btnEditReinsertion";
+		this.btnEditReinsertion.UseUnderline = true;
+		this.btnEditReinsertion.Label = global::Mono.Unix.Catalog.GetString ("Edit");
+		this.hbox12.Add (this.btnEditReinsertion);
+		global::Gtk.Box.BoxChild w40 = ((global::Gtk.Box.BoxChild)(this.hbox12 [this.btnEditReinsertion]));
+		w40.Position = 1;
+		w40.Expand = false;
+		w40.Fill = false;
+		this.vbxButtonBar.Add (this.hbox12);
+		global::Gtk.Box.BoxChild w41 = ((global::Gtk.Box.BoxChild)(this.vbxButtonBar [this.hbox12]));
+		w41.Position = 20;
+		w41.Expand = false;
+		w41.Fill = false;
+		// Container child vbxButtonBar.Gtk.Box+BoxChild
 		this.label11 = new global::Gtk.Label ();
 		this.label11.Name = "label11";
 		this.label11.LabelProp = global::Mono.Unix.Catalog.GetString ("Termination");
 		this.vbxButtonBar.Add (this.label11);
-		global::Gtk.Box.BoxChild w38 = ((global::Gtk.Box.BoxChild)(this.vbxButtonBar [this.label11]));
-		w38.Position = 19;
-		w38.Expand = false;
-		w38.Fill = false;
+		global::Gtk.Box.BoxChild w42 = ((global::Gtk.Box.BoxChild)(this.vbxButtonBar [this.label11]));
+		w42.Position = 21;
+		w42.Expand = false;
+		w42.Fill = false;
 		// Container child vbxButtonBar.Gtk.Box+BoxChild
 		this.hbox10 = new global::Gtk.HBox ();
 		this.hbox10.Name = "hbox10";
@@ -444,10 +486,10 @@ public partial class MainWindow
 		this.cmbTermination.WidthRequest = 200;
 		this.cmbTermination.Name = "cmbTermination";
 		this.hbox10.Add (this.cmbTermination);
-		global::Gtk.Box.BoxChild w39 = ((global::Gtk.Box.BoxChild)(this.hbox10 [this.cmbTermination]));
-		w39.Position = 0;
-		w39.Expand = false;
-		w39.Fill = false;
+		global::Gtk.Box.BoxChild w43 = ((global::Gtk.Box.BoxChild)(this.hbox10 [this.cmbTermination]));
+		w43.Position = 0;
+		w43.Expand = false;
+		w43.Fill = false;
 		// Container child hbox10.Gtk.Box+BoxChild
 		this.btnEditTermination = new global::Gtk.Button ();
 		this.btnEditTermination.CanFocus = true;
@@ -455,26 +497,26 @@ public partial class MainWindow
 		this.btnEditTermination.UseUnderline = true;
 		this.btnEditTermination.Label = global::Mono.Unix.Catalog.GetString ("Edit");
 		this.hbox10.Add (this.btnEditTermination);
-		global::Gtk.Box.BoxChild w40 = ((global::Gtk.Box.BoxChild)(this.hbox10 [this.btnEditTermination]));
-		w40.Position = 1;
-		w40.Expand = false;
-		w40.Fill = false;
+		global::Gtk.Box.BoxChild w44 = ((global::Gtk.Box.BoxChild)(this.hbox10 [this.btnEditTermination]));
+		w44.Position = 1;
+		w44.Expand = false;
+		w44.Fill = false;
 		this.vbxButtonBar.Add (this.hbox10);
-		global::Gtk.Box.BoxChild w41 = ((global::Gtk.Box.BoxChild)(this.vbxButtonBar [this.hbox10]));
-		w41.Position = 20;
-		w41.Expand = false;
-		w41.Fill = false;
+		global::Gtk.Box.BoxChild w45 = ((global::Gtk.Box.BoxChild)(this.vbxButtonBar [this.hbox10]));
+		w45.Position = 22;
+		w45.Expand = false;
+		w45.Fill = false;
 		// Container child vbxButtonBar.Gtk.Box+BoxChild
 		this.hseparator6 = new global::Gtk.HSeparator ();
 		this.hseparator6.Name = "hseparator6";
 		this.vbxButtonBar.Add (this.hseparator6);
-		global::Gtk.Box.BoxChild w42 = ((global::Gtk.Box.BoxChild)(this.vbxButtonBar [this.hseparator6]));
-		w42.Position = 21;
-		w42.Expand = false;
-		w42.Fill = false;
+		global::Gtk.Box.BoxChild w46 = ((global::Gtk.Box.BoxChild)(this.vbxButtonBar [this.hseparator6]));
+		w46.Position = 23;
+		w46.Expand = false;
+		w46.Fill = false;
 		this.vbox2.Add (this.vbxButtonBar);
-		global::Gtk.Box.BoxChild w43 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.vbxButtonBar]));
-		w43.Position = 0;
+		global::Gtk.Box.BoxChild w47 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.vbxButtonBar]));
+		w47.Position = 0;
 		// Container child vbox2.Gtk.Box+BoxChild
 		this.btnEvolve = new global::Gtk.Button ();
 		this.btnEvolve.CanFocus = true;
@@ -482,15 +524,15 @@ public partial class MainWindow
 		this.btnEvolve.UseUnderline = true;
 		this.btnEvolve.Label = global::Mono.Unix.Catalog.GetString ("_Evolve");
 		this.vbox2.Add (this.btnEvolve);
-		global::Gtk.Box.BoxChild w44 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.btnEvolve]));
-		w44.Position = 1;
-		w44.Expand = false;
-		w44.Fill = false;
+		global::Gtk.Box.BoxChild w48 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.btnEvolve]));
+		w48.Position = 1;
+		w48.Expand = false;
+		w48.Fill = false;
 		this.hbox1.Add (this.vbox2);
-		global::Gtk.Box.BoxChild w45 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.vbox2]));
-		w45.Position = 1;
-		w45.Expand = false;
-		w45.Fill = false;
+		global::Gtk.Box.BoxChild w49 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.vbox2]));
+		w49.Position = 1;
+		w49.Expand = false;
+		w49.Fill = false;
 		this.Add (this.hbox1);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();

@@ -39,9 +39,9 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             ga.Start();
             var firstFitness = ((CheckersChromosome)ga.Population.BestChromosome).Fitness;
 
-            ga.Termination = new GenerationNumberTermination(1001);
+            ga.Termination = new GenerationNumberTermination(2001);
 
-            TimeAssert.LessThan(3000, () =>
+            TimeAssert.LessThan(4000, () =>
             {
                 ga.Start();
             });

@@ -2,17 +2,19 @@ using System;
 using GeneticSharp.Domain.Chromosomes;
 using System.Collections.Generic;
 using GeneticSharp.Domain.Populations;
+using System.ComponentModel;
 
 namespace GeneticSharp.Domain.Reinsertions
 {
 	/// <summary>
 	/// Pure Reinsertion.
 	/// <remarks>
-	/// When there are same number of offsprings than parents, select the offsprings to be reinserted, the parents are discarded. 
+	/// When there are same number of offspring than parents, select the offspring to be reinserted, the parents are discarded. 
 	/// 
-	/// <see href="http://usb-bg.org/Bg/Annual_Informatics/2011/SUB-Informatics-2011-4-29-35.pdf">Generalized Nets Model of Offspring Reinsertion in Genetic Algorithm</see>
+	/// <see href="http://usb-bg.org/Bg/Annual_Informatics/2011/SUB-Informatics-2011-4-29-35.pdf">Generalized Nets Model of offspring Reinsertion in Genetic Algorithm</see>
 	/// </remarks>
 	/// </summary>
+    [DisplayName("Pure")]
 	public class PureReinsertion : ReinsertionBase
 	{
 		#region Constructors
@@ -30,11 +32,11 @@ namespace GeneticSharp.Domain.Reinsertions
 		/// </summary>
 		/// <returns>The chromosomes to be reinserted in next generation..</returns>
 		/// <param name="population">The population.</param>
-		/// <param name="offsprings">The offsprings.</param>
+		/// <param name="offspring">The offspring.</param>
 		/// <param name="parents">The parents.</param>
-		protected override IList<IChromosome> PerformSelectChromosomes (Population population, IList<IChromosome> offsprings, IList<IChromosome> parents)
+		protected override IList<IChromosome> PerformSelectChromosomes (Population population, IList<IChromosome> offspring, IList<IChromosome> parents)
 		{
-			return offsprings;
+			return offspring;
 		}
 		#endregion
 	}

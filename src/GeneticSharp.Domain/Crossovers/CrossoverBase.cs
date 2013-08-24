@@ -39,6 +39,11 @@ namespace GeneticSharp.Domain.Crossovers
         #endregion
 
 		#region Properties
+        /// <summary>
+        /// Gets if the operator is ordered (if can keep the chromosome order).
+        /// </summary>
+        public bool IsOrdered { get; protected set; }
+        
 		/// <summary>
 		/// Gets the number of parents need for cross.
 		/// </summary>
@@ -89,6 +94,6 @@ namespace GeneticSharp.Domain.Crossovers
 		/// <param name="parents">Parents.</param>
 		/// <returns>The offspring (children) of the parents.</returns>
         protected abstract IList<IChromosome> PerformCross(IList<IChromosome> parents);
-        #endregion
+        #endregion        
     }
 }

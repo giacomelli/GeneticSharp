@@ -1,13 +1,12 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Randomizations;
+using HelperSharp;
 using NUnit.Framework;
 using Rhino.Mocks;
 using TestSharp;
-using HelperSharp;
-using GeneticSharp.Domain.Randomizations;
-using System.Linq;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {

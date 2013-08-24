@@ -3,18 +3,20 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using System.Collections.Generic;
 using System.Linq;
+using System.ComponentModel;
 
 namespace GeneticSharp.Domain.Reinsertions
 {
 	/// <summary>
 	/// Elitist reinsertion.
 	/// <remarks>
-	/// When there are less offspring than parents, select the best parents to be reinserted together with the offsprings. 
+	/// When there are less offspring than parents, select the best parents to be reinserted together with the offspring. 
 	/// 
-    /// <see href="http://usb-bg.org/Bg/Annual_Informatics/2011/SUB-Informatics-2011-4-29-35.pdf">Generalized Nets Model of Offspring Reinsertion in Genetic Algorithm</see>
+    /// <see href="http://usb-bg.org/Bg/Annual_Informatics/2011/SUB-Informatics-2011-4-29-35.pdf">Generalized Nets Model of offspring Reinsertion in Genetic Algorithm</see>
 	/// </remarks>
 	/// </summary>
-	public class ElitistReinsertion : ReinsertionBase
+	[DisplayName("Elitist")]
+    public class ElitistReinsertion : ReinsertionBase
 	{
 		#region Constructors
 		/// <summary>
@@ -31,21 +33,21 @@ namespace GeneticSharp.Domain.Reinsertions
 		/// </summary>
 		/// <returns>The chromosomes to be reinserted in next generation..</returns>
 		/// <param name="population">The population.</param>
-		/// <param name="offsprings">The offsprings.</param>
+		/// <param name="offspring">The offspring.</param>
 		/// <param name="parents">The parents.</param>
-		protected override IList<IChromosome> PerformSelectChromosomes (Population population, IList<IChromosome> offsprings, IList<IChromosome> parents)
+		protected override IList<IChromosome> PerformSelectChromosomes (Population population, IList<IChromosome> offspring, IList<IChromosome> parents)
 		{
-			var diff = population.MinSize - offsprings.Count;
+			var diff = population.MinSize - offspring.Count;
 
 			if (diff > 0) {
 				var bestParents = parents.OrderByDescending (p => p.Fitness).Take (diff);
 
 				foreach (var p in bestParents) {
-					offsprings.Add (p);
+					offspring.Add (p);
 				}
 			}
 
-			return offsprings;
+			return offspring;
 		}
 		#endregion
 	}

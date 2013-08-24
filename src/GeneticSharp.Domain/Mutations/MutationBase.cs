@@ -12,6 +12,13 @@ namespace GeneticSharp.Domain.Mutations
     /// </summary>
     public abstract class MutationBase : IMutation
     {
+        #region Properties
+        /// <summary>
+        /// Gets if the operator is ordered (if can keep the chromosome order).
+        /// </summary>
+        public bool IsOrdered { get; protected set; }
+        #endregion
+
         #region Methods
         /// <summary>
         /// Mutate the specified chromosome.

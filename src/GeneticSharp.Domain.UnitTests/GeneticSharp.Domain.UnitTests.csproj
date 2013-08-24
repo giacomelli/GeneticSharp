@@ -51,11 +51,11 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Helpers\" />
-    <Folder Include="Reinsertions\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chromosomes\ChromosomeBaseTest.cs" />
     <Compile Include="Crossovers\CrossoverBaseTest.cs" />
+    <Compile Include="Crossovers\CycleCrossoverTest.cs" />
     <Compile Include="Crossovers\OnePointCrossoverTest.cs" />
     <Compile Include="Crossovers\OrderedCrossoverTest.cs" />
     <Compile Include="Crossovers\ThreeParentCrossoverTest.cs" />
@@ -65,12 +65,14 @@
     <Compile Include="Mutations\UniformMutationTest.cs" />
     <Compile Include="Populations\ChromosomeStub.cs" />
     <Compile Include="Populations\GenerationTest.cs" />
+    <Compile Include="Populations\OrderedChromosomeStub.cs" />
     <Compile Include="Populations\PerformanceGenerationStrategyTest.cs" />
     <Compile Include="Populations\TrackingGenerationStrategyTest.cs" />
     <Compile Include="Randomizations\BasicRandomizationTest.cs" />
     <Compile Include="Randomizations\RandomizationProviderTest.cs" />
     <Compile Include="Populations\PopulationTest.cs" />
     <Compile Include="Populations\FitnessStub.cs" />
+    <Compile Include="Reinsertions\ReinsertionServiceTest.cs" />
     <Compile Include="Selections\RouletteWheelSelectionTest.cs" />
     <Compile Include="Selections\EliteSelectionTest.cs" />
     <Compile Include="Mutations\ReverseSequenceMutationTest.cs" />

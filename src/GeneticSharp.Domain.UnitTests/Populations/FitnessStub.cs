@@ -26,7 +26,9 @@ namespace GeneticSharp.Domain.UnitTests
 			var gene3 = (int) chromosome.GetGene (2).Value;
 			var gene4 = (int) chromosome.GetGene (3).Value;
 
-			return (gene1 + gene2 + gene3 + gene4) / 20f;
+			var f = (gene1 + gene2 + gene3 + gene4) / 20f;
+
+            return f; ;
 		}
 		#endregion
 	}

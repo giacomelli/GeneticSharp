@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using HelperSharp;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
-using System.ComponentModel;
 
 namespace GeneticSharp.Domain.Crossovers
 {
@@ -44,6 +42,7 @@ namespace GeneticSharp.Domain.Crossovers
         public OrderedCrossover()
 			: base(2, 2)
         {
+            IsOrdered = true;
         }
         #endregion
 

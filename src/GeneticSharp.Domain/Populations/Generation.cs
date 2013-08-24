@@ -99,8 +99,7 @@ namespace GeneticSharp.Domain.Populations
 		{
 			if (!chromosome.Fitness.HasValue) {
 				throw new InvalidOperationException (
-					"There is unknown problem in current generation, because BestChromosome should have a Fitness value. BestChromosome: Id:{0}, age: {1} and length: {2}"
-					.With (chromosome.Id, chromosome.Age, chromosome.Length));
+					"There is unknown problem in current generation, because best chromosome should have a Fitness value.");
 			}
 		}
 		#endregion

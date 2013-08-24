@@ -17,22 +17,10 @@ namespace GeneticSharp.Domain.Chromosomes
 	{
 		#region Properties
 		/// <summary>
-		/// Gets the identifier.
-		/// </summary>
-		/// <value>The identifier.</value>
-        string Id { get; }
-
-		/// <summary>
 		/// Gets or sets the fitness.
 		/// </summary>
 		/// <value>The fitness.</value>
 		double? Fitness { get; set; }
-
-		/// <summary>
-		/// Gets or sets the age.
-		/// </summary>
-		/// <value>The age.</value>
-        int Age { get; set; }
 
 		/// <summary>
 		/// Gets the length.

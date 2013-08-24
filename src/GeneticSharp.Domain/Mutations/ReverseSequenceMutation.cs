@@ -21,8 +21,18 @@ namespace GeneticSharp.Domain.Mutations
     [DisplayName("Reverse Sequence (RSM)")]
     public class ReverseSequenceMutation : MutationBase
     {
-		#region Methods
-		/// <summary>
+        #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReverseSequenceMutation"/> class.
+        /// </summary>
+        public ReverseSequenceMutation()
+        {
+            IsOrdered = true;
+        }
+        #endregion
+
+        #region Methods
+        /// <summary>
 		/// Mutate the specified chromosome.
 		/// </summary>
 		/// <param name="chromosome">The chromosome.</param>

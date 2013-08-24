@@ -24,6 +24,7 @@ Features
    - Tournament  
    - Others selections can be added implementing ISelection interface or extending SelectionBase. 
  - Crossovers
+   - Cycle (CX)
    - One-Point
    - Ordered OX1
    - Partially Mapped (PMX)
@@ -128,8 +129,7 @@ Roadmap
  - Add new selections
    - Stochastic Universal Sampling 
    - Reward-based
- - Add new crossovers
-   - Cycle crossover (CX)
+ - Add new crossovers   
    - Order-based (OX2)
    - Position-based (POS)
    - Voting recombination

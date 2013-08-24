@@ -39,10 +39,10 @@ namespace GeneticSharp.Infrastructure.Framework.Reflection
 		/// <returns>The crossover names.</returns>
 		public static IList<string> GetDisplayNamesByInterface<TInterface> ()
 		{
-			return GetTypesByInterface<TInterface> ()
-				.Select (t => ((DisplayNameAttribute)t.GetCustomAttributes (false).First (a => a is DisplayNameAttribute)).DisplayName)
-					.ToList ();
-		}
+            return GetTypesByInterface<TInterface>()
+                .Select(t => GetDisplayNameAttribute(t).DisplayName)
+                .ToList();
+ 	}
 
 		/// <summary>
 		/// Creates the TInterface's implementation with the specified name.
@@ -71,7 +71,7 @@ namespace GeneticSharp.Infrastructure.Framework.Reflection
 		{
 			var interfaceName = typeof(TInterface).Name;
 			var crossoverType =  GetTypesByInterface<TInterface> ()
-				.Where (t => ((DisplayNameAttribute)t.GetCustomAttributes (false).First (a => a is DisplayNameAttribute)).DisplayName.Equals (name, StringComparison.OrdinalIgnoreCase))
+                .Where(t => GetDisplayNameAttribute(t).DisplayName.Equals(name, StringComparison.OrdinalIgnoreCase))
 					.FirstOrDefault ();
 
 			if (crossoverType == null) {
@@ -80,6 +80,18 @@ namespace GeneticSharp.Infrastructure.Framework.Reflection
 
 			return crossoverType;
 		}
+        
+        private static DisplayNameAttribute GetDisplayNameAttribute(Type type)
+        {
+            var attribute = type.GetCustomAttributes(false).FirstOrDefault(a => a is DisplayNameAttribute); 
+
+            if (attribute == null)
+            {
+                throw new InvalidOperationException("The type '{0}' has no DisplayNameAttribute.".With(type.Name));
+            }
+
+            return attribute as DisplayNameAttribute;
+        }
 		#endregion
 	}
 }

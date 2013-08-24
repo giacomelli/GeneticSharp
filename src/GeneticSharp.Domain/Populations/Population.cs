@@ -117,6 +117,12 @@ namespace GeneticSharp.Domain.Populations
 			for(int i = 0; i < MinSize; i++)
 			{
 				var c = m_adamChromosome.CreateNew ();
+
+                if (c == null)
+                {
+                    throw new InvalidOperationException("The Adam chromosome's 'CreateNew' method generated a null chromosome. This is a invalid behavior, please, check your chromosome code.");
+                }
+
 				chromosomes.Add (c);
 			}
 

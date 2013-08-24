@@ -16,7 +16,7 @@ namespace GeneticSharp.Domain.Reinsertions
     /// generation or if more offspring are generated than the max size of the  
     /// population then a reinsertion scheme must be used to determine which individuals are to exist in the new population
     /// 
-    /// <see href="http://usb-bg.org/Bg/Annual_Informatics/2011/SUB-Informatics-2011-4-29-35.pdf">Generalized Nets Model of Offspring Reinsertion in Genetic Algorithm</see>
+    /// <see href="http://usb-bg.org/Bg/Annual_Informatics/2011/SUB-Informatics-2011-4-29-35.pdf">Generalized Nets Model of offspring Reinsertion in Genetic Algorithm</see>
     /// </remarks>
     ///
     /// </summary>
@@ -40,9 +40,9 @@ namespace GeneticSharp.Domain.Reinsertions
 		/// </summary>
 		/// <returns>The chromosomes to be reinserted in next generation..</returns>
 		/// <param name="population">The population.</param>
-		/// <param name="offsprings">The offsprings.</param>
+		/// <param name="offspring">The offspring.</param>
 		/// <param name="parents">The parents.</param>
-        IList<IChromosome> SelectChromosomes(Population population, IList<IChromosome> offsprings, IList<IChromosome> parents);
+        IList<IChromosome> SelectChromosomes(Population population, IList<IChromosome> offspring, IList<IChromosome> parents);
         #endregion
     }
 }

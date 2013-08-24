@@ -14,12 +14,12 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
 	{
 		
 		[Test()]
-		public void SelectChromosomes_OffspringsSizeLowerThanMinSize_SelectOffsprings ()
+		public void SelectChromosomes_offspringSizeLowerThanMinSize_Selectoffspring ()
 		{
 			var target = new ElitistReinsertion ();
 
 			var population = new Population (6, 8, MockRepository.GenerateStub<ChromosomeBase> (1));
-			var offsprings = new List<IChromosome> () { 
+			var offspring = new List<IChromosome> () { 
 				MockRepository.GenerateStub<ChromosomeBase> (1), 
 				MockRepository.GenerateStub<ChromosomeBase> (2), 
 				MockRepository.GenerateStub<ChromosomeBase> (3), 
@@ -38,7 +38,7 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
 			parents [2].Fitness = 0.5;
 			parents [3].Fitness = 0.7;
 
-			var selected = target.SelectChromosomes (population, offsprings, parents);
+			var selected = target.SelectChromosomes (population, offspring, parents);
 			Assert.AreEqual (6, selected.Count);
 			Assert.AreEqual (1, selected [0].Length);
 			Assert.AreEqual (2, selected [1].Length);

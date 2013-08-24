@@ -14,22 +14,22 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
 	{
 
 		[Test()]
-		public void SelectChromosomes_OffspringsSizeGreaterThanMaxSize_SelectOffsprings ()
+		public void SelectChromosomes_offspringSizeGreaterThanMaxSize_Selectoffspring ()
 		{
 			var target = new FitnessBasedReinsertion ();
 
 			var population = new Population (2, 3, MockRepository.GenerateStub<ChromosomeBase> (1));
-			var offsprings = new List<IChromosome> () { 
+			var offspring = new List<IChromosome> () { 
 				MockRepository.GenerateStub<ChromosomeBase> (1), 
 				MockRepository.GenerateStub<ChromosomeBase> (2), 
 				MockRepository.GenerateStub<ChromosomeBase> (3), 
 				MockRepository.GenerateStub<ChromosomeBase> (4)
 			};
 
-			offsprings [0].Fitness = 0.2;
-			offsprings [1].Fitness = 0.3;
-			offsprings [2].Fitness = 0.5;
-			offsprings [3].Fitness = 0.7;
+			offspring [0].Fitness = 0.2;
+			offspring [1].Fitness = 0.3;
+			offspring [2].Fitness = 0.5;
+			offspring [3].Fitness = 0.7;
 
 			var parents = new List<IChromosome> () { 
 				MockRepository.GenerateStub<ChromosomeBase> (5), 
@@ -40,7 +40,7 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
 
 
 
-			var selected = target.SelectChromosomes (population, offsprings, parents);
+			var selected = target.SelectChromosomes (population, offspring, parents);
 			Assert.AreEqual (3, selected.Count);
 			Assert.AreEqual (4, selected [0].Length);
 			Assert.AreEqual (3, selected [1].Length);

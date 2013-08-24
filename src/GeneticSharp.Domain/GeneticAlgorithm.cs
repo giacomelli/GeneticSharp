@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Amib.Threading;
-using HelperSharp;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
@@ -12,6 +11,7 @@ using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
+using HelperSharp;
 
 namespace GeneticSharp.Domain
 {
@@ -256,9 +256,9 @@ namespace GeneticSharp.Domain
 		private bool EvolveOneGeneration (int timeout = 0)
 		{
             var parents = SelectParents();
-            var offsprings = Cross(parents);
-            Mutate(offsprings);
-            var newGenerationChromosomes = Reinsert(offsprings, parents);
+            var offspring = Cross(parents);
+            Mutate(offspring);
+            var newGenerationChromosomes = Reinsert(offspring, parents);
             Population.CreateNewGeneration(newGenerationChromosomes);
 			return EndCurrentGeneration (timeout);
 		}        
@@ -350,7 +350,7 @@ namespace GeneticSharp.Domain
 					}
 					catch (Exception ex)
 					{
-						throw new InvalidOperationException("Error executing Fitness.Evaluate for chromosome {0}: {1}".With(c.Id, ex.Message), ex);
+						throw new InvalidOperationException("Error executing Fitness.Evaluate for chromosome: {0}".With(ex.Message), ex);
 					}
 				}                
 
@@ -401,7 +401,7 @@ namespace GeneticSharp.Domain
 			}
 			catch (Exception ex)
 			{
-				throw new FitnessException(Fitness, "Error executing Fitness.Evaluate for chromosome {0}: {1}".With(c.Id, ex.Message), ex);
+				throw new FitnessException(Fitness, "Error executing Fitness.Evaluate for chromosome: {0}".With(ex.Message), ex);
 			}
 
 			return c.Fitness;
@@ -421,7 +421,7 @@ namespace GeneticSharp.Domain
 		/// </summary>
 		private IList<IChromosome> Cross (IList<IChromosome> parents)
 		{
-			var offsprings = new List<IChromosome>();
+			var offspring = new List<IChromosome>();
 
 			for ( int i = 0; i < Population.MinSize; i += Crossover.ParentsNumber )
 			{
@@ -431,11 +431,11 @@ namespace GeneticSharp.Domain
                 // Checks if the number of selected parents is equal which the crossover expect, because the in the of the list we can
                 // have some rest chromosomes.
 				if (selectedParents.Count == Crossover.ParentsNumber && RandomizationProvider.Current.GetDouble () <= CrossoverProbability) {
-					offsprings.AddRange ( Crossover.Cross (selectedParents));
+					offspring.AddRange ( Crossover.Cross (selectedParents));
 				}
 			}
 
-			return offsprings;
+			return offspring;
 		}        
 
 		/// <summary>
@@ -451,13 +451,13 @@ namespace GeneticSharp.Domain
 		}
 
 		/// <summary>
-		/// Reinsert the specified offsprings and parents.
+		/// Reinsert the specified offspring and parents.
 		/// </summary>
-		/// <param name="offsprings">Offsprings.</param>
+		/// <param name="offspring">offspring.</param>
 		/// <param name="parents">Parents.</param>
-        private IList<IChromosome> Reinsert(IList<IChromosome> offsprings, IList<IChromosome> parents)
+        private IList<IChromosome> Reinsert(IList<IChromosome> offspring, IList<IChromosome> parents)
         {
-            return Reinsertion.SelectChromosomes(Population, offsprings, parents); 
+            return Reinsertion.SelectChromosomes(Population, offspring, parents); 
         }
 
         /// <summary>

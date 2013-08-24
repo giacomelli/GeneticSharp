@@ -13,13 +13,14 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 		{
 			var actual = CrossoverService.GetCrossoverTypes ();
 
-			Assert.AreEqual (6, actual.Count);
-			Assert.AreEqual (typeof(OnePointCrossover), actual [0]);
-			Assert.AreEqual (typeof(OrderedCrossover), actual [1]);
-			Assert.AreEqual (typeof(PartiallyMappedCrossover), actual [2]);
-            Assert.AreEqual(typeof(ThreeParentCrossover), actual[3]);
-			Assert.AreEqual (typeof(TwoPointCrossover), actual [4]);
-			Assert.AreEqual (typeof(UniformCrossover), actual [5]);
+			Assert.AreEqual (7, actual.Count);
+            Assert.AreEqual(typeof(CycleCrossover), actual[0]);
+			Assert.AreEqual (typeof(OnePointCrossover), actual [1]);
+			Assert.AreEqual (typeof(OrderedCrossover), actual [2]);
+			Assert.AreEqual (typeof(PartiallyMappedCrossover), actual [3]);
+            Assert.AreEqual (typeof(ThreeParentCrossover), actual[4]);
+			Assert.AreEqual (typeof(TwoPointCrossover), actual [5]);
+			Assert.AreEqual (typeof(UniformCrossover), actual [6]);
 		}
 
 		[Test()]
@@ -27,13 +28,14 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 		{
 			var actual = CrossoverService.GetCrossoverNames ();
 
-			Assert.AreEqual (6, actual.Count);
-			Assert.AreEqual ("One-Point", actual [0]);
-			Assert.AreEqual ("Ordered (OX1)", actual [1]);
-			Assert.AreEqual ("Partially Mapped (PMX)", actual [2]);
-            Assert.AreEqual("Three Parent", actual[3]);
-			Assert.AreEqual ("Two-Point", actual [4]);
-			Assert.AreEqual ("Uniform", actual [5]);
+			Assert.AreEqual (7, actual.Count);
+            Assert.AreEqual ("Cycle (CX)", actual[0]);
+			Assert.AreEqual ("One-Point", actual [1]);
+			Assert.AreEqual ("Ordered (OX1)", actual [2]);
+			Assert.AreEqual ("Partially Mapped (PMX)", actual [3]);
+            Assert.AreEqual ("Three Parent", actual[4]);
+			Assert.AreEqual ("Two-Point", actual [5]);
+			Assert.AreEqual ("Uniform", actual [6]);
 		}
 
 		[Test()]
@@ -72,6 +74,9 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             actual = CrossoverService.CreateCrossoverByName("Three Parent") as ThreeParentCrossover;
             Assert.IsNotNull(actual);
+
+            actual = CrossoverService.CreateCrossoverByName("Cycle (CX)") as CycleCrossover;
+            Assert.IsNotNull(actual);
 		}
 
 		[Test()]
@@ -102,6 +107,9 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             actual = CrossoverService.GetCrossoverTypeByName("Three Parent");
             Assert.AreEqual(typeof(ThreeParentCrossover), actual);
+
+            actual = CrossoverService.GetCrossoverTypeByName("Cycle (CX)");
+            Assert.AreEqual(typeof(CycleCrossover), actual);
 		}
 	}
 }

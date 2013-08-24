@@ -25,10 +25,11 @@ namespace GeneticSharp.Domain.Crossovers
 		/// </summary>
 		public PartiallyMappedCrossover () : base(2, 2, 3)
 		{
+            IsOrdered = true;
 		}
 		#endregion
 
-		#region implemented abstract members of CrossoverBase
+		#region Methods
 		/// <summary>
 		/// Performs the cross with specified parents generating the children.
 		/// </summary>
@@ -66,12 +67,12 @@ namespace GeneticSharp.Domain.Crossovers
 					continue;
 				}
 
-				var geneForOffspring1 = GetGeneNotInMappingSection (parent1Genes [i], parent2MappingSection, parent1MappingSection);
-				offspring1.ReplaceGene (i, geneForOffspring1);
+				var geneForoffspring1 = GetGeneNotInMappingSection (parent1Genes [i], parent2MappingSection, parent1MappingSection);
+				offspring1.ReplaceGene (i, geneForoffspring1);
 
 
-				var geneForOffspring2 = GetGeneNotInMappingSection (parent2Genes [i], parent1MappingSection, parent2MappingSection);
-				offspring2.ReplaceGene (i, geneForOffspring2);
+				var geneForoffspring2 = GetGeneNotInMappingSection (parent2Genes [i], parent1MappingSection, parent2MappingSection);
+				offspring2.ReplaceGene (i, geneForoffspring2);
 			}
 
 			return new List<IChromosome>() { offspring1, offspring2 };

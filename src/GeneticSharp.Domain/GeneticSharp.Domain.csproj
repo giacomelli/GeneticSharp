@@ -49,8 +49,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chromosomes\ChromosomeBase.cs" />
+    <Compile Include="Chromosomes\IChromosomeOperator.cs" />
     <Compile Include="Crossovers\CrossoverBase.cs" />
     <Compile Include="Crossovers\CrossoverException.cs" />
+    <Compile Include="Crossovers\CycleCrossover.cs" />
     <Compile Include="Crossovers\OnePointCrossover.cs" />
     <Compile Include="Crossovers\OrderedCrossover.cs" />
     <Compile Include="Crossovers\ThreeParentCrossover.cs" />
@@ -80,6 +82,7 @@
     <Compile Include="Randomizations\BasicRandomization.cs" />
     <Compile Include="Randomizations\TroschuetzRandomization.cs" />
     <Compile Include="Reinsertions\IReinsertion.cs" />
+    <Compile Include="Reinsertions\ReinsertionService.cs" />
     <Compile Include="Selections\EliteSelection.cs" />
     <Compile Include="Selections\RouletteWheelSelection.cs" />
     <Compile Include="Selections\ISelection.cs" />
