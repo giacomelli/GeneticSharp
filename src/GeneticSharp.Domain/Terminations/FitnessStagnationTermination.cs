@@ -47,15 +47,13 @@ namespace GeneticSharp.Domain.Terminations
 
         #region Methods
         /// <summary>
-        /// Determines whether the specified generation reached the termination condition.
+        /// Determines whether the specified geneticAlgorithm reached the termination condition.
         /// </summary>
-        /// <param name="generation">The generation.</param>
-        /// <returns>
-        /// True if termination has been reached, otherwise false.
-        /// </returns>
-        protected override bool PerformHasReached(Generation generation)
+        /// <returns>True if termination has been reached, otherwise false.</returns>
+        /// <param name="geneticAlgorithm">The genetic algorithm.</param>
+		protected override bool PerformHasReached(IGeneticAlgorithm geneticAlgorithm)
         {
-            var bestFitness = generation.BestChromosome.Fitness.Value;
+            var bestFitness = geneticAlgorithm.BestChromosome.Fitness.Value;
 
             if (m_lastFitness == bestFitness)
             {

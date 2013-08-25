@@ -11,24 +11,23 @@ namespace GeneticSharp.Domain.Terminations
 	{
 		#region Methods
 		/// <summary>
-		/// Determines whether the specified generation reached the termination condition.
+		/// Determines whether the specified geneticAlgorithm reached the termination condition.
 		/// </summary>
-		/// <returns>true</returns>
-		/// <c>false</c>
-		/// <param name="generation">The generation.</param>
-		public bool HasReached (Generation generation)
+		/// <returns>True if termination has been reached, otherwise false.</returns>
+		/// <param name="geneticAlgorithm">The genetic algorithm.</param>
+		public bool HasReached (IGeneticAlgorithm geneticAlgorithm)
 		{
-			ExceptionHelper.ThrowIfNull ("generation", generation);
+			ExceptionHelper.ThrowIfNull ("geneticAlgorithm", geneticAlgorithm);
 
-			return PerformHasReached (generation);
+			return PerformHasReached (geneticAlgorithm);
 		}
 
 		/// <summary>
-		/// Determines whether the specified generation reached the termination condition.
+		/// Determines whether the specified geneticAlgorithm reached the termination condition.
 		/// </summary>
 		/// <returns>True if termination has been reached, otherwise false.</returns>
-		/// <param name="generation">The generation.</param>
-		protected abstract bool PerformHasReached (Generation generation);
+		/// <param name="geneticAlgorithm">The genetic algorithm.</param>
+		protected abstract bool PerformHasReached (IGeneticAlgorithm geneticAlgorithm);
 		#endregion
 	}
 }

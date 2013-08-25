@@ -46,6 +46,7 @@ namespace GeneticSharp.Domain.Populations
 
             ExceptionHelper.ThrowIfNull("adamChromosome", adamChromosome);
         
+			CreationDate = DateTime.Now;
 			MinSize = minSize;
             MaxSize = maxSize;
             m_adamChromosome = adamChromosome;
@@ -55,6 +56,11 @@ namespace GeneticSharp.Domain.Populations
 		#endregion
 
 		#region Properties
+		/// <summary>
+		/// Gets the creation date.
+		/// </summary>
+		public DateTime CreationDate { get; private set; }
+
 		/// <summary>
 		/// Gets the generations.
         /// <remarks>
@@ -82,13 +88,13 @@ namespace GeneticSharp.Domain.Populations
 		/// Gets the minimum size.
 		/// </summary>
 		/// <value>The minimum size.</value>
-		public int MinSize { get; private set; }
+		public int MinSize { get; set; }
 
 		/// <summary>
 		/// Gets the size of the max.
 		/// </summary>
 		/// <value>The size of the max.</value>
-        public int MaxSize { get; private set; }
+        public int MaxSize { get; set; }
 
     	/// <summary>
 		/// Gets the best chromosome.

@@ -1,6 +1,7 @@
 using System;
 using GeneticSharp.Domain.Populations;
 using System.ComponentModel;
+using System.Linq;
 
 namespace GeneticSharp.Domain.Terminations
 {
@@ -13,10 +14,6 @@ namespace GeneticSharp.Domain.Terminations
 	[DisplayName("Time Evolving")]
 	public class TimeEvolvingTermination : TerminationBase
 	{
-		#region Fields
-		private DateTime m_terminationTime;
-		#endregion
-
 		#region Constructors
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GeneticSharp.Domain.Terminations.TimeEvolvingTermination"/> class.
@@ -48,18 +45,13 @@ namespace GeneticSharp.Domain.Terminations
 
 		#region implemented abstract members of TerminationBase
 		/// <summary>
-		/// Determines whether the specified generation reached the termination condition.
+		/// Determines whether the specified geneticAlgorithm reached the termination condition.
 		/// </summary>
-		/// <returns>true</returns>
-		/// <c>false</c>
-		/// <param name="generation">The generation.</param>
-		protected override bool PerformHasReached (Generation generation)
+		/// <returns>True if termination has been reached, otherwise false.</returns>
+		/// <param name="geneticAlgorithm">The genetic algorithm.</param>
+		protected override bool PerformHasReached (IGeneticAlgorithm geneticAlgorithm)
 		{
-			if (generation.Number == 1) {
-				m_terminationTime = generation.CreationDate.Add (MaxTime);
-			} 
-
-			return DateTime.Now > m_terminationTime;
+			return geneticAlgorithm.TimeEvolving >= MaxTime;
 		}
 		#endregion
 	}

@@ -111,6 +111,7 @@
     <Compile Include="Reinsertions\UniformReinsertion.cs" />
     <Compile Include="Reinsertions\ElitistReinsertion.cs" />
     <Compile Include="Reinsertions\FitnessBasedReinsertion.cs" />
+    <Compile Include="IGeneticAlgorithm.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -14,7 +14,7 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
 		{
 			var target = MockRepository.GenerateStub<TerminationBase> ();
 
-			ExceptionAssert.IsThrowing (new ArgumentNullException ("generation"), () => {
+			ExceptionAssert.IsThrowing (new ArgumentNullException ("geneticAlgorithm"), () => {
 				target.HasReached(null);
 			});
 		}

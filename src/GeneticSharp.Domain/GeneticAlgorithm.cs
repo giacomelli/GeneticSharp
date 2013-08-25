@@ -15,6 +15,39 @@ using HelperSharp;
 
 namespace GeneticSharp.Domain
 {
+	#region Enums
+	/// <summary>
+	/// The possible states for a genetic algorithm.
+	/// </summary>
+	public enum GeneticAlgorithmState
+	{
+		/// <summary>
+		/// The GA has not been started yet.
+		/// </summary>
+		NotStarted,
+
+		/// <summary>
+		/// The GA has been started and is running.
+		/// </summary>
+		Started,
+
+		/// <summary>
+		/// The GA has been stopped ans is not running.
+		/// </summary>
+		Stopped,
+
+		/// <summary>
+		/// The GA has been resumed after a stop or terminantion reach and is running.
+		/// </summary>
+		Resumed,
+
+		/// <summary>
+		/// The GA has reach the termination condition and is not running.
+		/// </summary>
+		TerminationReached
+	}
+	#endregion
+
 	/// <summary>
 	/// A genetic algorithm (GA) is a search heuristic that mimics the process of natural selection. 
 	/// This heuristic (also sometimes called a metaheuristic) is routinely used to generate useful solutions 
@@ -27,7 +60,7 @@ namespace GeneticSharp.Domain
 	/// 
 	/// <see href="http://http://en.wikipedia.org/wiki/Genetic_algorithm">Wikipedia</see>
 	/// </summary>
-	public sealed class GeneticAlgorithm : IDisposable
+	public sealed class GeneticAlgorithm : IGeneticAlgorithm, IDisposable
 	{
 		#region Fields
 		private SmartThreadPool m_threadPool;
@@ -90,6 +123,7 @@ namespace GeneticSharp.Domain
 			CrossoverProbability = DefaultCrossoverProbability;
 			MutationProbability = DefaultMutationProbability;
 			TimeEvolving = TimeSpan.Zero;
+			State = GeneticAlgorithmState.NotStarted;
 		}
 		#endregion
 
@@ -108,13 +142,13 @@ namespace GeneticSharp.Domain
 		/// <summary>
 		/// Gets the selection operator.
 		/// </summary>
-		public ISelection Selection { get; private set; }
+		public ISelection Selection { get; set; }
 
 		/// <summary>
 		/// Gets the crossover operator.
 		/// </summary>
 		/// <value>The crossover.</value>
-		public ICrossover Crossover { get; private set; }
+		public ICrossover Crossover { get; set; }
 
 		/// <summary>
 		/// Gets or sets the crossover probability.
@@ -124,7 +158,7 @@ namespace GeneticSharp.Domain
 		/// <summary>
 		/// Gets the mutation operator.
 		/// </summary>
-		public IMutation Mutation { get; private set; }
+		public IMutation Mutation { get; set; }
 
 		/// <summary>
 		/// Gets or sets the mutation probability.
@@ -142,9 +176,37 @@ namespace GeneticSharp.Domain
 		public ITermination Termination { get; set; }
 
 		/// <summary>
+		/// Gets the generations number.
+		/// </summary>
+		/// <value>The generations number.</value>
+		public int GenerationsNumber { get { return Population.GenerationsNumber; } }
+
+		/// <summary>
+		/// Gets the best chromosome.
+		/// </summary>
+		/// <value>The best chromosome.</value>
+		public IChromosome BestChromosome { get { return Population.BestChromosome; } }
+
+		/// <summary>
 		/// Gets the time evolving.
 		/// </summary>
 		public TimeSpan TimeEvolving { get; private set; }  
+
+		/// <summary>
+		/// Gets the state.
+		/// </summary>
+		public GeneticAlgorithmState State { get; private set; }
+
+		/// <summary>
+		/// Gets a value indicating whether this instance is running.
+		/// </summary>
+		/// <value><c>true</c> if this instance is running; otherwise, <c>false</c>.</value>
+		public bool IsRunning 
+		{
+			get {
+				return State == GeneticAlgorithmState.Started || State == GeneticAlgorithmState.Resumed; 
+			}
+		}
 		#endregion
 
 		#region Methods
@@ -162,7 +224,8 @@ namespace GeneticSharp.Domain
         /// </summary>
         /// <param name="timeoutPerGeneration">The timeout per generation.</param>
         public void Start(int timeoutPerGeneration)
-		{            
+		{      
+			State = GeneticAlgorithmState.Started;
 			var startDateTime = DateTime.Now;			
             Population.CreateInitialGeneration();
             TimeEvolving = DateTime.Now - startDateTime;
@@ -190,12 +253,19 @@ namespace GeneticSharp.Domain
         /// <param name="timeoutPerGeneration">The timeout per generation.</param>
         public void Resume(int timeoutPerGeneration)
         {
+			try{
             m_stopRequested = false; 
 
-            if (Population.GenerationsNumber == 0)
-            {
-                throw new InvalidOperationException("Attempt to resume a genetic algorithm which was not yet started.");
-            }
+			if (Population.GenerationsNumber == 0) {
+				throw new InvalidOperationException ("Attempt to resume a genetic algorithm which was not yet started.");
+			} else if (Population.GenerationsNumber > 1) {
+				if(Termination.HasReached(this))
+				{	
+					throw new InvalidOperationException ("Attempt to resume a genetic algorithm with a termination already reached. Please, specify a new termination or extend the current one.");
+				}
+				
+				State = GeneticAlgorithmState.Resumed;
+			}
 
             if (EndCurrentGeneration(timeoutPerGeneration))
             {
@@ -217,6 +287,11 @@ namespace GeneticSharp.Domain
                 TimeEvolving += DateTime.Now - startDateTime;
 
             } while (!terminationConditionReached);
+			}
+			catch {
+				State = GeneticAlgorithmState.Stopped;
+				throw;
+			}
         }
 
         /// <summary>
@@ -246,6 +321,8 @@ namespace GeneticSharp.Domain
 			if (m_threadPool != null) {
 				m_threadPool.Shutdown (true, timeout);
 			}
+
+			State = GeneticAlgorithmState.Stopped;
 		}
 
         /// <summary>
@@ -278,7 +355,9 @@ namespace GeneticSharp.Domain
 				GenerationRan(this, EventArgs.Empty);
 			}
 
-			if (Termination.HasReached (Population.CurrentGeneration)) {
+			if (Termination.HasReached (this)) {
+				State = GeneticAlgorithmState.TerminationReached;
+
 				if (TerminationReached != null) {
 					TerminationReached (this, EventArgs.Empty);
 				}

@@ -13,11 +13,11 @@ namespace GeneticSharp.Domain.Terminations
 	{
 		#region Methods
 		/// <summary>
-		/// Determines whether the specified generation reached the termination condition.
+		/// Determines whether the specified geneticAlgorithm reached the termination condition.
 		/// </summary>
-		/// <returns><c>true</c> if the generation reached the termination condition; otherwise, <c>false</c>.</returns>
-		/// <param name="generation">The generation.</param>
-		bool HasReached(Generation generation);
+		/// <returns>True if termination has been reached, otherwise false.</returns>
+		/// <param name="geneticAlgorithm">The genetic algorithm.</param>
+		bool HasReached(IGeneticAlgorithm geneticAlgorithm);
 		#endregion
 	}
 }

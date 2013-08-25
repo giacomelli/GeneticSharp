@@ -8,7 +8,7 @@
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <widget-library name="../bin/Debug/GeneticSharp.Runner.GtkApp.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="MainWindow" design-size="1090 617">
+  <widget class="Gtk.Window" id="MainWindow" design-size="1090 858">
     <property name="MemberName" />
     <property name="Title" translatable="yes">GeneticSharp :: Runner</property>
     <property name="Icon">file:./Icon.png</property>
@@ -18,7 +18,7 @@
     <property name="DefaultHeight">600</property>
     <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <child>
-      <widget class="Gtk.HBox" id="hbox1">
+      <widget class="Gtk.HBox" id="hbxMain">
         <property name="MemberName" />
         <property name="Spacing">10</property>
         <property name="BorderWidth">10</property>
@@ -33,13 +33,12 @@
           </packing>
         </child>
         <child>
-          <widget class="Gtk.VBox" id="vbox2">
+          <widget class="Gtk.VBox" id="vbxConfig">
             <property name="MemberName" />
             <property name="Spacing">6</property>
             <child>
-              <widget class="Gtk.VBox" id="vbxButtonBar">
+              <widget class="Gtk.VBox" id="vbxSample">
                 <property name="MemberName" />
-                <property name="WidthRequest">250</property>
                 <property name="Spacing">6</property>
                 <child>
                   <widget class="Gtk.Label" id="label4">
@@ -67,9 +66,13 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="Gtk.HBox" id="problemConfigWidgetContainer">
+                  <widget class="Gtk.VPaned" id="problemConfigWidgetContainer">
                     <property name="MemberName" />
-                    <property name="Spacing">6</property>
+                    <property name="CanFocus">True</property>
+                    <property name="Position">10</property>
+                    <child>
+                      <placeholder />
+                    </child>
                     <child>
                       <placeholder />
                     </child>
@@ -79,12 +82,33 @@
                     <property name="AutoSize">True</property>
                   </packing>
                 </child>
+              </widget>
+              <packing>
+                <property name="Position">0</property>
+                <property name="AutoSize">True</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.VBox" id="vbxGA">
+                <property name="MemberName" />
+                <property name="WidthRequest">250</property>
+                <property name="Spacing">6</property>
+                <child>
+                  <widget class="Gtk.VButtonBox" id="vbbSample">
+                    <property name="MemberName" />
+                    <property name="Size">0</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">0</property>
+                    <property name="AutoSize">True</property>
+                  </packing>
+                </child>
                 <child>
                   <widget class="Gtk.HSeparator" id="hseparator1">
                     <property name="MemberName" />
                   </widget>
                   <packing>
-                    <property name="Position">3</property>
+                    <property name="Position">1</property>
                     <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
@@ -96,7 +120,7 @@
                     <property name="LabelProp" translatable="yes">Population size</property>
                   </widget>
                   <packing>
-                    <property name="Position">4</property>
+                    <property name="Position">2</property>
                     <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
@@ -184,7 +208,7 @@
                     </child>
                   </widget>
                   <packing>
-                    <property name="Position">5</property>
+                    <property name="Position">3</property>
                     <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
@@ -225,7 +249,7 @@
                     </child>
                   </widget>
                   <packing>
-                    <property name="Position">6</property>
+                    <property name="Position">4</property>
                     <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
@@ -236,7 +260,7 @@
                     <property name="MemberName" />
                   </widget>
                   <packing>
-                    <property name="Position">7</property>
+                    <property name="Position">5</property>
                     <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
@@ -248,7 +272,7 @@
                     <property name="LabelProp" translatable="yes">Selection</property>
                   </widget>
                   <packing>
-                    <property name="Position">8</property>
+                    <property name="Position">6</property>
                     <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
@@ -289,7 +313,7 @@
                     </child>
                   </widget>
                   <packing>
-                    <property name="Position">9</property>
+                    <property name="Position">7</property>
                     <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
@@ -300,7 +324,7 @@
                     <property name="MemberName" />
                   </widget>
                   <packing>
-                    <property name="Position">10</property>
+                    <property name="Position">8</property>
                     <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
@@ -312,7 +336,7 @@
                     <property name="LabelProp" translatable="yes">Crossover</property>
                   </widget>
                   <packing>
-                    <property name="Position">11</property>
+                    <property name="Position">9</property>
                     <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
@@ -354,7 +378,7 @@
                     </child>
                   </widget>
                   <packing>
-                    <property name="Position">12</property>
+                    <property name="Position">10</property>
                     <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
@@ -395,7 +419,7 @@
                     </child>
                   </widget>
                   <packing>
-                    <property name="Position">13</property>
+                    <property name="Position">11</property>
                     <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
@@ -406,7 +430,7 @@
                     <property name="MemberName" />
                   </widget>
                   <packing>
-                    <property name="Position">14</property>
+                    <property name="Position">12</property>
                     <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
@@ -418,7 +442,7 @@
                     <property name="LabelProp" translatable="yes">Mutation</property>
                   </widget>
                   <packing>
-                    <property name="Position">15</property>
+                    <property name="Position">13</property>
                     <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
@@ -459,7 +483,7 @@
                     </child>
                   </widget>
                   <packing>
-                    <property name="Position">16</property>
+                    <property name="Position">14</property>
                     <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
@@ -500,7 +524,7 @@
                     </child>
                   </widget>
                   <packing>
-                    <property name="Position">17</property>
+                    <property name="Position">15</property>
                     <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
@@ -511,7 +535,7 @@
                     <property name="MemberName" />
                   </widget>
                   <packing>
-                    <property name="Position">18</property>
+                    <property name="Position">16</property>
                     <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
@@ -523,7 +547,7 @@
                     <property name="LabelProp" translatable="yes">Reinsertion</property>
                   </widget>
                   <packing>
-                    <property name="Position">19</property>
+                    <property name="Position">17</property>
                     <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
@@ -564,7 +588,7 @@
                     </child>
                   </widget>
                   <packing>
-                    <property name="Position">20</property>
+                    <property name="Position">18</property>
                     <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
@@ -576,7 +600,7 @@
                     <property name="LabelProp" translatable="yes">Termination</property>
                   </widget>
                   <packing>
-                    <property name="Position">21</property>
+                    <property name="Position">19</property>
                     <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
@@ -617,7 +641,7 @@
                     </child>
                   </widget>
                   <packing>
-                    <property name="Position">22</property>
+                    <property name="Position">20</property>
                     <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
@@ -628,7 +652,7 @@
                     <property name="MemberName" />
                   </widget>
                   <packing>
-                    <property name="Position">23</property>
+                    <property name="Position">21</property>
                     <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
@@ -636,20 +660,66 @@
                 </child>
               </widget>
               <packing>
-                <property name="Position">0</property>
+                <property name="Position">1</property>
                 <property name="AutoSize">True</property>
               </packing>
             </child>
             <child>
-              <widget class="Gtk.Button" id="btnEvolve">
+              <widget class="Gtk.Button" id="btnStart">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
                 <property name="Type">TextOnly</property>
-                <property name="Label" translatable="yes">_Evolve</property>
+                <property name="Label" translatable="yes">_Start</property>
                 <property name="UseUnderline">True</property>
               </widget>
               <packing>
-                <property name="Position">1</property>
+                <property name="Position">2</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Button" id="btnNew">
+                <property name="MemberName" />
+                <property name="CanFocus">True</property>
+                <property name="Type">TextOnly</property>
+                <property name="Label" translatable="yes">_New</property>
+                <property name="UseUnderline">True</property>
+              </widget>
+              <packing>
+                <property name="Position">3</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Button" id="btnStop">
+                <property name="MemberName" />
+                <property name="CanFocus">True</property>
+                <property name="Type">TextOnly</property>
+                <property name="Label" translatable="yes">_Stop</property>
+                <property name="UseUnderline">True</property>
+              </widget>
+              <packing>
+                <property name="Position">4</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Button" id="btnResume">
+                <property name="MemberName" />
+                <property name="Visible">False</property>
+                <property name="CanFocus">True</property>
+                <property name="Type">TextOnly</property>
+                <property name="Label" translatable="yes">_Resume</property>
+                <property name="UseUnderline">True</property>
+              </widget>
+              <packing>
+                <property name="Position">5</property>
                 <property name="AutoSize">True</property>
                 <property name="Expand">False</property>
                 <property name="Fill">False</property>

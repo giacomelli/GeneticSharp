@@ -5,6 +5,7 @@ using GeneticSharp.Domain.Populations;
 using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Selections;
+using Rhino.Mocks;
 
 namespace GeneticSharp.Domain.UnitTests.Terminations
 {
@@ -14,28 +15,36 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
 		[Test()]
 		public void HasReached_BestChromosomeHasLowerFitness_False ()
 		{
-			var target = new FitnessThresholdTermination (0.5);
-			var generation = new Generation (10, new List<IChromosome> () {
-				new ChromosomeStub() { Fitness = 0.4 },
-				new ChromosomeStub() { Fitness = 0.499 }
-			});
+			var repository = new MockRepository ();
+			var ga = repository.StrictMock<IGeneticAlgorithm> ();
 
-			generation.End (2);
-			Assert.IsFalse(target.HasReached(generation));
+			using (repository.Ordered()) {
+				ga.Expect (g => g.BestChromosome).Return (new ChromosomeStub() { Fitness = 0.4});
+				ga.Expect (g => g.BestChromosome).Return (new ChromosomeStub() { Fitness = 0.499});
+			}
+			repository.ReplayAll ();
+
+			var target = new FitnessThresholdTermination (0.5);
+			Assert.IsFalse(target.HasReached(ga));
+			Assert.IsFalse(target.HasReached(ga));
 		}
 
 		[Test()]
 		public void HasReached_BestChromosomeHasGreaterOrEqualFitness_True()
 		{
+			var repository = new MockRepository ();
+			var ga = repository.StrictMock<IGeneticAlgorithm> ();
+
+			using (repository.Ordered()) {
+				ga.Expect (g => g.BestChromosome).Return (new ChromosomeStub() { Fitness = 0.4});
+				ga.Expect (g => g.BestChromosome).Return (new ChromosomeStub() { Fitness = 0.8});
+			}
+			repository.ReplayAll ();
+
 			var target = new FitnessThresholdTermination (0.8);
-			var generation = new Generation (10, new List<IChromosome> () {
-				new ChromosomeStub() { Fitness = 0.4 },
-				new ChromosomeStub() { Fitness = 0.8 }
-			});
-
-			generation.End (2);
-
-			Assert.IsTrue(target.HasReached(generation));
+		
+			Assert.IsFalse(target.HasReached(ga));
+			Assert.IsTrue(target.HasReached(ga));
 		}
 	}
 }

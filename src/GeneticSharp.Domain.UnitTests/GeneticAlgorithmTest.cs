@@ -119,7 +119,14 @@ namespace GeneticSharp.Domain.UnitTests
 			Assert.IsInstanceOf<UniformMutation>(target.Mutation);
 
 			target.Termination = new GenerationNumberTermination (25);
+			Assert.AreEqual (GeneticAlgorithmState.NotStarted, target.State);
+			Assert.IsFalse (target.IsRunning);
+
 			target.Start ();
+
+			Assert.AreEqual (GeneticAlgorithmState.TerminationReached, target.State);
+			Assert.IsFalse (target.IsRunning);
+
 			Assert.AreEqual(25, target.Population.Generations.Count);
 
 			var lastFitness = 0.0;
@@ -129,7 +136,7 @@ namespace GeneticSharp.Domain.UnitTests
 				lastFitness = g.BestChromosome.Fitness.Value;
 			}
 
-			Assert.GreaterOrEqual (lastFitness, 0.9);
+			Assert.GreaterOrEqual (lastFitness, 0.8);
 		}
 
 		[Test()]
@@ -143,7 +150,13 @@ namespace GeneticSharp.Domain.UnitTests
 			FlowAssert.IsAtLeastOneAttemptOk (8, () => {
                 var target = new GeneticAlgorithm(new Population(100, 150, chromosome),
                 new FitnessStub() { SupportsParallel = true }, selection, crossover, mutation);
+				Assert.AreEqual (GeneticAlgorithmState.NotStarted, target.State);
+				Assert.IsFalse (target.IsRunning);
+
 				target.Start();
+
+				Assert.AreEqual (GeneticAlgorithmState.TerminationReached, target.State);
+				Assert.IsFalse (target.IsRunning);
 				Assert.IsTrue(target.Population.CurrentGeneration.Chromosomes.Count >= 100);
 				Assert.IsTrue(target.Population.CurrentGeneration.Chromosomes.Count <= 150);
 				Assert.IsNotNull(target.Population.BestChromosome);
@@ -176,6 +189,9 @@ namespace GeneticSharp.Domain.UnitTests
 			ExceptionAssert.IsThrowing (new TimeoutException("The RunGeneration reach the 1000 milliseconds timeout."), () => {
 				target.Start (1000);
 			});
+
+			Assert.IsFalse (target.IsRunning);
+			Assert.AreEqual (GeneticAlgorithmState.Stopped, target.State);
 		}
 
 		[Test()]
@@ -282,17 +298,28 @@ namespace GeneticSharp.Domain.UnitTests
                     new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
 
             target.Termination = new GenerationNumberTermination(100);
+			Assert.AreEqual (GeneticAlgorithmState.NotStarted, target.State);
+			Assert.IsFalse (target.IsRunning);
 
             target.Start();
+
+			Assert.AreEqual (GeneticAlgorithmState.TerminationReached, target.State);
+			Assert.IsFalse (target.IsRunning);
             var lastTimeEvolving = target.TimeEvolving.Ticks;
             Assert.AreEqual(100, target.Population.Generations.Count);
             Assert.Greater(target.TimeEvolving.TotalMilliseconds, 1);
 
             target.Start();
+
+			Assert.AreEqual (GeneticAlgorithmState.TerminationReached, target.State);
+			Assert.IsFalse (target.IsRunning);
             Assert.AreEqual(100, target.Population.Generations.Count);
             Assert.AreNotEqual(lastTimeEvolving, target.TimeEvolving.Ticks);
 
             target.Start();
+
+			Assert.AreEqual (GeneticAlgorithmState.TerminationReached, target.State);
+			Assert.IsFalse (target.IsRunning);
             Assert.AreEqual(100, target.Population.Generations.Count);
             Assert.AreNotEqual(lastTimeEvolving, target.TimeEvolving.Ticks);
         }
@@ -314,17 +341,23 @@ namespace GeneticSharp.Domain.UnitTests
             Assert.AreEqual(100, target.Population.Generations.Count);
             Assert.Greater(target.TimeEvolving.TotalMilliseconds, 1);
             Assert.Less(target.TimeEvolving.TotalMilliseconds, 1000);
+			Assert.AreEqual (GeneticAlgorithmState.TerminationReached, target.State);
+			Assert.IsFalse (target.IsRunning);
 
             target.Termination = new GenerationNumberTermination(50);
             target.Start();
             Assert.AreEqual(50, target.Population.Generations.Count);
             Assert.Less(target.TimeEvolving.TotalMilliseconds, lastTimeEvolving);
             lastTimeEvolving = target.TimeEvolving.TotalMilliseconds;
+			Assert.AreEqual (GeneticAlgorithmState.TerminationReached, target.State);
+			Assert.IsFalse (target.IsRunning);
 
             target.Termination = new GenerationNumberTermination(25);
             target.Start();
             Assert.AreEqual(25, target.Population.Generations.Count);
             Assert.Less(target.TimeEvolving.TotalMilliseconds, lastTimeEvolving);
+			Assert.AreEqual (GeneticAlgorithmState.TerminationReached, target.State);
+			Assert.IsFalse (target.IsRunning);
         }
 
         [Test()]
@@ -360,7 +393,12 @@ namespace GeneticSharp.Domain.UnitTests
             () =>
             {
                 Thread.Sleep(10);
+				Assert.AreEqual (GeneticAlgorithmState.Started, target.State);
+				Assert.IsTrue (target.IsRunning);
                 target.Stop();
+
+				Assert.AreEqual (GeneticAlgorithmState.Stopped, target.State);
+				Assert.IsFalse (target.IsRunning);
             });
 
             Assert.Less(target.Population.Generations.Count, 10000);
@@ -402,14 +440,25 @@ namespace GeneticSharp.Domain.UnitTests
             {
                 Thread.Sleep(10);
                 target.Stop();
+				Assert.AreEqual (GeneticAlgorithmState.Stopped, target.State);
+				Assert.IsFalse (target.IsRunning);
             });
 
-            target.Resume();
+			Parallel.Invoke(
+				() =>  target.Resume(),
+				() =>
+			{
+				Thread.Sleep(1);
+				Assert.AreEqual (GeneticAlgorithmState.Resumed, target.State);
+				Assert.IsTrue (target.IsRunning);
+			});
+           
+
             Assert.AreEqual(target.Population.Generations.Count, 10000);            
         }
 
         [Test()]
-        public void Resume_TerminationReachedAndTerminationNotChanged_DoNothing()
+        public void Resume_TerminationReachedAndTerminationNotChanged_Exception()
         {
             var selection = new EliteSelection();
             var crossover = new OnePointCrossover(2);
@@ -422,14 +471,12 @@ namespace GeneticSharp.Domain.UnitTests
             target.Start();
             Assert.AreEqual(10, target.Population.Generations.Count);
             var timeEvolving = target.TimeEvolving.Ticks;
+			Assert.AreEqual (GeneticAlgorithmState.TerminationReached, target.State);
+			Assert.IsFalse (target.IsRunning);
 
-            target.Resume();
-            Assert.AreEqual(10, target.Population.Generations.Count);
-            Assert.AreEqual(timeEvolving, target.TimeEvolving.Ticks);
-
-            target.Resume();
-            Assert.AreEqual(10, target.Population.Generations.Count);
-            Assert.AreEqual(timeEvolving, target.TimeEvolving.Ticks);
+			ExceptionAssert.IsThrowing (new InvalidOperationException ("Attempt to resume a genetic algorithm with a termination already reached. Please, specify a new termination or extend the current one."), () => {
+				target.Resume();
+			});
         }
 
         [Test()]
@@ -446,17 +493,24 @@ namespace GeneticSharp.Domain.UnitTests
             target.Start();
             Assert.AreEqual(target.Population.Generations.Count, 10);
             var timeEvolving = target.TimeEvolving.Ticks;
+			Assert.AreEqual (GeneticAlgorithmState.TerminationReached, target.State);
+			Assert.IsFalse (target.IsRunning);
 
             target.Termination = new GenerationNumberTermination(20);
             target.Resume();
             Assert.AreEqual(target.Population.Generations.Count, 20);
             Assert.Less(timeEvolving, target.TimeEvolving.Ticks);
+			Assert.AreEqual (GeneticAlgorithmState.TerminationReached, target.State);
+			Assert.IsFalse (target.IsRunning);
 
             target.Termination = new GenerationNumberTermination(30);
             target.Resume();
             Assert.AreEqual(target.Population.Generations.Count, 30);
             Assert.Less(timeEvolving, target.TimeEvolving.Ticks);
+			Assert.AreEqual (GeneticAlgorithmState.TerminationReached, target.State);
+			Assert.IsFalse (target.IsRunning);
         }
+
 	}
 }
 
