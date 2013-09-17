@@ -1,0 +1,16 @@
+ <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+ 
+ <Target Name="AfterBuild">
+   	<ItemGroup>
+    		<FilesToCopy Include="..\GeneticSharp.Domain\bin\$(Configuration)\GeneticSharp.Domain.*" />
+    		<FilesToCopy Include="..\GeneticSharp.Domain\bin\$(Configuration)\GeneticSharp.Infrastructure.Framework.*" />
+    		<FilesToCopy Include="..\GeneticSharp.Domain\bin\$(Configuration)\HelperSharp.*" />
+    		<FilesToCopy Include="..\GeneticSharp.Domain\bin\$(Configuration)\SmartThreadPool.*" />    		
+ 	</ItemGroup>
+
+    <Copy
+        SourceFiles="@(FilesToCopy)"
+        DestinationFolder="..\Samples\Unity\Checkers\Assets\_Checkers\Libraries"
+    />
+</Target>
+</Project>

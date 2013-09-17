@@ -9,6 +9,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>GeneticSharp.Infrastructure.Framework.UnitTests</RootNamespace>
     <AssemblyName>GeneticSharp.Infrastructure.Framework.UnitTests</AssemblyName>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,15 +41,21 @@
     <Reference Include="TestSharp">
       <HintPath>..\packages\TestSharp.1.0.2\lib\net40\TestSharp.dll</HintPath>
     </Reference>
+    <Reference Include="Rhino.Mocks">
+      <HintPath>..\packages\RhinoMocks.3.6.1\lib\net\Rhino.Mocks.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
   <ItemGroup>
     <Compile Include="Reflection\TypeHelperTest.cs" />
+    <Compile Include="Threading\TaskExecutorBaseTest.cs" />
+    <Compile Include="Threading\StubTaskExecutor.cs" />
+    <Compile Include="Threading\LinearTaskExecutorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj">
-      <Project>{c76dc1ad-fc7e-4168-bd19-101ff84a43f7}</Project>
+      <Project>{C76DC1AD-FC7E-4168-BD19-101FF84A43F7}</Project>
       <Name>GeneticSharp.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj">
@@ -58,4 +66,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>

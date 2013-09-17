@@ -21,10 +21,12 @@ Features
  - Selections
    - Elite (also know as Truncate or Truncation)
    - Roulette Wheel
+   - Stochastic Universal Sampling 
    - Tournament  
    - Others selections can be added implementing ISelection interface or extending SelectionBase. 
  - Crossovers
-   - Cycle (CX)
+   - Cut and Splice 
+   - Cycle (CX)   
    - One-Point
    - Ordered OX1
    - Partially Mapped (PMX)
@@ -47,10 +49,10 @@ Features
    - Time evolving
    - Fitness stagnation
    - Fitness threshold  
+   - And e Or (allows combine others terminations)
  - Randomizations
    - Basic randomization (using System.Random)
-   - Fast random
-   - Troschuetz
+   - Fast random   
    - If you need a special kind of randomization for your GA, just implement the IRandomization interface.
  - Runner app (GTK#) showing the library solving TSP (Travelling Salesman Problem). 
  - Mono support
@@ -126,16 +128,14 @@ Roadmap
 	  - Time series   
  - Create and publish NuGet package
  - Create the wiki
- - Add new selections
-   - Stochastic Universal Sampling 
+ - Add new selections   
    - Reward-based
  - Add new crossovers   
    - Order-based (OX2)
    - Position-based (POS)
    - Voting recombination
    - Alternating-position (AP)
-   - Sequential Constructive (SCX) 
-   - Cut and splice 
+   - Sequential Constructive (SCX)    
    - Shuffle crossover
    - Precedence Preservative Crossover (PPX)
  - Add new mutations

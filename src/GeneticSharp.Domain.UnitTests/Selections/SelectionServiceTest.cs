@@ -13,10 +13,12 @@ namespace GeneticSharp.Domain.UnitTests.Selections
 		{
 			var actual = SelectionService.GetSelectionTypes ();
 
-			Assert.AreEqual (3, actual.Count);
+			Assert.AreEqual (4, actual.Count);
 			Assert.AreEqual (typeof(EliteSelection), actual [0]);
 			Assert.AreEqual (typeof(RouletteWheelSelection), actual [1]);
-            Assert.AreEqual(typeof(TournamentSelection), actual[2]);
+            Assert.AreEqual(typeof(StochasticUniversalSamplingSelection), actual[2]);
+            Assert.AreEqual(typeof(TournamentSelection), actual[3]);
+            
 		}
 
 		[Test()]
@@ -24,10 +26,11 @@ namespace GeneticSharp.Domain.UnitTests.Selections
 		{
 			var actual = SelectionService.GetSelectionNames ();
 
-			Assert.AreEqual (3, actual.Count);
+			Assert.AreEqual (4, actual.Count);
 			Assert.AreEqual ("Elite", actual [0]);
 			Assert.AreEqual ("Roulette Wheel", actual [1]);
-            Assert.AreEqual("Tournament", actual[2]);
+            Assert.AreEqual("Stochastic Universal Sampling", actual[2]);
+            Assert.AreEqual("Tournament", actual[3]);
 		}
 
 		[Test()]
@@ -57,6 +60,9 @@ namespace GeneticSharp.Domain.UnitTests.Selections
 
             actual = SelectionService.CreateSelectionByName("Tournament") as TournamentSelection;
             Assert.IsNotNull(actual);
+
+            actual = SelectionService.CreateSelectionByName("Stochastic Universal Sampling") as StochasticUniversalSamplingSelection;
+            Assert.IsNotNull(actual);
 		}
 
 		[Test()]
@@ -78,6 +84,9 @@ namespace GeneticSharp.Domain.UnitTests.Selections
 
             actual = SelectionService.GetSelectionTypeByName("Tournament");
             Assert.AreEqual(typeof(TournamentSelection), actual);
+
+            actual = SelectionService.GetSelectionTypeByName("Stochastic Universal Sampling");
+            Assert.AreEqual(typeof(StochasticUniversalSamplingSelection), actual);
 		}
 	}
 }

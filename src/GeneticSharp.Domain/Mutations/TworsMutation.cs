@@ -32,12 +32,7 @@ namespace GeneticSharp.Domain.Mutations
         /// <param name="chromosome">The chromosome.</param>
         /// <param name="probability">The probability to mutate each chromosome.</param>
         protected override void PerformMutate(IChromosome chromosome, float probability)
-        {
-            if (chromosome.Length < 2)
-            {
-                throw new MutationException(this, "A chromosome should have, at least, 2 genes. {0} has only {1} gene.".With(chromosome.GetType().Name, chromosome.Length));
-            }
-
+        {      
             if (RandomizationProvider.Current.GetDouble() <= probability)
             {
 				var indexes = RandomizationProvider.Current.GetUniqueInts(2, 0, chromosome.Length);

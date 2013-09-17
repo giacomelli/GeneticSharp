@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Fitnesses;
 
@@ -12,19 +9,14 @@ namespace GeneticSharp.Extensions.Checkers
 	/// </summary>
     public class CheckersFitness : IFitness
     {
-        #region Fields
-        private int m_boardSize;
-        #endregion
-
         #region Constructors
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GeneticSharp.Extensions.Checkers.CheckersFitness"/> class.
 		/// </summary>
-		/// <param name="boardSize">Board size.</param>
-        public CheckersFitness(int boardSize)
+        /// <param name="board">The checkers board.</param>
+        public CheckersFitness(CheckersBoard board)
         {
-            m_boardSize = boardSize;
-            Board = new CheckersSquare[boardSize, boardSize];
+            Board = board;
             Reset();             
         }
         #endregion
@@ -34,16 +26,7 @@ namespace GeneticSharp.Extensions.Checkers
 		/// Gets the board.
 		/// </summary>
 		/// <value>The board.</value>
-		public CheckersSquare[,] Board { get; private set; }
-
-		/// <summary>
-		/// Gets a value indicating whether this <see cref="GeneticSharp.Extensions.Checkers.CheckersFitness"/> supports parallel.
-		/// </summary>
-		/// <value><c>true</c> if supports parallel; otherwise, <c>false</c>.</value>
-        public bool SupportsParallel
-        {
-            get { return false; }
-        }
+        public CheckersBoard Board { get; private set; }
         #endregion
 
         #region Methods
@@ -58,7 +41,7 @@ namespace GeneticSharp.Extensions.Checkers
             var c = chromosome as CheckersChromosome;
             double movesAhead = c.Moves.Count;
 
-            var nextMovementFitness = EvaluateMove(c.Moves.First());
+			var nextMovementFitness = EvaluateMove(c.Moves.First());
 
             if (nextMovementFitness > 0)
             {
@@ -77,41 +60,39 @@ namespace GeneticSharp.Extensions.Checkers
 		/// Evaluates the move.
 		/// </summary>
 		/// <returns>The move.</returns>
-		/// <param name="move">Move.</param>
-        private double EvaluateMove(CheckersMove move)
+		/// <param name="move">Move.</param>		
+        public double EvaluateMove(CheckersMove move)
         {
             double moveFitness = 0;
 
-            var from = Board[move.From.ColumnIndex, move.From.RowIndex];
-            var to = Board[move.To.ColumnIndex, move.To.RowIndex];
+            // Evals the move kind.
+			var moveKind = Board.GetMoveKind (move);
 
-            // From is square of the AI player and To is a free square.
-            if (from.State == CheckersSquareState.OccupiedByPlayerOne && to.State == CheckersSquareState.Free)
+			switch (moveKind) {
+				case CheckersMoveKind.Forward:
+					moveFitness = 0.5;
+					break;
+
+				case CheckersMoveKind.Capture:
+					moveFitness = 1;
+					break;
+
+				case CheckersMoveKind.Invalid:
+					moveFitness = 0;
+					break;
+			}
+            
+            if (moveFitness > 0)
             {
-                // Simple move.
-                if (to.RowIndex == from.RowIndex + 1 && (to.ColumnIndex == from.ColumnIndex - 1 || to.ColumnIndex == from.ColumnIndex + 1))
-                {
-                    moveFitness = 0.5;
-                }
-                else if (to.RowIndex == from.RowIndex + 2) // 'Eat' move.
-                {
-                    
-                    if (from.ColumnIndex + 1 <m_boardSize && 
-                        from.RowIndex + 1 < m_boardSize && 
-                        to.ColumnIndex == from.ColumnIndex + 2 && 
-                        Board[from.ColumnIndex + 1, from.RowIndex + 1].State == CheckersSquareState.OccupiedByPlayerTwo)
-                    {
-                        moveFitness = 1;
-                    }
-                    else if (from.ColumnIndex > 0 && 
-                        from.RowIndex > 0 && 
-                        to.ColumnIndex == from.ColumnIndex - 2 && 
-                        Board[from.ColumnIndex - 1, from.RowIndex - 1].State == CheckersSquareState.OccupiedByPlayerTwo)
-                    {
-                        moveFitness = 1;
-                    }                                      
-                }
+                var futurePiece = new CheckersPiece(move.Piece.Player) { CurrentSquare = move.ToSquare };
+                
+                // Evals the possibilities to capture anothers pieces.
+                moveFitness += Board.CountCapturableByPiece(move.Piece);
+
+                // Evals the possibilities to be captured by another pieces.
+                moveFitness -= Board.CountPieceChancesToBeCaptured(futurePiece);                
             }
+            
 
             return moveFitness;
         }
@@ -121,27 +102,7 @@ namespace GeneticSharp.Extensions.Checkers
         /// </summary>
         public void Reset()
         {
-            for (int c = 0; c < m_boardSize; c++)
-            {
-                for (int r = 0; r < m_boardSize; r++)
-                {
-                    var square = new CheckersSquare(c, r);
-
-                    if (square.State == CheckersSquareState.Free)
-                    {
-                        if (r < 3)
-                        {
-                            square.State = CheckersSquareState.OccupiedByPlayerOne;
-                        }
-                        else if (r >= m_boardSize - 3)
-                        {
-                            square.State = CheckersSquareState.OccupiedByPlayerTwo;
-                        }
-                    }
-
-                    Board[c, r] = square;
-                }
-            }
+            Board.Reset();
         }
 
 		/// <summary>
@@ -153,24 +114,7 @@ namespace GeneticSharp.Extensions.Checkers
             if (checkersChromosome.Fitness > 0)
             {
                 var move = checkersChromosome.Moves.First();
-
-                var from = Board[move.From.ColumnIndex, move.From.RowIndex];
-                from.State = CheckersSquareState.Free;
-
-                var to = Board[move.To.ColumnIndex, move.To.RowIndex];
-                to.State = CheckersSquareState.OccupiedByPlayerOne;
-
-                if (to.RowIndex == from.RowIndex + 2) // 'Eat' move.
-                {
-                    if (to.ColumnIndex == from.ColumnIndex + 2)
-                    {
-                        Board[from.ColumnIndex + 1, from.RowIndex + 1].State = CheckersSquareState.Free;
-                    }
-                    else if (to.ColumnIndex == from.ColumnIndex - 2)
-                    {
-                        Board[from.ColumnIndex - 1, from.RowIndex - 1].State = CheckersSquareState.Free;
-                    }
-                }
+				Board.MovePiece (move);
             }
         }
         #endregion        

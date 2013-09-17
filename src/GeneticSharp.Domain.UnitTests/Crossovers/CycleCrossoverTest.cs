@@ -20,21 +20,6 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         }
 
         [Test]
-        public void Cross_ChromosomeLengthLowerThan3_Exception()
-        {
-            var target = new CycleCrossover();
-            var chromosome = MockRepository.GenerateStub<ChromosomeBase>(1);
-
-            ExceptionAssert.IsThrowing(new CrossoverException(target, "A chromosome should have, at least, 2 genes. {0} has only 1 gene.".With(chromosome.GetType().Name)), () =>
-            {
-                target.Cross(new List<IChromosome>() {
-                    chromosome,
-                    chromosome
-                });
-            });
-        }
-
-        [Test]
         public void Cross_ParentWithNoOrderedGenes_Exception()
         {
             var target = new CycleCrossover();

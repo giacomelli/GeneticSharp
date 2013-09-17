@@ -9,6 +9,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>GeneticSharp.Extensions.UnitTests</RootNamespace>
     <AssemblyName>GeneticSharp.Extensions.UnitTests</AssemblyName>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,8 +48,12 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
   <ItemGroup>
+    <Compile Include="Checkers\CheckersMoveTest.cs" />
+    <Compile Include="Checkers\CheckersSquareTest.cs" />
     <Compile Include="Checkers\CheckersTest.cs" />
     <Compile Include="Tsp\TspTest.cs" />
+    <Compile Include="Checkers\CheckersBoardTest.cs" />
+    <Compile Include="Checkers\CheckersFitnessTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj">
@@ -62,4 +68,14 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <DotNetNamingPolicy DirectoryNamespaceAssociation="PrefixedHierarchical" ResourceNamePolicy="FileFormatDefault" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>

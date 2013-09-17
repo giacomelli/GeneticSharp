@@ -51,14 +51,29 @@ namespace GeneticSharp.Extensions.Checkers
         public override Gene GenerateGene(int geneIndex)
         {
             var rnd = RandomizationProvider.Current;
-            var from = new CheckersSquare(rnd.GetInt(0, m_boardSize), rnd.GetInt(0, m_boardSize));
-            var to = new CheckersSquare(rnd.GetInt(0, m_boardSize), rnd.GetInt(0, m_boardSize));
-            var move = new CheckersMove(from, to);
+            var from = GetPlayableSquare();
+			from.PutPiece (new CheckersPiece (CheckersPlayer.PlayerOne));
+
+            var to = GetPlayableSquare();
+            var move = new CheckersMove(from.CurrentPiece, to);
 
             Moves[geneIndex] = move;
 
             return new Gene(move);
-        }        
+        }
+
+        private CheckersSquare GetPlayableSquare()
+        {
+            CheckersSquare square;
+            var rnd = RandomizationProvider.Current;
+
+            do
+            {
+                square = new CheckersSquare(rnd.GetInt(0, m_boardSize), rnd.GetInt(0, m_boardSize));
+            } while (square.State == CheckersSquareState.NotPlayable);
+
+            return square;
+        }
         
 		/// <summary>
 		/// Creates a new chromosome using the same structure of this.

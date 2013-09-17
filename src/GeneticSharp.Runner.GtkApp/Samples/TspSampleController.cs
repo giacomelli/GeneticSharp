@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using Gdk;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Fitnesses;
-using GeneticSharp.Domain.Populations;
 using GeneticSharp.Extensions.Tsp;
 using Gtk;
 using HelperSharp;

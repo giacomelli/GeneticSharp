@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using Gdk;
+using GeneticSharp.Domain;
 using GeneticSharp.Domain.Populations;
 using HelperSharp;
 
@@ -21,6 +22,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             GtkWindow = gtkWindow;
 		}
 
+        public GeneticAlgorithm GA { get; set; }
         public Gdk.Window GdkWindow { get; private set; }
         public Gtk.Window GtkWindow { get; private set; }
         public Gdk.GC GC { get; set; }

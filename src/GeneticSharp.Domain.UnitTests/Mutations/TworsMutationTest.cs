@@ -17,23 +17,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         public void Cleanup()
         {
             RandomizationProvider.Current = new BasicRandomization();
-        }
-
-        [Test()]
-        public void Mutate_LessThanTwoGenes_Exception()
-        {
-            var target = new TworsMutation();
-            var chromosome = MockRepository.GenerateStub<ChromosomeBase>(1);
-			chromosome.ReplaceGenes(0, new Gene[] 
-			{ 
-				new Gene(1),				
-			});
-
-            ExceptionAssert.IsThrowing(new MutationException(target, "A chromosome should have, at least, 2 genes. {0} has only 1 gene.".With(chromosome.GetType().Name)), () =>
-            {
-                target.Mutate(chromosome, 0);
-            });
-        }
+        }      
 
         [Test()]
         public void Mutate_NoProbality_NoExchangeGenes()

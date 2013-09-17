@@ -3,6 +3,9 @@
      <Words>
         <Recognized>
             <Word>"fitnesses"</Word>
+            <Word>"HasReached"</Word>
+            <Word>"OrTermination"</Word>
+            <Word>"AddTermination"</Word>
         </Recognized>
     </Words>
 </Dictionary>

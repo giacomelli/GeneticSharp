@@ -1,0 +1,269 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HelperSharp</name>
+    </assembly>
+    <members>
+        <member name="T:HelperSharp.CurrencyHelper">
+            <summary>
+            Currency helper.
+            </summary>
+        </member>
+        <member name="M:HelperSharp.CurrencyHelper.#cctor">
+            <summary>
+            Initializes the <see cref="T:HelperSharp.CurrencyHelper"/> class.
+            </summary>
+        </member>
+        <member name="M:HelperSharp.CurrencyHelper.IsValidISOCurrencySymbol(System.String)">
+            <summary>
+            Determines if is valid ISO currency symbol
+            </summary>
+            <returns><c>true</c> if is valid ISO currency symbol; otherwise, <c>false</c>.</returns>
+            <param name="symbol">Symbol.</param>
+        </member>
+        <member name="T:HelperSharp.ArrayExtensions">
+            <summary>
+            Arrays extensions.
+            </summary>
+        </member>
+        <member name="M:HelperSharp.ArrayExtensions.RemoveDuplicates``1(``0[])">
+            <summary>
+            Removes the duplicates.
+            </summary>
+            <returns>The duplicates.</returns>
+            <param name="items">Items.</param>
+            <typeparam name="T">The 1st type parameter.</typeparam>
+        </member>
+        <member name="T:HelperSharp.CharExtensions">
+            <summary>
+            Char extensions.
+            </summary>
+        </member>
+        <member name="M:HelperSharp.CharExtensions.HasAccent(System.Char)">
+            <summary>
+            Determines if char is an accent.
+            </summary>
+            <returns><c>true</c> if char is an accent; otherwise, <c>false</c>.</returns>
+            <param name="c">The char.</param>
+        </member>
+        <member name="T:HelperSharp.ConvertibleExtensions">
+            <summary>
+            Convertible extensions.
+            </summary>
+        </member>
+        <member name="M:HelperSharp.ConvertibleExtensions.To``1(System.IConvertible)">
+            <summary>
+            Converts the type to specified T.
+            </summary>
+            <param name="self">Self.</param>
+            <typeparam name="T">The 1st type parameter.</typeparam>
+        </member>
+        <member name="T:HelperSharp.DateTimeExtensions">
+            <summary>
+            Date time extensions.
+            </summary>
+        </member>
+        <member name="M:HelperSharp.DateTimeExtensions.GetBeginOfMonth(System.DateTime)">
+            <summary>
+            Gets the begin of month.
+            </summary>
+            <returns>The begin of month.</returns>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:HelperSharp.DateTimeExtensions.GetEndOfMonth(System.DateTime)">
+            <summary>
+            Gets the end of month.
+            </summary>
+            <returns>The end of month.</returns>
+            <param name="value">Value.</param>
+        </member>
+        <member name="T:HelperSharp.EnumerableExtensions">
+            <summary>
+            Enumerable extensions.
+            </summary>
+        </member>
+        <member name="M:HelperSharp.EnumerableExtensions.GetTypes(System.Collections.IEnumerable)">
+            <summary>
+            Gets the types of the specified objects.
+            </summary>
+            <returns>The types.</returns>
+            <param name="objects">Objects.</param>
+        </member>
+        <member name="M:HelperSharp.EnumerableExtensions.Each``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})">
+            <summary>
+            Iterates in the collection calling the action for each item.
+            </summary>
+            <param name="self">Self.</param>
+            <param name="action">Action.</param>
+            <typeparam name="T">The 1st type parameter.</typeparam>
+        </member>
+        <member name="M:HelperSharp.EnumerableExtensions.Each``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0,System.Int32})">
+            <summary>
+            Iterates in the collection calling the action for each item using index.
+            </summary>
+            <param name="self">Self.</param>
+            <param name="action">Action.</param>
+            <typeparam name="T">The 1st type parameter.</typeparam>
+        </member>
+        <member name="M:HelperSharp.EnumerableExtensions.ToString``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object})">
+            <summary>
+            Iterates in the collection calling the action for each item and concatenating the result.
+            </summary>
+            <returns>The string.</returns>
+            <param name="self">Self.</param>
+            <param name="function">Function.</param>
+            <typeparam name="T">The 1st type parameter.</typeparam>
+        </member>
+        <member name="M:HelperSharp.EnumerableExtensions.ToString``1(System.Collections.Generic.IEnumerable{``0},System.String)">
+            <summary>
+            Iterates in the collection calling the action for each item using String.Format.
+            </summary>
+            <returns>The string.</returns>
+            <param name="self">Self.</param>
+            <param name="format">Format.</param>
+            <typeparam name="T">The 1st type parameter.</typeparam>
+        </member>
+        <member name="T:HelperSharp.StringExtensions">
+            <summary>
+            String extensions.
+            </summary>
+        </member>
+        <member name="M:HelperSharp.StringExtensions.GetWordFromIndex(System.String,System.Int32)">
+            <summary>
+            Gets the index of the word from the source.
+            </summary>
+            <returns>The word from index.</returns>
+            <param name="source">Source.</param>
+            <param name="index">Index.</param>
+        </member>
+        <member name="M:HelperSharp.StringExtensions.GetWordFromIndex(System.String,System.Int32,System.Int32@)">
+            <summary>
+            Gets the index of the word from source.
+            </summary>
+            <returns>The word from index.</returns>
+            <param name="source">Source.</param>
+            <param name="index">Index.</param>
+            <param name="wordStartIndex">Word start index.</param>
+        </member>
+        <member name="M:HelperSharp.StringExtensions.CountWords(System.String)">
+            <summary>
+            Counts the words.
+            </summary>
+            <returns>The words.</returns>
+            <param name="source">Source.</param>
+        </member>
+        <member name="M:HelperSharp.StringExtensions.RemoveAccents(System.String)">
+            <summary>
+            Removes the accents.
+            </summary>
+            <returns>The accents.</returns>
+            <param name="source">Source.</param>
+        </member>
+        <member name="M:HelperSharp.StringExtensions.RemoveNonAlphanumeric(System.String)">
+            <summary>
+            Removes the non alphanumeric chars.
+            </summary>
+            <returns>The non alphanumeric.</returns>
+            <param name="source">Source.</param>
+        </member>
+        <member name="M:HelperSharp.StringExtensions.RemoveNonNumeric(System.String)">
+            <summary>
+            Removes the non numeric chars.
+            </summary>
+            <returns>The non numeric.</returns>
+            <param name="source">Source.</param>
+        </member>
+        <member name="M:HelperSharp.StringExtensions.RemoveFromBorders(System.String,System.String)">
+            <summary>
+            Removes the string "remove" from source borders.
+            </summary>
+            <returns>The from borders.</returns>
+            <param name="source">Source.</param>
+            <param name="remove">Remove.</param>
+        </member>
+        <member name="M:HelperSharp.StringExtensions.RemoveFromBorders(System.String,System.Char[])">
+            <summary>
+            Removes the chars "remove" from source borders.
+            </summary>
+            <returns>The from borders.</returns>
+            <param name="source">Source.</param>
+            <param name="remove">Remove.</param>
+        </member>
+        <member name="M:HelperSharp.StringExtensions.RemovePontuactions(System.String)">
+            <summary>
+            Removes the pontuactions.
+            </summary>
+            <returns>The pontuactions.</returns>
+            <param name="source">Source.</param>
+        </member>
+        <member name="M:HelperSharp.StringExtensions.EscapeAccentsToHex(System.String)">
+            <summary>
+            Escapes the accents to hexadecimal equivalent.
+            </summary>
+            <returns>The accents to hex.</returns>
+            <param name="source">Source.</param>
+        </member>
+        <member name="M:HelperSharp.StringExtensions.EscapeAccentsToHtmlEntities(System.String)">
+            <summary>
+            Escapes the accents to html entities.
+            </summary>
+            <returns>The accents to html entities.</returns>
+            <param name="source">Source.</param>
+        </member>
+        <member name="M:HelperSharp.StringExtensions.EndsWithPontuaction(System.String)">
+            <summary>
+            Verify if source ends the with pontuaction.
+            </summary>
+            <returns><c>true</c>, if with pontuaction was endsed, <c>false</c> otherwise.</returns>
+            <param name="source">Source.</param>
+        </member>
+        <member name="M:HelperSharp.StringExtensions.HasAccent(System.String)">
+            <summary>
+            Determines if has accent.
+            </summary>
+            <returns><c>true</c> if has accent the specified source; otherwise, <c>false</c>.</returns>
+            <param name="source">Source.</param>
+        </member>
+        <member name="M:HelperSharp.StringExtensions.InsertUnderscoreBeforeUpperCase(System.String)">
+            <summary>
+            Inserts the underscore before every upper case char.
+            </summary>
+            <returns>The result string.</returns>
+            <param name="input">Input.</param>
+        </member>
+        <member name="T:HelperSharp.EnumerableHelper">
+            <summary>
+            Enumerable helper.
+            </summary>
+        </member>
+        <member name="M:HelperSharp.EnumerableHelper.AreEqual``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Verify if collections are equal comparing each item. Order is considered.
+            </summary>
+            <returns><c>true</c>, if are equal, <c>false</c> otherwise.</returns>
+            <param name="first">First.</param>
+            <param name="second">Second.</param>
+            <typeparam name="TType">The 1st type parameter.</typeparam>
+        </member>
+        <member name="M:HelperSharp.EnumerableHelper.CalculateHashCode(System.Collections.IEnumerable)">
+            <summary>
+            Calculates the hash code.
+            </summary>
+            <returns>The hash code.</returns>
+            <param name="items">Items.</param>
+        </member>
+        <member name="T:HelperSharp.AttributeHelper">
+            <summary>
+            Attribute helper.
+            </summary>
+        </member>
+        <member name="M:HelperSharp.AttributeHelper.Has``1(System.Object)">
+            <summary>
+            Verify if target has a custom attribute of TAttribute type.
+            </summary>
+            <returns><c>true</c> if has the attribute; otherwise, <c>false</c>.</returns>
+            <param name="target">Target.</param>
+            <typeparam name="TAttribute">The 1st type parameter.</typeparam>
+        </member>
+    </members>
+</doc>

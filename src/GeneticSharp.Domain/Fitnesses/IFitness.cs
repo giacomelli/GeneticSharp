@@ -13,14 +13,6 @@ namespace GeneticSharp.Domain.Fitnesses
 	public interface IFitness
 	{
         /// <summary>
-        /// Gets if fitness evaluation of all chromosomes in an generation can be done in parallel.
-        /// <remarks>
-        /// Just return true when your evaluation is very expense and can be done in parallel, otherwise, not use parallel will be faster.
-        /// </remarks>
-        /// </summary>
-		bool SupportsParallel { get; }
-
-        /// <summary>
         /// Performs the evaluation against the specified chromosome.
         /// </summary>
         /// <param name="chromosome">The chromosome to be evaluated.</param>

@@ -10,12 +10,28 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
     public class ChromosomeBaseTest
     {
         [Test]
+        public void Constructor_InvalidLength_Exception()
+        {
+            ExceptionAssert.IsThrowing(new ArgumentException("The minimum length for a chromosome is 2 genes."), () =>
+            {
+                try
+                {
+                    MockRepository.GenerateMock<ChromosomeBase>(1);
+                }
+                catch (Exception ex)
+                {
+                    throw ex.InnerException;
+                }
+            });
+        }
+
+        [Test]
         public void CompareTo_Others_DiffResults()
         {
-            var target = MockRepository.GenerateMock<ChromosomeBase>(1);
+            var target = MockRepository.GenerateMock<ChromosomeBase>(2);
             target.Fitness = 0.5;
 
-            var other = MockRepository.GenerateMock<ChromosomeBase>(1);
+            var other = MockRepository.GenerateMock<ChromosomeBase>(2);
             other.Fitness = 0.5;
 
             Assert.AreEqual(-1, target.CompareTo(null));
@@ -31,7 +47,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
 		[Test]
 		public void Fitness_AnyChange_Null()
 		{
-			var target = MockRepository.GenerateStub<ChromosomeBase>(1);
+			var target = MockRepository.GenerateStub<ChromosomeBase>(2);
 			Assert.IsFalse (target.Fitness.HasValue);
 			target.Fitness = 0.5;
 			Assert.IsTrue (target.Fitness.HasValue);
@@ -87,11 +103,11 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
 			var target = MockRepository.GenerateStub<ChromosomeBase>(2);
 
 			ExceptionAssert.IsThrowing (new ArgumentOutOfRangeException("index", "There is no Gene on index 2 to be replaced."), () => {
-				target.ReplaceGenes (2, new Gene[0]);
+				target.ReplaceGenes (2, new Gene[] { new Gene() });
 			});
 
 			ExceptionAssert.IsThrowing (new ArgumentOutOfRangeException("index", "There is no Gene on index 3 to be replaced."), () => {
-				target.ReplaceGenes (3, new Gene[0]);
+                target.ReplaceGenes(3, new Gene[] { new Gene() });
 			});
 		}
 
@@ -152,5 +168,52 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
 			Assert.AreEqual (3, actual [2].Value);
 			Assert.AreEqual (5, actual [3].Value);
 		}
+
+        [Test]
+        public void Resize_InvalidLength_Exception()
+        {
+            var target = MockRepository.GenerateMock<ChromosomeBase>(2);
+
+            ExceptionAssert.IsThrowing(new ArgumentException("The minimum length for a chromosome is 2 genes."), () =>
+            {
+                target.Resize(1);
+            });
+        }
+
+        [Test]
+        public void Resize_ToLowerLength_TruncateGenes()
+        {
+            var target = MockRepository.GenerateMock<ChromosomeBase>(4);
+            target.ReplaceGenes(0, new Gene[] 
+			{ 
+				new Gene(1),
+				new Gene(2),
+                new Gene(3),
+				new Gene(4)
+			});
+
+            target.Resize(2);
+            Assert.AreEqual(2, target.Length);
+            Assert.AreEqual(1, target.GetGene(0).Value);
+            Assert.AreEqual(2, target.GetGene(1).Value);
+        }
+
+        [Test]
+        public void Resize_ToGreaterLength_KeepOldGenesAndNullValueNewOnes()
+        {
+            var target = MockRepository.GenerateMock<ChromosomeBase>(2);
+            target.ReplaceGenes(0, new Gene[] 
+			{ 
+				new Gene(1),
+				new Gene(2)
+			});
+
+            target.Resize(4);
+            Assert.AreEqual(4, target.Length);
+            Assert.AreEqual(1, target.GetGene(0).Value);
+            Assert.AreEqual(2, target.GetGene(1).Value);
+            Assert.IsNull(target.GetGene(2).Value);
+            Assert.IsNull(target.GetGene(3).Value);
+        }
     }
 }

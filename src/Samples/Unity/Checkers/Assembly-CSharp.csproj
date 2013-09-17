@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+	<ProductVersion>10.0.20506</ProductVersion>
+	<SchemaVersion>2.0</SchemaVersion>
+	<ProjectGuid>{653C4D46-4EF4-D168-E6D6-6199E72F48EE}</ProjectGuid>
+	<OutputType>Library</OutputType>
+	<AppDesignerFolder>Properties</AppDesignerFolder>
+	<RootNamespace></RootNamespace>
+	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+	<FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+	<DebugSymbols>true</DebugSymbols>
+	<DebugType>full</DebugType>
+	<Optimize>false</Optimize>
+	<OutputPath>Temp\bin\Debug\</OutputPath>
+	<DefineConstants>DEBUG;TRACE;UNITY_IPHONE;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_AUDIO_FMOD;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;ENABLE_WWW;ENABLE_IMAGEEFFECTS;UNITY_IPHONE_API;ENABLE_WEBCAM;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_GAMECENTER;UNITY_IOS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;UNITY_4_2_0;UNITY_4_2;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_OSX</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+	<DebugType>pdbonly</DebugType>
+	<Optimize>true</Optimize>
+	<OutputPath>Temp\bin\Release\</OutputPath>
+	<DefineConstants>TRACE</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+	<Reference Include="System" />
+    <Reference Include="System.XML" />
+	<Reference Include="System.Core" />
+	<Reference Include="UnityEngine">
+	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEngine.dll</HintPath>
+	</Reference>
+	<Reference Include="UnityEditor">
+	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll</HintPath>
+	</Reference>
+  </ItemGroup>
+  <ItemGroup>
+     <Compile Include="Assets\_Checkers\Scripts\Application\PieceGOService.cs" />
+     <Compile Include="Assets\_Checkers\Scripts\Application\SquareGOService.cs" />
+     <Compile Include="Assets\_Checkers\Scripts\Controllers\BoardController.cs" />
+     <Compile Include="Assets\_Checkers\Scripts\Controllers\CameraController.cs" />
+     <Compile Include="Assets\_Checkers\Scripts\Controllers\GAController.cs" />
+     <Compile Include="Assets\_Checkers\Scripts\Controllers\HudController.cs" />
+     <Compile Include="Assets\_Checkers\Scripts\Controllers\PieceController.cs" />
+     <Compile Include="Assets\_Checkers\Scripts\Controllers\PlayerController.cs" />
+     <Compile Include="Assets\_Checkers\Scripts\Controllers\SquareController.cs" />
+     <None Include="Assets\_Checkers\Libraries\GeneticSharp.Domain.dll.CodeAnalysisLog.xml" />
+     <None Include="Assets\_Checkers\Libraries\HelperSharp.xml" />
+     <None Include="Assets\_Checkers\Libraries\GeneticSharp.Infrastructure.Framework.xml" />
+     <None Include="Assets\_Checkers\Libraries\GeneticSharp.Extensions.xml" />
+     <None Include="Assets\_Checkers\Libraries\GeneticSharp.Domain.xml" />
+     <None Include="Assets\_Checkers\Libraries\GeneticSharp.Infrastructure.Threading.xml" />
+ <Reference Include="Assets\_Checkers\Libraries\GeneticSharp.Domain">
+ <HintPath>Assets\_Checkers\Libraries\GeneticSharp.Domain.dll</HintPath>
+ </Reference>
+ <Reference Include="Assets\_Checkers\Libraries\GeneticSharp.Extensions">
+ <HintPath>Assets\_Checkers\Libraries\GeneticSharp.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="Assets\_Checkers\Libraries\GeneticSharp.Infrastructure.Framework">
+ <HintPath>Assets\_Checkers\Libraries\GeneticSharp.Infrastructure.Framework.dll</HintPath>
+ </Reference>
+ <Reference Include="Assets\_Checkers\Libraries\GeneticSharp.Infrastructure.Threading">
+ <HintPath>Assets\_Checkers\Libraries\GeneticSharp.Infrastructure.Threading.dll</HintPath>
+ </Reference>
+ <Reference Include="Assets\_Checkers\Libraries\HelperSharp">
+ <HintPath>Assets\_Checkers\Libraries\HelperSharp.dll</HintPath>
+ </Reference>
+ <Reference Include="Assets\_Checkers\Libraries\SmartThreadPool">
+ <HintPath>Assets\_Checkers\Libraries\SmartThreadPool.dll</HintPath>
+ </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+	   Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  
+</Project>

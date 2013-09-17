@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Gdk;
 using GeneticSharp.Domain;
@@ -58,7 +59,7 @@ public partial class MainWindow: Gtk.Window
         PrepareComboBoxes();
         PrepareSamples();
 
-        cmbSample.Active = 1;
+        cmbSample.Active = 0;
         cmbCrossover.Active = 2;
         cmbTermination.Active = 2;
         hslCrossoverProbability.Value = GeneticAlgorithm.DefaultCrossoverProbability;
@@ -102,6 +103,14 @@ public partial class MainWindow: Gtk.Window
 			m_ga.MutationProbability = Convert.ToSingle (hslMutationProbability.Value);
 			m_ga.Reinsertion = m_reinsertion;
 			m_ga.Termination = m_termination;
+
+            m_sampleContext.GA = m_ga;
+            m_ga.GenerationRan += delegate
+            {
+				Application.Invoke(delegate {
+                	m_sampleController.Update();
+				});
+            };
 
 			m_ga.Start ();
 		});
@@ -182,6 +191,7 @@ public partial class MainWindow: Gtk.Window
         };
 
         problemConfigWidgetContainer.Add(m_sampleController.CreateConfigWidget());
+		problemConfigWidgetContainer.ShowAll();
 
         cmbSample.Changed += delegate
         {
@@ -207,12 +217,7 @@ public partial class MainWindow: Gtk.Window
 
     private void UpdateSample()
     {
-		if (m_sampleContext.Population == null) {
-			DrawSample ();
-		} else {
-			m_sampleController.Update ();
-			DrawSample ();
-		}
+        DrawSample();
     }
 
     private void ResetSample()
@@ -311,7 +316,10 @@ public partial class MainWindow: Gtk.Window
         PrepareEditComboBox(
             cmbTermination,
             btnEditTermination,
-            TerminationService.GetTerminationNames,
+            () => {
+                return TerminationService.GetTerminationNames()
+                    .Where(t => !t.Equals("And", StringComparison.OrdinalIgnoreCase) && !t.Equals("Or", StringComparison.OrdinalIgnoreCase)).ToList();
+            },
             TerminationService.GetTerminationTypeByName,
             TerminationService.CreateTerminationByName,
             () => m_termination,

@@ -14,26 +14,11 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 	[TestFixture()]
 	public class PartiallyMappedCrossoverTest
 	{
-		[TearDown]
-		public void Cleanup()
-		{
-			RandomizationProvider.Current = new BasicRandomization();
-		}
-
-		[Test]
-		public void Cross_ChromosomeLengthLowerThan3_Exception()
-		{
-			var target = new PartiallyMappedCrossover();
-			var chromosome = MockRepository.GenerateStub<ChromosomeBase>(1);
-
-			ExceptionAssert.IsThrowing(new CrossoverException(target, "A chromosome should have, at least, 3 genes. {0} has only 1 gene.".With(chromosome.GetType().Name)), () =>
-			                           {
-				target.Cross(new List<IChromosome>() {
-					chromosome,
-					chromosome
-				});
-			});
-		}
+        [TearDown]
+        public void Cleanup()
+        {
+            RandomizationProvider.Current = new BasicRandomization();
+        }
 
 		[Test]
 		public void Cross_ParentWithNoOrderedGenes_Exception()

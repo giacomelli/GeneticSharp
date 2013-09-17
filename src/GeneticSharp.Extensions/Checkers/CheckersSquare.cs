@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -36,6 +37,7 @@ namespace GeneticSharp.Extensions.Checkers
 	/// <summary>
 	/// Checkers square.
 	/// </summary>
+    [DebuggerDisplay("({ColumnIndex}, {RowIndex}): {State}")]
     public sealed class CheckersSquare
     {
         #region Constructors
@@ -48,14 +50,7 @@ namespace GeneticSharp.Extensions.Checkers
         {
             ColumnIndex = columnIndex;
             RowIndex = rowIndex;
-
-            if((ColumnIndex % 2 == 0 && RowIndex % 2 != 0) || (ColumnIndex % 2 != 0 && RowIndex % 2 == 0))
-            {
-                State = CheckersSquareState.Free;
-            }
-            else {
-                State = CheckersSquareState.NotPlayable;
-            }
+            State = IsNotPlayableSquare(columnIndex, rowIndex) ? CheckersSquareState.NotPlayable : CheckersSquareState.Free;            
         }
         #endregion
 
@@ -76,7 +71,86 @@ namespace GeneticSharp.Extensions.Checkers
 		/// Gets or sets the state.
 		/// </summary>
 		/// <value>The state.</value>
-        public CheckersSquareState State { get; set; }
+        public CheckersSquareState State { get; private set; }
+
+		public CheckersPiece CurrentPiece { get; private set; }
+        #endregion
+
+        #region Methods
+		public bool PutPiece(CheckersPiece piece)
+		{
+			if (State == CheckersSquareState.Free) {
+				CurrentPiece = piece;
+				State = piece.Player == CheckersPlayer.PlayerOne ? CheckersSquareState.OccupiedByPlayerOne : CheckersSquareState.OccupiedByPlayerTwo;
+				piece.CurrentSquare = this;
+				return true;
+            }
+            else if (State == CheckersSquareState.NotPlayable)
+            {
+                throw new ArgumentException("Attempt to put a piece in a not playable square.");
+            }
+
+			return false;
+		}
+
+		public bool RemovePiece()
+		{
+			if (CurrentPiece != null) {
+				if (CurrentPiece.CurrentSquare == this) {
+					CurrentPiece.CurrentSquare = null;
+				}
+
+				CurrentPiece = null;
+				State = CheckersSquareState.Free;
+
+				return true;
+			}
+
+			return false;
+		}
+
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool Equals(object obj)
+        {
+            var other = obj as CheckersSquare;
+
+            if (other == null)
+            {
+                return false;
+            }
+
+            return ColumnIndex == other.ColumnIndex
+                && RowIndex == other.RowIndex
+                && State == other.State;
+        }
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
+        public override int GetHashCode()
+        {
+            return ColumnIndex.GetHashCode() ^ RowIndex.GetHashCode() ^ State.GetHashCode();
+        }
+
+        /// <summary>
+        /// Verifies if the column and row index specified are coordinates of not playable square.
+        /// </summary>
+        /// <param name="columnIndex">The column index.</param>
+        /// <param name="rowIndex">The row index.</param>
+        /// <returns>True if it is not playable square.</returns>
+        public static bool IsNotPlayableSquare(int columnIndex, int rowIndex)
+        {
+            return !((columnIndex % 2 == 0 && rowIndex % 2 != 0) || (columnIndex % 2 != 0 && rowIndex % 2 == 0));
+        }
         #endregion
     }
 }

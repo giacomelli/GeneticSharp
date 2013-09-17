@@ -13,14 +13,15 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 		{
 			var actual = CrossoverService.GetCrossoverTypes ();
 
-			Assert.AreEqual (7, actual.Count);
-            Assert.AreEqual(typeof(CycleCrossover), actual[0]);
-			Assert.AreEqual (typeof(OnePointCrossover), actual [1]);
-			Assert.AreEqual (typeof(OrderedCrossover), actual [2]);
-			Assert.AreEqual (typeof(PartiallyMappedCrossover), actual [3]);
-            Assert.AreEqual (typeof(ThreeParentCrossover), actual[4]);
-			Assert.AreEqual (typeof(TwoPointCrossover), actual [5]);
-			Assert.AreEqual (typeof(UniformCrossover), actual [6]);
+			Assert.AreEqual (8, actual.Count);
+            Assert.AreEqual(typeof(CutAndSpliceCrossover), actual[0]);
+            Assert.AreEqual(typeof(CycleCrossover), actual[1]);            
+			Assert.AreEqual (typeof(OnePointCrossover), actual [2]);
+			Assert.AreEqual (typeof(OrderedCrossover), actual [3]);
+			Assert.AreEqual (typeof(PartiallyMappedCrossover), actual [4]);
+            Assert.AreEqual (typeof(ThreeParentCrossover), actual[5]);
+			Assert.AreEqual (typeof(TwoPointCrossover), actual [6]);
+			Assert.AreEqual (typeof(UniformCrossover), actual [7]);
 		}
 
 		[Test()]
@@ -28,14 +29,15 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 		{
 			var actual = CrossoverService.GetCrossoverNames ();
 
-			Assert.AreEqual (7, actual.Count);
-            Assert.AreEqual ("Cycle (CX)", actual[0]);
-			Assert.AreEqual ("One-Point", actual [1]);
-			Assert.AreEqual ("Ordered (OX1)", actual [2]);
-			Assert.AreEqual ("Partially Mapped (PMX)", actual [3]);
-            Assert.AreEqual ("Three Parent", actual[4]);
-			Assert.AreEqual ("Two-Point", actual [5]);
-			Assert.AreEqual ("Uniform", actual [6]);
+			Assert.AreEqual (8, actual.Count);
+            Assert.AreEqual("Cut and Splice", actual[0]);
+            Assert.AreEqual ("Cycle (CX)", actual[1]);            
+			Assert.AreEqual ("One-Point", actual [2]);
+			Assert.AreEqual ("Ordered (OX1)", actual [3]);
+			Assert.AreEqual ("Partially Mapped (PMX)", actual [4]);
+            Assert.AreEqual ("Three Parent", actual[5]);
+			Assert.AreEqual ("Two-Point", actual [6]);
+			Assert.AreEqual ("Uniform", actual [7]);
 		}
 
 		[Test()]

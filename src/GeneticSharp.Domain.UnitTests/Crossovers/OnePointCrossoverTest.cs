@@ -16,22 +16,13 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         public void Cross_LessGenesThenSwapPoint_Exception()
         {
             var target = new OnePointCrossover(1);
-            var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(1);
-
-			ExceptionAssert.IsThrowing(new CrossoverException(target, "A chromosome should have, at least, 2 genes. {0} has only 1 gene.".With(chromosome1.GetType().Name)), () =>
-            {
-                target.Cross(new List<IChromosome>() {
-                    chromosome1,
-                    chromosome1
-                });
-            });
-
+            var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(2);
 			var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(2);
 
 			ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("parents", "The swap point index is 1, but there is only 2 genes. The swap should result at least one gene to each side."), () =>
             {
                 target.Cross(new List<IChromosome>() {
-                    chromosome2,
+                    chromosome1,
                     chromosome2
                 });
             });

@@ -10,6 +10,8 @@ namespace GeneticSharp.Domain.Crossovers
     /// <summary>
     /// Ordered Crossover (OX1).
 	/// <remarks>
+    /// Also know as: Order Crossover.
+    /// 
 	/// A portion of one parent is mapped to a portion of the other parent. 
     /// From the replaced portion on, the rest is filled up by the remaining genes, where already present genes are omitted and the order is preserved.
 	/// <see href="http://en.wikipedia.org/wiki/Crossover_(genetic_algorithm)#Crossover_for_Ordered_Chromosomes">Crossover for Ordered Chromosomes</see>
@@ -47,7 +49,7 @@ namespace GeneticSharp.Domain.Crossovers
         #endregion
 
         #region Methods
-		/// <summary>
+        /// <summary>
 		/// Performs the cross with specified parents generating the children.
 		/// </summary>
 		/// <param name="parents">Parents.</param>

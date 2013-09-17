@@ -129,16 +129,6 @@ namespace GeneticSharp.Extensions.Tsp
 		{
             return Math.Sqrt(Math.Pow(two.X - one.X, 2) + Math.Pow(two.Y - one.Y, 2));
 		}
-
-		/// <summary>
-		/// Gets a value indicating whether this <see cref="GeneticSharp.Extensions.Tsp.TspFitness"/> supports parallel.
-		/// </summary>
-		/// <value><c>true</c> if supports parallel; otherwise, <c>false</c>.</value>
-		public bool SupportsParallel {
-			get {
-				return false;
-			}
-		}
 		#endregion
 	}
 }

@@ -23,7 +23,7 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
         public void SelectChromosomes_OffspringSizeEqualsZero_Exception()
         {
             var target = new UniformReinsertion ();
-            var population = new Population (6, 8, MockRepository.GenerateStub<ChromosomeBase> (1));
+            var population = new Population (6, 8, MockRepository.GenerateStub<ChromosomeBase> (2));
 			var offspring = new List<IChromosome> ();
 
 			var parents = new List<IChromosome> () { 
@@ -44,9 +44,9 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
 		{
 			var target = new UniformReinsertion ();
 	
-			var population = new Population (6, 8, MockRepository.GenerateStub<ChromosomeBase> (1));
+			var population = new Population (6, 8, MockRepository.GenerateStub<ChromosomeBase> (2));
 			var offspring = new List<IChromosome> () { 
-				MockRepository.GenerateStub<ChromosomeBase> (1), 
+				MockRepository.GenerateStub<ChromosomeBase> (2), 
 				MockRepository.GenerateStub<ChromosomeBase> (2), 
 				MockRepository.GenerateStub<ChromosomeBase> (3), 
 				MockRepository.GenerateStub<ChromosomeBase> (4)
@@ -66,7 +66,7 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
 
 			var selected = target.SelectChromosomes (population, offspring, parents);
 			Assert.AreEqual (6, selected.Count);
-			Assert.AreEqual (1, selected [0].Length);
+			Assert.AreEqual (2, selected [0].Length);
 			Assert.AreEqual (2, selected [1].Length);
 			Assert.AreEqual (3, selected [2].Length);
 			Assert.AreEqual (4, selected [3].Length);

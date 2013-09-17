@@ -52,16 +52,16 @@ namespace GeneticSharp.Domain.UnitTests.Selections
 		public void SelectChromosomes_Generation_ChromosomesSelected ()
 		{
 			var target = new RouletteWheelSelection();
-			var c1 = MockRepository.GeneratePartialMock<ChromosomeBase> (1);
+			var c1 = MockRepository.GeneratePartialMock<ChromosomeBase> (2);
 			c1.Fitness = 0.1;
 
-            var c2 = MockRepository.GeneratePartialMock<ChromosomeBase>(1);
+            var c2 = MockRepository.GeneratePartialMock<ChromosomeBase>(2);
 			c2.Fitness = 0.5;
 
-            var c3 = MockRepository.GeneratePartialMock<ChromosomeBase>(1);
+            var c3 = MockRepository.GeneratePartialMock<ChromosomeBase>(2);
             c3.Fitness = 0;
 
-            var c4 = MockRepository.GeneratePartialMock<ChromosomeBase>(1);
+            var c4 = MockRepository.GeneratePartialMock<ChromosomeBase>(2);
             c4.Fitness = 0.7;
 
 			var generation = new Generation (1, new List<IChromosome> () {

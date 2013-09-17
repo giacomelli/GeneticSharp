@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GeneticSharp.Infrastructure.Threading</name>
+    </assembly>
+    <members>
+        <member name="T:GeneticSharp.Infrastructure.Threading.SmartThreadPoolTaskExecutor">
+            <summary>
+            A ITaskExecutor's implemenation using SmartThreadPool to execute tasks in parallel.
+            </summary>
+        </member>
+        <member name="M:GeneticSharp.Infrastructure.Threading.SmartThreadPoolTaskExecutor.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:GeneticSharp.Infrastructure.Threading.SmartThreadPoolTaskExecutor" /> class.
+            </summary>
+        </member>
+        <member name="P:GeneticSharp.Infrastructure.Threading.SmartThreadPoolTaskExecutor.MinThreads">
+            <summary>
+            Gets or sets the minimum threads.
+            </summary>
+            <value>The minimum threads.</value>
+        </member>
+        <member name="P:GeneticSharp.Infrastructure.Threading.SmartThreadPoolTaskExecutor.MaxThreads">
+            <summary>
+            Gets or sets the max threads.
+            </summary>
+            <value>The max threads.</value>
+        </member>
+        <member name="M:GeneticSharp.Infrastructure.Threading.SmartThreadPoolTaskExecutor.Start">
+            <summary>
+            Starts the tasks execution.
+            </summary>
+            <returns>If has reach the timeout false, otherwise true.</returns>
+        </member>
+        <member name="M:GeneticSharp.Infrastructure.Threading.SmartThreadPoolTaskExecutor.Stop">
+            <summary>
+            Stops the tasks execution.
+            </summary>
+        </member>
+    </members>
+</doc>

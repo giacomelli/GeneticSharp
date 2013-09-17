@@ -8,9 +8,10 @@ using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Selections;
-using GeneticSharp.Extensions.Tsp;
 using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Domain;
+using GeneticSharp.Runner.ConsoleApp.Samples;
+using GeneticSharp.Infrastructure.Threading;
 
 namespace GeneticSharp.Runner.ConsoleApp
 {
@@ -18,35 +19,56 @@ namespace GeneticSharp.Runner.ConsoleApp
     {
         static void Main(string[] args)
         {
-            int numberOfCities = 20;
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine("GeneticSharp - ConsoleApp");
+            Console.ResetColor();
+            Console.WriteLine("Select the sample:");
+            Console.WriteLine("1) TSP (Travelling Salesman Problem)");
+            Console.WriteLine("2) Ghostwriter");
+            var sampleNumber = Console.ReadLine();
+            ISampleController sampleController = null;
+
+            switch (sampleNumber)
+            {
+                case "1":
+                    sampleController = new TspSampleController(20);
+                    break;
+
+                case "2":
+                    sampleController = new GhostwriterSampleController();
+                    break;
+
+                default:
+                    return;
+            }
+                        
             var selection = new EliteSelection();
-            var crossover = new OrderedCrossover();
-            var mutation = new ReverseSequenceMutation();
-            var chromosome = new TspChromosome(numberOfCities);
-            var fitness = new TspFitness(numberOfCities, 0, 1000, 0, 1000);
-			var population = new Population (50, 70, chromosome);
+            var crossover = new UniformCrossover();
+            var mutation = new UniformMutation(true);
+            var fitness = sampleController.CreateFitness();
+            var population = new Population(50, 70, sampleController.CreateChromosome());
 	
 			var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
-            ga.MutationProbability = 0.2f;
-            ga.Termination = new GenerationNumberTermination(100);
-			TspChromosome bestChromosome = null;
+            ga.MutationProbability = 0.4f;
+            ga.Termination = new FitnessStagnationTermination(100);
+            
+            ga.TaskExecutor = new SmartThreadPoolTaskExecutor()
+            {
+                MinThreads = 25,
+                MaxThreads = 50
+            };
 
             ga.GenerationRan += delegate 
             {
                 Console.CursorLeft = 0;
-                Console.CursorTop = 2;
-                
-                bestChromosome =  (TspChromosome) ga.Population.BestChromosome;
-                Console.WriteLine("Generations: {0}", ga.Population.GenerationsNumber);
-                Console.WriteLine("Fitness: {0:n4}", bestChromosome.Fitness);
-                Console.WriteLine("Distance: {0:n2}", bestChromosome.Distance);
-                Console.WriteLine("Time: {0}", ga.TimeEvolving);
-                Console.WriteLine("City tour: {0}", String.Join(", ", bestChromosome.GetGenes().Select(g => g.Value)));
-            };
+                Console.CursorTop = 5;
 
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine("GeneticSharp - ConsoleApp");
-            Console.ResetColor();
+                var bestChromosome = ga.Population.BestChromosome;
+                Console.WriteLine("Generations: {0}", ga.Population.GenerationsNumber);
+                Console.WriteLine("Fitness: {0:n4}", bestChromosome.Fitness);                
+                Console.WriteLine("Time: {0}", ga.TimeEvolving);
+                sampleController.Draw(bestChromosome);
+            };           
 
             try
             {

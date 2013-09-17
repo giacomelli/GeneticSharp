@@ -15,7 +15,7 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
 		public void SelectChromosomes_offspringSizeEqualsParentsSizeAndGreaterThanMinSizeAndLowerThanMaxSize_Selectoffspring ()
 		{
 			var target = new PureReinsertion ();
-			var chromosome = MockRepository.GenerateStub<ChromosomeBase> (1);
+			var chromosome = MockRepository.GenerateStub<ChromosomeBase> (2);
 
 			var population = new Population (2, 6, chromosome);
 			var offspring = new List<IChromosome> () { 
@@ -31,10 +31,10 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
 
 			var selected = target.SelectChromosomes (population, offspring, parents);
 			Assert.AreEqual (4, selected.Count);
-			Assert.AreEqual (1, selected [0].Length);
-			Assert.AreEqual (1, selected [1].Length);
-			Assert.AreEqual (1, selected [2].Length);
-			Assert.AreEqual (1, selected [3].Length);
+			Assert.AreEqual (2, selected [0].Length);
+			Assert.AreEqual (2, selected [1].Length);
+			Assert.AreEqual (2, selected [2].Length);
+			Assert.AreEqual (2, selected [3].Length);
 		}
 	}
 }

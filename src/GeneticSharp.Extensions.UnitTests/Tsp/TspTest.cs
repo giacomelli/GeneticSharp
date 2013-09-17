@@ -10,7 +10,7 @@ using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Domain;
 
-namespace GeneticSharp.Extensions.UnitTests
+namespace GeneticSharp.Extensions.UnitTests.Tsp
 {
 	[TestFixture()]
 	public class TspTest

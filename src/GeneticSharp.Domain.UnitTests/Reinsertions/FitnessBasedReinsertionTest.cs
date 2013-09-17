@@ -18,9 +18,9 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
 		{
 			var target = new FitnessBasedReinsertion ();
 
-			var population = new Population (2, 3, MockRepository.GenerateStub<ChromosomeBase> (1));
+			var population = new Population (2, 3, MockRepository.GenerateStub<ChromosomeBase> (2));
 			var offspring = new List<IChromosome> () { 
-				MockRepository.GenerateStub<ChromosomeBase> (1), 
+				MockRepository.GenerateStub<ChromosomeBase> (2), 
 				MockRepository.GenerateStub<ChromosomeBase> (2), 
 				MockRepository.GenerateStub<ChromosomeBase> (3), 
 				MockRepository.GenerateStub<ChromosomeBase> (4)
@@ -37,8 +37,6 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
 				MockRepository.GenerateStub<ChromosomeBase> (7), 
 				MockRepository.GenerateStub<ChromosomeBase> (8)
 			};
-
-
 
 			var selected = target.SelectChromosomes (population, offspring, parents);
 			Assert.AreEqual (3, selected.Count);

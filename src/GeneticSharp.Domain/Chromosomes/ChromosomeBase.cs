@@ -24,6 +24,8 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </summary>
         protected ChromosomeBase(int length)
         {
+            ValidateLength(length);
+
             m_length = length;
 			m_genes = new Gene[length];
        }
@@ -91,27 +93,42 @@ namespace GeneticSharp.Domain.Chromosomes
 		/// <param name="genes">Genes.</param>
 		public void ReplaceGenes(int startIndex, Gene[] genes)
 		{
-            if (startIndex < 0 || startIndex >= m_length)
-			{
-				throw new ArgumentOutOfRangeException ("index", "There is no Gene on index {0} to be replaced.".With(startIndex));
-			}
-
             ExceptionHelper.ThrowIfNull("genes", genes);
 
-            var genesToBeReplacedLength = genes.Length;
-
-            var availableSpaceLength = (m_length - startIndex);
-
-            if(genesToBeReplacedLength > availableSpaceLength)
+            if (genes.Length > 0)
             {
-                throw new ArgumentException("genes", "The number of genes to be replaced is greater than available space, there is {0} genes between the index {1} and the end of chromosome, but there is {2} genes to be replaced."
-                    .With(availableSpaceLength, startIndex, genesToBeReplacedLength));
+                if (startIndex < 0 || startIndex >= m_length)
+                {
+                    throw new ArgumentOutOfRangeException("index", "There is no Gene on index {0} to be replaced.".With(startIndex));
+                }                
+
+                var genesToBeReplacedLength = genes.Length;
+
+                var availableSpaceLength = (m_length - startIndex);
+
+                if (genesToBeReplacedLength > availableSpaceLength)
+                {
+                    throw new ArgumentException("genes", "The number of genes to be replaced is greater than available space, there is {0} genes between the index {1} and the end of chromosome, but there is {2} genes to be replaced."
+                        .With(availableSpaceLength, startIndex, genesToBeReplacedLength));
+                }
+
+                Array.Copy(genes, 0, m_genes, startIndex, genes.Length);
+
+                Fitness = null;
             }
-
-            Array.Copy(genes, 0, m_genes, startIndex, genes.Length);
-
-			Fitness = null;
 		}
+
+        /// <summary>
+        /// Resizes the chromosome to the new length.
+        /// </summary>
+        /// <param name="newLength">The new length.</param>
+        public void Resize(int newLength)
+        {
+            ValidateLength(newLength);
+
+            Array.Resize(ref m_genes, newLength);
+            m_length = newLength;
+        }        
 
 		/// <summary>
 		/// Gets the gene in the specified index.
@@ -232,6 +249,19 @@ namespace GeneticSharp.Domain.Chromosomes
         public static bool operator >(ChromosomeBase first, ChromosomeBase second)
         {
             return !(first == second) && !(first < second);
+        }
+
+        /// <summary>
+        /// Validates the length.
+        /// </summary>
+        /// <param name="length">The length.</param>
+        /// <exception cref="System.ArgumentException">The minimum length for a chromosome is 2 genes.</exception>
+        private static void ValidateLength(int length)
+        {
+            if (length < 2)
+            {
+                throw new ArgumentException("The minimum length for a chromosome is 2 genes.");
+            }
         }
         #endregion      
     }

@@ -9,6 +9,10 @@ namespace GeneticSharp.Domain.Terminations
 	/// </summary>
 	public abstract class TerminationBase : ITermination
 	{
+		#region Fields
+		private bool m_hasReached;
+		#endregion
+
 		#region Methods
 		/// <summary>
 		/// Determines whether the specified geneticAlgorithm reached the termination condition.
@@ -19,7 +23,9 @@ namespace GeneticSharp.Domain.Terminations
 		{
 			ExceptionHelper.ThrowIfNull ("geneticAlgorithm", geneticAlgorithm);
 
-			return PerformHasReached (geneticAlgorithm);
+			m_hasReached = PerformHasReached (geneticAlgorithm);
+
+			return m_hasReached;
 		}
 
 		/// <summary>
@@ -28,6 +34,15 @@ namespace GeneticSharp.Domain.Terminations
 		/// <returns>True if termination has been reached, otherwise false.</returns>
 		/// <param name="geneticAlgorithm">The genetic algorithm.</param>
 		protected abstract bool PerformHasReached (IGeneticAlgorithm geneticAlgorithm);
+
+		/// <summary>
+		/// Returns a <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Domain.Terminations.LogicalOperatorTerminationBase"/>.
+		/// </summary>
+		/// <returns>A <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Domain.Terminations.LogicalOperatorTerminationBase"/>.</returns>
+		public override string ToString ()
+		{
+			return "{0} (HasReached: {1})".With(GetType().Name, m_hasReached);
+		}
 		#endregion
 	}
 }

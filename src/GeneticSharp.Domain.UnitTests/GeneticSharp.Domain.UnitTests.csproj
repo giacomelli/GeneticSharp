@@ -9,6 +9,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>GeneticSharp.Domain.UnitTests</RootNamespace>
     <AssemblyName>GeneticSharp.Domain.UnitTests</AssemblyName>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,9 +36,6 @@
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="SmartThreadPool">
-      <HintPath>..\packages\SmartThreadPool.dll.2.2.3\lib\SmartThreadPool.dll</HintPath>
-    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="HelperSharp">
       <HintPath>..\packages\HelperSharp.0.0.2.8\lib\net35\HelperSharp.dll</HintPath>
@@ -55,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Chromosomes\ChromosomeBaseTest.cs" />
     <Compile Include="Crossovers\CrossoverBaseTest.cs" />
+    <Compile Include="Crossovers\CutAndSpliceCrossoverTest.cs" />
     <Compile Include="Crossovers\CycleCrossoverTest.cs" />
     <Compile Include="Crossovers\OnePointCrossoverTest.cs" />
     <Compile Include="Crossovers\OrderedCrossoverTest.cs" />
@@ -81,8 +81,11 @@
     <Compile Include="Selections\SelectionServiceTest.cs" />
     <Compile Include="Crossovers\PartiallyMappedCrossoverTest.cs" />
     <Compile Include="Chromosomes\ChromosomeExtensionsTest.cs" />
+    <Compile Include="Selections\StochasticUniversalSamplingSelectionTest.cs" />
     <Compile Include="Selections\TournamentSelectionTest.cs" />
+    <Compile Include="Terminations\AndTerminationTest.cs" />
     <Compile Include="Terminations\FitnessStagnationTerminationTest.cs" />
+    <Compile Include="Terminations\OrTerminationTest.cs" />
     <Compile Include="Terminations\TerminationBaseTest.cs" />
     <Compile Include="Terminations\GenerationNumberTerminationTest.cs" />
     <Compile Include="Terminations\TimeEvolvingTerminationTest.cs" />
@@ -101,10 +104,19 @@
       <Project>{C76DC1AD-FC7E-4168-BD19-101FF84A43F7}</Project>
       <Name>GeneticSharp.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GeneticSharp.Infrastructure.Threading\GeneticSharp.Infrastructure.Threading.csproj">
+      <Project>{F7887A7C-89E6-483A-A762-0A8FE6FCD923}</Project>
+      <Name>GeneticSharp.Infrastructure.Threading</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj">
+      <Project>{1498D792-D02B-4A9E-8AFC-24AEBA0DEE54}</Project>
+      <Name>GeneticSharp.Infrastructure.Framework</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>

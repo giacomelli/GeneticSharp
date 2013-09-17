@@ -54,6 +54,12 @@ namespace GeneticSharp.Domain.Chromosomes
 		/// <param name="genes">Genes.</param>
 		void ReplaceGenes (int startIndex, Gene[] genes);
 
+        /// <summary>
+        /// Resizes the chromosome to the new length.
+        /// </summary>
+        /// <param name="newLength">The new length.</param>
+        void Resize(int newLength);
+
 		/// <summary>
 		/// Gets the gene in the specified index.
 		/// </summary>
