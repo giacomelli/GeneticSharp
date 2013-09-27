@@ -52,28 +52,10 @@
     <Compile Include="Samples\GhostwriterSampleController.cs" />
     <Compile Include="Samples\ISampleController.cs" />
     <Compile Include="Samples\TspSampleController.cs" />
-    <Compile Include="Service References\DictService\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="Service References\DictService\DictService.wsdl" />
-    <None Include="Service References\DictService\GeneticSharp.Runner.ConsoleApp.DictService.Dictionary.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\DictService\GeneticSharp.Runner.ConsoleApp.DictService.DictionaryWord.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\DictService\GeneticSharp.Runner.ConsoleApp.DictService.Strategy.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\DictService\GeneticSharp.Runner.ConsoleApp.DictService.WordDefinition.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj">
@@ -85,31 +67,13 @@
       <Name>GeneticSharp.Extensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj">
-      <Project>{1498d792-d02b-4a9e-8afc-24aeba0dee54}</Project>
+      <Project>{1498D792-D02B-4A9E-8AFC-24AEBA0DEE54}</Project>
       <Name>GeneticSharp.Infrastructure.Framework</Name>
     </ProjectReference>
     <ProjectReference Include="..\GeneticSharp.Infrastructure.Threading\GeneticSharp.Infrastructure.Threading.csproj">
-      <Project>{f7887a7c-89e6-483a-a762-0a8fe6fcd923}</Project>
+      <Project>{F7887A7C-89E6-483A-A762-0A8FE6FCD923}</Project>
       <Name>GeneticSharp.Infrastructure.Threading</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\DictService\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\DictService\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\DictService\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\DictService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

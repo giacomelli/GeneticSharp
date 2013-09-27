@@ -6,7 +6,6 @@ using System.Text;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Extensions.Ghostwriter;
-using GeneticSharp.Runner.ConsoleApp.DictService;
 
 namespace GeneticSharp.Runner.ConsoleApp.Samples
 {
@@ -64,60 +63,6 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
                 var fitness = (points / wordsNotFound) / 100.0;
 
                 //onsole.WriteLine("Fitness: {0}", fitness);
-
-                return fitness;
-            };
-
-            return f;
-        }
-
-        public IFitness xCreateFitness()
-        {
-            var client = new DictServiceSoapClient();            
-            var f = new GhostwriterFitness();
-
-            f.EvaluateFunc = (text) =>
-            {
-                Console.WriteLine("Evaluating text: {0}", text);
-                var words = text.Split(new string[] {" "}, StringSplitOptions.RemoveEmptyEntries);
-                var points = 0.0;
-
-                foreach(var word in words)
-                {
-                    try
-                    {
-                        if (word.Length > 20)
-                        {
-                            continue;
-                        }
-
-                        if (!m_wordDefitionsCache.ContainsKey(word))
-                        {
-                            var definition = client.Define(word);
-                            m_wordDefitionsCache.Add(word, definition.Definitions.Length);                            
-                        }
-
-                        points += m_wordDefitionsCache[word] * word.Length;
-                    }
-                    catch
-                    {
-                        points--;
-                        continue;
-                    }
-                }
-
-                if (points > 1000)
-                {
-                    points = 1000;
-                }
-                else if (points < 0)
-                {
-                    points = 0;
-                }
-
-                var fitness = points / 1000.0;
-
-                Console.WriteLine("Fitness: {0}", fitness);
 
                 return fitness;
             };
