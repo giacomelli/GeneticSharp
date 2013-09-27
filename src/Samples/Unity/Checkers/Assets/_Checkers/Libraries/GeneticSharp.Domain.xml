@@ -721,6 +721,12 @@
             </summary>
             <value>The value.</value>
         </member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.Gene.ToString">
+            <summary>
+            Returns a <see cref="T:System.String" /> that represents the current <see cref="T:GeneticSharp.Domain.Chromosomes.Gene" />.
+            </summary>
+            <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:GeneticSharp.Domain.Chromosomes.Gene" />.</returns>
+        </member>
         <member name="M:GeneticSharp.Domain.Chromosomes.Gene.Equals(GeneticSharp.Domain.Chromosomes.Gene)">
             <summary>
             Determines whether the specified <see cref="T:GeneticSharp.Domain.Chromosomes.Gene" /> is equal to the current <see cref="T:GeneticSharp.Domain.Chromosomes.Gene" />.

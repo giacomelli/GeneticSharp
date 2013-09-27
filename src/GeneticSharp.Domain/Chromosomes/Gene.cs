@@ -34,6 +34,15 @@ namespace GeneticSharp.Domain.Chromosomes
 	
 		#region Methods
 		/// <summary>
+		/// Returns a <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>.
+		/// </summary>
+		/// <returns>A <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>.</returns>
+		public override string ToString ()
+		{
+			return Value != null ? Value.ToString () : "";
+		}
+
+		/// <summary>
 		/// Determines whether the specified <see cref="GeneticSharp.Domain.Chromosomes.Gene"/> is equal to the current <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>.
 		/// </summary>
 		/// <param name="other">The <see cref="GeneticSharp.Domain.Chromosomes.Gene"/> to compare with the current <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>.</param>
