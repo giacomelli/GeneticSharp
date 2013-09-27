@@ -86,7 +86,7 @@ public class YourIFitnessImplementation : IFitness
 {  
 	public double Evaluate (IChromosome chromosome)
 	{
-		// Avaliate the fitness of chromosome.
+		// Evaluate the fitness of chromosome.
 	}
 }
 
