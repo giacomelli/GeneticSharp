@@ -46,7 +46,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="HelperSharp">
-      <HintPath>..\packages\HelperSharp.0.0.2.8\lib\net35\HelperSharp.dll</HintPath>
+      <HintPath>..\packages\HelperSharp.0.0.2.9\lib\net35\HelperSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -73,9 +73,6 @@
       <Name>GeneticSharp.Infrastructure.Framework</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\msbuilds\GeneticSharp.Extensions.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -95,4 +92,7 @@
     </MonoDevelop>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
 </Project>

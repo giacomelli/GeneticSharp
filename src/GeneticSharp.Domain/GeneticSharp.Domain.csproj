@@ -38,11 +38,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="HelperSharp">
-      <HintPath>..\packages\HelperSharp.0.0.2.7\lib\net35\HelperSharp.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework" />
     <Reference Include="System.Core" />
+    <Reference Include="HelperSharp">
+      <HintPath>..\packages\HelperSharp.0.0.2.9\lib\net35\HelperSharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chromosomes\ChromosomeBase.cs" />
@@ -133,11 +133,11 @@
     <None Include="Fitnesses\Fitnesses.cd" />
     <None Include="GeneticSharp.snk" />
     <None Include="Mutations\Mutations.cd" />
-    <None Include="packages.config" />
     <None Include="Populations\Populations.cd" />
     <None Include="Randomizations\Randomizations.cd" />
     <None Include="Selections\Selection.cd" />
     <None Include="Terminations\Terminations.cd" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj">

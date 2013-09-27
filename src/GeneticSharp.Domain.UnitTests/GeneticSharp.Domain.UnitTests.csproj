@@ -37,14 +37,14 @@
       <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
-    <Reference Include="HelperSharp">
-      <HintPath>..\packages\HelperSharp.0.0.2.8\lib\net35\HelperSharp.dll</HintPath>
-    </Reference>
     <Reference Include="Ionic.Utils.Zip">
       <HintPath>..\packages\TestSharp.1.0.2\lib\net40\Ionic.Utils.Zip.dll</HintPath>
     </Reference>
     <Reference Include="TestSharp">
       <HintPath>..\packages\TestSharp.1.0.2\lib\net40\TestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="HelperSharp">
+      <HintPath>..\packages\HelperSharp.0.0.2.9\lib\net35\HelperSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
