@@ -4,5 +4,5 @@ install:
   - sudo apt-get install mono-devel mono-gmcs nunit-console
  
 script:
-  - xbuild .src/GeneticSharp.sln
+  - xbuild ./src/GeneticSharp.sln
   - nunit-console ./src/GeneticSharp.Domain.UnitTests/bin/Debug/GeneticSharp.Domain.UnitTests.dll ./src/GeneticSharp.Extensions.UnitTests/bin/Debug/GeneticSharp.Extensions.UnitTests.dll ./src/GeneticSharp.Infrastructure.Framework.UnitTests/bin/Debug/GeneticSharp.Infrastructure.Framework.UnitTests.dll ./src/GeneticSharp.Infrastructure.Threading.UnitTests/bin/Debug/GeneticSharp.Infrastructure.Threading.UnitTests.dll

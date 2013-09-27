@@ -56,13 +56,17 @@ Features
    - [Fast random](src/GeneticSharp.Domain/Randomizations/FastRandomRandomization.cs)   
    - If you need a special kind of randomization for your GA, just implement the [IRandomization](src/GeneticSharp.Domain/Randomizations/IRandomization.cs) interface.
  - [Runner app (GTK#)](src/GeneticSharp.Runner.GtkApp) showing the library solving TSP (Travelling Salesman Problem).
+ 
  	![](docs/screenshots/GtkApp.Samples.TSP.Win.png)
  - Mono support
+ 
  	![](docs/screenshots/XamarinStudio.png) 
  	![](docs/screenshots/VisualStudio.png) 
  - Fully tested on Windows and MacOSX
+ 
  	![](docs/screenshots/GtkApp.Samples.TSP.Mac.png)
  - 100% Unit Tests coveraged 
+ 
 	![](docs/screenshots/UnitTests.png)
  - 100% code [documentation](src/Help/Documentation.chm)
  - FxCop validated
