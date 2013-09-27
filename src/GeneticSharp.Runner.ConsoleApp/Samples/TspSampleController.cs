@@ -37,7 +37,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         {
             var c = bestChromosome as TspChromosome;
             Console.WriteLine("Distance: {0:n2}", c.Distance);
-            Console.WriteLine("City tour: {0}", String.Join(", ", bestChromosome.GetGenes().Select(g => g.Value.ToString())));
+            Console.WriteLine("City tour: {0}", String.Join(", ", bestChromosome.GetGenes().Select(g => g.Value.ToString()).ToArray()));
         }
     }
 }
