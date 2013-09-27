@@ -227,7 +227,7 @@ namespace GeneticSharp.Domain.UnitTests
 
 			target.Termination = new GenerationNumberTermination (100);
 
-			TimeAssert.LessThan (200, () => {
+			TimeAssert.LessThan (300, () => {
 				target.Start();
 			});
 
