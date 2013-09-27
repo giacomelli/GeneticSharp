@@ -1,9 +1,10 @@
  <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
- 
- <Target Name="AfterBuild">
-   	<ItemGroup>
+    	<ItemGroup>
     		<FilesToCopy Include="..\GeneticSharp.Infrastructure.Threading\bin\$(Configuration)\GeneticSharp.Infrastructure.Threading.*" />
 	</ItemGroup>
+	
+ <Target Name="AfterBuild">
+
 
     <Copy
         SourceFiles="@(FilesToCopy)"
