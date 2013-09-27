@@ -47,7 +47,7 @@ namespace GeneticSharp.Infrastructure.Threading
         public override bool Start ()
 		{
 			base.Start ();
-			var m_threadPool = new SmartThreadPool ();
+			m_threadPool = new SmartThreadPool ();
 		
 			try 
 			{
@@ -101,7 +101,7 @@ namespace GeneticSharp.Infrastructure.Threading
 		{
 			base.Stop ();
 
-			if (m_threadPool != null) {
+			if (m_threadPool != null && !m_threadPool.IsShuttingdown) {
 				m_threadPool.Shutdown (true, Timeout);
 			}
 		}

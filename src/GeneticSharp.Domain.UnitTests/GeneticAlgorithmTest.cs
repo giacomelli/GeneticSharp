@@ -501,7 +501,7 @@ namespace GeneticSharp.Domain.UnitTests
 			Assert.AreEqual (GeneticAlgorithmState.TerminationReached, target.State);
 			Assert.IsFalse (target.IsRunning);
 
-			ExceptionAssert.IsThrowing (new InvalidOperationException ("Attempt to resume a genetic algorithm with a termination already reached. Please, specify a new termination or extend the current one."), () => {
+			ExceptionAssert.IsThrowing (new InvalidOperationException ("Attempt to resume a genetic algorithm with a termination (GenerationNumberTermination (HasReached: True)) already reached. Please, specify a new termination or extend the current one."), () => {
 				target.Resume();
 			});
         }

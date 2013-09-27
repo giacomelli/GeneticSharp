@@ -11,16 +11,10 @@
         </member>
         <member name="M:GeneticSharp.Extensions.Checkers.CheckersChromosome.#ctor(System.Int32,System.Int32)">
             <summary>
-            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Checkers.CheckersChromosome" /> class.
+            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Checkers.CheckersChromosome"/> class.
             </summary>
             <param name="movesAhead">Moves ahead.</param>
             <param name="boardSize">Board size.</param>
-        </member>
-        <member name="P:GeneticSharp.Extensions.Checkers.CheckersChromosome.Moves">
-            <summary>
-            Gets the moves.
-            </summary>
-            <value>The moves.</value>
         </member>
         <member name="M:GeneticSharp.Extensions.Checkers.CheckersChromosome.GenerateGene(System.Int32)">
             <summary>
@@ -40,6 +34,12 @@
             Creates a clone.
             </summary>
         </member>
+        <member name="P:GeneticSharp.Extensions.Checkers.CheckersChromosome.Moves">
+            <summary>
+            Gets the moves.
+            </summary>
+            <value>The moves.</value>
+        </member>
         <member name="T:GeneticSharp.Extensions.Checkers.CheckersFitness">
             <summary>
             Checkers fitness.
@@ -47,15 +47,9 @@
         </member>
         <member name="M:GeneticSharp.Extensions.Checkers.CheckersFitness.#ctor(GeneticSharp.Extensions.Checkers.CheckersBoard)">
             <summary>
-            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Checkers.CheckersFitness" /> class.
+            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Checkers.CheckersFitness"/> class.
             </summary>
             <param name="board">The checkers board.</param>
-        </member>
-        <member name="P:GeneticSharp.Extensions.Checkers.CheckersFitness.Board">
-            <summary>
-            Gets the board.
-            </summary>
-            <value>The board.</value>
         </member>
         <member name="M:GeneticSharp.Extensions.Checkers.CheckersFitness.Evaluate(GeneticSharp.Domain.Chromosomes.IChromosome)">
             <summary>
@@ -69,7 +63,7 @@
             Evaluates the move.
             </summary>
             <returns>The move.</returns>
-            <param name="move">Move.</param>
+            <param name="move">Move.</param>		
         </member>
         <member name="M:GeneticSharp.Extensions.Checkers.CheckersFitness.Reset">
             <summary>
@@ -82,9 +76,15 @@
             </summary>
             <param name="checkersChromosome">Checkers chromosome.</param>
         </member>
+        <member name="P:GeneticSharp.Extensions.Checkers.CheckersFitness.Board">
+            <summary>
+            Gets the board.
+            </summary>
+            <value>The board.</value>
+        </member>
         <member name="T:GeneticSharp.Extensions.Checkers.CheckersMoveKind">
             <summary>
-            Moove kind.
+             Moove kind.
             </summary>
         </member>
         <member name="F:GeneticSharp.Extensions.Checkers.CheckersMoveKind.Invalid">
@@ -109,7 +109,7 @@
         </member>
         <member name="M:GeneticSharp.Extensions.Checkers.CheckersMove.#ctor(GeneticSharp.Extensions.Checkers.CheckersPiece,GeneticSharp.Extensions.Checkers.CheckersSquare)">
             <summary>
-            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Checkers.CheckersMove" /> class.
+            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Checkers.CheckersMove"/> class.
             </summary>
             <param name="piece">The piece which will be moved.</param>
             <param name="toSquare">The target square.</param>
@@ -156,10 +156,48 @@
         </member>
         <member name="M:GeneticSharp.Extensions.Checkers.CheckersSquare.#ctor(System.Int32,System.Int32)">
             <summary>
-            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Checkers.CheckersSquare" /> class.
+            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Checkers.CheckersSquare"/> class.
             </summary>
             <param name="columnIndex">Column index.</param>
             <param name="rowIndex">Row index.</param>
+        </member>
+        <member name="M:GeneticSharp.Extensions.Checkers.CheckersSquare.PutPiece(GeneticSharp.Extensions.Checkers.CheckersPiece)">
+            <summary>
+            Put the specified piece above this square.
+            </summary>
+            <param name="piece">The piece.</param>
+            <returns>True if square was free and could receive the piece, otherwise false.</returns>
+        </member>
+        <member name="M:GeneticSharp.Extensions.Checkers.CheckersSquare.RemovePiece">
+            <summary>
+            Remove the current piece.
+            </summary>
+            <returns>True if has a piece to be removed, otherwise false.</returns>
+        </member>
+        <member name="M:GeneticSharp.Extensions.Checkers.CheckersSquare.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+            </summary>
+            <param name="obj">The <see cref="T:System.Object"/> to compare with this instance.</param>
+            <returns>
+              <c>true</c> if the specified <see cref="T:System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:GeneticSharp.Extensions.Checkers.CheckersSquare.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            </returns>
+        </member>
+        <member name="M:GeneticSharp.Extensions.Checkers.CheckersSquare.IsNotPlayableSquare(System.Int32,System.Int32)">
+            <summary>
+            Verifies if the column and row index specified are coordinates of not playable square.
+            </summary>
+            <param name="columnIndex">The column index.</param>
+            <param name="rowIndex">The row index.</param>
+            <returns>True if it is not playable square.</returns>
         </member>
         <member name="P:GeneticSharp.Extensions.Checkers.CheckersSquare.ColumnIndex">
             <summary>
@@ -179,49 +217,19 @@
             </summary>
             <value>The state.</value>
         </member>
-        <member name="M:GeneticSharp.Extensions.Checkers.CheckersSquare.Equals(System.Object)">
-            <summary>
-            Determines whether the specified <see cref="T:System.Object" /> is equal to this instance.
-            </summary>
-            <param name="obj">The <see cref="T:System.Object" /> to compare with this instance.</param>
-            <returns>
-                <c>true</c> if the specified <see cref="T:System.Object" /> is equal to this instance; otherwise, <c>false</c>.
-            </returns>
-        </member>
-        <member name="M:GeneticSharp.Extensions.Checkers.CheckersSquare.GetHashCode">
-            <summary>
-            Returns a hash code for this instance.
-            </summary>
-            <returns>
-            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
-            </returns>
-        </member>
-        <member name="M:GeneticSharp.Extensions.Checkers.CheckersSquare.IsNotPlayableSquare(System.Int32,System.Int32)">
-            <summary>
-            Verifies if the column and row index specified are coordinates of not playable square.
-            </summary>
-            <param name="columnIndex">The column index.</param>
-            <param name="rowIndex">The row index.</param>
-            <returns>True if it is not playable square.</returns>
-        </member>
         <member name="T:GeneticSharp.Extensions.Tsp.TspChromosome">
             <summary>
             Travelling Salesman Problem chromosome.
             <remarks>
             Each gene represents a city index.
-            </remarks></summary>
+            </remarks>
+            </summary>
         </member>
         <member name="M:GeneticSharp.Extensions.Tsp.TspChromosome.#ctor(System.Int32)">
             <summary>
-            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Tsp.TspChromosome" /> class.
+            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Tsp.TspChromosome"/> class.
             </summary>
             <param name="numberOfCities">Number of cities.</param>
-        </member>
-        <member name="P:GeneticSharp.Extensions.Tsp.TspChromosome.Distance">
-            <summary>
-            Gets or sets the distance.
-            </summary>
-            <value>The distance.</value>
         </member>
         <member name="M:GeneticSharp.Extensions.Tsp.TspChromosome.GenerateGene(System.Int32)">
             <summary>
@@ -241,6 +249,12 @@
             Creates a clone.
             </summary>
         </member>
+        <member name="P:GeneticSharp.Extensions.Tsp.TspChromosome.Distance">
+            <summary>
+            Gets or sets the distance.
+            </summary>
+            <value>The distance.</value>
+        </member>
         <member name="T:GeneticSharp.Extensions.Tsp.TspCity">
             <summary>
             Travelling Salesman city.
@@ -248,7 +262,7 @@
         </member>
         <member name="M:GeneticSharp.Extensions.Tsp.TspCity.#ctor(System.Int32,System.Int32)">
             <summary>
-            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Tsp.TspCity" /> class.
+            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Tsp.TspCity"/> class.
             </summary>
             <param name="x">The x coordinate.</param>
             <param name="y">The y coordinate.</param>
@@ -269,20 +283,37 @@
             <summary>
             Travelling Salesman Problem fitness function.
             <remarks>
-            The travelling salesman problem (TSP) or travelling salesperson problem asks the following question:
-            Given a list of cities and the distances between each pair of cities, what is the shortest possible
+            The travelling salesman problem (TSP) or travelling salesperson problem asks the following question: 
+            Given a list of cities and the distances between each pair of cities, what is the shortest possible 
             route that visits each city exactly once and returns to the origin city?
-            <see href="http://en.wikipedia.org/wiki/Travelling_salesman_problem">Wikipedia</see></remarks></summary>
+            <see href="http://en.wikipedia.org/wiki/Travelling_salesman_problem">Wikipedia</see> 
+            </remarks>
+            </summary>
         </member>
         <member name="M:GeneticSharp.Extensions.Tsp.TspFitness.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
-            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Tsp.TspFitness" /> class.
+            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Tsp.TspFitness"/> class.
             </summary>
             <param name="numberOfCities">The number of cities.</param>
             <param name="minX">The minimum city x coordinate.</param>
             <param name="maxX">The maximum city x coordinate.</param>
             <param name="minY">The minimum city y coordinate.</param>
             <param name="maxY">The maximum city y coordinate..</param>
+        </member>
+        <member name="M:GeneticSharp.Extensions.Tsp.TspFitness.Evaluate(GeneticSharp.Domain.Chromosomes.IChromosome)">
+            <summary>
+            Performs the evaluation against the specified chromosome.
+            </summary>
+            <param name="chromosome">The chromosome to be evaluated.</param>
+            <returns>The fitness of the chromosome.</returns>
+        </member>
+        <member name="M:GeneticSharp.Extensions.Tsp.TspFitness.CalcDistanceTwoCities(GeneticSharp.Extensions.Tsp.TspCity,GeneticSharp.Extensions.Tsp.TspCity)">
+            <summary>
+            Calculates the distance between two cities.
+            </summary>
+            <returns>The distance two cities.</returns>
+            <param name="one">One.</param>
+            <param name="two">Two.</param>
         </member>
         <member name="P:GeneticSharp.Extensions.Tsp.TspFitness.Cities">
             <summary>
@@ -314,46 +345,31 @@
             </summary>
             <value>The max y.</value>
         </member>
-        <member name="M:GeneticSharp.Extensions.Tsp.TspFitness.Evaluate(GeneticSharp.Domain.Chromosomes.IChromosome)">
+        <member name="T:GeneticSharp.Extensions.Checkers.CheckersPlayer">
             <summary>
-            Performs the evaluation against the specified chromosome.
+            The checkers player.
             </summary>
-            <param name="chromosome">The chromosome to be evaluated.</param>
-            <returns>The fitness of the chromosome.</returns>
         </member>
-        <member name="M:GeneticSharp.Extensions.Tsp.TspFitness.CalcDistanceTwoCities(GeneticSharp.Extensions.Tsp.TspCity,GeneticSharp.Extensions.Tsp.TspCity)">
+        <member name="F:GeneticSharp.Extensions.Checkers.CheckersPlayer.PlayerOne">
             <summary>
-            Calculates the distance between two cities.
+            The player one.
             </summary>
-            <returns>The distance two cities.</returns>
-            <param name="one">One.</param>
-            <param name="two">Two.</param>
+        </member>
+        <member name="F:GeneticSharp.Extensions.Checkers.CheckersPlayer.PlayerTwo">
+            <summary>
+            The player two.
+            </summary>
         </member>
         <member name="T:GeneticSharp.Extensions.Checkers.CheckersBoard">
             <summary>
             Checkers board.
-            </summary>
+            </summary>	
         </member>
         <member name="M:GeneticSharp.Extensions.Checkers.CheckersBoard.#ctor(System.Int32)">
             <summary>
-            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Checkers.CheckersBoard" /> class.
+            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Checkers.CheckersBoard"/> class.
             </summary>
             <param name="size">The board size in number of squares of each side.</param>
-        </member>
-        <member name="P:GeneticSharp.Extensions.Checkers.CheckersBoard.Size">
-            <summary>
-            Gets the size.
-            </summary>
-        </member>
-        <member name="P:GeneticSharp.Extensions.Checkers.CheckersBoard.PlayerOnePieces">
-            <summary>
-            Gets the player one's pieces.
-            </summary>
-        </member>
-        <member name="P:GeneticSharp.Extensions.Checkers.CheckersBoard.PlayerTwoPieces">
-            <summary>
-            Gets the player two's pieces.
-            </summary>
         </member>
         <member name="M:GeneticSharp.Extensions.Checkers.CheckersBoard.Reset">
             <summary>
@@ -395,6 +411,42 @@
             </summary>
             <param name="piece">The piece which can be captured.</param>
             <returns>The number of changes of piece be captured.</returns>
+        </member>
+        <member name="P:GeneticSharp.Extensions.Checkers.CheckersBoard.Size">
+            <summary>
+            Gets the size.
+            </summary>
+        </member>
+        <member name="P:GeneticSharp.Extensions.Checkers.CheckersBoard.PlayerOnePieces">
+            <summary>
+            Gets the player one's pieces.
+            </summary>
+        </member>
+        <member name="P:GeneticSharp.Extensions.Checkers.CheckersBoard.PlayerTwoPieces">
+            <summary>
+            Gets the player two's pieces.
+            </summary>
+        </member>
+        <member name="T:GeneticSharp.Extensions.Checkers.CheckersPiece">
+            <summary>
+            A checkers' piece.
+            </summary>
+        </member>
+        <member name="M:GeneticSharp.Extensions.Checkers.CheckersPiece.#ctor(GeneticSharp.Extensions.Checkers.CheckersPlayer)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Checkers.CheckersPiece"/> class.
+            </summary>
+            <param name="player">The player.</param>
+        </member>
+        <member name="P:GeneticSharp.Extensions.Checkers.CheckersPiece.Player">
+            <summary>
+            Gets the player.
+            </summary>        
+        </member>
+        <member name="P:GeneticSharp.Extensions.Checkers.CheckersPiece.CurrentSquare">
+            <summary>
+            Gets or sets the current square.
+            </summary>
         </member>
     </members>
 </doc>

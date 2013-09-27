@@ -38,6 +38,10 @@
     <HelpTitle>GeneticSharp</HelpTitle>
     <FeedbackEMailAddress>giacomelli%40gmail.com</FeedbackEMailAddress>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
+    <NamespaceSummaries>
+      <NamespaceSummaryItem name="(global)" isDocumented="False" xmlns="">A fast, extensible, multi-platform and multithreading .NET Genetic Algorithm library that simplifies the development of applications using Genetic Algorithms (GAs).</NamespaceSummaryItem>
+<NamespaceSummaryItem name="GeneticSharp.Domain" isDocumented="True" xmlns="">GeneticSharp domain model.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="GeneticSharp.Domain.Chromosomes" isDocumented="True" xmlns="">Models for chromosomes and genes.</NamespaceSummaryItem></NamespaceSummaries>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in
        order for Visual Studio to perform the build.  The others are optional

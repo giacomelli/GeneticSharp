@@ -7,9 +7,19 @@ using System.Runtime.InteropServices;
 namespace GeneticSharp.Extensions.Checkers
 {
 	#region Enums
+    /// <summary>
+    /// The checkers player.
+    /// </summary>
 	public enum CheckersPlayer
 	{
+        /// <summary>
+        /// The player one.
+        /// </summary>
 		PlayerOne,
+
+        /// <summary>
+        /// The player two.
+        /// </summary>
 		PlayerTwo
 	}
 	#endregion

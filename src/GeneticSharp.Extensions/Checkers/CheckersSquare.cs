@@ -77,6 +77,11 @@ namespace GeneticSharp.Extensions.Checkers
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Put the specified piece above this square.
+        /// </summary>
+        /// <param name="piece">The piece.</param>
+        /// <returns>True if square was free and could receive the piece, otherwise false.</returns>
 		public bool PutPiece(CheckersPiece piece)
 		{
 			if (State == CheckersSquareState.Free) {
@@ -93,6 +98,10 @@ namespace GeneticSharp.Extensions.Checkers
 			return false;
 		}
 
+        /// <summary>
+        /// Remove the current piece.
+        /// </summary>
+        /// <returns>True if has a piece to be removed, otherwise false.</returns>
 		public bool RemovePiece()
 		{
 			if (CurrentPiece != null) {
