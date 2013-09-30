@@ -157,7 +157,7 @@ Roadmap
    - Fitness convergence 
    - Population convergence
    - Chromosome convergence   
- - Unity3d game sample
+ - Unity3d game sample (WIP)
  - MonoTouch Runner app (sample)
  - Parallel populations (islands)
  
