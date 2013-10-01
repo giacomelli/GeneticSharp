@@ -159,7 +159,7 @@ Roadmap
    - Chromosome convergence   
  - Unity3d game sample (WIP)
  - MonoTouch Runner app (sample)
- - Parallel populations (islands)
+ - Parallel populations (islands) 
  
 --------
 
