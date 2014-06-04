@@ -70,7 +70,7 @@ Features
 	![](docs/screenshots/UnitTests.png)
  - 100% code [documentation](src/Help/Documentation.chm)
  - FxCop validated
- - Good (and good used) design patterns  
+ - Good (and well used) design patterns  
 
 --------
 
