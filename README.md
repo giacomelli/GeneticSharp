@@ -163,6 +163,14 @@ Roadmap
  
 --------
 
+FAQ
+======
+
+Having troubles? 
+ - Ask on [Stack Overflow](http://stackoverflow.com/search?q=GeneticSharp)
+ 
+ --------
+
 How to improve it?
 ======
 
