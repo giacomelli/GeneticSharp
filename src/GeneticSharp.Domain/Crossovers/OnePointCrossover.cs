@@ -8,11 +8,11 @@ using GeneticSharp.Domain.Chromosomes;
 namespace GeneticSharp.Domain.Crossovers
 {
     /// <summary>
-	/// One-Point crossover.
+    /// One-Point crossover (C1).
     /// <remarks>
-	/// A single crossover point on both parents is selected. 
-    /// All data beyond that point in either is swapped between the two parents.     
-	/// <see href="http://en.wikipedia.org/wiki/Crossover_(genetic_algorithm)#One-point_crossover">One-point crossover</see>
+    /// A single crossover point on both parents is selected. 
+    /// All data beyond that point in either is swapped between the two parents.    
+    /// <see href="http://en.wikipedia.org/wiki/Crossover_(genetic_algorithm)#One-point_crossover">One-point crossover</see>
     /// <example>
     /// Parents: 
     /// |0|0|0| x |1|1|1|
