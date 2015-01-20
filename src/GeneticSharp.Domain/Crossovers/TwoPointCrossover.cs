@@ -8,22 +8,22 @@ using GeneticSharp.Domain.Chromosomes;
 namespace GeneticSharp.Domain.Crossovers
 {
     /// <summary>
-	/// Two-Point Crossover
-	/// <remarks>
+    /// Two-Point Crossover (C2)
+    /// <remarks>
     /// Two-point crossover calls for two points to be selected on the parents. 
     /// Everything between the two points is swapped between the parents, rendering two children.
-	/// <see href="http://en.wikipedia.org/wiki/Crossover_(genetic_algorithm)#Two-point_crossover">Wikipedia</see>
-	/// </remarks>
+    /// <see href="http://en.wikipedia.org/wiki/Crossover_(genetic_algorithm)#Two-point_crossover">Wikipedia</see>
+    /// </remarks>
     /// </summary>
 	[DisplayName("Two-Point")]
 	public class TwoPointCrossover : CrossoverBase
     {
         #region Constructors
-		/// <summary>
-		/// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.TwoPointCrossover"/> class.
-		/// </summary>
-		/// <param name="swapPointOneGeneIndex">Swap point one gene index.</param>
-		/// <param name="swapPointTwoGeneIndex">Swap point two gene index.</param>
+	/// <summary>
+	/// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.TwoPointCrossover"/> class.
+	/// </summary>
+	/// <param name="swapPointOneGeneIndex">Swap point one gene index.</param>
+	/// <param name="swapPointTwoGeneIndex">Swap point two gene index.</param>
         public TwoPointCrossover(int swapPointOneGeneIndex, int swapPointTwoGeneIndex)
             : base(2, 2, 3)
         {
