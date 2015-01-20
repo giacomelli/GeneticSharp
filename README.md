@@ -28,11 +28,11 @@ Features
  - [Crossovers](src/GeneticSharp.Domain/Crossovers)
    - [Cut and Splice](src/GeneticSharp.Domain/Crossovers/CutAndSpliceCrossover.cs) 
    - [Cycle (CX)](src/GeneticSharp.Domain/Crossovers/CycleCrossover.cs)   
-   - [One-Point](src/GeneticSharp.Domain/Crossovers/OnePointCrossover.cs)
+   - [One-Point (C1)](src/GeneticSharp.Domain/Crossovers/OnePointCrossover.cs)
    - [Ordered OX1](src/GeneticSharp.Domain/Crossovers/OrderedCrossover.cs)
    - [Partially Mapped (PMX)](src/GeneticSharp.Domain/Crossovers/PartiallyMappedCrossover.cs)
    - [Three parent](src/GeneticSharp.Domain/Crossovers/ThreeParentCrossover.cs)
-   - [Two-Point](src/GeneticSharp.Domain/Crossovers/TwoPointCrossover.cs)
+   - [Two-Point (C2)](src/GeneticSharp.Domain/Crossovers/TwoPointCrossover.cs)
    - [Uniform](src/GeneticSharp.Domain/Crossovers/UniformCrossover.cs)
    - Others crossovers can be added implementing [ICrossover](src/GeneticSharp.Domain/Crossovers/ICrossover.cs) interface or extending [CrossoverBase](src/GeneticSharp.Domain/Crossovers/CrossoverBase.cs).   
  - [Mutations](src/GeneticSharp.Domain/Mutations)
