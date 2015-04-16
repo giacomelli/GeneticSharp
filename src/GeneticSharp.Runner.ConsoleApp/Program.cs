@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
+using GeneticSharp.Domain;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
-using GeneticSharp.Domain;
-using GeneticSharp.Runner.ConsoleApp.Samples;
 using GeneticSharp.Infrastructure.Threading;
+using GeneticSharp.Runner.ConsoleApp.Samples;
 
 namespace GeneticSharp.Runner.ConsoleApp
 {
@@ -40,34 +36,34 @@ namespace GeneticSharp.Runner.ConsoleApp
                 default:
                     return;
             }
-                        
+
             var selection = new EliteSelection();
             var crossover = new UniformCrossover();
             var mutation = new UniformMutation(true);
             var fitness = sampleController.CreateFitness();
             var population = new Population(50, 70, sampleController.CreateChromosome());
-	
-			var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
+
+            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
             ga.MutationProbability = 0.4f;
             ga.Termination = new FitnessStagnationTermination(100);
-            
+
             ga.TaskExecutor = new SmartThreadPoolTaskExecutor()
             {
                 MinThreads = 25,
                 MaxThreads = 50
             };
 
-            ga.GenerationRan += delegate 
+            ga.GenerationRan += delegate
             {
                 Console.CursorLeft = 0;
                 Console.CursorTop = 5;
 
                 var bestChromosome = ga.Population.BestChromosome;
                 Console.WriteLine("Generations: {0}", ga.Population.GenerationsNumber);
-                Console.WriteLine("Fitness: {0:n4}", bestChromosome.Fitness);                
+                Console.WriteLine("Fitness: {0:n4}", bestChromosome.Fitness);
                 Console.WriteLine("Time: {0}", ga.TimeEvolving);
                 sampleController.Draw(bestChromosome);
-            };           
+            };
 
             try
             {

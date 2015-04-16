@@ -18,7 +18,7 @@
 	<DebugType>full</DebugType>
 	<Optimize>false</Optimize>
 	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_IPHONE;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_AUDIO_FMOD;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;ENABLE_WWW;ENABLE_IMAGEEFFECTS;UNITY_IPHONE_API;ENABLE_WEBCAM;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_GAMECENTER;UNITY_IOS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;UNITY_4_2_0;UNITY_4_2;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
+	<DefineConstants>DEBUG;TRACE;UNITY_IPHONE;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_AUDIO_FMOD;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;ENABLE_WWW;ENABLE_IMAGEEFFECTS;UNITY_IPHONE_API;ENABLE_WEBCAM;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_GAMECENTER;UNITY_IOS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;UNITY_4_2_0;UNITY_4_2;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_OSX</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -37,10 +37,10 @@
     <Reference Include="System.XML" />
 	<Reference Include="System.Core" />
 	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
@@ -59,22 +59,22 @@
      <None Include="Assets\_Checkers\Libraries\GeneticSharp.Extensions.xml" />
      <None Include="Assets\_Checkers\Libraries\GeneticSharp.Domain.xml" />
      <None Include="Assets\_Checkers\Libraries\GeneticSharp.Infrastructure.Threading.xml" />
- <Reference Include="GeneticSharp.Domain">
+ <Reference Include="Assets\_Checkers\Libraries\GeneticSharp.Domain">
  <HintPath>Assets\_Checkers\Libraries\GeneticSharp.Domain.dll</HintPath>
  </Reference>
- <Reference Include="GeneticSharp.Extensions">
+ <Reference Include="Assets\_Checkers\Libraries\GeneticSharp.Extensions">
  <HintPath>Assets\_Checkers\Libraries\GeneticSharp.Extensions.dll</HintPath>
  </Reference>
- <Reference Include="GeneticSharp.Infrastructure.Framework">
+ <Reference Include="Assets\_Checkers\Libraries\GeneticSharp.Infrastructure.Framework">
  <HintPath>Assets\_Checkers\Libraries\GeneticSharp.Infrastructure.Framework.dll</HintPath>
  </Reference>
- <Reference Include="GeneticSharp.Infrastructure.Threading">
+ <Reference Include="Assets\_Checkers\Libraries\GeneticSharp.Infrastructure.Threading">
  <HintPath>Assets\_Checkers\Libraries\GeneticSharp.Infrastructure.Threading.dll</HintPath>
  </Reference>
- <Reference Include="HelperSharp">
+ <Reference Include="Assets\_Checkers\Libraries\HelperSharp">
  <HintPath>Assets\_Checkers\Libraries\HelperSharp.dll</HintPath>
  </Reference>
- <Reference Include="SmartThreadPool">
+ <Reference Include="Assets\_Checkers\Libraries\SmartThreadPool">
  <HintPath>Assets\_Checkers\Libraries\SmartThreadPool.dll</HintPath>
  </Reference>
   </ItemGroup>

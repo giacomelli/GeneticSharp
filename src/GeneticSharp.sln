@@ -78,7 +78,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = GeneticSharp.Runner.ConsoleApp\GeneticSharp.Runner.ConsoleApp.csproj
+		StartupItem = GeneticSharp.Runner.GtkApp\GeneticSharp.Runner.GtkApp.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

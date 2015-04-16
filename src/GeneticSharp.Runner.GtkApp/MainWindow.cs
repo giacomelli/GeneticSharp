@@ -60,7 +60,7 @@ public partial class MainWindow: Gtk.Window
         PrepareSamples();
 
         cmbSample.Active = 0;
-        cmbCrossover.Active = 2;
+        cmbCrossover.Active = 3;
         cmbTermination.Active = 2;
         hslCrossoverProbability.Value = GeneticAlgorithm.DefaultCrossoverProbability;
         hslMutationProbability.Value = GeneticAlgorithm.DefaultMutationProbability;
@@ -240,7 +240,7 @@ public partial class MainWindow: Gtk.Window
         if (m_sampleContext.Population != null)
         {
             m_sampleContext.WriteText("Generation: {0}", m_sampleContext.Population.GenerationsNumber);
-            m_sampleContext.WriteText("Fitness: {0:n2}", m_sampleContext.Population.BestChromosome.Fitness);
+            m_sampleContext.WriteText("Fitness: {0:n2}", m_sampleContext.Population.BestChromosome != null ? m_sampleContext.Population.BestChromosome.Fitness : 0.0);
             m_sampleContext.WriteText("Time: {0}", m_ga.TimeEvolving);
         }
 

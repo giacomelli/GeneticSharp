@@ -51,7 +51,7 @@ namespace GeneticSharp.Domain
     /// <summary>
     /// A genetic algorithm (GA) is a search heuristic that mimics the process of natural selection. 
     /// This heuristic (also sometimes called a metaheuristic) is routinely used to generate useful solutions 
-    /// to optimization and search problems.[1] Genetic algorithms belong to the larger class of evolutionary 
+    /// to optimization and search problems. Genetic algorithms belong to the larger class of evolutionary 
     /// algorithms (EA), which generate solutions to optimization problems using techniques inspired by natural evolution, 
     /// such as inheritance, mutation, selection, and crossover.
     /// 
@@ -440,7 +440,7 @@ namespace GeneticSharp.Domain
                 var selectedParents = parents.Skip(i).Take(Crossover.ParentsNumber).ToList();
 
                 // If match the probability cross is made, otherwise the offspring is an exact copy of the parents.
-                // Checks if the number of selected parents is equal which the crossover expect, because the in the of the list we can
+                // Checks if the number of selected parents is equal which the crossover expect, because the in the end of the list we can
                 // have some rest chromosomes.
                 if (selectedParents.Count == Crossover.ParentsNumber && RandomizationProvider.Current.GetDouble() <= CrossoverProbability)
                 {

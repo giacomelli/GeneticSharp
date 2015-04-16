@@ -9,10 +9,14 @@ namespace GeneticSharp.Extensions.Ghostwriter
 {
     public class GhostwriterChromosome : ChromosomeBase
     {
-        public GhostwriterChromosome()
-            : base(140)
-        {
-            for (int i = 0; i < 140; i++)
+        private IList<string> m_words;
+
+        public GhostwriterChromosome(int maxTextWordLength, IList<string> words)
+            : base(maxTextWordLength)
+        {            
+            m_words = words;
+
+            for (int i = 0; i < maxTextWordLength; i++)
             {
                 ReplaceGene(i, GenerateGene(i));
             }
@@ -20,12 +24,12 @@ namespace GeneticSharp.Extensions.Ghostwriter
 
         public override Gene GenerateGene(int geneIndex)
         {
-            return new Gene((char)RandomizationProvider.Current.GetInt(65, 92));
+            return new Gene(m_words[RandomizationProvider.Current.GetInt(0, m_words.Count)]);
         }
 
         public override IChromosome CreateNew()
         {
-            return new GhostwriterChromosome();
+            return new GhostwriterChromosome(Length, m_words);
         }
 
         public override IChromosome Clone()
@@ -35,7 +39,7 @@ namespace GeneticSharp.Extensions.Ghostwriter
 
         public string GetText()
         {
-            return new string(GetGenes().Select(g => (char) g.Value).ToArray()).Replace("[", " ");
+            return String.Join(" ", GetGenes().Select(g => g.Value.ToString()).ToArray());
         }
     }
 }
