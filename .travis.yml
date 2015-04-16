@@ -12,7 +12,6 @@ before_install:
 
  
 install:
-  - sudo apt-get install nunit-console gtk-sharp2
   - mozroots --import --sync
  
 script:
