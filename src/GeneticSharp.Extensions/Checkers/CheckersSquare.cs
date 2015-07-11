@@ -151,7 +151,12 @@ namespace GeneticSharp.Extensions.Checkers
         /// </returns>
         public override int GetHashCode()
         {
-            return ColumnIndex.GetHashCode() ^ RowIndex.GetHashCode() ^ State.GetHashCode();
+ 			int hash = 17;
+			hash = hash * 23 + ColumnIndex.GetHashCode();
+			hash = hash * 23 + RowIndex.GetHashCode();
+			hash = hash * 23 + State.GetHashCode();
+
+			return hash;
         }
 
         /// <summary>

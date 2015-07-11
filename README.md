@@ -138,11 +138,12 @@ Console.WriteLine("Best solution found has {0} fitness.", ga.BestChromosome.Fitn
 
 Roadmap
 --------
+ - Create and publish NuGet package
+ - Unity3d game sample (WIP)
  - Improve Runner.GtkApp
    - Add new problems/classic samples
       - Checkers 
 	  - Time series   
- - Create and publish NuGet package
  - Create the wiki
  - Add new selections   
    - Reward-based
@@ -163,7 +164,6 @@ Roadmap
    - Fitness convergence 
    - Population convergence
    - Chromosome convergence   
- - Unity3d game sample (WIP)
  - MonoTouch Runner app (sample)
  - Parallel populations (islands) 
  

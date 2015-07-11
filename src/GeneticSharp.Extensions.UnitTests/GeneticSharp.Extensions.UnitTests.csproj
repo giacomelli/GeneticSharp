@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>12.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{7A40EB21-E80F-4FD6-9503-A76D83B0620D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>GeneticSharp.Extensions.UnitTests</RootNamespace>
@@ -54,6 +52,9 @@
     <Compile Include="Tsp\TspTest.cs" />
     <Compile Include="Checkers\CheckersBoardTest.cs" />
     <Compile Include="Checkers\CheckersFitnessTest.cs" />
+    <Compile Include="Tsp\TspFitnessTest.cs" />
+    <Compile Include="Tsp\TspChromosomeTest.cs" />
+    <Compile Include="Checkers\CheckersChromosomeTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj">

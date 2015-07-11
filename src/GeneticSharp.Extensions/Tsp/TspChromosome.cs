@@ -24,12 +24,7 @@ namespace GeneticSharp.Extensions.Tsp
 		/// <param name="numberOfCities">Number of cities.</param>
 		public TspChromosome(int numberOfCities) : base(numberOfCities)
 		{
-            if (numberOfCities < 2)
-            {
-                throw new ArgumentOutOfRangeException("The number of cities should be greater than 1.");
-            }
-
-			m_numberOfCities = numberOfCities;
+      		m_numberOfCities = numberOfCities;
             var citiesIndexes = RandomizationProvider.Current.GetUniqueInts(numberOfCities, 0, numberOfCities);
 
 			for (int i = 0; i < numberOfCities; i++) {
