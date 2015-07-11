@@ -34,7 +34,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
 
 			ga.Termination = new GenerationNumberTermination (1001);
 
-            TimeAssert.LessThan(3000, () =>
+            TimeAssert.LessThan(5000, () =>
             {
                 ga.Start();
             });
