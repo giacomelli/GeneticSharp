@@ -85,7 +85,7 @@ Creating your own fitness evaluation
 ---
 ```csharp
 
-public class YourIFitnessImplementation : IFitness
+public class MyProblemFitness : IFitness
 {  
 	public double Evaluate (IChromosome chromosome)
 	{
@@ -99,16 +99,16 @@ Creating your own chromosome
 ---
 ```csharp
 
-public class YourIChrosomeImplementation : ChromosomeBase
+public class MyProblemChrosome : ChromosomeBase
 {
 	public override Gene GenerateGene (int geneIndex)
 	{
-		// Generate a gene base on your chromosome representation.
+		// Generate a gene base on my problem chromosome representation.
 	}
 
 	public override IChromosome CreateNew ()
 	{
-		return new YourIChrosomeImplementation();
+		return new MyProblemFitness();
 	}
 }
 
@@ -121,13 +121,16 @@ Running your GA
 var selection = new EliteSelection();
 var crossover = new OrderedCrossover();
 var mutation = new ReverseSequenceMutation();
-var fitness = new YourIFitnessImplementation();
-var chromosome = new YourIChrosomeImplementation(); // please, don't use names like that ;)
+var fitness = new MyProblemFitness();
+var chromosome = new MyProblemChrosome();
 var population = new Population (50, 70, chromosome);
 
 var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
 
+Console.WriteLine("GA running...");
 ga.Start();
+
+Console.WriteLine("Best solution found has {0} fitness.", ga.BestChromosome.Fitness);
 
 ```
 
@@ -171,8 +174,7 @@ FAQ
 
 Having troubles? 
  - Ask on Twitter [@ogiacomelli](http://twitter.com/ogiacomelli)
- 
-  - Ask on [Stack Overflow](http://stackoverflow.com/search?q=GeneticSharp)
+ - Ask on [Stack Overflow](http://stackoverflow.com/search?q=GeneticSharp)
  
  --------
 
