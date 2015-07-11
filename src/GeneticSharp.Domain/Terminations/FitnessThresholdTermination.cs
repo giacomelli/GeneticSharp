@@ -1,5 +1,4 @@
 using System;
-using NUnit.Framework;
 using System.ComponentModel;
 using GeneticSharp.Domain.Populations;
 

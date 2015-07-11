@@ -73,6 +73,10 @@ namespace GeneticSharp.Extensions.Checkers
 		/// <value>The state.</value>
         public CheckersSquareState State { get; private set; }
 
+		/// <summary>
+		/// Gets the current piece.
+		/// </summary>
+		/// <value>The current piece.</value>
 		public CheckersPiece CurrentPiece { get; private set; }
         #endregion
 
