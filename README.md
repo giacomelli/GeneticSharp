@@ -2,6 +2,7 @@ GeneticSharp
 ===========
 [![Build status](https://ci.appveyor.com/api/projects/status/h9ptxpyj30ah3mva?svg=true)](https://ci.appveyor.com/project/giacomelli/geneticsharp)
 [![Coverage Status](https://coveralls.io/repos/giacomelli/GeneticSharp/badge.svg?branch=master&service=github)](https://coveralls.io/github/giacomelli/GeneticSharp?branch=master)
+[![License](http://img.shields.io/:license-MIT-blue.svg)](https://raw.githubusercontent.com/giacomelli/GeneticSharp/master/LICENSE)
 
 
 GeneticSharp is a fast, extensible, multi-platform and multithreading .NET Genetic Algorithm library that simplifies the development of applications using Genetic Algorithms (GAs).
@@ -185,8 +186,6 @@ Did you change it? [Submit a pull request](https://github.com/giacomelli/Genetic
 
 License
 ======
-[![License](http://img.shields.io/:license-MIT-blue.svg)](https://raw.githubusercontent.com/giacomelli/GeneticSharp/master/LICENSE)
-
 Licensed under the The MIT License (MIT).
 In others words, you can use this library for developement any kind of software: open source, commercial, proprietary and alien.
 
