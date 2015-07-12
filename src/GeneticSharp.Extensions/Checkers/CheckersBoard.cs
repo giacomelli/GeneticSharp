@@ -140,16 +140,20 @@ namespace GeneticSharp.Extensions.Checkers
 
             if (moveKind != CheckersMoveKind.Invalid)
             {
-                var to = GetSquare(move.ToSquare.ColumnIndex, move.ToSquare.RowIndex);
+				var to = GetSquare(move.ToSquare.ColumnIndex, move.ToSquare.RowIndex);
+				to.PutPiece (from.CurrentPiece);
 
-				if (!to.PutPiece (from.CurrentPiece)) {
-					throw new InvalidOperationException ("Trying to put a piece on a square that already have a piece.");	
-				}
+				var indexModifier = to.State == CheckersSquareState.OccupiedByPlayerOne ? 1 : -1;
+				from.RemovePiece ();
 
-                var indexModifier = to.State == CheckersSquareState.OccupiedByPlayerOne ? 1 : -1;
-				if (!from.RemovePiece ()) {
-					throw new InvalidOperationException ("Trying to remove a piece on a square that have no piece.");	
-				}
+//				if (!to.PutPiece (from.CurrentPiece)) {
+//					throw new InvalidOperationException ("Trying to put a piece on a square that already have a piece.");	
+//				}
+
+//              var indexModifier = to.State == CheckersSquareState.OccupiedByPlayerOne ? 1 : -1;
+//				if (!from.RemovePiece ()) {
+//					throw new InvalidOperationException ("Trying to remove a piece on a square that have no piece.");	
+//				}
 
                 moved = true;
 
@@ -159,9 +163,11 @@ namespace GeneticSharp.Extensions.Checkers
 						GetSquare (from.ColumnIndex + (1 * indexModifier), from.RowIndex + (1 * indexModifier)).RemovePiece ();
 					} else if (to.ColumnIndex == from.ColumnIndex - (2 * indexModifier)) {
 						GetSquare (from.ColumnIndex - (1 * indexModifier), from.RowIndex + (1 * indexModifier)).RemovePiece ();
-					} else {
-						throw new InvalidOperationException ("Houston, we have a problem! Capture move without capture any piece.");
-					}
+					} 
+
+//					else {
+//						throw new InvalidOperationException ("Houston, we have a problem! Capture move without capture any piece.");
+//					}
 
                     moved = true;
                 }

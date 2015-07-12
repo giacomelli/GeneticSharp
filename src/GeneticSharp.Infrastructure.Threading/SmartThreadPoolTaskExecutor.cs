@@ -63,8 +63,10 @@ namespace GeneticSharp.Infrastructure.Threading
 
 				m_threadPool.Start ();                
 
+				// Timeout was reach?
 				if(!m_threadPool.WaitForIdle (Timeout.TotalMilliseconds > int.MaxValue ? int.MaxValue : Convert.ToInt32(Timeout.TotalMilliseconds)))
 				{
+					m_threadPool.Cancel(true);
 					return false;
 				}
 

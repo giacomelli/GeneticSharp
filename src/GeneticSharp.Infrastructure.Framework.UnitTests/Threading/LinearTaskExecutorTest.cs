@@ -2,6 +2,7 @@ using System;
 using NUnit.Framework;
 using GeneticSharp.Infrastructure.Framework.Threading;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
 {
@@ -35,6 +36,28 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
 
 			target.Timeout = TimeSpan.FromMilliseconds(50);
 			Assert.IsFalse(target.Start ());
+			Assert.AreEqual ("12", pipeline);
+		}
+
+		[Test()]
+		public void Stop_ManyTasks_False()
+		{
+			var pipeline = "";
+			var target = new LinearTaskExecutor ();
+			target.Add (() => pipeline += "1");
+			target.Add (() => { 
+				pipeline += "2";
+				Thread.Sleep(1000);
+			});
+			target.Add (() => pipeline += "3");
+
+			Parallel.Invoke (
+				() => Assert.IsFalse (target.Start ()),
+				() => {
+					Thread.Sleep(5);
+					target.Stop();
+				});
+			
 			Assert.AreEqual ("12", pipeline);
 		}
 	}

@@ -108,7 +108,7 @@ public class MyProblemChrosome : ChromosomeBase
 
 	public override IChromosome CreateNew ()
 	{
-		return new MyProblemFitness();
+		return new MyProblemChrosome();
 	}
 }
 

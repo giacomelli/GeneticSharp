@@ -19,7 +19,7 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
 
 			foreach (var t in Tasks) {
 				if (StopRequested) {
-					return true;
+					return false;
 				}
 
 				t ();
