@@ -92,13 +92,11 @@ namespace GeneticSharp.Infrastructure.Threading.UnitTests
 			});
 
 			Parallel.Invoke (
-				() => target.Start (),
+				() => Assert.IsFalse(target.Start ()),
 				() => {
 					Thread.Sleep(1);
 					target.Stop();
 				});
-
-			Assert.AreEqual ("", pipeline);
 		}
 	}
 }

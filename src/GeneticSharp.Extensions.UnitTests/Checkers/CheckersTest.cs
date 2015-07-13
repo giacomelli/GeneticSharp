@@ -48,7 +48,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
 
             ga.Termination = new GenerationNumberTermination(2001);
 
-            TimeAssert.LessThan(6000, () =>
+            TimeAssert.LessThan(10000, () =>
             {
                 ga.Start();
             });
