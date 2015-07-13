@@ -103,7 +103,7 @@ namespace GeneticSharp.Infrastructure.Threading
 		{
 			base.Stop ();
 
-			if (m_threadPool != null && !m_threadPool.IsShuttingdown) {
+			if (m_threadPool != null) {
 				m_threadPool.Shutdown (true, Timeout);
 			}
 		}
