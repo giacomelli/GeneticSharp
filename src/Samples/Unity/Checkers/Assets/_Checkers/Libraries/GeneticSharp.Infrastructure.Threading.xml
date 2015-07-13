@@ -27,9 +27,5 @@
             Starts the tasks execution.
             </summary>
             <returns>If has reach the timeout false, otherwise true.</returns></member>
-        <member name="M:GeneticSharp.Infrastructure.Threading.SmartThreadPoolTaskExecutor.Stop">
-            <summary>
-            Stops the tasks execution.
-            </summary></member>
     </members>
 </doc>

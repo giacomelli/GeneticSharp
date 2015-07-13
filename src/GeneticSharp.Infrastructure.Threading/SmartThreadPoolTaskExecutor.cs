@@ -95,20 +95,6 @@ namespace GeneticSharp.Infrastructure.Threading
 
 			return true;
 		}
-
-		/// <summary>
-		/// Stops the tasks execution.
-		/// </summary>
-		public override void Stop()
-		{
-			base.Stop ();
-
-			if (m_threadPool != null) {
-				m_threadPool.Shutdown (true, Timeout);
-			}
-		}
 		#endregion
-
 	}
 }
-

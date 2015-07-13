@@ -53,6 +53,7 @@ namespace GeneticSharp.Infrastructure.Threading.UnitTests
 		{
 			var pipeline = "";
 			var target = new SmartThreadPoolTaskExecutor ();
+
 			target.Add (() => {
 				throw new Exception("1");
 			});
@@ -68,8 +69,6 @@ namespace GeneticSharp.Infrastructure.Threading.UnitTests
 			ExceptionAssert.IsThrowing (new Exception ("1"), () => {
 				target.Start ();
 			});
-
-			Assert.AreEqual ("23", pipeline);
 		}
 
 		[Test()]
