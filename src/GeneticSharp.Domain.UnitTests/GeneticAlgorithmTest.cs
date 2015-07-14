@@ -470,27 +470,34 @@ namespace GeneticSharp.Domain.UnitTests
                     new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
 
             target.Termination = new TimeEvolvingTermination(TimeSpan.FromMilliseconds(1000));
+            target.TaskExecutor = new SmartThreadPoolTaskExecutor();
+
+            var stoppedCount = 0;
+            target.Stopped += (e, a) =>
+            {
+                Assert.AreEqual(GeneticAlgorithmState.Stopped, target.State);
+                Assert.IsFalse(target.IsRunning);
+                stoppedCount++;
+            };
 
             Parallel.Invoke(
             () => target.Start(),
             () =>
             {
-                Thread.Sleep(3);
+                Thread.Sleep(100);
                 target.Stop();
-                Thread.Sleep(3);
-                Assert.AreEqual(GeneticAlgorithmState.Stopped, target.State);
-                Assert.IsFalse(target.IsRunning);
             });
 
             Parallel.Invoke(
                 () => target.Resume(),
                 () =>
                 {
-                    Thread.Sleep(3);
+                    Thread.Sleep(100);
                     Assert.AreEqual(GeneticAlgorithmState.Resumed, target.State);
                     Assert.IsTrue(target.IsRunning);
                 });
 
+            Assert.AreEqual(1, stoppedCount);
         }
 
         [Test()]

@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using GeneticSharp.Infrastructure.Framework.Threading;
-using HelperSharp;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
@@ -12,6 +10,8 @@ using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
+using GeneticSharp.Infrastructure.Framework.Threading;
+using HelperSharp;
 
 namespace GeneticSharp.Domain
 {
@@ -65,6 +65,7 @@ namespace GeneticSharp.Domain
         #region Fields
         private bool m_stopRequested;
         private object m_lock = new object();
+        private GeneticAlgorithmState m_state;
         #endregion
 
         #region Constants
@@ -89,6 +90,11 @@ namespace GeneticSharp.Domain
         /// Occurs when termination reached.
         /// </summary>
         public event EventHandler TerminationReached;
+
+        /// <summary>
+        /// Occurs when stopped.
+        /// </summary>
+        public event EventHandler Stopped;
         #endregion
 
         #region Constructors
@@ -196,7 +202,25 @@ namespace GeneticSharp.Domain
         /// <summary>
         /// Gets the state.
         /// </summary>
-        public GeneticAlgorithmState State { get; private set; }
+        public GeneticAlgorithmState State
+        {
+            get
+            {
+                return m_state;
+            }
+
+            private set
+            {
+                var goToStopped = Stopped != null && m_state != value && value == GeneticAlgorithmState.Stopped;
+
+                m_state = value;
+
+                if (goToStopped)
+                {
+                    Stopped(this, EventArgs.Empty);
+                }
+            }
+        }
 
         /// <summary>
         /// Gets a value indicating whether this instance is running.
@@ -230,8 +254,8 @@ namespace GeneticSharp.Domain
                 Population.CreateInitialGeneration();
                 TimeEvolving = DateTime.Now - startDateTime;
             }
-            
-            Resume();            
+
+            Resume();
         }
 
         /// <summary>
@@ -241,7 +265,7 @@ namespace GeneticSharp.Domain
         /// </remarks>
         /// </summary>
         public void Resume()
-        {            
+        {
             try
             {
                 lock (m_lock)
@@ -257,7 +281,7 @@ namespace GeneticSharp.Domain
                 {
                     if (Termination.HasReached(this))
                     {
-						throw new InvalidOperationException("Attempt to resume a genetic algorithm with a termination ({0}) already reached. Please, specify a new termination or extend the current one.".With(Termination));
+                        throw new InvalidOperationException("Attempt to resume a genetic algorithm with a termination ({0}) already reached. Please, specify a new termination or extend the current one.".With(Termination));
                     }
 
                     State = GeneticAlgorithmState.Resumed;
@@ -288,14 +312,14 @@ namespace GeneticSharp.Domain
             {
                 State = GeneticAlgorithmState.Stopped;
                 throw;
-            }            
+            }
         }
 
         /// <summary>
         /// Stops the genetic algorithm..
         /// </summary>
         public void Stop()
-        {            
+        {
             if (Population.GenerationsNumber == 0)
             {
                 throw new InvalidOperationException("Attempt to stop a genetic algorithm which was not yet started.");
@@ -303,8 +327,8 @@ namespace GeneticSharp.Domain
 
             lock (m_lock)
             {
-                m_stopRequested = true;                
-            }            
+                m_stopRequested = true;
+            }
         }
 
         /// <summary>
