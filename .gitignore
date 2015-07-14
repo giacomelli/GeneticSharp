@@ -115,3 +115,4 @@ src/GeneticSharp.Infrastructure.Threading.UnitTests/test-results/
 src/GeneticSharp.Infrastructure.Framework.UnitTests/test-results/
 src/GeneticSharp.Extensions.UnitTests/test-results/
 src/GeneticSharp.Domain.UnitTests/test-results/
+opencoverCoverage.xml

@@ -1,25 +1,24 @@
-using System;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
+using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.Checkers;
 using NUnit.Framework;
 using TestSharp;
-using GeneticSharp.Domain.Randomizations;
 
 namespace GeneticSharp.Extensions.UnitTests.Checkers
 {
     [TestFixture]
     public class CheckersTest
     {
-		[SetUp]
-		public void InitializeTest()
-		{
-			RandomizationProvider.Current = new BasicRandomization ();
-		}
+        [SetUp]
+        public void InitializeTest()
+        {
+            RandomizationProvider.Current = new BasicRandomization();
+        }
 
         [Test()]
         public void Evolve_ManyGenerations_Fast()
@@ -48,7 +47,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
 
             ga.Termination = new GenerationNumberTermination(2001);
 
-            TimeAssert.LessThan(10000, () =>
+            TimeAssert.LessThan(100000, () =>
             {
                 ga.Start();
             });

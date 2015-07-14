@@ -1,48 +1,46 @@
-using NUnit.Framework;
-using System;
-using GeneticSharp.Domain.Populations;
+using GeneticSharp.Domain;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Extensions.Tsp;
+using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Selections;
-using TestSharp;
-using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Terminations;
-using GeneticSharp.Domain;
+using GeneticSharp.Extensions.Tsp;
+using NUnit.Framework;
+using TestSharp;
 
 namespace GeneticSharp.Extensions.UnitTests.Tsp
 {
-	[TestFixture()]
-	public class TspTest
-	{
-		[Test()]
-		public void Evolve_ManyGenerations_Fast ()
-		{
-			int numberOfCities = 40;
-			var selection = new EliteSelection();
-			var crossover = new OrderedCrossover();
-			var mutation = new TworsMutation();
-			var chromosome = new TspChromosome(numberOfCities);
-			var fitness = new TspFitness (numberOfCities, 0, 1000, 0, 1000);
+    [TestFixture()]
+    public class TspTest
+    {
+        [Test()]
+        public void Evolve_ManyGenerations_Fast()
+        {
+            int numberOfCities = 40;
+            var selection = new EliteSelection();
+            var crossover = new OrderedCrossover();
+            var mutation = new TworsMutation();
+            var chromosome = new TspChromosome(numberOfCities);
+            var fitness = new TspFitness(numberOfCities, 0, 1000, 0, 1000);
 
-			var population = new Population (40, 40, chromosome);
+            var population = new Population(40, 40, chromosome);
 
-			var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
+            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
 
-			ga.Start();
-			var firstDistance = ((TspChromosome)ga.Population.BestChromosome).Distance;
+            ga.Start();
+            var firstDistance = ((TspChromosome)ga.Population.BestChromosome).Distance;
 
-			ga.Termination = new GenerationNumberTermination (1001);
+            ga.Termination = new GenerationNumberTermination(1001);
 
-            TimeAssert.LessThan(10000, () =>
+            TimeAssert.LessThan(100000, () =>
             {
                 ga.Start();
             });
 
-			var lastDistance = ((TspChromosome)ga.Population.BestChromosome).Distance;
+            var lastDistance = ((TspChromosome)ga.Population.BestChromosome).Distance;
 
             Assert.Less(lastDistance, firstDistance);
-		}
-	}
+        }
+    }
 }
 
