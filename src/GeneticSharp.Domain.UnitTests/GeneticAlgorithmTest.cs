@@ -484,17 +484,17 @@ namespace GeneticSharp.Domain.UnitTests
             () => target.Start(),
             () =>
             {
-                Thread.Sleep(100);
+                Thread.Sleep(500);
                 target.Stop();
             });
 
-            Thread.Sleep(1000);
+            Thread.Sleep(2000);
 
             Parallel.Invoke(
                 () => target.Resume(),
                 () =>
                 {
-                    Thread.Sleep(1000);
+                    Thread.Sleep(2000);
                     Assert.AreEqual(GeneticAlgorithmState.Resumed, target.State);
                     Assert.IsTrue(target.IsRunning);
                 });
