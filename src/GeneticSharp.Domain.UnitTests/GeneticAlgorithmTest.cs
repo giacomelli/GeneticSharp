@@ -164,7 +164,7 @@ namespace GeneticSharp.Domain.UnitTests
             var mutation = new UniformMutation();
             var chromosome = new ChromosomeStub();
 
-            FlowAssert.IsAtLeastOneAttemptOk(8, () =>
+            FlowAssert.IsAtLeastOneAttemptOk(20, () =>
             {
                 var target = new GeneticAlgorithm(new Population(100, 150, chromosome),
                 new FitnessStub() { SupportsParallel = true }, selection, crossover, mutation);
@@ -184,7 +184,7 @@ namespace GeneticSharp.Domain.UnitTests
                 Assert.IsTrue(target.Population.Generations.Count > 0);
             });
 
-            FlowAssert.IsAtLeastOneAttemptOk(8, () =>
+            FlowAssert.IsAtLeastOneAttemptOk(20, () =>
             {
                 var target = new GeneticAlgorithm(new Population(100, 150, chromosome),
                 new FitnessStub() { SupportsParallel = true }, selection, crossover, mutation);
@@ -469,7 +469,7 @@ namespace GeneticSharp.Domain.UnitTests
             var target = new GeneticAlgorithm(new Population(100, 199, chromosome),
                     new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
 
-            target.Termination = new TimeEvolvingTermination(TimeSpan.FromMilliseconds(1000));
+            target.Termination = new TimeEvolvingTermination(TimeSpan.FromMilliseconds(10000));
             target.TaskExecutor = new SmartThreadPoolTaskExecutor();
 
             var stoppedCount = 0;
@@ -488,11 +488,13 @@ namespace GeneticSharp.Domain.UnitTests
                 target.Stop();
             });
 
+            Thread.Sleep(1000);
+
             Parallel.Invoke(
                 () => target.Resume(),
                 () =>
                 {
-                    Thread.Sleep(100);
+                    Thread.Sleep(1000);
                     Assert.AreEqual(GeneticAlgorithmState.Resumed, target.State);
                     Assert.IsTrue(target.IsRunning);
                 });
