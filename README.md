@@ -66,11 +66,6 @@ Features
  	![](docs/screenshots/XamarinStudio.png) 
  	![](docs/screenshots/VisualStudio.png) 
  - Fully tested on Windows and MacOSX.
- 
- 	![](docs/screenshots/GtkApp.Samples.TSP.Mac.png)
- - 100% Unit Tests coveraged.
- 
-	![](docs/screenshots/UnitTests.png)
  - 100% code [documentation](src/Help/Documentation.chm).
  - FxCop validated.
  - Good (and well used) design patterns.  
