@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Randomizations;
 using NUnit.Framework;
 using Rhino.Mocks;
-using TestSharp;
-using HelperSharp;
 
 namespace GeneticSharp.Domain.UnitTests.Mutations
 {
@@ -17,14 +13,14 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         public void Cleanup()
         {
             RandomizationProvider.Current = new BasicRandomization();
-        }      
+        }
 
         [Test()]
         public void Mutate_NoProbality_NoExchangeGenes()
         {
             var target = new TworsMutation();
             var chromosome = MockRepository.GenerateStub<ChromosomeBase>(4);
-			chromosome.ReplaceGenes(0, new Gene[] 
+            chromosome.ReplaceGenes(0, new Gene[] 
             { 
 				new Gene(1),
 				new Gene(2),
@@ -45,7 +41,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             Assert.AreEqual(4, chromosome.GetGene(3).Value);
 
             rnd.VerifyAllExpectations();
-            chromosome.VerifyAllExpectations();   
+            chromosome.VerifyAllExpectations();
         }
 
         [Test()]
@@ -53,7 +49,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         {
             var target = new TworsMutation();
             var chromosome = MockRepository.GenerateStub<ChromosomeBase>(4);
-			chromosome.ReplaceGenes(0, new Gene[] 
+            chromosome.ReplaceGenes(0, new Gene[] 
 			                                         { 
 				new Gene(1),
 				new Gene(2),
@@ -62,7 +58,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
 			});
 
             var rnd = MockRepository.GenerateMock<IRandomization>();
-			rnd.Expect(r => r.GetUniqueInts(2, 0, 4)).Return(new int[] {0, 2});
+            rnd.Expect(r => r.GetUniqueInts(2, 0, 4)).Return(new int[] { 0, 2 });
             RandomizationProvider.Current = rnd;
 
             target.Mutate(chromosome, 1);
@@ -74,7 +70,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             Assert.AreEqual(4, chromosome.GetGene(3).Value);
 
             rnd.VerifyAllExpectations();
-            chromosome.VerifyAllExpectations();            
-        }       
+            chromosome.VerifyAllExpectations();
+        }
     }
 }

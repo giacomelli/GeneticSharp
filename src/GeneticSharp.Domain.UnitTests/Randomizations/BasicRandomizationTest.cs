@@ -9,7 +9,36 @@ namespace GeneticSharp.Domain.UnitTests.Randomizations
 	[TestFixture()]
 	public class BasicRandomizationTest
 	{
-		[Test()]
+        [Test]
+        public void GetFloat_Range_RandomInRangeResult()
+        {
+            var target = new BasicRandomization();
+
+            FlowAssert.IsAtLeastOneAttemptOk(100, () =>
+            {
+                Assert.IsTrue(target.GetFloat(0, 2.2f) < 1);
+            });
+
+            FlowAssert.IsAtLeastOneAttemptOk(1000, () =>
+            {
+                Assert.IsTrue(target.GetFloat(0, 2.2f) > 2.1);
+            });
+
+            for (int i = 0; i < 100; i++)
+            {
+                Assert.AreNotEqual(2.3, target.GetFloat(0, 2.2f));
+            }
+        }
+
+        [Test]
+        public void GetFloat_NoArgs_RandomResult()
+        {
+            var target = new BasicRandomization();
+
+            Assert.AreNotEqual(target.GetFloat(), target.GetFloat());
+        }
+
+		[Test]
 		public void GetDouble_Range_RandomInRangeResult ()
 		{
 			var target = new BasicRandomization ();
@@ -27,7 +56,7 @@ namespace GeneticSharp.Domain.UnitTests.Randomizations
 			}
 		}
 
-		[Test()]
+		[Test]
 		public void GetDouble_NoArgs_RandomResult ()
 		{
 			var target = new BasicRandomization ();
@@ -35,7 +64,7 @@ namespace GeneticSharp.Domain.UnitTests.Randomizations
 			Assert.AreNotEqual (target.GetDouble (), target.GetDouble ());
 		}
 
-		[Test()]
+		[Test]
 		public void GetInt_Range_RandomInRangeResult ()
 		{
 			var target = new BasicRandomization ();
@@ -53,7 +82,7 @@ namespace GeneticSharp.Domain.UnitTests.Randomizations
 			}
 		}
 
-		[Test()]
+		[Test]
 		public void GetInts_Length_ArrayWithLength ()
 		{
 			var target = new BasicRandomization ();
@@ -74,7 +103,7 @@ namespace GeneticSharp.Domain.UnitTests.Randomizations
 		}
 
 
-        [Test()]
+        [Test]
         public void GetUniqueInts_RangeLowerThanLength_Exception()
         {
             var target = new BasicRandomization();
@@ -87,7 +116,7 @@ namespace GeneticSharp.Domain.UnitTests.Randomizations
           
         }
 
-		[Test()]
+		[Test]
 		public void GetUniqueInts_Length_ArrayWithUniqueInts ()
 		{
 			var target = new BasicRandomization ();

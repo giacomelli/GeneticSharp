@@ -12,14 +12,14 @@
          <Members>
           <Member Name="#GetFloat()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="float" TypeName="IdentifiersShouldNotContainTypeNames" Category="Microsoft.Naming" CheckId="CA1720" Status="Active" Created="2015-07-14 11:31:53Z" FixCategory="Breaking">
+            <Message Id="float" TypeName="IdentifiersShouldNotContainTypeNames" Category="Microsoft.Naming" CheckId="CA1720" Status="Active" Created="2015-07-16 10:59:14Z" FixCategory="Breaking">
              <Issue Name="LanguageSpecificMember" Certainty="75" Level="Error">Consider replacing the language-specific data type identifier 'Float' in member name 'IRandomization.GetFloat()' with either a language-independent equivalent or a more generic term, such as 'value'.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#GetFloat(System.Single,System.Single)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="float" TypeName="IdentifiersShouldNotContainTypeNames" Category="Microsoft.Naming" CheckId="CA1720" Status="Active" Created="2015-07-14 11:31:53Z" FixCategory="Breaking">
+            <Message Id="float" TypeName="IdentifiersShouldNotContainTypeNames" Category="Microsoft.Naming" CheckId="CA1720" Status="Active" Created="2015-07-16 10:59:14Z" FixCategory="Breaking">
              <Issue Name="LanguageSpecificMember" Certainty="75" Level="Error">Consider replacing the language-specific data type identifier 'Float' in member name 'IRandomization.GetFloat(float, float)' with either a language-independent equivalent or a more generic term, such as 'value'.</Issue>
             </Message>
            </Messages>

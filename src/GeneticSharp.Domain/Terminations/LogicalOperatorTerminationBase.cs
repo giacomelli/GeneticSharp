@@ -24,14 +24,7 @@ namespace GeneticSharp.Domain.Terminations
             m_minOperands = minOperands;
             Terminations = new List<ITermination>();
         }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LogicalOperatorTerminationBase"/> class.
-        /// </summary>
-        protected LogicalOperatorTerminationBase() : this(2)
-        {
-        }
-
+     
         /// <summary>
         /// Initializes a new instance of the <see cref="LogicalOperatorTerminationBase"/> class.
         /// </summary>

@@ -53,14 +53,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chromosomes\ChromosomeBaseTest.cs" />
+    <Compile Include="Chromosomes\GeneTest.cs" />
     <Compile Include="Crossovers\CrossoverBaseTest.cs" />
     <Compile Include="Crossovers\CutAndSpliceCrossoverTest.cs" />
     <Compile Include="Crossovers\CycleCrossoverTest.cs" />
     <Compile Include="Crossovers\OnePointCrossoverTest.cs" />
     <Compile Include="Crossovers\OrderedCrossoverTest.cs" />
+    <Compile Include="Crossovers\CrossoverExceptionTest.cs" />
     <Compile Include="Crossovers\ThreeParentCrossoverTest.cs" />
     <Compile Include="Crossovers\TwoPointCrossoverTest.cs" />
     <Compile Include="Crossovers\UniformCrossoverTest.cs" />
+    <Compile Include="Fitness\FitnessExceptionTest.cs" />
+    <Compile Include="Mutations\MutationExceptionTest.cs" />
     <Compile Include="Mutations\TworsMutationTest.cs" />
     <Compile Include="Mutations\UniformMutationTest.cs" />
     <Compile Include="Populations\ChromosomeStub.cs" />
@@ -73,6 +77,8 @@
     <Compile Include="Populations\PopulationTest.cs" />
     <Compile Include="Populations\FitnessStub.cs" />
     <Compile Include="Reinsertions\ReinsertionServiceTest.cs" />
+    <Compile Include="Reinsertions\ReinsertionExceptionTest.cs" />
+    <Compile Include="Selections\SelectionExceptionTest.cs" />
     <Compile Include="Selections\RouletteWheelSelectionTest.cs" />
     <Compile Include="Selections\EliteSelectionTest.cs" />
     <Compile Include="Mutations\ReverseSequenceMutationTest.cs" />

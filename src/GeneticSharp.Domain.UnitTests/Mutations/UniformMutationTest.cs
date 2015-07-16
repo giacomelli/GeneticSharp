@@ -12,6 +12,11 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
 	[TestFixture()]
 	public class UniformMutationTest
 	{
+        [TearDown]
+        public void Cleanup()
+        {
+            RandomizationProvider.Current = new BasicRandomization();
+        }
 
 		[Test()]
 		public void Mutate_NoIndexes_RandomOneIndex ()

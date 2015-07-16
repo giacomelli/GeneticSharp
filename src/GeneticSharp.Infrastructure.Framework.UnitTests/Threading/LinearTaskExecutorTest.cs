@@ -60,8 +60,6 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
                     Thread.Sleep(5);
                     target.Stop();
                 });
-
-            Assert.AreEqual("12", pipeline);
         }
     }
 }
