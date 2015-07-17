@@ -150,6 +150,7 @@ namespace GeneticSharp.Domain.UnitTests
             }
 
             Assert.GreaterOrEqual(lastFitness, 0.8);
+            Assert.AreEqual(lastFitness, target.BestChromosome.Fitness);
         }
 
         [Test()]

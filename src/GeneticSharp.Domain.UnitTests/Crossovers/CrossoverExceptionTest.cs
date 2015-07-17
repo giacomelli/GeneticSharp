@@ -34,6 +34,15 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         }
 
         [Test]
+        public void Constructor_CrossoverAndMessageAndInnerException_CrossoverAndMessageAndInnerExcetion()
+        {
+            var target = new CrossoverException(MockRepository.GenerateMock<ICrossover>(), "1", new Exception("2"));
+            Assert.IsNotNull(target.Crossover);
+            Assert.AreEqual(target.Crossover.GetType().Name + ": 1", target.Message);
+            Assert.AreEqual("2", target.InnerException.Message);
+        }
+
+        [Test]
         public void Constructor_InfoAndContext_InfoAndContext()
         {
             var constructor = typeof(CrossoverException).GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance)[0];

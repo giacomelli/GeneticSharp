@@ -26,5 +26,7 @@ using System.Runtime.InteropServices;
 
 //[assembly: AssemblyDelaySign(false)]
 //[assembly: AssemblyKeyFile("")]
-[assembly:CLSCompliant(false)]
-[assembly:ComVisible(false)]
+[assembly: CLSCompliant(false)]
+[assembly: ComVisible(false)]
+
+[assembly: InternalsVisibleTo("GeneticSharp.Domain.UnitTests")]

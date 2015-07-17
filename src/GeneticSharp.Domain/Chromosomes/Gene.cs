@@ -61,9 +61,14 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
-            var other = (Gene)obj;
+            if (obj is Gene)
+            {
+                var other = (Gene)obj;
 
-            return Value.Equals(other.Value);
+                return Value.Equals(other.Value);
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -86,16 +91,6 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <param name="second">Second.</param>
         public static bool operator ==(Gene first, Gene second)
         {
-            if (Object.ReferenceEquals(first, second))
-            {
-                return true;
-            }
-
-            if (((object)first == null) || ((object)second == null))
-            {
-                return false;
-            }
-
             return first.Equals(second);
         }
 

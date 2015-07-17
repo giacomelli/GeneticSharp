@@ -9,6 +9,12 @@ namespace GeneticSharp.Domain.UnitTests
 {
     public class ChromosomeStub : ChromosomeBase
     {
+        public ChromosomeStub(double fitness)
+            : base(2)
+        {
+            Fitness = fitness;
+        }
+
         public ChromosomeStub() : base(4)
         {
             ReplaceGene(0, GenerateGene(0));

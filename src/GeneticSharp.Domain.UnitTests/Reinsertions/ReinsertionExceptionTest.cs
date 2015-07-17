@@ -1,7 +1,6 @@
 using System;
 using System.Reflection;
 using System.Runtime.Serialization;
-using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Reinsertions;
 using NUnit.Framework;
 using Rhino.Mocks;
@@ -30,6 +29,15 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         {
             var target = new ReinsertionException("1", new Exception("2"));
             Assert.AreEqual("1", target.Message);
+            Assert.AreEqual("2", target.InnerException.Message);
+        }
+
+        [Test]
+        public void Constructor_ReinsertionAndMessageAndInnerException_ReinsertionAndMessageAndInnerExcetion()
+        {
+            var target = new ReinsertionException(MockRepository.GenerateMock<IReinsertion>(), "1", new Exception("2"));
+            Assert.IsNotNull(target.Reinsertion);
+            Assert.AreEqual(target.Reinsertion.GetType().Name + ": 1", target.Message);
             Assert.AreEqual("2", target.InnerException.Message);
         }
 

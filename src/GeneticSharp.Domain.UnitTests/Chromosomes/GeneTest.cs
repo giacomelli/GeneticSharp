@@ -17,6 +17,30 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         }
 
         [Test]
+        public void Equals_OtherNotGene_False()
+        {
+            var target = new Gene(1);
+            var other = 1;
+            Assert.IsFalse(target.Equals(other));
+        }
+
+        [Test]
+        public void Equals_OtherAsObjectOtherValue_False()
+        {
+            var target = new Gene(1);
+            var other = new Gene(2); ;
+            Assert.IsFalse(target.Equals(other as object));
+        }
+
+        [Test]
+        public void Equals_OtherAsObjectSameValue_True()
+        {
+            var target = new Gene(1);
+            var other = new Gene(1); ;
+            Assert.IsTrue(target.Equals(other as object));
+        }
+
+        [Test]
         public void Equals_OtherValue_False()
         {
             var target = new Gene(1);
@@ -40,28 +64,27 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         }
 
         [Test]
-        public void OperatorEquals_SameInstance_True()
+        public void OperatorEquals_SameValue_True()
         {
             var target = new Gene(1);
-            var other = target;
+            var other = new Gene(1);
             Assert.IsTrue(target == other);
         }
 
         [Test]
-        public void OperatorEquals_AnyNull_False()
+        public void OperatorEquals_DiffValue_False()
         {
-            var target = new Gene();
-            var other = new Gene();
-            Assert.IsFalse(null == other);
-            Assert.IsFalse(target == null);
+            var target = new Gene(1);
+            var other = new Gene(2);
+            Assert.IsFalse(target == other);
         }
 
         [Test]
         public void OperatorDiff_Diff_True()
         {
-            var target = new Gene();
-            var other = new Gene();
-            Assert.IsTrue(null != other);
+            var target = new Gene(1);
+            var other = new Gene(2);
+            Assert.IsTrue(target != other);
         }
     }
 }

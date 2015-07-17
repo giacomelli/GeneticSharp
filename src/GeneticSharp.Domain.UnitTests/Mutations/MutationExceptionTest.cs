@@ -34,6 +34,15 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         }
 
         [Test]
+        public void Constructor_MutationAndMessageAndInnerException_MutationAndMessageAndInnerExcetion()
+        {
+            var target = new MutationException(MockRepository.GenerateMock<IMutation>(), "1", new Exception("2"));
+            Assert.IsNotNull(target.Mutation);
+            Assert.AreEqual(target.Mutation.GetType().Name + ": 1", target.Message);
+            Assert.AreEqual("2", target.InnerException.Message);
+        }
+
+        [Test]
         public void Constructor_InfoAndContext_InfoAndContext()
         {
             var constructor = typeof(MutationException).GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance)[0];

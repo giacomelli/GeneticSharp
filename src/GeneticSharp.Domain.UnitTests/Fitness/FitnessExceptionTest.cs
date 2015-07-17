@@ -33,6 +33,15 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         }
 
         [Test]
+        public void Constructor_FitnessAndMessageAndInnerException_FitnessAndMessageAndInnerExcetion()
+        {
+            var target = new FitnessException(MockRepository.GenerateMock<IFitness>(), "1", new Exception("2"));
+            Assert.IsNotNull(target.Fitness);
+            Assert.AreEqual(target.Fitness.GetType().Name + ": 1", target.Message);
+            Assert.AreEqual("2", target.InnerException.Message);
+        }
+
+        [Test]
         public void Constructor_InfoAndContext_InfoAndContext()
         {
             var constructor = typeof(FitnessException).GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance)[0];
