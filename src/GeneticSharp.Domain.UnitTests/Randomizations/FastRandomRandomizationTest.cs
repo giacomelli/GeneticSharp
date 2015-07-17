@@ -155,6 +155,25 @@ namespace GeneticSharp.Domain.UnitTests.Randomizations
 				Assert.IsTrue(actual[0] >= 2); 
 			});
 		}
+
+		[Test]
+		public void GetInt_MinGreaterThanMaxEquals_Exception ()
+		{
+			var target = new FastRandomRandomization ();
+
+			ExceptionAssert.IsThrowing (new ArgumentOutOfRangeException ("upperBound", 1, "upperBound must be >=lowerBound"), () => {
+				target.GetInt(2, 1);
+			});
+		}
+
+		[Test]
+		public void GetInt_NegativeValues_Negative ()
+		{
+			var target = new FastRandomRandomization ();
+
+			var actual = target.GetInt (-10, -9);
+			Assert.AreEqual (-10, actual);
+		}
 	}
 }
 

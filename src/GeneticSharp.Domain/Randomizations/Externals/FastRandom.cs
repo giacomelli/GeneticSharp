@@ -48,14 +48,14 @@ namespace SharpNeatLib.Maths
 
 		#region Constructors
 
-		/// <summary>
-		/// Initialises a new instance using time dependent seed.
-		/// </summary>
-		public FastRandom()
-		{
-			// Initialise using the system tick count.
-			Reinitialise((int)Environment.TickCount);
-		}
+//		/// <summary>
+//		/// Initialises a new instance using time dependent seed.
+//		/// </summary>
+//		public FastRandom()
+//		{
+//			// Initialise using the system tick count.
+//			Reinitialise((int)Environment.TickCount);
+//		}
 
 		/// <summary>
 		/// Initialises a new instance using an int value as seed.
@@ -90,49 +90,49 @@ namespace SharpNeatLib.Maths
 
 		#region Public Methods [System.Random functionally equivalent methods]
 
-		/// <summary>
-		/// Generates a random int over the range 0 to int.MaxValue-1.
-		/// MaxValue is not generated in order to remain functionally equivalent to System.Random.Next().
-		/// This does slightly eat into some of the performance gain over System.Random, but not much.
-		/// For better performance see:
-		/// 
-		/// Call NextInt() for an int over the range 0 to int.MaxValue.
-		/// 
-		/// Call NextUInt() and cast the result to an int to generate an int over the full Int32 value range
-		/// including negative values. 
-		/// </summary>
-		/// <returns></returns>
-		public int Next()
-		{
-			uint t=(x^(x<<11));
-			x=y; y=z; z=w;
-			w=(w^(w>>19))^(t^(t>>8));
+//		/// <summary>
+//		/// Generates a random int over the range 0 to int.MaxValue-1.
+//		/// MaxValue is not generated in order to remain functionally equivalent to System.Random.Next().
+//		/// This does slightly eat into some of the performance gain over System.Random, but not much.
+//		/// For better performance see:
+//		/// 
+//		/// Call NextInt() for an int over the range 0 to int.MaxValue.
+//		/// 
+//		/// Call NextUInt() and cast the result to an int to generate an int over the full Int32 value range
+//		/// including negative values. 
+//		/// </summary>
+//		/// <returns></returns>
+//		public int Next()
+//		{
+//			uint t=(x^(x<<11));
+//			x=y; y=z; z=w;
+//			w=(w^(w>>19))^(t^(t>>8));
+//
+//			// Handle the special case where the value int.MaxValue is generated. This is outside of 
+//			// the range of permitted values, so we therefore call Next() to try again.
+//			uint rtn = w&0x7FFFFFFF;
+//			if(rtn==0x7FFFFFFF)
+//				return Next();
+//			return (int)rtn;			
+//		}
 
-			// Handle the special case where the value int.MaxValue is generated. This is outside of 
-			// the range of permitted values, so we therefore call Next() to try again.
-			uint rtn = w&0x7FFFFFFF;
-			if(rtn==0x7FFFFFFF)
-				return Next();
-			return (int)rtn;			
-		}
-
-		/// <summary>
-		/// Generates a random int over the range 0 to upperBound-1, and not including upperBound.
-		/// </summary>
-		/// <param name="upperBound"></param>
-		/// <returns></returns>
-		public int Next(int upperBound)
-		{
-			if(upperBound<0)
-				throw new ArgumentOutOfRangeException("upperBound", upperBound, "upperBound must be >=0");
-
-			uint t=(x^(x<<11));
-			x=y; y=z; z=w;
-
-			// The explicit int cast before the first multiplication gives better performance.
-			// See comments in NextDouble.
-			return (int)((REAL_UNIT_INT*(int)(0x7FFFFFFF&(w=(w^(w>>19))^(t^(t>>8)))))*upperBound);
-		}
+//		/// <summary>
+//		/// Generates a random int over the range 0 to upperBound-1, and not including upperBound.
+//		/// </summary>
+//		/// <param name="upperBound"></param>
+//		/// <returns></returns>
+//		public int Next(int upperBound)
+//		{
+//			if(upperBound<0)
+//				throw new ArgumentOutOfRangeException("upperBound", upperBound, "upperBound must be >=0");
+//
+//			uint t=(x^(x<<11));
+//			x=y; y=z; z=w;
+//
+//			// The explicit int cast before the first multiplication gives better performance.
+//			// See comments in NextDouble.
+//			return (int)((REAL_UNIT_INT*(int)(0x7FFFFFFF&(w=(w^(w>>19))^(t^(t>>8)))))*upperBound);
+//		}
 
 		/// <summary>
 		/// Generates a random int over the range lowerBound to upperBound-1, and not including upperBound.
@@ -185,57 +185,57 @@ namespace SharpNeatLib.Maths
 		}
 
 
-		/// <summary>
-		/// Fills the provided byte array with random bytes.
-		/// This method is functionally equivalent to System.Random.NextBytes(). 
-		/// </summary>
-		/// <param name="buffer"></param>
-		public void NextBytes(byte[] buffer)
-		{
-			// Fill up the bulk of the buffer in chunks of 4 bytes at a time.
-			uint x=this.x, y=this.y, z=this.z, w=this.w;
-			int i=0;
-			uint t;
-			for(int bound=buffer.Length-3; i<bound;)
-			{	
-				// Generate 4 bytes. 
-				// Increased performance is achieved by generating 4 random bytes per loop.
-				// Also note that no mask needs to be applied to zero out the higher order bytes before
-				// casting because the cast ignores thos bytes. Thanks to Stefan Troschütz for pointing this out.
-				t=(x^(x<<11));
-				x=y; y=z; z=w;
-				w=(w^(w>>19))^(t^(t>>8));
-
-				buffer[i++] = (byte)w;
-				buffer[i++] = (byte)(w>>8);
-				buffer[i++] = (byte)(w>>16);
-				buffer[i++] = (byte)(w>>24);
-			}
-
-			// Fill up any remaining bytes in the buffer.
-			if(i<buffer.Length)
-			{
-				// Generate 4 bytes.
-				t=(x^(x<<11));
-				x=y; y=z; z=w;
-				w=(w^(w>>19))^(t^(t>>8));
-
-				buffer[i++] = (byte)w;
-				if(i<buffer.Length)
-				{
-					buffer[i++]=(byte)(w>>8);
-					if(i<buffer.Length)
-					{	
-						buffer[i++] = (byte)(w>>16);
-						if(i<buffer.Length)
-						{	
-							buffer[i] = (byte)(w>>24);
-						}
-					}
-				}
-			}
-			this.x=x; this.y=y; this.z=z; this.w=w;
-		}
+//		/// <summary>
+//		/// Fills the provided byte array with random bytes.
+//		/// This method is functionally equivalent to System.Random.NextBytes(). 
+//		/// </summary>
+//		/// <param name="buffer"></param>
+//		public void NextBytes(byte[] buffer)
+//		{
+//			// Fill up the bulk of the buffer in chunks of 4 bytes at a time.
+//			uint x=this.x, y=this.y, z=this.z, w=this.w;
+//			int i=0;
+//			uint t;
+//			for(int bound=buffer.Length-3; i<bound;)
+//			{	
+//				// Generate 4 bytes. 
+//				// Increased performance is achieved by generating 4 random bytes per loop.
+//				// Also note that no mask needs to be applied to zero out the higher order bytes before
+//				// casting because the cast ignores thos bytes. Thanks to Stefan Troschütz for pointing this out.
+//				t=(x^(x<<11));
+//				x=y; y=z; z=w;
+//				w=(w^(w>>19))^(t^(t>>8));
+//
+//				buffer[i++] = (byte)w;
+//				buffer[i++] = (byte)(w>>8);
+//				buffer[i++] = (byte)(w>>16);
+//				buffer[i++] = (byte)(w>>24);
+//			}
+//
+//			// Fill up any remaining bytes in the buffer.
+//			if(i<buffer.Length)
+//			{
+//				// Generate 4 bytes.
+//				t=(x^(x<<11));
+//				x=y; y=z; z=w;
+//				w=(w^(w>>19))^(t^(t>>8));
+//
+//				buffer[i++] = (byte)w;
+//				if(i<buffer.Length)
+//				{
+//					buffer[i++]=(byte)(w>>8);
+//					if(i<buffer.Length)
+//					{	
+//						buffer[i++] = (byte)(w>>16);
+//						if(i<buffer.Length)
+//						{	
+//							buffer[i] = (byte)(w>>24);
+//						}
+//					}
+//				}
+//			}
+//			this.x=x; this.y=y; this.z=z; this.w=w;
+//		}
 
 
 //		/// <summary>
@@ -279,66 +279,66 @@ namespace SharpNeatLib.Maths
 
 		#region Public Methods [Methods not present on System.Random]
 
-		/// <summary>
-		/// Generates a uint. Values returned are over the full range of a uint, 
-		/// uint.MinValue to uint.MaxValue, inclusive.
-		/// 
-		/// This is the fastest method for generating a single random number because the underlying
-		/// random number generator algorithm generates 32 random bits that can be cast directly to 
-		/// a uint.
-		/// </summary>
-		/// <returns></returns>
-		public uint NextUInt()
-		{
-			uint t=(x^(x<<11));
-			x=y; y=z; z=w;
-			return (w=(w^(w>>19))^(t^(t>>8)));
-		}
-
-		/// <summary>
-		/// Generates a random int over the range 0 to int.MaxValue, inclusive. 
-		/// This method differs from Next() only in that the range is 0 to int.MaxValue
-		/// and not 0 to int.MaxValue-1.
-		/// 
-		/// The slight difference in range means this method is slightly faster than Next()
-		/// but is not functionally equivalent to System.Random.Next().
-		/// </summary>
-		/// <returns></returns>
-		public int NextInt()
-		{
-			uint t=(x^(x<<11));
-			x=y; y=z; z=w;
-			return (int)(0x7FFFFFFF&(w=(w^(w>>19))^(t^(t>>8))));
-		}
-
-
-		// Buffer 32 bits in bitBuffer, return 1 at a time, keep track of how many have been returned
-		// with bitBufferIdx.
-		uint bitBuffer;
-		uint bitMask=1;
-
-		/// <summary>
-		/// Generates a single random bit.
-		/// This method's performance is improved by generating 32 bits in one operation and storing them
-		/// ready for future calls.
-		/// </summary>
-		/// <returns></returns>
-		public bool NextBool()
-		{
-			if(bitMask==1)
-			{	
-				// Generate 32 more bits.
-				uint t=(x^(x<<11));
-				x=y; y=z; z=w;
-				bitBuffer=w=(w^(w>>19))^(t^(t>>8));
-
-				// Reset the bitMask that tells us which bit to read next.
-				bitMask = 0x80000000;
-				return (bitBuffer & bitMask)==0;
-			}
-
-			return (bitBuffer & (bitMask>>=1))==0;
-		}
+//		/// <summary>
+//		/// Generates a uint. Values returned are over the full range of a uint, 
+//		/// uint.MinValue to uint.MaxValue, inclusive.
+//		/// 
+//		/// This is the fastest method for generating a single random number because the underlying
+//		/// random number generator algorithm generates 32 random bits that can be cast directly to 
+//		/// a uint.
+//		/// </summary>
+//		/// <returns></returns>
+//		public uint NextUInt()
+//		{
+//			uint t=(x^(x<<11));
+//			x=y; y=z; z=w;
+//			return (w=(w^(w>>19))^(t^(t>>8)));
+//		}
+//
+//		/// <summary>
+//		/// Generates a random int over the range 0 to int.MaxValue, inclusive. 
+//		/// This method differs from Next() only in that the range is 0 to int.MaxValue
+//		/// and not 0 to int.MaxValue-1.
+//		/// 
+//		/// The slight difference in range means this method is slightly faster than Next()
+//		/// but is not functionally equivalent to System.Random.Next().
+//		/// </summary>
+//		/// <returns></returns>
+//		public int NextInt()
+//		{
+//			uint t=(x^(x<<11));
+//			x=y; y=z; z=w;
+//			return (int)(0x7FFFFFFF&(w=(w^(w>>19))^(t^(t>>8))));
+//		}
+//
+//
+//		// Buffer 32 bits in bitBuffer, return 1 at a time, keep track of how many have been returned
+//		// with bitBufferIdx.
+//		uint bitBuffer;
+//		uint bitMask=1;
+//
+//		/// <summary>
+//		/// Generates a single random bit.
+//		/// This method's performance is improved by generating 32 bits in one operation and storing them
+//		/// ready for future calls.
+//		/// </summary>
+//		/// <returns></returns>
+//		public bool NextBool()
+//		{
+//			if(bitMask==1)
+//			{	
+//				// Generate 32 more bits.
+//				uint t=(x^(x<<11));
+//				x=y; y=z; z=w;
+//				bitBuffer=w=(w^(w>>19))^(t^(t>>8));
+//
+//				// Reset the bitMask that tells us which bit to read next.
+//				bitMask = 0x80000000;
+//				return (bitBuffer & bitMask)==0;
+//			}
+//
+//			return (bitBuffer & (bitMask>>=1))==0;
+//		}
 
 		#endregion
 	}
