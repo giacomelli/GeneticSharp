@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{E415AA4F-C497-4908-96FC-CBA4F7604892}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>GeneticSharp.Domain.UnitTests</RootNamespace>
@@ -104,6 +102,7 @@
     <Compile Include="Reinsertions\UniformReinsertionTest.cs" />
     <Compile Include="Reinsertions\ElitistReinsertionTest.cs" />
     <Compile Include="Reinsertions\FitnessBasedReinsertionTest.cs" />
+    <Compile Include="Randomizations\FastRandomRandomizationTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj">

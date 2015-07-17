@@ -62,7 +62,6 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
                 serializationInfo,
                 new StreamingContext() }) as FitnessException;
 
-            Assert.AreEqual("1", target.Message);
             Assert.AreEqual("2", target.InnerException.Message);
         }
 
