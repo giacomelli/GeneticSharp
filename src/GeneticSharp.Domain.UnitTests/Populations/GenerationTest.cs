@@ -57,7 +57,7 @@ namespace GeneticSharp.Domain.UnitTests.Populations
         }
 
         [Test]
-        public void End_AnyChromossomeWithoutFitness_Exception()
+        public void End_AnyChromosomeWithoutFitness_Exception()
         {
             var target = new Generation(1, new List<IChromosome>() {
 				new ChromosomeStub() { Fitness = 0.2 },
@@ -72,7 +72,7 @@ namespace GeneticSharp.Domain.UnitTests.Populations
         }
 
         [Test]
-        public void End_ChromossomeNumberGreaterThan_Take()
+        public void End_ChromosomeNumberGreaterThan_Take()
         {
             var target = new Generation(1, new List<IChromosome>() {
 				new ChromosomeStub() { Fitness = 0.2 },

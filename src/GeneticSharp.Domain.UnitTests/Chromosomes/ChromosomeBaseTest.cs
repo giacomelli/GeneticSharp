@@ -221,7 +221,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         }
 
         [Test]
-        public void Equals_NotChromossome_False()
+        public void Equals_NotChromosome_False()
         {
             var target = new ChromosomeStub();
             Assert.IsFalse(target.Equals(1));
@@ -313,6 +313,14 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
             var second = new ChromosomeStub(2.0);
 
             Assert.IsTrue(null < second);
+        }
+
+        [Test]
+        public void OperatorLowerThan_SecondNull_False()
+        {
+            var first = new ChromosomeStub(2.0);
+
+            Assert.IsFalse(first < null);
         }
 
         [Test]

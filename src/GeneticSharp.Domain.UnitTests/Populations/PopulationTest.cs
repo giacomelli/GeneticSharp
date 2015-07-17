@@ -2,10 +2,10 @@ using System;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Randomizations;
+using HelperSharp;
 using NUnit.Framework;
 using Rhino.Mocks;
 using TestSharp;
-using HelperSharp;
 
 namespace GeneticSharp.Domain.UnitTests.Populations
 {
@@ -67,7 +67,7 @@ namespace GeneticSharp.Domain.UnitTests.Populations
         }
 
         [Test]
-        public void EndCurrentGeneration_BestChromossomeChanged_ChangeEventRaise()
+        public void EndCurrentGeneration_BestChromosomeChanged_ChangeEventRaise()
         {
             var target = new Population(2, 2, new ChromosomeStub());
             var eventRaise = false;

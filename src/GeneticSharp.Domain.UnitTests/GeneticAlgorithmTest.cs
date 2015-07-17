@@ -246,6 +246,28 @@ namespace GeneticSharp.Domain.UnitTests
         }
 
         [Test()]
+        public void Start_TerminationReached_TerminationReachedEventRaised()
+        {
+            var selection = new EliteSelection();
+            var crossover = new OnePointCrossover(2);
+            var mutation = new UniformMutation();
+            var chromosome = new ChromosomeStub();
+            var target = new GeneticAlgorithm(new Population(100, 199, chromosome),
+                    new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
+
+            target.Termination = new GenerationNumberTermination(1);
+            var raised = false;
+            target.TerminationReached += (e, a) =>
+            {
+                raised = true;
+            };
+
+            target.Start();
+
+            Assert.IsTrue(raised);
+        }
+
+        [Test()]
         public void Start_ThreeParentCrossover_KeepsMinSizePopulation()
         {
             var selection = new EliteSelection();
