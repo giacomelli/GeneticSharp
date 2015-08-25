@@ -94,8 +94,14 @@ Creating your own chromosome
 ---
 ```csharp
 
-public class MyProblemChrosome : ChromosomeBase
+public class MyProblemChromosome : ChromosomeBase
 {
+    // Change the argument value passed to base construtor to change the length 
+ 	// of your chromosome.
+ 	public MyProblemChromosome() : base(10) 
+    {
+    }
+
 	public override Gene GenerateGene (int geneIndex)
 	{
 		// Generate a gene base on my problem chromosome representation.
@@ -103,7 +109,7 @@ public class MyProblemChrosome : ChromosomeBase
 
 	public override IChromosome CreateNew ()
 	{
-		return new MyProblemChrosome();
+		return new MyProblemChromosome();
 	}
 }
 
@@ -117,10 +123,11 @@ var selection = new EliteSelection();
 var crossover = new OrderedCrossover();
 var mutation = new ReverseSequenceMutation();
 var fitness = new MyProblemFitness();
-var chromosome = new MyProblemChrosome();
+var chromosome = new MyProblemChromosome();
 var population = new Population (50, 70, chromosome);
 
 var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
+ga.Termination = new GenerationNumberTermination(100);
 
 Console.WriteLine("GA running...");
 ga.Start();
