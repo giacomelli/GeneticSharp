@@ -1,0 +1,704 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FxCopProject Version="10.0" Name="GeneticSharp">
+ <ProjectOptions>
+  <SharedProject>True</SharedProject>
+  <Stylesheet Apply="False">$(FxCopDir)\Xml\FxCopReport.xsl</Stylesheet>
+  <SaveMessages>
+   <Project Status="Active, Excluded" NewOnly="False" />
+   <Report Status="Active" NewOnly="False" />
+  </SaveMessages>
+  <ProjectFile Compress="True" DefaultTargetCheck="True" DefaultRuleCheck="True" SaveByRuleGroup="" Deterministic="True" />
+  <EnableMultithreadedLoad>True</EnableMultithreadedLoad>
+  <EnableMultithreadedAnalysis>True</EnableMultithreadedAnalysis>
+  <SourceLookup>True</SourceLookup>
+  <AnalysisExceptionsThreshold>10</AnalysisExceptionsThreshold>
+  <RuleExceptionsThreshold>1</RuleExceptionsThreshold>
+  <Spelling Locale="en-US" />
+  <OverrideRuleVisibilities>True</OverrideRuleVisibilities>
+  <CustomDictionaries SearchFxCopDir="True" SearchUserProfile="True" SearchProjectDir="True" />
+  <SearchGlobalAssemblyCache>False</SearchGlobalAssemblyCache>
+  <DeadlockDetectionTimeout>120</DeadlockDetectionTimeout>
+  <IgnoreGeneratedCode>True</IgnoreGeneratedCode>
+ </ProjectOptions>
+ <Targets>
+  <AssemblyReferenceDirectories>
+   <Directory>$(ProjectDir)/GeneticSharp.Runner/bin/Debug/</Directory>
+  </AssemblyReferenceDirectories>
+  <Target Name="$(ProjectDir)/GeneticSharp.Domain/bin/Debug/GeneticSharp.Domain.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="$(ProjectDir)/GeneticSharp.Extensions/bin/Debug/GeneticSharp.Extensions.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="$(ProjectDir)/GeneticSharp.Infrastructure.Framework/bin/Debug/GeneticSharp.Infrastructure.Framework.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="$(ProjectDir)/GeneticSharp.Infrastructure.Threading/bin/Debug/GeneticSharp.Infrastructure.Threading.dll" Analyze="True" AnalyzeAllChildren="True" />
+ </Targets>
+ <Rules>
+  <RuleFiles>
+   <RuleFile Name="$(FxCopDir)\Rules\DesignRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\GlobalizationRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\InteroperabilityRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\MobilityRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\NamingRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\PerformanceRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\PortabilityRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\SecurityRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\SecurityTransparencyRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\UsageRules.dll" Enabled="True" AllRulesEnabled="True" />
+  </RuleFiles>
+  <Groups />
+  <Settings />
+ </Rules>
+ <FxCopReport Version="10.0">
+  <Namespaces>
+   <Namespace Name="GeneticSharp.Domain">
+    <Messages>
+     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2015-07-17 11:47:12Z">
+      <Issue>
+       <Item>GeneticSharp.Domain</Item>
+      </Issue>
+     </Message>
+    </Messages>
+   </Namespace>
+   <Namespace Name="GeneticSharp.Domain.Fitnesses">
+    <Messages>
+     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2015-07-17 11:47:12Z">
+      <Issue>
+       <Item>GeneticSharp.Domain.Fitnesses</Item>
+      </Issue>
+     </Message>
+    </Messages>
+   </Namespace>
+   <Namespace Name="GeneticSharp.Extensions.Ghostwriter">
+    <Messages>
+     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2015-07-17 11:47:12Z">
+      <Issue>
+       <Item>GeneticSharp.Extensions.Ghostwriter</Item>
+      </Issue>
+     </Message>
+    </Messages>
+   </Namespace>
+   <Namespace Name="GeneticSharp.Extensions.Tsp">
+    <Messages>
+     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2015-07-17 11:47:12Z">
+      <Issue>
+       <Item>GeneticSharp.Extensions.Tsp</Item>
+      </Issue>
+     </Message>
+    </Messages>
+   </Namespace>
+   <Namespace Name="SharpNeatLib.Maths">
+    <Messages>
+     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2015-07-17 11:47:12Z">
+      <Issue>
+       <Item>SharpNeatLib.Maths</Item>
+      </Issue>
+     </Message>
+    </Messages>
+   </Namespace>
+  </Namespaces>
+  <Targets>
+   <Target Name="$(ProjectDir)/GeneticSharp.Domain/bin/Debug/GeneticSharp.Domain.dll">
+    <Modules>
+     <Module Name="geneticsharp.domain.dll">
+      <Messages>
+       <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Created="2015-07-17 11:47:12Z">
+        <Issue Name="NoStrongName">
+         <Item>'GeneticSharp.Domain.dll'</Item>
+        </Issue>
+       </Message>
+      </Messages>
+      <Namespaces>
+       <Namespace Name="GeneticSharp.Domain.Mutations">
+        <Types>
+         <Type Name="UniformMutation">
+          <Members>
+           <Member Name="#m_allGenesMutable">
+            <Messages>
+             <Message Id="mall" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2015-07-17 11:47:12Z" FixCategory="NonBreaking">
+              <Issue Name="MemberShouldBeDiscreteTerm">
+               <Item>mall</Item>
+               <Item>'UniformMutation.m_allGenesMutable'</Item>
+               <Item>mall</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="GeneticSharp.Domain.Populations">
+        <Types>
+         <Type Name="Population">
+          <Members>
+           <Member Name="#m_adamChromosome">
+            <Messages>
+             <Message Id="madam" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2015-07-17 11:47:12Z" FixCategory="NonBreaking">
+              <Issue Name="MemberShouldBeDiscreteTerm">
+               <Item>madam</Item>
+               <Item>'Population.m_adamChromosome'</Item>
+               <Item>madam</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="GeneticSharp.Domain.Randomizations">
+        <Types>
+         <Type Name="IRandomization">
+          <Members>
+           <Member Name="#GetFloat()">
+            <Messages>
+             <Message Id="float" TypeName="IdentifiersShouldNotContainTypeNames" Category="Microsoft.Naming" CheckId="CA1720" Created="2015-07-17 11:47:12Z">
+              <Issue Name="LanguageSpecificMember">
+               <Item>Float</Item>
+               <Item>'IRandomization.GetFloat()'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#GetFloat(System.Single,System.Single)">
+            <Messages>
+             <Message Id="float" TypeName="IdentifiersShouldNotContainTypeNames" Category="Microsoft.Naming" CheckId="CA1720" Created="2015-07-17 11:47:12Z">
+              <Issue Name="LanguageSpecificMember">
+               <Item>Float</Item>
+               <Item>'IRandomization.GetFloat(float, float)'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="SharpNeatLib.Maths">
+        <Types>
+         <Type Name="FastRandom">
+          <Members>
+           <Member Name="#bitMask">
+            <Messages>
+             <Message Id="bitMask" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2015-07-17 11:47:12Z" FixCategory="NonBreaking">
+              <Issue Name="MemberShouldBeDiscreteTerm">
+               <Item>bitMask</Item>
+               <Item>'FastRandom.bitMask'</Item>
+               <Item>bitmask</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#w">
+            <Messages>
+             <Message Id="w" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2015-07-17 11:47:12Z" FixCategory="NonBreaking">
+              <Issue Name="MemberMoreMeaningfulName">
+               <Item>'FastRandom.w'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#W">
+            <Messages>
+             <Message Id="W" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2015-07-17 11:47:12Z" FixCategory="NonBreaking">
+              <Issue Name="MemberMoreMeaningfulName">
+               <Item>'FastRandom.W'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#x">
+            <Messages>
+             <Message Id="x" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2015-07-17 11:47:12Z" FixCategory="NonBreaking">
+              <Issue Name="MemberMoreMeaningfulName">
+               <Item>'FastRandom.x'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#y">
+            <Messages>
+             <Message Id="y" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2015-07-17 11:47:12Z" FixCategory="NonBreaking">
+              <Issue Name="MemberMoreMeaningfulName">
+               <Item>'FastRandom.y'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#Y">
+            <Messages>
+             <Message Id="Y" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2015-07-17 11:47:12Z" FixCategory="NonBreaking">
+              <Issue Name="MemberMoreMeaningfulName">
+               <Item>'FastRandom.Y'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#z">
+            <Messages>
+             <Message Id="z" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2015-07-17 11:47:12Z" FixCategory="NonBreaking">
+              <Issue Name="MemberMoreMeaningfulName">
+               <Item>'FastRandom.z'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#Z">
+            <Messages>
+             <Message Id="Z" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2015-07-17 11:47:12Z" FixCategory="NonBreaking">
+              <Issue Name="MemberMoreMeaningfulName">
+               <Item>'FastRandom.Z'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+      </Namespaces>
+     </Module>
+    </Modules>
+   </Target>
+   <Target Name="$(ProjectDir)/GeneticSharp.Extensions/bin/Debug/GeneticSharp.Extensions.dll">
+    <Modules>
+     <Module Name="geneticsharp.extensions.dll">
+      <Messages>
+       <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Created="2015-07-17 11:47:12Z">
+        <Issue Name="NoStrongName">
+         <Item>'GeneticSharp.Extensions.dll'</Item>
+        </Issue>
+       </Message>
+       <Message TypeName="MarkAssembliesWithClsCompliant" Category="Microsoft.Design" CheckId="CA1014" Created="2015-07-17 11:47:12Z">
+        <Issue>
+         <Item>'GeneticSharp.Extensions.dll'</Item>
+        </Issue>
+       </Message>
+      </Messages>
+      <Namespaces>
+       <Namespace Name="GeneticSharp.Extensions.Checkers">
+        <Types>
+         <Type Name="CheckersBoard">
+          <Members>
+           <Member Name="#CountCapturableByPiece(GeneticSharp.Extensions.Checkers.CheckersPiece)">
+            <Messages>
+             <Message Id="Capturable" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2015-07-17 11:47:12Z">
+              <Issue Name="Member">
+               <Item>Capturable</Item>
+               <Item>'CheckersBoard.CountCapturableByPiece(CheckersPiece)'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#m_squares">
+            <Messages>
+             <Message Id="Member" TypeName="PreferJaggedArraysOverMultidimensional" Category="Microsoft.Performance" CheckId="CA1814" Created="2015-07-17 11:47:12Z">
+              <Issue>
+               <Item>'CheckersBoard.m_squares'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#PlayerOnePieces">
+            <Messages>
+             <Message TypeName="DoNotExposeGenericLists" Category="Microsoft.Design" CheckId="CA1002" Created="2015-07-17 11:47:12Z">
+              <Issue>
+               <Item>'List&lt;CheckersPiece&gt;'</Item>
+               <Item>'CheckersBoard.PlayerOnePieces'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#PlayerTwoPieces">
+            <Messages>
+             <Message TypeName="DoNotExposeGenericLists" Category="Microsoft.Design" CheckId="CA1002" Created="2015-07-17 11:47:12Z">
+              <Issue>
+               <Item>'List&lt;CheckersPiece&gt;'</Item>
+               <Item>'CheckersBoard.PlayerTwoPieces'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="CheckersChromosome">
+          <Members>
+           <Member Name="#.ctor(System.Int32,System.Int32)">
+            <Messages>
+             <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Created="2015-07-17 11:47:12Z">
+              <Issue>
+               <Item>'CheckersChromosome.CheckersChromosome(int, int)'</Item>
+               <Item>&#xD;&#xA;&#xD;&#xA;CheckersChromosome..ctor(Int32, Int32)&#xD;&#xA;ChromosomeBase.GenerateGene(Int32):Gene</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#GenerateGene(System.Int32)">
+            <Messages>
+             <Message Id="rnd" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2015-07-17 11:47:12Z">
+              <Issue>
+               <Item>'CheckersChromosome.GenerateGene(int)'</Item>
+               <Item>'rnd'</Item>
+               <Item>'IRandomization'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#GetPlayableSquare()">
+            <Messages>
+             <Message TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024" Created="2015-07-17 11:47:12Z">
+              <Issue Certainty="50">
+               <Item>'CheckersChromosome.GetPlayableSquare()'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="GeneticSharp.Extensions.Ghostwriter">
+        <Types>
+         <Type Name="GhostwriterChromosome">
+          <Members>
+           <Member Name="#.ctor(System.Int32,System.Collections.Generic.IList`1&lt;System.String&gt;)">
+            <Messages>
+             <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Created="2015-07-17 11:47:12Z">
+              <Issue>
+               <Item>'GhostwriterChromosome.GhostwriterChromosome(int, IList&lt;string&gt;)'</Item>
+               <Item>&#xD;&#xA;&#xD;&#xA;GhostwriterChromosome..ctor(Int32, IList&lt;String&gt;)&#xD;&#xA;ChromosomeBase.GenerateGene(Int32):Gene</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#GetText()">
+            <Messages>
+             <Message TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024" Created="2015-07-17 11:47:12Z">
+              <Issue Certainty="50">
+               <Item>'GhostwriterChromosome.GetText()'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="GeneticSharp.Extensions.Tsp">
+        <Types>
+         <Type Name="TspCity">
+          <Members>
+           <Member Name="#.ctor(System.Int32,System.Int32)">
+            <Messages>
+             <Message Id="x" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2015-07-17 11:47:12Z">
+              <Issue Name="MemberParameterMoreMeaningfulName">
+               <Item>'TspCity.TspCity(int, int)'</Item>
+               <Item>'x'</Item>
+              </Issue>
+             </Message>
+             <Message Id="y" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2015-07-17 11:47:12Z">
+              <Issue Name="MemberParameterMoreMeaningfulName">
+               <Item>'TspCity.TspCity(int, int)'</Item>
+               <Item>'y'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#X">
+            <Messages>
+             <Message Id="X" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2015-07-17 11:47:12Z">
+              <Issue Name="MemberMoreMeaningfulName">
+               <Item>'TspCity.X'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#Y">
+            <Messages>
+             <Message Id="Y" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2015-07-17 11:47:12Z">
+              <Issue Name="MemberMoreMeaningfulName">
+               <Item>'TspCity.Y'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="TspFitness">
+          <Members>
+           <Member Name="#.ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <Messages>
+             <Message Id="maxX+1" TypeName="OperationsShouldNotOverflow" Category="Microsoft.Usage" CheckId="CA2233" Created="2015-07-17 11:47:12Z">
+              <Issue>
+               <Item>maxX+1</Item>
+               <Item>'TspFitness.TspFitness(int, int, int, int, int)'</Item>
+              </Issue>
+             </Message>
+             <Message Id="maxY+1" TypeName="OperationsShouldNotOverflow" Category="Microsoft.Usage" CheckId="CA2233" Created="2015-07-17 11:47:12Z">
+              <Issue>
+               <Item>maxY+1</Item>
+               <Item>'TspFitness.TspFitness(int, int, int, int, int)'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#CalcDistanceTwoCities(GeneticSharp.Extensions.Tsp.TspCity,GeneticSharp.Extensions.Tsp.TspCity)">
+            <Messages>
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2015-07-17 11:47:12Z" FixCategory="NonBreaking">
+              <Issue>
+               <Item>'TspFitness.CalcDistanceTwoCities(TspCity, TspCity)'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#Cities">
+            <Messages>
+             <Message TypeName="DoNotExposeGenericLists" Category="Microsoft.Design" CheckId="CA1002" Created="2015-07-17 11:47:12Z">
+              <Issue>
+               <Item>'List&lt;TspCity&gt;'</Item>
+               <Item>'TspFitness.Cities'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#Evaluate(GeneticSharp.Domain.Chromosomes.IChromosome)">
+            <Messages>
+             <Message Id="System.Convert.ToInt32(System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2015-07-17 11:47:12Z">
+              <Issue Name="IFormatProviderAlternate">
+               <Item>'Convert.ToInt32(object)'</Item>
+               <Item>'TspFitness.Evaluate(IChromosome)'</Item>
+               <Item>'Convert.ToInt32(object, IFormatProvider)'</Item>
+               <Item>'CultureInfo.CurrentCulture'</Item>
+               <Item>'CultureInfo.InvariantCulture'</Item>
+              </Issue>
+              <Issue Name="IFormatProviderAlternate">
+               <Item>'Convert.ToInt32(object)'</Item>
+               <Item>'TspFitness.Evaluate(IChromosome)'</Item>
+               <Item>'Convert.ToInt32(object, IFormatProvider)'</Item>
+               <Item>'CultureInfo.CurrentCulture'</Item>
+               <Item>'CultureInfo.InvariantCulture'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+      </Namespaces>
+     </Module>
+    </Modules>
+   </Target>
+   <Target Name="$(ProjectDir)/GeneticSharp.Infrastructure.Framework/bin/Debug/GeneticSharp.Infrastructure.Framework.dll">
+    <Modules>
+     <Module Name="geneticsharp.infrastructure.framework.dll">
+      <Messages>
+       <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Created="2015-07-17 11:47:12Z">
+        <Issue Name="NoStrongName">
+         <Item>'GeneticSharp.Infrastructure.Framework.dll'</Item>
+        </Issue>
+       </Message>
+       <Message TypeName="MarkAssembliesWithClsCompliant" Category="Microsoft.Design" CheckId="CA1014" Created="2015-07-17 11:47:12Z">
+        <Issue>
+         <Item>'GeneticSharp.Infrastructure.Framework.dll'</Item>
+        </Issue>
+       </Message>
+      </Messages>
+      <Namespaces>
+       <Namespace Name="GeneticSharp.Infrastructure.Framework.Reflection">
+        <Types>
+         <Type Name="TypeHelper">
+          <Members>
+           <Member Name="#GetDisplayNameAttribute(System.Type)">
+            <Messages>
+             <Message TypeName="ConsiderPassingBaseTypesAsParameters" Category="Microsoft.Design" CheckId="CA1011" Created="2015-07-17 11:47:12Z">
+              <Issue>
+               <Item>'type'</Item>
+               <Item>'TypeHelper.GetDisplayNameAttribute(Type)'</Item>
+               <Item>'Type'</Item>
+               <Item>'MemberInfo'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#GetDisplayNamesByInterface`1()">
+            <Messages>
+             <Message TypeName="GenericMethodsShouldProvideTypeParameter" Category="Microsoft.Design" CheckId="CA1004" Created="2015-07-17 11:47:12Z">
+              <Issue>
+               <Item>'TypeHelper.GetDisplayNamesByInterface&lt;TInterface&gt;()'</Item>
+               <Item>'TInterface'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#GetTypeByName`1(System.String)">
+            <Messages>
+             <Message TypeName="GenericMethodsShouldProvideTypeParameter" Category="Microsoft.Design" CheckId="CA1004" Created="2015-07-17 11:47:12Z">
+              <Issue>
+               <Item>'TypeHelper.GetTypeByName&lt;TInterface&gt;(string)'</Item>
+               <Item>'TInterface'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#GetTypesByInterface`1()">
+            <Messages>
+             <Message TypeName="GenericMethodsShouldProvideTypeParameter" Category="Microsoft.Design" CheckId="CA1004" Created="2015-07-17 11:47:12Z">
+              <Issue>
+               <Item>'TypeHelper.GetTypesByInterface&lt;TInterface&gt;()'</Item>
+               <Item>'TInterface'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="GeneticSharp.Infrastructure.Framework.Threading">
+        <Types>
+         <Type Name="ITaskExecutor">
+          <Members>
+           <Member Name="#Stop()">
+            <Messages>
+             <Message Id="Stop" TypeName="IdentifiersShouldNotMatchKeywords" Category="Microsoft.Naming" CheckId="CA1716" Created="2015-07-17 11:47:12Z">
+              <Issue Name="Member">
+               <Item>'ITaskExecutor.Stop()'</Item>
+               <Item>Stop</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="TaskExecutorBase">
+          <Members>
+           <Member Name="#Tasks">
+            <Messages>
+             <Message TypeName="DoNotExposeGenericLists" Category="Microsoft.Design" CheckId="CA1002" Created="2015-07-17 11:47:12Z">
+              <Issue>
+               <Item>'List&lt;Action&gt;'</Item>
+               <Item>'TaskExecutorBase.Tasks'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+      </Namespaces>
+     </Module>
+    </Modules>
+   </Target>
+   <Target Name="$(ProjectDir)/GeneticSharp.Infrastructure.Threading/bin/Debug/GeneticSharp.Infrastructure.Threading.dll">
+    <Modules>
+     <Module Name="geneticsharp.infrastructure.threading.dll">
+      <Messages>
+       <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Created="2015-07-17 11:47:12Z">
+        <Issue Name="NoStrongName">
+         <Item>'GeneticSharp.Infrastructure.Threading.dll'</Item>
+        </Issue>
+       </Message>
+       <Message TypeName="MarkAssembliesWithClsCompliant" Category="Microsoft.Design" CheckId="CA1014" Created="2015-07-17 11:47:12Z">
+        <Issue>
+         <Item>'GeneticSharp.Infrastructure.Threading.dll'</Item>
+        </Issue>
+       </Message>
+       <Message TypeName="MarkAssembliesWithComVisible" Category="Microsoft.Design" CheckId="CA1017" Created="2015-07-17 11:47:12Z">
+        <Issue Name="NoAttribute" Level="CriticalError">
+         <Item>'GeneticSharp.Infrastructure.Threading.dll'</Item>
+        </Issue>
+       </Message>
+      </Messages>
+      <Namespaces>
+       <Namespace Name="GeneticSharp.Infrastructure.Threading">
+        <Types>
+         <Type Name="SmartThreadPoolTaskExecutor">
+          <Messages>
+           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2015-07-17 11:47:12Z">
+            <Issue>
+             <Item>'SmartThreadPoolTaskExecutor'</Item>
+             <Item>'TaskExecutorBase'</Item>
+            </Issue>
+           </Message>
+           <Message TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001" Created="2015-07-17 11:47:12Z" FixCategory="DependsOnFix">
+            <Issue Name="DependsOnFix">
+             <Item>'SmartThreadPoolTaskExecutor'</Item>
+             <Item>'SmartThreadPool'</Item>
+            </Issue>
+           </Message>
+          </Messages>
+         </Type>
+        </Types>
+       </Namespace>
+      </Namespaces>
+     </Module>
+    </Modules>
+   </Target>
+  </Targets>
+  <Rules>
+   <Rule TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210">
+    <Resolution Name="NoStrongName">Sign {0} with a strong name key.</Resolution>
+   </Rule>
+   <Rule TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020">
+    <Resolution Name="Default">Consider merging the types defined in '{0}' with another namespace.</Resolution>
+   </Rule>
+   <Rule TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405">
+    <Resolution Name="Default">{0} is marked ComVisible(true) but has the following ComVisible(false) types in its object hierarchy: {1}</Resolution>
+   </Rule>
+   <Rule TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702">
+    <Resolution Name="MemberShouldBeDiscreteTerm">The compound word '{0}' in member name {1} exists as a discrete term. If your usage is intended to be single word, case it as '{2}' or strip the first token entirely if it represents any sort of Hungarian notation.</Resolution>
+   </Rule>
+   <Rule TypeName="ConsiderPassingBaseTypesAsParameters" Category="Microsoft.Design" CheckId="CA1011">
+    <Resolution Name="Default">Consider changing the type of parameter {0} in {1} from {2} to its base type {3}. This method appears to only require base class members in its implementation. Suppress this violation if there is a compelling reason to require the more derived type in the method signature.</Resolution>
+   </Rule>
+   <Rule TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214">
+    <Resolution Name="Default">{0} contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: {1}</Resolution>
+   </Rule>
+   <Rule TypeName="DoNotExposeGenericLists" Category="Microsoft.Design" CheckId="CA1002">
+    <Resolution Name="Default">Change {0} in {1} to use Collection&lt;T&gt;, ReadOnlyCollection&lt;T&gt; or KeyedCollection&lt;K,V&gt;</Resolution>
+   </Rule>
+   <Rule TypeName="GenericMethodsShouldProvideTypeParameter" Category="Microsoft.Design" CheckId="CA1004">
+    <Resolution Name="Default">Consider a design where {0} doesn't require explicit type parameter {1} in any call to it.</Resolution>
+   </Rule>
+   <Rule TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704">
+    <Resolution Name="Member">Correct the spelling of '{0}' in member name {1} or remove it entirely if it represents any sort of Hungarian notation.</Resolution>
+    <Resolution Name="MemberMoreMeaningfulName">Consider providing a more meaningful name than member name {0}.</Resolution>
+    <Resolution Name="MemberParameterMoreMeaningfulName">In method {0}, consider providing a more meaningful name than parameter name {1}.</Resolution>
+    <Resolution Name="Namespace">Correct the spelling of '{0}' in namespace name '{1}'.</Resolution>
+    <Resolution Name="Type">Correct the spelling of '{0}' in type name {1}.</Resolution>
+   </Rule>
+   <Rule TypeName="IdentifiersShouldNotContainTypeNames" Category="Microsoft.Naming" CheckId="CA1720">
+    <Resolution Name="LanguageSpecificMember">Consider replacing the language-specific data type identifier '{0}' in member name {1} with either a language-independent equivalent or a more generic term, such as 'value'.</Resolution>
+   </Rule>
+   <Rule TypeName="IdentifiersShouldNotMatchKeywords" Category="Microsoft.Naming" CheckId="CA1716">
+    <Resolution Name="Member">Rename virtual/interface member {0} so that it no longer conflicts with the reserved language keyword '{1}'. Using a reserved keyword as the name of a virtual/interface member makes it harder for consumers in other languages to override/implement the member.</Resolution>
+   </Rule>
+   <Rule TypeName="MarkAssembliesWithClsCompliant" Category="Microsoft.Design" CheckId="CA1014">
+    <Resolution Name="Default">Mark {0} with CLSCompliant(true) because it exposes externally visible types.</Resolution>
+   </Rule>
+   <Rule TypeName="MarkAssembliesWithComVisible" Category="Microsoft.Design" CheckId="CA1017">
+    <Resolution Name="NoAttribute">Because {0} exposes externally visible types, mark it with ComVisible(false) at the assembly level and then mark all types within the assembly that should be exposed to COM clients with ComVisible(true).</Resolution>
+   </Rule>
+   <Rule TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822">
+    <Resolution Name="Default">The 'this' parameter (or 'Me' in Visual Basic) of {0} is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Resolution>
+   </Rule>
+   <Rule TypeName="OperationsShouldNotOverflow" Category="Microsoft.Usage" CheckId="CA2233">
+    <Resolution Name="Default">Correct the potential overflow in the operation '{0}' in {1}.</Resolution>
+   </Rule>
+   <Rule TypeName="PreferJaggedArraysOverMultidimensional" Category="Microsoft.Performance" CheckId="CA1814">
+    <Resolution Name="Default">{0} is a multidimensional array. Replace it with a jagged array if possible.</Resolution>
+   </Rule>
+   <Rule TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804">
+    <Resolution Name="Default">{0} declares a variable, {1}, of type {2}, which is never used or is only assigned to. Use this variable or remove it.</Resolution>
+   </Rule>
+   <Rule TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305">
+    <Resolution Name="IFormatProviderAlternate">Because the behavior of {0} could vary based on the current user's locale settings, replace this call in {1} with a call to {2}. If the result of {2} will be based on input from the user, specify {3} as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify {4}.</Resolution>
+   </Rule>
+   <Rule TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001">
+    <Resolution Name="DependsOnFix">Implement IDisposable on {0} because it creates members of the following IDisposable types: {1}. If {0} has previously shipped, adding new members that implement IDisposable to this type is considered a breaking change to existing consumers.</Resolution>
+   </Rule>
+   <Rule TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024">
+    <Resolution Name="Default">Change {0} to a property if appropriate.</Resolution>
+   </Rule>
+  </Rules>
+ </FxCopReport>
+</FxCopProject>
