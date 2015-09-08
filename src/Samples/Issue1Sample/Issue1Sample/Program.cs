@@ -28,8 +28,7 @@ namespace Issue1Sample
 
             var bestChromosome = ga.BestChromosome as Issue1Chromosome;
             Console.WriteLine("Best solution found is X:{0}, Y:{1} with {2} fitness.", bestChromosome.X, bestChromosome.Y, bestChromosome.Fitness);
-			Console.WriteLine("X:{0}, Y:{1}.", bestChromosome.GetGene(0).Value, bestChromosome.GetGene(1).Value);
-            Console.ReadKey();
+		    Console.ReadKey();
         }
     }
 }
