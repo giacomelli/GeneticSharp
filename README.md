@@ -175,8 +175,8 @@ FAQ
 ======
 
 Having troubles? 
- - Ask on Twitter [@ogiacomelli](http://twitter.com/ogiacomelli)
- - Ask on [Stack Overflow](http://stackoverflow.com/search?q=GeneticSharp)
+ - Ask on Twitter [@ogiacomelli](http://twitter.com/ogiacomelli).
+ - Ask on [Stack Overflow](http://stackoverflow.com/questions/tagged/geneticsharp) using the tag [GeneticSharp](http://stackoverflow.com/questions/tagged/geneticsharp).
  
  --------
 
