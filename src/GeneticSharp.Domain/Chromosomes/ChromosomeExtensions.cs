@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using System.Linq;
+using HelperSharp;
 
 namespace GeneticSharp.Domain.Chromosomes
 {
@@ -34,5 +35,29 @@ namespace GeneticSharp.Domain.Chromosomes
 
 			return false;
 		}
-	}
+
+        /// <summary>
+        /// Validates the chromosomes.
+        /// </summary>
+        /// <param name="chromosomes">The chromosomes.</param>
+        public static void ValidateGenes(this IList<IChromosome> chromosomes)
+        {
+            if(chromosomes.Any(c => c.GetGenes().Any(g => g.Value == null)))
+            {
+                throw new InvalidOperationException("The chromosome '{0}' is generating null genes.".With(chromosomes.First().GetType().Name));
+            }
+        }
+
+        /// <summary>
+        /// Validates the chromosome.
+        /// </summary>
+        /// <param name="chromosome">The chromosomes.</param>
+        public static void ValidateGenes(this IChromosome chromosome)
+        {
+            if (chromosome.GetGenes().Any(g => g.Value == null))
+            {
+                throw new InvalidOperationException("The chromosome '{0}' is generating genes with null value.".With(chromosome.GetType().Name));
+            }
+        }
+    }
 }

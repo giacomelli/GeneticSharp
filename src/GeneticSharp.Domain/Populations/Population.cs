@@ -129,6 +129,8 @@ namespace GeneticSharp.Domain.Populations
                     throw new InvalidOperationException("The Adam chromosome's 'CreateNew' method generated a null chromosome. This is a invalid behavior, please, check your chromosome code.");
                 }
 
+                c.ValidateGenes();
+
 				chromosomes.Add (c);
 			}
 
@@ -143,6 +145,7 @@ namespace GeneticSharp.Domain.Populations
 		public void CreateNewGeneration(IList<IChromosome> chromosomes)
 		{
             ExceptionHelper.ThrowIfNull("chromosomes", chromosomes);
+            chromosomes.ValidateGenes();
 
 		    CurrentGeneration = new Generation(++GenerationsNumber, chromosomes);
 			Generations.Add (CurrentGeneration);

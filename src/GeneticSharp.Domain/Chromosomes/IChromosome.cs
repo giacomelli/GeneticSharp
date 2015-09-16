@@ -1,3 +1,4 @@
+using GeneticSharp.Domain.Crossovers;
 using System;
 using System.Collections.Generic;
 

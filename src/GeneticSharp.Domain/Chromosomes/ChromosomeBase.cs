@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using HelperSharp;
 using System.Linq;
+using GeneticSharp.Domain.Crossovers;
 
 namespace GeneticSharp.Domain.Chromosomes
 {
@@ -44,11 +45,11 @@ namespace GeneticSharp.Domain.Chromosomes
         #endregion
 
         #region Methods
-		/// <summary>
-		/// Generates the gene for the specified index.
-		/// </summary>
-		/// <returns>The gene.</returns>
-		/// <param name="geneIndex">Gene index.</param>
+        /// <summary>
+        /// Generates the gene for the specified index.
+        /// </summary>
+        /// <returns>The gene.</returns>
+        /// <param name="geneIndex">Gene index.</param>
         public abstract Gene GenerateGene (int geneIndex);
 
 		/// <summary>
