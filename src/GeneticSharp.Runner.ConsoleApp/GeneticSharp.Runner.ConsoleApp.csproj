@@ -11,8 +11,6 @@
     <AssemblyName>GeneticSharp.Runner.ConsoleApp</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ProductVersion>12.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
@@ -25,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -49,17 +48,24 @@
     <Reference Include="HelperSharp">
       <HintPath>..\packages\HelperSharp.0.0.2.9\lib\net35\HelperSharp.dll</HintPath>
     </Reference>
+    <Reference Include="Jace, Version=0.8.7.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\Jace.0.8.7\lib\net40\Jace.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Samples\EquationSolverSampleController.cs" />
     <Compile Include="Samples\GhostwriterSampleController.cs" />
+    <Compile Include="Samples\EqualitySampleController.cs" />
     <Compile Include="Samples\ISampleController.cs" />
     <Compile Include="Samples\Resources\SamplesResource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SamplesResource.resx</DependentUpon>
     </Compile>
+    <Compile Include="Samples\SampleControllerBase.cs" />
+    <Compile Include="Samples\SampleService.cs" />
     <Compile Include="Samples\TspSampleController.cs" />
   </ItemGroup>
   <ItemGroup>

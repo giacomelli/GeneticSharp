@@ -231,6 +231,38 @@
             </summary>
             <param name="chromosome">The chromosome to be evaluated.</param>
             <returns>The fitness of the chromosome.</returns></member>
+        <member name="T:GeneticSharp.Extensions.Mathematic.EqualityFitness">
+            <summary>
+            Fitness based on this paper: Genetic Algorithm for Solving Simple Mathematical Equality Problem: http://arxiv.org/ftp/arxiv/papers/1308/1308.4675.pdf
+            </summary></member>
+        <member name="M:GeneticSharp.Extensions.Mathematic.EqualityFitness.Evaluate(GeneticSharp.Domain.Chromosomes.IChromosome)">
+            <summary>
+            Evaluates the specified chromosome.
+            </summary>
+            <param name="chromosome">The chromosome.</param>
+            <returns></returns></member>
+        <member name="M:GeneticSharp.Extensions.Mathematic.EqualityFitness.GetEquationResult(GeneticSharp.Extensions.Mathematic.EquationChromosome)">
+            <summary>
+            Gets the equation result using the chromosome's genes.
+            </summary>
+            <param name="equalityChromosome">The chromosome.</param>
+            <returns>The equation result.</returns></member>
+        <member name="T:GeneticSharp.Extensions.Mathematic.EquationSolverFitness">
+            <summary>
+            Equation solver fitness.
+            </summary></member>
+        <member name="M:GeneticSharp.Extensions.Mathematic.EquationSolverFitness.#ctor(System.Int32,System.Func{GeneticSharp.Domain.Chromosomes.Gene[],System.Int32})">
+            <summary>
+            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Mathematic.EquationSolverFitness" /> class.
+            </summary>
+            <param name="expectedResult">Expected result.</param>
+            <param name="getEquationResult">Get equation result.</param></member>
+        <member name="M:GeneticSharp.Extensions.Mathematic.EquationSolverFitness.Evaluate(GeneticSharp.Domain.Chromosomes.IChromosome)">
+            <summary>
+            Performs the evaluation against the specified chromosome.
+            </summary>
+            <param name="chromosome">The chromosome to be evaluated.</param>
+            <returns>The fitness of the chromosome.</returns></member>
         <member name="T:GeneticSharp.Extensions.Tsp.TspChromosome">
             <summary>
             Travelling Salesman Problem chromosome.
@@ -425,5 +457,24 @@
             <summary>
             Gets or sets the current square.
             </summary></member>
+        <member name="T:GeneticSharp.Extensions.Mathematic.EquationChromosome">
+            <summary>
+            An equation chromosome.
+            </summary></member>
+        <member name="M:GeneticSharp.Extensions.Mathematic.EquationChromosome.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Mathematic.EquationChromosome" /> class.
+            </summary></member>
+        <member name="M:GeneticSharp.Extensions.Mathematic.EquationChromosome.CreateNew">
+            <summary>
+            Creates the new.
+            </summary>
+            <returns></returns></member>
+        <member name="M:GeneticSharp.Extensions.Mathematic.EquationChromosome.GenerateGene(System.Int32)">
+            <summary>
+            Generates the gene.
+            </summary>
+            <param name="geneIndex">Index of the gene.</param>
+            <returns></returns></member>
     </members>
 </doc>

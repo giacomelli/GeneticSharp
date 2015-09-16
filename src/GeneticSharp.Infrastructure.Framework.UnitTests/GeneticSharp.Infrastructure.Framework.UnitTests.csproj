@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>12.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B1FCAE1D-305C-4357-B104-F75DF5C53582}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>GeneticSharp.Infrastructure.Framework.UnitTests</RootNamespace>
@@ -46,7 +44,9 @@
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Reflection\TypeHelperTest.cs" />
     <Compile Include="Threading\TaskExecutorBaseTest.cs" />

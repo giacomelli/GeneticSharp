@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C76DC1AD-FC7E-4168-BD19-101FF84A43F7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>GeneticSharp.Domain</RootNamespace>

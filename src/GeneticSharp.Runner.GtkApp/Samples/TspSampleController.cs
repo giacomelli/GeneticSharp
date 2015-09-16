@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using GeneticSharp.Domain.Chromosomes;
+using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Extensions.Tsp;
 using Gtk;
@@ -19,13 +20,23 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         private int m_numberOfCities = 10;
         private bool m_showIndexes = true;
         private TspChromosome m_bestChromosome;
-		#endregion
+        #endregion
 
-		#region Methods
-		/// <summary>
-		/// Creates the config widget.
-		/// </summary>
-		/// <returns>The config widget.</returns>
+        #region Properties
+        public override ICrossover DefaultCrossover
+        {
+            get
+            {
+                return new OrderedCrossover();
+            }
+        }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Creates the config widget.
+        /// </summary>
+        /// <returns>The config widget.</returns>
         public override Gtk.Widget CreateConfigWidget()
         {
             var container = new VBox();

@@ -196,6 +196,7 @@ public partial class MainWindow: Gtk.Window
         cmbSample.Changed += delegate
         {
             m_sampleController = SampleService.CreateSampleControllerByName(cmbSample.ActiveText);
+            m_crossover = m_sampleController.DefaultCrossover;
             m_sampleController.Context = m_sampleContext;
             m_sampleController.Reconfigured += delegate
             {

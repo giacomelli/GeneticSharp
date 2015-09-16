@@ -10,10 +10,12 @@ using GeneticSharp.Extensions.Ghostwriter;
 using GeneticSharp.Runner.ConsoleApp.Samples.Resources;
 using HelperSharp;
 using Newtonsoft.Json;
+using System.ComponentModel;
 
 namespace GeneticSharp.Runner.ConsoleApp.Samples
 {
-    public class GhostwriterSampleController : ISampleController
+    [DisplayName("Ghostwriter")]
+    public class GhostwriterSampleController : SampleControllerBase
     {
         private List<string> m_quotes;
         private List<string> m_words;
@@ -35,7 +37,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
             m_words = m_words.Select(w => w.RemovePontuactions()).Distinct().OrderBy(w => w).ToList();
         }
 
-        public IFitness CreateFitness()
+        public override IFitness CreateFitness()
         {           
 
             var f = new GhostwriterFitness();
@@ -90,12 +92,12 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
             return v1[t.Length];
         }
 
-        public IChromosome CreateChromosome()
+        public override IChromosome CreateChromosome()
         {
             return new GhostwriterChromosome(5, m_words);
         }
 
-        public void Draw(IChromosome bestChromosome)
+        public override void Draw(IChromosome bestChromosome)
         {
             var c = bestChromosome as GhostwriterChromosome;
             Console.WriteLine("Text: {0}", c.GetText());

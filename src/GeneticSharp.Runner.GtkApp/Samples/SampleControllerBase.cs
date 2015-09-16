@@ -7,6 +7,7 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Populations;
 using Gtk;
+using GeneticSharp.Domain.Crossovers;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
 {
@@ -28,13 +29,18 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 		/// </summary>
 		/// <value>The context.</value>
         public SampleContext Context { get; set; }
-		#endregion
 
-		#region Methods
-		/// <summary>
-		/// Creates the config widget.
-		/// </summary>
-		/// <returns>The config widget.</returns>
+        /// <summary>
+        /// Gets the default crossover to sample.
+        /// </summary>
+        public abstract ICrossover DefaultCrossover { get; }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Creates the config widget.
+        /// </summary>
+        /// <returns>The config widget.</returns>
         public abstract Widget CreateConfigWidget();
 
 		/// <summary>

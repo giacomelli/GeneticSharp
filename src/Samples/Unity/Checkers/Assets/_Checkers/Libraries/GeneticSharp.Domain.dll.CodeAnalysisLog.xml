@@ -1,25 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="c:\program files (x86)\microsoft visual studio 11.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
-<FxCopReport Version="11.0">
+<?xml-stylesheet type="text/xsl" href="c:\program files (x86)\microsoft visual studio 14.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
+<FxCopReport Version="14.0">
  <Targets>
   <Target Name="C:\Dropbox\Skahal\middleware\GeneticSharp\src\GeneticSharp.Domain\bin\Debug\GeneticSharp.Domain.dll">
    <Modules>
     <Module Name="geneticsharp.domain.dll">
      <Namespaces>
+      <Namespace Name="GeneticSharp.Domain.Chromosomes">
+       <Types>
+        <Type Name="ChromosomeExtensions" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#ValidateGenes(GeneticSharp.Domain.Chromosomes.IChromosome)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2015-09-15 18:14:50Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\Dropbox\Skahal\middleware\GeneticSharp\src\GeneticSharp.Domain\Chromosomes" File="ChromosomeExtensions.cs" Line="57">In externally visible method 'ChromosomeExtensions.ValidateGenes(this IChromosome)', validate parameter 'chromosome' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
       <Namespace Name="GeneticSharp.Domain.Randomizations">
        <Types>
         <Type Name="IRandomization" Kind="Interface" Accessibility="Public" ExternallyVisible="True">
          <Members>
           <Member Name="#GetFloat()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="float" TypeName="IdentifiersShouldNotContainTypeNames" Category="Microsoft.Naming" CheckId="CA1720" Status="Active" Created="2015-07-16 10:59:14Z" FixCategory="Breaking">
+            <Message Id="float" TypeName="IdentifiersShouldNotContainTypeNames" Category="Microsoft.Naming" CheckId="CA1720" Status="Active" Created="2015-09-15 18:14:50Z" FixCategory="Breaking">
              <Issue Name="LanguageSpecificMember" Certainty="75" Level="Error">Consider replacing the language-specific data type identifier 'Float' in member name 'IRandomization.GetFloat()' with either a language-independent equivalent or a more generic term, such as 'value'.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#GetFloat(System.Single,System.Single)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message Id="float" TypeName="IdentifiersShouldNotContainTypeNames" Category="Microsoft.Naming" CheckId="CA1720" Status="Active" Created="2015-07-16 10:59:14Z" FixCategory="Breaking">
+            <Message Id="float" TypeName="IdentifiersShouldNotContainTypeNames" Category="Microsoft.Naming" CheckId="CA1720" Status="Active" Created="2015-09-15 18:14:50Z" FixCategory="Breaking">
              <Issue Name="LanguageSpecificMember" Certainty="75" Level="Error">Consider replacing the language-specific data type identifier 'Float' in member name 'IRandomization.GetFloat(float, float)' with either a language-independent equivalent or a more generic term, such as 'value'.</Issue>
             </Message>
            </Messages>
@@ -39,10 +54,20 @@
    <Description>Avoid using language-specific types name in parameters and members and data type identifiers in parameters. Types names might not be intuitive for all developers. It is recommended that you select a generic name, such as 'value', instead. If this is not sufficient, be sure to use the type name as it is defined in the .NET Framework Library and avoid language-specific type names completely. Some examples of C#-specific type names are 'float' (use 'Single' if a generic name is not sufficient), and 'ulong' (use 'UInt64' if a generic name is not sufficient).</Description>
    <Resolution Name="LanguageSpecificMember">Consider replacing the language-specific data type identifier '{0}' in member name {1} with either a language-independent equivalent or a more generic term, such as 'value'.</Resolution>
    <Owner />
-   <Url>http://msdn.microsoft.com/library/bb531486(VS.100).aspx</Url>
+   <Url>http://msdn.microsoft.com/library/bb531486.aspx</Url>
    <Email>[none]</Email>
    <MessageLevel Certainty="75">Error</MessageLevel>
-   <File Name="namingrules.dll" Version="11.0.0.0" />
+   <File Name="namingrules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062">
+   <Name>Validate arguments of public methods</Name>
+   <Description>All reference arguments passed to externally visible methods should be checked against null (Nothing in VB). If appropriate, throw a System.ArgumentNullException when the argument is null.</Description>
+   <Resolution Name="Default">In externally visible method {0}, validate parameter '{1}' before using it.</Resolution>
+   <Owner>RuleOwner</Owner>
+   <Url>http://msdn.microsoft.com/library/ms182182.aspx</Url>
+   <Email />
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="dataflowrules.dll" Version="14.0.0.0" />
   </Rule>
  </Rules>
  <Localized>

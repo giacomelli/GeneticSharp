@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GeneticSharp.Domain.Chromosomes;
+﻿using GeneticSharp.Domain.Chromosomes;
+using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
+using GeneticSharp.Domain.Mutations;
+using GeneticSharp.Domain.Terminations;
 
 namespace GeneticSharp.Runner.ConsoleApp.Samples
 {
@@ -20,6 +19,29 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         /// </summary>
         /// <returns>The chromosome.</returns>
         IChromosome CreateChromosome();
+
+        /// <summary>
+        /// Creates the termination.
+        /// </summary>
+        /// <returns>The termination.</returns>
+        ITermination CreateTermination();
+
+        /// <summary>
+        /// Creates the crossover.
+        /// </summary>
+        /// <returns></returns>
+        ICrossover CreateCrossover();
+
+        /// <summary>
+        /// Creates the mutation.
+        /// </summary>
+        /// <returns></returns>
+        IMutation CreateMutation();
+
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
+        void Initialize();
 
         /// <summary>
         /// Draws the sample;
