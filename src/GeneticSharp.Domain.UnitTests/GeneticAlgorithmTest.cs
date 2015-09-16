@@ -84,39 +84,6 @@ namespace GeneticSharp.Domain.UnitTests
         }
 
         [Test()]
-        public void Start_InvalidFitnessEvaluateResult_Exception()
-        {
-            var selection = new RouletteWheelSelection();
-            var crossover = new OnePointCrossover(1);
-            var mutation = new UniformMutation();
-            var chromosome = new ChromosomeStub();
-            var fitness = MockRepository.GenerateMock<IFitness>();
-            fitness.Expect(f => f.Evaluate(null)).IgnoreArguments().Return(1.1);
-
-            var target = new GeneticAlgorithm(
-                new Population(20, 20, chromosome),
-                fitness, selection, crossover, mutation);
-
-            ExceptionAssert.IsThrowing(new FitnessException(fitness, "The {0}.Evaluate returns a fitness with value 1.1. The fitness value should be between 0.0 and 1.0.".With(fitness.GetType())), () =>
-            {
-                target.Start();
-            });
-
-            fitness = MockRepository.GenerateMock<IFitness>();
-            fitness.Expect(f => f.Evaluate(null)).IgnoreArguments().Return(-0.1);
-
-            target = new GeneticAlgorithm(
-                new Population(20, 20, chromosome),
-                fitness, selection, crossover, mutation);
-
-            ExceptionAssert.IsThrowing(new FitnessException(fitness, "The {0}.Evaluate returns a fitness with value -0.1. The fitness value should be between 0.0 and 1.0.".With(fitness.GetType())), () =>
-                                       {
-                                           target.Start();
-                                       });
-        }
-
-
-        [Test()]
         public void Start_NotParallelManyGenerations_Optimization()
         {
             var selection = new EliteSelection();

@@ -404,14 +404,14 @@ namespace GeneticSharp.Domain
                     throw new TimeoutException("The fitness evaluation rech the {0} timeout.".With(TaskExecutor.Timeout));
                 }
 
-                foreach (var c in chromosomesWithoutFitness)
-                {
-                    if (c.Fitness < 0 || c.Fitness > 1)
-                    {
-                        throw new FitnessException(Fitness, "The {0}.Evaluate returns a fitness with value {1}. The fitness value should be between 0.0 and 1.0."
-                                                   .With(Fitness.GetType(), c.Fitness));
-                    }
-                }
+                //foreach (var c in chromosomesWithoutFitness)
+                //{
+                //    if (c.Fitness < 0 || c.Fitness > 1)
+                //    {
+                //        throw new FitnessException(Fitness, "The {0}.Evaluate returns a fitness with value {1}. The fitness value should be between 0.0 and 1.0."
+                //                                   .With(Fitness.GetType(), c.Fitness));
+                //    }
+                //}
             }
             finally
             {
