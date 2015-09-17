@@ -58,6 +58,11 @@ Features
    - [Basic randomization](src/GeneticSharp.Domain/Randomizations/BasicRandomization.cs) (using System.Random)
    - [Fast random](src/GeneticSharp.Domain/Randomizations/FastRandomRandomization.cs)   
    - If you need a special kind of randomization for your GA, just implement the [IRandomization](src/GeneticSharp.Domain/Randomizations/IRandomization.cs) interface.
+ - [Runner app (console)](src/GeneticSharp.Runner.ConsoleApp) with samples:
+ 	- Equality equation
+ 	- Equation solver
+ 	- Ghostwriter
+ 	- TSP (Travelling Salesman Problem)
  - [Runner app (GTK#)](src/GeneticSharp.Runner.GtkApp) showing the library solving TSP (Travelling Salesman Problem).
  
  	![](docs/screenshots/GtkApp.Samples.TSP.Win.png)
@@ -146,6 +151,7 @@ Roadmap
    - Add new problems/classic samples
       - Checkers 
 	  - Time series   
+	  - Knapsack problem
  - Create the wiki
  - Add new selections   
    - Reward-based
