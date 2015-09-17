@@ -9,6 +9,7 @@ using Rhino.Mocks;
 namespace GeneticSharp.Domain.UnitTests.Chromosomes
 {
     [TestFixture]
+    [Category("Selections")]
     public class SelectionExceptionTest
     {
         [Test]

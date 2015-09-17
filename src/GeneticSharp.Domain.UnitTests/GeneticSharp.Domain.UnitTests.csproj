@@ -26,7 +26,21 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>GeneticSharp.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HelperSharp, Version=1.0.5560.27038, Culture=neutral, PublicKeyToken=3d44152485e1a4e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\HelperSharp.0.0.4.2\lib\net35\HelperSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ionic.Utils.Zip, Version=1.4.0.1, Culture=neutral, PublicKeyToken=c551e179877da246, processorArchitecture=MSIL">
+      <HintPath>..\packages\TestSharp.1.0.3\lib\net40\Ionic.Utils.Zip.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="Rhino.Mocks">
       <HintPath>..\packages\RhinoMocks.3.6.1\lib\net\Rhino.Mocks.dll</HintPath>
@@ -35,20 +49,13 @@
       <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
-    <Reference Include="Ionic.Utils.Zip">
-      <HintPath>..\packages\TestSharp.1.0.2\lib\net40\Ionic.Utils.Zip.dll</HintPath>
-    </Reference>
-    <Reference Include="TestSharp">
-      <HintPath>..\packages\TestSharp.1.0.2\lib\net40\TestSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="HelperSharp">
-      <HintPath>..\packages\HelperSharp.0.0.2.9\lib\net35\HelperSharp.dll</HintPath>
+    <Reference Include="TestSharp, Version=0.0.6.0, Culture=neutral, PublicKeyToken=76c905e92dbc6707, processorArchitecture=MSIL">
+      <HintPath>..\packages\TestSharp.1.0.3\lib\net40\TestSharp.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="Helpers\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Compile Include="Chromosomes\ChromosomeBaseTest.cs" />
     <Compile Include="Chromosomes\GeneTest.cs" />
@@ -61,7 +68,7 @@
     <Compile Include="Crossovers\ThreeParentCrossoverTest.cs" />
     <Compile Include="Crossovers\TwoPointCrossoverTest.cs" />
     <Compile Include="Crossovers\UniformCrossoverTest.cs" />
-    <Compile Include="Fitness\FitnessExceptionTest.cs" />
+    <Compile Include="Chromosomes\FitnessExceptionTest.cs" />
     <Compile Include="Mutations\MutationExceptionTest.cs" />
     <Compile Include="Mutations\TworsMutationTest.cs" />
     <Compile Include="Mutations\UniformMutationTest.cs" />
@@ -96,7 +103,7 @@
     <Compile Include="Terminations\TerminationServiceTest.cs" />
     <Compile Include="GeneticAlgorithmTest.cs" />
     <Compile Include="Terminations\FitnessThresholdTerminationTest.cs" />
-    <Compile Include="Populations\PopulationService.cs" />
+    <Compile Include="Populations\PopulationServiceTest.cs" />
     <Compile Include="Reinsertions\PureReinsertionTest.cs" />
     <Compile Include="Reinsertions\ReinsertionBaseTest.cs" />
     <Compile Include="Reinsertions\UniformReinsertionTest.cs" />
@@ -119,6 +126,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="GeneticSharp.snk" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

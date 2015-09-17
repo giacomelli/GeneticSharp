@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using HelperSharp;
 
 namespace GeneticSharp.Domain.Terminations
@@ -19,12 +18,13 @@ namespace GeneticSharp.Domain.Terminations
         /// <summary>
         /// Initializes a new instance of the <see cref="LogicalOperatorTerminationBase"/> class.
         /// </summary>
+        /// <param name="minOperands">The minimum number of operands.</param>
         protected LogicalOperatorTerminationBase(int minOperands)
         {
             m_minOperands = minOperands;
             Terminations = new List<ITermination>();
         }
-     
+
         /// <summary>
         /// Initializes a new instance of the <see cref="LogicalOperatorTerminationBase"/> class.
         /// </summary>
@@ -44,7 +44,7 @@ namespace GeneticSharp.Domain.Terminations
 
         #region Properties
         /// <summary>
-        /// Gets or sets the terminations.
+        /// Gets the terminations.
         /// </summary>
         protected IList<ITermination> Terminations { get; private set; }
         #endregion
@@ -68,7 +68,6 @@ namespace GeneticSharp.Domain.Terminations
         /// <returns>
         /// True if termination has been reached, otherwise false.
         /// </returns>
-        /// <exception cref="System.NotImplementedException"></exception>
         public bool HasReached(IGeneticAlgorithm geneticAlgorithm)
         {
             ExceptionHelper.ThrowIfNull("geneticAlgorithm", geneticAlgorithm);
@@ -90,14 +89,14 @@ namespace GeneticSharp.Domain.Terminations
         /// </returns>
         protected abstract bool PerformHasReached(IGeneticAlgorithm geneticAlgorithm);
 
-		/// <summary>
-		/// Returns a <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Domain.Terminations.LogicalOperatorTerminationBase"/>.
-		/// </summary>
-		/// <returns>A <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Domain.Terminations.LogicalOperatorTerminationBase"/>.</returns>
-		public override string ToString ()
-		{
-			return "{0} ({1})".With(GetType().Name, String.Join(", ", Terminations.Select(t => t.ToString()).ToArray()));
-		}
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Domain.Terminations.LogicalOperatorTerminationBase"/>.
+        /// </summary>
+        /// <returns>A <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Domain.Terminations.LogicalOperatorTerminationBase"/>.</returns>
+        public override string ToString()
+        {
+            return "{0} ({1})".With(GetType().Name, String.Join(", ", Terminations.Select(t => t.ToString()).ToArray()));
+        }
         #endregion               
     }
 }

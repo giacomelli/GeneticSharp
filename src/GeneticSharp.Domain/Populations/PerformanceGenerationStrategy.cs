@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using HelperSharp;
 
 namespace GeneticSharp.Domain.Populations
 {
     /// <summary>
-    /// An IGenerationStrategy's implementation wich takes into account the performance just keep the last one generations in the population.
+    /// An IGenerationStrategy's implementation which takes into account the performance and just keep the last one generations in the population.
     /// <remarks>
     /// This strategy is not good for tracking all the generations, for this case use TrackingGenerationStrategy, 
     /// but is the best one when you have a very long term termination.
     /// </remarks>
     /// </summary>
-	[DisplayName("Performance")]
-	public class PerformanceGenerationStrategy : IGenerationStrategy
+    [DisplayName("Performance")]
+    public class PerformanceGenerationStrategy : IGenerationStrategy
     {
         #region Constructors
         /// <summary>
@@ -38,7 +34,7 @@ namespace GeneticSharp.Domain.Populations
 
         #region Properties
         /// <summary>
-        /// Gets os sets the number of generations to keep in the population.
+        /// Gets or sets the number of generations to keep in the population.
         /// <remars>The default is 1.</remars>
         /// </summary>
         public int GenerationsNumber { get; set; }
@@ -49,7 +45,6 @@ namespace GeneticSharp.Domain.Populations
         /// Register that a new generation has been created.
         /// </summary>
         /// <param name="population">The population where the new generation has been created.</param>
-        /// <exception cref="System.NotImplementedException"></exception>
         public void RegisterNewGeneration(Population population)
         {
             ExceptionHelper.ThrowIfNull("population", population);

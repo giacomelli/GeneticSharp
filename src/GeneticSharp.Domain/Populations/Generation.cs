@@ -50,13 +50,13 @@ namespace GeneticSharp.Domain.Populations
         public DateTime CreationDate { get; private set; }
 
         /// <summary>
-        /// Gets or sets the chromosomes.
+        /// Gets the chromosomes.
         /// </summary>
         /// <value>The chromosomes.</value>
         public IList<IChromosome> Chromosomes { get; internal set; }
 
         /// <summary>
-        /// Gets or sets the best chromosome.
+        /// Gets the best chromosome.
         /// </summary>
         /// <value>The best chromosome.</value>
         public IChromosome BestChromosome { get; internal set; }
@@ -93,7 +93,8 @@ namespace GeneticSharp.Domain.Populations
         /// <summary>
         /// Validates the chromosome.
         /// </summary>
-        /// <param name="chromosome">Chromosome.</param>
+        /// <param name="chromosome">The chromosome to validate.</param>
+        /// <returns>True if a chromosome is valid.</returns>
         private static bool ValidateChromosome(IChromosome chromosome)
         {
             if (!chromosome.Fitness.HasValue)
@@ -106,4 +107,3 @@ namespace GeneticSharp.Domain.Populations
         #endregion
     }
 }
-

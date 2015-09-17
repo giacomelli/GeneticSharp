@@ -7,6 +7,7 @@ using TestSharp;
 namespace GeneticSharp.Domain.UnitTests.Terminations
 {
     [TestFixture]
+    [Category("Terminations")]
     public class AndTerminationTest
     {
         [Test]

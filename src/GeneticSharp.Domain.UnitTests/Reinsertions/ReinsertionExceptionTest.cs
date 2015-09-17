@@ -8,6 +8,7 @@ using Rhino.Mocks;
 namespace GeneticSharp.Domain.UnitTests.Chromosomes
 {
     [TestFixture]
+    [Category("Reinsertions")]
     public class ReinsertionExceptionTest
     {
         [Test]

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Web;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Fitnesses;
@@ -10,7 +9,6 @@ using GeneticSharp.Extensions.Ghostwriter;
 using GeneticSharp.Runner.ConsoleApp.Samples.Resources;
 using HelperSharp;
 using Newtonsoft.Json;
-using System.ComponentModel;
 
 namespace GeneticSharp.Runner.ConsoleApp.Samples
 {
@@ -21,7 +19,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         private List<string> m_words;
 
         public GhostwriterSampleController()
-        {            
+        {
             var json = JsonConvert.DeserializeObject<dynamic>(SamplesResource.GhostwriterQuoteJson);
             m_quotes = new List<string>();
             m_words = new List<string>();
@@ -30,34 +28,44 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
             {
                 var quote = HttpUtility.HtmlDecode(json.value[i].joke.Value) as string;
                 m_quotes.Add(quote);
-                
+
                 m_words.AddRange(quote.Split(' '));
             }
 
-            m_words = m_words.Select(w => w.RemovePontuactions()).Distinct().OrderBy(w => w).ToList();
+            m_words = m_words.Select(w => w.RemovePunctuations()).Distinct().OrderBy(w => w).ToList();
         }
 
         public override IFitness CreateFitness()
-        {           
-
+        {
             var f = new GhostwriterFitness();
 
             f.EvaluateFunc = (text) =>
             {
                 var minDistance = m_quotes.Min(q => LevenshteinDistance(q, text));
 
-                return 1 - (minDistance/100f);
+                return 1 - (minDistance / 100f);
             };
 
             return f;
         }
 
-        int LevenshteinDistance(string s, string t)
+        private int LevenshteinDistance(string s, string t)
         {
             // degenerate cases
-            if (s == t) return 0;
-            if (s.Length == 0) return t.Length;
-            if (t.Length == 0) return s.Length;
+            if (s == t)
+            {
+                return 0;
+            }
+
+            if (s.Length == 0)
+            {
+                return t.Length;
+            }
+
+            if (t.Length == 0)
+            {
+                return s.Length;
+            }
 
             // create two work vectors of integer distances
             int[] v0 = new int[t.Length + 1];
@@ -67,7 +75,9 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
             // this row is A[0][i]: edit distance for an empty s
             // the distance is just the number of characters to delete from t
             for (int i = 0; i < v0.Length; i++)
+            {
                 v0[i] = i;
+            }
 
             for (int i = 0; i < s.Length; i++)
             {
@@ -86,7 +96,9 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
 
                 // copy v1 (current row) to v0 (previous row) for next iteration
                 for (int j = 0; j < v0.Length; j++)
+                {
                     v0[j] = v1[j];
+                }
             }
 
             return v1[t.Length];
@@ -100,7 +112,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         public override void Draw(IChromosome bestChromosome)
         {
             var c = bestChromosome as GhostwriterChromosome;
-            Console.WriteLine("Text: {0}", c.GetText());
+            Console.WriteLine("Text: {0}", c.BuildText());
         }
     }
 }

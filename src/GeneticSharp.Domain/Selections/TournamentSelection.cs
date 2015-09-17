@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
@@ -42,6 +41,7 @@ namespace GeneticSharp.Domain.Selections
         public TournamentSelection(int size) : this(size, true)
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TournamentSelection"/> class.
         /// </summary>
@@ -64,7 +64,7 @@ namespace GeneticSharp.Domain.Selections
         public int Size { get; set; }
 
         /// <summary>
-        /// Gets or sets if allow any winner in a tournament to participate in the next tournament.
+        /// Gets or sets a value indicating whether allow any winner in a tournament to participate in the next tournament.
         /// <remarks>
         /// In other words, if you want to allow a chromosome be selected more the one time.
         /// </remarks>
@@ -81,23 +81,22 @@ namespace GeneticSharp.Domain.Selections
         /// <returns>
         /// The selected chromosomes.
         /// </returns>
-        /// <exception cref="System.NotImplementedException"></exception>
         protected override IList<IChromosome> PerformSelectChromosomes(int number, Generation generation)
         {
             if (Size > generation.Chromosomes.Count)
             {
-                throw new SelectionException(this, 
-                    "The tournament size is greater than available chromosomes. Tournament size is {0} and generation {1} available chromosomes are {2}."
-                    .With(Size, generation.Number, generation.Chromosomes.Count));
+                throw new SelectionException(
+                    this,
+                    "The tournament size is greater than available chromosomes. Tournament size is {0} and generation {1} available chromosomes are {2}.".With(Size, generation.Number, generation.Chromosomes.Count));
             }
 
             var candidates = generation.Chromosomes.ToList();
-            var selected = new List<IChromosome>();            
+            var selected = new List<IChromosome>();
 
             while (selected.Count < number)
             {
                 var randomIndexes = RandomizationProvider.Current.GetUniqueInts(Size, 0, candidates.Count);
-                var tournamentWinner = candidates.Where((c, i) => randomIndexes.Contains(i)).OrderByDescending(c => c.Fitness).First();                
+                var tournamentWinner = candidates.Where((c, i) => randomIndexes.Contains(i)).OrderByDescending(c => c.Fitness).First();
 
                 selected.Add(tournamentWinner);
 

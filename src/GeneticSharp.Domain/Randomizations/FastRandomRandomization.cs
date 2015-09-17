@@ -4,7 +4,8 @@ using SharpNeatLib.Maths;
 namespace GeneticSharp.Domain.Randomizations
 {
     /// <summary>
-    /// An IRandomization using Coolgreen's FastRandom (http://www.codeproject.com/Articles/9187/A-fast-equivalent-for-System-Random) has pseudo-number generator.
+    /// An IRandomization using FastRandom has pseudo-number generator.
+    /// <see href="http://www.codeproject.com/Articles/9187/A-fast-equivalent-for-System-Random"/>
     /// </summary>
     public class FastRandomRandomization : RandomizationBase
     {

@@ -64,9 +64,9 @@ namespace GeneticSharp.Domain.Randomizations
 
             if (diff < length)
             {
-                throw new ArgumentOutOfRangeException("length",
-                    "The length is {0}, but the possible unique values between {1} (inclusive) and {2} (exclusive) are {3}."
-                    .With(length, min, max, diff));
+                throw new ArgumentOutOfRangeException(
+                    "length",
+                    "The length is {0}, but the possible unique values between {1} (inclusive) and {2} (exclusive) are {3}.".With(length, min, max, diff));
             }
 
             var orderedValues = Enumerable.Range(min, diff).ToList();

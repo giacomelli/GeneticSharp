@@ -1,11 +1,9 @@
-using System;
-
 namespace GeneticSharp.Extensions.Checkers
-{	
+{
     /// <summary>
     /// A checkers' piece.
     /// </summary>
-	public class CheckersPiece
+    public class CheckersPiece
     {
         #region Fields
         private CheckersSquare m_currentSquare;
@@ -17,16 +15,16 @@ namespace GeneticSharp.Extensions.Checkers
         /// </summary>
         /// <param name="player">The player.</param>
         public CheckersPiece(CheckersPlayer player)
-		{
-			Player = player;
-		}
-		#endregion
+        {
+            Player = player;
+        }
+        #endregion
 
-		#region Properties
+        #region Properties
         /// <summary>
         /// Gets the player.
         /// </summary>        
-		public CheckersPlayer Player { get; private set; }
+        public CheckersPlayer Player { get; private set; }
 
         /// <summary>
         /// Gets or sets the current square.
@@ -48,6 +46,6 @@ namespace GeneticSharp.Extensions.Checkers
                 }
             }
         }
-		#endregion
-	}
+        #endregion
+    }
 }

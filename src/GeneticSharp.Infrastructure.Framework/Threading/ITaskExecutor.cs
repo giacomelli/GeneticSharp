@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace GeneticSharp.Infrastructure.Framework.Threading
 {
@@ -7,6 +8,22 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
     /// </summary>
     public interface ITaskExecutor
     {
+        #region Properties
+        /// <summary>
+        /// Gets or sets the timeout to execute the tasks.
+        /// </summary>
+        TimeSpan Timeout { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is running.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is running; otherwise, <c>false</c>.
+        /// </value>
+        bool IsRunning { get; }
+        #endregion
+
+        #region Methods
         /// <summary>
         /// Add the specified task to be executed.
         /// </summary>
@@ -27,19 +44,8 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
         /// <summary>
         /// Stops the tasks execution.
         /// </summary>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Stop", Justification = "there is no better name")]
         void Stop();
-
-        /// <summary>
-        /// Gets or sets the timeout to execute the tasks.
-        /// </summary>
-        TimeSpan Timeout { get; set; }
-
-        /// <summary>
-        /// Gets a value indicating whether this instance is running.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance is running; otherwise, <c>false</c>.
-        /// </value>
-        bool IsRunning { get; }
+        #endregion
     }
 }

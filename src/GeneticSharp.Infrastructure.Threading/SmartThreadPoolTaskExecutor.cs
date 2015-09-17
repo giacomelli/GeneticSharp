@@ -5,9 +5,9 @@ using GeneticSharp.Infrastructure.Framework.Threading;
 namespace GeneticSharp.Infrastructure.Threading
 {
     /// <summary>
-    /// A ITaskExecutor's implemenation using SmartThreadPool to execute tasks in parallel.
+    /// A ITaskExecutor's implementation using SmartThreadPool to execute tasks in parallel.
     /// </summary>
-    public class SmartThreadPoolTaskExecutor : TaskExecutorBase
+    public sealed class SmartThreadPoolTaskExecutor : TaskExecutorBase, IDisposable
     {
         #region Fields
         private SmartThreadPool m_threadPool;
@@ -117,6 +117,19 @@ namespace GeneticSharp.Infrastructure.Threading
             }
 
             IsRunning = false;
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            if (m_threadPool != null)
+            {
+                m_threadPool.Dispose();
+            }
+
+            GC.SuppressFinalize(this);
         }
         #endregion
     }

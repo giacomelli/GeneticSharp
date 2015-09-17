@@ -5,30 +5,30 @@ using HelperSharp;
 
 namespace GeneticSharp.Domain.Mutations
 {
-	/// <summary>
-	/// Exception throw when an error occurs during the execution of mutate.
-	/// </summary>
-	[Serializable]
+    /// <summary>
+    /// Exception throw when an error occurs during the execution of mutate.
+    /// </summary>
+    [Serializable]
     public sealed class MutationException : Exception
-	{
-		#region Constructors
-		/// <summary>
-		/// Initializes a new instance of the <see cref="GeneticSharp.Domain.Mutations.MutationException"/> class.
-		/// </summary>
-		/// <param name="mutation">The mutation where ocurred the error.</param>
-		/// <param name="message">The error message.</param>
+    {
+        #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Mutations.MutationException"/> class.
+        /// </summary>
+        /// <param name="mutation">The mutation where occurred the error.</param>
+        /// <param name="message">The error message.</param>
         public MutationException(IMutation mutation, string message)
             : base("{0}: {1}".With(mutation != null ? mutation.GetType().Name : String.Empty, message))
-		{
-			Mutation = mutation;
-		}
+        {
+            Mutation = mutation;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Mutations.MutationException"/> class.
         /// </summary>
-        /// <param name="mutation">The Mutation where ocurred the error.</param>
+        /// <param name="mutation">The Mutation where occurred the error.</param>
         /// <param name="message">The error message.</param>
-		/// <param name="innerException">The inner exception.</param>
+        /// <param name="innerException">The inner exception.</param>
         public MutationException(IMutation mutation, string message, Exception innerException)
             : base("{0}: {1}".With(mutation != null ? mutation.GetType().Name : String.Empty, message), innerException)
         {
@@ -70,15 +70,15 @@ namespace GeneticSharp.Domain.Mutations
             : base(info, context)
         {
         }
-		#endregion
+        #endregion
 
-		#region Properties
-		/// <summary>
-		/// Gets the mutation.
-		/// </summary>
-		/// <value>The mutation.</value>
-		public IMutation Mutation { get; private set; }
-		#endregion
+        #region Properties
+        /// <summary>
+        /// Gets the mutation.
+        /// </summary>
+        /// <value>The mutation.</value>
+        public IMutation Mutation { get; private set; }
+        #endregion
 
         #region Methods
         /// <summary>
@@ -89,7 +89,7 @@ namespace GeneticSharp.Domain.Mutations
         /// <PermissionSet>
         ///   <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Read="*AllFiles*" PathDiscovery="*AllFiles*" />
         ///   <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="SerializationFormatter" />
-        ///   </PermissionSet>
+        /// </PermissionSet>
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -97,5 +97,5 @@ namespace GeneticSharp.Domain.Mutations
             info.AddValue("Mutation", Mutation);
         }
         #endregion
-	}
+    }
 }

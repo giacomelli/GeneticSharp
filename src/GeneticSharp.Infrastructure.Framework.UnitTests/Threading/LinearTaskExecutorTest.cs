@@ -7,6 +7,7 @@ using NUnit.Framework;
 namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
 {
     [TestFixture()]
+    [Category("Infrastructure")]
     public class LinearTaskExecutorTest
     {
         [Test()]

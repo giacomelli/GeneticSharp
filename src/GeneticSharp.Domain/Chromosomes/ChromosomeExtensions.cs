@@ -1,40 +1,39 @@
 using System;
 using System.Collections.Generic;
-using GeneticSharp.Domain.Chromosomes;
 using System.Linq;
 using HelperSharp;
 
 namespace GeneticSharp.Domain.Chromosomes
 {
-	/// <summary>
-	/// Chromosome extensions.
-	/// </summary>
-	public static class ChromosomeExtensions
-	{
-		/// <summary>
-		/// Checks if any of the chromosomes has repeated gene.
-		/// </summary>
-		/// <remarks>
-		/// This can happen when used with a IMutation's implementation that not keep the chromosome ordered, 
-		/// like OnePointCrossover, TwoPointCrossover and UniformCrossover is combined with a ICrossover's implementation
-		/// that need ordered chromosomes, like OX1 and PMX.
-		/// </remarks>
-		/// <returns><c>true</c>, if chromosome has repeated gene, <c>false</c> otherwise.</returns>
-		/// <param name="chromosomes">Chromosomes.</param>
-		public static bool AnyHasRepeatedGene(this IList<IChromosome> chromosomes)
-		{
-			foreach (var p in chromosomes)
-			{
-				var notRepeatedGenesLength = p.GetGenes().Distinct().Count();
+    /// <summary>
+    /// Chromosome extensions.
+    /// </summary>
+    public static class ChromosomeExtensions
+    {
+        /// <summary>
+        /// Checks if any of the chromosomes has repeated gene.
+        /// </summary>
+        /// <remarks>
+        /// This can happen when used with a IMutation's implementation that not keep the chromosome ordered, 
+        /// like OnePointCrossover, TwoPointCrossover and UniformCrossover is combined with a ICrossover's implementation
+        /// that need ordered chromosomes, like OX1 and PMX.
+        /// </remarks>
+        /// <returns><c>true</c>, if chromosome has repeated gene, <c>false</c> otherwise.</returns>
+        /// <param name="chromosomes">The chromosomes.</param>
+        public static bool AnyHasRepeatedGene(this IList<IChromosome> chromosomes)
+        {
+            foreach (var p in chromosomes)
+            {
+                var notRepeatedGenesLength = p.GetGenes().Distinct().Count();
 
-				if (notRepeatedGenesLength < p.Length)
-				{
-					return true;
-				}
-			}
+                if (notRepeatedGenesLength < p.Length)
+                {
+                    return true;
+                }
+            }
 
-			return false;
-		}
+            return false;
+        }
 
         /// <summary>
         /// Validates the chromosomes.
@@ -42,7 +41,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <param name="chromosomes">The chromosomes.</param>
         public static void ValidateGenes(this IList<IChromosome> chromosomes)
         {
-            if(chromosomes.Any(c => c.GetGenes().Any(g => g.Value == null)))
+            if (chromosomes.Any(c => c.GetGenes().Any(g => g.Value == null)))
             {
                 throw new InvalidOperationException("The chromosome '{0}' is generating null genes.".With(chromosomes.First().GetType().Name));
             }
@@ -54,7 +53,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <param name="chromosome">The chromosomes.</param>
         public static void ValidateGenes(this IChromosome chromosome)
         {
-            if (chromosome.GetGenes().Any(g => g.Value == null))
+            if (chromosome != null && chromosome.GetGenes().Any(g => g.Value == null))
             {
                 throw new InvalidOperationException("The chromosome '{0}' is generating genes with null value.".With(chromosome.GetType().Name));
             }

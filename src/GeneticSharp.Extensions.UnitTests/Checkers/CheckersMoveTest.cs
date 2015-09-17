@@ -6,6 +6,7 @@ using TestSharp;
 namespace GeneticSharp.Extensions.UnitTests.Checkers
 {
     [TestFixture]
+    [Category("Extensions")]
     public class CheckersMoveTest
     {
         [Test]

@@ -29,13 +29,13 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         /// <summary>
         /// Creates the crossover.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The crossover.</returns>
         ICrossover CreateCrossover();
 
         /// <summary>
         /// Creates the mutation.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The mutation.</returns>
         IMutation CreateMutation();
 
         /// <summary>
@@ -44,8 +44,9 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         void Initialize();
 
         /// <summary>
-        /// Draws the sample;
+        /// Draws the sample.
         /// </summary>
+        /// <param name="bestChromosome">The current best chromosome</param>
         void Draw(IChromosome bestChromosome);
     }
 }

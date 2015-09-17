@@ -8,6 +8,7 @@ using NUnit.Framework;
 namespace GeneticSharp.Domain.UnitTests.Populations
 {
     [TestFixture]
+    [Category("Populations")]
     public class PerformanceGenerationStrategyTest
     {
         [SetUp]

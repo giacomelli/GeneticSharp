@@ -8,6 +8,7 @@ using Rhino.Mocks;
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
     [TestFixture]
+    [Category("Crossovers")]
     public class ThreeParentCrossoverTest
     {
         [TearDown]

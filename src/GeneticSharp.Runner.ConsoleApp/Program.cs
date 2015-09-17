@@ -1,18 +1,15 @@
 ﻿using System;
 using GeneticSharp.Domain;
-using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Selections;
-using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Infrastructure.Threading;
 using GeneticSharp.Runner.ConsoleApp.Samples;
 
 namespace GeneticSharp.Runner.ConsoleApp
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Run();
         }
@@ -25,14 +22,14 @@ namespace GeneticSharp.Runner.ConsoleApp
             Console.ResetColor();
             Console.WriteLine("Select the sample:");
 
-            var sampleNames = SampleService.GetSampleControllerNames();            
+            var sampleNames = SampleService.GetSampleControllerNames();
             for (int i = 0; i < sampleNames.Count; i++)
             {
                 Console.WriteLine("{0}) {1}", i + 1, sampleNames[i]);
             }
 
             int sampleNumber = 0;
-            string selectedSampleName = String.Empty;
+            string selectedSampleName = string.Empty;
 
             try
             {
@@ -45,6 +42,7 @@ namespace GeneticSharp.Runner.ConsoleApp
             }
 
             var sampleController = SampleService.CreateSampleControllerByName(selectedSampleName);
+            DrawSampleName(selectedSampleName);
             sampleController.Initialize();
 
             var selection = new EliteSelection();
@@ -67,12 +65,7 @@ namespace GeneticSharp.Runner.ConsoleApp
 
             ga.GenerationRan += delegate
             {
-                Console.Clear();
-                
-                Console.ForegroundColor = ConsoleColor.DarkGreen;
-                Console.WriteLine();
-                Console.WriteLine(selectedSampleName);
-                Console.ResetColor();
+                DrawSampleName(selectedSampleName);
 
                 var bestChromosome = ga.Population.BestChromosome;
                 Console.WriteLine("Termination: {0}", terminationName);
@@ -102,6 +95,16 @@ namespace GeneticSharp.Runner.ConsoleApp
             Console.ResetColor();
             Console.ReadKey();
             Run();
+        }
+
+        private static void DrawSampleName(string selectedSampleName)
+        {
+            Console.Clear();
+
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine();
+            Console.WriteLine(selectedSampleName);
+            Console.ResetColor();
         }
     }
 }

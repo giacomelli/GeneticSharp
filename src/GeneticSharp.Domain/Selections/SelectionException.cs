@@ -15,7 +15,7 @@ namespace GeneticSharp.Domain.Selections
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Selections.SelectionException"/> class.
         /// </summary>
-        /// <param name="selection">The Selection where ocurred the error.</param>
+        /// <param name="selection">The Selection where occurred the error.</param>
         /// <param name="message">The error message.</param>
         public SelectionException(ISelection selection, string message)
             : base("{0}: {1}".With(selection != null ? selection.GetType().Name : String.Empty, message))
@@ -26,9 +26,9 @@ namespace GeneticSharp.Domain.Selections
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Selections.SelectionException"/> class.
         /// </summary>
-        /// <param name="selection">The Selection where ocurred the error.</param>
+        /// <param name="selection">The Selection where occurred the error.</param>
         /// <param name="message">The error message.</param>
-		/// <param name="innerException">The inner exception.</param>
+        /// <param name="innerException">The inner exception.</param>
         public SelectionException(ISelection selection, string message, Exception innerException)
             : base("{0}: {1}".With(selection != null ? selection.GetType().Name : String.Empty, message), innerException)
         {
@@ -89,7 +89,7 @@ namespace GeneticSharp.Domain.Selections
         /// <PermissionSet>
         ///   <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Read="*AllFiles*" PathDiscovery="*AllFiles*" />
         ///   <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="SerializationFormatter" />
-        ///   </PermissionSet>
+        /// </PermissionSet>
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {

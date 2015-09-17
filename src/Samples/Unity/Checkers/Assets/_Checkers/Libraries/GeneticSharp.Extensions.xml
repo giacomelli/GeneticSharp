@@ -33,7 +33,8 @@
         <member name="M:GeneticSharp.Extensions.Checkers.CheckersChromosome.Clone">
             <summary>
             Creates a clone.
-            </summary></member>
+            </summary>
+            <returns>The chromosome clone.</returns></member>
         <member name="T:GeneticSharp.Extensions.Checkers.CheckersFitness">
             <summary>
             Checkers fitness.
@@ -58,8 +59,8 @@
             <summary>
             Evaluates the move.
             </summary>
-            <returns>The move.</returns>
-            <param name="move">Move.</param></member>
+            <returns>The move fitness.</returns>
+            <param name="move">The move.</param></member>
         <member name="M:GeneticSharp.Extensions.Checkers.CheckersFitness.Reset">
             <summary>
             Resets the fitness.
@@ -71,7 +72,7 @@
             <param name="checkersChromosome">Checkers chromosome.</param></member>
         <member name="T:GeneticSharp.Extensions.Checkers.CheckersMoveKind">
             <summary>
-            Moove kind.
+            Move kind.
             </summary></member>
         <member name="F:GeneticSharp.Extensions.Checkers.CheckersMoveKind.Invalid">
             <summary>
@@ -113,7 +114,7 @@
             </summary></member>
         <member name="F:GeneticSharp.Extensions.Checkers.CheckersSquareState.NotPlayable">
             <summary>
-            Square is not playble (white one).
+            Square is not playable (white one).
             </summary></member>
         <member name="F:GeneticSharp.Extensions.Checkers.CheckersSquareState.OccupiedByPlayerOne">
             <summary>
@@ -121,7 +122,7 @@
             </summary></member>
         <member name="F:GeneticSharp.Extensions.Checkers.CheckersSquareState.OccupiedByPlayerTwo">
             <summary>
-            Square is occupied by playe two.
+            Square is occupied by player two.
             </summary></member>
         <member name="T:GeneticSharp.Extensions.Checkers.CheckersSquare">
             <summary>
@@ -145,7 +146,7 @@
             <value>The index of the row.</value></member>
         <member name="P:GeneticSharp.Extensions.Checkers.CheckersSquare.State">
             <summary>
-            Gets or sets the state.
+            Gets the state.
             </summary>
             <value>The state.</value></member>
         <member name="P:GeneticSharp.Extensions.Checkers.CheckersSquare.CurrentPiece">
@@ -195,7 +196,7 @@
             Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Ghostwriter.GhostwriterChromosome" /> class.
             </summary>
             <param name="maxTextWordLength">Max text word length.</param>
-            <param name="words">Words.</param></member>
+            <param name="words">The words.</param></member>
         <member name="M:GeneticSharp.Extensions.Ghostwriter.GhostwriterChromosome.GenerateGene(System.Int32)">
             <summary>
             Generates the gene for the specified index.
@@ -210,8 +211,9 @@
         <member name="M:GeneticSharp.Extensions.Ghostwriter.GhostwriterChromosome.Clone">
             <summary>
             Creates a clone.
-            </summary></member>
-        <member name="M:GeneticSharp.Extensions.Ghostwriter.GhostwriterChromosome.GetText">
+            </summary>
+            <returns>The chromosome clone.</returns></member>
+        <member name="M:GeneticSharp.Extensions.Ghostwriter.GhostwriterChromosome.BuildText">
             <summary>
             Gets the text.
             </summary>
@@ -222,9 +224,9 @@
             </summary></member>
         <member name="P:GeneticSharp.Extensions.Ghostwriter.GhostwriterFitness.EvaluateFunc">
             <summary>
-            Gets or sets the evaluate func.
+            Gets or sets the evaluate function.
             </summary>
-            <value>The evaluate func.</value></member>
+            <value>The evaluate function.</value></member>
         <member name="M:GeneticSharp.Extensions.Ghostwriter.GhostwriterFitness.Evaluate(GeneticSharp.Domain.Chromosomes.IChromosome)">
             <summary>
             Performs the evaluation against the specified chromosome.
@@ -233,14 +235,15 @@
             <returns>The fitness of the chromosome.</returns></member>
         <member name="T:GeneticSharp.Extensions.Mathematic.EqualityFitness">
             <summary>
-            Fitness based on this paper: Genetic Algorithm for Solving Simple Mathematical Equality Problem: http://arxiv.org/ftp/arxiv/papers/1308/1308.4675.pdf
+            Fitness based on this paper: Genetic Algorithm for Solving Simple Mathematical Equality Problem.
+            <see href="http://arxiv.org/ftp/arxiv/papers/1308/1308.4675.pdf" />
             </summary></member>
         <member name="M:GeneticSharp.Extensions.Mathematic.EqualityFitness.Evaluate(GeneticSharp.Domain.Chromosomes.IChromosome)">
             <summary>
             Evaluates the specified chromosome.
             </summary>
             <param name="chromosome">The chromosome.</param>
-            <returns></returns></member>
+            <returns>The chromosome fitness.</returns></member>
         <member name="M:GeneticSharp.Extensions.Mathematic.EqualityFitness.GetEquationResult(GeneticSharp.Extensions.Mathematic.EquationChromosome)">
             <summary>
             Gets the equation result using the chromosome's genes.
@@ -277,7 +280,7 @@
             <param name="numberOfCities">Number of cities.</param></member>
         <member name="P:GeneticSharp.Extensions.Tsp.TspChromosome.Distance">
             <summary>
-            Gets or sets the distance.
+            Gets the distance.
             </summary>
             <value>The distance.</value></member>
         <member name="M:GeneticSharp.Extensions.Tsp.TspChromosome.GenerateGene(System.Int32)">
@@ -294,7 +297,8 @@
         <member name="M:GeneticSharp.Extensions.Tsp.TspChromosome.Clone">
             <summary>
             Creates a clone.
-            </summary></member>
+            </summary>
+            <returns>The chromosome clone.</returns></member>
         <member name="T:GeneticSharp.Extensions.Tsp.TspCity">
             <summary>
             Travelling Salesman city.
@@ -370,8 +374,8 @@
             Calculates the distance between two cities.
             </summary>
             <returns>The distance two cities.</returns>
-            <param name="one">One.</param>
-            <param name="two">Two.</param></member>
+            <param name="one">City one.</param>
+            <param name="two">City two.</param></member>
         <member name="T:GeneticSharp.Extensions.Checkers.CheckersPlayer">
             <summary>
             The checkers player.
@@ -428,12 +432,12 @@
             </summary>
             <returns>The move kind.</returns>
             <param name="move">The move.</param></member>
-        <member name="M:GeneticSharp.Extensions.Checkers.CheckersBoard.CountCapturableByPiece(GeneticSharp.Extensions.Checkers.CheckersPiece)">
+        <member name="M:GeneticSharp.Extensions.Checkers.CheckersBoard.CountCatchableByPiece(GeneticSharp.Extensions.Checkers.CheckersPiece)">
             <summary>
-            Counts the number of pieces capturable by specified piece.
+            Counts the number of pieces catchable by specified piece.
             </summary>
             <param name="piece">The piece which can capture another ones.</param>
-            <returns>The number of capturable pieces.</returns></member>
+            <returns>The number of catchable pieces.</returns></member>
         <member name="M:GeneticSharp.Extensions.Checkers.CheckersBoard.CountPieceChancesToBeCaptured(GeneticSharp.Extensions.Checkers.CheckersPiece)">
             <summary>
             Counts the number of chances the specified piece to be captured.
@@ -464,17 +468,19 @@
         <member name="M:GeneticSharp.Extensions.Mathematic.EquationChromosome.#ctor(System.Int32,System.Int32)">
             <summary>
             Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Mathematic.EquationChromosome" /> class.
-            </summary></member>
+            </summary>
+            <param name="expectedResult">The equation expected result.</param>
+            <param name="variablesNumber">The equation variables number.</param></member>
         <member name="M:GeneticSharp.Extensions.Mathematic.EquationChromosome.CreateNew">
             <summary>
             Creates the new.
             </summary>
-            <returns></returns></member>
+            <returns>The new chromosome.</returns></member>
         <member name="M:GeneticSharp.Extensions.Mathematic.EquationChromosome.GenerateGene(System.Int32)">
             <summary>
             Generates the gene.
             </summary>
             <param name="geneIndex">Index of the gene.</param>
-            <returns></returns></member>
+            <returns>The generated gene.</returns></member>
     </members>
 </doc>

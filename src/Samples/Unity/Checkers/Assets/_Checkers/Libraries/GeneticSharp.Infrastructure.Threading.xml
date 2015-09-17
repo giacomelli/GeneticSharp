@@ -6,7 +6,7 @@
     <members>
         <member name="T:GeneticSharp.Infrastructure.Threading.SmartThreadPoolTaskExecutor">
             <summary>
-            A ITaskExecutor's implemenation using SmartThreadPool to execute tasks in parallel.
+            A ITaskExecutor's implementation using SmartThreadPool to execute tasks in parallel.
             </summary></member>
         <member name="M:GeneticSharp.Infrastructure.Threading.SmartThreadPoolTaskExecutor.#ctor">
             <summary>
@@ -30,6 +30,10 @@
         <member name="M:GeneticSharp.Infrastructure.Threading.SmartThreadPoolTaskExecutor.Stop">
             <summary>
             Stops the tasks execution.
+            </summary></member>
+        <member name="M:GeneticSharp.Infrastructure.Threading.SmartThreadPoolTaskExecutor.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
             </summary></member>
     </members>
 </doc>

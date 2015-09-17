@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using GeneticSharp.Domain.Populations;
+﻿using System.ComponentModel;
 
 namespace GeneticSharp.Domain.Terminations
 {
@@ -28,13 +26,14 @@ namespace GeneticSharp.Domain.Terminations
         public FitnessStagnationTermination() : this(100)
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FitnessStagnationTermination"/> class.
         /// </summary>
         /// <param name="expectedStagnantGenerationsNumber">The expected stagnant generations number to reach the termination.</param>
-        public FitnessStagnationTermination(int  expectedStagnantGenerationsNumber)
+        public FitnessStagnationTermination(int expectedStagnantGenerationsNumber)
         {
-			ExpectedStagnantGenerationsNumber = expectedStagnantGenerationsNumber;
+            ExpectedStagnantGenerationsNumber = expectedStagnantGenerationsNumber;
         }
         #endregion
 
@@ -51,7 +50,7 @@ namespace GeneticSharp.Domain.Terminations
         /// </summary>
         /// <returns>True if termination has been reached, otherwise false.</returns>
         /// <param name="geneticAlgorithm">The genetic algorithm.</param>
-		protected override bool PerformHasReached(IGeneticAlgorithm geneticAlgorithm)
+        protected override bool PerformHasReached(IGeneticAlgorithm geneticAlgorithm)
         {
             var bestFitness = geneticAlgorithm.BestChromosome.Fitness.Value;
 
@@ -64,9 +63,9 @@ namespace GeneticSharp.Domain.Terminations
                 m_stagnantGenerationsCount = 1;
             }
 
-			m_lastFitness = bestFitness;
+            m_lastFitness = bestFitness;
 
-			return m_stagnantGenerationsCount >= ExpectedStagnantGenerationsNumber;
+            return m_stagnantGenerationsCount >= ExpectedStagnantGenerationsNumber;
         }
         #endregion
     }

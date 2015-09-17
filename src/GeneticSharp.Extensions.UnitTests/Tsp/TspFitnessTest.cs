@@ -4,6 +4,7 @@ using NUnit.Framework;
 namespace GeneticSharp.Extensions.UnitTests.Tsp
 {
     [TestFixture()]
+    [Category("Extensions")]
     public class TspFitnessTest
     {
         [Test()]

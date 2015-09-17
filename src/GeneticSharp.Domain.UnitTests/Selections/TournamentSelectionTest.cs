@@ -11,6 +11,7 @@ using TestSharp;
 namespace GeneticSharp.Domain.UnitTests.Selections
 {
     [TestFixture]
+    [Category("Selections")]
     public class TournamentSelectionTest
     {
         [TearDown]
@@ -64,8 +65,8 @@ namespace GeneticSharp.Domain.UnitTests.Selections
 
 
             var generation = new Generation(1, new List<IChromosome>() {
-				c0, c1
-			});
+                c0, c1
+        	});
 
             ExceptionAssert.IsThrowing(new SelectionException(target,
                 "The tournament size is greater than available chromosomes. Tournament size is 3 and generation 1 available chromosomes are 2."), () =>
@@ -98,8 +99,8 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             c5.Fitness = 0.2;
 
             var generation = new Generation(1, new List<IChromosome>() {
-				c0, c1, c2, c3, c4, c5
-			});
+                c0, c1, c2, c3, c4, c5
+        	});
 
             var mock = new MockRepository();
             var rnd = mock.StrictMock<IRandomization>();
@@ -147,8 +148,8 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             c5.Fitness = 0.2;
 
             var generation = new Generation(1, new List<IChromosome>() {
-				c0, c1, c2, c3, c4, c5
-			});
+                c0, c1, c2, c3, c4, c5
+        	});
 
             var mock = new MockRepository();
             var rnd = mock.StrictMock<IRandomization>();

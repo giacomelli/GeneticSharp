@@ -27,7 +27,7 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
         /// <summary>
         /// Gets the tasks.
         /// </summary>
-        protected List<Action> Tasks { get; private set; }
+        protected IList<Action> Tasks { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether this
@@ -43,7 +43,7 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
         public TimeSpan Timeout { get; set; }
 
         /// <summary>
-        /// Gets a value indicating whether this instance is running.
+        /// Gets or sets a value indicating whether this instance is running.
         /// </summary>
         /// <value>
         /// <c>true</c> if this instance is running; otherwise, <c>false</c>.
@@ -97,4 +97,3 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
         #endregion
     }
 }
-

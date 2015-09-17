@@ -4,16 +4,16 @@ using System.Collections.Generic;
 
 namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
 {
-	public class StubTaskExecutor : TaskExecutorBase
+    public class StubTaskExecutor : TaskExecutorBase
 	{
-		public List<Action> GetTasks() 
-		{
-			return Tasks;
-		}
+        public IList<Action> GetTasks() 
+        {
+        	return Tasks;
+        }
 
-		public bool GetStopRequested()
-		{
-			return StopRequested;
-		}
+        public bool GetStopRequested()
+        {
+        	return StopRequested;
+        }
 	}
 }

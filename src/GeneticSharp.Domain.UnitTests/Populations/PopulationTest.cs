@@ -10,6 +10,7 @@ using TestSharp;
 namespace GeneticSharp.Domain.UnitTests.Populations
 {
     [TestFixture()]
+    [Category("Populations")]
     public class PopulationTest
     {
         [TearDown]

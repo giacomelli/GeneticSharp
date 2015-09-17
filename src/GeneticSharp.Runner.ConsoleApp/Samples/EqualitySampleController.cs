@@ -1,14 +1,15 @@
 ﻿using System;
+using System.ComponentModel;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.Mathematic;
-using System.ComponentModel;
 
 namespace GeneticSharp.Runner.ConsoleApp.Samples
 {
     /// <summary>
-    /// Sample based on this paper: Genetic Algorithm for Solving Simple Mathematical Equality Problem: http://arxiv.org/ftp/arxiv/papers/1308/1308.4675.pdf
+    /// Sample based on this paper: Genetic Algorithm for Solving Simple Mathematical Equality Problem.
+    /// <see href="http://arxiv.org/ftp/arxiv/papers/1308/1308.4675.pdf" />
     /// </summary>
     [DisplayName("Equality equation")]
     public class EqualitySampleController : SampleControllerBase
@@ -21,7 +22,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         /// <summary>
         /// Creates the chromosome.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The sample chromosome.</returns>
         public override IChromosome CreateChromosome()
         {
             return new EquationChromosome(30, 4);
@@ -30,7 +31,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         /// <summary>
         /// Creates the fitness.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The fitness.</returns>
         public override IFitness CreateFitness()
         {
             m_fitness = new EqualityFitness();

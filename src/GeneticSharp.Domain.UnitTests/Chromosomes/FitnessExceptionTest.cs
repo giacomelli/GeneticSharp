@@ -8,6 +8,7 @@ using Rhino.Mocks;
 namespace GeneticSharp.Domain.UnitTests.Chromosomes
 {
     [TestFixture]
+    [Category("Chromosomes")]
     public class FitnessExceptionTest
     {
         [Test]

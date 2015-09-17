@@ -15,9 +15,9 @@ namespace GeneticSharp.Domain.Chromosomes
 
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Chromosomes.Gene"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Chromosomes.Gene"/> struct.
         /// </summary>
-        /// <param name="value">The gene intial value.</param>
+        /// <param name="value">The gene initial value.</param>
         public Gene(object value)
         {
             m_value = value;
@@ -29,7 +29,13 @@ namespace GeneticSharp.Domain.Chromosomes
         /// Gets the value.
         /// </summary>
         /// <value>The value.</value>
-        public Object Value { get { return m_value; } }
+        public Object Value
+        {
+            get
+            {
+                return m_value;
+            }
+        }
         #endregion
 
         #region Methods
@@ -39,7 +45,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <returns>A <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>.</returns>
         public override string ToString()
         {
-            return Value != null ? Value.ToString() : "";
+            return Value != null ? Value.ToString() : String.Empty;
         }
 
         /// <summary>
@@ -87,15 +93,27 @@ namespace GeneticSharp.Domain.Chromosomes
             return Value.GetHashCode();
         }
 
-        /// <param name="first">First.</param>
-        /// <param name="second">Second.</param>
+        /// <summary>
+        /// Implements the operator ==.
+        /// </summary>
+        /// <param name="first">The first.</param>
+        /// <param name="second">The second.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static bool operator ==(Gene first, Gene second)
         {
             return first.Equals(second);
         }
 
-        /// <param name="first">First.</param>
-        /// <param name="second">Second.</param>
+        /// <summary>
+        /// Implements the operator !=.
+        /// </summary>
+        /// <param name="first">The first.</param>
+        /// <param name="second">The second.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static bool operator !=(Gene first, Gene second)
         {
             return !(first == second);
@@ -103,4 +121,3 @@ namespace GeneticSharp.Domain.Chromosomes
         #endregion
     }
 }
-

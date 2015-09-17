@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Fitnesses;
-using GeneticSharp.Extensions.Tsp;
 using System.ComponentModel;
+using System.Linq;
+using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Mutations;
+using GeneticSharp.Extensions.Tsp;
 
 namespace GeneticSharp.Runner.ConsoleApp.Samples
 {
@@ -29,7 +27,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         public override IFitness CreateFitness()
         {
             m_fitness = new TspFitness(m_numberOfCities, 0, 1000, 0, 1000);
-            
+
             return m_fitness;
         }
 
@@ -49,16 +47,17 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         }
 
         /// <summary>
-        /// Draws the sample;
+        /// Draws the sample.
         /// </summary>
+        /// <param name="bestChromosome">The current best chromosome</param>
         public override void Draw(IChromosome bestChromosome)
         {
             var c = bestChromosome as TspChromosome;
             Console.WriteLine("Cities: {0:n0}", c.Length);
             Console.WriteLine("Distance: {0:n2}", c.Distance);
 
-			var cities = bestChromosome.GetGenes ().Select (g => g.Value.ToString ()).ToArray ();
-            Console.WriteLine("City tour: {0}", String.Join(", ", cities));            
+            var cities = bestChromosome.GetGenes().Select(g => g.Value.ToString()).ToArray();
+            Console.WriteLine("City tour: {0}", string.Join(", ", cities));
         }
     }
 }

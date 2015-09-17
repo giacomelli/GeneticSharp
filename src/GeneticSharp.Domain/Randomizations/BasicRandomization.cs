@@ -45,4 +45,3 @@ namespace GeneticSharp.Domain.Randomizations
         #endregion
     }
 }
-

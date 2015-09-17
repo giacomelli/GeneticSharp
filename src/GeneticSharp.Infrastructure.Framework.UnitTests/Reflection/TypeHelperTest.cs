@@ -6,17 +6,18 @@ using TestSharp;
 
 namespace GeneticSharp.Infrastructure.Framework.UnitTests.Reflection
 {
-	[TestFixture()]
-	public class TypeHelperTest
+    [TestFixture()]
+    [Category("Infrastructure")]
+    public class TypeHelperTest
 	{
-		[Test()]
+        [Test()]
         public void GetDisplayNamesByInterface_ThereIsTypeWithoutDisplayNameAttribute_Exception()
-		{
-            ExceptionAssert.IsThrowing(new InvalidOperationException("The type 'BasicRandomization' has no DisplayNameAttribute."), () =>
+        {
+            ExceptionAssert.IsThrowing(new InvalidOperationException("The member 'BasicRandomization' has no DisplayNameAttribute."), () =>
             {
                 TypeHelper.GetDisplayNamesByInterface<IRandomization>();
-			});
-		}
+        	});
+        }
 	}
 }
 

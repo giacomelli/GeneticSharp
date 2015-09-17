@@ -1,12 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.Mathematic;
-using System.ComponentModel;
 using Jace;
 using Jace.Tokenizer;
-using System.Collections.Generic;
 
 namespace GeneticSharp.Runner.ConsoleApp.Samples
 {
@@ -26,7 +26,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         /// <summary>
         /// Creates the chromosome.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The sample chromosome.</returns>
         public override IChromosome CreateChromosome()
         {
             return new EquationChromosome(m_equationResult, m_variables.Count);
@@ -35,7 +35,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         /// <summary>
         /// Creates the fitness.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The fitness.</returns>
         public override IFitness CreateFitness()
         {
             m_fitness = new EquationSolverFitness(m_equationResult, GetEquationResult);
@@ -57,7 +57,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
             Console.WriteLine("     a^3 - 4*b^2 + 3*c - 4 = 0");
 
             m_equation = Console.ReadLine();
-            
+
             var equationParts = m_equation.Split('=');
             m_equationLeftPart = equationParts[0];
             m_equationRightPart = equationParts[1];
@@ -68,7 +68,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
 
             foreach (var token in tokens)
             {
-                if(token.TokenType == TokenType.Text)
+                if (token.TokenType == TokenType.Text)
                 {
                     var value = token.Value as string;
 
@@ -80,7 +80,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
             }
 
             var engine = new CalculationEngine();
-            m_equationResult = (int) engine.Calculate(m_equationRightPart);
+            m_equationResult = (int)engine.Calculate(m_equationRightPart);
         }
 
         private int GetEquationResult(Gene[] genes)
@@ -104,7 +104,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         /// <param name="bestChromosome">The best chromosome.</param>
         public override void Draw(IChromosome bestChromosome)
         {
-            Console.WriteLine("Equation: {0}", m_equation);   
+            Console.WriteLine("Equation: {0}", m_equation);
             var best = bestChromosome as EquationChromosome;
 
             var genes = best.GetGenes();

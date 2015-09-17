@@ -18,44 +18,46 @@ using Gtk;
 /// <summary>
 /// Main window.
 /// </summary>
-public partial class MainWindow: Gtk.Window
-{	
-	#region Fields
-	private GeneticAlgorithm m_ga;
-	private IFitness m_fitness;
-	private ISelection m_selection;
-	private ICrossover m_crossover;
-	private IMutation m_mutation;
+public partial class MainWindow : Gtk.Window
+{
+    #region Fields
+    private GeneticAlgorithm m_ga;
+    private IFitness m_fitness;
+    private ISelection m_selection;
+    private ICrossover m_crossover;
+    private IMutation m_mutation;
     private IReinsertion m_reinsertion;
-	private ITermination m_termination;
+    private ITermination m_termination;
     private IGenerationStrategy m_generationStrategy;
-    
-	private ISampleController m_sampleController;
+
+    private ISampleController m_sampleController;
     private SampleContext m_sampleContext;
-	private Thread m_evolvingThread;
-	#endregion
+    private Thread m_evolvingThread;
+    #endregion
 
-	#region Constructors
-	public MainWindow (): base (Gtk.WindowType.Toplevel)
-	{
-		Build ();
+    #region Constructors
+    public MainWindow() : base(Gtk.WindowType.Toplevel)
+    {
+        Build();
 
-		DeleteEvent+=delegate {Application.Quit(); };
-		drawingArea.ConfigureEvent += delegate {
-			ResetBuffer ();
+        DeleteEvent += delegate { Application.Quit(); };
+        drawingArea.ConfigureEvent += delegate
+        {
+            ResetBuffer();
             UpdateSample();
-		};
+        };
 
-		drawingArea.ExposeEvent += delegate {
-			DrawBuffer();
-		};       		
+        drawingArea.ExposeEvent += delegate
+        {
+            DrawBuffer();
+        };
 
-	    ShowAll();
-		
-		btnResume.Visible = false;
-		btnStop.Visible = false;
-		btnNew.Visible = false;
-		PrepareButtons ();
+        ShowAll();
+
+        btnResume.Visible = false;
+        btnStop.Visible = false;
+        btnNew.Visible = false;
+        PrepareButtons();
         PrepareComboBoxes();
         PrepareSamples();
 
@@ -65,104 +67,113 @@ public partial class MainWindow: Gtk.Window
         hslCrossoverProbability.Value = GeneticAlgorithm.DefaultCrossoverProbability;
         hslMutationProbability.Value = GeneticAlgorithm.DefaultMutationProbability;
 
-		ResetBuffer ();
+        ResetBuffer();
         ResetSample();
 
-		GLib.Timeout.Add (100, new GLib.TimeoutHandler(delegate { UpdateSample(); return true;}));
-	}    
-	#endregion
+        GLib.Timeout.Add(
+            100,
+            new GLib.TimeoutHandler(delegate
+        {
+            UpdateSample();
+            return true;
+        }));
+    }
+    #endregion
 
-	#region GA methods
-	private void RunGAThread(bool isResuming)
-	{
-		vbxSample.Sensitive = false;
-		vbxGA.Sensitive = false;
-		m_evolvingThread = isResuming ? new Thread (ResumeGA) : new Thread (StartGA);
-		m_evolvingThread.Start();
-	}
+    #region GA methods
+    private void RunGAThread(bool isResuming)
+    {
+        vbxSample.Sensitive = false;
+        vbxGA.Sensitive = false;
+        m_evolvingThread = isResuming ? new Thread(ResumeGA) : new Thread(StartGA);
+        m_evolvingThread.Start();
+    }
 
-	private void StartGA()
-	{
-		RunGA (() => {
-			m_sampleController.Reset ();
-			m_sampleContext.Population = new Population (
-				Convert.ToInt32 (sbtPopulationMinSize.Value),
-				Convert.ToInt32 (sbtPopulationMaxSize.Value),
-				m_sampleController.CreateChromosome ());
+    private void StartGA()
+    {
+        RunGA(() =>
+        {
+            m_sampleController.Reset();
+            m_sampleContext.Population = new Population(
+                Convert.ToInt32(sbtPopulationMinSize.Value),
+                Convert.ToInt32(sbtPopulationMaxSize.Value),
+                m_sampleController.CreateChromosome());
 
-			m_sampleContext.Population.GenerationStrategy = m_generationStrategy;
+            m_sampleContext.Population.GenerationStrategy = m_generationStrategy;
 
-			m_ga = new GeneticAlgorithm (
-				m_sampleContext.Population,
-				m_fitness,
-				m_selection,
-				m_crossover,
-				m_mutation);
+            m_ga = new GeneticAlgorithm(
+                m_sampleContext.Population,
+                m_fitness,
+                m_selection,
+                m_crossover,
+                m_mutation);
 
-			m_ga.CrossoverProbability = Convert.ToSingle (hslCrossoverProbability.Value);
-			m_ga.MutationProbability = Convert.ToSingle (hslMutationProbability.Value);
-			m_ga.Reinsertion = m_reinsertion;
-			m_ga.Termination = m_termination;
+            m_ga.CrossoverProbability = Convert.ToSingle(hslCrossoverProbability.Value);
+            m_ga.MutationProbability = Convert.ToSingle(hslMutationProbability.Value);
+            m_ga.Reinsertion = m_reinsertion;
+            m_ga.Termination = m_termination;
 
             m_sampleContext.GA = m_ga;
             m_ga.GenerationRan += delegate
             {
-				Application.Invoke(delegate {
-                	m_sampleController.Update();
-				});
+                Application.Invoke(delegate
+                {
+                    m_sampleController.Update();
+                });
             };
 
-			m_ga.Start ();
-		});
-	}
+            m_ga.Start();
+        });
+    }
 
-	private void ResumeGA()
-	{
-		RunGA (() => {
-			m_ga.Population.MinSize = Convert.ToInt32 (sbtPopulationMinSize.Value);
-			m_ga.Population.MaxSize = Convert.ToInt32 (sbtPopulationMaxSize.Value);
-			m_ga.Selection = m_selection;
-			m_ga.Crossover = m_crossover;
-			m_ga.Mutation = m_mutation;
-			m_ga.CrossoverProbability = Convert.ToSingle (hslCrossoverProbability.Value);
-			m_ga.MutationProbability = Convert.ToSingle (hslMutationProbability.Value);
-			m_ga.Reinsertion = m_reinsertion;
-			m_ga.Termination = m_termination;
+    private void ResumeGA()
+    {
+        RunGA(() =>
+        {
+            m_ga.Population.MinSize = Convert.ToInt32(sbtPopulationMinSize.Value);
+            m_ga.Population.MaxSize = Convert.ToInt32(sbtPopulationMaxSize.Value);
+            m_ga.Selection = m_selection;
+            m_ga.Crossover = m_crossover;
+            m_ga.Mutation = m_mutation;
+            m_ga.CrossoverProbability = Convert.ToSingle(hslCrossoverProbability.Value);
+            m_ga.MutationProbability = Convert.ToSingle(hslMutationProbability.Value);
+            m_ga.Reinsertion = m_reinsertion;
+            m_ga.Termination = m_termination;
 
-			m_ga.Resume();
-		});
-	}
+            m_ga.Resume();
+        });
+    }
 
     private void RunGA(System.Action runAction)
     {
         try
         {
-			runAction();
-	    }
-	    catch (Exception ex)
-        {
-			Application.Invoke(delegate
-			{
-				var msg = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.YesNo, "{0}\n\nDo you want to see more details about this error?", ex.Message);
-
-	            if (msg.Run() == (int)ResponseType.Yes)
-	            {
-	                var details = new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, ex.StackTrace);
-	                details.Run();
-	                details.Destroy();
-	            }
-
-	            msg.Destroy();
-			});
+            runAction();
         }
-        
-		Application.Invoke(delegate
-		{
-			btnNew.Visible = true;
-			btnResume.Visible = true;
-			btnStop.Visible = false;
-			vbxGA.Sensitive = true;
-		});
+        catch (Exception ex)
+        {
+            Application.Invoke(delegate
+            {
+                var msg = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.YesNo, "{0}\n\nDo you want to see more details about this error?", ex.Message);
+
+                if (msg.Run() == (int)ResponseType.Yes)
+                {
+                    var details = new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, ex.StackTrace);
+                    details.Run();
+                    details.Destroy();
+                }
+
+                msg.Destroy();
+            });
+        }
+
+        Application.Invoke(delegate
+        {
+            btnNew.Visible = true;
+            btnResume.Visible = true;
+            btnStop.Visible = false;
+            vbxGA.Sensitive = true;
+        });
     }
     #endregion
 
@@ -191,7 +202,7 @@ public partial class MainWindow: Gtk.Window
         };
 
         problemConfigWidgetContainer.Add(m_sampleController.CreateConfigWidget());
-		problemConfigWidgetContainer.ShowAll();
+        problemConfigWidgetContainer.ShowAll();
 
         cmbSample.Changed += delegate
         {
@@ -246,44 +257,48 @@ public partial class MainWindow: Gtk.Window
         }
 
         DrawBuffer();
-    }	
+    }
     #endregion
 
     #region Form methods
 
-	void PrepareButtons ()
-	{
-		btnStart.Clicked += delegate {
-			btnStop.Visible = true;
-			btnStart.Visible = false;
-			RunGAThread(false);
-		};
+    private void PrepareButtons()
+    {
+        btnStart.Clicked += delegate
+        {
+            btnStop.Visible = true;
+            btnStart.Visible = false;
+            RunGAThread(false);
+        };
 
-		btnResume.Clicked += delegate {
-			btnStop.Visible = true;
-			btnNew.Visible = false;
-			btnResume.Visible = false;
-			RunGAThread(true);
-		};
+        btnResume.Clicked += delegate
+        {
+            btnStop.Visible = true;
+            btnNew.Visible = false;
+            btnResume.Visible = false;
+            RunGAThread(true);
+        };
 
-		btnStop.Clicked += delegate {
-			btnStop.Label = "Stopping...";
-			btnStop.Sensitive = false;
-			m_ga.Stop();
-			btnStop.Label = "_Stop";
-			btnResume.Visible = true;
-			btnStop.Visible = false;
-			btnStop.Sensitive = true;
-			btnNew.Visible = true;
-		};
+        btnStop.Clicked += delegate
+        {
+            btnStop.Label = "Stopping...";
+            btnStop.Sensitive = false;
+            m_ga.Stop();
+            btnStop.Label = "_Stop";
+            btnResume.Visible = true;
+            btnStop.Visible = false;
+            btnStop.Sensitive = true;
+            btnNew.Visible = true;
+        };
 
-		btnNew.Clicked += delegate {
-			btnResume.Visible = false;
-			btnStart.Visible = true;
-			btnNew.Visible = false;
-			vbxSample.Sensitive = true;
-		};
-	}
+        btnNew.Clicked += delegate
+        {
+            btnResume.Visible = false;
+            btnStart.Visible = true;
+            btnNew.Visible = false;
+            vbxSample.Sensitive = true;
+        };
+    }
 
     private void PrepareComboBoxes()
     {
@@ -317,7 +332,8 @@ public partial class MainWindow: Gtk.Window
         PrepareEditComboBox(
             cmbTermination,
             btnEditTermination,
-            () => {
+            () =>
+            {
                 return TerminationService.GetTerminationNames()
                     .Where(t => !t.Equals("And", StringComparison.OrdinalIgnoreCase) && !t.Equals("Or", StringComparison.OrdinalIgnoreCase)).ToList();
             },
@@ -394,21 +410,21 @@ public partial class MainWindow: Gtk.Window
             editButton.Hide();
         }
     }
-   
-	private void ResetBuffer()
-	{
-        m_sampleContext.Buffer = new Pixmap(drawingArea.GdkWindow, drawingArea.Allocation.Width, drawingArea.Allocation.Height);
-	}
-	
-	private void DrawBuffer()
-	{
-        drawingArea.GdkWindow.DrawDrawable(m_sampleContext.GC, m_sampleContext.Buffer, 0, 0, 0, 0, drawingArea.Allocation.Width, drawingArea.Allocation.Height);
-	}
 
-	protected void OnDeleteEvent (object sender, DeleteEventArgs a)
-	{
-		Application.Quit ();
-		a.RetVal = true;
-	}	
-	#endregion
+    private void ResetBuffer()
+    {
+        m_sampleContext.Buffer = new Pixmap(drawingArea.GdkWindow, drawingArea.Allocation.Width, drawingArea.Allocation.Height);
+    }
+
+    private void DrawBuffer()
+    {
+        drawingArea.GdkWindow.DrawDrawable(m_sampleContext.GC, m_sampleContext.Buffer, 0, 0, 0, 0, drawingArea.Allocation.Width, drawingArea.Allocation.Height);
+    }
+
+    protected void OnDeleteEvent(object sender, DeleteEventArgs a)
+    {
+        Application.Quit();
+        a.RetVal = true;
+    }
+    #endregion
 }

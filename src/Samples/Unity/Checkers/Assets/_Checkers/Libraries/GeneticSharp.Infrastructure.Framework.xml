@@ -12,11 +12,13 @@
             <summary>
             Gets types by interface name
             </summary>
+            <typeparam name="TInterface">The interface.</typeparam>
             <returns>All types that implements the interface specified.</returns></member>
         <member name="M:GeneticSharp.Infrastructure.Framework.Reflection.TypeHelper.GetDisplayNamesByInterface``1">
             <summary>
             Gets the available crossover names.
             </summary>
+            <typeparam name="TInterface">The interface.</typeparam>
             <returns>The crossover names.</returns></member>
         <member name="M:GeneticSharp.Infrastructure.Framework.Reflection.TypeHelper.CreateInstanceByName``1(System.String,System.Object[])">
             <summary>
@@ -24,17 +26,30 @@
             </summary>
             <returns>The TInterface's implementation instance.</returns>
             <param name="name">The TInterface's implementation name.</param>
-            <param name="constructorArgs">Constructor arguments.</param></member>
+            <param name="constructorArgs">Constructor arguments.</param>
+            <typeparam name="TInterface">The interface.</typeparam></member>
         <member name="M:GeneticSharp.Infrastructure.Framework.Reflection.TypeHelper.GetTypeByName``1(System.String)">
             <summary>
             Gets the TInterface's implementation with the specified name.
             </summary>
             <returns>The TInterface's implementation type.</returns>
-            <param name="name">The TInterface's implementation name.</param></member>
+            <param name="name">The TInterface's implementation name.</param>
+            <typeparam name="TInterface">The interface.</typeparam></member>
         <member name="T:GeneticSharp.Infrastructure.Framework.Threading.ITaskExecutor">
             <summary>
             Defines a interface to a task executor.
             </summary></member>
+        <member name="P:GeneticSharp.Infrastructure.Framework.Threading.ITaskExecutor.Timeout">
+            <summary>
+            Gets or sets the timeout to execute the tasks.
+            </summary></member>
+        <member name="P:GeneticSharp.Infrastructure.Framework.Threading.ITaskExecutor.IsRunning">
+            <summary>
+            Gets a value indicating whether this instance is running.
+            </summary>
+            <value>
+            <c>true</c> if this instance is running; otherwise, <c>false</c>.
+            </value></member>
         <member name="M:GeneticSharp.Infrastructure.Framework.Threading.ITaskExecutor.Add(System.Action)">
             <summary>
             Add the specified task to be executed.
@@ -53,17 +68,6 @@
             <summary>
             Stops the tasks execution.
             </summary></member>
-        <member name="P:GeneticSharp.Infrastructure.Framework.Threading.ITaskExecutor.Timeout">
-            <summary>
-            Gets or sets the timeout to execute the tasks.
-            </summary></member>
-        <member name="P:GeneticSharp.Infrastructure.Framework.Threading.ITaskExecutor.IsRunning">
-            <summary>
-            Gets a value indicating whether this instance is running.
-            </summary>
-            <value>
-            <c>true</c> if this instance is running; otherwise, <c>false</c>.
-            </value></member>
         <member name="T:GeneticSharp.Infrastructure.Framework.Threading.LinearTaskExecutor">
             <summary>
             An ITaskExecutor's implementation that executes the tasks in a linear fashion.
@@ -98,7 +102,7 @@
             <value>The timeout.</value></member>
         <member name="P:GeneticSharp.Infrastructure.Framework.Threading.TaskExecutorBase.IsRunning">
             <summary>
-            Gets a value indicating whether this instance is running.
+            Gets or sets a value indicating whether this instance is running.
             </summary>
             <value>
             <c>true</c> if this instance is running; otherwise, <c>false</c>.

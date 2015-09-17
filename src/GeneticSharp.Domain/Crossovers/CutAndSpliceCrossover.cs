@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
-using System.Linq;
 
 namespace GeneticSharp.Domain.Crossovers
 {
@@ -32,11 +31,10 @@ namespace GeneticSharp.Domain.Crossovers
         /// <summary>
         /// Performs the cross with specified parents generating the children.
         /// </summary>
-        /// <param name="parents">Parents.</param>
+        /// <param name="parents">The parents chromosomes.</param>
         /// <returns>
         /// The offspring (children) of the parents.
         /// </returns>
-        /// <exception cref="System.NotImplementedException"></exception>
         protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
         {
             var parent1 = parents[0];

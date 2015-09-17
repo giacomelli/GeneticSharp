@@ -11,6 +11,7 @@ using TestSharp;
 namespace GeneticSharp.Extensions.UnitTests.Tsp
 {
     [TestFixture()]
+    [Category("Extensions")]
     public class TspTest
     {
         [Test()]

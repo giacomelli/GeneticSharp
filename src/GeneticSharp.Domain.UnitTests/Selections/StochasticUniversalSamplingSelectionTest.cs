@@ -12,6 +12,7 @@ using TestSharp;
 namespace GeneticSharp.Domain.UnitTests.Selections
 {
     [TestFixture]
+    [Category("Selections")]
     public class StochasticUniversalSamplingSelectionTest
     {
         [SetUp]
@@ -70,8 +71,8 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             c4.Fitness = 0.7;
 
             var generation = new Generation(1, new List<IChromosome>() {
-				c1, c2, c3, c4
-			});
+                c1, c2, c3, c4
+        	});
 
             // Fitness sum: 0.1 + 0.5 + 0 + 0.7 = 1.3
             // c1:  8% = 0.08

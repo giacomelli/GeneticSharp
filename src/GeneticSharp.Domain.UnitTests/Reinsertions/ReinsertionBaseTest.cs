@@ -9,8 +9,9 @@ using GeneticSharp.Domain.Chromosomes;
 
 namespace GeneticSharp.Domain.UnitTests.Reinsertions
 {
-	[TestFixture()]
-	public class ReinsertionBaseTest
+    [TestFixture()]
+    [Category("Reinsertions")]
+    public class ReinsertionBaseTest
 	{
         [Test()]
         public void SelectChromosomes_PopulationNull_Exception()
@@ -18,15 +19,15 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             var target = MockRepository.GeneratePartialMock<ReinsertionBase>(false, false);
             var chromosome = MockRepository.GenerateStub<ChromosomeBase>(2);
             var offspring = new List<IChromosome>() { 
-				chromosome, chromosome, chromosome, chromosome
-			};
+                chromosome, chromosome, chromosome, chromosome
+        	};
 
             var parents = new List<IChromosome>() { 
-				MockRepository.GenerateStub<ChromosomeBase> (2), 
-				MockRepository.GenerateStub<ChromosomeBase> (2), 
-				MockRepository.GenerateStub<ChromosomeBase> (2), 
-				MockRepository.GenerateStub<ChromosomeBase> (2)
-			};
+                MockRepository.GenerateStub<ChromosomeBase> (2), 
+                MockRepository.GenerateStub<ChromosomeBase> (2), 
+                MockRepository.GenerateStub<ChromosomeBase> (2), 
+                MockRepository.GenerateStub<ChromosomeBase> (2)
+        	};
 
 
             ExceptionAssert.IsThrowing(new ArgumentNullException("population"), () =>
@@ -43,11 +44,11 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             var population = new Population(5, 6, chromosome);
 
             var parents = new List<IChromosome>() { 
-				MockRepository.GenerateStub<ChromosomeBase> (2), 
-				MockRepository.GenerateStub<ChromosomeBase> (2), 
-				MockRepository.GenerateStub<ChromosomeBase> (2), 
-				MockRepository.GenerateStub<ChromosomeBase> (2)
-			};
+                MockRepository.GenerateStub<ChromosomeBase> (2), 
+                MockRepository.GenerateStub<ChromosomeBase> (2), 
+                MockRepository.GenerateStub<ChromosomeBase> (2), 
+                MockRepository.GenerateStub<ChromosomeBase> (2)
+        	};
 
 
             ExceptionAssert.IsThrowing(new ArgumentNullException("offspring"), () =>
@@ -63,8 +64,8 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             var chromosome = MockRepository.GenerateStub<ChromosomeBase>(2);
             var population = new Population(5, 6, chromosome);
             var offspring = new List<IChromosome>() { 
-				chromosome, chromosome, chromosome, chromosome
-			};
+                chromosome, chromosome, chromosome, chromosome
+        	};
 
             ExceptionAssert.IsThrowing(new ArgumentNullException("parents"), () =>
             {
@@ -72,74 +73,74 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             });
         }
 
-		[Test()]
-		public void SelectChromosomes_CanExpandFalseWithoffspringSizeLowerThanMinSize_Exception ()
-		{
-			var target = MockRepository.GeneratePartialMock<ReinsertionBase>(false, false);
-			var chromosome = MockRepository.GenerateStub<ChromosomeBase> (2);
-			var population = new Population (5, 6, chromosome);
-			var offspring = new List<IChromosome> () { 
-				chromosome, chromosome, chromosome, chromosome
-			};
+        [Test()]
+        public void SelectChromosomes_CanExpandFalseWithoffspringSizeLowerThanMinSize_Exception ()
+        {
+        	var target = MockRepository.GeneratePartialMock<ReinsertionBase>(false, false);
+        	var chromosome = MockRepository.GenerateStub<ChromosomeBase> (2);
+        	var population = new Population (5, 6, chromosome);
+        	var offspring = new List<IChromosome> () { 
+                chromosome, chromosome, chromosome, chromosome
+        	};
 
-			var parents = new List<IChromosome> () { 
-				MockRepository.GenerateStub<ChromosomeBase> (2), 
-				MockRepository.GenerateStub<ChromosomeBase> (2), 
-				MockRepository.GenerateStub<ChromosomeBase> (2), 
-				MockRepository.GenerateStub<ChromosomeBase> (2)
-			};
-
-
-			ExceptionAssert.IsThrowing (new ReinsertionException (target, "Cannot expand the number of chromosome in population. Try another reinsertion!"), () => {
-				target.SelectChromosomes(population, offspring, parents);
-			});
-		}
-
-		[Test()]
-		public void SelectChromosomes_CanCollapseFalseWithoffspringSizeGreaterThanMaxSize_Exception ()
-		{
-			var target = MockRepository.GeneratePartialMock<ReinsertionBase>(false, false);
-			var chromosome = MockRepository.GenerateStub<ChromosomeBase> (2);
-			var population = new Population (2, 3, chromosome);
-			var offspring = new List<IChromosome> () { 
-				chromosome, chromosome, chromosome, chromosome
-			};
-
-			var parents = new List<IChromosome> () { 
-				MockRepository.GenerateStub<ChromosomeBase> (2), 
-				MockRepository.GenerateStub<ChromosomeBase> (2), 
-				MockRepository.GenerateStub<ChromosomeBase> (2), 
-				MockRepository.GenerateStub<ChromosomeBase> (2)
-			};
+        	var parents = new List<IChromosome> () { 
+                MockRepository.GenerateStub<ChromosomeBase> (2), 
+                MockRepository.GenerateStub<ChromosomeBase> (2), 
+                MockRepository.GenerateStub<ChromosomeBase> (2), 
+                MockRepository.GenerateStub<ChromosomeBase> (2)
+        	};
 
 
-			ExceptionAssert.IsThrowing (new ReinsertionException (target, "Cannot collapse the number of chromosome in population. Try another reinsertion!"), () => {
-				target.SelectChromosomes(population, offspring, parents);
-			});
-		}
+        	ExceptionAssert.IsThrowing (new ReinsertionException (target, "Cannot expand the number of chromosome in population. Try another reinsertion!"), () => {
+                target.SelectChromosomes(population, offspring, parents);
+        	});
+        }
 
-		[Test()]
-		public void SelectChromosomes_CanCollapseAndExpandFalseWithoffspringSizeBetweenMinOrMaxSize_ChromosomesSelected ()
-		{
-			var target = MockRepository.GeneratePartialMock<ReinsertionBase>(false, false);
-		
-			var chromosome = MockRepository.GenerateStub<ChromosomeBase> (2);
-			var population = new Population (2, 5, chromosome);
-			var offspring = new List<IChromosome> () { 
-				chromosome, chromosome, chromosome, chromosome
-			};
+        [Test()]
+        public void SelectChromosomes_CanCollapseFalseWithoffspringSizeGreaterThanMaxSize_Exception ()
+        {
+        	var target = MockRepository.GeneratePartialMock<ReinsertionBase>(false, false);
+        	var chromosome = MockRepository.GenerateStub<ChromosomeBase> (2);
+        	var population = new Population (2, 3, chromosome);
+        	var offspring = new List<IChromosome> () { 
+                chromosome, chromosome, chromosome, chromosome
+        	};
 
-			var parents = new List<IChromosome> () { 
-				MockRepository.GenerateStub<ChromosomeBase> (2), 
-				MockRepository.GenerateStub<ChromosomeBase> (2), 
-				MockRepository.GenerateStub<ChromosomeBase> (2), 
-				MockRepository.GenerateStub<ChromosomeBase> (2)
-			};
+        	var parents = new List<IChromosome> () { 
+                MockRepository.GenerateStub<ChromosomeBase> (2), 
+                MockRepository.GenerateStub<ChromosomeBase> (2), 
+                MockRepository.GenerateStub<ChromosomeBase> (2), 
+                MockRepository.GenerateStub<ChromosomeBase> (2)
+        	};
 
-			ExceptionAssert.IsThrowing (typeof(Rhino.Mocks.Exceptions.ExpectationViolationException), () => {
-				target.SelectChromosomes (population, offspring, parents);
-			});
-		}
+
+        	ExceptionAssert.IsThrowing (new ReinsertionException (target, "Cannot collapse the number of chromosome in population. Try another reinsertion!"), () => {
+                target.SelectChromosomes(population, offspring, parents);
+        	});
+        }
+
+        [Test()]
+        public void SelectChromosomes_CanCollapseAndExpandFalseWithoffspringSizeBetweenMinOrMaxSize_ChromosomesSelected ()
+        {
+        	var target = MockRepository.GeneratePartialMock<ReinsertionBase>(false, false);
+        
+        	var chromosome = MockRepository.GenerateStub<ChromosomeBase> (2);
+        	var population = new Population (2, 5, chromosome);
+        	var offspring = new List<IChromosome> () { 
+                chromosome, chromosome, chromosome, chromosome
+        	};
+
+        	var parents = new List<IChromosome> () { 
+                MockRepository.GenerateStub<ChromosomeBase> (2), 
+                MockRepository.GenerateStub<ChromosomeBase> (2), 
+                MockRepository.GenerateStub<ChromosomeBase> (2), 
+                MockRepository.GenerateStub<ChromosomeBase> (2)
+        	};
+
+        	ExceptionAssert.IsThrowing (typeof(Rhino.Mocks.Exceptions.ExpectationViolationException), () => {
+                target.SelectChromosomes (population, offspring, parents);
+        	});
+        }
 	}
 }
 

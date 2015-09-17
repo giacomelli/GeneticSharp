@@ -6,6 +6,7 @@ using TestSharp;
 namespace GeneticSharp.Domain.UnitTests.Reinsertions
 {
     [TestFixture()]
+    [Category("Reinsertions")]
     public class ReinsertionServiceTest
     {
         [Test()]

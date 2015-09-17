@@ -5,40 +5,40 @@ using HelperSharp;
 namespace GeneticSharp.Extensions.Checkers
 {
     #region Enums
-	/// <summary>
-	///  Moove kind.
-	/// </summary>
+    /// <summary>
+    ///  Move kind.
+    /// </summary>
     public enum CheckersMoveKind
     {
-		/// <summary>
-		/// The move is invalid.
-		/// </summary>
+        /// <summary>
+        /// The move is invalid.
+        /// </summary>
         Invalid,
 
-		/// <summary>
-		/// A forward move.
-		/// </summary>
+        /// <summary>
+        /// A forward move.
+        /// </summary>
         Forward,
 
-		/// <summary>
-		/// A capture move.
-		/// </summary>
+        /// <summary>
+        /// A capture move.
+        /// </summary>
         Capture
     }
     #endregion
 
     /// <summary>
-	/// Checkers move.
-	/// </summary>
+    /// Checkers move.
+    /// </summary>
     [DebuggerDisplay("({From.ColumnIndex}, {From.RowIndex}) -> ({To.ColumnIndex}, {To.RowIndex})")]
     public class CheckersMove
-    {        
+    {
         #region Constructors
         /// <summary>
-		/// Initializes a new instance of the <see cref="GeneticSharp.Extensions.Checkers.CheckersMove"/> class.
-		/// </summary>
-		/// <param name="piece">The piece which will be moved.</param>
-		/// <param name="toSquare">The target square.</param>
+        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.Checkers.CheckersMove"/> class.
+        /// </summary>
+        /// <param name="piece">The piece which will be moved.</param>
+        /// <param name="toSquare">The target square.</param>
         public CheckersMove(CheckersPiece piece, CheckersSquare toSquare)
         {
             ExceptionHelper.ThrowIfNull("piece", piece);
@@ -49,23 +49,22 @@ namespace GeneticSharp.Extensions.Checkers
             }
 
             ExceptionHelper.ThrowIfNull("toSquare", toSquare);
-            
+
             Piece = piece;
             ToSquare = toSquare;
         }
         #endregion
 
         #region Properties
-		/// <summary>
-		/// Gets or sets move from square.
-		/// </summary>
+        /// <summary>
+        /// Gets or sets move from square.
+        /// </summary>
         public CheckersPiece Piece { get; set; }
 
-		/// <summary>
-		/// Gets or sets move to square.
-		/// </summary>
+        /// <summary>
+        /// Gets or sets move to square.
+        /// </summary>
         public CheckersSquare ToSquare { get; set; }
         #endregion
     }
 }
-

@@ -7,6 +7,7 @@ using TestSharp;
 namespace GeneticSharp.Infrastructure.Threading.UnitTests
 {
     [TestFixture()]
+    [Category("Infrastructure")]
     public class SmartThreadPoolTaskExecutorTest
     {
         [Test()]

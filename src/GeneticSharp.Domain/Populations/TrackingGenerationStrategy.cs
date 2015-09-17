@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using HelperSharp;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace GeneticSharp.Domain.Populations
 {
     /// <summary>
-    /// An IGenerationStrategy's implementation that keeps all generations to further avaliation.
+    /// An IGenerationStrategy's implementation that keeps all generations to further evaluation.
     /// <remarks>
     /// This strategy can be slow and can suffer of OutOfMemoryException when you have great population and a long term termination.
     /// </remarks>
     /// </summary>
- 	[DisplayName("Tracking")]
-	public class TrackingGenerationStrategy : IGenerationStrategy
+     [DisplayName("Tracking")]
+    public class TrackingGenerationStrategy : IGenerationStrategy
     {
         #region Methods
         /// <summary>

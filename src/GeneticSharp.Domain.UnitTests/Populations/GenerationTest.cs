@@ -9,6 +9,7 @@ using TestSharp;
 namespace GeneticSharp.Domain.UnitTests.Populations
 {
     [TestFixture()]
+    [Category("Populations")]
     public class GenerationTest
     {
         [Test()]
@@ -48,9 +49,9 @@ namespace GeneticSharp.Domain.UnitTests.Populations
         public void Constructor_OkArguments_Instanced()
         {
             var target = new Generation(1, new List<IChromosome>() {
-				MockRepository.GenerateMock<IChromosome>(),
-				MockRepository.GenerateMock<IChromosome>() 
-			});
+                MockRepository.GenerateMock<IChromosome>(),
+                MockRepository.GenerateMock<IChromosome>() 
+        	});
 
             Assert.AreEqual(1, target.Number);
             Assert.AreEqual(2, target.Chromosomes.Count);
@@ -60,10 +61,10 @@ namespace GeneticSharp.Domain.UnitTests.Populations
         public void End_AnyChromosomeWithoutFitness_Exception()
         {
             var target = new Generation(1, new List<IChromosome>() {
-				new ChromosomeStub() { Fitness = 0.2 },
-				new ChromosomeStub() { Fitness = null},
+                new ChromosomeStub() { Fitness = 0.2 },
+                new ChromosomeStub() { Fitness = null},
                 new ChromosomeStub() { Fitness = 0.1 }
-			});
+        	});
 
             ExceptionAssert.IsThrowing(new InvalidOperationException("There is unknown problem in current generation, because a chromosome has no fitness value."), () =>
             {
@@ -75,10 +76,10 @@ namespace GeneticSharp.Domain.UnitTests.Populations
         public void End_ChromosomeNumberGreaterThan_Take()
         {
             var target = new Generation(1, new List<IChromosome>() {
-				new ChromosomeStub() { Fitness = 0.2 },
-				new ChromosomeStub() { Fitness = 0.3 },
+                new ChromosomeStub() { Fitness = 0.2 },
+                new ChromosomeStub() { Fitness = 0.3 },
                 new ChromosomeStub() { Fitness = 0.1 }
-			});
+        	});
 
             target.End(2);
             Assert.AreEqual(2, target.Chromosomes.Count);

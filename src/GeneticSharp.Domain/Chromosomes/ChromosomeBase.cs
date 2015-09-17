@@ -1,47 +1,50 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using HelperSharp;
-using System.Linq;
-using GeneticSharp.Domain.Crossovers;
 
 namespace GeneticSharp.Domain.Chromosomes
 {
-	/// <summary>
-	/// A base class for chromosomes.
-	/// </summary>
-	[DebuggerDisplay("Fitness:{Fitness}, Genes:{Length}")]
+    /// <summary>
+    /// A base class for chromosomes.
+    /// </summary>
+    [DebuggerDisplay("Fitness:{Fitness}, Genes:{Length}")]
     public abstract class ChromosomeBase : IChromosome
     {
-		#region Fields
-		private Gene[] m_genes;
+        #region Fields
+        private Gene[] m_genes;
         private int m_length;
-		#endregion
+        #endregion
 
-        #region Constructors
+        #region Constructors        
         /// <summary>
         /// Initializes a new instance of the <see cref="ChromosomeBase"/> class.
-        /// <param name="length">The length, in genes, of the chromosome.</param>
         /// </summary>
+        /// <param name="length">The length, in genes, of the chromosome.</param>
         protected ChromosomeBase(int length)
         {
             ValidateLength(length);
 
             m_length = length;
-			m_genes = new Gene[length];
-       }
+            m_genes = new Gene[length];
+        }
         #endregion
 
         #region Properties
-		/// <summary>
-		/// Gets or sets the fitness of the chromosome in the current problem.
-		/// </summary>
+        /// <summary>
+        /// Gets or sets the fitness of the chromosome in the current problem.
+        /// </summary>
         public double? Fitness { get; set; }
 
-		/// <summary>
-		/// Gets the length, in genes, of the chromosome.
-		/// </summary>
-        public int Length { get { return m_length; } }
+        /// <summary>
+        /// Gets the length, in genes, of the chromosome.
+        /// </summary>
+        public int Length
+        {
+            get
+            {
+                return m_length;
+            }
+        }
         #endregion
 
         #region Methods
@@ -50,50 +53,54 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </summary>
         /// <returns>The gene.</returns>
         /// <param name="geneIndex">Gene index.</param>
-        public abstract Gene GenerateGene (int geneIndex);
+        public abstract Gene GenerateGene(int geneIndex);
 
-		/// <summary>
-		/// Creates a new chromosome using the same structure of this.
-		/// </summary>
-		/// <returns>The new chromosome.</returns>
+        /// <summary>
+        /// Creates a new chromosome using the same structure of this.
+        /// </summary>
+        /// <returns>The new chromosome.</returns>
         public abstract IChromosome CreateNew();
 
-		/// <summary>
-		/// Creates a clone.
-		/// </summary>
-		public virtual IChromosome Clone()
-		{
-			var clone = CreateNew();
-			clone.ReplaceGenes (0, GetGenes ());
-			clone.Fitness = Fitness;
+        /// <summary>
+        /// Creates a clone.
+        /// </summary>
+        /// <returns>The chromosome clone.</returns>
+        public virtual IChromosome Clone()
+        {
+            var clone = CreateNew();
+            clone.ReplaceGenes(0, GetGenes());
+            clone.Fitness = Fitness;
 
-			return clone;
-		}
-	       
-		/// <summary>
-		/// Replaces the gene in the specified index.
-		/// </summary>
-		/// <param name="index">Index.</param>
-		/// <param name="gene">Gene.</param>
-		public void ReplaceGene(int index, Gene gene)
-		{
+            return clone;
+        }
+
+        /// <summary>
+        /// Replaces the gene in the specified index.
+        /// </summary>
+        /// <param name="index">The gene index to replace.</param>
+        /// <param name="gene">The new gene.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">index;There is no Gene on index {0} to be replaced..With(index)</exception>
+        public void ReplaceGene(int index, Gene gene)
+        {
             if (index < 0 || index >= m_length)
-			{
-				throw new ArgumentOutOfRangeException ("index", "There is no Gene on index {0} to be replaced.".With(index));
-			}
-     
-			m_genes [index] = gene;
-			Fitness = null;
-		}
+            {
+                throw new ArgumentOutOfRangeException("index", "There is no Gene on index {0} to be replaced.".With(index));
+            }
 
-		/// <summary>
-		/// Replaces the genes starting in the specified index.
-		/// </summary>
-		/// <remarks>The genes to be replaced can't be greater than the available space between the start index and the end of the chromosome.</remarks>
-		/// <param name="startIndex">Start index.</param>
-		/// <param name="genes">Genes.</param>
-		public void ReplaceGenes(int startIndex, Gene[] genes)
-		{
+            m_genes[index] = gene;
+            Fitness = null;
+        }
+
+        /// <summary>
+        /// Replaces the genes starting in the specified index.
+        /// </summary>
+        /// <param name="startIndex">Start index.</param>
+        /// <param name="genes">The genes.</param>
+        /// <remarks>
+        /// The genes to be replaced can't be greater than the available space between the start index and the end of the chromosome.
+        /// </remarks>
+        public void ReplaceGenes(int startIndex, Gene[] genes)
+        {
             ExceptionHelper.ThrowIfNull("genes", genes);
 
             if (genes.Length > 0)
@@ -101,23 +108,23 @@ namespace GeneticSharp.Domain.Chromosomes
                 if (startIndex < 0 || startIndex >= m_length)
                 {
                     throw new ArgumentOutOfRangeException("index", "There is no Gene on index {0} to be replaced.".With(startIndex));
-                }                
+                }
 
                 var genesToBeReplacedLength = genes.Length;
 
-                var availableSpaceLength = (m_length - startIndex);
+                var availableSpaceLength = m_length - startIndex;
 
                 if (genesToBeReplacedLength > availableSpaceLength)
                 {
-                    throw new ArgumentException("genes", "The number of genes to be replaced is greater than available space, there is {0} genes between the index {1} and the end of chromosome, but there is {2} genes to be replaced."
-                        .With(availableSpaceLength, startIndex, genesToBeReplacedLength));
+                    throw new ArgumentException(
+                        "genes", "The number of genes to be replaced is greater than available space, there is {0} genes between the index {1} and the end of chromosome, but there is {2} genes to be replaced.".With(availableSpaceLength, startIndex, genesToBeReplacedLength));
                 }
 
                 Array.Copy(genes, 0, m_genes, startIndex, genes.Length);
 
                 Fitness = null;
             }
-		}
+        }
 
         /// <summary>
         /// Resizes the chromosome to the new length.
@@ -129,32 +136,34 @@ namespace GeneticSharp.Domain.Chromosomes
 
             Array.Resize(ref m_genes, newLength);
             m_length = newLength;
-        }        
+        }
 
-		/// <summary>
-		/// Gets the gene in the specified index.
-		/// </summary>
-		/// <returns>The gene.</returns>
-		/// <param name="index">Index.</param>
-		public Gene GetGene(int index)
-		{
-			return m_genes[index];
-		}
+        /// <summary>
+        /// Gets the gene in the specified index.
+        /// </summary>
+        /// <param name="index">The gene index.</param>
+        /// <returns>
+        /// The gene.
+        /// </returns>
+        public Gene GetGene(int index)
+        {
+            return m_genes[index];
+        }
 
-		/// <summary>
-		/// Gets the genes.
-		/// </summary>
-		/// <returns>The genes.</returns>
-		public Gene[] GetGenes()
-		{
-			return m_genes;
-		}    
-        
-		/// <summary>
-		/// Compares the current object with another object of the same type.
-		/// </summary>
-		/// <returns>The to.</returns>
-		/// <param name="other">Other.</param>
+        /// <summary>
+        /// Gets the genes.
+        /// </summary>
+        /// <returns>The genes.</returns>
+        public Gene[] GetGenes()
+        {
+            return m_genes;
+        }
+
+        /// <summary>
+        /// Compares the current object with another object of the same type.
+        /// </summary>
+        /// <returns>The to.</returns>
+        /// <param name="other">The other chromosome.</param>
         public int CompareTo(IChromosome other)
         {
             if (other == null)
@@ -172,12 +181,12 @@ namespace GeneticSharp.Domain.Chromosomes
             return Fitness > otherFitness ? 1 : -1;
         }
 
-		/// <summary>
-		/// Determines whether the specified <see cref="System.Object"/> is equal to the current <see cref="GeneticSharp.Domain.Chromosomes.ChromosomeBase"/>.
-		/// </summary>
-		/// <param name="obj">The <see cref="System.Object"/> to compare with the current <see cref="GeneticSharp.Domain.Chromosomes.ChromosomeBase"/>.</param>
-		/// <returns><c>true</c> if the specified <see cref="System.Object"/> is equal to the current
-		/// <see cref="GeneticSharp.Domain.Chromosomes.ChromosomeBase"/>; otherwise, <c>false</c>.</returns>
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object"/> is equal to the current <see cref="GeneticSharp.Domain.Chromosomes.ChromosomeBase"/>.
+        /// </summary>
+        /// <param name="obj">The <see cref="System.Object"/> to compare with the current <see cref="GeneticSharp.Domain.Chromosomes.ChromosomeBase"/>.</param>
+        /// <returns><c>true</c> if the specified <see cref="System.Object"/> is equal to the current
+        /// <see cref="GeneticSharp.Domain.Chromosomes.ChromosomeBase"/>; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
             var other = obj as IChromosome;
@@ -201,8 +210,14 @@ namespace GeneticSharp.Domain.Chromosomes
             return Fitness.GetHashCode();
         }
 
-		/// <param name="first">First.</param>
-		/// <param name="second">Second.</param>
+        /// <summary>
+        /// Implements the operator ==.
+        /// </summary>
+        /// <param name="first">The first.</param>
+        /// <param name="second">The second.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static bool operator ==(ChromosomeBase first, ChromosomeBase second)
         {
             if (Object.ReferenceEquals(first, second))
@@ -218,15 +233,27 @@ namespace GeneticSharp.Domain.Chromosomes
             return first.CompareTo(second) == 0;
         }
 
-		/// <param name="first">First.</param>
-		/// <param name="second">Second.</param>
+        /// <summary>
+        /// Implements the operator !=.
+        /// </summary>
+        /// <param name="first">The first.</param>
+        /// <param name="second">The second.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static bool operator !=(ChromosomeBase first, ChromosomeBase second)
         {
             return !(first == second);
         }
 
-		/// <param name="first">First.</param>
-		/// <param name="second">Second.</param>
+        /// <summary>
+        /// Implements the operator &lt;.
+        /// </summary>
+        /// <param name="first">The first.</param>
+        /// <param name="second">The second.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static bool operator <(ChromosomeBase first, ChromosomeBase second)
         {
             if (Object.ReferenceEquals(first, second))
@@ -245,8 +272,14 @@ namespace GeneticSharp.Domain.Chromosomes
             return first.CompareTo(second) < 0;
         }
 
-		/// <param name="first">First.</param>
-		/// <param name="second">Second.</param>
+        /// <summary>
+        /// Implements the operator &gt;.
+        /// </summary>
+        /// <param name="first">The first.</param>
+        /// <param name="second">The second.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
         public static bool operator >(ChromosomeBase first, ChromosomeBase second)
         {
             return !(first == second) && !(first < second);

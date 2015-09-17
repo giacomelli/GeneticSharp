@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using HelperSharp;
 
 namespace GeneticSharp.Domain.Terminations
 {
@@ -13,7 +9,7 @@ namespace GeneticSharp.Domain.Terminations
     [DisplayName("Or")]
     public class OrTermination : LogicalOperatorTerminationBase
     {
-         #region Constructors
+        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="OrTermination"/> class.
         /// </summary>

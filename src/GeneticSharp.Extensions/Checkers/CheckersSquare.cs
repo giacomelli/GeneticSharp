@@ -1,83 +1,80 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 
 namespace GeneticSharp.Extensions.Checkers
 {
     #region Enums
-	/// <summary>
-	/// Checkers square state.
-	/// </summary>
+    /// <summary>
+    /// Checkers square state.
+    /// </summary>
     public enum CheckersSquareState
     {
-		/// <summary>
-		/// Square is free.
-		/// </summary>
+        /// <summary>
+        /// Square is free.
+        /// </summary>
         Free,
 
-		/// <summary>
-		/// Square is not playble (white one).
-		/// </summary>
+        /// <summary>
+        /// Square is not playable (white one).
+        /// </summary>
         NotPlayable,
 
-		/// <summary>
-		/// Square is occupied by player one.
-		/// </summary>
+        /// <summary>
+        /// Square is occupied by player one.
+        /// </summary>
         OccupiedByPlayerOne,
 
-		/// <summary>
-		/// Square is occupied by playe two.
-		/// </summary>
+        /// <summary>
+        /// Square is occupied by player two.
+        /// </summary>
         OccupiedByPlayerTwo
     }
     #endregion
 
-	/// <summary>
-	/// Checkers square.
-	/// </summary>
+    /// <summary>
+    /// Checkers square.
+    /// </summary>
     [DebuggerDisplay("({ColumnIndex}, {RowIndex}): {State}")]
     public sealed class CheckersSquare
     {
         #region Constructors
-		/// <summary>
-		/// Initializes a new instance of the <see cref="GeneticSharp.Extensions.Checkers.CheckersSquare"/> class.
-		/// </summary>
-		/// <param name="columnIndex">Column index.</param>
-		/// <param name="rowIndex">Row index.</param>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.Checkers.CheckersSquare"/> class.
+        /// </summary>
+        /// <param name="columnIndex">Column index.</param>
+        /// <param name="rowIndex">Row index.</param>
         public CheckersSquare(int columnIndex, int rowIndex)
         {
             ColumnIndex = columnIndex;
             RowIndex = rowIndex;
-            State = IsNotPlayableSquare(columnIndex, rowIndex) ? CheckersSquareState.NotPlayable : CheckersSquareState.Free;            
+            State = IsNotPlayableSquare(columnIndex, rowIndex) ? CheckersSquareState.NotPlayable : CheckersSquareState.Free;
         }
         #endregion
 
         #region Properties
-		/// <summary>
-		/// Gets or sets the index of the column.
-		/// </summary>
-		/// <value>The index of the column.</value>
+        /// <summary>
+        /// Gets or sets the index of the column.
+        /// </summary>
+        /// <value>The index of the column.</value>
         public int ColumnIndex { get; set; }
 
-		/// <summary>
-		/// Gets or sets the index of the row.
-		/// </summary>
-		/// <value>The index of the row.</value>
+        /// <summary>
+        /// Gets or sets the index of the row.
+        /// </summary>
+        /// <value>The index of the row.</value>
         public int RowIndex { get; set; }
 
-		/// <summary>
-		/// Gets or sets the state.
-		/// </summary>
-		/// <value>The state.</value>
+        /// <summary>
+        /// Gets the state.
+        /// </summary>
+        /// <value>The state.</value>
         public CheckersSquareState State { get; private set; }
 
-		/// <summary>
-		/// Gets the current piece.
-		/// </summary>
-		/// <value>The current piece.</value>
-		public CheckersPiece CurrentPiece { get; private set; }
+        /// <summary>
+        /// Gets the current piece.
+        /// </summary>
+        /// <value>The current piece.</value>
+        public CheckersPiece CurrentPiece { get; private set; }
         #endregion
 
         #region Methods
@@ -86,41 +83,44 @@ namespace GeneticSharp.Extensions.Checkers
         /// </summary>
         /// <param name="piece">The piece.</param>
         /// <returns>True if square was free and could receive the piece, otherwise false.</returns>
-		public bool PutPiece(CheckersPiece piece)
-		{
-			if (State == CheckersSquareState.Free) {
-				CurrentPiece = piece;
-				State = piece.Player == CheckersPlayer.PlayerOne ? CheckersSquareState.OccupiedByPlayerOne : CheckersSquareState.OccupiedByPlayerTwo;
-				piece.CurrentSquare = this;
-				return true;
+        public bool PutPiece(CheckersPiece piece)
+        {
+            if (State == CheckersSquareState.Free)
+            {
+                CurrentPiece = piece;
+                State = piece.Player == CheckersPlayer.PlayerOne ? CheckersSquareState.OccupiedByPlayerOne : CheckersSquareState.OccupiedByPlayerTwo;
+                piece.CurrentSquare = this;
+                return true;
             }
             else if (State == CheckersSquareState.NotPlayable)
             {
                 throw new ArgumentException("Attempt to put a piece in a not playable square.");
             }
 
-			return false;
-		}
+            return false;
+        }
 
         /// <summary>
         /// Remove the current piece.
         /// </summary>
         /// <returns>True if has a piece to be removed, otherwise false.</returns>
-		public bool RemovePiece()
-		{
-			if (CurrentPiece != null) {
-				if (CurrentPiece.CurrentSquare == this) {
-					CurrentPiece.CurrentSquare = null;
-				}
+        public bool RemovePiece()
+        {
+            if (CurrentPiece != null)
+            {
+                if (CurrentPiece.CurrentSquare == this)
+                {
+                    CurrentPiece.CurrentSquare = null;
+                }
 
-				CurrentPiece = null;
-				State = CheckersSquareState.Free;
+                CurrentPiece = null;
+                State = CheckersSquareState.Free;
 
-				return true;
-			}
+                return true;
+            }
 
-			return false;
-		}
+            return false;
+        }
 
         /// <summary>
         /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
@@ -151,12 +151,12 @@ namespace GeneticSharp.Extensions.Checkers
         /// </returns>
         public override int GetHashCode()
         {
- 			int hash = 17;
-			hash = hash * 23 + ColumnIndex.GetHashCode();
-			hash = hash * 23 + RowIndex.GetHashCode();
-			hash = hash * 23 + State.GetHashCode();
+            int hash = 17;
+            hash = (hash * 23) + ColumnIndex.GetHashCode();
+            hash = (hash * 23) + RowIndex.GetHashCode();
+            hash = (hash * 23) + State.GetHashCode();
 
-			return hash;
+            return hash;
         }
 
         /// <summary>
@@ -172,4 +172,3 @@ namespace GeneticSharp.Extensions.Checkers
         #endregion
     }
 }
-

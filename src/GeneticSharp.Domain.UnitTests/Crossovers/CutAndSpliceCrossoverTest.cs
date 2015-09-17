@@ -9,6 +9,7 @@ using Rhino.Mocks;
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
     [TestFixture]
+    [Category("Crossovers")]
     public class CutAndSpliceCrossoverTest
     {
         [TearDown]
@@ -33,12 +34,12 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(4);
             chromosome2.ReplaceGenes(0, new Gene[] 
-			{ 
-				new Gene(5),
-				new Gene(6),
+        	{ 
+                new Gene(5),
+                new Gene(6),
                 new Gene(7),
-				new Gene(8)
-			});
+                new Gene(8)
+        	});
             chromosome2.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(4));
 
             var repository = new MockRepository();
@@ -87,13 +88,13 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(5);
             chromosome2.ReplaceGenes(0, new Gene[] 
-			{ 
-				new Gene(5),
-				new Gene(6),
+        	{ 
+                new Gene(5),
+                new Gene(6),
                 new Gene(7),
-				new Gene(8),
+                new Gene(8),
                 new Gene(9),
-			});
+        	});
             chromosome2.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(5));
 
             var repository = new MockRepository();

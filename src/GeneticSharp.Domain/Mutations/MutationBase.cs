@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GeneticSharp.Domain.Chromosomes;
+﻿using GeneticSharp.Domain.Chromosomes;
 using HelperSharp;
 
 namespace GeneticSharp.Domain.Mutations
@@ -14,7 +10,7 @@ namespace GeneticSharp.Domain.Mutations
     {
         #region Properties
         /// <summary>
-        /// Gets if the operator is ordered (if can keep the chromosome order).
+        /// Gets or sets a value indicating whether the operator is ordered (if can keep the chromosome order).
         /// </summary>
         public bool IsOrdered { get; protected set; }
         #endregion

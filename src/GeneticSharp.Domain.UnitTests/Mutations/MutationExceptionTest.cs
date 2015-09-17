@@ -6,9 +6,10 @@ using GeneticSharp.Domain.Mutations;
 using NUnit.Framework;
 using Rhino.Mocks;
 
-namespace GeneticSharp.Domain.UnitTests.Chromosomes
+namespace GeneticSharp.Domain.UnitTests.Mutations
 {
     [TestFixture]
+    [Category("Mutations")]
     public class MutationExceptionTest
     {
         [Test]

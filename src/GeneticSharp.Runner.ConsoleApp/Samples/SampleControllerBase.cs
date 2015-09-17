@@ -7,7 +7,7 @@ using GeneticSharp.Domain.Terminations;
 namespace GeneticSharp.Runner.ConsoleApp.Samples
 {
     public abstract class SampleControllerBase : ISampleController
-    {      
+    {
         /// <summary>
         /// Creates the chromosome.
         /// </summary>
@@ -32,9 +32,9 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         }
 
         /// <summary>
-        /// Draws the sample;
+        /// Draws the sample.
         /// </summary>
-        /// <param name="bestChromosome"></param>
+        /// <param name="bestChromosome">The current best chromosome</param>
         public abstract void Draw(IChromosome bestChromosome);
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         /// <summary>
         /// Creates the crossover.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The crossover.</returns>
         public virtual ICrossover CreateCrossover()
         {
             return new UniformCrossover();
@@ -60,7 +60,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         /// <summary>
         /// Creates the mutation.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The mutation.</returns>
         public virtual IMutation CreateMutation()
         {
             return new UniformMutation(true);

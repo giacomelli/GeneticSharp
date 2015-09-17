@@ -1,37 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
-using System.Text;
 using HelperSharp;
 
 namespace GeneticSharp.Domain.Crossovers
 {
-	/// <summary>
-	/// Exception throw when an error occurs during the execution of cross.
-	/// </summary>
+    /// <summary>
+    /// Exception throw when an error occurs during the execution of cross.
+    /// </summary>
     [Serializable]
     public sealed class CrossoverException : Exception
-	{
-		#region Constructors        
-		/// <summary>
-		/// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.CrossoverException"/> class.
-		/// </summary>
-		/// <param name="crossover">The crossover where ocurred the error.</param>
-		/// <param name="message">The error message.</param>
+    {
+        #region Constructors        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.CrossoverException"/> class.
+        /// </summary>
+        /// <param name="crossover">The crossover where occurred the error.</param>
+        /// <param name="message">The error message.</param>
         public CrossoverException(ICrossover crossover, string message)
             : base("{0}: {1}".With(crossover != null ? crossover.GetType().Name : String.Empty, message))
-		{
+        {
             Crossover = crossover;
-		}
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.CrossoverException"/> class.
         /// </summary>
-        /// <param name="crossover">The crossover where ocurred the error.</param>
+        /// <param name="crossover">The crossover where occurred the error.</param>
         /// <param name="message">The error message.</param>
-		/// <param name="innerException">The inner exception.</param>
+        /// <param name="innerException">The inner exception.</param>
         public CrossoverException(ICrossover crossover, string message, Exception innerException)
             : base("{0}: {1}".With(crossover != null ? crossover.GetType().Name : String.Empty, message), innerException)
         {
@@ -73,15 +70,15 @@ namespace GeneticSharp.Domain.Crossovers
             : base(info, context)
         {
         }
-		#endregion
+        #endregion
 
-		#region Properties
-		/// <summary>
-		/// Gets the crossover.
-		/// </summary>
-		/// <value>The crossover.</value>
+        #region Properties
+        /// <summary>
+        /// Gets the crossover.
+        /// </summary>
+        /// <value>The crossover.</value>
         public ICrossover Crossover { get; private set; }
-		#endregion
+        #endregion
 
         #region Methods
         /// <summary>
@@ -92,7 +89,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// <PermissionSet>
         ///   <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Read="*AllFiles*" PathDiscovery="*AllFiles*" />
         ///   <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="SerializationFormatter" />
-        ///   </PermissionSet>
+        /// </PermissionSet>
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {

@@ -10,6 +10,7 @@ using TestSharp;
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
     [TestFixture]
+    [Category("Crossovers")]
     public class UniformCrossoverTest
     {
         [TearDown]
@@ -22,7 +23,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         public void Cross_ParentsWithTwoGenesProbabilityDiffPercents_DiffChildren()
         {
             var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(4);
-			chromosome1.ReplaceGenes(0, new Gene[]  
+        	chromosome1.ReplaceGenes(0, new Gene[]  
             { 
                 new Gene(1),
                 new Gene(2),
@@ -32,7 +33,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             chromosome1.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(4));
 
             var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(4);
-			chromosome2.ReplaceGenes(0, new Gene[] 
+        	chromosome2.ReplaceGenes(0, new Gene[] 
             { 
                 new Gene(5),
                 new Gene(6),

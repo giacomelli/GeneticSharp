@@ -5,35 +5,35 @@ using HelperSharp;
 
 namespace GeneticSharp.Domain.Fitnesses
 {
-	/// <summary>
-	/// Exception throw when an error occurs during the execution of fitness evaluation.
-	/// </summary>
-	[Serializable]
+    /// <summary>
+    /// Exception throw when an error occurs during the execution of fitness evaluation.
+    /// </summary>
+    [Serializable]
     public sealed class FitnessException : Exception
-	{
-		#region Constructors
-		/// <summary>
-		/// Initializes a new instance of the <see cref="GeneticSharp.Domain.Fitnesses.FitnessException"/> class.
-		/// </summary>
-		/// <param name="fitness">The fitness where ocurred the error.</param>
-		/// <param name="message">The error message.</param>
+    {
+        #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Fitnesses.FitnessException"/> class.
+        /// </summary>
+        /// <param name="fitness">The fitness where occurred the error.</param>
+        /// <param name="message">The error message.</param>
         public FitnessException(IFitness fitness, string message)
             : base("{0}: {1}".With(fitness != null ? fitness.GetType().Name : String.Empty, message))
-		{
-			Fitness = fitness;
-		}
+        {
+            Fitness = fitness;
+        }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="GeneticSharp.Domain.Fitnesses.FitnessException"/> class.
-		/// </summary>
-		/// <param name="fitness">The fitness where ocurred the error.</param>
-		/// <param name="message">The error message.</param>
-		/// <param name="innerException">Inner exception.</param>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Fitnesses.FitnessException"/> class.
+        /// </summary>
+        /// <param name="fitness">The fitness where occurred the error.</param>
+        /// <param name="message">The error message.</param>
+        /// <param name="innerException">Inner exception.</param>
         public FitnessException(IFitness fitness, string message, Exception innerException)
             : base("{0}: {1}".With(fitness != null ? fitness.GetType().Name : String.Empty, message), innerException)
-		{
-			Fitness = fitness;
-		}
+        {
+            Fitness = fitness;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FitnessException"/> class.
@@ -70,15 +70,15 @@ namespace GeneticSharp.Domain.Fitnesses
             : base(info, context)
         {
         }
-		#endregion
+        #endregion
 
-		#region Properties
-		/// <summary>
-		/// Gets the fitness.
-		/// </summary>
-		/// <value>The fitness.</value>
-		public IFitness Fitness { get; private set; }
-		#endregion
+        #region Properties
+        /// <summary>
+        /// Gets the fitness.
+        /// </summary>
+        /// <value>The fitness.</value>
+        public IFitness Fitness { get; private set; }
+        #endregion
 
         #region Methods
         /// <summary>
@@ -89,7 +89,7 @@ namespace GeneticSharp.Domain.Fitnesses
         /// <PermissionSet>
         ///   <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Read="*AllFiles*" PathDiscovery="*AllFiles*" />
         ///   <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="SerializationFormatter" />
-        ///   </PermissionSet>
+        /// </PermissionSet>
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -97,5 +97,5 @@ namespace GeneticSharp.Domain.Fitnesses
             info.AddValue("Fitness", Fitness);
         }
         #endregion
-	}
+    }
 }

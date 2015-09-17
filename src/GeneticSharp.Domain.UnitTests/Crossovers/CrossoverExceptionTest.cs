@@ -8,6 +8,7 @@ using Rhino.Mocks;
 
 namespace GeneticSharp.Domain.UnitTests.Chromosomes
 {
+    [Category("Crossovers")]
     [TestFixture]
     public class CrossoverExceptionTest
     {
