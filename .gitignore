@@ -116,3 +116,4 @@ src/GeneticSharp.Infrastructure.Framework.UnitTests/test-results/
 src/GeneticSharp.Extensions.UnitTests/test-results/
 src/GeneticSharp.Domain.UnitTests/test-results/
 opencoverCoverage.xml
+*.nupkg

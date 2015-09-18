@@ -77,6 +77,9 @@ Features
 
 --------
 
+Setup
+===
+PM> Install-Package SalesforceSharp
 
 Usage
 ===
@@ -145,7 +148,6 @@ Console.WriteLine("Best solution found has {0} fitness.", ga.BestChromosome.Fitn
 
 Roadmap
 --------
- - Create and publish NuGet package
  - Unity3d game sample (WIP)
  - Improve Runner.GtkApp
    - Add new problems/classic samples
@@ -193,6 +195,11 @@ Create a fork of [GeneticSharp](https://github.com/giacomelli/GeneticSharp/fork)
 
 Did you change it? [Submit a pull request](https://github.com/giacomelli/GeneticSharp/pull/new/master).
 
+Donations
+======
+bitcoin:3GDWZCzu389UT2vwGHTML1gYxpS4pzKhVZ
+
+![](docs/screenshots/BitcoinAddressQRCode.png)  
 
 License
 ======
@@ -202,4 +209,5 @@ In others words, you can use this library for developement any kind of software:
 
 Change Log
 ======
+1.0.56 NuGet package published.
 0.5.0 First version.
