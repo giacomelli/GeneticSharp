@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>GeneticSharp</id>
+    <version>$version$</version>
+    <authors>Diego Giacomelli</authors>
+    <owners>g1acomell1</owners>
+    <licenseUrl>https://github.com/giacomelli/GeneticSharp/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/giacomelli/GeneticSharp</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A fast, extensible, multi-platform and multithreading C# Genetic Algorithm library that simplifies the development of applications using Genetic Algorithms (GAs).</description>
+    <releaseNotes>See changes at https://github.com/giacomelli/GeneticSharp.</releaseNotes>
+    <copyright>Copyright 2015</copyright>
+    <tags>genetic-algorithms geneticsharp genetic algotithms</tags>
+    <dependencies>
+    </dependencies>
+   </metadata>
+    <files>
+  	<file src="..\GeneticSharp.Extensions\bin\Debug\*.dll" target="lib\net35" /> 
+  	<file src="..\GeneticSharp.Extensions\bin\Debug\*.pdb" target="lib\net35" /> 
+  	<file src="..\GeneticSharp.Infrastructure.Threading\bin\Debug\GeneticSharp.Infrastructure.Threading.dll" target="lib\net35" /> 
+  	<file src="..\GeneticSharp.Infrastructure.Threading\bin\Debug\GeneticSharp.Infrastructure.Threading.pdb" target="lib\net35" />
+    </files>      
+</package>
