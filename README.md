@@ -58,18 +58,19 @@ Features
    - [Basic randomization](src/GeneticSharp.Domain/Randomizations/BasicRandomization.cs) (using System.Random)
    - [Fast random](src/GeneticSharp.Domain/Randomizations/FastRandomRandomization.cs)   
    - If you need a special kind of randomization for your GA, just implement the [IRandomization](src/GeneticSharp.Domain/Randomizations/IRandomization.cs) interface.
- - [Runner app (console)](src/GeneticSharp.Runner.ConsoleApp) with samples:
+ - [Runner app (console)](src/GeneticSharp.Runner.ConsoleApp) with samples: 
+ 	  ![](docs/gifs/GeneticSharp-ConsoleApp-EquationSolver-FunctionBuilder.gif)
  	- Equality equation
  	- Equation solver
+ 	- Function builder
  	- Ghostwriter
- 	- TSP (Travelling Salesman Problem)
+ 	- TSP (Travelling toman Problem)
+ 	
  - [Runner app (GTK#)](src/GeneticSharp.Runner.GtkApp) showing the library solving TSP (Travelling Salesman Problem).
- 
- 	![](docs/screenshots/GtkApp.Samples.TSP.Win.png)
+      ![](docs/screenshots/GtkApp.Samples.TSP.Win.png)
  - Mono support.
- 
- 	![](docs/screenshots/XamarinStudio.png) 
- 	![](docs/screenshots/VisualStudio.png) 
+      ![](docs/screenshots/XamarinStudio.png) 
+      ![](docs/screenshots/VisualStudio.png) 
  - Fully tested on Windows and MacOSX.
  - 100% code [documentation](src/Help/Documentation.chm).
  - FxCop validated.
@@ -79,7 +80,7 @@ Features
 
 Setup
 ===
-PM> Install-Package SalesforceSharp
+PM> Install-Package GeneticSharp
 
 Usage
 ===
@@ -209,5 +210,5 @@ In others words, you can use this library for developement any kind of software:
 
 Change Log
 ======
-1.0.56 NuGet package published.
-0.5.0 First version.
+ - 1.0.56 NuGet package published.
+ - 0.5.0 First version.
