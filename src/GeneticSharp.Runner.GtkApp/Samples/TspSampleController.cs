@@ -3,6 +3,8 @@ using System.ComponentModel;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
+using GeneticSharp.Domain.Mutations;
+using GeneticSharp.Domain.Selections;
 using GeneticSharp.Extensions.Tsp;
 using Gtk;
 using HelperSharp;
@@ -17,21 +19,11 @@ namespace GeneticSharp.Runner.GtkApp.Samples
     {
         #region Fields
         private TspFitness m_fitness;
-        private int m_numberOfCities = 10;
+        private int m_numberOfCities = 50;
         private bool m_showIndexes = true;
         private TspChromosome m_bestChromosome;
         #endregion
-
-        #region Properties
-        public override ICrossover DefaultCrossover
-        {
-            get
-            {
-                return new OrderedCrossover();
-            }
-        }
-        #endregion
-
+        
         #region Methods
         /// <summary>
         /// Creates the config widget.
@@ -92,6 +84,21 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         public override IChromosome CreateChromosome()
         {
             return new TspChromosome(m_numberOfCities);
+        }
+
+        public override ICrossover CreateCrossover()
+        {
+            return new OrderedCrossover();            
+        }
+
+        public override IMutation CreateMutation()
+        {
+            return new ReverseSequenceMutation();
+        }
+
+        public override ISelection CreateSelection()
+        {
+            return new EliteSelection();
         }
 
         /// <summary>

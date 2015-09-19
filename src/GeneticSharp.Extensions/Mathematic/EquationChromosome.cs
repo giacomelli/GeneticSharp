@@ -9,10 +9,6 @@ namespace GeneticSharp.Extensions.Mathematic
     /// </summary>
     public sealed class EquationChromosome : ChromosomeBase
     {
-        #region Fields
-        private int m_expectedResult;
-        #endregion
-
         #region Constructors        
         /// <summary>
         /// Initializes a new instance of the <see cref="EquationChromosome"/> class.
@@ -23,10 +19,10 @@ namespace GeneticSharp.Extensions.Mathematic
         {
             if (expectedResult >= int.MaxValue / 2)
             {
-                throw new ArgumentOutOfRangeException("expectedResult", expectedResult, "Value must be lower");
+                throw new ArgumentOutOfRangeException("expectedResult", expectedResult, "EquationChromosome expected value must be lower");
             }
 
-            m_expectedResult = expectedResult * 2;
+            ResultRange = expectedResult * 2;
 
             for (int i = 0; i < Length; i++)
             {
@@ -35,6 +31,14 @@ namespace GeneticSharp.Extensions.Mathematic
         }
         #endregion
 
+		#region Properties
+		/// <summary>
+		/// Gets the result range.
+		/// </summary>
+		/// <value>The result range.</value>
+		public int ResultRange { get; private set; }
+		#endregion
+
         #region Methods        
         /// <summary>
         /// Creates the new.
@@ -42,7 +46,7 @@ namespace GeneticSharp.Extensions.Mathematic
         /// <returns>The new chromosome.</returns>
         public override IChromosome CreateNew()
         {
-            return new EquationChromosome(m_expectedResult, Length);
+            return new EquationChromosome(ResultRange / 2, Length);
         }
 
         /// <summary>
@@ -52,7 +56,7 @@ namespace GeneticSharp.Extensions.Mathematic
         /// <returns>The generated gene.</returns>
         public override Gene GenerateGene(int geneIndex)
         {
-            return new Gene(RandomizationProvider.Current.GetInt(m_expectedResult * -1, m_expectedResult + 1));
+            return new Gene(RandomizationProvider.Current.GetInt(ResultRange * -1, ResultRange + 1));
         }
         #endregion
     }

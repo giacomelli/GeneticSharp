@@ -2,6 +2,9 @@
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
+using GeneticSharp.Domain.Mutations;
+using GeneticSharp.Domain.Selections;
+using GeneticSharp.Domain.Terminations;
 using Gtk;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
@@ -24,11 +27,6 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         /// </summary>
         /// <value>The context.</value>
         SampleContext Context { get; set; }
-
-        /// <summary>
-        /// Gets the default crossover to sample.
-        /// </summary>
-        ICrossover DefaultCrossover { get; }
         #endregion
 
         #region Methods
@@ -49,6 +47,26 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         /// </summary>
         /// <returns>The chromosome.</returns>
         IChromosome CreateChromosome();
+
+        /// <summary>
+        /// Creates the crossover.
+        /// </summary>
+        ICrossover CreateCrossover();
+
+        /// <summary>
+        /// Creates the mutation.
+        /// </summary>
+        IMutation CreateMutation();
+
+        /// <summary>
+        /// Creates the selection.
+        /// </summary>
+        ISelection CreateSelection();
+
+        /// <summary>
+        /// Creates the termination.
+        /// </summary>
+        ITermination CreateTermination();
 
         /// <summary>
         /// Resets the sample.

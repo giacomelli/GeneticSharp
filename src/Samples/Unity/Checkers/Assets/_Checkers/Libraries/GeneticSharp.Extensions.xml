@@ -266,6 +266,89 @@
             </summary>
             <param name="chromosome">The chromosome to be evaluated.</param>
             <returns>The fitness of the chromosome.</returns></member>
+        <member name="T:GeneticSharp.Extensions.Mathematic.FunctionBuilderChromosome">
+            <summary>
+            Function builder chromosome.
+            </summary></member>
+        <member name="F:GeneticSharp.Extensions.Mathematic.FunctionBuilderChromosome.MaxIntOperation">
+            <summary>
+            The max int operation.
+            </summary></member>
+        <member name="M:GeneticSharp.Extensions.Mathematic.FunctionBuilderChromosome.#ctor(System.Collections.ObjectModel.ReadOnlyCollection{System.String},System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Mathematic.FunctionBuilderChromosome" /> class.
+            </summary>
+            <param name="availableOperations">Available operations.</param>
+            <param name="maxOperations">Max operations.</param></member>
+        <member name="M:GeneticSharp.Extensions.Mathematic.FunctionBuilderChromosome.BuildAvailableOperations(System.Int32)">
+            <summary>
+            Builds the available operations.
+            </summary>
+            <returns>The available operations.</returns>
+            <param name="parametersCount">Parameters count.</param></member>
+        <member name="M:GeneticSharp.Extensions.Mathematic.FunctionBuilderChromosome.GetParameterNames(System.Int32)">
+            <summary>
+            Gets the parameter names.
+            </summary>
+            <returns>The parameter names.</returns>
+            <param name="parametersCount">Parameters count.</param></member>
+        <member name="M:GeneticSharp.Extensions.Mathematic.FunctionBuilderChromosome.BuildFunction">
+            <summary>
+            Builds the function.
+            </summary>
+            <returns>The function.</returns></member>
+        <member name="M:GeneticSharp.Extensions.Mathematic.FunctionBuilderChromosome.CreateNew">
+            <summary>
+            Creates a new chromosome using the same structure of this.
+            </summary>
+            <returns>The new chromosome.</returns></member>
+        <member name="M:GeneticSharp.Extensions.Mathematic.FunctionBuilderChromosome.GenerateGene(System.Int32)">
+            <summary>
+            Generates the gene for the specified index.
+            </summary>
+            <returns>The gene.</returns>
+            <param name="geneIndex">Gene index.</param></member>
+        <member name="T:GeneticSharp.Extensions.Mathematic.FunctionBuilderFitness">
+            <summary>
+            Function builder fitness.
+            </summary></member>
+        <member name="M:GeneticSharp.Extensions.Mathematic.FunctionBuilderFitness.#ctor(GeneticSharp.Extensions.Mathematic.FunctionBuilderInput[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Mathematic.FunctionBuilderFitness" /> class.
+            </summary>
+            <param name="inputs">Inputs.</param></member>
+        <member name="P:GeneticSharp.Extensions.Mathematic.FunctionBuilderFitness.AvailableOperations">
+            <summary>
+            Gets the available operations.
+            </summary>
+            <value>The available operations.</value></member>
+        <member name="M:GeneticSharp.Extensions.Mathematic.FunctionBuilderFitness.Evaluate(GeneticSharp.Domain.Chromosomes.IChromosome)">
+            <summary>
+            Performs the evaluation against the specified chromosome.
+            </summary>
+            <param name="chromosome">The chromosome to be evaluated.</param>
+            <returns>The fitness of the chromosome.</returns></member>
+        <member name="M:GeneticSharp.Extensions.Mathematic.FunctionBuilderFitness.GetFunctionResult(System.String,GeneticSharp.Extensions.Mathematic.FunctionBuilderInput)">
+            <summary>
+            Gets the function result.
+            </summary>
+            <returns>The function result.</returns>
+            <param name="function">Function.</param>
+            <param name="input">Input.</param></member>
+        <member name="T:GeneticSharp.Extensions.Mathematic.FunctionBuilderInput">
+            <summary>
+            Function builder input.
+            </summary></member>
+        <member name="P:GeneticSharp.Extensions.Mathematic.FunctionBuilderInput.Arguments">
+            <summary>
+            Gets or sets the arguments.
+            </summary>
+            <value>The arguments.</value></member>
+        <member name="P:GeneticSharp.Extensions.Mathematic.FunctionBuilderInput.ExpectedResult">
+            <summary>
+            Gets or sets the expected result.
+            </summary>
+            <value>The expected result.</value></member>
         <member name="T:GeneticSharp.Extensions.Tsp.TspChromosome">
             <summary>
             Travelling Salesman Problem chromosome.
@@ -471,6 +554,11 @@
             </summary>
             <param name="expectedResult">The equation expected result.</param>
             <param name="variablesNumber">The equation variables number.</param></member>
+        <member name="P:GeneticSharp.Extensions.Mathematic.EquationChromosome.ResultRange">
+            <summary>
+            Gets the result range.
+            </summary>
+            <value>The result range.</value></member>
         <member name="M:GeneticSharp.Extensions.Mathematic.EquationChromosome.CreateNew">
             <summary>
             Creates the new.

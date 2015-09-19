@@ -39,6 +39,7 @@ public partial class MainWindow : Gtk.Window
     public MainWindow() : base(Gtk.WindowType.Toplevel)
     {
         Build();
+        HeightRequest = 200;
 
         DeleteEvent += delegate { Application.Quit(); };
         drawingArea.ConfigureEvent += delegate
@@ -62,8 +63,6 @@ public partial class MainWindow : Gtk.Window
         PrepareSamples();
 
         cmbSample.Active = 0;
-        cmbCrossover.Active = 3;
-        cmbTermination.Active = 2;
         hslCrossoverProbability.Value = GeneticAlgorithm.DefaultCrossoverProbability;
         hslMutationProbability.Value = GeneticAlgorithm.DefaultMutationProbability;
 
@@ -204,10 +203,12 @@ public partial class MainWindow : Gtk.Window
         problemConfigWidgetContainer.Add(m_sampleController.CreateConfigWidget());
         problemConfigWidgetContainer.ShowAll();
 
+        SetSampleOperatorsToComboxes();
         cmbSample.Changed += delegate
         {
             m_sampleController = SampleService.CreateSampleControllerByName(cmbSample.ActiveText);
-            m_crossover = m_sampleController.DefaultCrossover;
+            SetSampleOperatorsToComboxes();
+
             m_sampleController.Context = m_sampleContext;
             m_sampleController.Reconfigured += delegate
             {
@@ -227,6 +228,24 @@ public partial class MainWindow : Gtk.Window
         };
     }
 
+    private void SetSampleOperatorsToComboxes()
+    {
+        SetSampleOperatorToCombobox(CrossoverService.GetCrossoverTypes, m_sampleController.CreateCrossover, (c) => m_crossover = c, cmbCrossover);
+        SetSampleOperatorToCombobox(MutationService.GetMutationTypes, m_sampleController.CreateMutation, (c) => m_mutation = c, cmbMutation);
+        SetSampleOperatorToCombobox(SelectionService.GetSelectionTypes, m_sampleController.CreateSelection, (c) => m_selection = c, cmbSelection);
+        SetSampleOperatorToCombobox(TerminationService.GetTerminationTypes, m_sampleController.CreateTermination, (c) => m_termination = c, cmbTermination);
+    }
+
+    private void SetSampleOperatorToCombobox<TOperator>(Func<IList<Type>> getOperatorTypes, Func<TOperator> getOperator, System.Action<TOperator> setOperator, ComboBox combobox)
+    {
+        var @operator = getOperator();
+        var operatorType = @operator.GetType();
+
+        var opeartorIndex = getOperatorTypes().Select((type, index) => new { type, index }).First(c => c.type.Equals(operatorType)).index;
+        combobox.Active = opeartorIndex;
+        setOperator(@operator);
+    }
+
     private void UpdateSample()
     {
         DrawSample();
@@ -234,6 +253,7 @@ public partial class MainWindow : Gtk.Window
 
     private void ResetSample()
     {
+        m_sampleContext.GC = m_sampleContext.CreateGC(new Gdk.Color(255, 50, 50));
         m_sampleContext.Population = null;
         var r = drawingArea.Allocation;
         m_sampleContext.DrawingArea = new Rectangle(0, 100, r.Width, r.Height - 100);
@@ -334,8 +354,7 @@ public partial class MainWindow : Gtk.Window
             btnEditTermination,
             () =>
             {
-                return TerminationService.GetTerminationNames()
-                    .Where(t => !t.Equals("And", StringComparison.OrdinalIgnoreCase) && !t.Equals("Or", StringComparison.OrdinalIgnoreCase)).ToList();
+                return TerminationService.GetTerminationNames();
             },
             TerminationService.GetTerminationTypeByName,
             TerminationService.CreateTerminationByName,
@@ -343,7 +362,7 @@ public partial class MainWindow : Gtk.Window
             (i) => m_termination = i);
 
         PrepareEditComboBox(
-            cmbTermination1,
+            cmbReinsertion,
             btnEditReinsertion,
             ReinsertionService.GetReinsertionNames,
             ReinsertionService.GetReinsertionTypeByName,
@@ -358,8 +377,8 @@ public partial class MainWindow : Gtk.Window
             PopulationService.GetGenerationStrategyTypeByName,
             PopulationService.CreateGenerationStrategyByName,
             () => m_generationStrategy,
-            (i) => m_generationStrategy = i);
-    }
+            (i) => m_generationStrategy = i);        
+    }  
 
     private void PrepareEditComboBox<TItem>(ComboBox comboBox, Button editButton, Func<IList<string>> getNames, Func<string, Type> getTypeByName, Func<string, object[], TItem> createItem, Func<TItem> getItem, Action<TItem> setItem)
     {

@@ -35,10 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HelperSharp, Version=1.0.5560.27038, Culture=neutral, PublicKeyToken=3d44152485e1a4e1, processorArchitecture=MSIL">
-      <HintPath>..\packages\HelperSharp.0.0.4.2\lib\net35\HelperSharp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -52,10 +48,17 @@
     <Reference Include="Jace, Version=0.8.7.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\packages\Jace.0.8.7\lib\net40\Jace.dll</HintPath>
     </Reference>
+    <Reference Include="HelperSharp, Version=1.0.5560.27038, Culture=neutral, PublicKeyToken=3d44152485e1a4e1">
+      <HintPath>..\packages\HelperSharp.0.0.4.2\lib\net35\HelperSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="NCalc, Version=1.3.8.0, Culture=neutral, PublicKeyToken=973cde3f1cafed03">
+      <HintPath>..\packages\ncalc.1.3.8\lib\NCalc.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Samples\FunctionBuilderSampleController.cs" />
     <Compile Include="Samples\EquationSolverSampleController.cs" />
     <Compile Include="Samples\GhostwriterSampleController.cs" />
     <Compile Include="Samples\EqualitySampleController.cs" />

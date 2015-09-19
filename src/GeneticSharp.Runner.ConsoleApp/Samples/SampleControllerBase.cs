@@ -1,7 +1,9 @@
-﻿using GeneticSharp.Domain.Chromosomes;
+﻿using GeneticSharp.Domain;
+using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Mutations;
+using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 
 namespace GeneticSharp.Runner.ConsoleApp.Samples
@@ -29,6 +31,15 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         /// </summary>
         public virtual void Initialize()
         {
+        }
+
+        /// <summary>
+        /// Configurate the Genetic Algorithm.
+        /// </summary>
+        /// <param name="ga">The ga.</param>
+        public virtual void ConfigGA(GeneticAlgorithm ga)
+        {
+
         }
 
         /// <summary>
@@ -64,6 +75,15 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         public virtual IMutation CreateMutation()
         {
             return new UniformMutation(true);
+        }
+
+        /// <summary>
+        /// Creates the selection.
+        /// </summary>
+        /// <returns>The selection.</returns>
+        public virtual ISelection CreateSelection()
+        {
+            return new EliteSelection();
         }
     }
 }

@@ -48,7 +48,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
 
             return f;
         }
-
+			
         private int LevenshteinDistance(string s, string t)
         {
             // degenerate cases

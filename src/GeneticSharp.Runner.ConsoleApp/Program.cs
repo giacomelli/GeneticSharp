@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.IO;
+using System;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Selections;
@@ -16,6 +17,7 @@ namespace GeneticSharp.Runner.ConsoleApp
 
         private static void Run()
         {
+            Console.SetError(TextWriter.Null);
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("GeneticSharp - ConsoleApp");
@@ -45,14 +47,15 @@ namespace GeneticSharp.Runner.ConsoleApp
             DrawSampleName(selectedSampleName);
             sampleController.Initialize();
 
-            var selection = new EliteSelection();
+			Console.WriteLine ("Starting...");
+
+            var selection = sampleController.CreateSelection();
             var crossover = sampleController.CreateCrossover();
             var mutation = sampleController.CreateMutation();
             var fitness = sampleController.CreateFitness();
-            var population = new Population(500, 700, sampleController.CreateChromosome());
+            var population = new Population(100, 200, sampleController.CreateChromosome());
 
             var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
-            ga.MutationProbability = 0.4f;
             ga.Termination = sampleController.CreateTermination();
 
             ga.TaskExecutor = new SmartThreadPoolTaskExecutor()
@@ -72,11 +75,12 @@ namespace GeneticSharp.Runner.ConsoleApp
                 Console.WriteLine("Generations: {0}", ga.Population.GenerationsNumber);
                 Console.WriteLine("Fitness: {0,10}", bestChromosome.Fitness);
                 Console.WriteLine("Time: {0}", ga.TimeEvolving);
-                sampleController.Draw(bestChromosome);
+                sampleController.Draw(bestChromosome);                
             };
-
+            
             try
             {
+                sampleController.ConfigGA(ga);
                 ga.Start();
             }
             catch (Exception ex)
@@ -102,6 +106,7 @@ namespace GeneticSharp.Runner.ConsoleApp
             Console.Clear();
 
             Console.ForegroundColor = ConsoleColor.DarkGreen;
+			Console.WriteLine("GeneticSharp - ConsoleApp");
             Console.WriteLine();
             Console.WriteLine(selectedSampleName);
             Console.ResetColor();

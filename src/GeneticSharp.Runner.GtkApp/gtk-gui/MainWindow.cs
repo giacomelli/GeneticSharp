@@ -46,7 +46,7 @@ public partial class MainWindow
     private global::Gtk.HSeparator hseparator3;
     private global::Gtk.Label label12;
     private global::Gtk.HBox hbox12;
-    private global::Gtk.ComboBox cmbTermination1;
+    private global::Gtk.ComboBox cmbReinsertion;
     private global::Gtk.Button btnEditReinsertion;
     private global::Gtk.Label label11;
     private global::Gtk.HBox hbox10;
@@ -463,11 +463,11 @@ public partial class MainWindow
         this.hbox12.Name = "hbox12";
         this.hbox12.Spacing = 6;
         // Container child hbox12.Gtk.Box+BoxChild
-        this.cmbTermination1 = global::Gtk.ComboBox.NewText();
-        this.cmbTermination1.WidthRequest = 200;
-        this.cmbTermination1.Name = "cmbTermination1";
-        this.hbox12.Add(this.cmbTermination1);
-        global::Gtk.Box.BoxChild w41 = ((global::Gtk.Box.BoxChild)(this.hbox12[this.cmbTermination1]));
+        this.cmbReinsertion = global::Gtk.ComboBox.NewText();
+        this.cmbReinsertion.WidthRequest = 200;
+        this.cmbReinsertion.Name = "cmbTermination1";
+        this.hbox12.Add(this.cmbReinsertion);
+        global::Gtk.Box.BoxChild w41 = ((global::Gtk.Box.BoxChild)(this.hbox12[this.cmbReinsertion]));
         w41.Position = 0;
         w41.Expand = false;
         w41.Fill = false;
