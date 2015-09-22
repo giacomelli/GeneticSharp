@@ -23,14 +23,13 @@ namespace GeneticSharp.Extensions.UnitTests.Mathematic
 			var mutation = new UniformMutation(true);
 
 			var fitness = new FunctionBuilderFitness(
-				new FunctionBuilderInput() {
-					Arguments = new double[] { 1, 2, 3},
-					ExpectedResult = 6
-				},
-				new FunctionBuilderInput() {
-					Arguments = new double[] { 2, 3, 4},
-					ExpectedResult = 24
-				}
+				new FunctionBuilderInput(
+					new double[] { 1, 2, 3},
+					6)
+				,
+				new FunctionBuilderInput(
+					new double[] { 2, 3, 4},
+					24)
 			);
 			var chromosome = new FunctionBuilderChromosome(fitness.AvailableOperations, 5);
 
@@ -43,9 +42,8 @@ namespace GeneticSharp.Extensions.UnitTests.Mathematic
 			Assert.AreEqual (0.0, bestChromosome.Fitness.Value);
 			var actual = fitness.GetFunctionResult (
 				             bestChromosome.BuildFunction (), 
-				             new FunctionBuilderInput () {
-								Arguments = new double[] { 3, 4, 5 }
-				});
+				             new FunctionBuilderInput (new double[] { 3, 4, 5 }, 60)
+				);
 
 			Assert.AreEqual (60.0, actual);
 		}

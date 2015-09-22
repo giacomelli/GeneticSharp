@@ -37,16 +37,16 @@ public class SquareController : MonoBehaviour {
 	public void Select ()
 	{
 		if (Model.State == CheckersSquareState.Free) {
-			renderer.material.color = Color.red;	
+			GetComponent<Renderer>().material.color = Color.red;	
 		}
 	}
 	
 	public void Unselect ()
 	{
 		if (Model.State == CheckersSquareState.NotPlayable) {
-			renderer.material.color = Color.white;
+			GetComponent<Renderer>().material.color = Color.white;
 		} else {
-			renderer.material.color = Color.black;	
+			GetComponent<Renderer>().material.color = Color.black;	
 		}
 	}
 	

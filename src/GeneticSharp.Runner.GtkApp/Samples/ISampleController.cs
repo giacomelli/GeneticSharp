@@ -51,21 +51,25 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         /// <summary>
         /// Creates the crossover.
         /// </summary>
+        /// <returns>The crossover.</returns>
         ICrossover CreateCrossover();
 
         /// <summary>
         /// Creates the mutation.
         /// </summary>
+        /// <returns>The mutation.</returns>
         IMutation CreateMutation();
 
         /// <summary>
         /// Creates the selection.
         /// </summary>
+        /// <returns>The selection.</returns>
         ISelection CreateSelection();
 
         /// <summary>
         /// Creates the termination.
         /// </summary>
+        /// <returns>The termination.</returns>
         ITermination CreateTermination();
 
         /// <summary>

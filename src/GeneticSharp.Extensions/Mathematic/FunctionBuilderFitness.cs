@@ -1,91 +1,95 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Fitnesses;
-using System.Collections.ObjectModel;
+using NCalc;
 
 namespace GeneticSharp.Extensions.Mathematic
 {
-	/// <summary>
-	/// Function builder fitness.
-	/// </summary>
+    /// <summary>
+    /// Function builder fitness.
+    /// </summary>
     public class FunctionBuilderFitness : IFitness
     {
-		#region Fields
+        #region Fields
         private FunctionBuilderInput[] m_inputs;
-		private string[] m_parameterNames;
-		#endregion
+        private string[] m_parameterNames;
+        #endregion
 
-		#region Constructors
-		/// <summary>
-		/// Initializes a new instance of the <see cref="GeneticSharp.Extensions.Mathematic.FunctionBuilderFitness"/> class.
-		/// </summary>
-		/// <param name="inputs">Inputs.</param>
+        #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.Mathematic.FunctionBuilderFitness"/> class.
+        /// </summary>
+        /// <param name="inputs">The arguments values and expected results of the function.</param>
         public FunctionBuilderFitness(params FunctionBuilderInput[] inputs)
         {
             m_inputs = inputs;
 
-			var parametersCount = m_inputs[0].Arguments.Length;
-			AvailableOperations = FunctionBuilderChromosome.BuildAvailableOperations(parametersCount);
-			m_parameterNames = FunctionBuilderChromosome.GetParameterNames(parametersCount);
+            var parametersCount = m_inputs[0].Arguments.Count;
+            AvailableOperations = FunctionBuilderChromosome.BuildAvailableOperations(parametersCount);
+            m_parameterNames = FunctionBuilderChromosome.GetParameterNames(parametersCount);
         }
-		#endregion
+        #endregion
 
-		#region Properties
-		/// <summary>
-		/// Gets the available operations.
-		/// </summary>
-		/// <value>The available operations.</value>
-		public ReadOnlyCollection<string> AvailableOperations { get; private set; }
-		#endregion
+        #region Properties
+        /// <summary>
+        /// Gets the available operations.
+        /// </summary>
+        /// <value>The available operations.</value>
+        public ReadOnlyCollection<string> AvailableOperations { get; private set; }
+        #endregion
 
-		#region Methods
-		/// <summary>
-		/// Performs the evaluation against the specified chromosome.
-		/// </summary>
-		/// <param name="chromosome">The chromosome to be evaluated.</param>
-		/// <returns>The fitness of the chromosome.</returns>
+        #region Methods
+        /// <summary>
+        /// Performs the evaluation against the specified chromosome.
+        /// </summary>
+        /// <param name="chromosome">The chromosome to be evaluated.</param>
+        /// <returns>The fitness of the chromosome.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Any error on function be evaluated should be a fitness penalty")]
         public double Evaluate(IChromosome chromosome)
-		{
-			var c = chromosome as FunctionBuilderChromosome;
-			var function = c.BuildFunction ();
-			var fitness = 0.0;
+        {
+            var c = chromosome as FunctionBuilderChromosome;
+            var function = c.BuildFunction();
+            var fitness = 0.0;
 
-			foreach (var input in m_inputs) {
-				try {
-					var result = GetFunctionResult (function, input);
-					var diff = Math.Abs (result - input.ExpectedResult);
-                    
-					fitness += diff;
-				} catch (Exception) {
-					return double.MinValue;
-				}
-			}
+            foreach (var input in m_inputs)
+            {
+                try
+                {
+                    var result = GetFunctionResult(function, input);
+                    var diff = Math.Abs(result - input.ExpectedResult);
 
-			return fitness * -1;
-		}
+                    fitness += diff;
+                }
+                catch (Exception)
+                {
+                    return double.MinValue;
+                }
+            }
 
-		/// <summary>
-		/// Gets the function result.
-		/// </summary>
-		/// <returns>The function result.</returns>
-		/// <param name="function">Function.</param>
-		/// <param name="input">Input.</param>
-		public double GetFunctionResult(string function, FunctionBuilderInput input)
-		{
-			var expression = new NCalc.Expression(function);            
+            return fitness * -1;
+        }
 
-			for (int i = 0; i < m_parameterNames.Length; i++)
-			{
-				expression.Parameters.Add(m_parameterNames[i], input.Arguments[i]);
-			}
+        /// <summary>
+        /// Gets the function result.
+        /// </summary>
+        /// <returns>The function result.</returns>
+        /// <param name="function">The function.</param>
+        /// <param name="input">The arguments values and expected results of the function.</param>
+        public double GetFunctionResult(string function, FunctionBuilderInput input)
+        {
+            var expression = new NCalc.Expression(function);
 
-			var result = expression.Evaluate();            
+            for (int i = 0; i < m_parameterNames.Length; i++)
+            {
+                expression.Parameters.Add(m_parameterNames[i], input.Arguments[i]);
+            }
 
-			return (double)result;
-		}
-		#endregion
+            var result = expression.Evaluate();
+
+            return (double)result;
+        }
+        #endregion
     }
 }

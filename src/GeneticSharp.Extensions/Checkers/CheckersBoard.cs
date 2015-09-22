@@ -149,7 +149,7 @@ namespace GeneticSharp.Extensions.Checkers
                 moved = true;
 
                 // Capture move.
-                if (moveKind == CheckersMoveKind.Capture) 
+                if (moveKind == CheckersMoveKind.Capture)
                 {
                     if (to.ColumnIndex == from.ColumnIndex + (2 * indexModifier))
                     {
@@ -205,16 +205,16 @@ namespace GeneticSharp.Extensions.Checkers
                         kind = CheckersMoveKind.Forward;
                     }
                     else
-                    if (to.RowIndex == from.RowIndex + (2 * indexModifier)) 
+                    if (to.RowIndex == from.RowIndex + (2 * indexModifier))
                     {
                         // Capture move.
 
                         // To right or To left?
                         if (to.ColumnIndex == from.ColumnIndex + (2 * indexModifier)
-                        && GetSquare(from.ColumnIndex + (1 * indexModifier), from.RowIndex + (1 * indexModifier)).State == opponentState) 
+                        && GetSquare(from.ColumnIndex + (1 * indexModifier), from.RowIndex + (1 * indexModifier)).State == opponentState)
                         {
                             kind = CheckersMoveKind.Capture;
-                        }                        
+                        }
                         else
                         if (to.ColumnIndex == from.ColumnIndex - (2 * indexModifier)
                         && GetSquare(from.ColumnIndex - (1 * indexModifier), from.RowIndex + (1 * indexModifier)).State == opponentState)

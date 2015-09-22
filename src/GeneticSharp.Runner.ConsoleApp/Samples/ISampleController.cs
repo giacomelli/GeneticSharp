@@ -52,9 +52,9 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         void Initialize();
 
         /// <summary>
-        /// Configurate the Genetic Algorithm.
+        /// Configure the Genetic Algorithm.
         /// </summary>
-        /// <param name="ga">The ga.</param>
+        /// <param name="ga">The genetic algorithm.</param>
         void ConfigGA(GeneticAlgorithm ga);
 
         /// <summary>

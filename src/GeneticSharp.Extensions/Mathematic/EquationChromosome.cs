@@ -31,13 +31,13 @@ namespace GeneticSharp.Extensions.Mathematic
         }
         #endregion
 
-		#region Properties
-		/// <summary>
-		/// Gets the result range.
-		/// </summary>
-		/// <value>The result range.</value>
-		public int ResultRange { get; private set; }
-		#endregion
+        #region Properties
+        /// <summary>
+        /// Gets the result range.
+        /// </summary>
+        /// <value>The result range.</value>
+        public int ResultRange { get; private set; }
+        #endregion
 
         #region Methods        
         /// <summary>

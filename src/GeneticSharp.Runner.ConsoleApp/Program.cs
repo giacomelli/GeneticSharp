@@ -1,8 +1,7 @@
-﻿using System.IO;
-using System;
+﻿using System;
+using System.IO;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Selections;
 using GeneticSharp.Infrastructure.Threading;
 using GeneticSharp.Runner.ConsoleApp.Samples;
 
@@ -47,7 +46,7 @@ namespace GeneticSharp.Runner.ConsoleApp
             DrawSampleName(selectedSampleName);
             sampleController.Initialize();
 
-			Console.WriteLine ("Starting...");
+            Console.WriteLine("Starting...");
 
             var selection = sampleController.CreateSelection();
             var crossover = sampleController.CreateCrossover();
@@ -75,9 +74,9 @@ namespace GeneticSharp.Runner.ConsoleApp
                 Console.WriteLine("Generations: {0}", ga.Population.GenerationsNumber);
                 Console.WriteLine("Fitness: {0,10}", bestChromosome.Fitness);
                 Console.WriteLine("Time: {0}", ga.TimeEvolving);
-                sampleController.Draw(bestChromosome);                
+                sampleController.Draw(bestChromosome);
             };
-            
+
             try
             {
                 sampleController.ConfigGA(ga);
@@ -106,7 +105,7 @@ namespace GeneticSharp.Runner.ConsoleApp
             Console.Clear();
 
             Console.ForegroundColor = ConsoleColor.DarkGreen;
-			Console.WriteLine("GeneticSharp - ConsoleApp");
+            Console.WriteLine("GeneticSharp - ConsoleApp");
             Console.WriteLine();
             Console.WriteLine(selectedSampleName);
             Console.ResetColor();

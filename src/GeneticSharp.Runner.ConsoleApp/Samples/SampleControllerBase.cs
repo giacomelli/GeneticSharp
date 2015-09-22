@@ -34,12 +34,11 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         }
 
         /// <summary>
-        /// Configurate the Genetic Algorithm.
+        /// Configure the Genetic Algorithm.
         /// </summary>
-        /// <param name="ga">The ga.</param>
+        /// <param name="ga">The genetic algorithm.</param>
         public virtual void ConfigGA(GeneticAlgorithm ga)
         {
-
         }
 
         /// <summary>

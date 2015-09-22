@@ -21,19 +21,19 @@ public class PieceController : MonoBehaviour {
 	private void UpdateMaterial ()
 	{
 		if (CurrentSquare.Model.State == CheckersSquareState.OccupiedByPlayerOne) {
-			renderer.material = m_PlayerOneMaterial;
+			GetComponent<Renderer>().material = m_PlayerOneMaterial;
 		} else {
-			renderer.material = m_PlayerTwoMaterial;
+			GetComponent<Renderer>().material = m_PlayerTwoMaterial;
 		}	
 	}
 	
 	public void Select ()
 	{
-		renderer.material.color = Color.red;		
+		GetComponent<Renderer>().material.color = Color.red;		
 	}
 	
 	public void Unselect ()
 	{
-		renderer.material.color = Color.white;		
+		GetComponent<Renderer>().material.color = Color.white;		
 	}
 }

@@ -5,20 +5,21 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
+	<RootNamespace></RootNamespace>
 	<ProjectGuid>{653C4D46-4EF4-D168-E6D6-6199E72F48EE}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
-	<RootNamespace></RootNamespace>
 	<AssemblyName>Assembly-CSharp</AssemblyName>
 	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
 	<FileAlignment>512</FileAlignment>
+	<BaseDirectory>Assets</BaseDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
 	<DebugSymbols>true</DebugSymbols>
 	<DebugType>full</DebugType>
 	<Optimize>false</Optimize>
 	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_IPHONE;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_AUDIO_FMOD;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;ENABLE_WWW;ENABLE_IMAGEEFFECTS;UNITY_IPHONE_API;ENABLE_WEBCAM;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_GAMECENTER;UNITY_IOS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;UNITY_4_2_0;UNITY_4_2;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_OSX</DefineConstants>
+	<DefineConstants>DEBUG;TRACE;UNITY_5_2_0;UNITY_5_2;UNITY_5;ENABLE_NEW_BUGREPORTER;ENABLE_2D_PHYSICS;ENABLE_4_6_FEATURES;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_REFLECTION_BUFFERS;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;INCLUDE_DIRECTX12;PLATFORM_SUPPORTS_MONO;ENABLE_LOCALIZATION;ENABLE_ANDROID_ATLAS_ETC1_COMPRESSION;UNITY_IPHONE;ENABLE_RUNTIME_GI;ENABLE_SUBSTANCE;ENABLE_GAMECENTER;ENABLE_NETWORK;UNITY_IPHONE_API;UNITY_IOS;ENABLE_TEXTUREID_MAP;PLAYERCONNECTION_LISTENS_FIXED_PORT;DEBUGGER_LISTENS_FIXED_PORT;ENABLE_UNITYADS_RUNTIME;UNITY_UNITYADS_API;ENABLE_IL2CPP;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -27,7 +28,6 @@
 	<DebugType>pdbonly</DebugType>
 	<Optimize>true</Optimize>
 	<OutputPath>Temp\bin\Release\</OutputPath>
-	<DefineConstants>TRACE</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -36,6 +36,7 @@
 	<Reference Include="System" />
     <Reference Include="System.XML" />
 	<Reference Include="System.Core" />
+	<Reference Include="System.Xml.Linq" />
 	<Reference Include="UnityEngine">
 	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEngine.dll</HintPath>
 	</Reference>
@@ -59,23 +60,32 @@
      <None Include="Assets\_Checkers\Libraries\GeneticSharp.Extensions.xml" />
      <None Include="Assets\_Checkers\Libraries\GeneticSharp.Domain.xml" />
      <None Include="Assets\_Checkers\Libraries\GeneticSharp.Infrastructure.Threading.xml" />
- <Reference Include="Assets\_Checkers\Libraries\GeneticSharp.Domain">
- <HintPath>Assets\_Checkers\Libraries\GeneticSharp.Domain.dll</HintPath>
+ <Reference Include="UnityEngine.UI">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
- <Reference Include="Assets\_Checkers\Libraries\GeneticSharp.Extensions">
- <HintPath>Assets\_Checkers\Libraries\GeneticSharp.Extensions.dll</HintPath>
+ <Reference Include="UnityEngine.Networking">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
- <Reference Include="Assets\_Checkers\Libraries\GeneticSharp.Infrastructure.Framework">
- <HintPath>Assets\_Checkers\Libraries\GeneticSharp.Infrastructure.Framework.dll</HintPath>
+ <Reference Include="GeneticSharp.Domain">
+ <HintPath>/Users/giacomelli/Dropbox/Skahal/middleware/GeneticSharp/src/Samples/Unity/Checkers/Assets/_Checkers/Libraries/GeneticSharp.Domain.dll</HintPath>
  </Reference>
- <Reference Include="Assets\_Checkers\Libraries\GeneticSharp.Infrastructure.Threading">
- <HintPath>Assets\_Checkers\Libraries\GeneticSharp.Infrastructure.Threading.dll</HintPath>
+ <Reference Include="GeneticSharp.Extensions">
+ <HintPath>/Users/giacomelli/Dropbox/Skahal/middleware/GeneticSharp/src/Samples/Unity/Checkers/Assets/_Checkers/Libraries/GeneticSharp.Extensions.dll</HintPath>
  </Reference>
- <Reference Include="Assets\_Checkers\Libraries\HelperSharp">
- <HintPath>Assets\_Checkers\Libraries\HelperSharp.dll</HintPath>
+ <Reference Include="GeneticSharp.Infrastructure.Framework">
+ <HintPath>/Users/giacomelli/Dropbox/Skahal/middleware/GeneticSharp/src/Samples/Unity/Checkers/Assets/_Checkers/Libraries/GeneticSharp.Infrastructure.Framework.dll</HintPath>
  </Reference>
- <Reference Include="Assets\_Checkers\Libraries\SmartThreadPool">
- <HintPath>Assets\_Checkers\Libraries\SmartThreadPool.dll</HintPath>
+ <Reference Include="GeneticSharp.Infrastructure.Threading">
+ <HintPath>/Users/giacomelli/Dropbox/Skahal/middleware/GeneticSharp/src/Samples/Unity/Checkers/Assets/_Checkers/Libraries/GeneticSharp.Infrastructure.Threading.dll</HintPath>
+ </Reference>
+ <Reference Include="HelperSharp">
+ <HintPath>/Users/giacomelli/Dropbox/Skahal/middleware/GeneticSharp/src/Samples/Unity/Checkers/Assets/_Checkers/Libraries/HelperSharp.dll</HintPath>
+ </Reference>
+ <Reference Include="SmartThreadPool">
+ <HintPath>/Users/giacomelli/Dropbox/Skahal/middleware/GeneticSharp/src/Samples/Unity/Checkers/Assets/_Checkers/Libraries/SmartThreadPool.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+ <HintPath>/Applications/Unity/Unity.app/Contents/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
