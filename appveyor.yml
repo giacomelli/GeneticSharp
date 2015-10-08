@@ -1,0 +1,58 @@
+version: 1.0.{build}
+os: Visual Studio 2015
+configuration: Debug
+environment:
+  COVERALLS_REPO_TOKEN:
+    secure: O/w+gFTqDriJlktWz0p4xJbT0RnDfj8NZsVAShy54prPmxKEBDBGKwt8S4heGOcq
+	
+  GITHUB_REPO_TOKEN:
+     secure: Jmpeow5aAcDhUHkwac/AC6MzQciGc9TLgrp5oz4U0gyAwCWGqqxJhmjz3AVrWp/V
+	 
+install:
+- cmd: choco install resharper-clt.portable
+
+nuget:
+  account_feed: true
+  project_feed: true
+  
+before_build:
+- cmd: nuget restore .\src\GeneticSharp.sln
+
+build:
+  project: src\GeneticSharp.sln
+  verbosity: minimal
+
+after_build:
+- cmd: >-    
+    "C:\Program Files (x86)\Microsoft Fxcop 10.0\FxCopCmd.exe" /project:.\src\GeneticSharp.FxCop /out:.\tools\fxcop-report.xml
+    
+    .\tools\BadgesSharp\BadgesSharpCmd.exe giacomelli GeneticSharp FxCop ".\tools\fxcop-report.xml" %GITHUB_REPO_TOKEN%
+    
+    .\tools\StyleCopCmd\Net.SF.StyleCopCmd.Console\StyleCopCmd.exe -sf .\src\GeneticSharp.sln -of .\tools\stylecop-report.xml 
+    
+    .\tools\BadgesSharp\BadgesSharpCmd.exe giacomelli GeneticSharp StyleCop ".\tools\stylecop-report.violations.xml" %GITHUB_REPO_TOKEN%
+    
+    C:\ProgramData\chocolatey\lib\resharper-clt.portable\tools\dupfinder.exe /output=.\tools\dupFinder-Report.xml /show-text /exclude=**\*Test.cs;**\*.feature.cs;**\BundleConfig.cs .\src\GeneticSharp.sln
+    
+    .\tools\BadgesSharp\BadgesSharpCmd.exe giacomelli GeneticSharp DupFinder .\tools\dupFinder-Report.xml %GITHUB_REPO_TOKEN%
+
+    mkdir .\src\nuget
+
+    nuget pack .\src\GeneticSharp.Domain\GeneticSharp.Domain.csproj -IncludeReferencedProjects -Version %APPVEYOR_BUILD_VERSION% -OutputDirectory .\src\nuget
+
+test_script:
+- ps: >-
+    .\src\packages\OpenCover.4.6.166\tools\OpenCover.Console.exe -register:user -target:nunit-console.exe -register:user "-targetargs:""src\GeneticSharp.Domain.UnitTests\bin\$env:CONFIGURATION\GeneticSharp.Domain.UnitTests.dll","src\GeneticSharp.Extensions.UnitTests\bin\$env:CONFIGURATION\GeneticSharp.Extensions.UnitTests.dll","src\GeneticSharp.Infrastructure.Framework.UnitTests\bin\$env:CONFIGURATION\GeneticSharp.Infrastructure.Framework.UnitTests.dll","src\GeneticSharp.Infrastructure.Threading.UnitTests\bin\$env:CONFIGURATION\GeneticSharp.Infrastructure.Threading.UnitTests.dll"" /noshadow" -filter:"+[GeneticSharp.Domain]* +[GeneticSharp.Extensions]* +[GeneticSharp.Infrastructure.Framework]* +[GeneticSharp.Infrastructure.Threading]*" -output:opencoverCoverage.xml
+
+
+
+    .\src\packages\coveralls.net.0.6.0\tools\csmacnz.Coveralls.exe --opencover -i opencoverCoverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_JOB_ID
+artifacts:
+  - path: .\tools\fxcop-report.xml
+    name: FxCop-Report  
+  - path: .\tools\stylecop-report.xml
+    name: StyleCop-Report     
+  - path: .\tools\dupFinder-eport.xml
+    name: DupFinder-report 
+  - path: .\src\nuget\*.nupkg
+    name: NuGet packages

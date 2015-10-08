@@ -1,8 +1,19 @@
 GeneticSharp
 ===========
+
+####Build
 [![Build status](https://ci.appveyor.com/api/projects/status/h9ptxpyj30ah3mva?svg=true)](https://ci.appveyor.com/project/giacomelli/geneticsharp)
+
+####Code quality
 [![Coverage Status](https://coveralls.io/repos/giacomelli/GeneticSharp/badge.svg?branch=master&service=github)](https://coveralls.io/github/giacomelli/GeneticSharp?branch=master)
+![FxCop](http://badgessharp.apphb.com/badges/giacomelli/GeneticSharp/FxCop)
+![StyleCop](http://badgessharp.apphb.com/badges/giacomelli/GeneticSharp/StyleCop)
+![DupFinder](http://badgessharp.apphb.com/badges/giacomelli/GeneticSharp/DupFinder)
+
+####Release
 [![License](http://img.shields.io/:license-MIT-blue.svg)](https://raw.githubusercontent.com/giacomelli/GeneticSharp/master/LICENSE)
+[![Nuget](https://img.shields.io/nuget/v/GeneticSharp.svg)](https://www.nuget.org/packages/GeneticSharp/)
+[![Nuget](https://img.shields.io/nuget/dt/GeneticSharp.svg)](https://www.nuget.org/packages/GeneticSharp/)
 
 
 GeneticSharp is a fast, extensible, multi-platform and multithreading C# Genetic Algorithm library that simplifies the development of applications using Genetic Algorithms (GAs).

@@ -1,0 +1,501 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>StyleCopCmd.Core</name>
+    </assembly>
+    <members>
+        <member name="T:Net.SF.StyleCopCmd.Core.ReportBuilder">
+            <summary>
+            This class assists in building a StyleCop report.
+            </summary>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.ReportBuilder.#ctor(Net.SF.StyleCopCmd.Core.StyleCopReport)">
+            <summary>
+            Initializes a new instance of the ReportBuilder class.
+            </summary>
+            <param name="report">
+            The StyleCopReport to build.
+            </param>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.ReportBuilder.#ctor">
+            <summary>
+            Prevents a default instance of the ReportBuilder class from
+            being created.
+            </summary>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.ReportBuilder.WithAddInDirectories(System.Collections.Generic.IList{System.String})">
+            <summary>
+            Includes the following directories in the StyleCop processor's
+            search path for add-ins.
+            </summary>
+            <param name="addinDirectories">The directories to include.</param>
+            <returns>This ReportBuilder.</returns>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.ReportBuilder.WithSolutionsFiles(System.Collections.Generic.IList{System.String})">
+            <summary>
+            Adds Visual Studio Solution files to check. Visual Studio 2008
+            is supported.
+            </summary>
+            <param name="solutionsFiles">
+            A list of fully-qualified paths to Visual Studio solutions files.
+            </param>
+            <returns>This ReportBuilder.</returns>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.ReportBuilder.WithProjectFiles(System.Collections.Generic.IList{System.String})">
+            <summary>
+            Adds Visual Studio Project files to check. Visual Studio 2008
+            is supported.
+            </summary>
+            <param name="projectFiles">
+            A list of fully-qualified paths to Visual Studio project files.
+            </param>
+            <returns>This ReportBuilder.</returns>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.ReportBuilder.WithDirectories(System.Collections.Generic.IList{System.String})">
+            <summary>
+            Adds directories to check.
+            </summary>
+            <param name="directories">
+            A list of fully-qualifieid paths to directories.
+            </param>
+            <returns>This ReportBuilder.</returns>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.ReportBuilder.WithFiles(System.Collections.Generic.IList{System.String})">
+            <summary>
+            Adds files to check.
+            </summary>
+            <param name="files">
+            A list of fully-qualified paths to files.
+            </param>
+            <returns>This ReportBuilder.</returns>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.ReportBuilder.WithIgnorePatterns(System.Collections.Generic.IList{System.String})">
+            <summary>
+            Adds a list of patterns to ignore when checking files.
+            </summary>
+            <param name="ignorePatterns">
+            A list of regular expression patterns to ignore when checking
+            files.
+            </param>
+            <returns>This ReportBuilder.</returns>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.ReportBuilder.WithRecursion">
+            <summary>
+            Specifies to recurse directories.
+            </summary>
+            <returns>This ReportBuilder.</returns>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.ReportBuilder.WithRecursion(System.Boolean)">
+            <summary>
+            Specifies to recurse directories.
+            </summary>
+            <param name="withRecursion">
+            True to recurse; otherwise false.
+            </param>
+            <returns>This ReportBuilder.</returns>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.ReportBuilder.WithProcessorSymbols(System.Collections.Generic.IList{System.String})">
+            <summary>
+            Adds a list of processor symbols to use when performing the check.
+            </summary>
+            <param name="processorSymbols">
+            A list of processor symboles to use when performing the check.
+            </param>
+            <returns>This ReportBuilder.</returns>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.ReportBuilder.WithStyleCopSettingsFile(System.String)">
+            <summary>
+            Adds a StyleCop settings file to use when performing the check.
+            </summary>
+            <param name="styleCopSettingsFile">
+            A fully-qualified path to a StyleCop settings file to use.
+            </param>
+            <returns>This ReportBuilder.</returns>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.ReportBuilder.WithTransformFile(System.String)">
+            <summary>
+            Adds an XSL transform file to use to create an HTML report
+            from the results of the check.
+            </summary>
+            <param name="transformFile">
+            An XSL transform file to use to create an HTML report from the 
+            results of the check.
+            </param>
+            <returns>This ReportBuilder.</returns>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.ReportBuilder.WithOutputEventHandler(System.EventHandler{Microsoft.StyleCop.OutputEventArgs})">
+            <summary>
+            Adds an event handler for when output is generated by the 
+            StyleCop processor.
+            </summary>
+            <param name="outputEventHandler">
+            The event handler to add.
+            </param>
+            <returns>
+            This ReportBuilder.
+            </returns>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.ReportBuilder.Create(System.String)">
+            <summary>
+            Creates a StyleCop report.
+            </summary>
+            <param name="outputXmlFile">
+            The fully-qualified path to write the output of the report to.
+            </param>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.ReportBuilder.GetViolationsFile(System.String)">
+            <summary>
+            Gets the path of the violations file to use.
+            </summary>
+            <param name="outputXmlFile">
+            The output XML file.
+            </param>
+            <returns>The path of the violations file.</returns>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.ReportBuilder.Transform(System.String)">
+            <summary>
+            Transforms the outputted report using an XSL transform file.
+            </summary>
+            <param name="outputXmlFile">
+            The fully-qualified path of the report to transform.
+            </param>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.ReportBuilder.ViolationEncountered(System.Object,Microsoft.StyleCop.ViolationEventArgs)">
+            <summary>
+            Callback method for when a violation is encountered.
+            </summary>
+            <param name="sender">
+            The object that caused this event.
+            </param>
+            <param name="e">
+            The ViolationEventArgs object that describes this violation.
+            </param>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.ReportBuilder.AddDirectory(System.String)">
+            <summary>
+            Add the directory's source files to the list of
+            files that StyleCop checks.
+            </summary>
+            <param name="path">
+            The fully-qualified path to the directory to add.
+            </param>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.ReportBuilder.AddFile(System.String,Net.SF.StyleCopCmd.Core.StyleCopReport.SolutionsRow,Net.SF.StyleCopCmd.Core.StyleCopReport.ProjectsRow)">
+            <summary>
+            Add the given file to the list of files to
+            be checked by StyleCop.
+            </summary>
+            <param name="filePath">
+            The fully-qualified path of the file to add.
+            </param>
+            <param name="solutionsRow">
+            The solutions row for this file.
+            </param>
+            <param name="projectsRow">
+            The projects row for this file.
+            </param>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.ReportBuilder.AddSolutionFile(System.String)">
+            <summary>
+            Adds a Visual Studio solution file and add its
+            CSharp projects to the list of projects to be checked
+            by StyleCop.
+            </summary>
+            <param name="solutionFilePath">
+            The fully-qualified path to a Visual Studio solution file.
+            </param>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.ReportBuilder.AddProjectFile(System.String,Net.SF.StyleCopCmd.Core.StyleCopReport.SolutionsRow)">
+            <summary>
+            Adds a Visual Studio CSharp project file and
+            adds its source files to the list of files to be 
+            checked by StyleCop.
+            </summary>
+            <param name="projectFilePath">
+            The fully-qualified path to the project file.
+            </param>
+            <param name="solutionsRow">
+            The solutions row this project belongs to. Specify
+            null if this project is not a member of a solution.
+            </param>
+        </member>
+        <member name="E:Net.SF.StyleCopCmd.Core.ReportBuilder.OutputGenerated">
+            <summary>
+            Occurs when the stle processor outputs a message.
+            </summary>
+        </member>
+        <member name="P:Net.SF.StyleCopCmd.Core.ReportBuilder.Report">
+            <summary>
+            Gets or sets the StyleCopReport data set that is used to store the 
+            style cop results and write the results to an XML file.
+            </summary>
+        </member>
+        <member name="P:Net.SF.StyleCopCmd.Core.ReportBuilder.SolutionFiles">
+            <summary>
+            Gets or sets a list of Visual Studio Solution files to check.
+            Visual Studio 2008 is supported.
+            </summary>
+        </member>
+        <member name="P:Net.SF.StyleCopCmd.Core.ReportBuilder.ProjectFiles">
+            <summary>
+            Gets or sets a list of Visual Studio Project files to check.
+            Visual Studio 2008 is supported.
+            </summary>
+        </member>
+        <member name="P:Net.SF.StyleCopCmd.Core.ReportBuilder.Directories">
+            <summary>
+            Gets or sets a list of directories to check.
+            </summary>
+        </member>
+        <member name="P:Net.SF.StyleCopCmd.Core.ReportBuilder.Files">
+            <summary>
+            Gets or sets a list of files to check.
+            </summary>
+        </member>
+        <member name="P:Net.SF.StyleCopCmd.Core.ReportBuilder.IgnorePatterns">
+            <summary>
+            Gets or sets a list of regular expression patterns used
+            to ignore files (if a file name matches any of the patterns, the
+            file is not checked).
+            </summary>
+        </member>
+        <member name="P:Net.SF.StyleCopCmd.Core.ReportBuilder.RecursionEnabled">
+            <summary>
+            Gets or sets a value indicating whether or not directories are 
+            recursed.
+            </summary>
+        </member>
+        <member name="P:Net.SF.StyleCopCmd.Core.ReportBuilder.ProcessorSymbols">
+            <summary>
+            Gets or sets a list of processor symbols (ex. DEBUG, CODE_ANALYSIS)
+            to be used by StyleCop.
+            </summary>
+        </member>
+        <member name="P:Net.SF.StyleCopCmd.Core.ReportBuilder.StyleCopSettingsFile">
+            <summary>
+            Gets or sets the path to the StyleCop setting file to use.
+            </summary>
+        </member>
+        <member name="P:Net.SF.StyleCopCmd.Core.ReportBuilder.TransformFile">
+            <summary>
+            Gets or sets the path to the XSL file used to transform the 
+            outputted XML file to an HTML report.
+            </summary>
+        </member>
+        <member name="P:Net.SF.StyleCopCmd.Core.ReportBuilder.AddInDirectories">
+            <summary>
+            Gets or sets a list of directories used by StyleCop to search for 
+            add-ins.
+            </summary>
+        </member>
+        <member name="T:Net.SF.StyleCopCmd.Core.StyleCopCmdTask">
+            <summary>
+            This class provides a NAnt task that calls StyleCopCmd.
+            </summary>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.StyleCopCmdTask.ExecuteTask">
+            <summary>
+            Executes the task.
+            </summary>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.StyleCopCmdTask.Split(System.String)">
+            <summary>
+            Splits a string into an array of strings at commas.
+            </summary>
+            <param name="s">The string to split.</param>
+            <returns>
+            An array of strings. If the input is null a null value is returned.
+            </returns>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.StyleCopCmdTask.GetIList``1(System.Collections.ICollection)">
+            <summary>
+            Gets a generic list from a non-generic collection.
+            </summary>
+            <typeparam name="T">The type of list to get.</typeparam>
+            <param name="collection">
+            The collection to get the list from.
+            </param>
+            <returns>The generic list.</returns>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.StyleCopCmdTask.GetFiles(NAnt.Core.Types.FileSet)">
+            <summary>
+            Gets a list of file names.
+            </summary>
+            <param name="fileSet">The fileset to get the names from.</param>
+            <returns>The list of file names; otherwise null.</returns>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.StyleCopCmdTask.GetDirectories(NAnt.Core.Types.FileSet)">
+            <summary>
+            Gets a list of directory names.
+            </summary>
+            <param name="dirSet">The dirset to get the names from.</param>
+            <returns>The list of directory names; otherwise null.</returns>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.StyleCopCmdTask.LogOutput(System.Object,Microsoft.StyleCop.OutputEventArgs)">
+            <summary>
+            Logs StyleCop output to the NAnt logger.
+            </summary>
+            <param name="sender">The sender of the event.</param>
+            <param name="e">The OutputEventArgs object.</param>
+        </member>
+        <member name="P:Net.SF.StyleCopCmd.Core.StyleCopCmdTask.AddInDirectories">
+            <summary>
+            Gets or sets a list of directories used by the SyleCop processor
+            to load its own add-ins.
+            </summary>
+        </member>
+        <member name="P:Net.SF.StyleCopCmd.Core.StyleCopCmdTask.SolutionFiles">
+            <summary>
+            Gets or sets a list of Visual Studio Solution files to check.
+            Visual Studio 2008 is supported.
+            </summary>
+        </member>
+        <member name="P:Net.SF.StyleCopCmd.Core.StyleCopCmdTask.ProjectFiles">
+            <summary>
+            Gets or sets a list of Visual Studio Project files to check.
+            Visual Studio 2008 is supported.
+            </summary>
+        </member>
+        <member name="P:Net.SF.StyleCopCmd.Core.StyleCopCmdTask.Directories">
+            <summary>
+            Gets or sets a list of directories to check.
+            </summary>
+        </member>
+        <member name="P:Net.SF.StyleCopCmd.Core.StyleCopCmdTask.Files">
+            <summary>
+            Gets or sets a list of files to check.
+            </summary>
+        </member>
+        <member name="P:Net.SF.StyleCopCmd.Core.StyleCopCmdTask.IgnorePatterns">
+            <summary>
+            Gets or sets a list of regular expression patterns used
+            to ignore files (if a file name matches any of the patterns, the
+            file is not checked).
+            </summary>
+        </member>
+        <member name="P:Net.SF.StyleCopCmd.Core.StyleCopCmdTask.RecursionEnabled">
+            <summary>
+            Gets or sets a value indicating whether or not directories are 
+            recursed.
+            </summary>
+        </member>
+        <member name="P:Net.SF.StyleCopCmd.Core.StyleCopCmdTask.ProcessorSymbols">
+            <summary>
+            Gets or sets a list of processor symbols (ex. DEBUG, CODE_ANALYSIS)
+            to be used by StyleCop.
+            </summary>
+        </member>
+        <member name="P:Net.SF.StyleCopCmd.Core.StyleCopCmdTask.StyleCopSettingsFile">
+            <summary>
+            Gets or sets the path to the StyleCop setting file to use.
+            </summary>
+        </member>
+        <member name="P:Net.SF.StyleCopCmd.Core.StyleCopCmdTask.TransformFile">
+            <summary>
+            Gets or sets the path to the XSL file used to transform the 
+            outputted XML file to an HTML report.
+            </summary>
+        </member>
+        <member name="P:Net.SF.StyleCopCmd.Core.StyleCopCmdTask.OutputXmlFile">
+            <summary>
+            Gets or sets the path to the output file.
+            </summary>
+        </member>
+        <member name="T:Net.SF.StyleCopCmd.Core.StyleCopReport">
+             <summary>
+            Represents a strongly typed in-memory cache of data.
+            </summary>
+        </member>
+        <member name="T:Net.SF.StyleCopCmd.Core.StyleCopReport.SolutionsDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:Net.SF.StyleCopCmd.Core.StyleCopReport.ProjectsDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:Net.SF.StyleCopCmd.Core.StyleCopReport.SourceCodeFilesDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:Net.SF.StyleCopCmd.Core.StyleCopReport.ViolationsDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:Net.SF.StyleCopCmd.Core.StyleCopReport.RulesDataTable">
+             <summary>
+            Represents the strongly named DataTable class.
+            </summary>
+        </member>
+        <member name="T:Net.SF.StyleCopCmd.Core.StyleCopReport.SolutionsRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:Net.SF.StyleCopCmd.Core.StyleCopReport.ProjectsRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:Net.SF.StyleCopCmd.Core.StyleCopReport.SourceCodeFilesRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:Net.SF.StyleCopCmd.Core.StyleCopReport.ViolationsRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:Net.SF.StyleCopCmd.Core.StyleCopReport.RulesRow">
+             <summary>
+            Represents strongly named DataRow class.
+            </summary>
+        </member>
+        <member name="T:Net.SF.StyleCopCmd.Core.StyleCopReport.SolutionsRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:Net.SF.StyleCopCmd.Core.StyleCopReport.ProjectsRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:Net.SF.StyleCopCmd.Core.StyleCopReport.SourceCodeFilesRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:Net.SF.StyleCopCmd.Core.StyleCopReport.ViolationsRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:Net.SF.StyleCopCmd.Core.StyleCopReport.RulesRowChangeEvent">
+             <summary>
+            Row event argument class
+            </summary>
+        </member>
+        <member name="T:Net.SF.StyleCopCmd.Core.StyleCopReportExtensions">
+            <summary>
+            The extensions class for StyleCopReport.
+            </summary>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Core.StyleCopReportExtensions.ReportBuilder(Net.SF.StyleCopCmd.Core.StyleCopReport)">
+            <summary>
+            Creates a ReportBuilder to assist with building this StyleCopReport.
+            </summary>
+            <param name="report">
+            The StyleCopReport object.
+            </param>
+            <returns>
+            A new ReportBuilder object.
+            </returns>
+        </member>
+    </members>
+</doc>

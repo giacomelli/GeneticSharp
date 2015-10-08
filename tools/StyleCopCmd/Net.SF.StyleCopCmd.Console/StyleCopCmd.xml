@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>StyleCopCmd</name>
+    </assembly>
+    <members>
+        <member name="T:Net.SF.StyleCopCmd.Console.Program">
+            <summary>
+            The entry-point class for this application.
+            </summary>
+        </member>
+        <member name="F:Net.SF.StyleCopCmd.Console.Program.Opts">
+            <summary>
+            The command-line options for this application.
+            </summary>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Console.Program.Main(System.String[])">
+            <summary>
+            The entry-point method for this application.
+            </summary>
+            <param name="args">
+            The command line arguments passed to this method.
+            </param>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Console.Program.OutputGenerated(System.Object,Microsoft.StyleCop.OutputEventArgs)">
+            <summary>
+            Prints the output of the StyleCop processor to the console.
+            </summary>
+            <param name="sender">The event sender.</param>
+            <param name="e">The output message to print.</param>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Console.Program.PrintUsageAndHelp">
+            <summary>
+            Prints this application's usage and help text to StdOut.
+            </summary>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Console.Program.InitOptions">
+            <summary>
+            Initialize the options this program takes.
+            </summary>
+        </member>
+        <member name="M:Net.SF.StyleCopCmd.Console.Program.ProcessArguments(System.String[])">
+            <summary>
+            Process the command line arguments against the
+            expected options.
+            </summary>
+            <param name="args">
+            The command line arguments.
+            </param>
+            <returns>
+            A CommandLine object if successful, otherwise false.
+            </returns>
+        </member>
+    </members>
+</doc>
