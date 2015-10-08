@@ -51,8 +51,8 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <summary>
         /// Generates the gene for the specified index.
         /// </summary>
-        /// <returns>The gene.</returns>
         /// <param name="geneIndex">Gene index.</param>
+		/// <returns>The gene genereted at thie specified index.</returns>
         public abstract Gene GenerateGene(int geneIndex);
 
         /// <summary>
