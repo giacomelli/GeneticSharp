@@ -50,7 +50,7 @@ artifacts:
     name: FxCop-Report  
   - path: .\tools\stylecop-report.xml
     name: StyleCop-Report     
-  - path: .\tools\dupFinder-eport.xml
+  - path: .\tools\dupFinder-report.xml
     name: DupFinder-report 
   - path: .\src\nuget\*.nupkg
     name: NuGet packages

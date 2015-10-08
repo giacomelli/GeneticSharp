@@ -6,9 +6,9 @@ GeneticSharp
 
 ####Code quality
 [![Coverage Status](https://coveralls.io/repos/giacomelli/GeneticSharp/badge.svg?branch=master&service=github)](https://coveralls.io/github/giacomelli/GeneticSharp?branch=master)
-![FxCop](http://badgessharp.apphb.com/badges/giacomelli/GeneticSharp/FxCop)
-![StyleCop](http://badgessharp.apphb.com/badges/giacomelli/GeneticSharp/StyleCop)
-![DupFinder](http://badgessharp.apphb.com/badges/giacomelli/GeneticSharp/DupFinder)
+[![FxCop](http://badgessharp.apphb.com/badges/giacomelli/GeneticSharp/FxCop)](https://ci.appveyor.com/project/giacomelli/GeneticSharp/build/artifacts)
+[![StyleCop](http://badgessharp.apphb.com/badges/giacomelli/GeneticSharp/StyleCop)](https://ci.appveyor.com/project/giacomelli/GeneticSharp/build/artifacts)
+[![DupFinder](http://badgessharp.apphb.com/badges/giacomelli/GeneticSharp/DupFinder)](https://ci.appveyor.com/project/giacomelli/GeneticSharp/build/artifacts)
 
 ####Release
 [![License](http://img.shields.io/:license-MIT-blue.svg)](https://raw.githubusercontent.com/giacomelli/GeneticSharp/master/LICENSE)
