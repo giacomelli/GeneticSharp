@@ -70,7 +70,6 @@ namespace GeneticSharp.Domain.Crossovers
             for (int i = 0; i < cycles.Count; i++)
             {
                 var cycle = cycles[i];
-                int geneCycleIndex = 0;
 
                 if (i % 2 == 0)
                 {
@@ -95,7 +94,7 @@ namespace GeneticSharp.Domain.Crossovers
 		/// <param name="toOffspring1">To offspring1.</param>
 		/// <param name="fromParent2Genes">From parent2 genes.</param>
 		/// <param name="toOffspring2">To offspring2.</param>
-		private void CopyCycleIndexPair(IList<int> cycle, Gene[] fromParent1Genes, IChromosome toOffspring1, Gene[] fromParent2Genes, IChromosome toOffspring2)
+		private static void CopyCycleIndexPair(IList<int> cycle, Gene[] fromParent1Genes, IChromosome toOffspring1, Gene[] fromParent2Genes, IChromosome toOffspring2)
 		{
 			int geneCycleIndex = 0;
 
