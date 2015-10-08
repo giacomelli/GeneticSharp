@@ -4,7 +4,6 @@ configuration: Debug
 environment:
   COVERALLS_REPO_TOKEN:
     secure: O/w+gFTqDriJlktWz0p4xJbT0RnDfj8NZsVAShy54prPmxKEBDBGKwt8S4heGOcq
-	
   GITHUB_REPO_TOKEN:
     secure: Jmpeow5aAcDhUHkwac/AC6MzQciGc9TLgrp5oz4U0gyAwCWGqqxJhmjz3AVrWp/V
 	 
