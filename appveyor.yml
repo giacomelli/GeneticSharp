@@ -24,15 +24,15 @@ after_build:
 - cmd: >-    
     "C:\Program Files (x86)\Microsoft Fxcop 10.0\FxCopCmd.exe" /project:.\src\GeneticSharp.FxCop /out:.\tools\fxcop-report.xml
     
-    .\tools\BadgesSharpCmd.exe giacomelli GeneticSharp FxCop ".\tools\fxcop-report.xml" %GITHUB_REPO_TOKEN%
+    .\tools\BadgesSharpCmd.exe -o giacomelli -r GeneticSharp -b FxCop -c ".\tools\fxcop-report.xml" -a %GITHUB_REPO_TOKEN%
     
     .\tools\StyleCopCmd\Net.SF.StyleCopCmd.Console\StyleCopCmd.exe -sf .\src\GeneticSharp.sln -s .\src\Settings.StyleCop -of .\tools\stylecop-report.xml 
     
-    .\tools\BadgesSharpCmd.exe giacomelli GeneticSharp StyleCop ".\tools\stylecop-report.violations.xml" %GITHUB_REPO_TOKEN%
+    .\tools\BadgesSharpCmd.exe -o giacomelli -r GeneticSharp -b StyleCop -c ".\tools\stylecop-report.violations.xml" -a %GITHUB_REPO_TOKEN%
     
     C:\ProgramData\chocolatey\lib\resharper-clt.portable\tools\dupfinder.exe /output=.\tools\dupFinder-Report.xml /show-text /exclude=**\*Test.cs;**\*.feature.cs;**\BundleConfig.cs .\src\GeneticSharp.sln
     
-    .\tools\BadgesSharpCmd.exe giacomelli GeneticSharp DupFinder .\tools\dupFinder-Report.xml %GITHUB_REPO_TOKEN%
+    .\tools\BadgesSharpCmd.exe -o giacomelli -r GeneticSharp -b DupFinder -c .\tools\dupFinder-Report.xml -a %GITHUB_REPO_TOKEN%
 
     mkdir .\src\nuget
 
