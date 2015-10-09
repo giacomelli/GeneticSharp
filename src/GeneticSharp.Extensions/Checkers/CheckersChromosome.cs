@@ -58,21 +58,7 @@ namespace GeneticSharp.Extensions.Checkers
             Moves[geneIndex] = move;
 
             return new Gene(move);
-        }
-
-        private CheckersSquare FindPlayableSquare()
-        {
-            CheckersSquare square;
-            var rnd = RandomizationProvider.Current;
-
-            do
-            {
-                square = new CheckersSquare(rnd.GetInt(0, m_boardSize), rnd.GetInt(0, m_boardSize));
-            }
-            while (square.State == CheckersSquareState.NotPlayable);
-
-            return square;
-        }
+        }        
 
         /// <summary>
         /// Creates a new chromosome using the same structure of this.
@@ -93,6 +79,20 @@ namespace GeneticSharp.Extensions.Checkers
             clone.Moves = Moves;
 
             return clone;
+        }
+
+        private CheckersSquare FindPlayableSquare()
+        {
+            CheckersSquare square;
+            var rnd = RandomizationProvider.Current;
+
+            do
+            {
+                square = new CheckersSquare(rnd.GetInt(0, m_boardSize), rnd.GetInt(0, m_boardSize));
+            }
+            while (square.State == CheckersSquareState.NotPlayable);
+
+            return square;
         }
         #endregion
     }

@@ -64,14 +64,6 @@ namespace GeneticSharp.Domain.Populations
 
         #region Methods
         /// <summary>
-        /// Elects the best chromosome.
-        /// </summary>
-        private void ElectBestChromosome()
-        {
-            BestChromosome = Chromosomes.First();
-        }
-
-        /// <summary>
         /// Ends the generation.
         /// </summary>
         /// <param name="chromosomesNumber">Chromosomes number to keep on generation.</param>
@@ -87,7 +79,7 @@ namespace GeneticSharp.Domain.Populations
                 Chromosomes = Chromosomes.Take(chromosomesNumber).ToList();
             }
 
-            ElectBestChromosome();
+            BestChromosome = Chromosomes.First();
         }
 
         /// <summary>
@@ -103,7 +95,7 @@ namespace GeneticSharp.Domain.Populations
             }
 
             return true;
-        }
+        }               
         #endregion
     }
 }

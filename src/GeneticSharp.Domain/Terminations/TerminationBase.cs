@@ -27,13 +27,6 @@ namespace GeneticSharp.Domain.Terminations
         }
 
         /// <summary>
-        /// Determines whether the specified geneticAlgorithm reached the termination condition.
-        /// </summary>
-        /// <returns>True if termination has been reached, otherwise false.</returns>
-        /// <param name="geneticAlgorithm">The genetic algorithm.</param>
-        protected abstract bool PerformHasReached(IGeneticAlgorithm geneticAlgorithm);
-
-        /// <summary>
         /// Returns a <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Domain.Terminations.LogicalOperatorTerminationBase"/>.
         /// </summary>
         /// <returns>A <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Domain.Terminations.LogicalOperatorTerminationBase"/>.</returns>
@@ -41,6 +34,13 @@ namespace GeneticSharp.Domain.Terminations
         {
             return "{0} (HasReached: {1})".With(GetType().Name, m_hasReached);
         }
+
+        /// <summary>
+        /// Determines whether the specified geneticAlgorithm reached the termination condition.
+        /// </summary>
+        /// <returns>True if termination has been reached, otherwise false.</returns>
+        /// <param name="geneticAlgorithm">The genetic algorithm.</param>
+        protected abstract bool PerformHasReached(IGeneticAlgorithm geneticAlgorithm);        
         #endregion
     }
 }

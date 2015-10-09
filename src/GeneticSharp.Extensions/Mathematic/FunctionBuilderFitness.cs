@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Fitnesses;
-using NCalc;
 
 namespace GeneticSharp.Extensions.Mathematic
 {

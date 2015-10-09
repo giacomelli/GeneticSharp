@@ -189,13 +189,13 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         public void Resize_ToLowerLength_TruncateGenes()
         {
             var target = MockRepository.GenerateMock<ChromosomeBase>(4);
-            target.ReplaceGenes(0, new Gene[] 
-        	{ 
+            target.ReplaceGenes(0, new Gene[]
+            {
                 new Gene(1),
                 new Gene(2),
                 new Gene(3),
                 new Gene(4)
-        	});
+            });
 
             target.Resize(2);
             Assert.AreEqual(2, target.Length);
@@ -207,11 +207,11 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         public void Resize_ToGreaterLength_KeepOldGenesAndNullValueNewOnes()
         {
             var target = MockRepository.GenerateMock<ChromosomeBase>(2);
-            target.ReplaceGenes(0, new Gene[] 
-        	{ 
+            target.ReplaceGenes(0, new Gene[]
+            {
                 new Gene(1),
                 new Gene(2)
-        	});
+            });
 
             target.Resize(4);
             Assert.AreEqual(4, target.Length);

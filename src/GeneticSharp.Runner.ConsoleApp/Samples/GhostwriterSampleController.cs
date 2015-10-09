@@ -49,6 +49,17 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
             return f;
         }
 
+        public override IChromosome CreateChromosome()
+        {
+            return new GhostwriterChromosome(5, m_words);
+        }
+
+        public override void Draw(IChromosome bestChromosome)
+        {
+            var c = bestChromosome as GhostwriterChromosome;
+            Console.WriteLine("Text: {0}", c.BuildText());
+        }
+
         private int LevenshteinDistance(string s, string t)
         {
             // degenerate cases
@@ -102,17 +113,6 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
             }
 
             return v1[t.Length];
-        }
-
-        public override IChromosome CreateChromosome()
-        {
-            return new GhostwriterChromosome(5, m_words);
-        }
-
-        public override void Draw(IChromosome bestChromosome)
-        {
-            var c = bestChromosome as GhostwriterChromosome;
-            Console.WriteLine("Text: {0}", c.BuildText());
-        }
+        }        
     }
 }

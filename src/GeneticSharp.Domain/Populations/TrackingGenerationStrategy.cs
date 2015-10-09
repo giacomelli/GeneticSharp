@@ -8,7 +8,7 @@ namespace GeneticSharp.Domain.Populations
     /// This strategy can be slow and can suffer of OutOfMemoryException when you have great population and a long term termination.
     /// </remarks>
     /// </summary>
-     [DisplayName("Tracking")]
+    [DisplayName("Tracking")]
     public class TrackingGenerationStrategy : IGenerationStrategy
     {
         #region Methods

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Randomizations;
@@ -72,7 +71,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
 
             var generation = new Generation(1, new List<IChromosome>() {
                 c1, c2, c3, c4
-        	});
+            });
 
             // Fitness sum: 0.1 + 0.5 + 0 + 0.7 = 1.3
             // c1:  8% = 0.08
@@ -82,7 +81,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             var rnd = MockRepository.GenerateMock<IRandomization>();
             rnd.Expect(r => r.GetDouble()).Return(0.3);
             RandomizationProvider.Current = rnd;
-            
+
             // Step size 1/2 = 0.5
             var actual = target.SelectChromosomes(2, generation);
             Assert.AreEqual(2, actual.Count);

@@ -306,11 +306,6 @@ namespace GeneticSharp.Extensions.Checkers
         #endregion
 
         #region Helpers
-        private bool IsValidIndex(int index)
-        {
-            return index >= 0 && index < Size;
-        }
-
         private static int GetIndexModifier(CheckersPlayer player)
         {
             int indexModifier;
@@ -325,6 +320,11 @@ namespace GeneticSharp.Extensions.Checkers
             }
 
             return indexModifier;
+        }
+
+        private bool IsValidIndex(int index)
+        {
+            return index >= 0 && index < Size;
         }
         #endregion
     }

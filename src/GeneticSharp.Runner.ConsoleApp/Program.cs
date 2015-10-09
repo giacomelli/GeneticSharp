@@ -2,6 +2,7 @@
 using System.IO;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Populations;
+using GeneticSharp.Infrastructure.Framework.Reflection;
 using GeneticSharp.Infrastructure.Threading;
 using GeneticSharp.Runner.ConsoleApp.Samples;
 
@@ -23,7 +24,8 @@ namespace GeneticSharp.Runner.ConsoleApp
             Console.ResetColor();
             Console.WriteLine("Select the sample:");
 
-            var sampleNames = SampleService.GetSampleControllerNames();
+            var sampleNames = TypeHelper.GetDisplayNamesByInterface<ISampleController>();
+
             for (int i = 0; i < sampleNames.Count; i++)
             {
                 Console.WriteLine("{0}) {1}", i + 1, sampleNames[i]);
@@ -42,7 +44,7 @@ namespace GeneticSharp.Runner.ConsoleApp
                 Console.WriteLine("Invalid option.");
             }
 
-            var sampleController = SampleService.CreateSampleControllerByName(selectedSampleName);
+            var sampleController = TypeHelper.CreateInstanceByName<ISampleController>(selectedSampleName);
             DrawSampleName(selectedSampleName);
             sampleController.Initialize();
 

@@ -127,3 +127,4 @@ src/GeneticSharp.Extensions/Numberlink/NumberlinkFitness.cs
 src/GeneticSharp.Extensions/Numberlink/NumberlinkSquare.cs
 src/GeneticSharp.Runner.ConsoleApp/Samples/HangmanSampleController.cs
 src/GeneticSharp.Runner.GtkApp/Samples/NumberlinkSampleController.cs
+dupFinder-report.xml

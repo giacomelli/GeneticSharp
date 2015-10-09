@@ -11,6 +11,7 @@ using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
+using GeneticSharp.Infrastructure.Framework.Reflection;
 using GeneticSharp.Runner.GtkApp;
 using GeneticSharp.Runner.GtkApp.Samples;
 using Gtk;
@@ -76,6 +77,14 @@ public partial class MainWindow : Gtk.Window
             UpdateSample();
             return true;
         }));
+    }
+    #endregion
+
+    #region Protected methods
+    protected void OnDeleteEvent(object sender, DeleteEventArgs a)
+    {
+        Application.Quit();
+        a.RetVal = true;
     }
     #endregion
 
@@ -179,8 +188,8 @@ public partial class MainWindow : Gtk.Window
     #region Sample methods
     private void PrepareSamples()
     {
-        LoadComboBox(cmbSample, SampleService.GetSampleControllerNames());
-        m_sampleController = SampleService.CreateSampleControllerByName(cmbSample.ActiveText);
+        LoadComboBox(cmbSample, TypeHelper.GetDisplayNamesByInterface<ISampleController>());
+        m_sampleController = TypeHelper.CreateInstanceByName<ISampleController>(cmbSample.ActiveText);
 
         // Sample context.
         var layout = new Pango.Layout(this.PangoContext);
@@ -206,7 +215,7 @@ public partial class MainWindow : Gtk.Window
         SetSampleOperatorsToComboxes();
         cmbSample.Changed += delegate
         {
-            m_sampleController = SampleService.CreateSampleControllerByName(cmbSample.ActiveText);
+            m_sampleController = TypeHelper.CreateInstanceByName<ISampleController>(cmbSample.ActiveText);
             SetSampleOperatorsToComboxes();
 
             m_sampleController.Context = m_sampleContext;
@@ -377,8 +386,8 @@ public partial class MainWindow : Gtk.Window
             PopulationService.GetGenerationStrategyTypeByName,
             PopulationService.CreateGenerationStrategyByName,
             () => m_generationStrategy,
-            (i) => m_generationStrategy = i);        
-    }  
+            (i) => m_generationStrategy = i);
+    }
 
     private void PrepareEditComboBox<TItem>(ComboBox comboBox, Button editButton, Func<IList<string>> getNames, Func<string, Type> getTypeByName, Func<string, object[], TItem> createItem, Func<TItem> getItem, Action<TItem> setItem)
     {
@@ -438,12 +447,6 @@ public partial class MainWindow : Gtk.Window
     private void DrawBuffer()
     {
         drawingArea.GdkWindow.DrawDrawable(m_sampleContext.GC, m_sampleContext.Buffer, 0, 0, 0, 0, drawingArea.Allocation.Width, drawingArea.Allocation.Height);
-    }
-
-    protected void OnDeleteEvent(object sender, DeleteEventArgs a)
-    {
-        Application.Quit();
-        a.RetVal = true;
-    }
+    }    
     #endregion
 }

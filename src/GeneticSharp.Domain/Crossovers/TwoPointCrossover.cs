@@ -16,7 +16,7 @@ namespace GeneticSharp.Domain.Crossovers
     /// </remarks>
     /// </summary>
     [DisplayName("Two-Point")]
-    public class TwoPointCrossover : CrossoverBase
+    public class TwoPointCrossover : OnePointCrossover
     {
         #region Constructors
         /// <summary>
@@ -25,7 +25,6 @@ namespace GeneticSharp.Domain.Crossovers
         /// <param name="swapPointOneGeneIndex">Swap point one gene index.</param>
         /// <param name="swapPointTwoGeneIndex">Swap point two gene index.</param>
         public TwoPointCrossover(int swapPointOneGeneIndex, int swapPointTwoGeneIndex)
-            : base(2, 2, 3)
         {
             if (swapPointOneGeneIndex >= swapPointTwoGeneIndex)
             {
@@ -34,6 +33,7 @@ namespace GeneticSharp.Domain.Crossovers
 
             SwapPointOneGeneIndex = swapPointOneGeneIndex;
             SwapPointTwoGeneIndex = swapPointTwoGeneIndex;
+            MinChromosomeLength = 3;
         }
 
         /// <summary>
@@ -80,10 +80,7 @@ namespace GeneticSharp.Domain.Crossovers
                     "The swap point two index is {0}, but there is only {1} genes. The swap should result at least one gene to each sides.".With(SwapPointTwoGeneIndex, parentLength));
             }
 
-            var firstChild = CreateChild(firstParent, secondParent);
-            var secondChild = CreateChild(secondParent, firstParent);
-
-            return new List<IChromosome>() { firstChild, secondChild };
+            return CreateChildren(firstParent, secondParent);
         }
 
         /// <summary>
@@ -92,7 +89,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>The child.</returns>
         /// <param name="leftParent">Left parent.</param>
         /// <param name="rightParent">Right parent.</param>
-        private IChromosome CreateChild(IChromosome leftParent, IChromosome rightParent)
+        protected override IChromosome CreateChild(IChromosome leftParent, IChromosome rightParent)
         {
             var firstCutGenesCount = SwapPointOneGeneIndex + 1;
             var secondCutGenesCount = SwapPointTwoGeneIndex + 1;

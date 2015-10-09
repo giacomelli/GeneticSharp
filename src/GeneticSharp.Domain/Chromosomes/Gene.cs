@@ -25,6 +25,7 @@ namespace GeneticSharp.Domain.Chromosomes
         #endregion
 
         #region Properties
+
         /// <summary>
         /// Gets the value.
         /// </summary>
@@ -39,6 +40,32 @@ namespace GeneticSharp.Domain.Chromosomes
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Implements the operator ==.
+        /// </summary>
+        /// <param name="first">The first.</param>
+        /// <param name="second">The second.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator ==(Gene first, Gene second)
+        {
+            return first.Equals(second);
+        }
+
+        /// <summary>
+        /// Implements the operator !=.
+        /// </summary>
+        /// <param name="first">The first.</param>
+        /// <param name="second">The second.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator !=(Gene first, Gene second)
+        {
+            return !(first == second);
+        }
+
         /// <summary>
         /// Returns a <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>.
         /// </summary>
@@ -91,33 +118,7 @@ namespace GeneticSharp.Domain.Chromosomes
             }
 
             return Value.GetHashCode();
-        }
-
-        /// <summary>
-        /// Implements the operator ==.
-        /// </summary>
-        /// <param name="first">The first.</param>
-        /// <param name="second">The second.</param>
-        /// <returns>
-        /// The result of the operator.
-        /// </returns>
-        public static bool operator ==(Gene first, Gene second)
-        {
-            return first.Equals(second);
-        }
-
-        /// <summary>
-        /// Implements the operator !=.
-        /// </summary>
-        /// <param name="first">The first.</param>
-        /// <param name="second">The second.</param>
-        /// <returns>
-        /// The result of the operator.
-        /// </returns>
-        public static bool operator !=(Gene first, Gene second)
-        {
-            return !(first == second);
-        }
+        }       
         #endregion
     }
 }

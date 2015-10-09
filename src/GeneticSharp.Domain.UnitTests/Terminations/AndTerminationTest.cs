@@ -12,7 +12,7 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
     {
         [Test]
         public void Constructors_Terminations_Added()
-        {            
+        {
             var ga = MockRepository.GenerateMock<IGeneticAlgorithm>();
             var t1 = MockRepository.GenerateMock<ITermination>();
             t1.Expect(t => t.HasReached(ga)).IgnoreArguments().Return(true);
@@ -120,7 +120,7 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
             var t1 = new AndTermination();
             var t2 = new OrTermination();
             var t3 = new AndTermination();
-            
+
             var target = new AndTermination(t1, t2, t3);
 
             Assert.AreEqual("AndTermination (AndTermination (), OrTermination (), AndTermination ())", target.ToString());

@@ -95,14 +95,7 @@ namespace GeneticSharp.Infrastructure.Threading
                 m_threadPool.Dispose();
                 IsRunning = false;
             }
-        }
-
-        private object Run(object state)
-        {
-            ((System.Action)state)();
-
-            return true;
-        }
+        }        
 
         /// <summary>
         /// Stops the tasks execution.
@@ -130,6 +123,13 @@ namespace GeneticSharp.Infrastructure.Threading
             }
 
             GC.SuppressFinalize(this);
+        }
+
+        private object Run(object state)
+        {
+            ((System.Action)state)();
+
+            return true;
         }
         #endregion
     }

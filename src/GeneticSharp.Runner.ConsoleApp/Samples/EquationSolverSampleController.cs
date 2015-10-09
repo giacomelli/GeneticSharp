@@ -81,22 +81,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
 
             var engine = new CalculationEngine();
             m_equationResult = (int)engine.Calculate(m_equationRightPart);
-        }
-
-        private int GetEquationResult(Gene[] genes)
-        {
-            var variableValues = new Dictionary<string, double>();
-
-            for (int i = 0; i < m_variables.Count; i++)
-            {
-                variableValues.Add(m_variables[i], (int)genes[i].Value);
-            }
-
-            var engine = new CalculationEngine();
-            var result = engine.Calculate(m_equationLeftPart, variableValues);
-
-            return (int)result;
-        }
+        }        
 
         /// <summary>
         /// Draws the specified best chromosome.
@@ -126,6 +111,21 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         public override ITermination CreateTermination()
         {
             return new FitnessThresholdTermination(0);
+        }
+
+        private int GetEquationResult(Gene[] genes)
+        {
+            var variableValues = new Dictionary<string, double>();
+
+            for (int i = 0; i < m_variables.Count; i++)
+            {
+                variableValues.Add(m_variables[i], (int)genes[i].Value);
+            }
+
+            var engine = new CalculationEngine();
+            var result = engine.Calculate(m_equationLeftPart, variableValues);
+
+            return (int)result;
         }
         #endregion
     }

@@ -49,10 +49,85 @@ namespace GeneticSharp.Domain.Chromosomes
 
         #region Methods
         /// <summary>
+        /// Implements the operator ==.
+        /// </summary>
+        /// <param name="first">The first.</param>
+        /// <param name="second">The second.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator ==(ChromosomeBase first, ChromosomeBase second)
+        {
+            if (Object.ReferenceEquals(first, second))
+            {
+                return true;
+            }
+
+            if (((object)first == null) || ((object)second == null))
+            {
+                return false;
+            }
+
+            return first.CompareTo(second) == 0;
+        }
+
+        /// <summary>
+        /// Implements the operator !=.
+        /// </summary>
+        /// <param name="first">The first.</param>
+        /// <param name="second">The second.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator !=(ChromosomeBase first, ChromosomeBase second)
+        {
+            return !(first == second);
+        }
+
+        /// <summary>
+        /// Implements the operator &lt;.
+        /// </summary>
+        /// <param name="first">The first.</param>
+        /// <param name="second">The second.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator <(ChromosomeBase first, ChromosomeBase second)
+        {
+            if (Object.ReferenceEquals(first, second))
+            {
+                return false;
+            }
+            else if ((object)first == null)
+            {
+                return true;
+            }
+            else if ((object)second == null)
+            {
+                return false;
+            }
+
+            return first.CompareTo(second) < 0;
+        }
+
+        /// <summary>
+        /// Implements the operator &gt;.
+        /// </summary>
+        /// <param name="first">The first.</param>
+        /// <param name="second">The second.</param>
+        /// <returns>
+        /// The result of the operator.
+        /// </returns>
+        public static bool operator >(ChromosomeBase first, ChromosomeBase second)
+        {
+            return !(first == second) && !(first < second);
+        }
+
+        /// <summary>
         /// Generates the gene for the specified index.
         /// </summary>
         /// <param name="geneIndex">Gene index.</param>
-		/// <returns>The gene genereted at thie specified index.</returns>
+        /// <returns>The gene generated at the specified index.</returns>
         public abstract Gene GenerateGene(int geneIndex);
 
         /// <summary>
@@ -208,82 +283,7 @@ namespace GeneticSharp.Domain.Chromosomes
         public override int GetHashCode()
         {
             return Fitness.GetHashCode();
-        }
-
-        /// <summary>
-        /// Implements the operator ==.
-        /// </summary>
-        /// <param name="first">The first.</param>
-        /// <param name="second">The second.</param>
-        /// <returns>
-        /// The result of the operator.
-        /// </returns>
-        public static bool operator ==(ChromosomeBase first, ChromosomeBase second)
-        {
-            if (Object.ReferenceEquals(first, second))
-            {
-                return true;
-            }
-
-            if (((object)first == null) || ((object)second == null))
-            {
-                return false;
-            }
-
-            return first.CompareTo(second) == 0;
-        }
-
-        /// <summary>
-        /// Implements the operator !=.
-        /// </summary>
-        /// <param name="first">The first.</param>
-        /// <param name="second">The second.</param>
-        /// <returns>
-        /// The result of the operator.
-        /// </returns>
-        public static bool operator !=(ChromosomeBase first, ChromosomeBase second)
-        {
-            return !(first == second);
-        }
-
-        /// <summary>
-        /// Implements the operator &lt;.
-        /// </summary>
-        /// <param name="first">The first.</param>
-        /// <param name="second">The second.</param>
-        /// <returns>
-        /// The result of the operator.
-        /// </returns>
-        public static bool operator <(ChromosomeBase first, ChromosomeBase second)
-        {
-            if (Object.ReferenceEquals(first, second))
-            {
-                return false;
-            }
-            else if ((object)first == null)
-            {
-                return true;
-            }
-            else if ((object)second == null)
-            {
-                return false;
-            }
-
-            return first.CompareTo(second) < 0;
-        }
-
-        /// <summary>
-        /// Implements the operator &gt;.
-        /// </summary>
-        /// <param name="first">The first.</param>
-        /// <param name="second">The second.</param>
-        /// <returns>
-        /// The result of the operator.
-        /// </returns>
-        public static bool operator >(ChromosomeBase first, ChromosomeBase second)
-        {
-            return !(first == second) && !(first < second);
-        }
+        }        
 
         /// <summary>
         /// Validates the length.

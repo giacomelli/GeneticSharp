@@ -23,7 +23,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         private bool m_showIndexes = true;
         private TspChromosome m_bestChromosome;
         #endregion
-        
+
         #region Methods
         /// <summary>
         /// Creates the config widget.
@@ -88,7 +88,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 
         public override ICrossover CreateCrossover()
         {
-            return new OrderedCrossover();            
+            return new OrderedCrossover();
         }
 
         public override IMutation CreateMutation()

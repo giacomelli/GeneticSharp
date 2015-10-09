@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Randomizations;
 using NUnit.Framework;
 using Rhino.Mocks;
-using TestSharp;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
@@ -23,8 +21,8 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         public void Cross_ParentsWithTwoGenesProbabilityDiffPercents_DiffChildren()
         {
             var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(4);
-        	chromosome1.ReplaceGenes(0, new Gene[]  
-            { 
+            chromosome1.ReplaceGenes(0, new Gene[]
+            {
                 new Gene(1),
                 new Gene(2),
                 new Gene(3),
@@ -33,8 +31,8 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             chromosome1.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(4));
 
             var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(4);
-        	chromosome2.ReplaceGenes(0, new Gene[] 
-            { 
+            chromosome2.ReplaceGenes(0, new Gene[]
+            {
                 new Gene(5),
                 new Gene(6),
                 new Gene(7),

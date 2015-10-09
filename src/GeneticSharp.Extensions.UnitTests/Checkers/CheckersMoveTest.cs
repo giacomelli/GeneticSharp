@@ -33,7 +33,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             ExceptionAssert.IsThrowing(new ArgumentNullException("toSquare"), () =>
             {
                 new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(0, 1) }, null);
-            });            
-        }     
+            });
+        }
     }
 }

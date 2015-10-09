@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -39,6 +40,47 @@ namespace GeneticSharp.Domain.Selections
 
         #region ISelection implementation
         /// <summary>
+        /// Selects from wheel.
+        /// </summary>
+        /// <param name="number">The number.</param>
+        /// <param name="chromosomes">The chromosomes.</param>
+        /// <param name="rouletteWheel">The roulette wheel.</param>
+        /// <param name="getPointer">The get pointer.</param>
+        /// <returns>The selected chromosomes.</returns>
+        protected static IList<IChromosome> SelectFromWheel(int number, IList<IChromosome> chromosomes, IList<double> rouletteWheel, Func<double> getPointer)
+        {
+            var selected = new List<IChromosome>();
+
+            for (int i = 0; i < number; i++)
+            {
+                var pointer = getPointer();
+
+                var chromosomeIndex = rouletteWheel.Select((value, index) => new { Value = value, Index = index }).FirstOrDefault(r => r.Value >= pointer).Index;
+                selected.Add(chromosomes[chromosomeIndex]);
+            }
+
+            return selected;
+        }
+
+        /// <summary>
+        /// Calculates the cumulative percent.
+        /// </summary>
+        /// <param name="chromosomes">The chromosomes.</param>
+        /// <param name="rouletteWheel">The roulette wheel.</param>
+        protected static void CalculateCumulativePercentFitness(IList<IChromosome> chromosomes, List<double> rouletteWheel)
+        {
+            var sumFitness = chromosomes.Sum(c => c.Fitness.Value);
+
+            var cumulativePercent = 0.0;
+
+            foreach (var c in chromosomes)
+            {
+                cumulativePercent += c.Fitness.Value / sumFitness;
+                rouletteWheel.Add(cumulativePercent);
+            }
+        }
+
+        /// <summary>
         /// Performs the selection of chromosomes from the generation specified.
         /// </summary>
         /// <param name="number">The number of chromosomes to select.</param>
@@ -47,26 +89,13 @@ namespace GeneticSharp.Domain.Selections
         protected override IList<IChromosome> PerformSelectChromosomes(int number, Generation generation)
         {
             var chromosomes = generation.Chromosomes;
-            var selected = new List<IChromosome>();
-            var sumFitness = chromosomes.Sum(c => c.Fitness.Value);
-            var rouleteWheel = new List<double>();
-            var accumulativePercent = 0.0;
+            var rouletteWheel = new List<double>();
+            var rnd = RandomizationProvider.Current;
 
-            foreach (var c in chromosomes)
-            {
-                accumulativePercent += c.Fitness.Value / sumFitness;
-                rouleteWheel.Add(accumulativePercent);
-            }
+            CalculateCumulativePercentFitness(chromosomes, rouletteWheel);
 
-            for (int i = 0; i < number; i++)
-            {
-                var pointer = RandomizationProvider.Current.GetDouble();
-                var chromosomeIndex = rouleteWheel.Select((value, index) => new { Value = value, Index = index }).FirstOrDefault(r => r.Value >= pointer).Index;
-                selected.Add(chromosomes[chromosomeIndex]);
-            }
-
-            return selected;
-        }
+            return SelectFromWheel(number, chromosomes, rouletteWheel, () => rnd.GetDouble());
+        }        
         #endregion
     }
 }

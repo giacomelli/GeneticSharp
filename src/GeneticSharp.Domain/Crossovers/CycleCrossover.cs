@@ -74,37 +74,37 @@ namespace GeneticSharp.Domain.Crossovers
                 if (i % 2 == 0)
                 {
                     // Copy cycle index pair: values from Parent 1 and copied to Child 1, and values from Parent 2 will be copied to Child 2.
-					CopyCycleIndexPair(cycle, parent1Genes, offspring1, parent2Genes, offspring2);
+                    CopyCycleIndexPair(cycle, parent1Genes, offspring1, parent2Genes, offspring2);
                 }
                 else
                 {
                     // Copy cycle index odd: values from Parent 1 will be copied to Child 2, and values from Parent 1 will be copied to Child 1.
-					CopyCycleIndexPair(cycle, parent1Genes, offspring2, parent2Genes, offspring1);
+                    CopyCycleIndexPair(cycle, parent1Genes, offspring2, parent2Genes, offspring1);
                 }
             }
 
             return new List<IChromosome>() { offspring1, offspring2 };
         }
 
-		/// <summary>
-		/// Copies the cycle index pair.
-		/// </summary>
-		/// <param name="cycle">Cycle.</param>
-		/// <param name="fromParent1Genes">From parent1 genes.</param>
-		/// <param name="toOffspring1">To offspring1.</param>
-		/// <param name="fromParent2Genes">From parent2 genes.</param>
-		/// <param name="toOffspring2">To offspring2.</param>
-		private static void CopyCycleIndexPair(IList<int> cycle, Gene[] fromParent1Genes, IChromosome toOffspring1, Gene[] fromParent2Genes, IChromosome toOffspring2)
-		{
-			int geneCycleIndex = 0;
+        /// <summary>
+        /// Copies the cycle index pair.
+        /// </summary>
+        /// <param name="cycle">The cycle.</param>
+        /// <param name="fromParent1Genes">From parent1 genes.</param>
+        /// <param name="toOffspring1">To offspring1.</param>
+        /// <param name="fromParent2Genes">From parent2 genes.</param>
+        /// <param name="toOffspring2">To offspring2.</param>
+        private static void CopyCycleIndexPair(IList<int> cycle, Gene[] fromParent1Genes, IChromosome toOffspring1, Gene[] fromParent2Genes, IChromosome toOffspring2)
+        {
+            int geneCycleIndex = 0;
 
-			for (int j = 0; j < cycle.Count; j++)
-			{
-				geneCycleIndex = cycle[j];
-				toOffspring1.ReplaceGene(geneCycleIndex, fromParent1Genes[geneCycleIndex]);
-				toOffspring2.ReplaceGene(geneCycleIndex, fromParent2Genes[geneCycleIndex]);
-			}
-		}
+            for (int j = 0; j < cycle.Count; j++)
+            {
+                geneCycleIndex = cycle[j];
+                toOffspring1.ReplaceGene(geneCycleIndex, fromParent1Genes[geneCycleIndex]);
+                toOffspring2.ReplaceGene(geneCycleIndex, fromParent2Genes[geneCycleIndex]);
+            }
+        }
 
         /// <summary>
         /// Creates the cycle recursively.

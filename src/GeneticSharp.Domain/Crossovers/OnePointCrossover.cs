@@ -33,7 +33,7 @@ namespace GeneticSharp.Domain.Crossovers
     /// </remarks>
     /// </summary>
     [DisplayName("One-Point")]
-    public sealed class OnePointCrossover : CrossoverBase
+    public class OnePointCrossover : CrossoverBase
     {
         #region Constructors
         /// <summary>
@@ -83,6 +83,17 @@ namespace GeneticSharp.Domain.Crossovers
                     "The swap point index is {0}, but there is only {1} genes. The swap should result at least one gene to each side.".With(SwapPointIndex, firstParent.Length));
             }
 
+            return CreateChildren(firstParent, secondParent);
+        }
+
+        /// <summary>
+        /// Creates the children.
+        /// </summary>
+        /// <param name="firstParent">The first parent.</param>
+        /// <param name="secondParent">The second parent.</param>
+        /// <returns>The children chromosomes.</returns>
+        protected IList<IChromosome> CreateChildren(IChromosome firstParent, IChromosome secondParent)
+        {
             var firstChild = CreateChild(firstParent, secondParent);
             var secondChild = CreateChild(secondParent, firstParent);
 
@@ -95,7 +106,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>The child.</returns>
         /// <param name="leftParent">Left parent.</param>
         /// <param name="rightParent">Right parent.</param>
-        private IChromosome CreateChild(IChromosome leftParent, IChromosome rightParent)
+        protected virtual IChromosome CreateChild(IChromosome leftParent, IChromosome rightParent)
         {
             var cutGenesCount = SwapPointIndex + 1;
             var child = leftParent.CreateNew();

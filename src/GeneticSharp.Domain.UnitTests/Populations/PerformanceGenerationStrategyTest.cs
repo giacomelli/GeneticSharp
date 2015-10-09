@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;

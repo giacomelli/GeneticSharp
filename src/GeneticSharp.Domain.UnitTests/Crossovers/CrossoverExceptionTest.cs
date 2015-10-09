@@ -1,7 +1,6 @@
 using System;
 using System.Reflection;
 using System.Runtime.Serialization;
-using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Crossovers;
 using NUnit.Framework;
 using Rhino.Mocks;

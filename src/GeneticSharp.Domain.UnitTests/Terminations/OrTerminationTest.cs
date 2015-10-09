@@ -13,7 +13,7 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
         [Test()]
         public void AddTermination_Null_Exception()
         {
-            var target = new OrTermination();            
+            var target = new OrTermination();
 
             ExceptionAssert.IsThrowing(new ArgumentNullException("termination"), () =>
             {

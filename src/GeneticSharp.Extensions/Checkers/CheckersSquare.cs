@@ -79,6 +79,17 @@ namespace GeneticSharp.Extensions.Checkers
 
         #region Methods
         /// <summary>
+        /// Verifies if the column and row index specified are coordinates of not playable square.
+        /// </summary>
+        /// <param name="columnIndex">The column index.</param>
+        /// <param name="rowIndex">The row index.</param>
+        /// <returns>True if it is not playable square.</returns>
+        public static bool IsNotPlayableSquare(int columnIndex, int rowIndex)
+        {
+            return !((columnIndex % 2 == 0 && rowIndex % 2 != 0) || (columnIndex % 2 != 0 && rowIndex % 2 == 0));
+        }
+
+        /// <summary>
         /// Put the specified piece above this square.
         /// </summary>
         /// <param name="piece">The piece.</param>
@@ -157,18 +168,7 @@ namespace GeneticSharp.Extensions.Checkers
             hash = (hash * 23) + State.GetHashCode();
 
             return hash;
-        }
-
-        /// <summary>
-        /// Verifies if the column and row index specified are coordinates of not playable square.
-        /// </summary>
-        /// <param name="columnIndex">The column index.</param>
-        /// <param name="rowIndex">The row index.</param>
-        /// <returns>True if it is not playable square.</returns>
-        public static bool IsNotPlayableSquare(int columnIndex, int rowIndex)
-        {
-            return !((columnIndex % 2 == 0 && rowIndex % 2 != 0) || (columnIndex % 2 != 0 && rowIndex % 2 == 0));
-        }
+        }       
         #endregion
     }
 }

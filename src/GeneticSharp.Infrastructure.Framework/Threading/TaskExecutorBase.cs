@@ -25,18 +25,6 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
 
         #region Properties
         /// <summary>
-        /// Gets the tasks.
-        /// </summary>
-        protected IList<Action> Tasks { get; private set; }
-
-        /// <summary>
-        /// Gets a value indicating whether this
-        /// <see cref="GeneticSharp.Infrastructure.Framework.Threading.TaskExecutorBase"/> stop requested.
-        /// </summary>
-        /// <value><c>true</c> if stop requested; otherwise, <c>false</c>.</value>
-        protected bool StopRequested { get; private set; }
-
-        /// <summary>
         /// Gets or sets the timeout to execute the tasks.
         /// </summary>
         /// <value>The timeout.</value>
@@ -49,6 +37,18 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
         /// <c>true</c> if this instance is running; otherwise, <c>false</c>.
         /// </value>
         public bool IsRunning { get; protected set; }
+
+        /// <summary>
+        /// Gets the tasks.
+        /// </summary>
+        protected IList<Action> Tasks { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether this
+        /// <see cref="GeneticSharp.Infrastructure.Framework.Threading.TaskExecutorBase"/> stop requested.
+        /// </summary>
+        /// <value><c>true</c> if stop requested; otherwise, <c>false</c>.</value>
+        protected bool StopRequested { get; private set; }
         #endregion
 
         #region Methods

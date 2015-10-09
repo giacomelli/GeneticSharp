@@ -1,6 +1,6 @@
 using System;
-using NUnit.Framework;
 using GeneticSharp.Extensions.Checkers;
+using NUnit.Framework;
 using TestSharp;
 
 namespace GeneticSharp.Extensions.UnitTests.Checkers
@@ -8,30 +8,32 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
     [TestFixture()]
     [Category("Extensions")]
     public class CheckersBoardTest
-	{
+    {
         [Test()]
-        public void Constructos_InvalidSize_Exception ()
+        public void Constructos_InvalidSize_Exception()
         {
-        	ExceptionAssert.IsThrowing (new ArgumentException ("The minimum valid size is 8."), () => {
-                new CheckersBoard (7);
-        	});
+            ExceptionAssert.IsThrowing(new ArgumentException("The minimum valid size is 8."), () =>
+            {
+                new CheckersBoard(7);
+            });
 
-        	ExceptionAssert.IsThrowing (new ArgumentException ("The minimum valid size is 8."), () => {
-                new CheckersBoard (-8);
-        	});
+            ExceptionAssert.IsThrowing(new ArgumentException("The minimum valid size is 8."), () =>
+            {
+                new CheckersBoard(-8);
+            });
         }
 
         [Test()]
-        public void Contructor_ValidSize_PlayerOnePiecedPlaced ()
+        public void Contructor_ValidSize_PlayerOnePiecedPlaced()
         {
-        	var target = new CheckersBoard (8);
-        	Assert.AreEqual (8, target.Size);
+            var target = new CheckersBoard(8);
+            Assert.AreEqual(8, target.Size);
 
             // First row.
-        	Assert.AreEqual (CheckersSquareState.OccupiedByPlayerOne, target.GetSquare(1, 0).State);
-        	Assert.AreEqual (CheckersSquareState.OccupiedByPlayerOne, target.GetSquare(3, 0).State);
-        	Assert.AreEqual (CheckersSquareState.OccupiedByPlayerOne, target.GetSquare(5, 0).State);
-        	Assert.AreEqual (CheckersSquareState.OccupiedByPlayerOne, target.GetSquare(7, 0).State);
+            Assert.AreEqual(CheckersSquareState.OccupiedByPlayerOne, target.GetSquare(1, 0).State);
+            Assert.AreEqual(CheckersSquareState.OccupiedByPlayerOne, target.GetSquare(3, 0).State);
+            Assert.AreEqual(CheckersSquareState.OccupiedByPlayerOne, target.GetSquare(5, 0).State);
+            Assert.AreEqual(CheckersSquareState.OccupiedByPlayerOne, target.GetSquare(7, 0).State);
 
             // second row
             Assert.AreEqual(CheckersSquareState.OccupiedByPlayerOne, target.GetSquare(0, 1).State);
@@ -43,7 +45,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             Assert.AreEqual(CheckersSquareState.OccupiedByPlayerOne, target.GetSquare(1, 2).State);
             Assert.AreEqual(CheckersSquareState.OccupiedByPlayerOne, target.GetSquare(3, 2).State);
             Assert.AreEqual(CheckersSquareState.OccupiedByPlayerOne, target.GetSquare(5, 2).State);
-            Assert.AreEqual(CheckersSquareState.OccupiedByPlayerOne, target.GetSquare(7, 2).State);           
+            Assert.AreEqual(CheckersSquareState.OccupiedByPlayerOne, target.GetSquare(7, 2).State);
         }
 
         [Test()]
@@ -51,7 +53,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
         {
             var target = new CheckersBoard(8);
             Assert.AreEqual(8, target.Size);
-          
+
             // first row.
             Assert.AreEqual(CheckersSquareState.OccupiedByPlayerTwo, target.GetSquare(0, 7).State);
             Assert.AreEqual(CheckersSquareState.OccupiedByPlayerTwo, target.GetSquare(2, 7).State);
@@ -137,34 +139,34 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
         public void MovePiece_InvalidMove_False()
         {
             var target = new CheckersBoard(8);
-         
+
             // Horizontal move.
-            var move = new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(1, 0)}, new CheckersSquare(3, 0));
+            var move = new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(1, 0) }, new CheckersSquare(3, 0));
             Assert.IsFalse(target.MovePiece(move));
 
             // Vertical move.
-            move = new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(1, 0)}, new CheckersSquare(1, 2));
+            move = new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(1, 0) }, new CheckersSquare(1, 2));
             Assert.IsFalse(target.MovePiece(move));
 
             // Back move.
-            move = new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(2, 3)}, new CheckersSquare(1, 2));
+            move = new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(2, 3) }, new CheckersSquare(1, 2));
             Assert.IsFalse(target.MovePiece(move));
 
             // Move to occupied square to right side.
-            move = new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(1, 2)}, new CheckersSquare(2, 3));
+            move = new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(1, 2) }, new CheckersSquare(2, 3));
             Assert.IsTrue(target.MovePiece(move));
-            move = new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(2, 3)}, new CheckersSquare(3, 4));
+            move = new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(2, 3) }, new CheckersSquare(3, 4));
             Assert.IsTrue(target.MovePiece(move));
-            move = new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(3, 4)}, new CheckersSquare(4, 5)); // Occupied.
+            move = new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(3, 4) }, new CheckersSquare(4, 5)); // Occupied.
             Assert.IsFalse(target.MovePiece(move));
 
-        	// Move to occupied square to left side.
-        	move = new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(7, 2)}, new CheckersSquare(6, 3));
-        	Assert.IsTrue(target.MovePiece(move));
-        	move = new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(6, 3)}, new CheckersSquare(5, 4));
-        	Assert.IsTrue(target.MovePiece(move));
-        	move = new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(5, 4)}, new CheckersSquare(6, 5)); // Occupied.
-        	Assert.IsFalse(target.MovePiece(move));
+            // Move to occupied square to left side.
+            move = new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(7, 2) }, new CheckersSquare(6, 3));
+            Assert.IsTrue(target.MovePiece(move));
+            move = new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(6, 3) }, new CheckersSquare(5, 4));
+            Assert.IsTrue(target.MovePiece(move));
+            move = new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(5, 4) }, new CheckersSquare(6, 5)); // Occupied.
+            Assert.IsFalse(target.MovePiece(move));
 
             // Move more than 1 square not capturing.
             move = new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(1, 2) }, new CheckersSquare(3, 4));
@@ -174,17 +176,17 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
         [Test()]
         public void MovePiece_ValidMove_True()
         {
-        	var target = new CheckersBoard(8);
-        
-        	// Move to occupied square to right side.
-        	var move = new CheckersMove (new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare (3, 2)}, new CheckersSquare (4, 3));
-        	Assert.IsTrue(target.MovePiece(move));
+            var target = new CheckersBoard(8);
 
-        	move = new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerTwo) { CurrentSquare = new CheckersSquare(6, 5)}, new CheckersSquare(5, 4));
-        	Assert.IsTrue(target.MovePiece(move));
+            // Move to occupied square to right side.
+            var move = new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(3, 2) }, new CheckersSquare(4, 3));
+            Assert.IsTrue(target.MovePiece(move));
+
+            move = new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerTwo) { CurrentSquare = new CheckersSquare(6, 5) }, new CheckersSquare(5, 4));
+            Assert.IsTrue(target.MovePiece(move));
 
             move = new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(4, 3) }, new CheckersSquare(6, 5));
-        	Assert.IsTrue(target.MovePiece(move));
+            Assert.IsTrue(target.MovePiece(move));
         }
 
         [Test()]
@@ -211,7 +213,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             foreach (var p in target.PlayerTwoPieces)
             {
                 Assert.AreEqual(0, target.CountCatchableByPiece(p));
-            }            
+            }
         }
 
         [Test()]
@@ -259,17 +261,17 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             var target = new CheckersBoard(8);
             var piece = target.GetSquare(3, 2).CurrentPiece;
             Assert.AreEqual(0, target.CountCatchableByPiece(piece));
-            
+
             var enemyPiece1 = target.GetSquare(6, 5).CurrentPiece;
             Assert.AreEqual(0, target.CountCatchableByPiece(piece));
-            Assert.AreEqual(0, target.CountCatchableByPiece(enemyPiece1));            
+            Assert.AreEqual(0, target.CountCatchableByPiece(enemyPiece1));
             Assert.IsTrue(target.MovePiece(new CheckersMove(enemyPiece1, target.GetSquare(5, 4))));
             Assert.AreEqual(0, target.CountCatchableByPiece(piece));
             Assert.AreEqual(0, target.CountCatchableByPiece(enemyPiece1));
             Assert.IsTrue(target.MovePiece(new CheckersMove(enemyPiece1, target.GetSquare(4, 3))));
             Assert.AreEqual(1, target.CountCatchableByPiece(piece));
             Assert.AreEqual(0, target.CountCatchableByPiece(enemyPiece1));
-            
+
             var enemyPiece2 = target.GetSquare(4, 5).CurrentPiece;
             Assert.AreEqual(1, target.CountCatchableByPiece(piece));
             Assert.AreEqual(0, target.CountCatchableByPiece(enemyPiece2));
@@ -326,6 +328,6 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             Assert.IsFalse(target.MovePiece(new CheckersMove(piece, target.GetSquare(4, 5))));
             Assert.AreEqual(2, target.CountPieceChancesToBeCaptured(piece));
         }
-	}
+    }
 }
 

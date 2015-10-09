@@ -21,13 +21,13 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         {
             var target = new TworsMutation();
             var chromosome = MockRepository.GenerateStub<ChromosomeBase>(4);
-            chromosome.ReplaceGenes(0, new Gene[] 
-            { 
+            chromosome.ReplaceGenes(0, new Gene[]
+            {
                 new Gene(1),
                 new Gene(2),
-                new Gene(3), 
+                new Gene(3),
                 new Gene(4),
-        	});
+            });
 
             var rnd = MockRepository.GenerateMock<IRandomization>();
             rnd.Expect(r => r.GetDouble()).Return(0.1);
@@ -50,13 +50,13 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         {
             var target = new TworsMutation();
             var chromosome = MockRepository.GenerateStub<ChromosomeBase>(4);
-            chromosome.ReplaceGenes(0, new Gene[] 
-        	                                         { 
+            chromosome.ReplaceGenes(0, new Gene[]
+                                                     {
                 new Gene(1),
                 new Gene(2),
-                new Gene(3), 
+                new Gene(3),
                 new Gene(4),
-        	});
+            });
 
             var rnd = MockRepository.GenerateMock<IRandomization>();
             rnd.Expect(r => r.GetUniqueInts(2, 0, 4)).Return(new int[] { 0, 2 });

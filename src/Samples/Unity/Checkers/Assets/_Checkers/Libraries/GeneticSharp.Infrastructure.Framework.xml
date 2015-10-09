@@ -101,18 +101,6 @@
             Initializes a new instance of the <see cref="T:GeneticSharp.Infrastructure.Framework.Threading.TaskExecutorBase"/> class.
             </summary>
         </member>
-        <member name="P:GeneticSharp.Infrastructure.Framework.Threading.TaskExecutorBase.Tasks">
-            <summary>
-            Gets the tasks.
-            </summary>
-        </member>
-        <member name="P:GeneticSharp.Infrastructure.Framework.Threading.TaskExecutorBase.StopRequested">
-            <summary>
-            Gets a value indicating whether this
-            <see cref="T:GeneticSharp.Infrastructure.Framework.Threading.TaskExecutorBase"/> stop requested.
-            </summary>
-            <value><c>true</c> if stop requested; otherwise, <c>false</c>.</value>
-        </member>
         <member name="P:GeneticSharp.Infrastructure.Framework.Threading.TaskExecutorBase.Timeout">
             <summary>
             Gets or sets the timeout to execute the tasks.
@@ -126,6 +114,18 @@
             <value>
             <c>true</c> if this instance is running; otherwise, <c>false</c>.
             </value>
+        </member>
+        <member name="P:GeneticSharp.Infrastructure.Framework.Threading.TaskExecutorBase.Tasks">
+            <summary>
+            Gets the tasks.
+            </summary>
+        </member>
+        <member name="P:GeneticSharp.Infrastructure.Framework.Threading.TaskExecutorBase.StopRequested">
+            <summary>
+            Gets a value indicating whether this
+            <see cref="T:GeneticSharp.Infrastructure.Framework.Threading.TaskExecutorBase"/> stop requested.
+            </summary>
+            <value><c>true</c> if stop requested; otherwise, <c>false</c>.</value>
         </member>
         <member name="M:GeneticSharp.Infrastructure.Framework.Threading.TaskExecutorBase.Add(System.Action)">
             <summary>

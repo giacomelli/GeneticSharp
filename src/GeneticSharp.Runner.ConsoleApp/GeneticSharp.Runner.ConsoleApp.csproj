@@ -69,7 +69,6 @@
       <DependentUpon>SamplesResource.resx</DependentUpon>
     </Compile>
     <Compile Include="Samples\SampleControllerBase.cs" />
-    <Compile Include="Samples\SampleService.cs" />
     <Compile Include="Samples\TspSampleController.cs" />
   </ItemGroup>
   <ItemGroup>

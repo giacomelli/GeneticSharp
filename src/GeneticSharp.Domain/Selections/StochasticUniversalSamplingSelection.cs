@@ -26,7 +26,7 @@ namespace GeneticSharp.Domain.Selections
     /// </remarks>
     /// </summary>
     [DisplayName("Stochastic Universal Sampling")]
-    public class StochasticUniversalSamplingSelection : SelectionBase
+    public class StochasticUniversalSamplingSelection : RouletteWheelSelection
     {
         #region Constructors
         /// <summary>
@@ -34,7 +34,6 @@ namespace GeneticSharp.Domain.Selections
         /// <see cref="GeneticSharp.Domain.Selections.StochasticUniversalSamplingSelection"/> class.
         /// </summary>
         public StochasticUniversalSamplingSelection()
-            : base(2)
         {
         }
         #endregion
@@ -52,33 +51,29 @@ namespace GeneticSharp.Domain.Selections
         {
             var chromosomes = generation.Chromosomes;
             var selected = new List<IChromosome>();
-            var sumFitness = chromosomes.Sum(c => c.Fitness.Value);
             var rouleteWheel = new List<double>();
-            var accumulativePercent = 0.0;
             double stepSize = 1.0 / number;
 
-            foreach (var c in chromosomes)
-            {
-                accumulativePercent += c.Fitness.Value / sumFitness;
-                rouleteWheel.Add(accumulativePercent);
-            }
+            CalculateCumulativePercentFitness(chromosomes, rouleteWheel);
 
             var pointer = RandomizationProvider.Current.GetDouble();
 
-            for (int i = 0; i < number; i++)
-            {
-                if (pointer > 1.0)
+            return SelectFromWheel(
+                number,
+                chromosomes,
+                rouleteWheel, 
+                () =>
                 {
-                    pointer -= 1.0;
-                }
+                    if (pointer > 1.0)
+                    {
+                        pointer -= 1.0;
+                    }
 
-                var chromosomeIndex = rouleteWheel.Select((value, index) => new { Value = value, Index = index }).FirstOrDefault(r => r.Value >= pointer).Index;
-                selected.Add(chromosomes[chromosomeIndex]);
+                    var currentPointer = pointer;
+                    pointer += stepSize;
 
-                pointer += stepSize;
-            }
-
-            return selected;
+                    return currentPointer;
+                });
         }
         #endregion
     }

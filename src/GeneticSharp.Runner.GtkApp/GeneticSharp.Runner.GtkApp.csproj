@@ -66,7 +66,6 @@
     <Compile Include="Samples\SampleControllerBase.cs" />
     <Compile Include="Samples\SampleContext.cs" />
     <Compile Include="Samples\TspSampleController.cs" />
-    <Compile Include="Samples\SampleService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using Gdk;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Populations;

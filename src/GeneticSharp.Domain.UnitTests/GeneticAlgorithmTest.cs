@@ -11,7 +11,6 @@ using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Infrastructure.Threading;
-using HelperSharp;
 using NUnit.Framework;
 using Rhino.Mocks;
 using TestSharp;
@@ -215,7 +214,7 @@ namespace GeneticSharp.Domain.UnitTests
 
         [Test()]
         public void Start_ParallelGAs_Fast()
-        {       
+        {
             // GA 1     
             var selection1 = new EliteSelection();
             var crossover1 = new OnePointCrossover(2);
@@ -239,7 +238,7 @@ namespace GeneticSharp.Domain.UnitTests
             Parallel.Invoke(
                 () => ga1.Start(),
                 () => ga2.Start());
-            
+
 
             Assert.AreEqual(1000, ga1.Population.Generations.Count);
             Assert.AreEqual(1000, ga2.Population.Generations.Count);

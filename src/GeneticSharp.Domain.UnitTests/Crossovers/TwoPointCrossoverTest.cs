@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
+using HelperSharp;
 using NUnit.Framework;
 using Rhino.Mocks;
 using TestSharp;
-using HelperSharp;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
@@ -34,14 +34,14 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(2);
 
 
-        	ExceptionAssert.IsThrowing(new CrossoverException(target, "A chromosome should have, at least, 3 genes. {0} has only 2 gene.".With(chromosome1.GetType().Name)), () =>
+            ExceptionAssert.IsThrowing(new CrossoverException(target, "A chromosome should have, at least, 3 genes. {0} has only 2 gene.".With(chromosome1.GetType().Name)), () =>
             {
                 target.Cross(new List<IChromosome>() {
                     chromosome1,
                     chromosome1
                 });
             });
-        }        
+        }
 
         [Test]
         public void Cross_LessGenesThenSecondSwapPoint_Exception()
@@ -58,8 +58,8 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             });
 
             var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(4);
-            
-        	ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("parents", "The swap point two index is 3, but there is only 4 genes. The swap should result at least one gene to each sides."), () =>
+
+            ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("parents", "The swap point two index is 3, but there is only 4 genes. The swap should result at least one gene to each sides."), () =>
             {
                 target.Cross(new List<IChromosome>() {
                     chromosome2,
@@ -73,8 +73,8 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         {
             var target = new TwoPointCrossover(0, 1);
             var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(4);
-            chromosome1.ReplaceGenes(0, new Gene[] 
-            { 
+            chromosome1.ReplaceGenes(0, new Gene[]
+            {
                 new Gene(1),
                 new Gene(2),
                 new Gene(3),
@@ -83,8 +83,8 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             chromosome1.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(4));
 
             var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(4);
-        	chromosome2.ReplaceGenes(0, new Gene[] 
-            { 
+            chromosome2.ReplaceGenes(0, new Gene[]
+            {
                 new Gene(5),
                 new Gene(6),
                 new Gene(7),

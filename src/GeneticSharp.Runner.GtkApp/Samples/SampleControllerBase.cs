@@ -26,7 +26,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         /// Gets or sets the context.
         /// </summary>
         /// <value>The context.</value>
-        public SampleContext Context { get; set; }        
+        public SampleContext Context { get; set; }
         #endregion
 
         #region Methods

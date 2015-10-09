@@ -21,8 +21,8 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         public void Cross_ThreeParents_OneChildren()
         {
             var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(4);
-            chromosome1.ReplaceGenes(0, new Gene[]  
-            { 
+            chromosome1.ReplaceGenes(0, new Gene[]
+            {
                 new Gene(1),
                 new Gene(2),
                 new Gene(3),
@@ -31,8 +31,8 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             chromosome1.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(4));
 
             var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(4);
-            chromosome2.ReplaceGenes(0, new Gene[] 
-            { 
+            chromosome2.ReplaceGenes(0, new Gene[]
+            {
                 new Gene(1),
                 new Gene(5),
                 new Gene(6),
@@ -41,8 +41,8 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             chromosome2.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(4));
 
             var chromosome3 = MockRepository.GenerateStub<ChromosomeBase>(4);
-            chromosome3.ReplaceGenes(0, new Gene[] 
-            { 
+            chromosome3.ReplaceGenes(0, new Gene[]
+            {
                 new Gene(10),
                 new Gene(11),
                 new Gene(12),
@@ -50,8 +50,8 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             });
             chromosome3.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(4));
 
-            var parents = new List<IChromosome>() { chromosome1, chromosome2, chromosome3 };           
-            
+            var parents = new List<IChromosome>() { chromosome1, chromosome2, chromosome3 };
+
             var target = new ThreeParentCrossover();
 
             var actual = target.Cross(parents);

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GeneticSharp.Domain.Chromosomes;
+﻿using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
 
 namespace GeneticSharp.Domain.UnitTests
