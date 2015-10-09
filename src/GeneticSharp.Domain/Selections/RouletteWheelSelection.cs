@@ -67,7 +67,7 @@ namespace GeneticSharp.Domain.Selections
         /// </summary>
         /// <param name="chromosomes">The chromosomes.</param>
         /// <param name="rouletteWheel">The roulette wheel.</param>
-        protected static void CalculateCumulativePercentFitness(IList<IChromosome> chromosomes, List<double> rouletteWheel)
+        protected static void CalculateCumulativePercentFitness(IList<IChromosome> chromosomes, IList<double> rouletteWheel)
         {
             var sumFitness = chromosomes.Sum(c => c.Fitness.Value);
 

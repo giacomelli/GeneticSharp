@@ -50,7 +50,6 @@ namespace GeneticSharp.Domain.Selections
         protected override IList<IChromosome> PerformSelectChromosomes(int number, Generation generation)
         {
             var chromosomes = generation.Chromosomes;
-            var selected = new List<IChromosome>();
             var rouleteWheel = new List<double>();
             double stepSize = 1.0 / number;
 
