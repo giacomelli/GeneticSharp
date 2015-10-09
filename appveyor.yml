@@ -26,7 +26,7 @@ after_build:
     
     .\tools\BadgesSharpCmd.exe -o giacomelli -r GeneticSharp -b FxCop -c ".\tools\fxcop-report.xml" -a %GITHUB_REPO_TOKEN%
     
-    .\tools\StyleCopCmd\Net.SF.StyleCopCmd.Console\StyleCopCmd.exe -sf .\src\GeneticSharp.sln -s .\src\Settings.StyleCop -of .\tools\stylecop-report.xml 
+    .\tools\StyleCopCmd\Net.SF.StyleCopCmd.Console\StyleCopCmd.exe -sf .\src\GeneticSharp.sln -s .\src\Settings.StyleCop -of .\tools\stylecop-report.xml --ignoreFilePattern .+Test\.cs
     
     .\tools\BadgesSharpCmd.exe -o giacomelli -r GeneticSharp -b StyleCop -c ".\tools\stylecop-report.violations.xml" -a %GITHUB_REPO_TOKEN%
     
