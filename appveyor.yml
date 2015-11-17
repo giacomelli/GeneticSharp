@@ -9,6 +9,7 @@ environment:
 install:
 - cmd: choco install gtksharp    
 - cmd: choco install resharper-clt.portable
+- cmd: choco install fxcop
 
 nuget:
   account_feed: true
