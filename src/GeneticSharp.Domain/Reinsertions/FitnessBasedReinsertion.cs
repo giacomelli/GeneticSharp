@@ -33,7 +33,7 @@ namespace GeneticSharp.Domain.Reinsertions
         /// <param name="population">The population.</param>
         /// <param name="offspring">The offspring.</param>
         /// <param name="parents">The parents.</param>
-        protected override IList<IChromosome> PerformSelectChromosomes(Population population, IList<IChromosome> offspring, IList<IChromosome> parents)
+        protected override IList<IChromosome> PerformSelectChromosomes(IPopulation population, IList<IChromosome> offspring, IList<IChromosome> parents)
         {
             if (offspring.Count > population.MaxSize)
             {

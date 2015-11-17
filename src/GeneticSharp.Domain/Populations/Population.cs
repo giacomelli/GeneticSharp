@@ -9,13 +9,8 @@ namespace GeneticSharp.Domain.Populations
     /// <summary>
     /// Represents a population of candidate solutions (chromosomes).
     /// </summary>
-    public class Population
+    public class Population : IPopulation
     {
-        #region Fields
-        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "madam")]
-        private IChromosome m_adamChromosome;
-        #endregion
-
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Populations.Population"/> class.
@@ -40,7 +35,7 @@ namespace GeneticSharp.Domain.Populations
             CreationDate = DateTime.Now;
             MinSize = minSize;
             MaxSize = maxSize;
-            m_adamChromosome = adamChromosome;
+            AdamChromosome = adamChromosome;
             Generations = new List<Generation>();
             GenerationStrategy = new TrackingGenerationStrategy();
         }
@@ -57,7 +52,7 @@ namespace GeneticSharp.Domain.Populations
         /// <summary>
         /// Gets the creation date.
         /// </summary>
-        public DateTime CreationDate { get; private set; }
+		public DateTime CreationDate { get; protected set; }
 
         /// <summary>
         /// Gets the generations.
@@ -66,13 +61,13 @@ namespace GeneticSharp.Domain.Populations
         /// </remarks>
         /// </summary>
         /// <value>The generations.</value>
-        public IList<Generation> Generations { get; private set; }
+		public IList<Generation> Generations { get; protected set; }
 
         /// <summary>
         /// Gets the current generation.
         /// </summary>
         /// <value>The current generation.</value>
-        public Generation CurrentGeneration { get; private set; }
+		public Generation CurrentGeneration { get; protected set; }
 
         /// <summary>
         /// Gets the total number of generations executed.
@@ -80,7 +75,7 @@ namespace GeneticSharp.Domain.Populations
         /// Use this information to know how many generations have been executed, because Generations.Count can vary depending of the IGenerationStrategy used.
         /// </remarks>
         /// </summary>
-        public int GenerationsNumber { get; private set; }
+		public int GenerationsNumber { get; protected set; }
 
         /// <summary>
         /// Gets or sets the minimum size.
@@ -98,19 +93,25 @@ namespace GeneticSharp.Domain.Populations
         /// Gets the best chromosome.
         /// </summary>
         /// <value>The best chromosome.</value>
-        public IChromosome BestChromosome { get; private set; }
+        public IChromosome BestChromosome { get; protected set; }
 
         /// <summary>
         /// Gets or sets the generation strategy.
         /// </summary>
         public IGenerationStrategy GenerationStrategy { get; set; }
+
+		/// <summary>
+		/// Gets or sets the original chromosome of all population.
+		/// </summary>
+		/// <value>The adam chromosome.</value>
+		protected IChromosome AdamChromosome { get; set; }
         #endregion
 
         #region Public methods
         /// <summary>
         /// Creates the initial generation.
         /// </summary>
-        public void CreateInitialGeneration()
+        public virtual void CreateInitialGeneration()
         {
             Generations = new List<Generation>();
             GenerationsNumber = 0;
@@ -119,7 +120,7 @@ namespace GeneticSharp.Domain.Populations
 
             for (int i = 0; i < MinSize; i++)
             {
-                var c = m_adamChromosome.CreateNew();
+                var c = AdamChromosome.CreateNew();
 
                 if (c == null)
                 {
@@ -138,7 +139,7 @@ namespace GeneticSharp.Domain.Populations
         /// Creates a new generation.
         /// </summary>
         /// <param name="chromosomes">The chromosomes for new generation.</param>
-        public void CreateNewGeneration(IList<IChromosome> chromosomes)
+        public virtual void CreateNewGeneration(IList<IChromosome> chromosomes)
         {
             ExceptionHelper.ThrowIfNull("chromosomes", chromosomes);
             chromosomes.ValidateGenes();
@@ -151,7 +152,7 @@ namespace GeneticSharp.Domain.Populations
         /// <summary>
         /// Ends the current generation.
         /// </summary>        
-        public void EndCurrentGeneration()
+        public virtual void EndCurrentGeneration()
         {
             CurrentGeneration.End(MaxSize);
 
@@ -159,12 +160,23 @@ namespace GeneticSharp.Domain.Populations
             {
                 BestChromosome = CurrentGeneration.BestChromosome;
 
-                if (BestChromosomeChanged != null)
-                {
-                    BestChromosomeChanged(this, EventArgs.Empty);
-                }
+				OnBestChromosomeChanged (EventArgs.Empty);
             }
         }
+		#endregion
+
+		#region Protected methods
+		/// <summary>
+		/// Raises the best chromosome changed event.
+		/// </summary>
+		/// <param name="args">The event arguments.</param>
+		protected virtual void OnBestChromosomeChanged(EventArgs args) 
+		{
+			if (BestChromosomeChanged != null)
+			{
+				BestChromosomeChanged(this, args);
+			}
+		}
         #endregion
     }
 }

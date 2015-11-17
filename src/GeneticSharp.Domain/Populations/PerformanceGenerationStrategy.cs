@@ -45,7 +45,7 @@ namespace GeneticSharp.Domain.Populations
         /// Register that a new generation has been created.
         /// </summary>
         /// <param name="population">The population where the new generation has been created.</param>
-        public void RegisterNewGeneration(Population population)
+        public void RegisterNewGeneration(IPopulation population)
         {
             ExceptionHelper.ThrowIfNull("population", population);
 

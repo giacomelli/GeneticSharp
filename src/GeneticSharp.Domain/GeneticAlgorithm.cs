@@ -90,7 +90,7 @@ namespace GeneticSharp.Domain
         /// <param name="crossover">The crossover operator.</param>
         /// <param name="mutation">The mutation operator.</param>
         public GeneticAlgorithm(
-                          Population population,
+                          IPopulation population,
                           IFitness fitness,
                           ISelection selection,
                           ICrossover crossover,
@@ -140,7 +140,7 @@ namespace GeneticSharp.Domain
         /// Gets the population.
         /// </summary>
         /// <value>The population.</value>
-        public Population Population { get; private set; }
+        public IPopulation Population { get; private set; }
 
         /// <summary>
         /// Gets the fitness function.

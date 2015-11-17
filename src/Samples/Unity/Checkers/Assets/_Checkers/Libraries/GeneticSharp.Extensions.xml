@@ -154,6 +154,13 @@
             Gets the current piece.
             </summary>
             <value>The current piece.</value></member>
+        <member name="M:GeneticSharp.Extensions.Checkers.CheckersSquare.IsNotPlayableSquare(System.Int32,System.Int32)">
+            <summary>
+            Verifies if the column and row index specified are coordinates of not playable square.
+            </summary>
+            <param name="columnIndex">The column index.</param>
+            <param name="rowIndex">The row index.</param>
+            <returns>True if it is not playable square.</returns></member>
         <member name="M:GeneticSharp.Extensions.Checkers.CheckersSquare.PutPiece(GeneticSharp.Extensions.Checkers.CheckersPiece)">
             <summary>
             Put the specified piece above this square.
@@ -180,13 +187,6 @@
             <returns>
             A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
             </returns></member>
-        <member name="M:GeneticSharp.Extensions.Checkers.CheckersSquare.IsNotPlayableSquare(System.Int32,System.Int32)">
-            <summary>
-            Verifies if the column and row index specified are coordinates of not playable square.
-            </summary>
-            <param name="columnIndex">The column index.</param>
-            <param name="rowIndex">The row index.</param>
-            <returns>True if it is not playable square.</returns></member>
         <member name="T:GeneticSharp.Extensions.Ghostwriter.GhostwriterChromosome">
             <summary>
             Ghostwriter chromosome.
@@ -238,18 +238,18 @@
             Fitness based on this paper: Genetic Algorithm for Solving Simple Mathematical Equality Problem.
             <see href="http://arxiv.org/ftp/arxiv/papers/1308/1308.4675.pdf" />
             </summary></member>
-        <member name="M:GeneticSharp.Extensions.Mathematic.EqualityFitness.Evaluate(GeneticSharp.Domain.Chromosomes.IChromosome)">
-            <summary>
-            Evaluates the specified chromosome.
-            </summary>
-            <param name="chromosome">The chromosome.</param>
-            <returns>The chromosome fitness.</returns></member>
         <member name="M:GeneticSharp.Extensions.Mathematic.EqualityFitness.GetEquationResult(GeneticSharp.Extensions.Mathematic.EquationChromosome)">
             <summary>
             Gets the equation result using the chromosome's genes.
             </summary>
             <param name="equalityChromosome">The chromosome.</param>
             <returns>The equation result.</returns></member>
+        <member name="M:GeneticSharp.Extensions.Mathematic.EqualityFitness.Evaluate(GeneticSharp.Domain.Chromosomes.IChromosome)">
+            <summary>
+            Evaluates the specified chromosome.
+            </summary>
+            <param name="chromosome">The chromosome.</param>
+            <returns>The chromosome fitness.</returns></member>
         <member name="T:GeneticSharp.Extensions.Mathematic.EquationSolverFitness">
             <summary>
             Equation solver fitness.
@@ -272,7 +272,7 @@
             </summary></member>
         <member name="F:GeneticSharp.Extensions.Mathematic.FunctionBuilderChromosome.MaxIntOperation">
             <summary>
-            The max int operation.
+            The max integer operation.
             </summary></member>
         <member name="M:GeneticSharp.Extensions.Mathematic.FunctionBuilderChromosome.#ctor(System.Collections.ObjectModel.ReadOnlyCollection{System.String},System.Int32)">
             <summary>
@@ -316,7 +316,7 @@
             <summary>
             Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Mathematic.FunctionBuilderFitness" /> class.
             </summary>
-            <param name="inputs">Inputs.</param></member>
+            <param name="inputs">The arguments values and expected results of the function.</param></member>
         <member name="P:GeneticSharp.Extensions.Mathematic.FunctionBuilderFitness.AvailableOperations">
             <summary>
             Gets the available operations.
@@ -333,20 +333,26 @@
             Gets the function result.
             </summary>
             <returns>The function result.</returns>
-            <param name="function">Function.</param>
-            <param name="input">Input.</param></member>
+            <param name="function">The function.</param>
+            <param name="input">The arguments values and expected results of the function.</param></member>
         <member name="T:GeneticSharp.Extensions.Mathematic.FunctionBuilderInput">
             <summary>
             Function builder input.
             </summary></member>
+        <member name="M:GeneticSharp.Extensions.Mathematic.FunctionBuilderInput.#ctor(System.Collections.Generic.IList{System.Double},System.Double)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Mathematic.FunctionBuilderInput" /> class.
+            </summary>
+            <param name="arguments">The arguments.</param>
+            <param name="expectedResult">The expected result.</param></member>
         <member name="P:GeneticSharp.Extensions.Mathematic.FunctionBuilderInput.Arguments">
             <summary>
-            Gets or sets the arguments.
+            Gets the arguments.
             </summary>
             <value>The arguments.</value></member>
         <member name="P:GeneticSharp.Extensions.Mathematic.FunctionBuilderInput.ExpectedResult">
             <summary>
-            Gets or sets the expected result.
+            Gets the expected result.
             </summary>
             <value>The expected result.</value></member>
         <member name="T:GeneticSharp.Extensions.Tsp.TspChromosome">

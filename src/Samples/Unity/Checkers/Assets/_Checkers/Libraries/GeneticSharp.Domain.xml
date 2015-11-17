@@ -21,12 +21,48 @@
             <summary>
             Gets the length, in genes, of the chromosome.
             </summary></member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.ChromosomeBase.op_Equality(GeneticSharp.Domain.Chromosomes.ChromosomeBase,GeneticSharp.Domain.Chromosomes.ChromosomeBase)">
+            <summary>
+            Implements the operator ==.
+            </summary>
+            <param name="first">The first.</param>
+            <param name="second">The second.</param>
+            <returns>
+            The result of the operator.
+            </returns></member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.ChromosomeBase.op_Inequality(GeneticSharp.Domain.Chromosomes.ChromosomeBase,GeneticSharp.Domain.Chromosomes.ChromosomeBase)">
+            <summary>
+            Implements the operator !=.
+            </summary>
+            <param name="first">The first.</param>
+            <param name="second">The second.</param>
+            <returns>
+            The result of the operator.
+            </returns></member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.ChromosomeBase.op_LessThan(GeneticSharp.Domain.Chromosomes.ChromosomeBase,GeneticSharp.Domain.Chromosomes.ChromosomeBase)">
+            <summary>
+            Implements the operator &lt;.
+            </summary>
+            <param name="first">The first.</param>
+            <param name="second">The second.</param>
+            <returns>
+            The result of the operator.
+            </returns></member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.ChromosomeBase.op_GreaterThan(GeneticSharp.Domain.Chromosomes.ChromosomeBase,GeneticSharp.Domain.Chromosomes.ChromosomeBase)">
+            <summary>
+            Implements the operator &gt;.
+            </summary>
+            <param name="first">The first.</param>
+            <param name="second">The second.</param>
+            <returns>
+            The result of the operator.
+            </returns></member>
         <member name="M:GeneticSharp.Domain.Chromosomes.ChromosomeBase.GenerateGene(System.Int32)">
             <summary>
             Generates the gene for the specified index.
             </summary>
-            <returns>The gene.</returns>
-            <param name="geneIndex">Gene index.</param></member>
+            <param name="geneIndex">Gene index.</param>
+            <returns>The gene generated at the specified index.</returns></member>
         <member name="M:GeneticSharp.Domain.Chromosomes.ChromosomeBase.CreateNew">
             <summary>
             Creates a new chromosome using the same structure of this.
@@ -91,42 +127,6 @@
             <returns>
             A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
             </returns></member>
-        <member name="M:GeneticSharp.Domain.Chromosomes.ChromosomeBase.op_Equality(GeneticSharp.Domain.Chromosomes.ChromosomeBase,GeneticSharp.Domain.Chromosomes.ChromosomeBase)">
-            <summary>
-            Implements the operator ==.
-            </summary>
-            <param name="first">The first.</param>
-            <param name="second">The second.</param>
-            <returns>
-            The result of the operator.
-            </returns></member>
-        <member name="M:GeneticSharp.Domain.Chromosomes.ChromosomeBase.op_Inequality(GeneticSharp.Domain.Chromosomes.ChromosomeBase,GeneticSharp.Domain.Chromosomes.ChromosomeBase)">
-            <summary>
-            Implements the operator !=.
-            </summary>
-            <param name="first">The first.</param>
-            <param name="second">The second.</param>
-            <returns>
-            The result of the operator.
-            </returns></member>
-        <member name="M:GeneticSharp.Domain.Chromosomes.ChromosomeBase.op_LessThan(GeneticSharp.Domain.Chromosomes.ChromosomeBase,GeneticSharp.Domain.Chromosomes.ChromosomeBase)">
-            <summary>
-            Implements the operator &lt;.
-            </summary>
-            <param name="first">The first.</param>
-            <param name="second">The second.</param>
-            <returns>
-            The result of the operator.
-            </returns></member>
-        <member name="M:GeneticSharp.Domain.Chromosomes.ChromosomeBase.op_GreaterThan(GeneticSharp.Domain.Chromosomes.ChromosomeBase,GeneticSharp.Domain.Chromosomes.ChromosomeBase)">
-            <summary>
-            Implements the operator &gt;.
-            </summary>
-            <param name="first">The first.</param>
-            <param name="second">The second.</param>
-            <returns>
-            The result of the operator.
-            </returns></member>
         <member name="M:GeneticSharp.Domain.Chromosomes.ChromosomeBase.ValidateLength(System.Int32)">
             <summary>
             Validates the length.
@@ -174,7 +174,7 @@
             <value>The children number.</value></member>
         <member name="P:GeneticSharp.Domain.Crossovers.CrossoverBase.MinChromosomeLength">
             <summary>
-            Gets the minimum length of the chromosome supported by the crossover.
+            Gets or sets the minimum length of the chromosome supported by the crossover.
             </summary>
             <value>The minimum length of the chromosome.</value></member>
         <member name="M:GeneticSharp.Domain.Crossovers.CrossoverBase.Cross(System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome})">
@@ -288,6 +288,15 @@
             </summary>
             <param name="parents">The parents chromosomes.</param>
             <returns>The offspring (children) of the parents.</returns></member>
+        <member name="M:GeneticSharp.Domain.Crossovers.CycleCrossover.CopyCycleIndexPair(System.Collections.Generic.IList{System.Int32},GeneticSharp.Domain.Chromosomes.Gene[],GeneticSharp.Domain.Chromosomes.IChromosome,GeneticSharp.Domain.Chromosomes.Gene[],GeneticSharp.Domain.Chromosomes.IChromosome)">
+            <summary>
+            Copies the cycle index pair.
+            </summary>
+            <param name="cycle">The cycle.</param>
+            <param name="fromParent1Genes">From parent1 genes.</param>
+            <param name="toOffspring1">To offspring1.</param>
+            <param name="fromParent2Genes">From parent2 genes.</param>
+            <param name="toOffspring2">To offspring2.</param></member>
         <member name="M:GeneticSharp.Domain.Crossovers.CycleCrossover.CreateCycle(GeneticSharp.Domain.Chromosomes.Gene[],GeneticSharp.Domain.Chromosomes.Gene[],System.Int32,System.Collections.Generic.List{System.Int32})">
             <summary>
             Creates the cycle recursively.
@@ -344,6 +353,13 @@
             <returns>
             The offspring (children) of the parents.
             </returns></member>
+        <member name="M:GeneticSharp.Domain.Crossovers.OnePointCrossover.CreateChildren(GeneticSharp.Domain.Chromosomes.IChromosome,GeneticSharp.Domain.Chromosomes.IChromosome)">
+            <summary>
+            Creates the children.
+            </summary>
+            <param name="firstParent">The first parent.</param>
+            <param name="secondParent">The second parent.</param>
+            <returns>The children chromosomes.</returns></member>
         <member name="M:GeneticSharp.Domain.Crossovers.OnePointCrossover.CreateChild(GeneticSharp.Domain.Chromosomes.IChromosome,GeneticSharp.Domain.Chromosomes.IChromosome)">
             <summary>
             Creates the child.
@@ -561,7 +577,7 @@
             <summary>
             Defines a strategy to some key points of generation behavior inside a population.
             </summary></member>
-        <member name="M:GeneticSharp.Domain.Populations.IGenerationStrategy.RegisterNewGeneration(GeneticSharp.Domain.Populations.Population)">
+        <member name="M:GeneticSharp.Domain.Populations.IGenerationStrategy.RegisterNewGeneration(GeneticSharp.Domain.Populations.IPopulation)">
             <summary>
             Register that a new generation has been created.
             </summary>
@@ -588,7 +604,7 @@
             Gets or sets the number of generations to keep in the population.
             <remars>The default is 1.</remars>
             </summary></member>
-        <member name="M:GeneticSharp.Domain.Populations.PerformanceGenerationStrategy.RegisterNewGeneration(GeneticSharp.Domain.Populations.Population)">
+        <member name="M:GeneticSharp.Domain.Populations.PerformanceGenerationStrategy.RegisterNewGeneration(GeneticSharp.Domain.Populations.IPopulation)">
             <summary>
             Register that a new generation has been created.
             </summary>
@@ -600,7 +616,7 @@
             This strategy can be slow and can suffer of OutOfMemoryException when you have great population and a long term termination.
             </remarks>
             </summary></member>
-        <member name="M:GeneticSharp.Domain.Populations.TrackingGenerationStrategy.RegisterNewGeneration(GeneticSharp.Domain.Populations.Population)">
+        <member name="M:GeneticSharp.Domain.Populations.TrackingGenerationStrategy.RegisterNewGeneration(GeneticSharp.Domain.Populations.IPopulation)">
             <summary>
             Register that a new generation has been created.
             </summary>
@@ -687,6 +703,24 @@
             Gets the value.
             </summary>
             <value>The value.</value></member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.Gene.op_Equality(GeneticSharp.Domain.Chromosomes.Gene,GeneticSharp.Domain.Chromosomes.Gene)">
+            <summary>
+            Implements the operator ==.
+            </summary>
+            <param name="first">The first.</param>
+            <param name="second">The second.</param>
+            <returns>
+            The result of the operator.
+            </returns></member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.Gene.op_Inequality(GeneticSharp.Domain.Chromosomes.Gene,GeneticSharp.Domain.Chromosomes.Gene)">
+            <summary>
+            Implements the operator !=.
+            </summary>
+            <param name="first">The first.</param>
+            <param name="second">The second.</param>
+            <returns>
+            The result of the operator.
+            </returns></member>
         <member name="M:GeneticSharp.Domain.Chromosomes.Gene.ToString">
             <summary>
             Returns a <see cref="T:System.String" /> that represents the current <see cref="T:GeneticSharp.Domain.Chromosomes.Gene" />.
@@ -712,24 +746,6 @@
             </summary>
             <returns>
             A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
-            </returns></member>
-        <member name="M:GeneticSharp.Domain.Chromosomes.Gene.op_Equality(GeneticSharp.Domain.Chromosomes.Gene,GeneticSharp.Domain.Chromosomes.Gene)">
-            <summary>
-            Implements the operator ==.
-            </summary>
-            <param name="first">The first.</param>
-            <param name="second">The second.</param>
-            <returns>
-            The result of the operator.
-            </returns></member>
-        <member name="M:GeneticSharp.Domain.Chromosomes.Gene.op_Inequality(GeneticSharp.Domain.Chromosomes.Gene,GeneticSharp.Domain.Chromosomes.Gene)">
-            <summary>
-            Implements the operator !=.
-            </summary>
-            <param name="first">The first.</param>
-            <param name="second">The second.</param>
-            <returns>
-            The result of the operator.
             </returns></member>
         <member name="T:GeneticSharp.Domain.Populations.Population">
             <summary>
@@ -789,6 +805,11 @@
             <summary>
             Gets or sets the generation strategy.
             </summary></member>
+        <member name="P:GeneticSharp.Domain.Populations.Population.AdamChromosome">
+            <summary>
+            Gets or sets the original chromosome of all population.
+            </summary>
+            <value>The adam chromosome.</value></member>
         <member name="M:GeneticSharp.Domain.Populations.Population.CreateInitialGeneration">
             <summary>
             Creates the initial generation.
@@ -802,6 +823,11 @@
             <summary>
             Ends the current generation.
             </summary></member>
+        <member name="M:GeneticSharp.Domain.Populations.Population.OnBestChromosomeChanged(System.EventArgs)">
+            <summary>
+            Raises the best chromosome changed event.
+            </summary>
+            <param name="args">The event arguments.</param></member>
         <member name="T:GeneticSharp.Domain.Populations.Generation">
             <summary>
             Represents a generation of a population.
@@ -831,10 +857,6 @@
             Gets the best chromosome.
             </summary>
             <value>The best chromosome.</value></member>
-        <member name="M:GeneticSharp.Domain.Populations.Generation.ElectBestChromosome">
-            <summary>
-            Elects the best chromosome.
-            </summary></member>
         <member name="M:GeneticSharp.Domain.Populations.Generation.End(System.Int32)">
             <summary>
             Ends the generation.
@@ -1182,7 +1204,7 @@
             <summary>
             Gets a value indicating whether can expand the number of selected chromosomes for reinsertion.
             </summary></member>
-        <member name="M:GeneticSharp.Domain.Reinsertions.IReinsertion.SelectChromosomes(GeneticSharp.Domain.Populations.Population,System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome},System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome})">
+        <member name="M:GeneticSharp.Domain.Reinsertions.IReinsertion.SelectChromosomes(GeneticSharp.Domain.Populations.IPopulation,System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome},System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome})">
             <summary>
             Selects the chromosomes which will be reinserted.
             </summary>
@@ -1258,6 +1280,21 @@
             <summary>
             Initializes a new instance of the <see cref="T:GeneticSharp.Domain.Selections.RouletteWheelSelection" /> class.
             </summary></member>
+        <member name="M:GeneticSharp.Domain.Selections.RouletteWheelSelection.SelectFromWheel(System.Int32,System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome},System.Collections.Generic.IList{System.Double},System.Func{System.Double})">
+            <summary>
+            Selects from wheel.
+            </summary>
+            <param name="number">The number.</param>
+            <param name="chromosomes">The chromosomes.</param>
+            <param name="rouletteWheel">The roulette wheel.</param>
+            <param name="getPointer">The get pointer.</param>
+            <returns>The selected chromosomes.</returns></member>
+        <member name="M:GeneticSharp.Domain.Selections.RouletteWheelSelection.CalculateCumulativePercentFitness(System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome},System.Collections.Generic.IList{System.Double})">
+            <summary>
+            Calculates the cumulative percent.
+            </summary>
+            <param name="chromosomes">The chromosomes.</param>
+            <param name="rouletteWheel">The roulette wheel.</param></member>
         <member name="M:GeneticSharp.Domain.Selections.RouletteWheelSelection.PerformSelectChromosomes(System.Int32,GeneticSharp.Domain.Populations.Generation)">
             <summary>
             Performs the selection of chromosomes from the generation specified.
@@ -1796,6 +1833,11 @@
             <returns>
             True if termination has been reached, otherwise false.
             </returns></member>
+        <member name="M:GeneticSharp.Domain.Terminations.LogicalOperatorTerminationBase.ToString">
+            <summary>
+            Returns a <see cref="T:System.String" /> that represents the current <see cref="T:GeneticSharp.Domain.Terminations.LogicalOperatorTerminationBase" />.
+            </summary>
+            <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:GeneticSharp.Domain.Terminations.LogicalOperatorTerminationBase" />.</returns></member>
         <member name="M:GeneticSharp.Domain.Terminations.LogicalOperatorTerminationBase.PerformHasReached(GeneticSharp.Domain.IGeneticAlgorithm)">
             <summary>
             Determines whether the specified geneticAlgorithm reached the termination condition.
@@ -1804,11 +1846,6 @@
             <returns>
             True if termination has been reached, otherwise false.
             </returns></member>
-        <member name="M:GeneticSharp.Domain.Terminations.LogicalOperatorTerminationBase.ToString">
-            <summary>
-            Returns a <see cref="T:System.String" /> that represents the current <see cref="T:GeneticSharp.Domain.Terminations.LogicalOperatorTerminationBase" />.
-            </summary>
-            <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:GeneticSharp.Domain.Terminations.LogicalOperatorTerminationBase" />.</returns></member>
         <member name="T:GeneticSharp.Domain.Terminations.OrTermination">
             <summary>
             An termination where you can combine others ITerminations with a OR logical operator.
@@ -1836,17 +1873,17 @@
             </summary>
             <returns>True if termination has been reached, otherwise false.</returns>
             <param name="geneticAlgorithm">The genetic algorithm.</param></member>
+        <member name="M:GeneticSharp.Domain.Terminations.TerminationBase.ToString">
+            <summary>
+            Returns a <see cref="T:System.String" /> that represents the current <see cref="T:GeneticSharp.Domain.Terminations.LogicalOperatorTerminationBase" />.
+            </summary>
+            <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:GeneticSharp.Domain.Terminations.LogicalOperatorTerminationBase" />.</returns></member>
         <member name="M:GeneticSharp.Domain.Terminations.TerminationBase.PerformHasReached(GeneticSharp.Domain.IGeneticAlgorithm)">
             <summary>
             Determines whether the specified geneticAlgorithm reached the termination condition.
             </summary>
             <returns>True if termination has been reached, otherwise false.</returns>
             <param name="geneticAlgorithm">The genetic algorithm.</param></member>
-        <member name="M:GeneticSharp.Domain.Terminations.TerminationBase.ToString">
-            <summary>
-            Returns a <see cref="T:System.String" /> that represents the current <see cref="T:GeneticSharp.Domain.Terminations.LogicalOperatorTerminationBase" />.
-            </summary>
-            <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:GeneticSharp.Domain.Terminations.LogicalOperatorTerminationBase" />.</returns></member>
         <member name="T:GeneticSharp.Domain.Terminations.TimeEvolvingTermination">
             <summary>
             Time Evolving Termination.
@@ -1949,7 +1986,7 @@
             <summary>
             The default mutation probability.
             </summary></member>
-        <member name="M:GeneticSharp.Domain.GeneticAlgorithm.#ctor(GeneticSharp.Domain.Populations.Population,GeneticSharp.Domain.Fitnesses.IFitness,GeneticSharp.Domain.Selections.ISelection,GeneticSharp.Domain.Crossovers.ICrossover,GeneticSharp.Domain.Mutations.IMutation)">
+        <member name="M:GeneticSharp.Domain.GeneticAlgorithm.#ctor(GeneticSharp.Domain.Populations.IPopulation,GeneticSharp.Domain.Fitnesses.IFitness,GeneticSharp.Domain.Selections.ISelection,GeneticSharp.Domain.Crossovers.ICrossover,GeneticSharp.Domain.Mutations.IMutation)">
             <summary>
             Initializes a new instance of the <see cref="T:GeneticSharp.Domain.GeneticAlgorithm" /> class.
             </summary>
@@ -2163,7 +2200,7 @@
             <summary>
             Initializes a new instance of the <see cref="T:GeneticSharp.Domain.Reinsertions.PureReinsertion" /> class.
             </summary></member>
-        <member name="M:GeneticSharp.Domain.Reinsertions.PureReinsertion.PerformSelectChromosomes(GeneticSharp.Domain.Populations.Population,System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome},System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome})">
+        <member name="M:GeneticSharp.Domain.Reinsertions.PureReinsertion.PerformSelectChromosomes(GeneticSharp.Domain.Populations.IPopulation,System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome},System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome})">
             <summary>
             Selects the chromosomes which will be reinserted.
             </summary>
@@ -2189,7 +2226,7 @@
             <summary>
             Gets a value indicating whether can expand the number of selected chromosomes for reinsertion.
             </summary></member>
-        <member name="M:GeneticSharp.Domain.Reinsertions.ReinsertionBase.SelectChromosomes(GeneticSharp.Domain.Populations.Population,System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome},System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome})">
+        <member name="M:GeneticSharp.Domain.Reinsertions.ReinsertionBase.SelectChromosomes(GeneticSharp.Domain.Populations.IPopulation,System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome},System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome})">
             <summary>
             Selects the chromosomes which will be reinserted.
             </summary>
@@ -2197,7 +2234,7 @@
             <param name="population">The population.</param>
             <param name="offspring">The offspring.</param>
             <param name="parents">The parents.</param></member>
-        <member name="M:GeneticSharp.Domain.Reinsertions.ReinsertionBase.PerformSelectChromosomes(GeneticSharp.Domain.Populations.Population,System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome},System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome})">
+        <member name="M:GeneticSharp.Domain.Reinsertions.ReinsertionBase.PerformSelectChromosomes(GeneticSharp.Domain.Populations.IPopulation,System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome},System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome})">
             <summary>
             Selects the chromosomes which will be reinserted.
             </summary>
@@ -2270,7 +2307,7 @@
             <summary>
             Initializes a new instance of the <see cref="T:GeneticSharp.Domain.Reinsertions.UniformReinsertion" /> class.
             </summary></member>
-        <member name="M:GeneticSharp.Domain.Reinsertions.UniformReinsertion.PerformSelectChromosomes(GeneticSharp.Domain.Populations.Population,System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome},System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome})">
+        <member name="M:GeneticSharp.Domain.Reinsertions.UniformReinsertion.PerformSelectChromosomes(GeneticSharp.Domain.Populations.IPopulation,System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome},System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome})">
             <summary>
             Selects the chromosomes which will be reinserted.
             </summary>
@@ -2290,7 +2327,7 @@
             <summary>
             Initializes a new instance of the <see cref="T:GeneticSharp.Domain.Reinsertions.ElitistReinsertion" /> class.
             </summary></member>
-        <member name="M:GeneticSharp.Domain.Reinsertions.ElitistReinsertion.PerformSelectChromosomes(GeneticSharp.Domain.Populations.Population,System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome},System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome})">
+        <member name="M:GeneticSharp.Domain.Reinsertions.ElitistReinsertion.PerformSelectChromosomes(GeneticSharp.Domain.Populations.IPopulation,System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome},System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome})">
             <summary>
             Selects the chromosomes which will be reinserted.
             </summary>
@@ -2310,7 +2347,7 @@
             <summary>
             Initializes a new instance of the <see cref="T:GeneticSharp.Domain.Reinsertions.FitnessBasedReinsertion" /> class.
             </summary></member>
-        <member name="M:GeneticSharp.Domain.Reinsertions.FitnessBasedReinsertion.PerformSelectChromosomes(GeneticSharp.Domain.Populations.Population,System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome},System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome})">
+        <member name="M:GeneticSharp.Domain.Reinsertions.FitnessBasedReinsertion.PerformSelectChromosomes(GeneticSharp.Domain.Populations.IPopulation,System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome},System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome})">
             <summary>
             Selects the chromosomes which will be reinserted.
             </summary>
@@ -2337,5 +2374,69 @@
             Gets the time evolving.
             </summary>
             <value>The time evolving.</value></member>
+        <member name="T:GeneticSharp.Domain.Populations.IPopulation">
+            <summary>
+            Defines an interface for a population of candidate solutions (chromosomes).
+            </summary></member>
+        <member name="E:GeneticSharp.Domain.Populations.IPopulation.BestChromosomeChanged">
+            <summary>
+            Occurs when best chromosome changed.
+            </summary></member>
+        <member name="P:GeneticSharp.Domain.Populations.IPopulation.CreationDate">
+            <summary>
+            Gets the creation date.
+            </summary></member>
+        <member name="P:GeneticSharp.Domain.Populations.IPopulation.Generations">
+            <summary>
+            Gets the generations.
+            <remarks>
+            The information of Generations can vary depending of the IGenerationStrategy used.
+            </remarks>
+            </summary>
+            <value>The generations.</value></member>
+        <member name="P:GeneticSharp.Domain.Populations.IPopulation.CurrentGeneration">
+            <summary>
+            Gets the current generation.
+            </summary>
+            <value>The current generation.</value></member>
+        <member name="P:GeneticSharp.Domain.Populations.IPopulation.GenerationsNumber">
+            <summary>
+            Gets the total number of generations executed.
+            <remarks>
+            Use this information to know how many generations have been executed, because Generations.Count can vary depending of the IGenerationStrategy used.
+            </remarks>
+            </summary></member>
+        <member name="P:GeneticSharp.Domain.Populations.IPopulation.MinSize">
+            <summary>
+            Gets or sets the minimum size.
+            </summary>
+            <value>The minimum size.</value></member>
+        <member name="P:GeneticSharp.Domain.Populations.IPopulation.MaxSize">
+            <summary>
+            Gets or sets the size of the max.
+            </summary>
+            <value>The size of the max.</value></member>
+        <member name="P:GeneticSharp.Domain.Populations.IPopulation.BestChromosome">
+            <summary>
+            Gets the best chromosome.
+            </summary>
+            <value>The best chromosome.</value></member>
+        <member name="P:GeneticSharp.Domain.Populations.IPopulation.GenerationStrategy">
+            <summary>
+            Gets or sets the generation strategy.
+            </summary></member>
+        <member name="M:GeneticSharp.Domain.Populations.IPopulation.CreateInitialGeneration">
+            <summary>
+            Creates the initial generation.
+            </summary></member>
+        <member name="M:GeneticSharp.Domain.Populations.IPopulation.CreateNewGeneration(System.Collections.Generic.IList{GeneticSharp.Domain.Chromosomes.IChromosome})">
+            <summary>
+            Creates a new generation.
+            </summary>
+            <param name="chromosomes">The chromosomes for new generation.</param></member>
+        <member name="M:GeneticSharp.Domain.Populations.IPopulation.EndCurrentGeneration">
+            <summary>
+            Ends the current generation.
+            </summary></member>
     </members>
 </doc>

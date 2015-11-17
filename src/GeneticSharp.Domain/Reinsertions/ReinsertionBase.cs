@@ -43,7 +43,7 @@ namespace GeneticSharp.Domain.Reinsertions
         /// <param name="population">The population.</param>
         /// <param name="offspring">The offspring.</param>
         /// <param name="parents">The parents.</param>
-        public IList<IChromosome> SelectChromosomes(Population population, IList<IChromosome> offspring, IList<IChromosome> parents)
+        public IList<IChromosome> SelectChromosomes(IPopulation population, IList<IChromosome> offspring, IList<IChromosome> parents)
         {
             ExceptionHelper.ThrowIfNull("population", population);
             ExceptionHelper.ThrowIfNull("offspring", offspring);
@@ -69,7 +69,7 @@ namespace GeneticSharp.Domain.Reinsertions
         /// <param name="population">The population.</param>
         /// <param name="offspring">The offspring.</param>
         /// <param name="parents">The parents.</param>
-        protected abstract IList<IChromosome> PerformSelectChromosomes(Population population, IList<IChromosome> offspring, IList<IChromosome> parents);
+        protected abstract IList<IChromosome> PerformSelectChromosomes(IPopulation population, IList<IChromosome> offspring, IList<IChromosome> parents);
         #endregion
     }
 }

@@ -10,7 +10,7 @@
         /// Register that a new generation has been created.
         /// </summary>
         /// <param name="population">The population where the new generation has been created.</param>
-        void RegisterNewGeneration(Population population);
+        void RegisterNewGeneration(IPopulation population);
         #endregion
     }
 }
