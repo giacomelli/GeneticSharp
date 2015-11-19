@@ -58,7 +58,7 @@ namespace GeneticSharp.Extensions.Checkers
             Moves[geneIndex] = move;
 
             return new Gene(move);
-        }        
+        }
 
         /// <summary>
         /// Creates a new chromosome using the same structure of this.

@@ -95,7 +95,7 @@ namespace GeneticSharp.Domain.Populations
             }
 
             return true;
-        }               
+        }
         #endregion
     }
 }

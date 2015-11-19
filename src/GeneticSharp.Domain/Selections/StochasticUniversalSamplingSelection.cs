@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Randomizations;
@@ -60,7 +59,7 @@ namespace GeneticSharp.Domain.Selections
             return SelectFromWheel(
                 number,
                 chromosomes,
-                rouleteWheel, 
+                rouleteWheel,
                 () =>
                 {
                     if (pointer > 1.0)

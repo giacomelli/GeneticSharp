@@ -96,7 +96,7 @@ namespace GeneticSharp.Domain.Terminations
         /// <returns>
         /// True if termination has been reached, otherwise false.
         /// </returns>
-        protected abstract bool PerformHasReached(IGeneticAlgorithm geneticAlgorithm);        
-        #endregion               
+        protected abstract bool PerformHasReached(IGeneticAlgorithm geneticAlgorithm);
+        #endregion
     }
 }

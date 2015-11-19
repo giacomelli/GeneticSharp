@@ -168,7 +168,7 @@ namespace GeneticSharp.Extensions.Checkers
             hash = (hash * 23) + State.GetHashCode();
 
             return hash;
-        }       
+        }
         #endregion
     }
 }

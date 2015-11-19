@@ -81,7 +81,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
 
             var engine = new CalculationEngine();
             m_equationResult = (int)engine.Calculate(m_equationRightPart);
-        }        
+        }
 
         /// <summary>
         /// Draws the specified best chromosome.

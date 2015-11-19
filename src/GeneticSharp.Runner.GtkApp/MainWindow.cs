@@ -447,6 +447,6 @@ public partial class MainWindow : Gtk.Window
     private void DrawBuffer()
     {
         drawingArea.GdkWindow.DrawDrawable(m_sampleContext.GC, m_sampleContext.Buffer, 0, 0, 0, 0, drawingArea.Allocation.Width, drawingArea.Allocation.Height);
-    }    
+    }
     #endregion
 }

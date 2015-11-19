@@ -113,6 +113,6 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
             }
 
             return v1[t.Length];
-        }        
+        }
     }
 }

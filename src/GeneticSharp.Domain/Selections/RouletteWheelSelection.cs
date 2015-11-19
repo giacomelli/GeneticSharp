@@ -95,7 +95,7 @@ namespace GeneticSharp.Domain.Selections
             CalculateCumulativePercentFitness(chromosomes, rouletteWheel);
 
             return SelectFromWheel(number, chromosomes, rouletteWheel, () => rnd.GetDouble());
-        }        
+        }
         #endregion
     }
 }

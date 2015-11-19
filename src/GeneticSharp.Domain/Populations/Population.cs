@@ -50,32 +50,33 @@ namespace GeneticSharp.Domain.Populations
 
         #region Properties
         /// <summary>
-        /// Gets the creation date.
+        /// Gets or sets the creation date.
         /// </summary>
-		public DateTime CreationDate { get; protected set; }
+        public DateTime CreationDate { get; protected set; }
 
         /// <summary>
-        /// Gets the generations.
+        /// Gets or sets the generations.
         /// <remarks>
         /// The information of Generations can vary depending of the IGenerationStrategy used.
         /// </remarks>
         /// </summary>
         /// <value>The generations.</value>
-		public IList<Generation> Generations { get; protected set; }
+        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "Parent classes need to set it.")]
+        public IList<Generation> Generations { get; protected set; }
 
         /// <summary>
-        /// Gets the current generation.
+        /// Gets or sets the current generation.
         /// </summary>
         /// <value>The current generation.</value>
-		public Generation CurrentGeneration { get; protected set; }
+        public Generation CurrentGeneration { get; protected set; }
 
         /// <summary>
-        /// Gets the total number of generations executed.
+        /// Gets or sets the total number of generations executed.
         /// <remarks>
         /// Use this information to know how many generations have been executed, because Generations.Count can vary depending of the IGenerationStrategy used.
         /// </remarks>
         /// </summary>
-		public int GenerationsNumber { get; protected set; }
+        public int GenerationsNumber { get; protected set; }
 
         /// <summary>
         /// Gets or sets the minimum size.
@@ -90,7 +91,7 @@ namespace GeneticSharp.Domain.Populations
         public int MaxSize { get; set; }
 
         /// <summary>
-        /// Gets the best chromosome.
+        /// Gets or sets the best chromosome.
         /// </summary>
         /// <value>The best chromosome.</value>
         public IChromosome BestChromosome { get; protected set; }
@@ -100,11 +101,11 @@ namespace GeneticSharp.Domain.Populations
         /// </summary>
         public IGenerationStrategy GenerationStrategy { get; set; }
 
-		/// <summary>
-		/// Gets or sets the original chromosome of all population.
-		/// </summary>
-		/// <value>The adam chromosome.</value>
-		protected IChromosome AdamChromosome { get; set; }
+        /// <summary>
+        /// Gets or sets the original chromosome of all population.
+        /// </summary>
+        /// <value>The adam chromosome.</value>
+        protected IChromosome AdamChromosome { get; set; }
         #endregion
 
         #region Public methods
@@ -160,23 +161,23 @@ namespace GeneticSharp.Domain.Populations
             {
                 BestChromosome = CurrentGeneration.BestChromosome;
 
-				OnBestChromosomeChanged (EventArgs.Empty);
+                OnBestChromosomeChanged(EventArgs.Empty);
             }
         }
-		#endregion
+        #endregion
 
-		#region Protected methods
-		/// <summary>
-		/// Raises the best chromosome changed event.
-		/// </summary>
-		/// <param name="args">The event arguments.</param>
-		protected virtual void OnBestChromosomeChanged(EventArgs args) 
-		{
-			if (BestChromosomeChanged != null)
-			{
-				BestChromosomeChanged(this, args);
-			}
-		}
+        #region Protected methods
+        /// <summary>
+        /// Raises the best chromosome changed event.
+        /// </summary>
+        /// <param name="args">The event arguments.</param>
+        protected virtual void OnBestChromosomeChanged(EventArgs args)
+        {
+            if (BestChromosomeChanged != null)
+            {
+                BestChromosomeChanged(this, args);
+            }
+        }
         #endregion
     }
 }

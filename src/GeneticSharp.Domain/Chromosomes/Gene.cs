@@ -118,7 +118,7 @@ namespace GeneticSharp.Domain.Chromosomes
             }
 
             return Value.GetHashCode();
-        }       
+        }
         #endregion
     }
 }

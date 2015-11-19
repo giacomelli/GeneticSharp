@@ -64,7 +64,7 @@ namespace GeneticSharp.Runner.GtkApp
         private static PropertyInfo[] GetObjectProperties(Type objectType)
         {
             return objectType.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly).Where(p => p.CanWrite).ToArray();
-        }        
+        }
 
         private void BindToWidget()
         {

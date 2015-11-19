@@ -40,7 +40,7 @@ namespace GeneticSharp.Domain.Terminations
         /// </summary>
         /// <returns>True if termination has been reached, otherwise false.</returns>
         /// <param name="geneticAlgorithm">The genetic algorithm.</param>
-        protected abstract bool PerformHasReached(IGeneticAlgorithm geneticAlgorithm);        
+        protected abstract bool PerformHasReached(IGeneticAlgorithm geneticAlgorithm);
         #endregion
     }
 }

@@ -283,7 +283,7 @@ namespace GeneticSharp.Domain.Chromosomes
         public override int GetHashCode()
         {
             return Fitness.GetHashCode();
-        }        
+        }
 
         /// <summary>
         /// Validates the length.

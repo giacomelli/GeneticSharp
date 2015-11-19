@@ -95,7 +95,7 @@ namespace GeneticSharp.Infrastructure.Threading
                 m_threadPool.Dispose();
                 IsRunning = false;
             }
-        }        
+        }
 
         /// <summary>
         /// Stops the tasks execution.
