@@ -75,6 +75,7 @@
     <Compile Include="Populations\PerformanceGenerationStrategyTest.cs" />
     <Compile Include="Populations\TrackingGenerationStrategyTest.cs" />
     <Compile Include="Randomizations\BasicRandomizationTest.cs" />
+    <Compile Include="Randomizations\RandomizationExtensionsTest.cs" />
     <Compile Include="Randomizations\RandomizationProviderTest.cs" />
     <Compile Include="Populations\PopulationTest.cs" />
     <Compile Include="Populations\FitnessStub.cs" />
