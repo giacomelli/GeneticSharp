@@ -253,6 +253,7 @@ namespace GeneticSharp.Domain.Chromosomes
                 return 0;
             }
 
+            // TODO: chromosomes with same fitnesss are really equals?
             return Fitness > otherFitness ? 1 : -1;
         }
 
@@ -283,6 +284,41 @@ namespace GeneticSharp.Domain.Chromosomes
         public override int GetHashCode()
         {
             return Fitness.GetHashCode();
+        }
+
+        /// <summary>
+        /// Creates the gene on specified index.
+        /// <remarks>
+        /// It's a shortcut to:  
+        /// <code>
+        /// ReplaceGene(index, GenerateGene(index));
+        /// </code>
+        /// </remarks>
+        /// </summary>
+        /// <param name="index">The gene index.</param>
+        protected virtual void CreateGene(int index)
+        {
+            ReplaceGene(index, GenerateGene(index));
+        }
+
+        /// <summary>
+        /// Creates all genes
+        /// <remarks>
+        /// It's a shortcut to: 
+        /// <code>
+        /// for (int i = 0; i &lt; Length; i++)
+        /// {
+        ///     ReplaceGene(i, GenerateGene(i));
+        /// }
+        /// </code>
+        /// </remarks>
+        /// </summary>        
+        protected virtual void CreateGenes()
+        {
+            for (int i = 0; i < Length; i++)
+            {
+                ReplaceGene(i, GenerateGene(i));
+            }
         }
 
         /// <summary>

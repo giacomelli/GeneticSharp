@@ -36,10 +36,10 @@
     <DocumentationFile>bin\Release\GeneticSharp.Extensions.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>GeneticSharp.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>GeneticSharp.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -57,6 +57,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoConfig\AutoConfigFitness.cs" />
+    <Compile Include="AutoConfig\AutoConfigChromosome.cs" />
     <Compile Include="Checkers\CheckersChromosome.cs" />
     <Compile Include="Checkers\CheckersFitness.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
@@ -77,6 +79,8 @@
     <Compile Include="Checkers\CheckersBoard.cs" />
     <Compile Include="Checkers\CheckersPiece.cs" />
     <Compile Include="Mathematic\EquationChromosome.cs" />
+    <Compile Include="Drawing\BitmapChromosome.cs" />
+    <Compile Include="Drawing\BitmapEqualityFitness.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj">
@@ -111,4 +115,5 @@
     <None Include="GeneticSharp.snk" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
 </Project>

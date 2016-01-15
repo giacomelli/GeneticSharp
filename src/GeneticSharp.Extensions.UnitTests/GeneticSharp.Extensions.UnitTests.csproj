@@ -54,6 +54,7 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoConfig\AutoConfigTest.cs" />
     <Compile Include="Checkers\CheckersMoveTest.cs" />
     <Compile Include="Checkers\CheckersSquareTest.cs" />
     <Compile Include="Checkers\CheckersTest.cs" />
@@ -78,6 +79,14 @@
       <Project>{699AF592-1E11-4084-B87E-9AC72ED7861B}</Project>
       <Name>GeneticSharp.Extensions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj">
+      <Project>{1498D792-D02B-4A9E-8AFC-24AEBA0DEE54}</Project>
+      <Name>GeneticSharp.Infrastructure.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GeneticSharp.Infrastructure.Threading\GeneticSharp.Infrastructure.Threading.csproj">
+      <Project>{F7887A7C-89E6-483A-A762-0A8FE6FCD923}</Project>
+      <Name>GeneticSharp.Infrastructure.Threading</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="GeneticSharp.snk" />
@@ -93,7 +102,5 @@
     </MonoDevelop>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <ItemGroup>
-    <Folder Include="Mathematic\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>
