@@ -199,7 +199,7 @@ FAQ
 
 Having troubles? 
 
- - Read our [wiki](wiki).
+ - Read our [wiki](https://github.com/giacomelli/GeneticSharp/wiki).
  - Ask on Twitter [@ogiacomelli](http://twitter.com/ogiacomelli).
  - Ask on [Stack Overflow](http://stackoverflow.com/questions/tagged/geneticsharp) using the tag [GeneticSharp](http://stackoverflow.com/questions/tagged/geneticsharp).
  
