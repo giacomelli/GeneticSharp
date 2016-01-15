@@ -127,6 +127,30 @@
             <returns>
             A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
             </returns></member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.ChromosomeBase.CreateGene(System.Int32)">
+            <summary>
+            Creates the gene on specified index.
+            <remarks>
+            It's a shortcut to:
+            <code>
+            ReplaceGene(index, GenerateGene(index));
+            </code>
+            </remarks>
+            </summary>
+            <param name="index">The gene index.</param></member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.ChromosomeBase.CreateGenes">
+            <summary>
+            Creates all genes
+            <remarks>
+            It's a shortcut to:
+            <code>
+            for (int i = 0; i &lt; Length; i++)
+            {
+            ReplaceGene(i, GenerateGene(i));
+            }
+            </code>
+            </remarks>
+            </summary></member>
         <member name="M:GeneticSharp.Domain.Chromosomes.ChromosomeBase.ValidateLength(System.Int32)">
             <summary>
             Validates the length.
@@ -497,7 +521,7 @@
             <summary>
             Initializes a new instance of the <see cref="T:GeneticSharp.Domain.Crossovers.UniformCrossover" /> class.
             </summary>
-            <param name="mixProbability">Mix probability.</param></member>
+            <param name="mixProbability">The mix probability. he default mix probability is 0.5.</param></member>
         <member name="M:GeneticSharp.Domain.Crossovers.UniformCrossover.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:GeneticSharp.Domain.Crossovers.UniformCrossover" /> class.
@@ -764,11 +788,11 @@
             </summary></member>
         <member name="P:GeneticSharp.Domain.Populations.Population.CreationDate">
             <summary>
-            Gets the creation date.
+            Gets or sets the creation date.
             </summary></member>
         <member name="P:GeneticSharp.Domain.Populations.Population.Generations">
             <summary>
-            Gets the generations.
+            Gets or sets the generations.
             <remarks>
             The information of Generations can vary depending of the IGenerationStrategy used.
             </remarks>
@@ -776,12 +800,12 @@
             <value>The generations.</value></member>
         <member name="P:GeneticSharp.Domain.Populations.Population.CurrentGeneration">
             <summary>
-            Gets the current generation.
+            Gets or sets the current generation.
             </summary>
             <value>The current generation.</value></member>
         <member name="P:GeneticSharp.Domain.Populations.Population.GenerationsNumber">
             <summary>
-            Gets the total number of generations executed.
+            Gets or sets the total number of generations executed.
             <remarks>
             Use this information to know how many generations have been executed, because Generations.Count can vary depending of the IGenerationStrategy used.
             </remarks>
@@ -798,7 +822,7 @@
             <value>The size of the max.</value></member>
         <member name="P:GeneticSharp.Domain.Populations.Population.BestChromosome">
             <summary>
-            Gets the best chromosome.
+            Gets or sets the best chromosome.
             </summary>
             <value>The best chromosome.</value></member>
         <member name="P:GeneticSharp.Domain.Populations.Population.GenerationStrategy">
@@ -926,6 +950,11 @@
             Initializes a new instance of the <see cref="T:GeneticSharp.Domain.Mutations.UniformMutation" /> class.
             </summary>
             <param name="allGenesMutable">If set to <c>true</c> all genes are mutable.</param></member>
+        <member name="M:GeneticSharp.Domain.Mutations.UniformMutation.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:GeneticSharp.Domain.Mutations.UniformMutation" /> class.
+            </summary>
+            <remarks>Creates an instance of UniformMutation where some random genes will be mutated.</remarks></member>
         <member name="M:GeneticSharp.Domain.Mutations.UniformMutation.PerformMutate(GeneticSharp.Domain.Chromosomes.IChromosome,System.Single)">
             <summary>
             Mutate the specified chromosome.
@@ -1148,6 +1177,26 @@
             <returns>The double value.</returns>
             <param name="min">Minimum value.</param>
             <param name="max">Max value.</param></member>
+        <member name="T:GeneticSharp.Domain.Randomizations.RandomizationExtensions">
+            <summary>
+            Extension methods for IRandomization.
+            </summary></member>
+        <member name="M:GeneticSharp.Domain.Randomizations.RandomizationExtensions.GetEvenInt(GeneticSharp.Domain.Randomizations.IRandomization,System.Int32,System.Int32)">
+            <summary>
+            Gets an even integer value between minimum value (inclusive) and maximum value (exclusive).
+            </summary>
+            <returns>The integer.</returns>
+            <param name="randomization">The IRandomization implementation.</param>
+            <param name="min">Minimum value (inclusive).</param>
+            <param name="max">Maximum value (exclusive).</param></member>
+        <member name="M:GeneticSharp.Domain.Randomizations.RandomizationExtensions.GetOddInt(GeneticSharp.Domain.Randomizations.IRandomization,System.Int32,System.Int32)">
+            <summary>
+            Gets an odd integer value between minimum value (inclusive) and maximum value (exclusive).
+            </summary>
+            <returns>The integer.</returns>
+            <param name="randomization">The IRandomization implementation.</param>
+            <param name="min">Minimum value (inclusive).</param>
+            <param name="max">Maximum value (exclusive).</param></member>
         <member name="T:GeneticSharp.Domain.Randomizations.RandomizationProvider">
             <summary>
             The randomization provider use for all elements of current genetic algorithm execution.

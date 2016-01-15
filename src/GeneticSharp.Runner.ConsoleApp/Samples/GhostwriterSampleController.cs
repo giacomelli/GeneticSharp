@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Web;
+using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Extensions.Ghostwriter;
+using GeneticSharp.Infrastructure.Threading;
 using GeneticSharp.Runner.ConsoleApp.Samples.Resources;
 using HelperSharp;
 using Newtonsoft.Json;
@@ -33,6 +35,16 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
             }
 
             m_words = m_words.Select(w => w.RemovePunctuations()).Distinct().OrderBy(w => w).ToList();
+        }
+
+        public override void ConfigGA(GeneticAlgorithm ga)
+        {
+            base.ConfigGA(ga);
+            ga.TaskExecutor = new SmartThreadPoolTaskExecutor()
+            {
+                MinThreads = 25,
+                MaxThreads = 50
+            };
         }
 
         public override IFitness CreateFitness()

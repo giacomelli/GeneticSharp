@@ -5,6 +5,7 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Mutations;
+using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.Tsp;
 
 namespace GeneticSharp.Runner.ConsoleApp.Samples
@@ -12,9 +13,12 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
     [DisplayName("TSP (Travelling Salesman Problem)")]
     public class TspSampleController : SampleControllerBase
     {
+        #region Fields
         private int m_numberOfCities;
         private TspFitness m_fitness;
+        #endregion
 
+        #region Constructors
         public TspSampleController() : this(20)
         {
         }
@@ -23,6 +27,13 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         {
             m_numberOfCities = numberOfCities;
         }
+        #endregion
+
+        #region Methods
+        public override ITermination CreateTermination()
+        {
+            return new OrTermination(new TimeEvolvingTermination(TimeSpan.FromMinutes(1)), new FitnessStagnationTermination(500));
+        }       
 
         public override IFitness CreateFitness()
         {
@@ -59,5 +70,6 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
             var cities = bestChromosome.GetGenes().Select(g => g.Value.ToString()).ToArray();
             Console.WriteLine("City tour: {0}", string.Join(", ", cities));
         }
+        #endregion
     }
 }

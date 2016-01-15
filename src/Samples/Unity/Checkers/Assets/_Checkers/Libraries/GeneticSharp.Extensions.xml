@@ -4,6 +4,90 @@
         <name>GeneticSharp.Extensions</name>
     </assembly>
     <members>
+        <member name="T:GeneticSharp.Extensions.AutoConfig.AutoConfigFitness">
+            <summary>
+            A fitness function to auto config another genetic algorithm.
+            </summary></member>
+        <member name="M:GeneticSharp.Extensions.AutoConfig.AutoConfigFitness.#ctor(GeneticSharp.Domain.Fitnesses.IFitness,GeneticSharp.Domain.Chromosomes.IChromosome)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.AutoConfig.AutoConfigFitness" /> class.
+            </summary>
+            <param name="targetFitness">The target fitness.</param>
+            <param name="targetChromosome">The target chromosome.</param></member>
+        <member name="P:GeneticSharp.Extensions.AutoConfig.AutoConfigFitness.PopulationMinSize">
+            <summary>
+            Gets or sets the minimum size of the population.
+            </summary>
+            <value>
+            The minimum size of the population.
+            </value></member>
+        <member name="P:GeneticSharp.Extensions.AutoConfig.AutoConfigFitness.PopulationMaxSize">
+            <summary>
+            Gets or sets the maximum size of the population.
+            </summary>
+            <value>
+            The maximum size of the population.
+            </value></member>
+        <member name="P:GeneticSharp.Extensions.AutoConfig.AutoConfigFitness.Termination">
+            <summary>
+            Gets or sets the termination.
+            </summary>
+            <value>
+            The termination.
+            </value></member>
+        <member name="P:GeneticSharp.Extensions.AutoConfig.AutoConfigFitness.TaskExecutor">
+            <summary>
+            Gets or sets the task executor which will be used to execute fitness evaluation.
+            </summary></member>
+        <member name="M:GeneticSharp.Extensions.AutoConfig.AutoConfigFitness.Evaluate(GeneticSharp.Domain.Chromosomes.IChromosome)">
+            <summary>
+            Evaluates the specified chromosome.
+            </summary>
+            <param name="chromosome">The chromosome.</param>
+            <returns>The chromosome fitness.</returns></member>
+        <member name="T:GeneticSharp.Extensions.AutoConfig.AutoConfigChromosome">
+            <summary>
+            Auto config another genetic algorithm.
+            </summary></member>
+        <member name="M:GeneticSharp.Extensions.AutoConfig.AutoConfigChromosome.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.AutoConfig.AutoConfigChromosome" /> class.
+            </summary></member>
+        <member name="P:GeneticSharp.Extensions.AutoConfig.AutoConfigChromosome.Selection">
+            <summary>
+            Gets the selection.
+            </summary>
+            <value>
+            The selection.
+            </value></member>
+        <member name="P:GeneticSharp.Extensions.AutoConfig.AutoConfigChromosome.Crossover">
+            <summary>
+            Gets the crossover.
+            </summary>
+            <value>
+            The crossover.
+            </value></member>
+        <member name="P:GeneticSharp.Extensions.AutoConfig.AutoConfigChromosome.Mutation">
+            <summary>
+            Gets the mutation.
+            </summary>
+            <value>
+            The mutation.
+            </value></member>
+        <member name="M:GeneticSharp.Extensions.AutoConfig.AutoConfigChromosome.CreateNew">
+            <summary>
+            Creates a new chromosome using the same structure of this.
+            </summary>
+            <returns>
+            The new chromosome.
+            </returns></member>
+        <member name="M:GeneticSharp.Extensions.AutoConfig.AutoConfigChromosome.GenerateGene(System.Int32)">
+            <summary>
+            Generates the gene.
+            </summary>
+            <param name="geneIndex">Index of the gene.</param>
+            <returns>The new gene.</returns>
+            <exception cref="T:System.InvalidOperationException">Invalid AutoConfigChromosome gene index.</exception></member>
         <member name="T:GeneticSharp.Extensions.Checkers.CheckersChromosome">
             <summary>
             Checkers chromosome.
@@ -576,5 +660,91 @@
             </summary>
             <param name="geneIndex">Index of the gene.</param>
             <returns>The generated gene.</returns></member>
+        <member name="T:GeneticSharp.Extensions.Drawing.BitmapChromosome">
+            <summary>
+            A chromosome that represents a bitmap.
+            </summary></member>
+        <member name="M:GeneticSharp.Extensions.Drawing.BitmapChromosome.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Drawing.BitmapChromosome" /> class.
+            </summary>
+            <param name="width">The width.</param>
+            <param name="height">The height.</param></member>
+        <member name="P:GeneticSharp.Extensions.Drawing.BitmapChromosome.Width">
+            <summary>
+            Gets the width.
+            </summary>
+            <value>
+            The width.
+            </value></member>
+        <member name="P:GeneticSharp.Extensions.Drawing.BitmapChromosome.Height">
+            <summary>
+            Gets the height.
+            </summary>
+            <value>
+            The height.
+            </value></member>
+        <member name="M:GeneticSharp.Extensions.Drawing.BitmapChromosome.GetPixels(System.Drawing.Bitmap)">
+            <summary>
+            Gets the pixels from bitmap.
+            </summary>
+            <param name="bitmap">The bitmap.</param>
+            <returns>The pixels.</returns></member>
+        <member name="M:GeneticSharp.Extensions.Drawing.BitmapChromosome.GenerateGene(System.Int32)">
+            <summary>
+            Generates the gene.
+            </summary>
+            <param name="geneIndex">Index of the gene.</param>
+            <returns>The new Gene.</returns></member>
+        <member name="M:GeneticSharp.Extensions.Drawing.BitmapChromosome.CreateNew">
+            <summary>
+            Creates a new chromosome using the same structure of this.
+            </summary>
+            <returns>
+            The new chromosome.
+            </returns></member>
+        <member name="M:GeneticSharp.Extensions.Drawing.BitmapChromosome.BuildBitmap">
+            <summary>
+            Builds the bitmap from genes.
+            </summary>
+            <returns>The bitmap.</returns></member>
+        <member name="T:GeneticSharp.Extensions.Drawing.BitmapEqualityFitness">
+            <summary>
+            Bitmap equality fitness.
+            </summary></member>
+        <member name="M:GeneticSharp.Extensions.Drawing.BitmapEqualityFitness.#ctor(System.Drawing.Bitmap)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Drawing.BitmapEqualityFitness" /> class.
+            </summary>
+            <param name="targetBitmap">The target bitmap.</param></member>
+        <member name="M:GeneticSharp.Extensions.Drawing.BitmapEqualityFitness.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Drawing.BitmapEqualityFitness" /> class.
+            </summary></member>
+        <member name="P:GeneticSharp.Extensions.Drawing.BitmapEqualityFitness.BitmapWidth">
+            <summary>
+            Gets the width of the bitmap.
+            </summary>
+            <value>
+            The width of the bitmap.
+            </value></member>
+        <member name="P:GeneticSharp.Extensions.Drawing.BitmapEqualityFitness.BitmapHeight">
+            <summary>
+            Gets the height of the bitmap.
+            </summary>
+            <value>
+            The height of the bitmap.
+            </value></member>
+        <member name="M:GeneticSharp.Extensions.Drawing.BitmapEqualityFitness.Initialize(System.Drawing.Bitmap)">
+            <summary>
+            Initializes the specified target bitmap.
+            </summary>
+            <param name="targetBitmap">The target bitmap.</param></member>
+        <member name="M:GeneticSharp.Extensions.Drawing.BitmapEqualityFitness.Evaluate(GeneticSharp.Domain.Chromosomes.IChromosome)">
+            <summary>
+            Evaluates the specified chromosome.
+            </summary>
+            <param name="chromosome">The chromosome.</param>
+            <returns>The chromosome fitness.</returns></member>
     </members>
 </doc>
