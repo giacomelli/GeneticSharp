@@ -69,6 +69,7 @@ Features
    - [Fast random](src/GeneticSharp.Domain/Randomizations/FastRandomRandomization.cs)   
    - If you need a special kind of randomization for your GA, just implement the [IRandomization](src/GeneticSharp.Domain/Randomizations/IRandomization.cs) interface.
  - [Runner app (console)](src/GeneticSharp.Runner.ConsoleApp) with samples: 
+ 
  	  ![](docs/gifs/GeneticSharp-ConsoleApp-EquationSolver-FunctionBuilder.gif)
  	- Equality equation
  	- Equation solver
@@ -77,9 +78,12 @@ Features
  	- TSP (Travelling toman Problem)
  	
  - [Runner app (GTK#)](src/GeneticSharp.Runner.GtkApp) showing the library solving TSP (Travelling Salesman Problem).
+      
       ![](docs/screenshots/GtkApp.Samples.TSP.Win.png)
  - Mono support.
+      
       ![](docs/screenshots/XamarinStudio.png) 
+      
       ![](docs/screenshots/VisualStudio.png) 
  - Fully tested on Windows and MacOSX.
  - 100% code [documentation](src/Help/Documentation.chm).
@@ -194,6 +198,8 @@ FAQ
 ======
 
 Having troubles? 
+
+ - Read our [wiki](wiki).
  - Ask on Twitter [@ogiacomelli](http://twitter.com/ogiacomelli).
  - Ask on [Stack Overflow](http://stackoverflow.com/questions/tagged/geneticsharp) using the tag [GeneticSharp](http://stackoverflow.com/questions/tagged/geneticsharp).
  
