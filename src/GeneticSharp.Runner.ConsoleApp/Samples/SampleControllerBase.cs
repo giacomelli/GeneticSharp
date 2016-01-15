@@ -11,6 +11,12 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
     public abstract class SampleControllerBase : ISampleController
     {
         /// <summary>
+        /// Gets the Genetic Algorithm.
+        /// </summary>
+        /// <value>The Genetic Algorithm.</value>
+        protected GeneticAlgorithm GA { get; private set; }
+
+        /// <summary>
         /// Creates the chromosome.
         /// </summary>
         /// <returns>
@@ -39,6 +45,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         /// <param name="ga">The genetic algorithm.</param>
         public virtual void ConfigGA(GeneticAlgorithm ga)
         {
+            GA = ga;
         }
 
         /// <summary>

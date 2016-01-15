@@ -62,6 +62,7 @@
     <Compile Include="gtk-gui\GeneticSharp.Runner.GtkApp.PropertyEditor.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="Samples\BitmapEqualitySampleController.cs" />
     <Compile Include="Samples\ISampleController.cs" />
     <Compile Include="Samples\SampleControllerBase.cs" />
     <Compile Include="Samples\SampleContext.cs" />

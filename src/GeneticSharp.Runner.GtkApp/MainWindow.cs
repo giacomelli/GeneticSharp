@@ -49,6 +49,9 @@ public partial class MainWindow : Gtk.Window
             UpdateSample();
         };
 
+        sbtPopulationMinSize.SetRange(2, int.MaxValue);
+        sbtPopulationMaxSize.SetRange(2, int.MaxValue);
+
         drawingArea.ExposeEvent += delegate
         {
             DrawBuffer();
