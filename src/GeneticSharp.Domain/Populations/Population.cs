@@ -37,7 +37,7 @@ namespace GeneticSharp.Domain.Populations
             MaxSize = maxSize;
             AdamChromosome = adamChromosome;
             Generations = new List<Generation>();
-            GenerationStrategy = new TrackingGenerationStrategy();
+            GenerationStrategy = new PerformanceGenerationStrategy(10);
         }
         #endregion
 
