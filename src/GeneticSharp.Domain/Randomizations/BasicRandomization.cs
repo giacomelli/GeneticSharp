@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 
 namespace GeneticSharp.Domain.Randomizations
 {
@@ -7,8 +8,28 @@ namespace GeneticSharp.Domain.Randomizations
     /// </summary>
     public class BasicRandomization : RandomizationBase
     {
-        #region Fields
-        private Random m_random = new Random(DateTime.Now.Millisecond);
+        #region Fields   
+        // TODO: change to ThreadLocal when we migrate GeneticSharp to .NET 4.0+.
+        // http://codeblog.jonskeet.uk/2009/11/04/revisiting-randomness/
+        private static int s_seed = Environment.TickCount;
+
+        [ThreadStatic]
+        private static Random s_random;
+        #endregion
+
+        #region Properties
+        private static Random Random
+        {
+            get
+            {
+                if (s_random == null)
+                {
+                    s_random = new Random(Interlocked.Increment(ref s_seed));
+                }
+
+                return s_random;
+            }
+        }
         #endregion
 
         #region Methods
@@ -20,7 +41,7 @@ namespace GeneticSharp.Domain.Randomizations
         /// <param name="max">Maximum value (exclusive).</param>
         public override int GetInt(int min, int max)
         {
-            return m_random.Next(min, max);
+            return Random.Next(min, max);            
         }
 
         /// <summary>
@@ -31,7 +52,7 @@ namespace GeneticSharp.Domain.Randomizations
         /// </returns>
         public override float GetFloat()
         {
-            return (float)m_random.NextDouble();
+            return (float)Random.NextDouble();
         }
 
         /// <summary>
@@ -40,8 +61,8 @@ namespace GeneticSharp.Domain.Randomizations
         /// <returns>The double value.</returns>
         public override double GetDouble()
         {
-            return m_random.NextDouble();
-        }
+            return Random.NextDouble();
+        }       
         #endregion
     }
 }

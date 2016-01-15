@@ -74,7 +74,7 @@ namespace GeneticSharp.Domain.Randomizations
 
             for (int i = 0; i < length; i++)
             {
-                var removeIndex = RandomizationProvider.Current.GetInt(0, orderedValues.Count);
+                var removeIndex = GetInt(0, orderedValues.Count);
                 ints[i] = orderedValues[removeIndex];
                 orderedValues.RemoveAt(removeIndex);
             }
