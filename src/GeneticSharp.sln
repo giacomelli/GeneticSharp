@@ -30,8 +30,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{FC0A07
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticSharp.Domain.PerformanceTests", "GeneticSharp.Domain.PerformanceTests\GeneticSharp.Domain.PerformanceTests.csproj", "{9F28D4A5-1952-4E20-8110-E2CA5A6F9D3E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,10 +52,6 @@ Global
 		{7A40EB21-E80F-4FD6-9503-A76D83B0620D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A40EB21-E80F-4FD6-9503-A76D83B0620D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A40EB21-E80F-4FD6-9503-A76D83B0620D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9F28D4A5-1952-4E20-8110-E2CA5A6F9D3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9F28D4A5-1952-4E20-8110-E2CA5A6F9D3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9F28D4A5-1952-4E20-8110-E2CA5A6F9D3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9F28D4A5-1952-4E20-8110-E2CA5A6F9D3E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A8BF51F3-7574-4AB3-BEF2-5C38E5AA0341}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A8BF51F3-7574-4AB3-BEF2-5C38E5AA0341}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8BF51F3-7574-4AB3-BEF2-5C38E5AA0341}.Release|Any CPU.ActiveCfg = Release|Any CPU
