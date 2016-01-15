@@ -40,6 +40,14 @@ namespace GeneticSharp.Domain.Mutations
         {
             m_allGenesMutable = allGenesMutable;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Mutations.UniformMutation"/> class.
+        /// </summary>
+        /// <remarks>Creates an instance of UniformMutation where some random genes will be mutated.</remarks>
+        public UniformMutation() : this(false)
+        {
+        }
         #endregion
 
         #region Methods
@@ -70,7 +78,7 @@ namespace GeneticSharp.Domain.Mutations
             {
                 if (i >= genesLength)
                 {
-                    throw new MutationException(this, "The chromosome has no gene on index {0}. The chromosome genes lenght is {1}.".With(i, genesLength));
+                    throw new MutationException(this, "The chromosome has no gene on index {0}. The chromosome genes length is {1}.".With(i, genesLength));
                 }
 
                 if (RandomizationProvider.Current.GetDouble() <= probability)
