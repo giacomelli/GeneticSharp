@@ -88,7 +88,9 @@ namespace GeneticSharp.Extensions.Checkers
 
             do
             {
-                square = new CheckersSquare(rnd.GetInt(0, m_boardSize), rnd.GetInt(0, m_boardSize));
+                var columnIndex = rnd.GetInt(0, m_boardSize);
+                var rowIndex = columnIndex % 2 == 0 ? rnd.GetOddInt(0, m_boardSize) : rnd.GetEvenInt(0, m_boardSize);
+                square = new CheckersSquare(columnIndex, rowIndex);
             }
             while (square.State == CheckersSquareState.NotPlayable);
 

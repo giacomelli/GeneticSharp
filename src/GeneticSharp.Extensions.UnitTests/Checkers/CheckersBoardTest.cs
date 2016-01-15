@@ -98,6 +98,18 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             }
         }
 
+        [Test]
+        public void IsNotPlayableSquare_DiffSquares_DiffResults()
+        {
+            Assert.IsTrue(CheckersSquare.IsNotPlayableSquare(0, 0));
+            Assert.IsFalse(CheckersSquare.IsNotPlayableSquare(0, 1));
+            Assert.IsTrue(CheckersSquare.IsNotPlayableSquare(0, 2));
+
+            Assert.IsFalse(CheckersSquare.IsNotPlayableSquare(1, 0));
+            Assert.IsTrue(CheckersSquare.IsNotPlayableSquare(1, 1));
+            Assert.IsFalse(CheckersSquare.IsNotPlayableSquare(1, 2));
+        }
+
         [Test()]
         public void GetSize_InvalidIndexes_Exception()
         {
