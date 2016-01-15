@@ -93,6 +93,8 @@ namespace GeneticSharp.Domain.UnitTests
             var target = new GeneticAlgorithm(new Population(50, 50, chromosome),
                 new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
 
+            target.Population.GenerationStrategy = new TrackingGenerationStrategy();
+
             Assert.IsInstanceOf<EliteSelection>(target.Selection);
             Assert.IsInstanceOf<OnePointCrossover>(target.Crossover);
             Assert.IsInstanceOf<UniformMutation>(target.Mutation);
@@ -201,6 +203,7 @@ namespace GeneticSharp.Domain.UnitTests
             var target = new GeneticAlgorithm(new Population(100, 199, chromosome),
                     new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
 
+            target.Population.GenerationStrategy = new TrackingGenerationStrategy();
             target.Termination = new GenerationNumberTermination(100);
 
             TimeAssert.LessThan(30000, () =>
@@ -223,6 +226,7 @@ namespace GeneticSharp.Domain.UnitTests
             var ga1 = new GeneticAlgorithm(new Population(100, 199, chromosome1),
                     new FitnessStub() { SupportsParallel = false }, selection1, crossover1, mutation1);
 
+            ga1.Population.GenerationStrategy = new TrackingGenerationStrategy();
             ga1.Termination = new GenerationNumberTermination(1000);
 
             // GA 2     
@@ -233,6 +237,7 @@ namespace GeneticSharp.Domain.UnitTests
             var ga2 = new GeneticAlgorithm(new Population(100, 199, chromosome2),
                     new FitnessStub() { SupportsParallel = false }, selection2, crossover2, mutation2);
 
+            ga2.Population.GenerationStrategy = new TrackingGenerationStrategy();
             ga2.Termination = new GenerationNumberTermination(1000);
 
             Parallel.Invoke(
@@ -253,8 +258,9 @@ namespace GeneticSharp.Domain.UnitTests
             var chromosome = new ChromosomeStub();
             var target = new GeneticAlgorithm(new Population(100, 199, chromosome),
                     new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
-
+            target.Population.GenerationStrategy = new TrackingGenerationStrategy();
             target.Termination = new GenerationNumberTermination(1);
+
             var raised = false;
             target.TerminationReached += (e, a) =>
             {
@@ -276,6 +282,7 @@ namespace GeneticSharp.Domain.UnitTests
             var target = new GeneticAlgorithm(new Population(100, 199, chromosome),
                     new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
 
+            target.Population.GenerationStrategy = new TrackingGenerationStrategy();
             target.Termination = new GenerationNumberTermination(100);
 
             target.Start();
@@ -355,7 +362,9 @@ namespace GeneticSharp.Domain.UnitTests
             var target = new GeneticAlgorithm(new Population(100, 199, chromosome),
                     new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
 
+            target.Population.GenerationStrategy = new TrackingGenerationStrategy();
             target.Termination = new GenerationNumberTermination(1000);
+
             Assert.AreEqual(GeneticAlgorithmState.NotStarted, target.State);
             Assert.IsFalse(target.IsRunning);
 
@@ -392,6 +401,7 @@ namespace GeneticSharp.Domain.UnitTests
             var target = new GeneticAlgorithm(new Population(100, 199, chromosome),
                     new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
 
+            target.Population.GenerationStrategy = new TrackingGenerationStrategy();
             target.Termination = new GenerationNumberTermination(100);
 
             target.Start();
@@ -556,9 +566,10 @@ namespace GeneticSharp.Domain.UnitTests
             var target = new GeneticAlgorithm(new Population(100, 199, chromosome),
                     new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
 
+            target.Population.GenerationStrategy = new TrackingGenerationStrategy();
             target.Termination = new GenerationNumberTermination(100);
             target.Start();
-            Assert.AreEqual(target.Population.Generations.Count, 100);
+            Assert.AreEqual(100, target.Population.Generations.Count);
             var timeEvolving = target.TimeEvolving.Ticks;
             Assert.AreEqual(GeneticAlgorithmState.TerminationReached, target.State);
             Assert.IsFalse(target.IsRunning);

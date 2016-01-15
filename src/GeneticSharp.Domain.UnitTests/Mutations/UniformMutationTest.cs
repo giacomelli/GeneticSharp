@@ -58,7 +58,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
 
             RandomizationProvider.Current = MockRepository.GenerateMock<IRandomization>();
 
-            ExceptionAssert.IsThrowing(new MutationException(target, "The chromosome has no gene on index 3. The chromosome genes lenght is 3."), () =>
+            ExceptionAssert.IsThrowing(new MutationException(target, "The chromosome has no gene on index 3. The chromosome genes length is 3."), () =>
             {
                 target.Mutate(chromosome, 1);
             });
