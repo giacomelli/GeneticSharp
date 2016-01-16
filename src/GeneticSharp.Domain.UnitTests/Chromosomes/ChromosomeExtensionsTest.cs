@@ -2,6 +2,9 @@ using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using NUnit.Framework;
 using Rhino.Mocks;
+using TestSharp;
+using System;
+using HelperSharp;
 
 namespace GeneticSharp.Domain.UnitTests.Chromosomes
 {
@@ -58,5 +61,51 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
 
             Assert.IsTrue(chromosomes.AnyHasRepeatedGene());
         }
+
+		[Test]
+		public void ValidateGenes_GenesWithNullValue_Exception()
+		{
+			var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(3);
+
+			ExceptionAssert.IsThrowing (
+				new InvalidOperationException ("The chromosome '{0}' is generating genes with null value.".With(chromosome1.GetType().Name)),
+				() => {
+					chromosome1.ValidateGenes();
+				});
+		}
+
+		[Test]
+		public void ValidateGenes_AllGenesWithValue_NoException()
+		{
+			var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(3);
+			chromosome1.ReplaceGenes (0, new Gene[] { new Gene (1), new Gene (2), new Gene (3) });
+
+			chromosome1.ValidateGenes();
+		}
+
+		[Test]
+		public void ValidateGenes_ChromosomesWithGenesWithNullValue_Exception()
+		{
+			var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(3);
+			chromosome1.ReplaceGenes (0, new Gene[] { new Gene (1), new Gene (2), new Gene (3) });
+			var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(3);
+
+			ExceptionAssert.IsThrowing (
+				new InvalidOperationException ("The chromosome '{0}' is generating genes with null value.".With(chromosome2.GetType().Name)),
+				() => {
+					(new List<IChromosome>() { chromosome1, chromosome2 }).ValidateGenes();
+				});
+		}
+
+		[Test]
+		public void ValidateGenes_ChromosomesWithAllGenesWithValue_NoException()
+		{
+			var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(3);
+			chromosome1.ReplaceGenes (0, new Gene[] { new Gene (1), new Gene (2), new Gene (3) });
+			var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(3);
+			chromosome2.ReplaceGenes (0, new Gene[] { new Gene (1), new Gene (2), new Gene (3) });
+
+			(new List<IChromosome>() { chromosome1, chromosome2 }).ValidateGenes();
+		}
     }
 }
