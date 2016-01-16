@@ -68,18 +68,26 @@ Features
    - [Basic randomization](src/GeneticSharp.Domain/Randomizations/BasicRandomization.cs) (using System.Random)
    - [Fast random](src/GeneticSharp.Domain/Randomizations/FastRandomRandomization.cs)   
    - If you need a special kind of randomization for your GA, just implement the [IRandomization](src/GeneticSharp.Domain/Randomizations/IRandomization.cs) interface.
- - [Runner app (console)](src/GeneticSharp.Runner.ConsoleApp) with samples: 
- 
- 	  ![](docs/gifs/GeneticSharp-ConsoleApp-EquationSolver-FunctionBuilder.gif)
+ - [Runner app (console)](src/GeneticSharp.Runner.ConsoleApp) with samples:
+ 	- AutoConfig
+ 	- Bitmap equality
  	- Equality equation
  	- Equation solver
  	- Function builder
+ 	
+ 		![](docs/gifs/GeneticSharp-ConsoleApp-EquationSolver-FunctionBuilder.gif)
  	- Ghostwriter
  	- TSP (Travelling toman Problem)
  	
- - [Runner app (GTK#)](src/GeneticSharp.Runner.GtkApp) showing the library solving TSP (Travelling Salesman Problem).
+ - [Runner app (GTK#)](src/GeneticSharp.Runner.GtkApp) with visual samples:
+ 	- Bitmap equality
+ 		
+ 		![](docs/gifs/GeneticSharp-BitmapEquality_sample01.gif) 
+ 	
+ 	- TSP (Travelling Salesman Problem).
       
-      ![](docs/screenshots/GtkApp.Samples.TSP.Win.png)
+      	![](docs/screenshots/GtkApp.Samples.TSP.Win.png)
+      
  - Mono support.
       
       ![](docs/screenshots/XamarinStudio.png) 
@@ -123,6 +131,7 @@ public class MyProblemChromosome : ChromosomeBase
  	// of your chromosome.
  	public MyProblemChromosome() : base(10) 
     {
+   		CreateGenes();
     }
 
 	public override Gene GenerateGene (int geneIndex)
@@ -199,9 +208,9 @@ FAQ
 
 Having troubles? 
 
- - Read our [wiki](https://github.com/giacomelli/GeneticSharp/wiki).
- - Ask on Twitter [@ogiacomelli](http://twitter.com/ogiacomelli).
- - Ask on [Stack Overflow](http://stackoverflow.com/questions/tagged/geneticsharp) using the tag [GeneticSharp](http://stackoverflow.com/questions/tagged/geneticsharp).
+- Read our [wiki](https://github.com/giacomelli/GeneticSharp/wiki).
+- Ask on Twitter [@ogiacomelli](http://twitter.com/ogiacomelli).
+- Ask on [Stack Overflow](http://stackoverflow.com/questions/tagged/geneticsharp) using the tag [GeneticSharp](http://stackoverflow.com/questions/tagged/geneticsharp).
  
  --------
 
