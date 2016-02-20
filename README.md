@@ -237,5 +237,6 @@ In others words, you can use this library for developement any kind of software:
 
 Change Log
 ======
+ - 1.0.100 Added Order-based (OX2) and Position-based (POS) crossovers.
  - 1.0.56 NuGet package published.
  - 0.5.0 First version.
