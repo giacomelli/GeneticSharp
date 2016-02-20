@@ -87,18 +87,18 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
 - Equality equation
 - Equation solver
 - Function builder
+
  	![](docs/gifs/GeneticSharp-ConsoleApp-EquationSolver-FunctionBuilder.gif)
 - Ghostwriter
 - TSP (Travelling toman Problem)
  	
 ###[Runner app (GTK#)](src/GeneticSharp.Runner.GtkApp) with visual samples:
 - Bitmap equality
- 		
-	![](docs/gifs/GeneticSharp-BitmapEquality_sample01.gif) 
+ 	
+ 	![](docs/gifs/GeneticSharp-BitmapEquality_sample01.gif) 
  	
  - TSP (Travelling Salesman Problem).
-      
-    ![](docs/screenshots/GtkApp.Samples.TSP.Win.png)
+ ![](docs/screenshots/GtkApp.Samples.TSP.Win.png)
       
 ###Multi-platform
 - Mono support.
