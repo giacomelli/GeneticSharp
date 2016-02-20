@@ -93,12 +93,13 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
 - TSP (Travelling toman Problem)
  	
 ###[Runner app (GTK#)](src/GeneticSharp.Runner.GtkApp) with visual samples:
-- Bitmap equality
- 	
- 	![](docs/gifs/GeneticSharp-BitmapEquality_sample01.gif) 
- 	
- - TSP (Travelling Salesman Problem).
- ![](docs/screenshots/GtkApp.Samples.TSP.Win.png)
+
+####TSP (Travelling Salesman Problem).
+![](docs/screenshots/GtkApp.Samples.TSP.Win.png)
+ 
+####Bitmap equality
+![](docs/gifs/GeneticSharp-BitmapEquality_sample01.gif) 
+
       
 ###Multi-platform
 - Mono support.
