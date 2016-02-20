@@ -18,7 +18,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
     {
         #region Fields
         private BitmapEqualityFitness m_fitness = new BitmapEqualityFitness();
-        private IChromosome m_lastBest;
+        //// private IChromosome m_lastBest;
         private string m_destFolder;
         private double m_resolution = 1;
         private Bitmap m_targetBitmap;
@@ -138,7 +138,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
                         }
                     }
 
-                    m_lastBest = best;
+                    //// m_lastBest = best;
                 }
             }
         }

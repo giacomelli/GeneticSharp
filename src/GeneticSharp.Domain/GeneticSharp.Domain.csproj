@@ -116,6 +116,8 @@
     <Compile Include="Reinsertions\FitnessBasedReinsertion.cs" />
     <Compile Include="IGeneticAlgorithm.cs" />
     <Compile Include="Populations\IPopulation.cs" />
+    <Compile Include="Crossovers\OrderBasedCrossover.cs" />
+    <Compile Include="Crossovers\PositionBasedCrossover.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

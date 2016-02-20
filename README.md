@@ -42,8 +42,10 @@ Features
    - [Cut and Splice](src/GeneticSharp.Domain/Crossovers/CutAndSpliceCrossover.cs) 
    - [Cycle (CX)](src/GeneticSharp.Domain/Crossovers/CycleCrossover.cs)   
    - [One-Point (C1)](src/GeneticSharp.Domain/Crossovers/OnePointCrossover.cs)
-   - [Ordered OX1](src/GeneticSharp.Domain/Crossovers/OrderedCrossover.cs)
+   - [Order-based (OX2)](src/GeneticSharp.Domain/Crossovers/OrderBasedCrossover.cs)
+   - [Ordered (OX1)](src/GeneticSharp.Domain/Crossovers/OrderedCrossover.cs)
    - [Partially Mapped (PMX)](src/GeneticSharp.Domain/Crossovers/PartiallyMappedCrossover.cs)
+   - [Position-based (POS)](src/GeneticSharp.Domain/Crossovers/PositionBasedCrossover.cs)
    - [Three parent](src/GeneticSharp.Domain/Crossovers/ThreeParentCrossover.cs)
    - [Two-Point (C2)](src/GeneticSharp.Domain/Crossovers/TwoPointCrossover.cs)
    - [Uniform](src/GeneticSharp.Domain/Crossovers/UniformCrossover.cs)
@@ -58,12 +60,14 @@ Features
    - [Fitness Based](src/GeneticSharp.Domain/Reinsertions/FitnessBasedReinsertion.cs)
    - [Pure](src/GeneticSharp.Domain/Reinsertions/PureReinsertion.cs)
    - [Uniform](src/GeneticSharp.Domain/Reinsertions/UniformReinsertion.cs)
+   - Others reinsertions can be added implementing [IReinsertion](src/GeneticSharp.Domain/Reinsertions/IReinsertion.cs) interface or extending [ReinsertionBase](src/GeneticSharp.Domain/Reinsertions/ReinsertionBase.cs).
  - [Terminations](src/GeneticSharp.Domain/Terminations)
    - [Generation number](src/GeneticSharp.Domain/Terminations/GenerationNu)
    - [Time evolving](src/GeneticSharp.Domain/Terminations/TimeEvolvingTermination.cs)
    - [Fitness stagnation](src/GeneticSharp.Domain/Terminations/FitnessStagnationTermination.cs)
    - [Fitness threshold](src/GeneticSharp.Domain/Terminations/FitnessThresholdTermination.cs)
    - [And](src/GeneticSharp.Domain/Terminations/AndTermination.cs) e [Or](src/GeneticSharp.Domain/Terminations/OrTermination.cs) (allows combine others terminations)
+    - Others terminations can be added implementing [ITermination](src/GeneticSharp.Domain/Terminations/ITermination.cs) interface or extending [TerminationBase](src/GeneticSharp.Domain/Terminations/TerminationBase.cs).
  - [Randomizations](src/GeneticSharp.Domain/Randomizations)
    - [Basic randomization](src/GeneticSharp.Domain/Randomizations/BasicRandomization.cs) (using System.Random)
    - [Fast random](src/GeneticSharp.Domain/Randomizations/FastRandomRandomization.cs)   
@@ -182,8 +186,6 @@ Roadmap
  - Add new selections   
    - Reward-based
  - Add new crossovers   
-   - Order-based (OX2)
-   - Position-based (POS)
    - Voting recombination
    - Alternating-position (AP)
    - Sequential Constructive (SCX)    

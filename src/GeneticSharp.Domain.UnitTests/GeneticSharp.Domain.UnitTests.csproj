@@ -108,6 +108,8 @@
     <Compile Include="Reinsertions\ElitistReinsertionTest.cs" />
     <Compile Include="Reinsertions\FitnessBasedReinsertionTest.cs" />
     <Compile Include="Randomizations\FastRandomRandomizationTest.cs" />
+    <Compile Include="Crossovers\OrderBasedCrossoverTest.cs" />
+    <Compile Include="Crossovers\PositionBasedCrossoverTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj">

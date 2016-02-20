@@ -65,7 +65,6 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
 
         public override void Draw(IChromosome bestChromosome)
         {
-            var c = bestChromosome as AutoConfigChromosome;
         }
     }
 }

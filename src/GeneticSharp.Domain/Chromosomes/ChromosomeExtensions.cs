@@ -43,7 +43,7 @@ namespace GeneticSharp.Domain.Chromosomes
         {
             if (chromosomes.Any(c => c.GetGenes().Any(g => g.Value == null)))
             {
-				throw new InvalidOperationException("The chromosome '{0}' is generating genes with null value.".With(chromosomes.First().GetType().Name));
+                throw new InvalidOperationException("The chromosome '{0}' is generating genes with null value.".With(chromosomes.First().GetType().Name));
             }
         }
 

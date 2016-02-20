@@ -14,15 +14,17 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         {
             var actual = CrossoverService.GetCrossoverTypes();
 
-            Assert.AreEqual(8, actual.Count);
+            Assert.AreEqual(10, actual.Count);
             Assert.AreEqual(typeof(CutAndSpliceCrossover), actual[0]);
             Assert.AreEqual(typeof(CycleCrossover), actual[1]);
             Assert.AreEqual(typeof(OnePointCrossover), actual[2]);
-            Assert.AreEqual(typeof(OrderedCrossover), actual[3]);
-            Assert.AreEqual(typeof(PartiallyMappedCrossover), actual[4]);
-            Assert.AreEqual(typeof(ThreeParentCrossover), actual[5]);
-            Assert.AreEqual(typeof(TwoPointCrossover), actual[6]);
-            Assert.AreEqual(typeof(UniformCrossover), actual[7]);
+            Assert.AreEqual(typeof(OrderBasedCrossover), actual[3]);
+            Assert.AreEqual(typeof(OrderedCrossover), actual[4]);
+            Assert.AreEqual(typeof(PartiallyMappedCrossover), actual[5]);
+			Assert.AreEqual(typeof(PositionBasedCrossover), actual[6]);
+            Assert.AreEqual(typeof(ThreeParentCrossover), actual[7]);
+            Assert.AreEqual(typeof(TwoPointCrossover), actual[8]);
+            Assert.AreEqual(typeof(UniformCrossover), actual[9]);
         }
 
         [Test()]
@@ -30,15 +32,17 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         {
             var actual = CrossoverService.GetCrossoverNames();
 
-            Assert.AreEqual(8, actual.Count);
+            Assert.AreEqual(10, actual.Count);
             Assert.AreEqual("Cut and Splice", actual[0]);
             Assert.AreEqual("Cycle (CX)", actual[1]);
             Assert.AreEqual("One-Point", actual[2]);
-            Assert.AreEqual("Ordered (OX1)", actual[3]);
-            Assert.AreEqual("Partially Mapped (PMX)", actual[4]);
-            Assert.AreEqual("Three Parent", actual[5]);
-            Assert.AreEqual("Two-Point", actual[6]);
-            Assert.AreEqual("Uniform", actual[7]);
+            Assert.AreEqual("Order-based (OX2)", actual[3]);
+            Assert.AreEqual("Ordered (OX1)", actual[4]);
+            Assert.AreEqual("Partially Mapped (PMX)", actual[5]);
+			Assert.AreEqual("Position-based (POS)", actual[6]);
+            Assert.AreEqual("Three Parent", actual[7]);
+            Assert.AreEqual("Two-Point", actual[8]);
+            Assert.AreEqual("Uniform", actual[9]);
         }
 
         [Test()]
