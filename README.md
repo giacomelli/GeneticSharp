@@ -23,7 +23,7 @@ Can be used in any kind of .NET apps, like ASP .NET MVC, Web Forms, Windows Form
 
 ##Features
 
-###Chromosomes
+###[Chromosomes](src/GeneticSharp.Domain/Chromosomes)
 Add your own chromosome representation implementing [IChromosome](src/GeneticSharp.Domain/Chromosomes/IChromosome.cs) interface or extending [ChromosomeBase](src/GeneticSharp.Domain/Chromosomes/ChromosomeBase.cs)   
    
 ###[Fitness](src/GeneticSharp.Domain/Fitnesses)
@@ -87,8 +87,7 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
 - Equality equation
 - Equation solver
 - Function builder
- 	
- 		![](docs/gifs/GeneticSharp-ConsoleApp-EquationSolver-FunctionBuilder.gif)
+ 	![](docs/gifs/GeneticSharp-ConsoleApp-EquationSolver-FunctionBuilder.gif)
 - Ghostwriter
 - TSP (Travelling toman Problem)
  	
