@@ -19,7 +19,7 @@ namespace GeneticSharp.Domain.Crossovers
     /// </remarks>
     /// </summary>
     [DisplayName("Position-based (POS)")]
-    public class PositionBasedCrossover : CrossoverBase
+    public class PositionBasedCrossover : OrderBasedCrossover
     {
         #region Constructors
 
@@ -27,9 +27,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.PositionBasedCrossover"/> class.
         /// </summary>
         public PositionBasedCrossover()
-            : base(2, 2)
         {
-            IsOrdered = true;
         }
 
         #endregion
@@ -37,27 +35,15 @@ namespace GeneticSharp.Domain.Crossovers
         #region Methods
 
         /// <summary>
-        /// Performs the cross with specified parents generating the children.
+        /// Validates the parents.
         /// </summary>
-        /// <param name="parents">The parents chromosomes.</param>
-        /// <returns>The offspring (children) of the parents.</returns>
-        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
+        /// <param name="parents">The parents.</param>
+        protected override void ValidateParents(IList<IChromosome> parents)
         {
-            var firstParent = parents[0];
-            var secondParent = parents[1];
-
             if (parents.AnyHasRepeatedGene())
             {
                 throw new CrossoverException(this, "The Position-based Crossover (POS) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
             }
-
-            var rnd = RandomizationProvider.Current;
-            var swapIndexesLength = rnd.GetInt(1, firstParent.Length - 1);
-            var swapIndexes = rnd.GetUniqueInts(swapIndexesLength, 0, firstParent.Length);
-            var firstChild = CreateChild(firstParent, secondParent, swapIndexes);
-            var secondChild = CreateChild(secondParent, firstParent, swapIndexes);
-
-            return new List<IChromosome>() { firstChild, secondChild };
         }
 
         /// <summary>
@@ -69,7 +55,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>
         /// The child.
         /// </returns>
-        private static IChromosome CreateChild(IChromosome firstParent, IChromosome secondParent, int[] swapIndexes)
+        protected override IChromosome CreateChild(IChromosome firstParent, IChromosome secondParent, int[] swapIndexes)
         {
             var firstParentGenes = new List<Gene>(firstParent.GetGenes());
 

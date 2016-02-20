@@ -26,6 +26,7 @@ namespace GeneticSharp.Domain.Crossovers
     public class OrderBasedCrossover : CrossoverBase
     {
         #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.OrderBasedCrossover"/> class.
         /// </summary>
@@ -34,9 +35,11 @@ namespace GeneticSharp.Domain.Crossovers
         {
             IsOrdered = true;
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Performs the cross with specified parents generating the children.
         /// </summary>
@@ -44,13 +47,10 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>The offspring (children) of the parents.</returns>
         protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
         {
+            ValidateParents(parents);
+
             var firstParent = parents[0];
             var secondParent = parents[1];
-
-            if (parents.AnyHasRepeatedGene())
-            {
-                throw new CrossoverException(this, "The Order-based Crossover (OX2) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
-            }
 
             var rnd = RandomizationProvider.Current;
             var swapIndexesLength = rnd.GetInt(1, firstParent.Length - 1);
@@ -62,6 +62,18 @@ namespace GeneticSharp.Domain.Crossovers
         }
 
         /// <summary>
+        /// Validates the parents.
+        /// </summary>
+        /// <param name="parents">The parents.</param>
+        protected virtual void ValidateParents(IList<IChromosome> parents)
+        {
+            if (parents.AnyHasRepeatedGene())
+            {
+                throw new CrossoverException(this, "The Order-based Crossover (OX2) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
+            }
+        }
+
+        /// <summary>
         /// Creates the child.
         /// </summary>
         /// <param name="firstParent">First parent.</param>
@@ -70,7 +82,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>
         /// The child.
         /// </returns>
-        private static IChromosome CreateChild(IChromosome firstParent, IChromosome secondParent, int[] swapIndexes)
+        protected virtual IChromosome CreateChild(IChromosome firstParent, IChromosome secondParent, int[] swapIndexes)
         {
             // ...suppose that in the second parent in the second, third 
             // and sixth positions are selected. The elements in these positions are 4, 6 and 5 respectively...
@@ -106,6 +118,7 @@ namespace GeneticSharp.Domain.Crossovers
 
             return child;
         }
+
         #endregion
     }
 }
