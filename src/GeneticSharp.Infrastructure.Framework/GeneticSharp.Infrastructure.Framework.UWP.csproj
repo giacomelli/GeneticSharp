@@ -116,6 +116,7 @@
     </Compile>
     <Compile Include="Threading\LinearTaskExecutor.cs" />
     <Compile Include="Threading\TaskExecutorBase.cs" />
+    <Compile Include="UWP\UWPFrameworkSimplifiers.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GeneticSharp.snk" />

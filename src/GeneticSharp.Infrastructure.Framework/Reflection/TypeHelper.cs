@@ -44,9 +44,17 @@ namespace GeneticSharp.Infrastructure.Framework.Reflection
         }
 
 #if WINDOWS_UWP
+
+        /// <summary>
+        /// Manually register samples' assemblies here before trying to access any of this class' functions
+        /// </summary>
         public static HashSet<Assembly> Assemblies { get; }=new HashSet<Assembly>();
         
 #else
+
+        /// <summary>
+        /// Since UWP uses TypeInfo for reflection, this is just a redirection for non-UWP code.
+        /// </summary>
         private static Type GetTypeInfo(this Type t) {return t;}
 #endif
 
@@ -119,50 +127,3 @@ namespace GeneticSharp.Infrastructure.Framework.Reflection
 #endregion
     }
 }
-
-#if WINDOWS_UWP
-namespace System.ComponentModel {
-
-    /// <devdoc> 
-    ///    <para>Specifies the display name for a property or event.  The default is the name of the property or event.</para>
-    /// </devdoc> 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes")] 
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Event | AttributeTargets.Class | AttributeTargets.Method)]
-    public class DisplayNameAttribute : Attribute {
-        public DisplayNameAttribute() : this (string.Empty) {
-        }
-        public DisplayNameAttribute(string displayName) {
-            this.DisplayName = displayName; 
-        }
-        public string DisplayName { get; }        
-    }
-}
-
-namespace HelperSharp
-{
-    public static class Helper
-    {
-        public static string With(this string source, params object[] args)
-        {
-            return string.Format((IFormatProvider)CultureInfo.InvariantCulture, source, args);
-        }
-    }
-
-    public static class ExceptionHelper
-    {
-        public static void ThrowIfNull(string argumentName, object argument)
-        {
-            if (argument == null)
-                throw new ArgumentNullException(argumentName);
-        }
-    }
-}
-
-namespace System.Security.Permissions
-{
-    public class SerializableAttribute : Attribute
-    {
-        
-    }
-}
-#endif
