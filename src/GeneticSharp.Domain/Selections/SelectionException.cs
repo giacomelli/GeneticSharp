@@ -61,6 +61,8 @@ namespace GeneticSharp.Domain.Selections
         {
         }
 
+
+#if !WINDOWS_UWP
         /// <summary>
         /// Initializes a new instance of the <see cref="SelectionException"/> class.
         /// </summary>
@@ -70,17 +72,19 @@ namespace GeneticSharp.Domain.Selections
             : base(info, context)
         {
         }
-        #endregion
+#endif
+#endregion
 
-        #region Properties
+#region Properties
         /// <summary>
         /// Gets the Selection.
         /// </summary>
         /// <value>The Selection.</value>
         public ISelection Selection { get; private set; }
-        #endregion
+#endregion
 
-        #region Methods
+#if !WINDOWS_UWP
+#region Methods
         /// <summary>
         /// Sets the <see cref="T:System.Runtime.Serialization.SerializationInfo" /> with information about the exception.
         /// </summary>
@@ -96,6 +100,7 @@ namespace GeneticSharp.Domain.Selections
             base.GetObjectData(info, context);
             info.AddValue("Selection", Selection);
         }
-        #endregion
+#endregion
+#endif
     }
 }

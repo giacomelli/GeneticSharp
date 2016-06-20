@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using HelperSharp;
+
 
 namespace GeneticSharp.Infrastructure.Framework.Reflection
 {
@@ -23,18 +25,30 @@ namespace GeneticSharp.Infrastructure.Framework.Reflection
         public static IList<Type> GetTypesByInterface<TInterface>()
         {
             var interfaceType = typeof(TInterface);
+
+#if WINDOWS_UWP
+            var assemblies = Assemblies;
+#else
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+#endif
 
             var selectedAssemblies = assemblies.Where(
                 a => a.FullName.StartsWith("GeneticSharp.", StringComparison.OrdinalIgnoreCase));
 
             var types = selectedAssemblies.SelectMany(a => a.GetTypes())
-                    .Where(t => t.GetInterfaces().Any(i => i == interfaceType) && !t.IsAbstract)
+                    .Where(t => t.GetInterfaces().Any(i => i == interfaceType) && !t.GetTypeInfo().IsAbstract)                    
                     .OrderBy(t => t.Name)
                     .ToList();
 
             return types;
         }
+
+#if WINDOWS_UWP
+        public static HashSet<Assembly> Assemblies { get; }=new HashSet<Assembly>();
+        
+#else
+        private static Type GetTypeInfo(this Type t) {return t;}
+#endif
 
         /// <summary>
         /// Gets the available crossover names.
@@ -81,8 +95,7 @@ namespace GeneticSharp.Infrastructure.Framework.Reflection
         {
             var interfaceName = typeof(TInterface).Name;
             var crossoverType = GetTypesByInterface<TInterface>()
-                .Where(t => GetDisplayNameAttribute(t).DisplayName.Equals(name, StringComparison.OrdinalIgnoreCase))
-                    .FirstOrDefault();
+                    .FirstOrDefault(t => GetDisplayNameAttribute(t).DisplayName.Equals(name, StringComparison.OrdinalIgnoreCase));
 
             if (crossoverType == null)
             {
@@ -92,9 +105,9 @@ namespace GeneticSharp.Infrastructure.Framework.Reflection
             return crossoverType;
         }
 
-        private static DisplayNameAttribute GetDisplayNameAttribute(MemberInfo member)
+        private static DisplayNameAttribute GetDisplayNameAttribute(Type member)
         {
-            var attribute = member.GetCustomAttributes(false).FirstOrDefault(a => a is DisplayNameAttribute);
+            var attribute = member.GetTypeInfo().GetCustomAttributes(false).FirstOrDefault(a => a is DisplayNameAttribute);
 
             if (attribute == null)
             {
@@ -103,6 +116,53 @@ namespace GeneticSharp.Infrastructure.Framework.Reflection
 
             return attribute as DisplayNameAttribute;
         }
-        #endregion
+#endregion
     }
 }
+
+#if WINDOWS_UWP
+namespace System.ComponentModel {
+
+    /// <devdoc> 
+    ///    <para>Specifies the display name for a property or event.  The default is the name of the property or event.</para>
+    /// </devdoc> 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes")] 
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Event | AttributeTargets.Class | AttributeTargets.Method)]
+    public class DisplayNameAttribute : Attribute {
+        public DisplayNameAttribute() : this (string.Empty) {
+        }
+        public DisplayNameAttribute(string displayName) {
+            this.DisplayName = displayName; 
+        }
+        public string DisplayName { get; }        
+    }
+}
+
+namespace HelperSharp
+{
+    public static class Helper
+    {
+        public static string With(this string source, params object[] args)
+        {
+            return string.Format((IFormatProvider)CultureInfo.InvariantCulture, source, args);
+        }
+    }
+
+    public static class ExceptionHelper
+    {
+        public static void ThrowIfNull(string argumentName, object argument)
+        {
+            if (argument == null)
+                throw new ArgumentNullException(argumentName);
+        }
+    }
+}
+
+namespace System.Security.Permissions
+{
+    public class SerializableAttribute : Attribute
+    {
+        
+    }
+}
+#endif
