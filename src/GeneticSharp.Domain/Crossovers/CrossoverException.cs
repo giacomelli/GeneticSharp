@@ -12,6 +12,7 @@ namespace GeneticSharp.Domain.Crossovers
     public sealed class CrossoverException : Exception
     {
         #region Constructors        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.CrossoverException"/> class.
         /// </summary>
@@ -30,7 +31,8 @@ namespace GeneticSharp.Domain.Crossovers
         /// <param name="message">The error message.</param>
         /// <param name="innerException">The inner exception.</param>
         public CrossoverException(ICrossover crossover, string message, Exception innerException)
-            : base("{0}: {1}".With(crossover != null ? crossover.GetType().Name : String.Empty, message), innerException)
+            : base("{0}: {1}".With(crossover != null ? crossover.GetType().Name : String.Empty, message), innerException
+                )
         {
             Crossover = crossover;
         }
@@ -61,26 +63,33 @@ namespace GeneticSharp.Domain.Crossovers
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CrossoverException"/> class.
-        /// </summary>
-        /// <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo" /> that holds the serialized object data about the exception being thrown.</param>
-        /// <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext" /> that contains contextual information about the source or destination.</param>
+#if !WINDOWS_UWP
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CrossoverException"/> class.
+    /// </summary>
+    /// <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo" /> that holds the serialized object data about the exception being thrown.</param>
+    /// <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext" /> that contains contextual information about the source or destination.</param>
         private CrossoverException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
+#endif
+
         #endregion
 
         #region Properties
+
         /// <summary>
         /// Gets the crossover.
         /// </summary>
         /// <value>The crossover.</value>
         public ICrossover Crossover { get; private set; }
+
         #endregion
 
+#if !WINDOWS_UWP
         #region Methods
+
         /// <summary>
         /// Sets the <see cref="T:System.Runtime.Serialization.SerializationInfo" /> with information about the exception.
         /// </summary>
@@ -96,6 +105,9 @@ namespace GeneticSharp.Domain.Crossovers
             base.GetObjectData(info, context);
             info.AddValue("Crossover", Crossover);
         }
+
         #endregion
+#endif
+
     }
 }

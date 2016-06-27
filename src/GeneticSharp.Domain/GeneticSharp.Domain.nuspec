@@ -19,6 +19,8 @@
   	<file src="..\GeneticSharp.Extensions\bin\Debug\*.dll" target="lib\net35" /> 
   	<file src="..\GeneticSharp.Extensions\bin\Debug\*.pdb" target="lib\net35" /> 
   	<file src="..\GeneticSharp.Infrastructure.Threading\bin\Debug\GeneticSharp.Infrastructure.Threading.dll" target="lib\net35" /> 
-  	<file src="..\GeneticSharp.Infrastructure.Threading\bin\Debug\GeneticSharp.Infrastructure.Threading.pdb" target="lib\net35" />
+  	<file src="..\GeneticSharp.Infrastructure.Threading\bin\Debug\GeneticSharp.Infrastructure.Threading.pdb" target="lib\net35" />	
+	
+    <file src="..\GeneticSharp.Domain\bin\uwp\Release\*.*" target="lib\uap10.0" />
     </files>      
 </package>

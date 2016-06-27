@@ -61,15 +61,19 @@ namespace GeneticSharp.Domain.Reinsertions
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReinsertionException"/> class.
-        /// </summary>
-        /// <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo" /> that holds the serialized object data about the exception being thrown.</param>
-        /// <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext" /> that contains contextual information about the source or destination.</param>
+#if !WINDOWS_UWP
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ReinsertionException"/> class.
+    /// </summary>
+    /// <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo" /> that holds the serialized object data about the exception being thrown.</param>
+    /// <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext" /> that contains contextual information about the source or destination.</param>
         private ReinsertionException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
+#endif
+
+
         #endregion
 
         #region Properties
@@ -79,6 +83,8 @@ namespace GeneticSharp.Domain.Reinsertions
         /// <value>The reinsertion.</value>
         public IReinsertion Reinsertion { get; private set; }
         #endregion
+
+#if !WINDOWS_UWP
 
         #region Methods
         /// <summary>
@@ -97,5 +103,8 @@ namespace GeneticSharp.Domain.Reinsertions
             info.AddValue("Reinsertion", Reinsertion);
         }
         #endregion
+#endif
+
+
     }
 }
