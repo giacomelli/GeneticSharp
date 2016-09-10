@@ -1,3 +1,4 @@
+using System;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
 
@@ -9,7 +10,8 @@ namespace GeneticSharp.Extensions.Tsp
     /// Each gene represents a city index.
     /// </remarks>
     /// </summary>
-    public class TspChromosome : ChromosomeBase
+    [Serializable]
+	public class TspChromosome : ChromosomeBase
     {
         #region Fields
         private int m_numberOfCities;

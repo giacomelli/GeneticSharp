@@ -8,7 +8,8 @@ namespace GeneticSharp.Domain.Chromosomes
     /// A base class for chromosomes.
     /// </summary>
     [DebuggerDisplay("Fitness:{Fitness}, Genes:{Length}")]
-    public abstract class ChromosomeBase : IChromosome
+    [Serializable]
+	public abstract class ChromosomeBase : IChromosome
     {
         #region Fields
         private Gene[] m_genes;
