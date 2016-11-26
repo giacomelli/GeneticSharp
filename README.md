@@ -25,7 +25,7 @@ Can be used in any kind of .NET apps, like ASP .NET MVC, Web Forms, Windows Form
 * [AeroVision: aircraft trajectories optimization and visualization](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/AeroVision-Aircraft-trajectories-optimization-and-visualization.pdf)
 * [Designing and creating a self managing distributed file system](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Designing-and-creating-a-self-managing-distributed-file-system.pdf)
 * [SurvivorAI: some experiments of survival scenarios](https://github.com/giacomelli/SurvivorAI)
-* Are you using GeneticSharp in your project? Please, [let me know!](https://twitter.com/ogiacomelli).
+* Are you using GeneticSharp in your project? Please, [let me know!](https://twitter.com/ogiacomelli)
 
 ##Features
 
