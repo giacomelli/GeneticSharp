@@ -5,7 +5,7 @@ using GeneticSharp.Domain.Chromosomes;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GeneticSharp.Domain.UnitTests
+namespace GeneticSharp.Domain.UnitTests.Chromosomes
 {
 	[TestFixture]
 	public class BinaryChromosomeBaseTest

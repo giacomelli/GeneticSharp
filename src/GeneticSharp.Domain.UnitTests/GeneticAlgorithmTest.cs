@@ -297,7 +297,7 @@ namespace GeneticSharp.Domain.UnitTests
         {
             var selections = SelectionService.GetSelectionNames();
             var crossovers = CrossoverService.GetCrossoverNames();
-            var mutations = MutationService.GetMutationNames();
+			var mutations = MutationService.GetMutationNames().Where(m => !m.Equals("Flip Bit"));
             var reinsertions = ReinsertionService.GetReinsertionNames();
             var chromosome = new OrderedChromosomeStub();
 

@@ -110,6 +110,12 @@
     <Compile Include="Randomizations\FastRandomRandomizationTest.cs" />
     <Compile Include="Crossovers\OrderBasedCrossoverTest.cs" />
     <Compile Include="Crossovers\PositionBasedCrossoverTest.cs" />
+    <Compile Include="Chromosomes\BinaryChromosomeBaseTest.cs" />
+    <Compile Include="Chromosomes\BinaryChromosomeStub.cs" />
+    <Compile Include="Mutations\FlipBitMutationTest.cs" />
+    <Compile Include="Chromosomes\FloatingPointChromosomeTest.cs" />
+    <Compile Include="Chromosomes\IntegerChromosomeTest.cs" />
+    <Compile Include="Fitnesses\FuncFitnessTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj">
@@ -133,5 +139,8 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Fitnesses\" />
+  </ItemGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>

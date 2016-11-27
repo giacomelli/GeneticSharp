@@ -4,7 +4,7 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
 using Rhino.Mocks;
 
-namespace GeneticSharp.Domain.UnitTests
+namespace GeneticSharp.Domain.UnitTests.Chromosomes
 {
 	[TestFixture]
 	public class IntegerChromosomeTest
