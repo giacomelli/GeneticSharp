@@ -63,6 +63,7 @@
     </Compile>
     <Compile Include="Threading\LinearTaskExecutor.cs" />
     <Compile Include="Threading\TaskExecutorBase.cs" />
+    <Compile Include="Commons\BinaryStringRepresentation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GeneticSharp.snk" />
@@ -78,4 +79,7 @@
   -->
   <ItemGroup />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <ItemGroup>
+    <Folder Include="Commons\" />
+  </ItemGroup>
 </Project>
