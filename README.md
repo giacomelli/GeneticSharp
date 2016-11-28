@@ -2,7 +2,7 @@ GeneticSharp
 ===========
 
 ####Build
-[![Build status](https://ci.appveyor.com/api/projects/status/h9ptxpyj30ah3mva?svg=true)](https://ci.appveyor.com/project/giacomelli/geneticsharp)
+[![Build status](https://ci.appveyor.com/api/projects/status/h9ptxpyj30ah3mva/branch/master?svg=true)](https://ci.appveyor.com/project/giacomelli/geneticsharp)
 
 ####Code quality
 [![Coverage Status](https://coveralls.io/repos/giacomelli/GeneticSharp/badge.svg?branch=master&service=github)](https://coveralls.io/github/giacomelli/GeneticSharp?branch=master)
