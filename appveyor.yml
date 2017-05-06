@@ -42,11 +42,11 @@ after_build:
 
 test_script:
 - ps: >-
-    .\src\packages\OpenCover.4.6.166\tools\OpenCover.Console.exe -register:user -target:nunit-console.exe -register:user "-targetargs:""src\GeneticSharp.Domain.UnitTests\bin\$env:CONFIGURATION\GeneticSharp.Domain.UnitTests.dll","src\GeneticSharp.Extensions.UnitTests\bin\$env:CONFIGURATION\GeneticSharp.Extensions.UnitTests.dll","src\GeneticSharp.Infrastructure.Framework.UnitTests\bin\$env:CONFIGURATION\GeneticSharp.Infrastructure.Framework.UnitTests.dll","src\GeneticSharp.Infrastructure.Threading.UnitTests\bin\$env:CONFIGURATION\GeneticSharp.Infrastructure.Threading.UnitTests.dll"" /noshadow" -filter:"+[GeneticSharp.Domain]* +[GeneticSharp.Extensions]* +[GeneticSharp.Infrastructure.Framework]* +[GeneticSharp.Infrastructure.Threading]*" -output:opencoverCoverage.xml
+    .\src\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:nunit-console.exe -register:user "-targetargs:""src\GeneticSharp.Domain.UnitTests\bin\$env:CONFIGURATION\GeneticSharp.Domain.UnitTests.dll","src\GeneticSharp.Extensions.UnitTests\bin\$env:CONFIGURATION\GeneticSharp.Extensions.UnitTests.dll","src\GeneticSharp.Infrastructure.Framework.UnitTests\bin\$env:CONFIGURATION\GeneticSharp.Infrastructure.Framework.UnitTests.dll","src\GeneticSharp.Infrastructure.Threading.UnitTests\bin\$env:CONFIGURATION\GeneticSharp.Infrastructure.Threading.UnitTests.dll"" " -filter:"+[GeneticSharp.Domain]* +[GeneticSharp.Extensions]* +[GeneticSharp.Infrastructure.Framework]* +[GeneticSharp.Infrastructure.Threading]*" -output:opencoverCoverage.xml
 
 
 
-    .\src\packages\coveralls.net.0.6.0\tools\csmacnz.Coveralls.exe --opencover -i opencoverCoverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_JOB_ID
+    .\src\packages\coveralls.net.0.7.0\tools\csmacnz.Coveralls.exe --opencover -i opencoverCoverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_JOB_ID
 artifacts:
   - path: .\tools\fxcop-report.xml
     name: FxCop-Report  
