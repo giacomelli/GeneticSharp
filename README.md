@@ -23,7 +23,7 @@ Can be used in any kind of .NET apps, like ASP .NET MVC, Web Forms, Windows Form
 
 ## Projects and papers using GeneticSharp
 * [AeroVision: aircraft trajectories optimization and visualization](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/AeroVision-Aircraft-trajectories-optimization-and-visualization.pdf)
-* [Context-Sensitive Code Completion: improving predictions with genetic algorithms](https://github.com/giacomelli/GeneticSharp/blob/master/docs/Context-Sensitive-Code-Completion-improving-predictions-with-genetic-algorithms.pdf) ([paper](https://github.com/giacomelli/GeneticSharp/blob/master/docs/Context-Sensitive-Code-Completion-improving-predictions-with-genetic-algorithms.pdf)) ([Github](https://github.com/godtopus/GeneCSCC))
+* [Context-Sensitive Code Completion: improving predictions with genetic algorithms](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Context-Sensitive-Code-Completion-improving-predictions-with-genetic-algorithms.pdf) ([paper](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Context-Sensitive-Code-Completion-improving-predictions-with-genetic-algorithms.pdf)) ([Github](https://github.com/godtopus/GeneCSCC))
 * [Designing and creating a self managing distributed file system](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Designing-and-creating-a-self-managing-distributed-file-system.pdf)
 * [Path Finding with Genetic Algorithms](https://yoloprogramming.com/post/2017/01/11/path-finding-with-genetic-algorithms)
 * [SurvivorAI: some experiments of survival scenarios](https://github.com/giacomelli/SurvivorAI)
