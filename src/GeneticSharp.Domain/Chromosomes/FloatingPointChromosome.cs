@@ -12,9 +12,10 @@ namespace GeneticSharp.Domain.Chromosomes
 	/// </summary>
 	public class FloatingPointChromosome : BinaryChromosomeBase
 	{
-		private double m_minValue;
-		private double m_maxValue;
-		private int m_decimals;
+		private double[] m_minValue;
+		private double[] m_maxValue;
+		private int[] m_totalBits;
+		private int[] m_fractionBits;
 		private string m_originalValueStringRepresentation;
 
 		/// <summary>
@@ -22,17 +23,37 @@ namespace GeneticSharp.Domain.Chromosomes
 		/// </summary>
 		/// <param name="minValue">Minimum value.</param>
 		/// <param name="maxValue">Max value.</param>
-		/// <param name="decimals">Decimals.</param>
-		public FloatingPointChromosome (double minValue, double maxValue, int decimals) 
-			: base(32)
+		/// <param name="fractionBits">Decimals.</param>
+		public FloatingPointChromosome (double minValue, double maxValue, int fractionBits) 
+			: this(new double[] { minValue }, new double[] { maxValue }, new int[] { 32 }, new int[] { fractionBits })
+		{
+		}
+
+		// TODO: should we call as decimals or fractionbits?
+		public FloatingPointChromosome(double[] minValue, double[] maxValue, int[] totalBits, int[] fractionBits)
+			: base(totalBits.Sum())
 		{
 			m_minValue = minValue;
 			m_maxValue = maxValue;
-			m_decimals = decimals;
-			var originalValue = RandomizationProvider.Current.GetDouble (minValue, maxValue);
-			m_originalValueStringRepresentation = BinaryStringRepresentation.ToRepresentation (originalValue, Length, decimals);
+			m_totalBits = totalBits;
+			m_fractionBits = fractionBits;
 
-			CreateGenes ();
+			var originalValues = new double[minValue.Length];
+			var rnd = RandomizationProvider.Current;
+
+			for (int i = 0; i < originalValues.Length; i++)
+			{
+				originalValues[i] = rnd.GetDouble(minValue[i], maxValue[i]);
+			}
+
+			m_originalValueStringRepresentation = String.Join(
+				"", 
+				BinaryStringRepresentation.ToRepresentation(
+				originalValues, 
+				totalBits,
+					fractionBits));
+
+			CreateGenes();
 		}
 
 		/// <summary>
@@ -41,7 +62,7 @@ namespace GeneticSharp.Domain.Chromosomes
 		/// <returns>The new.</returns>
 		public override IChromosome CreateNew ()
 		{
-			return new FloatingPointChromosome (m_minValue, m_maxValue, m_decimals);
+			return new FloatingPointChromosome (m_minValue, m_maxValue, m_totalBits, m_fractionBits);
 		}
 
 		/// <summary>
@@ -60,8 +81,17 @@ namespace GeneticSharp.Domain.Chromosomes
 		/// <returns>The floating point.</returns>
 		public double ToFloatingPoint()
 		{
-			var stringRepresentation = String.Join ("", GetGenes ().Select (g => g.Value.ToString ()).ToArray());
-			return BinaryStringRepresentation.ToDouble (stringRepresentation);
+			return BinaryStringRepresentation.ToDouble (ToString());
+		}
+
+		public double[] ToFloatingPoints()
+		{
+			return BinaryStringRepresentation.ToDouble(ToString(), m_totalBits, m_fractionBits);
+		}
+
+		public override string ToString()
+		{
+			return String.Join("", GetGenes().Select(g => g.Value.ToString()).ToArray());
 		}
 	}
 }

@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Mutations;
+using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Runner.GtkApp.Samples;
 using Gtk;
@@ -20,25 +22,63 @@ namespace GeneticSharp.Runner.GtkApp
 	{
 		private FloatingPointChromosome m_bestChromosome;
 		private List<KeyValuePair<double, double>> m_positions;
-		private ComboBox m_cmbPlotType;  		#region implemented abstract members of SampleControllerBase  		/// <summary> 		/// Creates the config widget. 		/// </summary> 		/// <returns>The config widget.</returns> 		public override Gtk.Widget CreateConfigWidget() 		{
-			var container = new VBox(); 			var label = new Label("Plot"); 			container.Add(label);  			m_cmbPlotType = new ComboBox(new string[] { "generation, fitness", "x, y" }); 			m_cmbPlotType.Active = 0; 			container.Add(m_cmbPlotType);  			return container; 		} 
+		private ComboBox m_cmbPlotType;
+		private IRandomization m_rnd = RandomizationProvider.Current;
+
+		#region implemented abstract members of SampleControllerBase
+
+		/// <summary>
+		/// Creates the config widget.
+		/// </summary>
+		/// <returns>The config widget.</returns>
+		public override Gtk.Widget CreateConfigWidget()
+		{
+			var container = new VBox();
+			var label = new Label("Plot");
+			container.Add(label);
+
+			m_cmbPlotType = new ComboBox(new string[] { "generation, fitness", "x, y" });
+			m_cmbPlotType.Active = 0;
+			container.Add(m_cmbPlotType);
+
+			return container;
+		}
+
 
 		public override IFitness CreateFitness()
 		{
 			return new FuncFitness((chromosome) =>
 			{
 				var c = chromosome as FloatingPointChromosome;
-				var x = c.ToFloatingPoint();
+				//var x = c.ToFloatingPoint();
 
 				// GRAMACY & LEE (2012) FUNCTION
 				// http://www.sfu.ca/~ssurjano/grlee12.html
-				return (Math.Sin(10.0 * Math.PI * x) / (2.0 * x)) + Math.Pow((x - 1.0), 4);
+				//return (Math.Sin(10.0 * Math.PI * x) / (2.0 * x)) + Math.Pow((x - 1.0), 4);
+
+				var values = c.ToFloatingPoints();
+				var x1 = values[0];
+				var y1 = values[1];
+				var x2 = values[2];
+				var y2 = values[3];
+
+				// Distance formula
+				return Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));
 			});
 		}
 
 		public override IChromosome CreateChromosome()
 		{
-			return new FloatingPointChromosome(0.5, 2.5, 2);
+			var w = Context.DrawingArea.Size.Width;
+			var h = Context.DrawingArea.Size.Height;
+
+			return new FloatingPointChromosome(
+				new double[] { 0, 0, 0, 0 },
+				new double[] { w, h, w, h },
+				new int[] { 8, 8, 8, 8 },
+				new int[] { 0, 0, 0, 0 });
+			
+			//return new FloatingPointChromosome(0.5, 0.5, 2);
 		}
 
 		public override ICrossover CreateCrossover()
@@ -58,6 +98,7 @@ namespace GeneticSharp.Runner.GtkApp
 
 		public override void ConfigGA(GeneticSharp.Domain.GeneticAlgorithm ga)
 		{
+			var cultureInfo = new CultureInfo("pt-BR");
 			Context.GA.GenerationRan += (object sender, EventArgs e) =>
 			{
 				m_bestChromosome = Context.GA.BestChromosome as FloatingPointChromosome;
@@ -70,7 +111,7 @@ namespace GeneticSharp.Runner.GtkApp
 						var y = m_bestChromosome.Fitness.Value;
 
 						m_positions.Add(new KeyValuePair<double, double>(x, y));
-						Console.WriteLine("{0}\t{1}", x, y);
+						Console.WriteLine(String.Format(cultureInfo, "{0:N2}\t{1:N2}", x, y));
 					}
 				}
 			};

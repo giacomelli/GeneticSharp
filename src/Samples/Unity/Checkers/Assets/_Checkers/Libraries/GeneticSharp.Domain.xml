@@ -3104,7 +3104,7 @@
              </summary>
              <param name="minValue">Minimum value.</param>
              <param name="maxValue">Max value.</param>
-             <param name="decimals">Decimals.</param>
+             <param name="fractionBits">Decimals.</param>
             </member>
         <member name="M:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome.CreateNew">
              <summary>
