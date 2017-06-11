@@ -65,6 +65,9 @@
     <Compile Include="Threading\LinearTaskExecutor.cs" />
     <Compile Include="Threading\TaskExecutorBase.cs" />
     <Compile Include="Commons\BinaryStringRepresentation.cs" />
+    <Compile Include="..\GeneticSharp.Domain\Properties\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="GeneticSharp.snk" />

@@ -5,15 +5,6 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("GeneticSharp.Domain")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Skahal Studios")]
-[assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("(c) Skahal Studios, http://skahal.com")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-
-[assembly: AssemblyVersion("1.0.*")]
-
 [assembly: CLSCompliant(false)]
 [assembly: ComVisible(false)]
 

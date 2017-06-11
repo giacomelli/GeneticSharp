@@ -82,6 +82,9 @@
     <Compile Include="Mathematic\EquationChromosome.cs" />
     <Compile Include="Drawing\BitmapChromosome.cs" />
     <Compile Include="Drawing\BitmapEqualityFitness.cs" />
+    <Compile Include="..\GeneticSharp.Domain\Properties\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj">

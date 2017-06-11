@@ -125,6 +125,7 @@
     <Compile Include="Fitnesses\FuncFitness.cs" />
     <Compile Include="Chromosomes\IntegerChromosome.cs" />
     <Compile Include="Chromosomes\FloatingPointChromosome.cs" />
+    <Compile Include="Properties\SolutionInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
