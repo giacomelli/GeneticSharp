@@ -32,7 +32,9 @@ Can be used in any kind of .NET apps, like ASP .NET MVC, Web Forms, Windows Form
 ## Features
 
 ### [Chromosomes](src/GeneticSharp.Domain/Chromosomes)
-Add your own chromosome representation implementing [IChromosome](src/GeneticSharp.Domain/Chromosomes/IChromosome.cs) interface or extending [ChromosomeBase](src/GeneticSharp.Domain/Chromosomes/ChromosomeBase.cs)   
+  - [FloatingPointChromosome](src/GeneticSharp.Domain/Chromosomes/FloatingPointChromosome.cs)
+  - [IntegerChromosome](src/GeneticSharp.Domain/Chromosomes/IntegerChromosome.cs)
+  - Add your own chromosome representation implementing [IChromosome](src/GeneticSharp.Domain/Chromosomes/IChromosome.cs) / [IBinaryChromosome](src/GeneticSharp.Domain/Chromosomes/IBinaryChromosome.cs) interfaces or extending [ChromosomeBase](src/GeneticSharp.Domain/Chromosomes/ChromosomeBase.cs) / [BinaryChromosomeBase](src/GeneticSharp.Domain/Chromosomes/BinaryChromosomeBase.cs).
    
 ### [Fitness](src/GeneticSharp.Domain/Fitnesses)
 Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain/Fitnesses/IFitness.cs) interface.
@@ -64,6 +66,7 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
    - Others crossovers can be added implementing [ICrossover](src/GeneticSharp.Domain/Crossovers/ICrossover.cs) interface or extending [CrossoverBase](src/GeneticSharp.Domain/Crossovers/CrossoverBase.cs).   
 
 ### [Mutations](src/GeneticSharp.Domain/Mutations)
+   - [Flip Bit](src/GeneticSharp.Domain/Mutations/FlipBitMutation.cs)
    - [Reverse Sequence (RSM)](src/GeneticSharp.Domain/Mutations/ReverseSequenceMutation.cs)
    - [Twors](src/GeneticSharp.Domain/Mutations/TworsMutation.cs)
    - [Uniform](src/GeneticSharp.Domain/Mutations/UniformMutation.cs)
@@ -96,14 +99,17 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
 - Equation solver
 - Function builder
 
- 	![](docs/gifs/GeneticSharp-ConsoleApp-EquationSolver-FunctionBuilder.gif)
+![](docs/gifs/GeneticSharp-ConsoleApp-EquationSolver-FunctionBuilder.gif)
 - Ghostwriter
 - TSP (Travelling Salesman Problem)
  	
 ### [Runner app (GTK#)](src/GeneticSharp.Runner.GtkApp) with visual samples:
 
-#### TSP (Travelling Salesman Problem).
+#### TSP (Travelling Salesman Problem)
 ![](docs/screenshots/GtkApp.Samples.TSP.Win.png)
+
+#### Function optimization
+![](docs/screenshots/GtkApp.Samples.FunctionOptimization.OSX.png)
  
 #### Bitmap equality
 ![](docs/gifs/GeneticSharp-BitmapEquality_sample01.gif) 
@@ -213,7 +219,6 @@ Roadmap
    - Precedence Preservative Crossover (PPX)
  - Add new mutations
    - Non-Uniform
-   - Flip Bit
    - Boundary
    - Gaussian 
  - Add new terminations

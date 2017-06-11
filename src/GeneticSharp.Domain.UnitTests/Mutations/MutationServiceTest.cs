@@ -14,10 +14,11 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         {
             var actual = MutationService.GetMutationTypes();
 
-            Assert.AreEqual(3, actual.Count);
-            Assert.AreEqual(typeof(ReverseSequenceMutation), actual[0]);
-            Assert.AreEqual(typeof(TworsMutation), actual[1]);
-            Assert.AreEqual(typeof(UniformMutation), actual[2]);
+            Assert.AreEqual(4, actual.Count);
+			Assert.AreEqual(typeof(FlipBitMutation), actual[0]);
+            Assert.AreEqual(typeof(ReverseSequenceMutation), actual[1]);
+            Assert.AreEqual(typeof(TworsMutation), actual[2]);
+            Assert.AreEqual(typeof(UniformMutation), actual[3]);
         }
 
         [Test()]
@@ -25,10 +26,11 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         {
             var actual = MutationService.GetMutationNames();
 
-            Assert.AreEqual(3, actual.Count);
-            Assert.AreEqual("Reverse Sequence (RSM)", actual[0]);
-            Assert.AreEqual("Twors", actual[1]);
-            Assert.AreEqual("Uniform", actual[2]);
+            Assert.AreEqual(4, actual.Count);
+			Assert.AreEqual("Flip Bit", actual[0]);
+            Assert.AreEqual("Reverse Sequence (RSM)", actual[1]);
+            Assert.AreEqual("Twors", actual[2]);
+            Assert.AreEqual("Uniform", actual[3]);
         }
 
         [Test()]

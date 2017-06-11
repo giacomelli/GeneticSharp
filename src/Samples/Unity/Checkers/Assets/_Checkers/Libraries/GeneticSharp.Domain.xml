@@ -2979,5 +2979,172 @@
              The child.
              </returns>
             </member>
+        <member name="T:GeneticSharp.Domain.Chromosomes.IBinaryChromosome">
+             <summary>
+             Defines a interface of a binary chromosome of 0 and 1 genes.
+             </summary>
+            </member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.IBinaryChromosome.FlipGene(System.Int32)">
+             <summary>
+             Flips the gene.
+             </summary>
+             <remarks>&gt;
+             If gene's value is 0, the it will be flip to 1 and vice-versa.
+             </remarks>
+             <param name="index">The gene index.</param>
+            </member>
+        <member name="T:GeneticSharp.Domain.Chromosomes.BinaryChromosomeBase">
+             <summary>
+             A base class for binary chromosome of 0 and 1 genes.
+             </summary>
+            </member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.BinaryChromosomeBase.#ctor(System.Int32)">
+             <summary>
+             Initializes a new instance of the <see cref="T:GeneticSharp.Domain.Chromosomes.BinaryChromosomeBase" /> class.
+             </summary>
+             <param name="length">The length, in genes, of the chromosome.</param>
+            </member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.BinaryChromosomeBase.FlipGene(System.Int32)">
+             <summary>
+             Flips the gene.
+             </summary>
+             <remarks>&gt;
+             If gene's value is 0, the it will be flip to 1 and vice-versa.</remarks>
+             <param name="index">The gene index.</param>
+            </member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.BinaryChromosomeBase.GenerateGene(System.Int32)">
+             <summary>
+             Generates the gene for the specified index.
+             </summary>
+             <returns>The gene.</returns>
+             <param name="geneIndex">Gene index.</param>
+            </member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.BinaryChromosomeBase.ToString">
+             <summary>
+             Returns a <see cref="T:System.String" /> that represents the current <see cref="T:GeneticSharp.Domain.Chromosomes.BinaryChromosomeBase" />.
+             </summary>
+             <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:GeneticSharp.Domain.Chromosomes.BinaryChromosomeBase" />.</returns>
+            </member>
+        <member name="T:GeneticSharp.Domain.Mutations.FlipBitMutation">
+             <summary>
+             Takes the chosen genome and inverts the bits (i.e. if the genome bit is 1, it is changed to 0 and vice versa).
+             </summary>
+             <remarks>
+             When using this mutation the genetic algorithm should use IBinaryChromosome.
+             </remarks>
+            </member>
+        <member name="M:GeneticSharp.Domain.Mutations.FlipBitMutation.#ctor">
+             <summary>
+             Initializes a new instance of the <see cref="T:GeneticSharp.Domain.Mutations.FlipBitMutation" /> class.
+             </summary>
+            </member>
+        <member name="M:GeneticSharp.Domain.Mutations.FlipBitMutation.PerformMutate(GeneticSharp.Domain.Chromosomes.IChromosome,System.Single)">
+             <summary>
+             Mutate the specified chromosome.
+             </summary>
+             <param name="chromosome">The chromosome.</param>
+             <param name="probability">The probability to mutate each chromosome.</param>
+            </member>
+        <member name="T:GeneticSharp.Domain.Fitnesses.FuncFitness">
+             <summary>
+             An IFitness implementation that defer the fitness evaluation to a Func.
+             </summary>
+            </member>
+        <member name="M:GeneticSharp.Domain.Fitnesses.FuncFitness.#ctor(System.Func{GeneticSharp.Domain.Chromosomes.IChromosome,System.Double})">
+             <summary>
+             Initializes a new instance of the <see cref="T:GeneticSharp.Domain.Fitnesses.FuncFitness" /> class.
+             </summary>
+             <param name="func">The fitness evaluation Func.</param>
+            </member>
+        <member name="M:GeneticSharp.Domain.Fitnesses.FuncFitness.Evaluate(GeneticSharp.Domain.Chromosomes.IChromosome)">
+             <summary>
+             Evaluate the specified chromosome.
+             </summary>
+             <param name="chromosome">Chromosome.</param>
+            </member>
+        <member name="T:GeneticSharp.Domain.Chromosomes.IntegerChromosome">
+             <summary>
+             Integer chromosome with binary values (0 and 1).
+             </summary>
+            </member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.IntegerChromosome.#ctor(System.Int32,System.Int32)">
+             <summary>
+             Initializes a new instance of the <see cref="T:GeneticSharp.Domain.Chromosomes.IntegerChromosome" /> class.
+             </summary>
+             <param name="minValue">Minimum value.</param>
+             <param name="maxValue">Maximum value.</param>
+            </member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.IntegerChromosome.GenerateGene(System.Int32)">
+             <summary>
+             Generates the gene.
+             </summary>
+             <returns>The gene.</returns>
+             <param name="geneIndex">Gene index.</param>
+            </member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.IntegerChromosome.CreateNew">
+             <summary>
+             Creates the new.
+             </summary>
+             <returns>The new.</returns>
+            </member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.IntegerChromosome.ToInteger">
+             <summary>
+             Converts the chromosome to its integer representation.
+             </summary>
+             <returns>The integer.</returns>
+            </member>
+        <member name="T:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome">
+             <summary>
+             Floating point chromosome with binary values (0 and 1).
+             </summary>
+            </member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome.#ctor(System.Double,System.Double,System.Int32)">
+             <summary>
+             Initializes a new instance of the <see cref="T:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome" /> class.
+             </summary>
+             <param name="minValue">Minimum value.</param>
+             <param name="maxValue">Max value.</param>
+             <param name="fractionBits">Decimals.</param>
+            </member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome.#ctor(System.Double[],System.Double[],System.Int32[],System.Int32[])">
+             <summary>
+             Initializes a new instance of the <see cref="T:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome" /> class.
+             </summary>
+             <param name="minValue">Minimum value.</param>
+             <param name="maxValue">Max value.</param>
+             <param name="totalBits">Total bits.</param>
+             <param name="fractionBits">Fraction bits.</param>
+            </member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome.CreateNew">
+             <summary>
+             Creates the new.
+             </summary>
+             <returns>The new.</returns>
+            </member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome.GenerateGene(System.Int32)">
+             <summary>
+             Generates the gene.
+             </summary>
+             <returns>The gene.</returns>
+             <param name="geneIndex">Gene index.</param>
+            </member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome.ToFloatingPoint">
+             <summary>
+             Converts the chromosome to the floating point representation.
+             </summary>
+             <returns>The floating point.</returns>
+            </member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome.ToFloatingPoints">
+             <summary>
+             Converts the chromosome to the floating points representation.
+             </summary>
+             <returns>The floating points.</returns>
+            </member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome.ToString">
+             <summary>
+             Returns a <see cref="T:System.String" /> that represents the current <see cref="T:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome" />.
+             </summary>
+             <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome" />.</returns>
+            </member>
     </members>
 </doc>

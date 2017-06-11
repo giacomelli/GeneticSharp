@@ -17,7 +17,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
             {
                 try
                 {
-                    MockRepository.GenerateMock<ChromosomeBase>(1);
+					MockRepository.GenerateStub<ChromosomeBase>(1);
                 }
                 catch (Exception ex)
                 {
@@ -29,10 +29,10 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         [Test]
         public void CompareTo_Others_DiffResults()
         {
-            var target = MockRepository.GenerateMock<ChromosomeBase>(2);
+			var target = MockRepository.GenerateStub<ChromosomeBase>(2);
             target.Fitness = 0.5;
 
-            var other = MockRepository.GenerateMock<ChromosomeBase>(2);
+			var other = MockRepository.GenerateStub<ChromosomeBase>(2);
             other.Fitness = 0.5;
 
             Assert.AreEqual(-1, target.CompareTo(null));
@@ -177,7 +177,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         [Test]
         public void Resize_InvalidLength_Exception()
         {
-            var target = MockRepository.GenerateMock<ChromosomeBase>(2);
+			var target = MockRepository.GenerateStub<ChromosomeBase>(2);
 
             ExceptionAssert.IsThrowing(new ArgumentException("The minimum length for a chromosome is 2 genes."), () =>
             {
@@ -188,7 +188,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         [Test]
         public void Resize_ToLowerLength_TruncateGenes()
         {
-            var target = MockRepository.GenerateMock<ChromosomeBase>(4);
+			var target = MockRepository.GenerateStub<ChromosomeBase>(4);
             target.ReplaceGenes(0, new Gene[]
             {
                 new Gene(1),
@@ -206,7 +206,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         [Test]
         public void Resize_ToGreaterLength_KeepOldGenesAndNullValueNewOnes()
         {
-            var target = MockRepository.GenerateMock<ChromosomeBase>(2);
+			var target = MockRepository.GenerateStub<ChromosomeBase>(2);
             target.ReplaceGenes(0, new Gene[]
             {
                 new Gene(1),

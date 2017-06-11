@@ -66,7 +66,7 @@ public partial class MainWindow : Gtk.Window
         PrepareComboBoxes();
         PrepareSamples();
 
-        cmbSample.Active = 0;
+        cmbSample.Active = 2;
         hslCrossoverProbability.Value = GeneticAlgorithm.DefaultCrossoverProbability;
         hslMutationProbability.Value = GeneticAlgorithm.DefaultMutationProbability;
 
@@ -133,6 +133,7 @@ public partial class MainWindow : Gtk.Window
                 });
             };
 
+			m_sampleController.ConfigGA(m_ga);
             m_ga.Start();
         });
     }
@@ -165,11 +166,24 @@ public partial class MainWindow : Gtk.Window
         {
             Application.Invoke(delegate
             {
-                var msg = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.YesNo, "{0}\n\nDo you want to see more details about this error?", ex.Message);
+                var msg = new MessageDialog(
+					this, 
+					DialogFlags.Modal, 
+					MessageType.Error, 
+					ButtonsType.YesNo, 
+					"{0}\n\nDo you want to see more details about this error?", 
+					ex.Message);
 
                 if (msg.Run() == (int)ResponseType.Yes)
                 {
-                    var details = new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, ex.StackTrace);
+				    var details = new MessageDialog(
+						this, 
+						DialogFlags.Modal, 
+						MessageType.Info, 
+						ButtonsType.Ok,
+						"StackTrace");
+
+					details.SecondaryText = ex.StackTrace;
                     details.Run();
                     details.Destroy();
                 }
@@ -374,7 +388,7 @@ public partial class MainWindow : Gtk.Window
             (i) => m_termination = i);
 
         PrepareEditComboBox(
-            cmbReinsertion,
+            cmbTermination1,
             btnEditReinsertion,
             ReinsertionService.GetReinsertionNames,
             ReinsertionService.GetReinsertionTypeByName,

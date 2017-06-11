@@ -10,6 +10,8 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,7 +24,6 @@
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRuleSet>GeneticSharp.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\Debug\GeneticSharp.Domain.xml</DocumentationFile>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -39,7 +40,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
     <Reference Include="HelperSharp, Version=1.0.5560.27038, Culture=neutral, PublicKeyToken=3d44152485e1a4e1">
       <HintPath>..\packages\HelperSharp.0.0.4.2\lib\net35\HelperSharp.dll</HintPath>
     </Reference>
@@ -118,6 +118,12 @@
     <Compile Include="Populations\IPopulation.cs" />
     <Compile Include="Crossovers\OrderBasedCrossover.cs" />
     <Compile Include="Crossovers\PositionBasedCrossover.cs" />
+    <Compile Include="Chromosomes\IBinaryChromosome.cs" />
+    <Compile Include="Chromosomes\BinaryChromosomeBase.cs" />
+    <Compile Include="Mutations\FlipBitMutation.cs" />
+    <Compile Include="Fitnesses\FuncFitness.cs" />
+    <Compile Include="Chromosomes\IntegerChromosome.cs" />
+    <Compile Include="Chromosomes\FloatingPointChromosome.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -144,13 +150,13 @@
     <None Include="Selections\Selection.cd" />
     <None Include="Terminations\Terminations.cd" />
   </ItemGroup>
+  <Import Project="..\msbuilds\GeneticSharp.Domain.targets" />
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj">
       <Project>{1498D792-D02B-4A9E-8AFC-24AEBA0DEE54}</Project>
       <Name>GeneticSharp.Infrastructure.Framework</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="..\msbuilds\GeneticSharp.Domain.targets" />
-  <ItemGroup />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>

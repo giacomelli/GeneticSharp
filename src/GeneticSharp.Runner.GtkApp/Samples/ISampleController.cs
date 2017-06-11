@@ -6,6 +6,7 @@ using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 using Gtk;
+using GeneticSharp.Domain;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
 {
@@ -71,6 +72,12 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         /// </summary>
         /// <returns>The termination.</returns>
         ITermination CreateTermination();
+
+		/// <summary>
+		/// Configure the Genetic Algorithm.
+		/// </summary>
+		/// <param name="ga">The genetic algorithm.</param>
+		void ConfigGA(GeneticAlgorithm ga);
 
         /// <summary>
         /// Resets the sample.
