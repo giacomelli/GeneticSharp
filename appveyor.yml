@@ -2,6 +2,7 @@ version: 1.0.{build}
 os: Visual Studio 2015
 configuration: Debug
 environment:
+  clone_folder: c:\gs
   COVERALLS_REPO_TOKEN:
     secure: O/w+gFTqDriJlktWz0p4xJbT0RnDfj8NZsVAShy54prPmxKEBDBGKwt8S4heGOcq
   GITHUB_REPO_TOKEN:
