@@ -162,12 +162,28 @@
              <param name="value">Value.</param>
              <param name="totalBits">Total bits.</param>
             </member>
+        <member name="M:GeneticSharp.Infrastructure.Framework.Commons.BinaryStringRepresentation.ToRepresentation(System.Int64[],System.Int32[])">
+             <summary>
+             Converts the long values to the binary string representations.
+             </summary>
+             <returns>The representation.</returns>
+             <param name="values">Values.</param>
+             <param name="totalBits">Total bits.</param>
+            </member>
         <member name="M:GeneticSharp.Infrastructure.Framework.Commons.BinaryStringRepresentation.ToInt64(System.String)">
              <summary>
              Converts from string representation to Int64.
              </summary>
              <returns>The int64.</returns>
              <param name="representation">Representation.</param>
+            </member>
+        <member name="M:GeneticSharp.Infrastructure.Framework.Commons.BinaryStringRepresentation.ToInt64(System.String,System.Int32[])">
+             <summary>
+             Converts from string representation to Int64[].
+             </summary>
+             <returns>The int64.</returns>
+             <param name="representation">Representation.</param>
+             <param name="totalBits">Total bits.</param>
             </member>
         <member name="M:GeneticSharp.Infrastructure.Framework.Commons.BinaryStringRepresentation.ToRepresentation(System.Double,System.Int32,System.Int32)">
              <summary>
@@ -178,12 +194,30 @@
              <param name="totalBits">Total bits.</param>
              <param name="fractionBits">Fraction (scale) bits.</param>
             </member>
+        <member name="M:GeneticSharp.Infrastructure.Framework.Commons.BinaryStringRepresentation.ToRepresentation(System.Double[],System.Int32[],System.Int32[])">
+             <summary>
+             Converts from doubles to strings representation .
+             </summary>
+             <returns>The representations.</returns>
+             <param name="values">The values..</param>
+             <param name="totalBits">The total bits.</param>
+             <param name="fractionBits">The fraction (scale) bits.</param>
+            </member>
         <member name="M:GeneticSharp.Infrastructure.Framework.Commons.BinaryStringRepresentation.ToDouble(System.String,System.Int32)">
              <summary>
-             Converts from string representation to dooubl.
+             Converts from string representation to double.
              </summary>
              <returns>The double.</returns>
              <param name="representation">Representation.</param>
+             <param name="fractionBits">Fraction (scale) bits.</param>
+            </member>
+        <member name="M:GeneticSharp.Infrastructure.Framework.Commons.BinaryStringRepresentation.ToDouble(System.String,System.Int32[],System.Int32[])">
+             <summary>
+             Converts from string representation to doubles.
+             </summary>
+             <returns>The double.</returns>
+             <param name="representation">Representation.</param>
+             <param name="totalBits">Total bits.</param>
              <param name="fractionBits">Fraction (scale) bits.</param>
             </member>
     </members>

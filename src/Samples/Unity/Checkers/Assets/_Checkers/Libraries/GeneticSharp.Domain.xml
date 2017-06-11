@@ -3106,6 +3106,15 @@
              <param name="maxValue">Max value.</param>
              <param name="fractionBits">Decimals.</param>
             </member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome.#ctor(System.Double[],System.Double[],System.Int32[],System.Int32[])">
+             <summary>
+             Initializes a new instance of the <see cref="T:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome" /> class.
+             </summary>
+             <param name="minValue">Minimum value.</param>
+             <param name="maxValue">Max value.</param>
+             <param name="totalBits">Total bits.</param>
+             <param name="fractionBits">Fraction bits.</param>
+            </member>
         <member name="M:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome.CreateNew">
              <summary>
              Creates the new.
@@ -3124,6 +3133,18 @@
              Converts the chromosome to the floating point representation.
              </summary>
              <returns>The floating point.</returns>
+            </member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome.ToFloatingPoints">
+             <summary>
+             Converts the chromosome to the floating points representation.
+             </summary>
+             <returns>The floating points.</returns>
+            </member>
+        <member name="M:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome.ToString">
+             <summary>
+             Returns a <see cref="T:System.String" /> that represents the current <see cref="T:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome" />.
+             </summary>
+             <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome" />.</returns>
             </member>
     </members>
 </doc>
