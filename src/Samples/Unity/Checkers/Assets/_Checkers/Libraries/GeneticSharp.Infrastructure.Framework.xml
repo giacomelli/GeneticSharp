@@ -162,6 +162,15 @@
              <param name="value">Value.</param>
              <param name="totalBits">Total bits.</param>
             </member>
+        <member name="M:GeneticSharp.Infrastructure.Framework.Commons.BinaryStringRepresentation.ToRepresentation(System.Int64,System.Int32,System.Boolean)">
+             <summary>
+             Converts the long value to the binary string representation.
+             </summary>
+             <returns>The representation.</returns>
+             <param name="value">Value.</param>
+             <param name="totalBits">Total bits.</param>
+             <param name="throwsException">If should throws an exception when the total bits is lower than needed by the value.</param>
+            </member>
         <member name="M:GeneticSharp.Infrastructure.Framework.Commons.BinaryStringRepresentation.ToRepresentation(System.Int64[],System.Int32[])">
              <summary>
              Converts the long values to the binary string representations.
