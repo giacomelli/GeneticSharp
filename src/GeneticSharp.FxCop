@@ -22,12 +22,12 @@
  </ProjectOptions>
  <Targets>
   <AssemblyReferenceDirectories>
-   <Directory>$(ProjectDir)/GeneticSharp.Runner/bin/Debug/</Directory>
+   <Directory>$(ProjectDir)/GeneticSharp.Runner/bin/Release/</Directory>
   </AssemblyReferenceDirectories>
-  <Target Name="$(ProjectDir)/GeneticSharp.Domain/bin/Debug/GeneticSharp.Domain.dll" Analyze="True" AnalyzeAllChildren="True" />
-  <Target Name="$(ProjectDir)/GeneticSharp.Extensions/bin/Debug/GeneticSharp.Extensions.dll" Analyze="True" AnalyzeAllChildren="True" />
-  <Target Name="$(ProjectDir)/GeneticSharp.Infrastructure.Framework/bin/Debug/GeneticSharp.Infrastructure.Framework.dll" Analyze="True" AnalyzeAllChildren="True" />
-  <Target Name="$(ProjectDir)/GeneticSharp.Infrastructure.Threading/bin/Debug/GeneticSharp.Infrastructure.Threading.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="$(ProjectDir)/GeneticSharp.Domain/bin/Release/GeneticSharp.Domain.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="$(ProjectDir)/GeneticSharp.Extensions/bin/Release/GeneticSharp.Extensions.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="$(ProjectDir)/GeneticSharp.Infrastructure.Framework/bin/Release/GeneticSharp.Infrastructure.Framework.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="$(ProjectDir)/GeneticSharp.Infrastructure.Threading/bin/Release/GeneticSharp.Infrastructure.Threading.dll" Analyze="True" AnalyzeAllChildren="True" />
  </Targets>
  <Rules>
   <RuleFiles>
