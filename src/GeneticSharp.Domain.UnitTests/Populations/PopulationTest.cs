@@ -2,14 +2,14 @@ using System;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Randomizations;
-using HelperSharp;
+using GeneticSharp.Infrastructure.Framework.Collections;
 using NUnit.Framework;
 using Rhino.Mocks;
 using TestSharp;
 
 namespace GeneticSharp.Domain.UnitTests.Populations
 {
-    [TestFixture()]
+	[TestFixture()]
     [Category("Populations")]
     public class PopulationTest
     {

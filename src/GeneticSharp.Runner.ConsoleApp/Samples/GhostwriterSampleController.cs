@@ -7,14 +7,14 @@ using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Extensions.Ghostwriter;
+using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Threading;
 using GeneticSharp.Runner.ConsoleApp.Samples.Resources;
-using HelperSharp;
 using Newtonsoft.Json;
 
 namespace GeneticSharp.Runner.ConsoleApp.Samples
 {
-    [DisplayName("Ghostwriter")]
+	[DisplayName("Ghostwriter")]
     public class GhostwriterSampleController : SampleControllerBase
     {
         private List<string> m_quotes;

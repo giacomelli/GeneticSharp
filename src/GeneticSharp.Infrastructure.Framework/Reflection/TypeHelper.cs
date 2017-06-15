@@ -4,14 +4,14 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
-using HelperSharp;
+using GeneticSharp.Infrastructure.Framework.Texts;
 
 namespace GeneticSharp.Infrastructure.Framework.Reflection
 {
-    /// <summary>
-    /// Type helper.
-    /// </summary>
-    public static class TypeHelper
+	/// <summary>
+	/// Type helper.
+	/// </summary>
+	public static class TypeHelper
     {
         #region Methods
         /// <summary>

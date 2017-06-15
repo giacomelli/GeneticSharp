@@ -10,8 +10,9 @@ using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.Drawing;
+using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Runner.ConsoleApp.Samples;
-using HelperSharp;
+using GeneticSharp.Infrastructure.Framework.Commons;
 using ImageMagick;
 
 namespace GeneticSharp.Runner.ConsoleApp

@@ -49,9 +49,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="mscorlib" />
-    <Reference Include="HelperSharp, Version=1.0.5560.27038, Culture=neutral, PublicKeyToken=3d44152485e1a4e1">
-      <HintPath>..\packages\HelperSharp.0.0.4.2\lib\net35\HelperSharp.dll</HintPath>
-    </Reference>
     <Reference Include="SmartThreadPool">
       <HintPath>..\packages\SmartThreadPool.dll.2.2.4\lib\net20\SmartThreadPool.dll</HintPath>
     </Reference>
@@ -68,6 +65,9 @@
     <Compile Include="..\GeneticSharp.Domain\Properties\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="Texts\StringExtensions.cs" />
+    <Compile Include="Commons\ExceptionHelper.cs" />
+    <Compile Include="Collections\EnumerableExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GeneticSharp.snk" />
@@ -85,5 +85,7 @@
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <ItemGroup>
     <Folder Include="Commons\" />
+    <Folder Include="Texts\" />
+    <Folder Include="Collections\" />
   </ItemGroup>
 </Project>

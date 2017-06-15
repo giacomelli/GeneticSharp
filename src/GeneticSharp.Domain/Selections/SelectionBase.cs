@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
-using HelperSharp;
+using GeneticSharp.Infrastructure.Framework.Texts;
+using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Domain.Selections
 {

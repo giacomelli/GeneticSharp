@@ -1,14 +1,14 @@
+using System;
 using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
+using GeneticSharp.Infrastructure.Framework.Texts;
 using NUnit.Framework;
 using Rhino.Mocks;
 using TestSharp;
-using System;
-using HelperSharp;
 
 namespace GeneticSharp.Domain.UnitTests.Chromosomes
 {
-    [TestFixture()]
+	[TestFixture()]
     [Category("Chromosomes")]
     public class ChromosomeExtensionsTest
     {

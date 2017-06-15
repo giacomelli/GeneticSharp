@@ -1,14 +1,14 @@
 using System;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
-using HelperSharp;
+using GeneticSharp.Infrastructure.Framework.Texts;
 
 namespace GeneticSharp.Domain.Reinsertions
 {
-    /// <summary>
-    /// Exception throw when an error occurs during the execution of reinsert.
-    /// </summary>
-    [Serializable]
+	/// <summary>
+	/// Exception throw when an error occurs during the execution of reinsert.
+	/// </summary>
+	[Serializable]
     public sealed class ReinsertionException : Exception
     {
         #region Constructors

@@ -1,14 +1,14 @@
 using System;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
-using HelperSharp;
+using GeneticSharp.Infrastructure.Framework.Texts;
 
 namespace GeneticSharp.Domain.Mutations
 {
-    /// <summary>
-    /// Exception throw when an error occurs during the execution of mutate.
-    /// </summary>
-    [Serializable]
+	/// <summary>
+	/// Exception throw when an error occurs during the execution of mutate.
+	/// </summary>
+	[Serializable]
     public sealed class MutationException : Exception
     {
         #region Constructors

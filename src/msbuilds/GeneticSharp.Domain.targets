@@ -2,7 +2,6 @@
     	<ItemGroup>
     		<FilesToCopy Include="..\GeneticSharp.Domain\bin\$(Configuration)\GeneticSharp.Domain.*" />
     		<FilesToCopy Include="..\GeneticSharp.Domain\bin\$(Configuration)\GeneticSharp.Infrastructure.Framework.*" />
-    		<FilesToCopy Include="..\GeneticSharp.Domain\bin\$(Configuration)\HelperSharp.*" />
     		<FilesToCopy Include="..\GeneticSharp.Domain\bin\$(Configuration)\SmartThreadPool.*" />    		
  	</ItemGroup>
  	

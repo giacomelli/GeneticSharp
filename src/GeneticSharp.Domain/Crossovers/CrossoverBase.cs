@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
-using HelperSharp;
+using GeneticSharp.Infrastructure.Framework.Texts;
+using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Domain.Crossovers
 {

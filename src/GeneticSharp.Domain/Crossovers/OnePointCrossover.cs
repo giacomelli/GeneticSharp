@@ -3,36 +3,36 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
-using HelperSharp;
+using GeneticSharp.Infrastructure.Framework.Texts;
 
 namespace GeneticSharp.Domain.Crossovers
 {
-    /// <summary>
-    /// One-Point crossover (C1).
-    /// <remarks>
-    /// A single crossover point on both parents is selected. 
-    /// All data beyond that point in either is swapped between the two parents.    
-    /// <see href="http://en.wikipedia.org/wiki/Crossover_(genetic_algorithm)#One-point_crossover">One-point crossover</see>
-    /// <example>
-    /// Parents: 
-    /// |0|0|0| x |1|1|1|
-    /// Have two swap points indexes: 0 and 1.
-    /// <para>
-    /// 1) 
-    /// new OnePointCrossover(0);
-    /// Children result:
-    /// |0|1|1| and |1|0|0|
-    /// </para>
-    /// <para>
-    /// 2) 
-    /// new OnePointCrossover(1);
-    /// Children result:
-    /// |0|0|1| and |1|1|0|
-    /// </para>
-    /// </example>
-    /// </remarks>
-    /// </summary>
-    [DisplayName("One-Point")]
+	/// <summary>
+	/// One-Point crossover (C1).
+	/// <remarks>
+	/// A single crossover point on both parents is selected. 
+	/// All data beyond that point in either is swapped between the two parents.    
+	/// <see href="http://en.wikipedia.org/wiki/Crossover_(genetic_algorithm)#One-point_crossover">One-point crossover</see>
+	/// <example>
+	/// Parents: 
+	/// |0|0|0| x |1|1|1|
+	/// Have two swap points indexes: 0 and 1.
+	/// <para>
+	/// 1) 
+	/// new OnePointCrossover(0);
+	/// Children result:
+	/// |0|1|1| and |1|0|0|
+	/// </para>
+	/// <para>
+	/// 2) 
+	/// new OnePointCrossover(1);
+	/// Children result:
+	/// |0|0|1| and |1|1|0|
+	/// </para>
+	/// </example>
+	/// </remarks>
+	/// </summary>
+	[DisplayName("One-Point")]
     public class OnePointCrossover : CrossoverBase
     {
         #region Constructors
