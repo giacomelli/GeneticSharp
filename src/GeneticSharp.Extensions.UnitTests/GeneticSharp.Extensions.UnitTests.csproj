@@ -46,6 +46,7 @@
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.3.7.1\lib\net40\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -67,6 +68,9 @@
     <Compile Include="Mathematic\FunctionBuilderTest.cs" />
     <Compile Include="Mathematic\EquationChromosomeTest.cs" />
     <Compile Include="Mathematic\EquationSolverFitnessTest.cs" />
+    <Compile Include="Drawing\BitmapTest.cs" />
+    <Compile Include="Ghostwriter\GhostwriterTest.cs" />
+    <Compile Include="Mathematic\EqualityFitnessTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj">
@@ -101,4 +105,8 @@
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Drawing\" />
+    <Folder Include="Ghostwriter\" />
+  </ItemGroup>
 </Project>

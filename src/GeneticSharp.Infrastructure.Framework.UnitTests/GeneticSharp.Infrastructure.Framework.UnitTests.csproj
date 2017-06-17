@@ -54,6 +54,8 @@
     <Compile Include="Threading\StubTaskExecutor.cs" />
     <Compile Include="Threading\LinearTaskExecutorTest.cs" />
     <Compile Include="Commons\BinaryStringRepresentationTest.cs" />
+    <Compile Include="Commons\ExceptionHelperTest.cs" />
+    <Compile Include="Texts\StringExtensionsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj">
@@ -72,5 +74,6 @@
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <ItemGroup>
     <Folder Include="Commons\" />
+    <Folder Include="Texts\" />
   </ItemGroup>
 </Project>

@@ -92,13 +92,20 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Commons
 		}
 
 		[Test]
-		public void ToRepresentation_DoubleAndTotalBitsLowerThanBitsNeedToRepresentation_Exception()
+		public void ToRepresentation_LongAndTotalBitsLowerThanBitsNeedToRepresentation_Exception()
 		{
-			Assert.Throws<ArgumentException>(() => {
-				BinaryStringRepresentation.ToRepresentation(1000, 9, 0);
+			Assert.Throws<ArgumentException>(() =>
+			{
+				BinaryStringRepresentation.ToRepresentation(1000, 9);
 			}, "The value 1000 needs 10 total bits to be represented.");
 
-			Assert.Throws<ArgumentException>(() => {
+		}
+
+		[Test]
+		public void ToRepresentation_DoubleAndTotalBitsLowerThanBitsNeedToRepresentation_Exception()
+		{
+			Assert.Throws<ArgumentException>(() =>
+			{
 				BinaryStringRepresentation.ToRepresentation(1000.00, 9, 0);
 			}, "The value 1000.00 needs 10 total bits to be represented.");
 		}

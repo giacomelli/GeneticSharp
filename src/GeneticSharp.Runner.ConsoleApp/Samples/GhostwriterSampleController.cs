@@ -49,16 +49,12 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
 
         public override IFitness CreateFitness()
         {
-            var f = new GhostwriterFitness();
-
-            f.EvaluateFunc = (text) =>
+            return new GhostwriterFitness((text) =>
             {
                 var minDistance = m_quotes.Min(q => LevenshteinDistance(q, text));
 
                 return 1 - (minDistance / 100f);
-            };
-
-            return f;
+			});
         }
 
         public override IChromosome CreateChromosome()

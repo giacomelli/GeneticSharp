@@ -364,13 +364,17 @@
              Ghostwriter fitness.
              </summary>
             </member>
-        <member name="P:GeneticSharp.Extensions.Ghostwriter.GhostwriterFitness.EvaluateFunc">
+        <member name="M:GeneticSharp.Extensions.Ghostwriter.GhostwriterFitness.#ctor(System.Func{System.String,System.Double})">
+             <summary>
+             Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Ghostwriter.GhostwriterFitness" /> class.
+             </summary>
+             <param name="evaluateFunc">Evaluate func.</param>
+            </member>
+        <member name="M:GeneticSharp.Extensions.Ghostwriter.GhostwriterFitness.Evaluate(GeneticSharp.Domain.Chromosomes.IChromosome)">
              <summary>
              Gets or sets the evaluate function.
              </summary>
              <value>The evaluate function.</value>
-            </member>
-        <member name="M:GeneticSharp.Extensions.Ghostwriter.GhostwriterFitness.Evaluate(GeneticSharp.Domain.Chromosomes.IChromosome)">
              <summary>
              Performs the evaluation against the specified chromosome.
              </summary>
