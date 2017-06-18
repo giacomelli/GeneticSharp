@@ -36,10 +36,19 @@ namespace GeneticSharp.Extensions.UnitTests.Ghostwriter
             
             var population = new Population(10, 10, chromosome);
             var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
-            ga.Termination = new GenerationNumberTermination(2);
+            ga.Termination = new GenerationNumberTermination(5);
             ga.Start();
 
             Assert.NotNull(ga.BestChromosome);            
         }
+
+		[Test]
+		public void Clone_Chromosome_Cloned()
+		{
+			var target = new GhostwriterChromosome(2, new string[] { "a", "b", "c" });
+			var actual = target.Clone() as GhostwriterChromosome;
+			Assert.AreEqual(2, actual.Length);
+			Assert.AreEqual(target.BuildText(), actual.BuildText());
+		}
     }
 }
