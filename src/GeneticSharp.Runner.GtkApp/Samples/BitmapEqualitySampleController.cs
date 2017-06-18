@@ -8,8 +8,9 @@ using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Extensions.Drawing;
+using GeneticSharp.Infrastructure.Framework.Texts;
 using Gtk;
-using HelperSharp;
+using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
 {

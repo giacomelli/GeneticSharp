@@ -21,7 +21,7 @@ namespace GeneticSharp.Infrastructure.Threading.UnitTests
             });
             target.Add(() =>
             {
-                Thread.Sleep(10);
+                Thread.Sleep(100);
                 pipeline += "2";
             });
             target.Add(() =>
@@ -82,32 +82,34 @@ namespace GeneticSharp.Infrastructure.Threading.UnitTests
         public void Stop_ManyTasks_StopAll()
         {
             var pipeline = "";
-            var target = new SmartThreadPoolTaskExecutor();
-            target.Timeout = TimeSpan.FromMilliseconds(1000);
+			using (var target = new SmartThreadPoolTaskExecutor())
+			{
+				target.Timeout = TimeSpan.FromMilliseconds(1000);
 
-            target.Add(() =>
-            {
-                Thread.Sleep(5);
-                pipeline += "1";
-            });
-            target.Add(() =>
-            {
-                Thread.Sleep(5);
-                pipeline += "2";
-            });
-            target.Add(() =>
-            {
-                Thread.Sleep(5);
-                pipeline += "3";
-            });
+				target.Add(() =>
+				{
+					Thread.Sleep(5);
+					pipeline += "1";
+				});
+				target.Add(() =>
+				{
+					Thread.Sleep(5);
+					pipeline += "2";
+				});
+				target.Add(() =>
+				{
+					Thread.Sleep(5);
+					pipeline += "3";
+				});
 
-            Parallel.Invoke(
-                () => Assert.IsTrue(target.Start()),
-                () =>
-                {
-                    Thread.Sleep(100);
-                    target.Stop();
-                });
+				Parallel.Invoke(
+					() => Assert.IsTrue(target.Start()),
+					() =>
+					{
+						Thread.Sleep(100);
+						target.Stop();
+					});
+			}
         }
 
         [Test()]

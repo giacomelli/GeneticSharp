@@ -92,13 +92,20 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Commons
 		}
 
 		[Test]
-		public void ToRepresentation_DoubleAndTotalBitsLowerThanBitsNeedToRepresentation_Exception()
+		public void ToRepresentation_LongAndTotalBitsLowerThanBitsNeedToRepresentation_Exception()
 		{
-			Assert.Throws<ArgumentException>(() => {
-				BinaryStringRepresentation.ToRepresentation(1000, 9, 0);
+			Assert.Throws<ArgumentException>(() =>
+			{
+				BinaryStringRepresentation.ToRepresentation(1000, 9);
 			}, "The value 1000 needs 10 total bits to be represented.");
 
-			Assert.Throws<ArgumentException>(() => {
+		}
+
+		[Test]
+		public void ToRepresentation_DoubleAndTotalBitsLowerThanBitsNeedToRepresentation_Exception()
+		{
+			Assert.Throws<ArgumentException>(() =>
+			{
 				BinaryStringRepresentation.ToRepresentation(1000.00, 9, 0);
 			}, "The value 1000.00 needs 10 total bits to be represented.");
 		}
@@ -169,6 +176,16 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Commons
 
 			actual = BinaryStringRepresentation.ToDouble("1111111111111111111111111111111111111111111111111101100001110101", 3);
 			Assert.AreEqual(-10.123, actual);
+		}
+
+		[Test]
+		public void ToDouble_DiffArraysLengths_Exception()
+		{
+			var actual = Assert.Catch(() => BinaryStringRepresentation.ToDouble("000000000110111010011110001011", new int[] { 16, 14, 1 }, new int[] { 2, 3 }));
+			Assert.AreEqual("The length of totalBits should be the same of the length of fractionBits.", actual.Message);
+
+			actual = Assert.Catch(() => BinaryStringRepresentation.ToDouble("00000000011011101001111000101", new int[] { 16, 14, }, new int[] { 2, 3 }));
+			Assert.AreEqual("The representation length should be the same of the sum of the totalBits.", actual.Message);
 		}
 
 		[Test]

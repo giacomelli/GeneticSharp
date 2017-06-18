@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using HelperSharp;
+using GeneticSharp.Infrastructure.Framework.Texts;
 
 namespace GeneticSharp.Domain.Chromosomes
 {
-    /// <summary>
-    /// Chromosome extensions.
-    /// </summary>
-    public static class ChromosomeExtensions
+	/// <summary>
+	/// Chromosome extensions.
+	/// </summary>
+	public static class ChromosomeExtensions
     {
         /// <summary>
         /// Checks if any of the chromosomes has repeated gene.

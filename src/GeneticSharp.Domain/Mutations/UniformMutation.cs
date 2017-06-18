@@ -3,7 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
-using HelperSharp;
+using GeneticSharp.Infrastructure.Framework.Texts;
+using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Domain.Mutations
 {

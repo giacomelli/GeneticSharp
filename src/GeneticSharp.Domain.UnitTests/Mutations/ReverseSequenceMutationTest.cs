@@ -1,14 +1,14 @@
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Randomizations;
-using HelperSharp;
+using GeneticSharp.Infrastructure.Framework.Texts;
 using NUnit.Framework;
 using Rhino.Mocks;
 using TestSharp;
 
 namespace GeneticSharp.Domain.UnitTests.Mutations
 {
-    [TestFixture()]
+	[TestFixture()]
     [Category("Mutations")]
     public class ReverseSequenceMutationTest
     {

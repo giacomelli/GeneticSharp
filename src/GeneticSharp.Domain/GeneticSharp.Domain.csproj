@@ -41,9 +41,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="HelperSharp, Version=1.0.5560.27038, Culture=neutral, PublicKeyToken=3d44152485e1a4e1">
-      <HintPath>..\packages\HelperSharp.0.0.4.2\lib\net35\HelperSharp.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chromosomes\ChromosomeBase.cs" />
@@ -146,7 +143,6 @@
     <None Include="Fitnesses\Fitnesses.cd" />
     <None Include="GeneticSharp.snk" />
     <None Include="Mutations\Mutations.cd" />
-    <None Include="packages.config" />
     <None Include="Populations\Populations.cd" />
     <None Include="Randomizations\Randomizations.cd" />
     <None Include="Selections\Selection.cd" />

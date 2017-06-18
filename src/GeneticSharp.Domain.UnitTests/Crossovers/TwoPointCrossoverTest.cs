@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
-using HelperSharp;
+using GeneticSharp.Infrastructure.Framework.Texts;
 using NUnit.Framework;
 using Rhino.Mocks;
 using TestSharp;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
-    [TestFixture]
+	[TestFixture]
     [Category("Crossovers")]
     public class TwoPointCrossoverTest
     {

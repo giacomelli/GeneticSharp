@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using HelperSharp;
+using GeneticSharp.Infrastructure.Framework.Texts;
 
 namespace GeneticSharp.Infrastructure.Framework.Commons
 {

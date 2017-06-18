@@ -36,7 +36,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
             });
             target.Add(() => pipeline += "3");
 
-            target.Timeout = TimeSpan.FromMilliseconds(50);
+            target.Timeout = TimeSpan.FromMilliseconds(100);
             Assert.IsFalse(target.Start());
             Assert.AreEqual("12", pipeline);
         }

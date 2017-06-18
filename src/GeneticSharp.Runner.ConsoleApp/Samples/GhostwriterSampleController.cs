@@ -7,14 +7,14 @@ using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Extensions.Ghostwriter;
+using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Threading;
 using GeneticSharp.Runner.ConsoleApp.Samples.Resources;
-using HelperSharp;
 using Newtonsoft.Json;
 
 namespace GeneticSharp.Runner.ConsoleApp.Samples
 {
-    [DisplayName("Ghostwriter")]
+	[DisplayName("Ghostwriter")]
     public class GhostwriterSampleController : SampleControllerBase
     {
         private List<string> m_quotes;
@@ -49,16 +49,12 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
 
         public override IFitness CreateFitness()
         {
-            var f = new GhostwriterFitness();
-
-            f.EvaluateFunc = (text) =>
+            return new GhostwriterFitness((text) =>
             {
                 var minDistance = m_quotes.Min(q => LevenshteinDistance(q, text));
 
                 return 1 - (minDistance / 100f);
-            };
-
-            return f;
+			});
         }
 
         public override IChromosome CreateChromosome()

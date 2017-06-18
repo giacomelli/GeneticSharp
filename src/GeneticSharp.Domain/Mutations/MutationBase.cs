@@ -1,5 +1,5 @@
 ﻿using GeneticSharp.Domain.Chromosomes;
-using HelperSharp;
+using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Domain.Mutations
 {

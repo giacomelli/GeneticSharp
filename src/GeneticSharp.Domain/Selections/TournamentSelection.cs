@@ -4,19 +4,19 @@ using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Randomizations;
-using HelperSharp;
+using GeneticSharp.Infrastructure.Framework.Texts;
 
 namespace GeneticSharp.Domain.Selections
 {
-    /// <summary>
-    /// Tournament selection involves running several "tournaments" among a few individuals chosen at random from the population.
-    /// The winner of each tournament (the one with the best fitness) is selected for crossover. 
-    /// <remarks>    
-    /// Selection pressure is easily adjusted by changing the tournament size. 
-    /// If the tournament size is larger, weak individuals have a smaller chance to be selected.
-    /// </remarks>
-    /// </summary>
-    [DisplayName("Tournament")]
+	/// <summary>
+	/// Tournament selection involves running several "tournaments" among a few individuals chosen at random from the population.
+	/// The winner of each tournament (the one with the best fitness) is selected for crossover. 
+	/// <remarks>    
+	/// Selection pressure is easily adjusted by changing the tournament size. 
+	/// If the tournament size is larger, weak individuals have a smaller chance to be selected.
+	/// </remarks>
+	/// </summary>
+	[DisplayName("Tournament")]
     public class TournamentSelection : SelectionBase
     {
         #region Constructors

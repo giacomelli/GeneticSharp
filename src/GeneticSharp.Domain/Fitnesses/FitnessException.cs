@@ -1,14 +1,14 @@
 using System;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
-using HelperSharp;
+using GeneticSharp.Infrastructure.Framework.Texts;
 
 namespace GeneticSharp.Domain.Fitnesses
 {
-    /// <summary>
-    /// Exception throw when an error occurs during the execution of fitness evaluation.
-    /// </summary>
-    [Serializable]
+	/// <summary>
+	/// Exception throw when an error occurs during the execution of fitness evaluation.
+	/// </summary>
+	[Serializable]
     public sealed class FitnessException : Exception
     {
         #region Constructors

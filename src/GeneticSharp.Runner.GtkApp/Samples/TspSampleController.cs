@@ -6,15 +6,15 @@ using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Extensions.Tsp;
+using GeneticSharp.Infrastructure.Framework.Texts;
 using Gtk;
-using HelperSharp;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
 {
-    /// <summary>
-    /// TSP (Travelling Salesman Problem) sample controller.
-    /// </summary>
-    [DisplayName("TSP")]
+	/// <summary>
+	/// TSP (Travelling Salesman Problem) sample controller.
+	/// </summary>
+	[DisplayName("TSP")]
     public class TspSampleController : SampleControllerBase
     {
         #region Fields

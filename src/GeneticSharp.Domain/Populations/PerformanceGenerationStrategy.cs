@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using HelperSharp;
+using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Domain.Populations
 {
