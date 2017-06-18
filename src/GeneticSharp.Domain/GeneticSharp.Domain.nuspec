@@ -13,6 +13,7 @@
     <copyright>Copyright 2015</copyright>
     <tags>genetic-algorithms geneticsharp genetic algotithms</tags>
     <dependencies>
+        <dependency id="SmartThreadPool.dll" version="2.2.4" />
     </dependencies>
    </metadata>
     <files>
