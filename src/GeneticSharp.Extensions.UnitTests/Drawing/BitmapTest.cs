@@ -42,10 +42,16 @@ namespace GeneticSharp.Extensions.UnitTests.Drawing
 				MaxThreads = 20
 			};
 
-			ga.Termination = new GenerationNumberTermination(1);
+			ga.Termination = new GenerationNumberTermination(5);
 			ga.Start();
 
-			Assert.NotNull(ga.BestChromosome);
+			var c = ga.BestChromosome as BitmapChromosome;
+			Assert.IsNotNull(c);
+
+			var bitmap = c.BuildBitmap();
+			Assert.IsNotNull(bitmap);
+			Assert.AreEqual(32, bitmap.Width);
+			Assert.AreEqual(32, bitmap.Height);
 		}
     }
 }

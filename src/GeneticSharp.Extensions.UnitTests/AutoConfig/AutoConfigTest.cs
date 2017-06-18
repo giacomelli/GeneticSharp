@@ -48,7 +48,7 @@ namespace GeneticSharp.Extensions.UnitTests.AutoConfig
                 MaxThreads = 20
             };        
 
-            ga.Termination = new GenerationNumberTermination(2);
+            ga.Termination = new GenerationNumberTermination(10);
             ga.Start();
 
             Assert.NotNull(ga.BestChromosome);            

@@ -179,6 +179,16 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Commons
 		}
 
 		[Test]
+		public void ToDouble_DiffArraysLengths_Exception()
+		{
+			var actual = Assert.Catch(() => BinaryStringRepresentation.ToDouble("000000000110111010011110001011", new int[] { 16, 14, 1 }, new int[] { 2, 3 }));
+			Assert.AreEqual("The length of totalBits should be the same of the length of fractionBits.", actual.Message);
+
+			actual = Assert.Catch(() => BinaryStringRepresentation.ToDouble("00000000011011101001111000101", new int[] { 16, 14, }, new int[] { 2, 3 }));
+			Assert.AreEqual("The representation length should be the same of the sum of the totalBits.", actual.Message);
+		}
+
+		[Test]
 		public void ToDouble_RepresentationAndTotalBitsArray_Doubles()
 		{
 			var actual = BinaryStringRepresentation.ToDouble("000000000110111010011110001011", new int[] { 16, 14 }, new int[] { 2, 3 });
