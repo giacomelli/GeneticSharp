@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -47,6 +48,7 @@ namespace GeneticSharp.Domain.Crossovers
             var parent2 = parents[1];
 
             var cutPointsIndexes = RandomizationProvider.Current.GetUniqueInts(2, 0, parent1.Length);
+            Array.Sort(cutPointsIndexes);
             var firstCutPointIndex = cutPointsIndexes[0];
             var secondCutPointIdnex = cutPointsIndexes[1];
 
