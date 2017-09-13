@@ -91,7 +91,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             chromosome2.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(8));
 
             var rnd = MockRepository.GenerateMock<IRandomization>();
-            rnd.Expect(r => r.GetUniqueInts(2, 0, 8)).Return(new int[] { 3, 5 });
+            rnd.Expect(r => r.GetUniqueInts(2, 0, 8)).Return(new int[] { 5, 3 });
             RandomizationProvider.Current = rnd;
 
             IList<IChromosome> actual = null; ;
