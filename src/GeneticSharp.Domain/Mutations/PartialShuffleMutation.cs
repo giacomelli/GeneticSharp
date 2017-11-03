@@ -1,26 +1,26 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
+using GeneticSharp.Domain.Randomizations;
 
 namespace GeneticSharp.Domain.Mutations
 {
-	/// <summary>
-	/// Reverse Sequence Mutation (RSM).
+    /// <summary>
+	/// Partial Shuffle Mutation (PSM).
 	/// <remarks>
-	/// In the reverse sequence mutation operator, we take a sequence S limited by two 
+	/// In the partial shuffle mutation operator, we take a sequence S limited by two 
 	/// positions i and j randomly chosen, such that i&lt;j. The gene order in this sequence 
-	/// will be reversed by the same way as what has been covered in the previous operation.
+	/// will be shuffled.
 	/// <see href="http://arxiv.org/ftp/arxiv/papers/1203/1203.3099.pdf">Analyzing the Performance of Mutation Operators to Solve the Travelling Salesman Problem</see>
 	/// </remarks>
 	/// </summary>
-	[DisplayName("Reverse Sequence (RSM)")]
-    public class ReverseSequenceMutation : SequenceMutation
+    [DisplayName("Partial Shuffle (RSM)")]
+    class PartialShuffleMutation : SequenceMutation
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReverseSequenceMutation"/> class.
+        /// Initializes a new instance of the <see cref="PartialShuffleMutation"/> class.
         /// </summary>
-        public ReverseSequenceMutation()
+        public PartialShuffleMutation()
         {
             IsOrdered = true;
         }
@@ -34,7 +34,7 @@ namespace GeneticSharp.Domain.Mutations
         /// <param name="sequence">The sequence to be mutated.</param>
         protected override IEnumerable<T> MutateOnSequence<T>(IEnumerable<T> sequence)
         {
-            return sequence.Reverse();
+            return sequence.Shuffle(RandomizationProvider.Current);
         }
         #endregion
     }
