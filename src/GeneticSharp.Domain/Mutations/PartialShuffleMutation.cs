@@ -13,7 +13,7 @@ namespace GeneticSharp.Domain.Mutations
 	/// <see href="http://arxiv.org/ftp/arxiv/papers/1203/1203.3099.pdf">Analyzing the Performance of Mutation Operators to Solve the Travelling Salesman Problem</see>
 	/// </remarks>
 	/// </summary>
-    [DisplayName("Partial Shuffle (RSM)")]
+    [DisplayName("Partial Shuffle (PSM)")]
     class PartialShuffleMutation : SequenceMutation
     {
         #region Constructors
