@@ -15,7 +15,7 @@ namespace GeneticSharp.Domain.Mutations
 	/// </remarks>
 	/// </summary>
     [DisplayName("Displacement")]
-    class DisplacementMutation : SequenceMutation
+    public class DisplacementMutation : SequenceMutation
     {
         #region Constructors
         /// <summary>

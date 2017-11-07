@@ -12,7 +12,7 @@ namespace GeneticSharp.Domain.Mutations
     /// </remarks>
     /// </summary>
     [DisplayName("Insertion")]
-    class InsertionMutation : DisplacementMutation
+    public class InsertionMutation : DisplacementMutation
     {
         #region Constructors
         /// <summary>

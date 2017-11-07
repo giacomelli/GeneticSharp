@@ -14,7 +14,7 @@ namespace GeneticSharp.Domain.Mutations
 	/// </remarks>
 	/// </summary>
     [DisplayName("Partial Shuffle (PSM)")]
-    class PartialShuffleMutation : SequenceMutation
+    public class PartialShuffleMutation : SequenceMutation
     {
         #region Constructors
         /// <summary>
