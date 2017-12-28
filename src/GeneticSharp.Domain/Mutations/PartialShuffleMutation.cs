@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using GeneticSharp.Domain.Randomizations;
+using System.Linq;
 
 namespace GeneticSharp.Domain.Mutations
 {
@@ -9,7 +10,7 @@ namespace GeneticSharp.Domain.Mutations
 	/// <remarks>
 	/// In the partial shuffle mutation operator, we take a sequence S limited by two 
 	/// positions i and j randomly chosen, such that i&lt;j. The gene order in this sequence 
-	/// will be shuffled.
+	/// will be shuffled. Sequence will be shuffled until it becomes different than the starting order
 	/// <see href="http://arxiv.org/ftp/arxiv/papers/1203/1203.3099.pdf">Analyzing the Performance of Mutation Operators to Solve the Travelling Salesman Problem</see>
 	/// </remarks>
 	/// </summary>
@@ -34,7 +35,20 @@ namespace GeneticSharp.Domain.Mutations
         /// <param name="sequence">The sequence to be mutated.</param>
         protected override IEnumerable<T> MutateOnSequence<T>(IEnumerable<T> sequence)
         {
-            return sequence.Shuffle(RandomizationProvider.Current);
+            T[] sourceElements = sequence.ToArray();
+            if (sourceElements.Length > 1)
+            {
+                IEnumerable<T> result = sequence.Shuffle(RandomizationProvider.Current);
+                while (Enumerable.SequenceEqual(sourceElements, result.ToArray()))
+                {
+                    result = sequence.Shuffle(RandomizationProvider.Current);
+                }
+                return result;
+            }
+            else
+            {
+                return sequence;
+            }
         }
         #endregion
     }
