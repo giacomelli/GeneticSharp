@@ -67,6 +67,8 @@
     <Compile Include="Crossovers\TwoPointCrossoverTest.cs" />
     <Compile Include="Crossovers\UniformCrossoverTest.cs" />
     <Compile Include="Chromosomes\FitnessExceptionTest.cs" />
+    <Compile Include="Mutations\DisplacementMutationTest.cs" />
+    <Compile Include="Mutations\InsertionMutationTest.cs" />
     <Compile Include="Mutations\MutationExceptionTest.cs" />
     <Compile Include="Mutations\PartialShuffleMutationTest.cs" />
     <Compile Include="Mutations\TworsMutationTest.cs" />
