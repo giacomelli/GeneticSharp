@@ -67,14 +67,8 @@ namespace GeneticSharp.Domain.Crossovers
             {
                 throw new CrossoverException(this, "The Ordered Crossover (OX1) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
             }
-
-            var middleSectionIndexes = RandomizationProvider.Current.GetUniqueInts(2, 0, firstParent.Length);
-            Array.Sort(middleSectionIndexes);
-            var middleSectionBeginIndex = middleSectionIndexes[0];
-            var middleSectionEndIndex = middleSectionIndexes[1];
-            var firstChild = CreateChild(firstParent, secondParent, middleSectionBeginIndex, middleSectionEndIndex);
-            var secondChild = CreateChild(secondParent, firstParent, middleSectionBeginIndex, middleSectionEndIndex);
-
+            var firstChild = CreateChild(firstParent, secondParent);
+            var secondChild = CreateChild(secondParent, firstParent);
             return new List<IChromosome>() { firstChild, secondChild };
         }
 
@@ -84,10 +78,11 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>The child.</returns>
         /// <param name="firstParent">First parent.</param>
         /// <param name="secondParent">Second parent.</param>
-        /// <param name="middleSectionBeginIndex">Middle section begin index.</param>
-        /// <param name="middleSectionEndIndex">Middle section end index.</param>
-        private static IChromosome CreateChild(IChromosome firstParent, IChromosome secondParent, int middleSectionBeginIndex, int middleSectionEndIndex)
+        private static IChromosome CreateChild(IChromosome firstParent, IChromosome secondParent)
         {
+            var middleSectionIndexes = GetMiddleSectionIndexes(firstParent);
+            var middleSectionBeginIndex = middleSectionIndexes[0];
+            var middleSectionEndIndex = middleSectionIndexes[1];
             var middleSectionGenes = firstParent.GetGenes().Skip(middleSectionBeginIndex).Take((middleSectionEndIndex - middleSectionBeginIndex) + 1);
             var secondParentRemainingGenes = secondParent.GetGenes().Except(middleSectionGenes).GetEnumerator();
             var child = firstParent.CreateNew();
@@ -106,8 +101,14 @@ namespace GeneticSharp.Domain.Crossovers
                     child.ReplaceGene(i, secondParentRemainingGenes.Current);
                 }
             }
-
             return child;
+        }
+
+        private static int[] GetMiddleSectionIndexes(IChromosome firstParent)
+        {
+            var middleSectionIndexes = RandomizationProvider.Current.GetUniqueInts(2, 0, firstParent.Length);
+            Array.Sort(middleSectionIndexes);
+            return middleSectionIndexes;
         }
         #endregion
     }
