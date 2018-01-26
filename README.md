@@ -30,7 +30,7 @@ Can be used in any kind of .NET apps, like ASP .NET MVC, Web Forms, Windows Form
 * [Function optimization with GeneticSharp (tutorial)](http://diegogiacomelli.com.br/function-optimization-with-geneticsharp/)
 * [Genetic Scheduler: a genetic algorithm for scheduling tasks with temporal restriction in distributed systems (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Genetic-Scheduler.pdf)
 * [Lean Optimization: genetic optimization using LEAN (GitHub)](https://github.com/Jay-Jay-D/LeanOptimization) 
-* [Overload journal #142: Evolutionary computing frameworks for optimisation (journal)] (https://accu.org/var/uploads/journals/Overload142.pdf)
+* [Overload journal 142: Evolutionary computing frameworks for optimisation (journal)](https://accu.org/var/uploads/journals/Overload142.pdf)
 * [Path Finding with Genetic Algorithms (project)](https://yoloprogramming.com/post/2017/01/11/path-finding-with-genetic-algorithms)
 * [SurvivorAI: some experiments of survival scenarios (project)](https://github.com/giacomelli/SurvivorAI)
 * Are you using GeneticSharp in your project? Please, [let me know!](https://twitter.com/ogiacomelli)
