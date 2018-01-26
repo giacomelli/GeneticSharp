@@ -23,13 +23,14 @@ Can be used in any kind of .NET apps, like ASP .NET MVC, Web Forms, Windows Form
 
 --------
 
-## Projects, papers and tutorials using GeneticSharp
+## Projects, papers, journals and tutorials using GeneticSharp
 * [AeroVision: aircraft trajectories optimization and visualization (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/AeroVision-Aircraft-trajectories-optimization-and-visualization.pdf)
 * [Context-Sensitive Code Completion: improving predictions with genetic algorithms (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Context-Sensitive-Code-Completion-improving-predictions-with-genetic-algorithms.pdf) ([Github](https://github.com/godtopus/GeneCSCC))
 * [Designing and creating a self managing distributed file system (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Designing-and-creating-a-self-managing-distributed-file-system.pdf)
 * [Function optimization with GeneticSharp (tutorial)](http://diegogiacomelli.com.br/function-optimization-with-geneticsharp/)
 * [Genetic Scheduler: a genetic algorithm for scheduling tasks with temporal restriction in distributed systems (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Genetic-Scheduler.pdf)
 * [Lean Optimization: genetic optimization using LEAN (GitHub)](https://github.com/Jay-Jay-D/LeanOptimization) 
+* [Overload journal #142: Evolutionary computing frameworks for optimisation (journal)] (https://accu.org/var/uploads/journals/Overload142.pdf)
 * [Path Finding with Genetic Algorithms (project)](https://yoloprogramming.com/post/2017/01/11/path-finding-with-genetic-algorithms)
 * [SurvivorAI: some experiments of survival scenarios (project)](https://github.com/giacomelli/SurvivorAI)
 * Are you using GeneticSharp in your project? Please, [let me know!](https://twitter.com/ogiacomelli)
@@ -71,11 +72,14 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
    - Others crossovers can be added implementing [ICrossover](src/GeneticSharp.Domain/Crossovers/ICrossover.cs) interface or extending [CrossoverBase](src/GeneticSharp.Domain/Crossovers/CrossoverBase.cs).   
 
 ### [Mutations](src/GeneticSharp.Domain/Mutations)
+   - [Displacement](src/GeneticSharp.Domain/Mutations/DisplacementMutation.cs)
    - [Flip Bit](src/GeneticSharp.Domain/Mutations/FlipBitMutation.cs)
+   - [Insertion](src/GeneticSharp.Domain/Mutations/InsertionMutation.cs)
+   - [Partial Shuffle (PSM)](src/GeneticSharp.Domain/Mutations/PartialShuffleMutation.cs)
    - [Reverse Sequence (RSM)](src/GeneticSharp.Domain/Mutations/ReverseSequenceMutation.cs)
    - [Twors](src/GeneticSharp.Domain/Mutations/TworsMutation.cs)
    - [Uniform](src/GeneticSharp.Domain/Mutations/UniformMutation.cs)
-   - Others mutations can be added implementing [IMutation](src/GeneticSharp.Domain/Mutations/IMutation.cs) interface or extending [MutationBase](src/GeneticSharp.Domain/Mutations/MutationBase.cs).
+   - Others mutations can be added implementing [IMutation](src/GeneticSharp.Domain/Mutations/IMutation.cs) interface or extending [MutationBase](src/GeneticSharp.Domain/Mutations/MutationBase.cs) / [SequenceMutationBase](src/GeneticSharp.Domain/Mutations/SequenceMutationBase.cs).
 
 ### [Reinsertions](src/GeneticSharp.Domain/Reinsertions)
    - [Elitist](src/GeneticSharp.Domain/Reinsertions/ElitistReinsertion.cs)

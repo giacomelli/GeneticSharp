@@ -94,10 +94,10 @@ namespace GeneticSharp.Infrastructure.Framework.Commons
 		/// <returns>The representation.</returns>
 		/// <param name="value">Value.</param>
 		/// <param name="totalBits">Total bits.</param>
-		/// <param name="fractionBits">Fraction (scale) bits.</param>
-		public static string ToRepresentation(double value, int totalBits = 0, int fractionBits = 2)
+		/// <param name="fractionDigits">Fraction (scale) digits.</param>
+        public static string ToRepresentation(double value, int totalBits = 0, int fractionDigits = 2)
 		{
-			var longValue = Convert.ToInt64(value * Math.Pow(10, fractionBits));
+			var longValue = Convert.ToInt64(value * Math.Pow(10, fractionDigits));
 
 			var result = ToRepresentation(longValue, totalBits, false);
 
@@ -115,10 +115,10 @@ namespace GeneticSharp.Infrastructure.Framework.Commons
 		/// <returns>The representations.</returns>
 		/// <param name="values">The values..</param>
 		/// <param name="totalBits">The total bits.</param>
-		/// <param name="fractionBits">The fraction (scale) bits.</param>
-		public static string[] ToRepresentation(double[] values, int[] totalBits, int[] fractionBits)
+		/// <param name="fractionDigits">The fraction (scale) digits.</param>
+        public static string[] ToRepresentation(double[] values, int[] totalBits, int[] fractionDigits)
 		{
-			return ToRepresentation<double>(values, totalBits, fractionBits, (v, t, f) => ToRepresentation(v, t, f));
+			return ToRepresentation<double>(values, totalBits, fractionDigits, (v, t, f) => ToRepresentation(v, t, f));
 		}
 
 		/// <summary>
@@ -126,12 +126,12 @@ namespace GeneticSharp.Infrastructure.Framework.Commons
 		/// </summary>
 		/// <returns>The double.</returns>
 		/// <param name="representation">Representation.</param>
-		/// <param name="fractionBits">Fraction (scale) bits.</param>
-		public static double ToDouble(string representation, int fractionBits = 2)
+		/// <param name="fractionDigits">Fraction (scale) digits.</param>
+		public static double ToDouble(string representation, int fractionDigits = 2)
 		{
 			double longValue = ToInt64(representation);
 
-			return longValue / Math.Pow(10, fractionBits);
+            return longValue / Math.Pow(10, fractionDigits);
 		}
 
 		/// <summary>
@@ -140,24 +140,24 @@ namespace GeneticSharp.Infrastructure.Framework.Commons
 		/// <returns>The double.</returns>
 		/// <param name="representation">Representation.</param>
 		/// <param name="totalBits">Total bits.</param>
-		/// <param name="fractionBits">Fraction (scale) bits.</param>
-		public static double[] ToDouble(string representation, int[] totalBits, int[] fractionBits)
+		/// <param name="fractionDigits">Fraction (scale) digits.</param>
+        public static double[] ToDouble(string representation, int[] totalBits, int[] fractionDigits)
 		{
 			return ToValue<double>(
 				representation,
 				totalBits,
-				fractionBits,
+				fractionDigits,
 				new double[totalBits.Length],
 				(r, f) => ToDouble(r, f));
 		}
 
-		private static TValue[] ToValue<TValue>(string representation, int[] totalBits, int[] fractionBits, TValue[] values, Func<string, int, TValue> toValue)
+        private static TValue[] ToValue<TValue>(string representation, int[] totalBits, int[] fractionDigits, TValue[] values, Func<string, int, TValue> toValue)
 		{
 			ExceptionHelper.ThrowIfNullOrEmpty("representation", representation);
 
-			if (totalBits.Length != fractionBits.Length)
+			if (totalBits.Length != fractionDigits.Length)
 			{
-				throw new ArgumentException("The length of totalBits should be the same of the length of fractionBits.");
+                throw new ArgumentException("The length of totalBits should be the same of the length of fractionDigits.");
 			}
 
 			if (representation.Length != totalBits.Sum(b => b))
@@ -170,25 +170,25 @@ namespace GeneticSharp.Infrastructure.Framework.Commons
 			for (int i = 0; i < totalBits.Length; i++)
 			{
 				var currentTotalBits = totalBits[i];
-				values[i] = toValue(representation.Substring(startIndex, currentTotalBits), fractionBits[i]);
+				values[i] = toValue(representation.Substring(startIndex, currentTotalBits), fractionDigits[i]);
 				startIndex += currentTotalBits;
 			}
 
 			return values;
 		}
 
-		private static string[] ToRepresentation<TValue>(TValue[] values, int[] totalBits, int[] fractionBits, Func<TValue, int, int, string> toRepresentation)
+        private static string[] ToRepresentation<TValue>(TValue[] values, int[] totalBits, int[] fractionDigits, Func<TValue, int, int, string> toRepresentation)
 		{
-			if (values.Length != totalBits.Length || values.Length != fractionBits.Length)
+			if (values.Length != totalBits.Length || values.Length != fractionDigits.Length)
 			{
-				throw new ArgumentException("The length of values should be the same of the length of totalBits and fractionBits.");
+				throw new ArgumentException("The length of values should be the same of the length of totalBits and fractionDigits.");
 			}
 
 			var representations = new string[values.Length];
 
 			for (int i = 0; i < values.Length; i++)
 			{
-				representations[i] = toRepresentation(values[i], totalBits[i], fractionBits[i]);
+				representations[i] = toRepresentation(values[i], totalBits[i], fractionDigits[i]);
 			}
 
 			return representations;

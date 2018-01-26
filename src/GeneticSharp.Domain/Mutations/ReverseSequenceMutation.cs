@@ -14,7 +14,7 @@ namespace GeneticSharp.Domain.Mutations
 	/// </remarks>
 	/// </summary>
 	[DisplayName("Reverse Sequence (RSM)")]
-    public class ReverseSequenceMutation : SequenceMutation
+    public class ReverseSequenceMutation : SequenceMutationBase
     {
         #region Constructors
         /// <summary>

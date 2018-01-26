@@ -15,7 +15,7 @@ namespace GeneticSharp.Domain.Mutations
 	/// </remarks>
 	/// </summary>
     [DisplayName("Partial Shuffle (PSM)")]
-    public class PartialShuffleMutation : SequenceMutation
+    public class PartialShuffleMutation : SequenceMutationBase
     {
         #region Constructors
         /// <summary>
@@ -36,13 +36,16 @@ namespace GeneticSharp.Domain.Mutations
         protected override IEnumerable<T> MutateOnSequence<T>(IEnumerable<T> sequence)
         {
             T[] sourceElements = sequence.ToArray();
+
             if (sourceElements.Length > 1)
             {
                 IEnumerable<T> result = sequence.Shuffle(RandomizationProvider.Current);
+              
                 while (Enumerable.SequenceEqual(sourceElements, result.ToArray()))
                 {
                     result = sequence.Shuffle(RandomizationProvider.Current);
                 }
+
                 return result;
             }
             else
