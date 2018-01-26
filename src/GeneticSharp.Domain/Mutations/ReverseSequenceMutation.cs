@@ -1,8 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Randomizations;
-using GeneticSharp.Infrastructure.Framework.Texts;
 
 namespace GeneticSharp.Domain.Mutations
 {
@@ -16,7 +14,7 @@ namespace GeneticSharp.Domain.Mutations
 	/// </remarks>
 	/// </summary>
 	[DisplayName("Reverse Sequence (RSM)")]
-    public class ReverseSequenceMutation : MutationBase
+    public class ReverseSequenceMutation : SequenceMutation
     {
         #region Constructors
         /// <summary>
@@ -30,27 +28,13 @@ namespace GeneticSharp.Domain.Mutations
 
         #region Methods
         /// <summary>
-        /// Mutate the specified chromosome.
+        /// Mutate selected sequence.
         /// </summary>
-        /// <param name="chromosome">The chromosome.</param>
-        /// <param name="probability">The probability to mutate each chromosome.</param>
-        protected override void PerformMutate(IChromosome chromosome, float probability)
+        /// <returns>The resulted sequence after mutation operation.</returns>
+        /// <param name="sequence">The sequence to be mutated.</param>
+        protected override IEnumerable<T> MutateOnSequence<T>(IEnumerable<T> sequence)
         {
-            if (chromosome.Length < 3)
-            {
-                throw new MutationException(this, "A chromosome should have, at least, 3 genes. {0} has only {1} gene.".With(chromosome.GetType().Name, chromosome.Length));
-            }
-
-            if (RandomizationProvider.Current.GetDouble() <= probability)
-            {
-                var indexes = RandomizationProvider.Current.GetUniqueInts(2, 0, chromosome.Length).OrderBy(i => i).ToArray();
-                var firstIndex = indexes[0];
-                var secondIndex = indexes[1];
-
-                var revertedSequence = chromosome.GetGenes().Skip(firstIndex).Take((secondIndex - firstIndex) + 1).Reverse().ToArray();
-
-                chromosome.ReplaceGenes(firstIndex, revertedSequence);
-            }
+            return sequence.Reverse();
         }
         #endregion
     }

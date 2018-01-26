@@ -54,8 +54,12 @@
     <Compile Include="Crossovers\ThreeParentCrossover.cs" />
     <Compile Include="Crossovers\TwoPointCrossover.cs" />
     <Compile Include="Crossovers\UniformCrossover.cs" />
+    <Compile Include="Mutations\DisplacementMutation.cs" />
+    <Compile Include="Mutations\InsertionMutation.cs" />
     <Compile Include="Mutations\MutationBase.cs" />
+    <Compile Include="Mutations\PartialShuffleMutation.cs" />
     <Compile Include="Mutations\ReverseSequenceMutation.cs" />
+    <Compile Include="Mutations\SequenceMutation.cs" />
     <Compile Include="Mutations\TworsMutation.cs" />
     <Compile Include="Populations\IGenerationStrategy.cs" />
     <Compile Include="Populations\PerformanceGenerationStrategy.cs" />
