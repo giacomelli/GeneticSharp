@@ -15,7 +15,7 @@ namespace GeneticSharp.Domain.Mutations
 	/// </remarks>
 	/// </summary>
     [DisplayName("Displacement")]
-    public class DisplacementMutation : SequenceMutation
+    public class DisplacementMutation : SequenceMutationBase
     {
         #region Constructors
         /// <summary>
@@ -55,6 +55,7 @@ namespace GeneticSharp.Domain.Mutations
         protected virtual int DetermineGeneToShift(int maxCount)
         {
             var randomSubSequenceLength = RandomizationProvider.Current.GetInt(0, maxCount);
+
             return randomSubSequenceLength + 1;
         }
         #endregion

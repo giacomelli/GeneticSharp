@@ -64,6 +64,7 @@ namespace GeneticSharp.Domain.Mutations
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, IRandomization rng)
         {
             T[] elements = source.ToArray();
+
             for (int i = elements.Length - 1; i >= 0; i--)
             {
                 int swapIndex = rng.GetInt(0, i + 1);
@@ -81,8 +82,10 @@ namespace GeneticSharp.Domain.Mutations
         public static IEnumerable<T> LeftShift<T>(this IEnumerable<T> source, int valueToShift)
         {
             T[] sourceElements = source.ToArray();
+
             // all elements except for the first one... and at the end, the first one. to array.
             T[] shisftedElements = sourceElements.Skip(valueToShift).Concat(sourceElements.Take(valueToShift)).ToArray();
+
             foreach (T element in shisftedElements)
             {
                 yield return element;
@@ -98,8 +101,10 @@ namespace GeneticSharp.Domain.Mutations
         public static IEnumerable<T> RightShift<T>(this IEnumerable<T> source, int valueToShift)
         {
             T[] sourceElements = source.ToArray();
+
             // the last element (because we're skipping all but one)... then all but the last one.
             T[] shisftedElements = sourceElements.Skip(sourceElements.Length - valueToShift).Concat(sourceElements.Take(sourceElements.Length - valueToShift)).ToArray();
+           
             foreach (T element in shisftedElements)
             {
                 yield return element;

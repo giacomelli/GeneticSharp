@@ -9,7 +9,7 @@ namespace GeneticSharp.Domain.Mutations
     /// <summary>
     /// Base class for Mutations on a Sub-Sequence.
     /// </summary>
-    public abstract class SequenceMutation : MutationBase
+    public abstract class SequenceMutationBase : MutationBase
     {
         #region Methods
         /// <summary>
