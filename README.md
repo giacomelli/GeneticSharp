@@ -71,11 +71,14 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
    - Others crossovers can be added implementing [ICrossover](src/GeneticSharp.Domain/Crossovers/ICrossover.cs) interface or extending [CrossoverBase](src/GeneticSharp.Domain/Crossovers/CrossoverBase.cs).   
 
 ### [Mutations](src/GeneticSharp.Domain/Mutations)
+   - [Displacement](src/GeneticSharp.Domain/Mutations/DisplacementMutation.cs)
    - [Flip Bit](src/GeneticSharp.Domain/Mutations/FlipBitMutation.cs)
+   - [Insertion](src/GeneticSharp.Domain/Mutations/InsertionMutation.cs)
+   - [Partial Shuffle (PSM)](src/GeneticSharp.Domain/Mutations/PartialShuffleMutation.cs)
    - [Reverse Sequence (RSM)](src/GeneticSharp.Domain/Mutations/ReverseSequenceMutation.cs)
    - [Twors](src/GeneticSharp.Domain/Mutations/TworsMutation.cs)
    - [Uniform](src/GeneticSharp.Domain/Mutations/UniformMutation.cs)
-   - Others mutations can be added implementing [IMutation](src/GeneticSharp.Domain/Mutations/IMutation.cs) interface or extending [MutationBase](src/GeneticSharp.Domain/Mutations/MutationBase.cs).
+   - Others mutations can be added implementing [IMutation](src/GeneticSharp.Domain/Mutations/IMutation.cs) interface or extending [MutationBase](src/GeneticSharp.Domain/Mutations/MutationBase.cs) / [SequenceMutationBase](src/GeneticSharp.Domain/Mutations/SequenceMutationBase.cs).
 
 ### [Reinsertions](src/GeneticSharp.Domain/Reinsertions)
    - [Elitist](src/GeneticSharp.Domain/Reinsertions/ElitistReinsertion.cs)
