@@ -57,21 +57,28 @@ namespace GeneticSharp.Domain.Crossovers
         /// </returns>
         protected override IChromosome CreateChild(IChromosome firstParent, IChromosome secondParent, int[] swapIndexes)
         {
-            var firstParentGenes = new List<Gene>(firstParent.GetGenes());
+            var secondParentSwapGenes = secondParent.GetGenes()
+                 .Select((g, i) => new { Gene = g, Index = i })
+                 .Where((g) => swapIndexes.Contains(g.Index))
+                 .ToArray();
+
+            var firstParentRemainingGenes = firstParent.GetGenes().Except(secondParentSwapGenes.Select(element => element.Gene).ToArray()).GetEnumerator();
 
             var child = firstParent.CreateNew();
+            var secondParentSwapGensIndex = 0;
 
             for (int i = 0; i < firstParent.Length; i++)
             {
-                if (swapIndexes.Contains(i))
+                if (secondParentSwapGenes.Any(f => f.Index == i))
                 {
-                    var gene = secondParent.GetGene(i);
-                    firstParentGenes.Remove(gene);
-                    firstParentGenes.Insert(i, gene);
+                    child.ReplaceGene(i, secondParentSwapGenes[secondParentSwapGensIndex++].Gene);
+                }
+                else
+                {
+                    firstParentRemainingGenes.MoveNext();
+                    child.ReplaceGene(i, firstParentRemainingGenes.Current);
                 }
             }
-
-            child.ReplaceGenes(0, firstParentGenes.ToArray());
 
             return child;
         }

@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Diagnostics.CodeAnalysis;
 using GeneticSharp.Infrastructure.Framework.Reflection;
+using GeneticSharp.Domain.Randomizations;
+
 
 namespace GeneticSharp.Domain.Mutations
 {
@@ -50,6 +53,57 @@ namespace GeneticSharp.Domain.Mutations
         public static Type GetMutationTypeByName(string name)
         {
             return TypeHelper.GetTypeByName<IMutation>(name);
+        }
+
+        /// <summary>
+        /// Shuffle sequence.
+        /// </summary>
+        /// <returns>The shuffled sequence.</returns>
+        /// <param name="source">source of sequence</param>
+        /// <param name="rng">random number generator to select next index to shuffle</param>
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, IRandomization rng)
+        {
+            T[] elements = source.ToArray();
+            for (int i = elements.Length - 1; i >= 0; i--)
+            {
+                int swapIndex = rng.GetInt(0, i + 1);
+                yield return elements[swapIndex];
+                elements[swapIndex] = elements[i];
+            }
+        }
+
+        /// <summary>
+        /// Shift sequence to left.
+        /// </summary>
+        /// <returns>The sequence shifted to left.</returns>
+        /// <param name="source">source of sequence</param>
+        /// <param name="valueToShift">count of units to be shifted</param>
+        public static IEnumerable<T> LeftShift<T>(this IEnumerable<T> source, int valueToShift)
+        {
+            T[] sourceElements = source.ToArray();
+            // all elements except for the first one... and at the end, the first one. to array.
+            T[] shisftedElements = sourceElements.Skip(valueToShift).Concat(sourceElements.Take(valueToShift)).ToArray();
+            foreach (T element in shisftedElements)
+            {
+                yield return element;
+            }
+        }
+
+        /// <summary>
+        /// Shift sequence to right.
+        /// </summary>
+        /// <returns>The sequence shifted to right.</returns>
+        /// <param name="source">source of sequence</param>
+        /// <param name="valueToShift">count of units to be shifted</param>
+        public static IEnumerable<T> RightShift<T>(this IEnumerable<T> source, int valueToShift)
+        {
+            T[] sourceElements = source.ToArray();
+            // the last element (because we're skipping all but one)... then all but the last one.
+            T[] shisftedElements = sourceElements.Skip(sourceElements.Length - valueToShift).Concat(sourceElements.Take(sourceElements.Length - valueToShift)).ToArray();
+            foreach (T element in shisftedElements)
+            {
+                yield return element;
+            }
         }
         #endregion
     }

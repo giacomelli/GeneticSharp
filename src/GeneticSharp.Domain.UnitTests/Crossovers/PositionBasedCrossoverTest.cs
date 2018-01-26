@@ -135,5 +135,73 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             Assert.AreEqual(5, childTwo.GetGene(6).Value);
             Assert.AreEqual(1, childTwo.GetGene(7).Value);
         }
+
+        [Test]
+        public void Cross_ParentsWith6Genes_Cross()
+        {
+            var target = new PositionBasedCrossover();
+
+            // 1 5 4 0 3 2
+            var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(6);
+            chromosome1.ReplaceGenes(0, new Gene[] {
+                new Gene(1),
+                new Gene(5),
+                new Gene(4),
+                new Gene(0),
+                new Gene(3),
+                new Gene(2)
+            });
+            chromosome1.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(6));
+
+            // 2 3 5 0 1 4
+            var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(6);
+            chromosome2.ReplaceGenes(0, new Gene[]
+            {
+                new Gene(2),
+                new Gene(3),
+                new Gene(5),
+                new Gene(0),
+                new Gene(1),
+                new Gene(4)
+            });
+            chromosome2.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(6));
+
+            // Child one: 4 3 5 0 1 2
+            // Child two: 2 5 4 0 3 1
+            var rnd = MockRepository.GenerateMock<IRandomization>();
+            rnd.Expect(r => r.GetInt(1, 5)).Return(3);
+            rnd.Expect(r => r.GetUniqueInts(3, 0, 6)).Return(new int[] { 2, 4, 3 });
+            RandomizationProvider.Current = rnd;
+
+            IList<IChromosome> actual = null; ;
+
+            TimeAssert.LessThan(40, () =>
+            {
+                actual = target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
+            });
+
+            Assert.AreEqual(2, actual.Count);
+            var childOne = actual[0];
+            var childTwo = actual[1];
+            Assert.AreEqual(6, childOne.Length);
+            Assert.AreEqual(6, childTwo.Length);
+
+            Assert.AreEqual(6, childOne.GetGenes().Distinct().Count());
+            Assert.AreEqual(6, childTwo.GetGenes().Distinct().Count());
+
+            Assert.AreEqual(4, childOne.GetGene(0).Value);
+            Assert.AreEqual(3, childOne.GetGene(1).Value);
+            Assert.AreEqual(5, childOne.GetGene(2).Value);
+            Assert.AreEqual(0, childOne.GetGene(3).Value);
+            Assert.AreEqual(1, childOne.GetGene(4).Value);
+            Assert.AreEqual(2, childOne.GetGene(5).Value);
+
+            Assert.AreEqual(2, childTwo.GetGene(0).Value);
+            Assert.AreEqual(5, childTwo.GetGene(1).Value);
+            Assert.AreEqual(4, childTwo.GetGene(2).Value);
+            Assert.AreEqual(0, childTwo.GetGene(3).Value);
+            Assert.AreEqual(3, childTwo.GetGene(4).Value);
+            Assert.AreEqual(1, childTwo.GetGene(5).Value);
+        }
     }
 }
