@@ -80,10 +80,10 @@ namespace GeneticSharp.Infrastructure.Framework.Reflection
         public static Type GetTypeByName<TInterface>(string name)
         {
             var interfaceName = typeof(TInterface).Name;
-            var crossoverType = GetTypesByInterface<TInterface>()
-                .Where(t => GetDisplayNameAttribute(t).DisplayName.Equals(name, StringComparison.OrdinalIgnoreCase))
-                    .FirstOrDefault();
-
+            var crossoverType = 
+                GetTypesByInterface<TInterface>()
+                .FirstOrDefault(t => GetDisplayNameAttribute(t).DisplayName.Equals(name, StringComparison.OrdinalIgnoreCase));
+            
             if (crossoverType == null)
             {
                 throw new ArgumentException("There is no {0} implementation with name '{1}'.".With(interfaceName, name), "name");

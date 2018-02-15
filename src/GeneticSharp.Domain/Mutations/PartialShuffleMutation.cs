@@ -48,10 +48,8 @@ namespace GeneticSharp.Domain.Mutations
 
                 return result;
             }
-            else
-            {
-                return sequence;
-            }
+            
+            return sequence;
         }
         #endregion
     }

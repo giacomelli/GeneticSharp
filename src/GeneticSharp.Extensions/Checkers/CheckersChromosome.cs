@@ -10,7 +10,7 @@ namespace GeneticSharp.Extensions.Checkers
     public sealed class CheckersChromosome : ChromosomeBase
     {
         #region Fields
-        private int m_boardSize;
+        private readonly int m_boardSize;
         #endregion
 
         #region Constructors

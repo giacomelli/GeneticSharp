@@ -12,7 +12,7 @@ namespace GeneticSharp.Domain.Terminations
     public abstract class LogicalOperatorTerminationBase : ITermination
     {
         #region Fields
-        private int m_minOperands;
+        private readonly int m_minOperands;
         #endregion
 
         #region Constructors

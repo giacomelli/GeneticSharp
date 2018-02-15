@@ -7,7 +7,7 @@ namespace GeneticSharp.Domain.Chromosomes
 	/// <summary>
 	/// Integer chromosome with binary values (0 and 1).
 	/// </summary>
-	public class IntegerChromosome : BinaryChromosomeBase
+	public sealed class IntegerChromosome : BinaryChromosomeBase
 	{
 		private int m_minValue;
 		private int m_maxValue;
