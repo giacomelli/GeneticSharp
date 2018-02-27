@@ -16,8 +16,6 @@ assembly_info:
   
 install:
 - cmd: choco install gtksharp    
-- cmd: choco install resharper-clt.portable
-- cmd: choco install fxcop
 
 nuget:
   account_feed: true
@@ -31,19 +29,7 @@ build:
   verbosity: minimal
 
 after_build:
-- cmd: >-    
-    "C:\Program Files (x86)\Microsoft Fxcop 10.0\FxCopCmd.exe" /project:.\src\GeneticSharp.FxCop /out:.\tools\fxcop-report.xml
-    
-    .\tools\BadgesSharpCmd.exe -o giacomelli -r GeneticSharp -b FxCop -c ".\tools\fxcop-report.xml" -a %GITHUB_REPO_TOKEN%
-    
-    .\tools\StyleCopCmd\Net.SF.StyleCopCmd.Console\StyleCopCmd.exe -sf .\src\GeneticSharp.sln --styleCopSettingsFile .\src\Settings.StyleCop -of .\tools\stylecop-report.xml --ignoreFilePattern .+Test\.cs
-    
-    .\tools\BadgesSharpCmd.exe -o giacomelli -r GeneticSharp -b StyleCop -c ".\tools\stylecop-report.violations.xml" -a %GITHUB_REPO_TOKEN%
-    
-    C:\ProgramData\chocolatey\lib\resharper-clt.portable\tools\dupfinder.exe /output=.\tools\dupFinder-Report.xml /show-text /exclude=**\*Test.cs;**\*.feature.cs;**\BundleConfig.cs .\src\GeneticSharp.sln
-    
-    .\tools\BadgesSharpCmd.exe -o giacomelli -r GeneticSharp -b DupFinder -c .\tools\dupFinder-Report.xml -a %GITHUB_REPO_TOKEN%
-
+- cmd: >-   
     mkdir .\src\nuget
 
     nuget pack .\src\GeneticSharp.Domain\GeneticSharp.Domain.csproj -IncludeReferencedProjects -Version %APPVEYOR_BUILD_VERSION% -OutputDirectory .\src\nuget
@@ -55,11 +41,5 @@ test_script:
 - ps: >-
     .\src\packages\coveralls.net.0.7.0\tools\csmacnz.Coveralls.exe --opencover -i opencoverCoverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_JOB_ID
 artifacts:
-  - path: .\tools\fxcop-report.xml
-    name: FxCop-Report  
-  - path: .\tools\stylecop-report.xml
-    name: StyleCop-Report     
-  - path: .\tools\dupFinder-report.xml
-    name: DupFinder-report 
   - path: .\src\nuget\*.nupkg
     name: NuGet packages
