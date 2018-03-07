@@ -2,16 +2,8 @@ GeneticSharp
 ===========
 
 [![Join the chat at https://gitter.im/GeneticSharp/Lobby](https://badges.gitter.im/GeneticSharp/Lobby.svg)](https://gitter.im/GeneticSharp/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-#### Build
 [![Build status](https://ci.appveyor.com/api/projects/status/h9ptxpyj30ah3mva/branch/master?svg=true)](https://ci.appveyor.com/project/giacomelli/geneticsharp)
-
-#### Code quality
 [![Coverage Status](https://coveralls.io/repos/giacomelli/GeneticSharp/badge.svg?branch=master&service=github)](https://coveralls.io/github/giacomelli/GeneticSharp?branch=master)
-[![FxCop](http://badgessharp.apphb.com/badges/giacomelli/GeneticSharp/FxCop)](https://ci.appveyor.com/project/giacomelli/GeneticSharp/build/artifacts)
-[![DupFinder](http://badgessharp.apphb.com/badges/giacomelli/GeneticSharp/DupFinder)](https://ci.appveyor.com/project/giacomelli/GeneticSharp/build/artifacts)
-
-#### Release
 [![License](http://img.shields.io/:license-MIT-blue.svg)](https://raw.githubusercontent.com/giacomelli/GeneticSharp/master/LICENSE)
 [![Nuget](https://img.shields.io/nuget/v/GeneticSharp.svg)](https://www.nuget.org/packages/GeneticSharp/)
 [![Stack Overflow](https://img.shields.io/badge/stackoverflow-GeneticSharp-orange.svg)](http://stackoverflow.com/questions/tagged/GeneticSharp)
