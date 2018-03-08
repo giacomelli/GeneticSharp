@@ -15,7 +15,7 @@ namespace GeneticSharp.Domain.Mutations
 	public class FlipBitMutation : MutationBase
 	{
 		#region Fields
-		private IRandomization m_rnd;
+		private readonly IRandomization m_rnd;
 		#endregion
 
 		#region Constructors

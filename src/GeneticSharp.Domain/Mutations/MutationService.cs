@@ -84,9 +84,9 @@ namespace GeneticSharp.Domain.Mutations
             T[] sourceElements = source.ToArray();
 
             // all elements except for the first one... and at the end, the first one. to array.
-            T[] shisftedElements = sourceElements.Skip(valueToShift).Concat(sourceElements.Take(valueToShift)).ToArray();
+            T[] shiftedElements = sourceElements.Skip(valueToShift).Concat(sourceElements.Take(valueToShift)).ToArray();
 
-            foreach (T element in shisftedElements)
+            foreach (T element in shiftedElements)
             {
                 yield return element;
             }
@@ -103,9 +103,9 @@ namespace GeneticSharp.Domain.Mutations
             T[] sourceElements = source.ToArray();
 
             // the last element (because we're skipping all but one)... then all but the last one.
-            T[] shisftedElements = sourceElements.Skip(sourceElements.Length - valueToShift).Concat(sourceElements.Take(sourceElements.Length - valueToShift)).ToArray();
+            T[] shiftedElements = sourceElements.Skip(sourceElements.Length - valueToShift).Concat(sourceElements.Take(sourceElements.Length - valueToShift)).ToArray();
            
-            foreach (T element in shisftedElements)
+            foreach (T element in shiftedElements)
             {
                 yield return element;
             }

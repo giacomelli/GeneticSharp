@@ -77,7 +77,7 @@ namespace GeneticSharp.Domain
 
         #region Fields
         private bool m_stopRequested;
-        private object m_lock = new object();
+        private readonly object m_lock = new object();
         private GeneticAlgorithmState m_state;
         #endregion              
 
@@ -231,7 +231,11 @@ namespace GeneticSharp.Domain
 
                 if (shouldStop)
                 {
-                    Stopped(this, EventArgs.Empty);
+                    var handler = Stopped;
+                    if (handler != null)
+                    {
+                        handler(this, EventArgs.Empty);
+                    }
                 }
             }
         }
@@ -291,7 +295,8 @@ namespace GeneticSharp.Domain
                 {
                     throw new InvalidOperationException("Attempt to resume a genetic algorithm which was not yet started.");
                 }
-                else if (Population.GenerationsNumber > 1)
+
+                if (Population.GenerationsNumber > 1)
                 {
                     if (Termination.HasReached(this))
                     {
@@ -368,18 +373,20 @@ namespace GeneticSharp.Domain
             EvaluateFitness();
             Population.EndCurrentGeneration();
 
-            if (GenerationRan != null)
+            var handler = GenerationRan;
+            if (handler != null)
             {
-                GenerationRan(this, EventArgs.Empty);
+                handler(this, EventArgs.Empty);
             }
 
             if (Termination.HasReached(this))
             {
                 State = GeneticAlgorithmState.TerminationReached;
 
-                if (TerminationReached != null)
+                handler = TerminationReached;
+                if (handler != null)
                 {
-                    TerminationReached(this, EventArgs.Empty);
+                    handler(this, EventArgs.Empty);
                 }
 
                 return true;

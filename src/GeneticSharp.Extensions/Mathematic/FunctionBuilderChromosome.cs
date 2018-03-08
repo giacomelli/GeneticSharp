@@ -22,8 +22,8 @@ namespace GeneticSharp.Extensions.Mathematic
         #endregion
 
         #region Fields
-        private ReadOnlyCollection<string> m_availableOperations;
-        private int m_maxOperations;
+        private readonly ReadOnlyCollection<string> m_availableOperations;
+        private readonly int m_maxOperations;
         #endregion
 
         #region Constructors

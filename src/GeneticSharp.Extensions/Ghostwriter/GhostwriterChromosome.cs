@@ -11,7 +11,7 @@ namespace GeneticSharp.Extensions.Ghostwriter
     public sealed class GhostwriterChromosome : ChromosomeBase
     {
         #region Fields
-        private IList<string> m_words;
+        private readonly IList<string> m_words;
         #endregion 
 
         #region Constructors

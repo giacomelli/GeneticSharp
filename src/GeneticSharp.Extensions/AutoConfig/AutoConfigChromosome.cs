@@ -16,10 +16,10 @@ namespace GeneticSharp.Extensions.AutoConfig
     public sealed class AutoConfigChromosome : ChromosomeBase
     {
         #region Fields
-        private static IRandomization s_randomization = RandomizationProvider.Current;
-        private static IList<string> s_availableSelections = SelectionService.GetSelectionNames();
-        private static IList<string> s_availableCrossovers = CrossoverService.GetCrossoverNames();
-        private static IList<string> s_availableMutations = MutationService.GetMutationNames();
+        private static readonly IRandomization s_randomization = RandomizationProvider.Current;
+        private static readonly IList<string> s_availableSelections = SelectionService.GetSelectionNames();
+        private static readonly IList<string> s_availableCrossovers = CrossoverService.GetCrossoverNames();
+        private static readonly IList<string> s_availableMutations = MutationService.GetMutationNames();
         #endregion
 
         #region Constructor           

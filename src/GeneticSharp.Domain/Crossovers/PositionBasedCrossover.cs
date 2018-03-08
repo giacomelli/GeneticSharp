@@ -62,25 +62,27 @@ namespace GeneticSharp.Domain.Crossovers
                  .Where((g) => swapIndexes.Contains(g.Index))
                  .ToArray();
 
-            var firstParentRemainingGenes = firstParent.GetGenes().Except(secondParentSwapGenes.Select(element => element.Gene).ToArray()).GetEnumerator();
-
-            var child = firstParent.CreateNew();
-            var secondParentSwapGensIndex = 0;
-
-            for (int i = 0; i < firstParent.Length; i++)
+            using (var firstParentRemainingGenes = firstParent.GetGenes()
+                .Except(secondParentSwapGenes.Select(element => element.Gene).ToArray()).GetEnumerator())
             {
-                if (secondParentSwapGenes.Any(f => f.Index == i))
-                {
-                    child.ReplaceGene(i, secondParentSwapGenes[secondParentSwapGensIndex++].Gene);
-                }
-                else
-                {
-                    firstParentRemainingGenes.MoveNext();
-                    child.ReplaceGene(i, firstParentRemainingGenes.Current);
-                }
-            }
+                var child = firstParent.CreateNew();
+                var secondParentSwapGensIndex = 0;
 
-            return child;
+                for (int i = 0; i < firstParent.Length; i++)
+                {
+                    if (secondParentSwapGenes.Any(f => f.Index == i))
+                    {
+                        child.ReplaceGene(i, secondParentSwapGenes[secondParentSwapGensIndex++].Gene);
+                    }
+                    else
+                    {
+                        firstParentRemainingGenes.MoveNext();
+                        child.ReplaceGene(i, firstParentRemainingGenes.Current);
+                    }
+                }
+
+                return child;
+            }
         }
 
         #endregion

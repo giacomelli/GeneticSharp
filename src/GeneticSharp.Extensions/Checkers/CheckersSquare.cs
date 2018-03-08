@@ -103,7 +103,8 @@ namespace GeneticSharp.Extensions.Checkers
                 piece.CurrentSquare = this;
                 return true;
             }
-            else if (State == CheckersSquareState.NotPlayable)
+
+            if (State == CheckersSquareState.NotPlayable)
             {
                 throw new ArgumentException("Attempt to put a piece in a not playable square.");
             }

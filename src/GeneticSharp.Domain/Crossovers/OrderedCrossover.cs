@@ -89,25 +89,28 @@ namespace GeneticSharp.Domain.Crossovers
         private static IChromosome CreateChild(IChromosome firstParent, IChromosome secondParent, int middleSectionBeginIndex, int middleSectionEndIndex)
         {
             var middleSectionGenes = firstParent.GetGenes().Skip(middleSectionBeginIndex).Take((middleSectionEndIndex - middleSectionBeginIndex) + 1);
-            var secondParentRemainingGenes = secondParent.GetGenes().Except(middleSectionGenes).GetEnumerator();
-            var child = firstParent.CreateNew();
 
-            for (int i = 0; i < firstParent.Length; i++)
+            using (var secondParentRemainingGenes = secondParent.GetGenes().Except(middleSectionGenes).GetEnumerator())
             {
-                var firstParentGene = firstParent.GetGene(i);
+                var child = firstParent.CreateNew();
 
-                if (i >= middleSectionBeginIndex && i <= middleSectionEndIndex)
+                for (int i = 0; i < firstParent.Length; i++)
                 {
-                    child.ReplaceGene(i, firstParentGene);
+                    var firstParentGene = firstParent.GetGene(i);
+
+                    if (i >= middleSectionBeginIndex && i <= middleSectionEndIndex)
+                    {
+                        child.ReplaceGene(i, firstParentGene);
+                    }
+                    else
+                    {
+                        secondParentRemainingGenes.MoveNext();
+                        child.ReplaceGene(i, secondParentRemainingGenes.Current);
+                    }
                 }
-                else
-                {
-                    secondParentRemainingGenes.MoveNext();
-                    child.ReplaceGene(i, secondParentRemainingGenes.Current);
-                }
+
+                return child;
             }
-
-            return child;
         }
         #endregion
     }

@@ -14,7 +14,7 @@ namespace GeneticSharp.Extensions.Tsp
 	public class TspChromosome : ChromosomeBase
     {
         #region Fields
-        private int m_numberOfCities;
+        private readonly int m_numberOfCities;
         #endregion
 
         #region Constructors

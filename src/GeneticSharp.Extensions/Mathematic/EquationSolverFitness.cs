@@ -10,8 +10,8 @@ namespace GeneticSharp.Extensions.Mathematic
     public class EquationSolverFitness : IFitness
     {
         #region Fields
-        private int m_expectedResult;
-        private Func<Gene[], int> m_getEquationResult;
+        private readonly int m_expectedResult;
+        private readonly Func<Gene[], int> m_getEquationResult;
         #endregion
 
         #region Constructors

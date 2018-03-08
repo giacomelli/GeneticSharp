@@ -9,7 +9,7 @@ namespace GeneticSharp.Domain.Fitnesses
 	/// </summary>
 	public class FuncFitness : IFitness
 	{
-		private Func<IChromosome, double> m_func;
+		private readonly Func<IChromosome, double> m_func;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:GeneticSharp.Domain.Fitnesses.FuncFitness"/> class.

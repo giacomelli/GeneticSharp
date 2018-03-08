@@ -129,3 +129,5 @@ src/GeneticSharp.Runner.ConsoleApp/Samples/HangmanSampleController.cs
 src/GeneticSharp.Runner.GtkApp/Samples/NumberlinkSampleController.cs
 dupFinder-report.xml
 Issue9Sample.sln.GhostDoc.xml
+/src/.vs/GeneticSharp/v15/Server/sqlite3
+/.vs
