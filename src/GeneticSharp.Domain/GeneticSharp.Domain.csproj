@@ -1,5 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\msbuilds\GeneticSharp.dotnet.core.targets" />
+  <Import Project="..\msbuilds\GeneticSharp.common.targets" />
+  <Import Project="..\msbuilds\GeneticSharp.sign.targets" />
+  <Import Project="..\msbuilds\GeneticSharp.Domain.targets" />
+
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -7,158 +11,26 @@
     <OutputType>Library</OutputType>
     <RootNamespace>GeneticSharp.Domain</RootNamespace>
     <AssemblyName>GeneticSharp.Domain</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ReleaseVersion>1.2.0</ReleaseVersion>
   </PropertyGroup>
+  
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
     <DefineConstants>DEBUG;CODE_ANALYSIS</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRuleSet>GeneticSharp.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\Debug\GeneticSharp.Domain.xml</DocumentationFile>
   </PropertyGroup>
+  
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>GeneticSharp.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Chromosomes\ChromosomeBase.cs" />
-    <Compile Include="Chromosomes\IChromosomeOperator.cs" />
-    <Compile Include="Crossovers\CrossoverBase.cs" />
-    <Compile Include="Crossovers\CrossoverException.cs" />
-    <Compile Include="Crossovers\CutAndSpliceCrossover.cs" />
-    <Compile Include="Crossovers\CycleCrossover.cs" />
-    <Compile Include="Crossovers\OnePointCrossover.cs" />
-    <Compile Include="Crossovers\OrderedCrossover.cs" />
-    <Compile Include="Crossovers\ThreeParentCrossover.cs" />
-    <Compile Include="Crossovers\TwoPointCrossover.cs" />
-    <Compile Include="Crossovers\UniformCrossover.cs" />
-    <Compile Include="Mutations\DisplacementMutation.cs" />
-    <Compile Include="Mutations\InsertionMutation.cs" />
-    <Compile Include="Mutations\MutationBase.cs" />
-    <Compile Include="Mutations\PartialShuffleMutation.cs" />
-    <Compile Include="Mutations\ReverseSequenceMutation.cs" />
-    <Compile Include="Mutations\SequenceMutationBase.cs" />
-    <Compile Include="Mutations\TworsMutation.cs" />
-    <Compile Include="Populations\IGenerationStrategy.cs" />
-    <Compile Include="Populations\PerformanceGenerationStrategy.cs" />
-    <Compile Include="Populations\TrackingGenerationStrategy.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Chromosomes\IChromosome.cs" />
-    <Compile Include="Chromosomes\Gene.cs" />
-    <Compile Include="Populations\Population.cs" />
-    <Compile Include="Populations\Generation.cs" />
-    <Compile Include="Fitnesses\IFitness.cs" />
-    <Compile Include="Mutations\IMutation.cs" />
-    <Compile Include="Mutations\UniformMutation.cs" />
-    <Compile Include="Crossovers\ICrossover.cs" />
-    <Compile Include="Randomizations\Externals\FastRandom.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
-    </Compile>
-    <Compile Include="Randomizations\FastRandomRandomization.cs" />
-    <Compile Include="Randomizations\IRandomization.cs" />
-    <Compile Include="Randomizations\RandomizationBase.cs" />
-    <Compile Include="Randomizations\RandomizationExtensions.cs" />
-    <Compile Include="Randomizations\RandomizationProvider.cs" />
-    <Compile Include="Randomizations\BasicRandomization.cs" />
-    <Compile Include="Reinsertions\IReinsertion.cs" />
-    <Compile Include="Reinsertions\ReinsertionService.cs" />
-    <Compile Include="Selections\EliteSelection.cs" />
-    <Compile Include="Selections\RouletteWheelSelection.cs" />
-    <Compile Include="Selections\ISelection.cs" />
-    <Compile Include="Selections\SelectionBase.cs" />
-    <Compile Include="Mutations\MutationException.cs" />
-    <Compile Include="Fitnesses\FitnessException.cs" />
-    <Compile Include="Crossovers\CrossoverService.cs" />
-    <Compile Include="Mutations\MutationService.cs" />
-    <Compile Include="Selections\SelectionException.cs" />
-    <Compile Include="Selections\SelectionService.cs" />
-    <Compile Include="Crossovers\PartiallyMappedCrossover.cs" />
-    <Compile Include="Chromosomes\ChromosomeExtensions.cs" />
-    <Compile Include="Selections\StochasticUniversalSamplingSelection.cs" />
-    <Compile Include="Selections\TournamentSelection.cs" />
-    <Compile Include="Terminations\AndTermination.cs" />
-    <Compile Include="Terminations\FitnessStagnationTermination.cs" />
-    <Compile Include="Terminations\ITermination.cs" />
-    <Compile Include="Terminations\GenerationNumberTermination.cs" />
-    <Compile Include="Terminations\LogicalOperatorTerminationBase.cs" />
-    <Compile Include="Terminations\OrTermination.cs" />
-    <Compile Include="Terminations\TerminationBase.cs" />
-    <Compile Include="Terminations\TimeEvolvingTermination.cs" />
-    <Compile Include="Terminations\TerminationService.cs" />
-    <Compile Include="GeneticAlgorithm.cs" />
-    <Compile Include="Terminations\FitnessThresholdTermination.cs" />
-    <Compile Include="Populations\PopulationService.cs" />
-    <Compile Include="Reinsertions\PureReinsertion.cs" />
-    <Compile Include="Reinsertions\ReinsertionBase.cs" />
-    <Compile Include="Reinsertions\ReinsertionException.cs" />
-    <Compile Include="Reinsertions\UniformReinsertion.cs" />
-    <Compile Include="Reinsertions\ElitistReinsertion.cs" />
-    <Compile Include="Reinsertions\FitnessBasedReinsertion.cs" />
-    <Compile Include="IGeneticAlgorithm.cs" />
-    <Compile Include="Populations\IPopulation.cs" />
-    <Compile Include="Crossovers\OrderBasedCrossover.cs" />
-    <Compile Include="Crossovers\PositionBasedCrossover.cs" />
-    <Compile Include="Chromosomes\IBinaryChromosome.cs" />
-    <Compile Include="Chromosomes\BinaryChromosomeBase.cs" />
-    <Compile Include="Mutations\FlipBitMutation.cs" />
-    <Compile Include="Fitnesses\FuncFitness.cs" />
-    <Compile Include="Chromosomes\IntegerChromosome.cs" />
-    <Compile Include="Chromosomes\FloatingPointChromosome.cs" />
-    <Compile Include="Properties\SolutionInfo.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  
   <ItemGroup>
     <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
+    <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj" />
   </ItemGroup>
-  <ProjectExtensions>
-    <MonoDevelop>
-      <Properties>
-        <Policies>
-          <DotNetNamingPolicy ResourceNamePolicy="FileFormatDefault" DirectoryNamespaceAssociation="PrefixedHierarchical" />
-        </Policies>
-      </Properties>
-    </MonoDevelop>
-  </ProjectExtensions>
-  <ItemGroup>
-    <None Include="Chromosomes\Chromosomes.cd" />
-    <None Include="Crossovers\Crossovers.cd" />
-    <None Include="Fitnesses\Fitnesses.cd" />
-    <None Include="GeneticSharp.snk" />
-    <None Include="Mutations\Mutations.cd" />
-    <None Include="Populations\Populations.cd" />
-    <None Include="Randomizations\Randomizations.cd" />
-    <None Include="Selections\Selection.cd" />
-    <None Include="Terminations\Terminations.cd" />
-  </ItemGroup>
-  <Import Project="..\msbuilds\GeneticSharp.Domain.targets" />
-  <ItemGroup />
-  <ItemGroup>
-    <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj">
-      <Project>{1498D792-D02B-4A9E-8AFC-24AEBA0DEE54}</Project>
-      <Name>GeneticSharp.Infrastructure.Framework</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  
 </Project>
