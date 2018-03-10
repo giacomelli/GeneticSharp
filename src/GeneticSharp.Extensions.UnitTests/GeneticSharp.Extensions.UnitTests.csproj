@@ -37,14 +37,6 @@
     <AssemblyOriginatorKeyFile>GeneticSharp.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="Ionic.Utils.Zip, Version=1.4.0.1, Culture=neutral, PublicKeyToken=c551e179877da246">
-      <HintPath>..\packages\TestSharp.1.0.3\lib\net40\Ionic.Utils.Zip.dll</HintPath>
-    </Reference>
-    <Reference Include="TestSharp, Version=0.0.6.0, Culture=neutral, PublicKeyToken=76c905e92dbc6707">
-      <HintPath>..\packages\TestSharp.1.0.3\lib\net40\TestSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Drawing" />
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.3.9.0\lib\net45\nunit.framework.dll</HintPath>
     </Reference>

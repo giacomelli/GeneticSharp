@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using System.Reflection;
 using System.Runtime.Serialization;
 using GeneticSharp.Domain.Crossovers;
 using NUnit.Framework;
-using Rhino.Mocks;
+using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Chromosomes
 {
@@ -36,7 +36,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         [Test]
         public void Constructor_CrossoverAndMessageAndInnerException_CrossoverAndMessageAndInnerExcetion()
         {
-            var target = new CrossoverException(MockRepository.GenerateMock<ICrossover>(), "1", new Exception("2"));
+            var target = new CrossoverException(Substitute.For<ICrossover>(), "1", new Exception("2"));
             Assert.IsNotNull(target.Crossover);
             Assert.AreEqual(target.Crossover.GetType().Name + ": 1", target.Message);
             Assert.AreEqual("2", target.InnerException.Message);
@@ -47,7 +47,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         {
             var constructor = typeof(CrossoverException).GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance)[0];
 
-            var serializationInfo = new SerializationInfo(typeof(int), MockRepository.GenerateMock<IFormatterConverter>());
+            var serializationInfo = new SerializationInfo(typeof(int), Substitute.For<IFormatterConverter>());
             serializationInfo.AddValue("ClassName", "CrossoverException");
             serializationInfo.AddValue("Message", "1");
             serializationInfo.AddValue("InnerException", new Exception("2"));
@@ -69,9 +69,9 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         [Test]
         public void GetObjectData_InfoAndContext_Property()
         {
-            var propertyValue = MockRepository.GenerateMock<ICrossover>();
+            var propertyValue = Substitute.For<ICrossover>();
             var target = new CrossoverException(propertyValue, "1");
-            var serializationInfo = new SerializationInfo(typeof(int), MockRepository.GenerateMock<IFormatterConverter>());
+            var serializationInfo = new SerializationInfo(typeof(int), Substitute.For<IFormatterConverter>());
             target.GetObjectData(serializationInfo, new StreamingContext());
 
             Assert.AreEqual(propertyValue, serializationInfo.GetValue("Crossover", typeof(ICrossover)));

@@ -1,7 +1,6 @@
-using System;
+﻿using System;
 using GeneticSharp.Domain.Terminations;
 using NUnit.Framework;
-using TestSharp;
 
 namespace GeneticSharp.Domain.UnitTests.Terminations
 {
@@ -41,19 +40,19 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
         [Test()]
         public void CreateTerminationByName_InvalidName_Exception()
         {
-            ExceptionAssert.IsThrowing(new ArgumentException("There is no ITermination implementation with name 'Test'.", "name"), () =>
+            Assert.Catch<ArgumentException>(() =>
             {
                 TerminationService.CreateTerminationByName("Test");
-            });
+            }, "There is no ITermination implementation with name 'Test'.");
         }
 
         [Test()]
         public void CreateTerminationByName_ValidNameButInvalidConstructorArgs_Exception()
         {
-            ExceptionAssert.IsThrowing(new ArgumentException("A ITermination's implementation with name 'Generation Number' was found, but seems the constructor args were invalid.", "constructorArgs"), () =>
+            Assert.Catch<ArgumentException>(() =>
             {
                 TerminationService.CreateTerminationByName("Generation Number", 1f);
-            });
+            }, "A ITermination's implementation with name 'Generation Number' was found, but seems the constructor args were invalid.");
         }
 
         [Test()]
@@ -75,10 +74,10 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
         [Test()]
         public void GetTerminationTypeByName_InvalidName_Exception()
         {
-            ExceptionAssert.IsThrowing(new ArgumentException("There is no ITermination implementation with name 'Test'.", "name"), () =>
+            Assert.Catch<ArgumentException>(() =>
             {
                 TerminationService.GetTerminationTypeByName("Test");
-            });
+            }, "There is no ITermination implementation with name 'Test'.");
         }
 
         [Test()]

@@ -1,12 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Selections;
 using NUnit.Framework;
-using Rhino.Mocks;
-using TestSharp;
+using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Selections
 {
@@ -25,31 +24,32 @@ namespace GeneticSharp.Domain.UnitTests.Selections
         {
             var target = new StochasticUniversalSamplingSelection();
 
-            ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("number", "The number of selected chromosomes should be at least 2."), () =>
+            Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
                 target.SelectChromosomes(-1, null);
-            });
+            }, "The number of selected chromosomes should be at least 2.");
 
-            ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("number", "The number of selected chromosomes should be at least 2."), () =>
+            Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
                 target.SelectChromosomes(0, null);
-            });
+            }, "The number of selected chromosomes should be at least 2.");
 
-            ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("number", "The number of selected chromosomes should be at least 2."), () =>
+            Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
                 target.SelectChromosomes(1, null);
-            });
+            }, "The number of selected chromosomes should be at least 2.");
         }
 
         [Test()]
         public void SelectChromosomes_NullGeneration_Exception()
         {
             var target = new StochasticUniversalSamplingSelection();
-
-            ExceptionAssert.IsThrowing(new ArgumentNullException("generation"), () =>
+            var actual = Assert.Catch<ArgumentNullException>(() =>
             {
                 target.SelectChromosomes(2, null);
             });
+
+            Assert.AreEqual("generation", actual.ParamName);
         }
 
         [Test()]
@@ -78,8 +78,8 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             // c2: 38% = 0.46
             // c3:  0% = 0.46
             // c4: 54% = 1.00
-            var rnd = MockRepository.GenerateMock<IRandomization>();
-            rnd.Expect(r => r.GetDouble()).Return(0.3);
+            var rnd = Substitute.For<IRandomization>();
+            rnd.GetDouble().Returns(0.3);
             RandomizationProvider.Current = rnd;
 
             // Step size 1/2 = 0.5

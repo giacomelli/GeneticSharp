@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
-using Rhino.Mocks;
+using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Chromosomes
 {
@@ -12,8 +12,8 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
 		[Test]
 		public void ToFloatingPoint_NoArgs_Double()
 		{
-			RandomizationProvider.Current = MockRepository.GenerateMock<IRandomization>();
-			RandomizationProvider.Current.Expect(r => r.GetDouble(0.5, 2.5)).Return(1.1);
+			RandomizationProvider.Current = Substitute.For<IRandomization>();
+			RandomizationProvider.Current.GetDouble(0.5, 2.5).Returns(1.1);
 			var target = new FloatingPointChromosome(0.5, 2.5, 2);
 			var actual = target.ToFloatingPoint();
 
@@ -23,10 +23,10 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
 		[Test]
 		public void ToFloatingPoints_NoArgs_Double()
 		{
-			RandomizationProvider.Current = MockRepository.GenerateMock<IRandomization>();
-			RandomizationProvider.Current.Expect(r => r.GetDouble(0, 10)).Return(1);
-			RandomizationProvider.Current.Expect(r => r.GetDouble(1, 11)).Return(2);
-			RandomizationProvider.Current.Expect(r => r.GetDouble(2, 12)).Return(3);
+			RandomizationProvider.Current = Substitute.For<IRandomization>();
+			RandomizationProvider.Current.GetDouble(0, 10).Returns(1);
+			RandomizationProvider.Current.GetDouble(1, 11).Returns(2);
+			RandomizationProvider.Current.GetDouble(2, 12).Returns(3);
 			var target = new FloatingPointChromosome(new double[] { 0, 1, 2 }, new double[] { 10, 11, 12 }, new int[] { 8, 8, 8 }, new int[] { 0, 0, 0 });
 			var actual = target.ToFloatingPoints();
 
@@ -39,8 +39,8 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
 		[Test]
 		public void Constructor_FromZeroToZero_Double()
 		{
-			RandomizationProvider.Current = MockRepository.GenerateMock<IRandomization>();
-			RandomizationProvider.Current.Expect(r => r.GetDouble(0, 0)).Return(0);
+			RandomizationProvider.Current = Substitute.For<IRandomization>();
+			RandomizationProvider.Current.GetDouble(0, 0).Returns(0);
 			var target = new FloatingPointChromosome(0, 0, 2);
 			var actual = target.ToFloatingPoint();
 

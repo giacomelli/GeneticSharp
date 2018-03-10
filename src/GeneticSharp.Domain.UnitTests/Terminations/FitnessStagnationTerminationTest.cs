@@ -1,6 +1,6 @@
-using GeneticSharp.Domain.Terminations;
+﻿using GeneticSharp.Domain.Terminations;
 using NUnit.Framework;
-using Rhino.Mocks;
+using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Terminations
 {
@@ -12,17 +12,12 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
         public void HasReached_NoStagnation_False()
         {
             var target = new FitnessStagnationTermination(3);
-            var repository = new MockRepository();
-            var ga = repository.StrictMock<IGeneticAlgorithm>();
+            var ga = Substitute.For<IGeneticAlgorithm>();
 
-            using (repository.Ordered())
-            {
-                ga.Expect(g => g.BestChromosome).Return(new ChromosomeStub() { Fitness = 0.1 });
-                ga.Expect(g => g.BestChromosome).Return(new ChromosomeStub() { Fitness = 0.2 });
-                ga.Expect(g => g.BestChromosome).Return(new ChromosomeStub() { Fitness = 0.3 });
-            }
-
-            repository.ReplayAll();
+            ga.BestChromosome.Returns(
+                new ChromosomeStub() { Fitness = 0.1 },
+                new ChromosomeStub() { Fitness = 0.2 },
+                new ChromosomeStub() { Fitness = 0.3 });
 
             Assert.IsFalse(target.HasReached(ga));
             Assert.IsFalse(target.HasReached(ga));
@@ -34,16 +29,12 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
         {
 
             var target = new FitnessStagnationTermination(4);
-            var repository = new MockRepository();
-            var ga = repository.StrictMock<IGeneticAlgorithm>();
+            var ga = Substitute.For<IGeneticAlgorithm>();
 
-            using (repository.Ordered())
-            {
-                ga.Expect(g => g.BestChromosome).Return(new ChromosomeStub() { Fitness = 0.1 });
-                ga.Expect(g => g.BestChromosome).Return(new ChromosomeStub() { Fitness = 0.1 });
-                ga.Expect(g => g.BestChromosome).Return(new ChromosomeStub() { Fitness = 0.1 });
-            }
-            repository.ReplayAll();
+            ga.BestChromosome.Returns(
+                new ChromosomeStub() { Fitness = 0.1 },
+                new ChromosomeStub() { Fitness = 0.1 },
+                new ChromosomeStub() { Fitness = 0.1 });
 
             Assert.IsFalse(target.HasReached(ga));
             Assert.IsFalse(target.HasReached(ga));
@@ -54,18 +45,13 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
         public void HasReached_StagnantAndReachGenerationNumber_True()
         {
             var target = new FitnessStagnationTermination(3);
-            var repository = new MockRepository();
-            var ga = repository.StrictMock<IGeneticAlgorithm>();
+            var ga = Substitute.For<IGeneticAlgorithm>();
 
-            using (repository.Ordered())
-            {
-                ga.Expect(g => g.BestChromosome).Return(new ChromosomeStub() { Fitness = 0.2 });
-                ga.Expect(g => g.BestChromosome).Return(new ChromosomeStub() { Fitness = 0.2 });
-                ga.Expect(g => g.BestChromosome).Return(new ChromosomeStub() { Fitness = 0.3 });
-                ga.Expect(g => g.BestChromosome).Return(new ChromosomeStub() { Fitness = 0.3 });
-                ga.Expect(g => g.BestChromosome).Return(new ChromosomeStub() { Fitness = 0.3 });
-            }
-            repository.ReplayAll();
+            ga.BestChromosome.Returns(new ChromosomeStub() { Fitness = 0.2 },
+                                      new ChromosomeStub() { Fitness = 0.2 },
+                                      new ChromosomeStub() { Fitness = 0.3 },
+                                      new ChromosomeStub() { Fitness = 0.3 },
+                                      new ChromosomeStub() { Fitness = 0.3 });
 
             Assert.IsFalse(target.HasReached(ga));
             Assert.IsFalse(target.HasReached(ga));

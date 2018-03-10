@@ -1,7 +1,6 @@
-using System;
+﻿using System;
 using GeneticSharp.Domain.Mutations;
 using NUnit.Framework;
-using TestSharp;
 
 namespace GeneticSharp.Domain.UnitTests.Mutations
 {
@@ -42,19 +41,19 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         [Test()]
         public void CreateMutationByName_InvalidName_Exception()
         {
-            ExceptionAssert.IsThrowing(new ArgumentException("There is no IMutation implementation with name 'Test'.", "name"), () =>
+            Assert.Catch<ArgumentException>(() =>
             {
                 MutationService.CreateMutationByName("Test");
-            });
+            }, "There is no IMutation implementation with name 'Test'.");
         }
 
         [Test()]
         public void CreateMutationByName_ValidNameButInvalidConstructorArgs_Exception()
         {
-            ExceptionAssert.IsThrowing(new ArgumentException("A IMutation's implementation with name 'Uniform' was found, but seems the constructor args were invalid.", "constructorArgs"), () =>
+            Assert.Catch<ArgumentException>(() =>
             {
                 MutationService.CreateMutationByName("Uniform", 1f);
-            });
+            }, "A IMutation's implementation with name 'Uniform' was found, but seems the constructor args were invalid.");
         }
 
         [Test()]
@@ -73,10 +72,10 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         [Test()]
         public void GetMutationTypeByName_InvalidName_Exception()
         {
-            ExceptionAssert.IsThrowing(new ArgumentException("There is no IMutation implementation with name 'Test'.", "name"), () =>
+            Assert.Catch<ArgumentException>(() =>
             {
                 MutationService.GetMutationTypeByName("Test");
-            });
+            }, "There is no IMutation implementation with name 'Test'.");
         }
 
         [Test()]

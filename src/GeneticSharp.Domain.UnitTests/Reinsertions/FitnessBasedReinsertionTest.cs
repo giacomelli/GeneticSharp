@@ -1,9 +1,9 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Reinsertions;
 using NUnit.Framework;
-using Rhino.Mocks;
+using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Reinsertions
 {
@@ -17,12 +17,12 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
         {
             var target = new FitnessBasedReinsertion();
 
-            var population = new Population(2, 3, MockRepository.GenerateStub<ChromosomeBase>(2));
+            var population = new Population(2, 3, Substitute.For<ChromosomeBase>(2));
             var offspring = new List<IChromosome>() {
-                MockRepository.GenerateStub<ChromosomeBase> (2),
-                MockRepository.GenerateStub<ChromosomeBase> (2),
-                MockRepository.GenerateStub<ChromosomeBase> (3),
-                MockRepository.GenerateStub<ChromosomeBase> (4)
+                Substitute.For<ChromosomeBase> (2),
+                Substitute.For<ChromosomeBase> (2),
+                Substitute.For<ChromosomeBase> (3),
+                Substitute.For<ChromosomeBase> (4)
             };
 
             offspring[0].Fitness = 0.2;
@@ -31,10 +31,10 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             offspring[3].Fitness = 0.7;
 
             var parents = new List<IChromosome>() {
-                MockRepository.GenerateStub<ChromosomeBase> (5),
-                MockRepository.GenerateStub<ChromosomeBase> (6),
-                MockRepository.GenerateStub<ChromosomeBase> (7),
-                MockRepository.GenerateStub<ChromosomeBase> (8)
+                Substitute.For<ChromosomeBase> (5),
+                Substitute.For<ChromosomeBase> (6),
+                Substitute.For<ChromosomeBase> (7),
+                Substitute.For<ChromosomeBase> (8)
             };
 
             var selected = target.SelectChromosomes(population, offspring, parents);

@@ -1,8 +1,7 @@
-using System;
+﻿using System;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Randomizations;
 using NUnit.Framework;
-using TestSharp;
 
 namespace GeneticSharp.Domain.UnitTests.Populations
 {
@@ -39,19 +38,19 @@ namespace GeneticSharp.Domain.UnitTests.Populations
         [Test()]
         public void CreateGenerationStrategyByName_InvalidName_Exception()
         {
-            ExceptionAssert.IsThrowing(new ArgumentException("There is no IGenerationStrategy implementation with name 'Test'.", "name"), () =>
+            Assert.Catch<ArgumentException>(() =>
             {
                 PopulationService.CreateGenerationStrategyByName("Test");
-            });
+            }, "There is no IGenerationStrategy implementation with name 'Test'.");
         }
 
         [Test()]
         public void CreateGenerationStrategyByName_ValidNameButInvalidConstructorArgs_Exception()
         {
-            ExceptionAssert.IsThrowing(new ArgumentException("A IGenerationStrategy's implementation with name 'Tracking' was found, but seems the constructor args were invalid.", "constructorArgs"), () =>
+            Assert.Catch<ArgumentException>(() =>
             {
                 PopulationService.CreateGenerationStrategyByName("Tracking", 1);
-            });
+            }, "A IGenerationStrategy's implementation with name 'Tracking' was found, but seems the constructor args were invalid.");
         }
 
         [Test()]
@@ -67,10 +66,10 @@ namespace GeneticSharp.Domain.UnitTests.Populations
         [Test()]
         public void GetGenerationStrategyTypeByName_InvalidName_Exception()
         {
-            ExceptionAssert.IsThrowing(new ArgumentException("There is no IGenerationStrategy implementation with name 'Test'.", "name"), () =>
+            Assert.Catch<ArgumentException>(() =>
             {
                 PopulationService.GetGenerationStrategyTypeByName("Test");
-            });
+            }, "There is no IGenerationStrategy implementation with name 'Test'.");
         }
 
         [Test()]

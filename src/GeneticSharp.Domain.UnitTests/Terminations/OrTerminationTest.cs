@@ -1,8 +1,7 @@
-using System;
+﻿using System;
 using GeneticSharp.Domain.Terminations;
 using NUnit.Framework;
-using Rhino.Mocks;
-using TestSharp;
+using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Terminations
 {
@@ -14,41 +13,42 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
         public void AddTermination_Null_Exception()
         {
             var target = new OrTermination();
-
-            ExceptionAssert.IsThrowing(new ArgumentNullException("termination"), () =>
+            var actual = Assert.Catch<ArgumentNullException>(() =>
             {
                 target.AddTermination(null);
             });
+
+            Assert.AreEqual("termination", actual.ParamName);
         }
 
         [Test()]
         public void HasReached_LessThan2Terminations_Exception()
         {
             var target = new OrTermination();
-            target.AddTermination(MockRepository.GenerateMock<ITermination>());
+            target.AddTermination(Substitute.For<ITermination>());
 
-            ExceptionAssert.IsThrowing(new InvalidOperationException("The OrTermination needs at least 2 terminations to perform. Please, add the missing terminations."), () =>
+            Assert.Catch<InvalidOperationException>(() =>
             {
-                target.HasReached(MockRepository.GenerateMock<IGeneticAlgorithm>());
-            });
+                target.HasReached(Substitute.For<IGeneticAlgorithm>());
+            }, "The OrTermination needs at least 2 terminations to perform. Please, add the missing terminations.");
         }
 
         [Test()]
         public void HasReached_AllTerminationsHasNotReached_False()
         {
             var target = new OrTermination();
-            var ga = MockRepository.GenerateMock<IGeneticAlgorithm>();
+            var ga = Substitute.For<IGeneticAlgorithm>();
 
-            var t1 = MockRepository.GenerateMock<ITermination>();
-            t1.Expect(t => t.HasReached(ga)).IgnoreArguments().Return(false);
+            var t1 = Substitute.For<ITermination>();
+            t1.HasReached(ga).ReturnsForAnyArgs(false);
             target.AddTermination(t1);
 
-            var t2 = MockRepository.GenerateMock<ITermination>();
-            t2.Expect(t => t.HasReached(ga)).IgnoreArguments().Return(false);
+            var t2 = Substitute.For<ITermination>();
+            t2.HasReached(ga).ReturnsForAnyArgs(false);
             target.AddTermination(t2);
 
-            var t3 = MockRepository.GenerateMock<ITermination>();
-            t3.Expect(t => t.HasReached(ga)).IgnoreArguments().Return(false);
+            var t3 = Substitute.For<ITermination>();
+            t3.HasReached(ga).ReturnsForAnyArgs(false);
             target.AddTermination(t3);
 
             Assert.IsFalse(target.HasReached(ga));
@@ -58,18 +58,18 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
         public void HasReached_OnlyOneTerminationsHasReached_True()
         {
             var target = new OrTermination();
-            var ga = MockRepository.GenerateMock<IGeneticAlgorithm>();
+            var ga = Substitute.For<IGeneticAlgorithm>();
 
-            var t1 = MockRepository.GenerateMock<ITermination>();
-            t1.Expect(t => t.HasReached(ga)).IgnoreArguments().Return(false);
+            var t1 = Substitute.For<ITermination>();
+            t1.HasReached(ga).ReturnsForAnyArgs(false);
             target.AddTermination(t1);
 
-            var t2 = MockRepository.GenerateMock<ITermination>();
-            t2.Expect(t => t.HasReached(ga)).IgnoreArguments().Return(true);
+            var t2 = Substitute.For<ITermination>();
+            t2.HasReached(ga).ReturnsForAnyArgs(true);
             target.AddTermination(t2);
 
-            var t3 = MockRepository.GenerateMock<ITermination>();
-            t3.Expect(t => t.HasReached(ga)).IgnoreArguments().Return(false);
+            var t3 = Substitute.For<ITermination>();
+            t3.HasReached(ga).ReturnsForAnyArgs(false);
             target.AddTermination(t3);
 
             Assert.IsTrue(target.HasReached(ga));

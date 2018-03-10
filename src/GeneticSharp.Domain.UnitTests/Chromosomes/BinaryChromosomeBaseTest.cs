@@ -1,6 +1,4 @@
-﻿using System;
-using NUnit.Framework;
-using Rhino.Mocks;
+﻿using NUnit.Framework;
 using GeneticSharp.Domain.Chromosomes;
 using System.Collections.Generic;
 using System.Linq;

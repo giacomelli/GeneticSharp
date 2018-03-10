@@ -1,8 +1,7 @@
-using System;
+﻿using System;
 using System.Linq;
 using GeneticSharp.Domain.Randomizations;
 using NUnit.Framework;
-using TestSharp;
 
 namespace GeneticSharp.Domain.UnitTests.Randomizations
 {
@@ -115,10 +114,10 @@ namespace GeneticSharp.Domain.UnitTests.Randomizations
         {
             var target = new FastRandomRandomization();
 
-            ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("length", "The length is 5, but the possible unique values between 0 (inclusive) and 4 (exclusive) are 4."), () =>
+            Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
                 target.GetUniqueInts(5, 0, 4);
-            });
+            }, "The length is 5, but the possible unique values between 0 (inclusive) and 4 (exclusive) are 4.");
 
 
         }
@@ -169,10 +168,10 @@ namespace GeneticSharp.Domain.UnitTests.Randomizations
         {
             var target = new FastRandomRandomization();
 
-            ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("upperBound", 1, "upperBound must be >=lowerBound"), () =>
+            Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
                 target.GetInt(2, 1);
-            });
+            }, "upperBound must be >=lowerBound");
         }
 
         [Test]

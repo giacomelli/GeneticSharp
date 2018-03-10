@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,8 +13,7 @@ using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Infrastructure.Threading;
 using NUnit.Framework;
-using Rhino.Mocks;
-using TestSharp;
+using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests
 {
@@ -37,51 +36,61 @@ namespace GeneticSharp.Domain.UnitTests
 		[Test()]
 		public void Constructor_NullPopulation_Exception()
 		{
-			ExceptionAssert.IsThrowing(new ArgumentNullException("population"), () =>
+            var actual = Assert.Catch<ArgumentNullException>(() =>
 			{
 				new GeneticAlgorithm(null, null, null, null, null);
 			});
+
+            Assert.AreEqual("population", actual.ParamName);
 		}
 
 		[Test()]
 		public void Constructor_NullFitness_Exception()
 		{
-			ExceptionAssert.IsThrowing(new ArgumentNullException("fitness"), () =>
+            var actual = Assert.Catch<ArgumentNullException>(() =>
 			{
 				new GeneticAlgorithm(new Population(2, 2, new ChromosomeStub()), null, null, null, null);
 			});
+
+            Assert.AreEqual("fitness", actual.ParamName);
 		}
 
 		[Test()]
 		public void Constructor_NullSelection_Exception()
 		{
-			ExceptionAssert.IsThrowing(new ArgumentNullException("selection"), () =>
+            var actual = Assert.Catch<ArgumentNullException>(() =>
 			{
-				new GeneticAlgorithm(new Population(2, 2, new ChromosomeStub()), MockRepository.GenerateMock<IFitness>(), null, null, null);
+				new GeneticAlgorithm(new Population(2, 2, new ChromosomeStub()), Substitute.For<IFitness>(), null, null, null);
 			});
+
+            Assert.AreEqual("selection", actual.ParamName);
 		}
 
 		[Test()]
 		public void Constructor_NullCrossover_Exception()
 		{
-			ExceptionAssert.IsThrowing(new ArgumentNullException("crossover"), () =>
+            var actual = Assert.Catch<ArgumentNullException>(() =>
 			{
 				new GeneticAlgorithm(new Population(2, 2, new ChromosomeStub()),
-							   MockRepository.GenerateMock<IFitness>(),
-							   MockRepository.GenerateMock<ISelection>(), null, null);
+							   Substitute.For<IFitness>(),
+							   Substitute.For<ISelection>(), null, null);
 			});
+
+            Assert.AreEqual("crossover", actual.ParamName);
 		}
 
 		[Test()]
 		public void Constructor_NullMutation_Exception()
 		{
-			ExceptionAssert.IsThrowing(new ArgumentNullException("mutation"), () =>
+            var actual = Assert.Catch<ArgumentNullException>(() =>
 			{
 				new GeneticAlgorithm(new Population(2, 2, new ChromosomeStub()),
-							   MockRepository.GenerateMock<IFitness>(),
-							   MockRepository.GenerateMock<ISelection>(),
-							   MockRepository.GenerateMock<ICrossover>(), null);
+							   Substitute.For<IFitness>(),
+							   Substitute.For<ISelection>(),
+							   Substitute.For<ICrossover>(), null);
 			});
+
+            Assert.AreEqual("mutation", actual.ParamName);
 		}
 
 		[Test()]
@@ -185,16 +194,17 @@ namespace GeneticSharp.Domain.UnitTests
 				new FitnessStub() { SupportsParallel = true, ParallelSleep = 1500 }, selection, crossover, mutation);
 			target.TaskExecutor = taskExecutor;
 
-			ExceptionAssert.IsThrowing(new TimeoutException("The fitness evaluation rech the 00:00:01 timeout."), () =>
+            Assert.Catch<TimeoutException>(() =>
 			{
 				target.Start();
-			});
+            }, "The fitness evaluation rech the 00:00:01 timeout.");
 
 			Assert.IsFalse(target.IsRunning);
 			Assert.AreEqual(GeneticAlgorithmState.Stopped, target.State);
 		}
 
 		[Test()]
+        [MaxTime(30000)]
 		public void Start_NotParallelManyGenerations_Fast()
 		{
 			var selection = new EliteSelection();
@@ -206,12 +216,8 @@ namespace GeneticSharp.Domain.UnitTests
 
 			target.Population.GenerationStrategy = new TrackingGenerationStrategy();
 			target.Termination = new GenerationNumberTermination(100);
-
-			TimeAssert.LessThan(30000, () =>
-			{
-				target.Start();
-			});
-
+            target.Start();
+			
 			Assert.AreEqual(100, target.Population.Generations.Count);
 			Assert.Greater(target.TimeEvolving.TotalMilliseconds, 1);
 		}
@@ -487,10 +493,10 @@ namespace GeneticSharp.Domain.UnitTests
 			var target = new GeneticAlgorithm(new Population(100, 199, chromosome),
 					new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
 
-			ExceptionAssert.IsThrowing(new InvalidOperationException("Attempt to stop a genetic algorithm which was not yet started."), () =>
+			Assert.Catch<InvalidOperationException>(() =>
 			{
 				target.Stop();
-			});
+            }, "Attempt to stop a genetic algorithm which was not yet started.");
 		}
 
 		[Test()]
@@ -533,10 +539,10 @@ namespace GeneticSharp.Domain.UnitTests
 			var target = new GeneticAlgorithm(new Population(100, 199, chromosome),
 					new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
 
-			ExceptionAssert.IsThrowing(new InvalidOperationException("Attempt to resume a genetic algorithm which was not yet started."), () =>
+			Assert.Catch<InvalidOperationException>(() =>
 			{
 				target.Resume();
-			});
+            }, "Attempt to resume a genetic algorithm which was not yet started.");
 		}
 
 		[Test()]
@@ -599,10 +605,10 @@ namespace GeneticSharp.Domain.UnitTests
 			Assert.AreEqual(GeneticAlgorithmState.TerminationReached, target.State);
 			Assert.IsFalse(target.IsRunning);
 
-			ExceptionAssert.IsThrowing(new InvalidOperationException("Attempt to resume a genetic algorithm with a termination (GenerationNumberTermination (HasReached: True)) already reached. Please, specify a new termination or extend the current one."), () =>
+			Assert.Catch<InvalidOperationException>(() =>
 			{
 				target.Resume();
-			});
+            }, "Attempt to resume a genetic algorithm with a termination (GenerationNumberTermination (HasReached: True)) already reached. Please, specify a new termination or extend the current one.");
 		}
 
 		[Test()]

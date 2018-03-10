@@ -2,7 +2,6 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using TestSharp;
 
 namespace GeneticSharp.Infrastructure.Threading.UnitTests
 {
@@ -72,10 +71,10 @@ namespace GeneticSharp.Infrastructure.Threading.UnitTests
                 pipeline += "3";
             });
 
-            ExceptionAssert.IsThrowing(new Exception("1"), () =>
+            Assert.Catch<Exception>(() =>
             {
                 target.Start();
-            });
+            }, "1");
         }
 
         [Test()]

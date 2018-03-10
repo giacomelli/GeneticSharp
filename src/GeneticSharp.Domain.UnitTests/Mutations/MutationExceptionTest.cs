@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using System.Reflection;
 using System.Runtime.Serialization;
 using GeneticSharp.Domain.Mutations;
 using NUnit.Framework;
-using Rhino.Mocks;
+using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Mutations
 {
@@ -36,7 +36,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         [Test]
         public void Constructor_MutationAndMessageAndInnerException_MutationAndMessageAndInnerExcetion()
         {
-            var target = new MutationException(MockRepository.GenerateMock<IMutation>(), "1", new Exception("2"));
+            var target = new MutationException(Substitute.For<IMutation>(), "1", new Exception("2"));
             Assert.IsNotNull(target.Mutation);
             Assert.AreEqual(target.Mutation.GetType().Name + ": 1", target.Message);
             Assert.AreEqual("2", target.InnerException.Message);
@@ -47,7 +47,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         {
             var constructor = typeof(MutationException).GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance)[0];
 
-            var serializationInfo = new SerializationInfo(typeof(int), MockRepository.GenerateMock<IFormatterConverter>());
+            var serializationInfo = new SerializationInfo(typeof(int), Substitute.For<IFormatterConverter>());
             serializationInfo.AddValue("ClassName", "MutationException");
             serializationInfo.AddValue("Message", "1");
             serializationInfo.AddValue("InnerException", new Exception("2"));
@@ -69,9 +69,9 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         [Test]
         public void GetObjectData_InfoAndContext_Property()
         {
-            var propertyValue = MockRepository.GenerateMock<IMutation>();
+            var propertyValue = Substitute.For<IMutation>();
             var target = new MutationException(propertyValue, "1");
-            var serializationInfo = new SerializationInfo(typeof(int), MockRepository.GenerateMock<IFormatterConverter>());
+            var serializationInfo = new SerializationInfo(typeof(int), Substitute.For<IFormatterConverter>());
             target.GetObjectData(serializationInfo, new StreamingContext());
 
             Assert.AreEqual(propertyValue, serializationInfo.GetValue("Mutation", typeof(IMutation)));

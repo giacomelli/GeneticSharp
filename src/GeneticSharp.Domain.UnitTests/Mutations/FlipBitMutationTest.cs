@@ -1,10 +1,8 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Mutations;
-using Rhino.Mocks;
+using NSubstitute;
 using GeneticSharp.Domain.Chromosomes;
-using TestSharp;
 
 namespace GeneticSharp.Domain.UnitTests.Mutations
 {
@@ -21,7 +19,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
 		public void Mutate_NotBinaryChromosome_Exception()
 		{
 			var target = new FlipBitMutation();
-			var chromosome =  MockRepository.GenerateStub<ChromosomeBase>(3);
+			var chromosome =  Substitute.For<ChromosomeBase>(3);
 			chromosome.ReplaceGenes(0, new Gene[]
 				{
 					new Gene(0),
@@ -29,19 +27,17 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
 					new Gene(0)
 				});
 
-			ExceptionAssert.IsThrowing(new MutationException(
-				target, 
-				"Needs a binary chromosome that implements IBinaryChromosome."), () =>
-				{
-					target.Mutate(chromosome, 1);
-				});
+			Assert.Catch<MutationException>(() =>
+			{
+				target.Mutate(chromosome, 1);
+            }, "Needs a binary chromosome that implements IBinaryChromosome.");
 		}
 
 		[Test()]
 		public void Mutate_NoArgs_BitMutated()
 		{
-			RandomizationProvider.Current = MockRepository.GenerateMock<IRandomization>();
-			RandomizationProvider.Current.Expect(r => r.GetInt(0, 3)).Return(1);
+			RandomizationProvider.Current = Substitute.For<IRandomization>();
+			RandomizationProvider.Current.GetInt(0, 3).Returns(1);
 
 			var target = new FlipBitMutation();
 			var chromosome = new BinaryChromosomeStub(3);
@@ -56,8 +52,6 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
 			Assert.AreEqual(0, chromosome.GetGene(0).Value);
 			Assert.AreEqual(1, chromosome.GetGene(1).Value);
 			Assert.AreEqual(0, chromosome.GetGene(2).Value);
-
-			RandomizationProvider.Current.VerifyAllExpectations();
 		}
 	}
 }

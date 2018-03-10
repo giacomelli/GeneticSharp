@@ -17,9 +17,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticSharp.Infrastructure
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticSharp.Infrastructure.Threading.UnitTests", "GeneticSharp.Infrastructure.Threading.UnitTests\GeneticSharp.Infrastructure.Threading.UnitTests.csproj", "{BFF29D3E-A7EF-4C7B-98C3-E40A25F02C11}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "GeneticSharp.Extensions", "GeneticSharp.Extensions\GeneticSharp.Extensions.csproj", "{0EFBF4C7-CB9C-4F63-9F24-55228B98077E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticSharp.Extensions", "GeneticSharp.Extensions\GeneticSharp.Extensions.csproj", "{699AF592-1E11-4084-B87E-9AC72ED7861B}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "GeneticSharp.Runner.GtkApp", "GeneticSharp.Runner.GtkApp\GeneticSharp.Runner.GtkApp.csproj", "{C88289E5-81C9-4823-A125-16AD6C98CFFA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticSharp.Runner.GtkApp", "GeneticSharp.Runner.GtkApp\GeneticSharp.Runner.GtkApp.csproj", "{3B5D7E7E-28B3-490E-AFF0-A231F246A963}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,14 +59,14 @@ Global
 		{F7887A7C-89E6-483A-A762-0A8FE6FCD923}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7887A7C-89E6-483A-A762-0A8FE6FCD923}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7887A7C-89E6-483A-A762-0A8FE6FCD923}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0EFBF4C7-CB9C-4F63-9F24-55228B98077E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0EFBF4C7-CB9C-4F63-9F24-55228B98077E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0EFBF4C7-CB9C-4F63-9F24-55228B98077E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0EFBF4C7-CB9C-4F63-9F24-55228B98077E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C88289E5-81C9-4823-A125-16AD6C98CFFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C88289E5-81C9-4823-A125-16AD6C98CFFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C88289E5-81C9-4823-A125-16AD6C98CFFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C88289E5-81C9-4823-A125-16AD6C98CFFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{699AF592-1E11-4084-B87E-9AC72ED7861B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{699AF592-1E11-4084-B87E-9AC72ED7861B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{699AF592-1E11-4084-B87E-9AC72ED7861B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{699AF592-1E11-4084-B87E-9AC72ED7861B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B5D7E7E-28B3-490E-AFF0-A231F246A963}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B5D7E7E-28B3-490E-AFF0-A231F246A963}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B5D7E7E-28B3-490E-AFF0-A231F246A963}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B5D7E7E-28B3-490E-AFF0-A231F246A963}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection

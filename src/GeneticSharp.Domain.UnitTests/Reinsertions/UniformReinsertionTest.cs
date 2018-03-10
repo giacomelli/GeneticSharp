@@ -1,11 +1,10 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Reinsertions;
 using NUnit.Framework;
-using Rhino.Mocks;
-using TestSharp;
+using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Reinsertions
 {
@@ -23,20 +22,20 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
         public void SelectChromosomes_OffspringSizeEqualsZero_Exception()
         {
             var target = new UniformReinsertion();
-            var population = new Population(6, 8, MockRepository.GenerateStub<ChromosomeBase>(2));
+            var population = new Population(6, 8, Substitute.For<ChromosomeBase>(2));
             var offspring = new List<IChromosome>();
 
             var parents = new List<IChromosome>() {
-                MockRepository.GenerateStub<ChromosomeBase> (5),
-                MockRepository.GenerateStub<ChromosomeBase> (6),
-                MockRepository.GenerateStub<ChromosomeBase> (7),
-                MockRepository.GenerateStub<ChromosomeBase> (8)
+                Substitute.For<ChromosomeBase> (5),
+                Substitute.For<ChromosomeBase> (6),
+                Substitute.For<ChromosomeBase> (7),
+                Substitute.For<ChromosomeBase> (8)
             };
 
-            ExceptionAssert.IsThrowing(new ReinsertionException(target, "The minimum size of the offspring is 1."), () =>
+            Assert.Catch<ReinsertionException>(() =>
             {
                 target.SelectChromosomes(population, offspring, parents);
-            });
+            }, "The minimum size of the offspring is 1.");
         }
 
         [Test()]
@@ -44,24 +43,24 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
         {
             var target = new UniformReinsertion();
 
-            var population = new Population(6, 8, MockRepository.GenerateStub<ChromosomeBase>(2));
+            var population = new Population(6, 8, Substitute.For<ChromosomeBase>(2));
             var offspring = new List<IChromosome>() {
-                MockRepository.GenerateStub<ChromosomeBase> (2),
-                MockRepository.GenerateStub<ChromosomeBase> (2),
-                MockRepository.GenerateStub<ChromosomeBase> (3),
-                MockRepository.GenerateStub<ChromosomeBase> (4)
+                Substitute.For<ChromosomeBase> (2),
+                Substitute.For<ChromosomeBase> (2),
+                Substitute.For<ChromosomeBase> (3),
+                Substitute.For<ChromosomeBase> (4)
             };
 
             var parents = new List<IChromosome>() {
-                MockRepository.GenerateStub<ChromosomeBase> (5),
-                MockRepository.GenerateStub<ChromosomeBase> (6),
-                MockRepository.GenerateStub<ChromosomeBase> (7),
-                MockRepository.GenerateStub<ChromosomeBase> (8)
+                Substitute.For<ChromosomeBase> (5),
+                Substitute.For<ChromosomeBase> (6),
+                Substitute.For<ChromosomeBase> (7),
+                Substitute.For<ChromosomeBase> (8)
             };
 
-            var rnd = MockRepository.GenerateMock<IRandomization>();
-            rnd.Expect(r => r.GetInt(0, 4)).Return(1);
-            rnd.Expect(r => r.GetInt(0, 5)).Return(3);
+            var rnd = Substitute.For<IRandomization>();
+            rnd.GetInt(0, 4).Returns(1);
+            rnd.GetInt(0, 5).Returns(3);
             RandomizationProvider.Current = rnd;
 
             var selected = target.SelectChromosomes(population, offspring, parents);

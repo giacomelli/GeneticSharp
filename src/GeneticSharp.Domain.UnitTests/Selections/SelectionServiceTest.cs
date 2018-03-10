@@ -1,7 +1,6 @@
-using System;
+﻿using System;
 using GeneticSharp.Domain.Selections;
 using NUnit.Framework;
-using TestSharp;
 
 namespace GeneticSharp.Domain.UnitTests.Selections
 {
@@ -37,19 +36,19 @@ namespace GeneticSharp.Domain.UnitTests.Selections
         [Test()]
         public void CreateSelectionByName_InvalidName_Exception()
         {
-            ExceptionAssert.IsThrowing(new ArgumentException("There is no ISelection implementation with name 'Test'.", "name"), () =>
+            Assert.Catch<ArgumentException>(() =>
             {
                 SelectionService.CreateSelectionByName("Test");
-            });
+            }, "There is no ISelection implementation with name 'Test'.");
         }
 
         [Test()]
         public void CreateSelectionByName_ValidNameButInvalidConstructorArgs_Exception()
         {
-            ExceptionAssert.IsThrowing(new ArgumentException("A ISelection's implementation with name 'Elite' was found, but seems the constructor args were invalid.", "constructorArgs"), () =>
+            Assert.Catch<ArgumentException>(() =>
             {
                 SelectionService.CreateSelectionByName("Elite", 1);
-            });
+            }, "A ISelection's implementation with name 'Elite' was found, but seems the constructor args were invalid.");
         }
 
         [Test()]
@@ -71,10 +70,10 @@ namespace GeneticSharp.Domain.UnitTests.Selections
         [Test()]
         public void GetSelectionTypeByName_InvalidName_Exception()
         {
-            ExceptionAssert.IsThrowing(new ArgumentException("There is no ISelection implementation with name 'Test'.", "name"), () =>
+            Assert.Catch<ArgumentException>(() =>
             {
                 SelectionService.GetSelectionTypeByName("Test");
-            });
+            }, "There is no ISelection implementation with name 'Test'.");
         }
 
         [Test()]

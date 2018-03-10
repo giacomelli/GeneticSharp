@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\msbuilds\GeneticSharp.dotnet.core.targets" />
+  <Import Project="..\msbuilds\GeneticSharp.dotnet-core.targets" />
   <Import Project="..\msbuilds\GeneticSharp.common.targets" />
   <Import Project="..\msbuilds\GeneticSharp.sign.targets" />
   <Import Project="..\msbuilds\GeneticSharp.Domain.targets" />
@@ -7,7 +7,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C76DC1AD-FC7E-4168-BD19-101FF84A43F7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>GeneticSharp.Domain</RootNamespace>
     <AssemblyName>GeneticSharp.Domain</AssemblyName>
@@ -32,5 +31,5 @@
     <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
     <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj" />
   </ItemGroup>
-  
+
 </Project>

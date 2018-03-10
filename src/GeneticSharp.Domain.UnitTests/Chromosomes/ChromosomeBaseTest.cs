@@ -1,8 +1,7 @@
-using System;
+﻿using System;
 using GeneticSharp.Domain.Chromosomes;
 using NUnit.Framework;
-using Rhino.Mocks;
-using TestSharp;
+using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Chromosomes
 {
@@ -13,26 +12,26 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         [Test]
         public void Constructor_InvalidLength_Exception()
         {
-            ExceptionAssert.IsThrowing(new ArgumentException("The minimum length for a chromosome is 2 genes."), () =>
+            Assert.Catch<ArgumentException>(() =>
             {
                 try
                 {
-					MockRepository.GenerateStub<ChromosomeBase>(1);
+					Substitute.For<ChromosomeBase>(1);
                 }
                 catch (Exception ex)
                 {
                     throw ex.InnerException;
                 }
-            });
+            }, "The minimum length for a chromosome is 2 genes.");
         }
 
         [Test]
         public void CompareTo_Others_DiffResults()
         {
-			var target = MockRepository.GenerateStub<ChromosomeBase>(2);
+			var target = Substitute.For<ChromosomeBase>(2);
             target.Fitness = 0.5;
 
-			var other = MockRepository.GenerateStub<ChromosomeBase>(2);
+			var other = Substitute.For<ChromosomeBase>(2);
             other.Fitness = 0.5;
 
             Assert.AreEqual(-1, target.CompareTo(null));
@@ -48,7 +47,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         [Test]
         public void Fitness_AnyChange_Null()
         {
-            var target = MockRepository.GenerateStub<ChromosomeBase>(2);
+            var target = Substitute.For<ChromosomeBase>(2);
             Assert.IsFalse(target.Fitness.HasValue);
             target.Fitness = 0.5;
             Assert.IsTrue(target.Fitness.HasValue);
@@ -73,23 +72,23 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         [Test]
         public void ReplaceGene_InvalidIndex_Exception()
         {
-            var target = MockRepository.GenerateStub<ChromosomeBase>(2);
+            var target = Substitute.For<ChromosomeBase>(2);
 
-            ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("index", "There is no Gene on index 2 to be replaced."), () =>
+            Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
                 target.ReplaceGene(2, new Gene(0));
-            });
+            }, "There is no Gene on index 2 to be replaced.");
 
-            ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("index", "There is no Gene on index 3 to be replaced."), () =>
+            Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
                 target.ReplaceGene(3, new Gene(0));
-            });
+            }, "There is no Gene on index 3 to be replaced.");
         }
 
         [Test]
         public void ReplaceGene_ValidIndex_Replaced()
         {
-            var target = MockRepository.GenerateStub<ChromosomeBase>(2);
+            var target = Substitute.For<ChromosomeBase>(2);
 
             target.ReplaceGene(0, new Gene(2));
             target.ReplaceGene(1, new Gene(6));
@@ -103,25 +102,25 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         [Test]
         public void ReplaceGenes_InvalidIndex_Exception()
         {
-            var target = MockRepository.GenerateStub<ChromosomeBase>(2);
+            var target = Substitute.For<ChromosomeBase>(2);
 
-            ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("index", "There is no Gene on index 2 to be replaced."), () =>
+            Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
                 target.ReplaceGenes(2, new Gene[] { new Gene() });
-            });
+            }, "There is no Gene on index 2 to be replaced.");
 
-            ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("index", "There is no Gene on index 3 to be replaced."), () =>
+            Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
                 target.ReplaceGenes(3, new Gene[] { new Gene() });
-            });
+            }, "There is no Gene on index 3 to be replaced.");
         }
 
         [Test]
         public void ReplaceGenes_NullGenes_Exception()
         {
-            var target = MockRepository.GenerateStub<ChromosomeBase>(2);
+            var target = Substitute.For<ChromosomeBase>(2);
 
-            ExceptionAssert.IsThrowing(new ArgumentNullException("genes"), () =>
+            Assert.Catch<ArgumentNullException>(() =>
             {
                 target.ReplaceGenes(0, null);
             });
@@ -130,23 +129,23 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         [Test]
         public void ReplaceGenes_GenesExceedChromosomeLength_Exception()
         {
-            var target = MockRepository.GenerateStub<ChromosomeBase>(3);
+            var target = Substitute.For<ChromosomeBase>(3);
 
-            ExceptionAssert.IsThrowing(new ArgumentException("genes", "The number of genes to be replaced is greater than available space, there is 3 genes between the index 0 and the end of chromosome, but there is 4 genes to be replaced."), () =>
+            Assert.Catch<ArgumentException>(() =>
             {
                 target.ReplaceGenes(0, new Gene[] { new Gene(1), new Gene(2), new Gene(3), new Gene(4) });
-            });
+            }, "The number of genes to be replaced is greater than available space, there is 3 genes between the index 0 and the end of chromosome, but there is 4 genes to be replaced.");
 
-            ExceptionAssert.IsThrowing(new ArgumentException("genes", "The number of genes to be replaced is greater than available space, there is 2 genes between the index 1 and the end of chromosome, but there is 3 genes to be replaced."), () =>
+            Assert.Catch<ArgumentException>(() =>
             {
                 target.ReplaceGenes(1, new Gene[] { new Gene(1), new Gene(2), new Gene(3) });
-            });
+            }, "The number of genes to be replaced is greater than available space, there is 2 genes between the index 1 and the end of chromosome, but there is 3 genes to be replaced.");
         }
 
         [Test]
         public void ReplaceGenes_ValidIndex_Replaced()
         {
-            var target = MockRepository.GenerateStub<ChromosomeBase>(4);
+            var target = Substitute.For<ChromosomeBase>(4);
 
             target.ReplaceGenes(0, new Gene[] { new Gene(1), new Gene(2) });
 
@@ -177,18 +176,18 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         [Test]
         public void Resize_InvalidLength_Exception()
         {
-			var target = MockRepository.GenerateStub<ChromosomeBase>(2);
+			var target = Substitute.For<ChromosomeBase>(2);
 
-            ExceptionAssert.IsThrowing(new ArgumentException("The minimum length for a chromosome is 2 genes."), () =>
+            Assert.Catch<ArgumentException>(() =>
             {
                 target.Resize(1);
-            });
+            }, "The minimum length for a chromosome is 2 genes.");
         }
 
         [Test]
         public void Resize_ToLowerLength_TruncateGenes()
         {
-			var target = MockRepository.GenerateStub<ChromosomeBase>(4);
+			var target = Substitute.For<ChromosomeBase>(4);
             target.ReplaceGenes(0, new Gene[]
             {
                 new Gene(1),
@@ -206,7 +205,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         [Test]
         public void Resize_ToGreaterLength_KeepOldGenesAndNullValueNewOnes()
         {
-			var target = MockRepository.GenerateStub<ChromosomeBase>(2);
+			var target = Substitute.For<ChromosomeBase>(2);
             target.ReplaceGenes(0, new Gene[]
             {
                 new Gene(1),

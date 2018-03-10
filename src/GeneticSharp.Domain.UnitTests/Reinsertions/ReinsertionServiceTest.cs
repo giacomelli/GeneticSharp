@@ -1,7 +1,6 @@
-using System;
+﻿using System;
 using GeneticSharp.Domain.Reinsertions;
 using NUnit.Framework;
-using TestSharp;
 
 namespace GeneticSharp.Domain.UnitTests.Reinsertions
 {
@@ -36,19 +35,19 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
         [Test()]
         public void CreateReinsertionByName_InvalidName_Exception()
         {
-            ExceptionAssert.IsThrowing(new ArgumentException("There is no IReinsertion implementation with name 'Test'.", "name"), () =>
+            Assert.Catch<ArgumentException>(() =>
             {
                 ReinsertionService.CreateReinsertionByName("Test");
-            });
+            }, "There is no IReinsertion implementation with name 'Test'.");
         }
 
         [Test()]
         public void CreateReinsertionByName_ValidNameButInvalidConstructorArgs_Exception()
         {
-            ExceptionAssert.IsThrowing(new ArgumentException("A IReinsertion's implementation with name 'Elitist' was found, but seems the constructor args were invalid.", "constructorArgs"), () =>
+            Assert.Catch<ArgumentException>(() =>
             {
                 ReinsertionService.CreateReinsertionByName("Elitist", 1, 2, 3);
-            });
+            }, "A IReinsertion's implementation with name 'Elitist' was found, but seems the constructor args were invalid.");
         }
 
         [Test()]
@@ -70,10 +69,10 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
         [Test()]
         public void GetReinsertionTypeByName_InvalidName_Exception()
         {
-            ExceptionAssert.IsThrowing(new ArgumentException("There is no IReinsertion implementation with name 'Test'.", "name"), () =>
+            Assert.Catch<ArgumentException>(() =>
             {
                 ReinsertionService.GetReinsertionTypeByName("Test");
-            });
+            }, "There is no IReinsertion implementation with name 'Test'.");
         }
 
         [Test()]
