@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests
@@ -30,8 +31,10 @@ namespace GeneticSharp.Domain.UnitTests
                     ok = true;
                     break;
                 }
-                catch
+                catch (Exception ex)
                 {
+                    Debug.WriteLine(ex.Message);
+                    Debug.WriteLine(ex.StackTrace);
                     ok = false;
                 }
             }
@@ -57,8 +60,10 @@ namespace GeneticSharp.Domain.UnitTests
                     ok = true;
                     break;
                 }
-                catch
+                catch(Exception ex)
                 {
+                    Debug.WriteLine(ex.Message);
+                    Debug.WriteLine(ex.StackTrace);
                     ok = false;
                 }
             }

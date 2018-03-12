@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj" />
-    <ProjectReference Include="..\GeneticSharp.Infrastructure.Threading\GeneticSharp.Infrastructure.Threading.csproj" />
     <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj" />
   </ItemGroup>
   
