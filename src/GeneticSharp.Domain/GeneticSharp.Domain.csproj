@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\msbuilds\GeneticSharp.dotnet-core.targets" />
   <Import Project="..\msbuilds\GeneticSharp.common.targets" />
-  <Import Project="..\msbuilds\GeneticSharp.sign.targets" />
   <Import Project="..\msbuilds\GeneticSharp.Domain.targets" />
 
   <PropertyGroup>

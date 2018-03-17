@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\msbuilds\GeneticSharp.dotnet-core.targets" />
   <Import Project="..\msbuilds\GeneticSharp.common.targets" />
-  <Import Project="..\msbuilds\GeneticSharp.sign.targets" />
-
+  
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
