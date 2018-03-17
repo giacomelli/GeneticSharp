@@ -1,12 +1,14 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.Tsp;
+using GeneticSharp.Infrastructure.Framework.Threading;
 
 namespace GeneticSharp.Runner.ConsoleApp.Samples
 {
@@ -27,10 +29,16 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         {
             m_numberOfCities = numberOfCities;
         }
-        #endregion
+		#endregion
 
-        #region Methods
-        public override ITermination CreateTermination()
+		#region Methods
+		public override void ConfigGA(GeneticAlgorithm ga)
+		{
+            ga.TaskExecutor = new LinearTaskExecutor();
+            base.ConfigGA(ga);
+		}
+
+		public override ITermination CreateTermination()
         {
             return new OrTermination(new TimeEvolvingTermination(TimeSpan.FromMinutes(1)), new FitnessStagnationTermination(500));
         }       

@@ -3,7 +3,6 @@ using System.IO;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Infrastructure.Framework.Reflection;
-using GeneticSharp.Infrastructure.Threading;
 using GeneticSharp.Runner.ConsoleApp.Samples;
 
 namespace GeneticSharp.Runner.ConsoleApp
@@ -42,6 +41,7 @@ namespace GeneticSharp.Runner.ConsoleApp
             catch (Exception)
             {
                 Console.WriteLine("Invalid option.");
+                return;
             }
 
             var sampleController = TypeHelper.CreateInstanceByName<ISampleController>(selectedSampleName);

@@ -8,7 +8,7 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Extensions.Ghostwriter;
 using GeneticSharp.Infrastructure.Framework.Texts;
-using GeneticSharp.Infrastructure.Threading;
+using GeneticSharp.Infrastructure.Framework.Threading;
 using GeneticSharp.Runner.ConsoleApp.Samples.Resources;
 using Newtonsoft.Json;
 
@@ -40,7 +40,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         public override void ConfigGA(GeneticAlgorithm ga)
         {
             base.ConfigGA(ga);
-            ga.TaskExecutor = new SmartThreadPoolTaskExecutor()
+            ga.TaskExecutor = new ParallelTaskExecutor()
             {
                 MinThreads = 25,
                 MaxThreads = 50

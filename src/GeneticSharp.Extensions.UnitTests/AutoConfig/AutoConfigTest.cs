@@ -7,7 +7,6 @@ using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.AutoConfig;
-using GeneticSharp.Extensions.Checkers;
 using GeneticSharp.Extensions.Tsp;
 using GeneticSharp.Infrastructure.Framework.Threading;
 using NUnit.Framework;
