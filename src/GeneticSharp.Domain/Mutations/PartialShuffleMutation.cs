@@ -37,7 +37,9 @@ namespace GeneticSharp.Domain.Mutations
         {
             T[] sourceElements = sequence.ToArray();
 
-            if (sourceElements.Length > 1)
+            // If there is at least two differente genes on source sequence,
+            // Then is possible shuffle their in sequence.
+            if (sourceElements.Distinct().Count() > 1)
             {
                 IEnumerable<T> result = sequence.Shuffle(RandomizationProvider.Current);
               
@@ -48,10 +50,9 @@ namespace GeneticSharp.Domain.Mutations
 
                 return result;
             }
-            else
-            {
-                return sequence;
-            }
+
+            // All genes on sequence are equal, then sequence cannot be shuffled.
+            return sequence;
         }
         #endregion
     }
