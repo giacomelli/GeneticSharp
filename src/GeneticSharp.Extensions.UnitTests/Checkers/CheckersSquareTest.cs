@@ -1,7 +1,6 @@
-using System;
+﻿using System;
 using GeneticSharp.Extensions.Checkers;
 using NUnit.Framework;
-using TestSharp;
 
 namespace GeneticSharp.Extensions.UnitTests.Checkers
 {
@@ -45,10 +44,10 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
         {
             var square = new CheckersSquare(0, 0);
 
-            ExceptionAssert.IsThrowing(new ArgumentException("Attempt to put a piece in a not playable square."), () =>
+            Assert.Catch<ArgumentException>(() =>
             {
                 square.PutPiece(new CheckersPiece(CheckersPlayer.PlayerOne));
-            });
+            }, "Attempt to put a piece in a not playable square.");
         }
 
         [Test]

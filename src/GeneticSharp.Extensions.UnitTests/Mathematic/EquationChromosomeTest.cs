@@ -1,7 +1,6 @@
 ﻿using System;
 using GeneticSharp.Extensions.Mathematic;
 using NUnit.Framework;
-using TestSharp;
 
 namespace GeneticSharp.Extensions.UnitTests.Mathematic
 {
@@ -12,12 +11,13 @@ namespace GeneticSharp.Extensions.UnitTests.Mathematic
         [Test()]
         public void Constructor_ExpectedResult_Exception()
         {
-            ExceptionAssert.IsThrowing(
-                new ArgumentOutOfRangeException("expectedResult", int.MaxValue, "EquationChromosome expected value must be lower"),
-                () =>
-                {
-                    new EquationChromosome(int.MaxValue, 2);
-                });
+            var actual = Assert.Catch<ArgumentOutOfRangeException>(() =>
+            {
+                new EquationChromosome(int.MaxValue, 2);
+            }, "EquationChromosome expected value must be lower");
+
+            Assert.AreEqual("expectedResult", actual.ParamName);
+            Assert.AreEqual(actual.ActualValue, int.MaxValue);
         }
 
         [Test()]

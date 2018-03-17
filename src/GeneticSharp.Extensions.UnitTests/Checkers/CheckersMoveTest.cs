@@ -1,7 +1,6 @@
-using System;
+﻿using System;
 using GeneticSharp.Extensions.Checkers;
 using NUnit.Framework;
-using TestSharp;
 
 namespace GeneticSharp.Extensions.UnitTests.Checkers
 {
@@ -12,28 +11,34 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
         [Test]
         public void Constructor_NullPiece_Exception()
         {
-            ExceptionAssert.IsThrowing(new ArgumentNullException("piece"), () =>
+            var actual = Assert.Catch<ArgumentNullException>(() =>
             {
                 new CheckersMove(null, new CheckersSquare(0, 0));
             });
+
+            Assert.AreEqual("piece", actual.ParamName);
         }
 
         [Test]
         public void Constructor_PieceWithoutCurrentSquare_Exception()
         {
-            ExceptionAssert.IsThrowing(new ArgumentException("A piece for a move should have a current square defined."), () =>
+            Assert.Catch<ArgumentException>(() =>
             {
                 new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne), null);
-            });
+            }, "A piece for a move should have a current square defined.");
+
+
         }
 
         [Test]
         public void Constructor_ToSquareNull_Exception()
         {
-            ExceptionAssert.IsThrowing(new ArgumentNullException("toSquare"), () =>
+            var actual = Assert.Catch<ArgumentNullException>(() =>
             {
                 new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(0, 1) }, null);
             });
+
+            Assert.AreEqual("toSquare", actual.ParamName);
         }
     }
 }
