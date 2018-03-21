@@ -11,6 +11,8 @@ using GeneticSharp.Extensions.Drawing;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using Gtk;
 using GeneticSharp.Infrastructure.Framework.Commons;
+using GeneticSharp.Domain;
+using GeneticSharp.Infrastructure.Framework.Threading;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
 {
@@ -104,24 +106,29 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             return new EliteSelection();
         }
 
-        public override void Draw()
+		public override void ConfigGA(GeneticAlgorithm ga)
+		{
+            ga.TaskExecutor = new ParallelTaskExecutor();
+			base.ConfigGA(ga);
+		}
+
+		public override void Draw()
         {
             var ga = Context.GA;
 
             if (ga != null)
             {
                 var generationsNumber = ga.GenerationsNumber;
-                var bestChromosome = ga.BestChromosome;
+                var bestChromosome = ga.BestChromosome as BitmapChromosome;
 
                 //// if (generationsNumber == 1 || (generationsNumber % 200 == 0 && m_lastBest.Fitness != bestChromosome.Fitness))
                 if (bestChromosome != null)
                 {
-                    var best = bestChromosome as BitmapChromosome;
                     var buffer = Context.Buffer;
                     var gc = Context.GC;
                     var layout = Context.Layout;
 
-                    using (var bitmap = best.BuildBitmap())
+                    using (var bitmap = bestChromosome.BuildBitmap())
                     {
                         //// bitmap.Save("{0}/{1}_{2}.png".With(m_destFolder, generationsNumber.ToString("D10"), best.Fitness));
 

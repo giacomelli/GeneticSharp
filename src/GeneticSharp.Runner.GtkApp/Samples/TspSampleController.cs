@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
@@ -7,6 +8,7 @@ using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Extensions.Tsp;
 using GeneticSharp.Infrastructure.Framework.Texts;
+using GeneticSharp.Infrastructure.Framework.Threading;
 using Gtk;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
@@ -101,10 +103,20 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             return new EliteSelection();
         }
 
-        /// <summary>
-        /// Resets the sample.
-        /// </summary>
-        public override void Reset()
+		public override void ConfigGA(GeneticAlgorithm ga)
+		{
+            ga.TaskExecutor = new ParallelTaskExecutor
+            {
+                MinThreads = ga.Population.MinSize,
+                MaxThreads = ga.Population.MaxSize
+            };
+
+            base.ConfigGA(ga);
+		}
+		/// <summary>
+		/// Resets the sample.
+		/// </summary>
+		public override void Reset()
         {
             m_bestChromosome = null;
         }
