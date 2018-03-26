@@ -51,8 +51,7 @@ after_build:
 
 test_script:
 - ps: >-
-    .\tools\OpenCover\tools\OpenCover.Console.exe -skipautoprops -register:user -target:nunit3-console.exe -register:user "-targetargs:src\GeneticSharp.Domain.UnitTests\bin\$env:CONFIGURATION\GeneticSharp.Domain.UnitTests.dll src\GeneticSharp.Extensions.UnitTests\bin\$env:CONFIGURATION\GeneticSharp.Extensions.UnitTests.dll src\GeneticSharp.Infrastructure.Framework.UnitTests\bin\$env:CONFIGURATION\GeneticSharp.Infrastructure.Framework.UnitTests.dll " -filter:"+[GeneticSharp.Domain]* +[GeneticSharp.Extensions]* +[GeneticSharp.Infrastructure.Framework]*" -output:opencoverCoverage.xml
-
+    .\tools\OpenCover\tools\OpenCover.Console.exe -skipautoprops -target:"dotnet.exe" "-targetargs: test src\GeneticSharp.Domain.UnitTests --framework netcoreapp2.0 -c release" -register:user -oldStyle -output:opencoverCoverage.xml -filter:"+[GeneticSharp.Domain]* +[GeneticSharp.Extensions]* +[GeneticSharp.Infrastructure.Framework]*" 
 - ps: >-
     .\tools\coveralls\tools\csmacnz.Coveralls.exe --opencover -i opencoverCoverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_JOB_ID
 artifacts:
