@@ -26,7 +26,22 @@ before_build:
 - cmd: dotnet restore src
 
 build_script:
-- cmd: dotnet build src -c release -f net462;netstandard2.0 
+# The default build
+- cmd: dotnet build src -c release
+
+# All projects support net462 (GTK# only support net462)
+- cmd: dotnet build src -c release -f net462
+
+# Libraries support .netstandard2.0
+- cmd: dotnet build src/GeneticSharp.Domain -f netstandard2.0
+- cmd: dotnet build src/GeneticSharp.Extensions -f netstandard2.0
+- cmd: dotnet build src/GeneticSharp.Infrastructure.Framework -f netstandard2.0
+
+# Unit tests and ConsoleApp support .netcoreapp2.0
+- cmd: dotnet build src/GeneticSharp.Domain.UnitTests -f netcoreapp2.0
+- cmd: dotnet build src/GeneticSharp.Extensions.UnitTests -f netcoreapp2.0
+- cmd: dotnet build src/GeneticSharp.Infrastructure.Framework.UnitTests -f netcoreapp2.0
+- cmd: dotnet build src/GeneticSharp.Runner.ConsoleApp -f netcoreapp2.0
 
 after_build:
 - cmd: >-   
@@ -36,7 +51,7 @@ after_build:
 
 test_script:
 - ps: >-
-    .\src\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -skipautoprops -register:user -target:nunit3-console.exe -register:user "-targetargs:src\GeneticSharp.Domain.UnitTests\bin\$env:CONFIGURATION\GeneticSharp.Domain.UnitTests.dll src\GeneticSharp.Extensions.UnitTests\bin\$env:CONFIGURATION\GeneticSharp.Extensions.UnitTests.dll src\GeneticSharp.Infrastructure.Framework.UnitTests\bin\$env:CONFIGURATION\GeneticSharp.Infrastructure.Framework.UnitTests.dll src\GeneticSharp.Infrastructure.Threading.UnitTests\bin\$env:CONFIGURATION\GeneticSharp.Infrastructure.Threading.UnitTests.dll " -filter:"+[GeneticSharp.Domain]* +[GeneticSharp.Extensions]* +[GeneticSharp.Infrastructure.Framework]* +[GeneticSharp.Infrastructure.Threading]*" -output:opencoverCoverage.xml
+    .\src\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -skipautoprops -register:user -target:nunit3-console.exe -register:user "-targetargs:src\GeneticSharp.Domain.UnitTests\bin\$env:CONFIGURATION\GeneticSharp.Domain.UnitTests.dll src\GeneticSharp.Extensions.UnitTests\bin\$env:CONFIGURATION\GeneticSharp.Extensions.UnitTests.dll src\GeneticSharp.Infrastructure.Framework.UnitTests\bin\$env:CONFIGURATION\GeneticSharp.Infrastructure.Framework.UnitTests.dll " -filter:"+[GeneticSharp.Domain]* +[GeneticSharp.Extensions]* +[GeneticSharp.Infrastructure.Framework]*" -output:opencoverCoverage.xml
 
 - ps: >-
     .\src\packages\coveralls.net.0.7.0\tools\csmacnz.Coveralls.exe --opencover -i opencoverCoverage.xml --repoToken $env:COVERALLS_REPO_TOKEN --commitId $env:APPVEYOR_REPO_COMMIT --commitBranch $env:APPVEYOR_REPO_BRANCH --commitAuthor $env:APPVEYOR_REPO_COMMIT_AUTHOR --commitEmail $env:APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL --commitMessage $env:APPVEYOR_REPO_COMMIT_MESSAGE --jobId $env:APPVEYOR_JOB_ID
