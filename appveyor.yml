@@ -26,13 +26,13 @@ before_build:
 - cmd: dotnet restore src
 
 build_script:
-- cmd: dotnet build src -c release
+- cmd: dotnet build src -c release -f net462;netstandard2.0 
 
 after_build:
 - cmd: >-   
     mkdir .\src\nuget
 
-    nuget pack .\src\GeneticSharp.Domain\GeneticSharp.Domain.csproj -IncludeReferencedProjects -Version %APPVEYOR_BUILD_VERSION% -OutputDirectory .\src\nuget
+    dotnet pack src/GeneticSharp.Domain/GeneticSharp.Domain.csproj -c release --no-build /p:PackageVersion=%APPVEYOR_BUILD_VERSION% --output .\src\nuget
 
 test_script:
 - ps: >-
