@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>coveralls.net</id>
+    <version>0.7.0</version>
+    <title>coveralls.net - Coveralls.io uploader for .NET Code Coverage</title>
+    <authors>csMACnz</authors>
+    <owners>csMACnz</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <developmentDependency>true</developmentDependency>
+    <licenseUrl>https://github.com/csmacnz/coveralls.net/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/csmacnz/coveralls.net</projectUrl>
+    <iconUrl>http://img.csmac.nz/coverallsNet-256.png</iconUrl>
+    <description>Coveralls.io uploader for .NET Code Coverage. Supports opencover and visual studio's codecoverage.exe on windows, and monocov for mono</description>
+    <summary>Coveralls.io uploader for .NET Code Coverage.</summary>
+    <copyright>Copyright 2015</copyright>
+    <language>en-US</language>
+    <tags>Code-Coverage Coveralls opencover monocov codecoverage.exe coveralls.io Reporting Runner</tags>
+  </metadata>
+</package>
