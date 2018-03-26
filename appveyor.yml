@@ -1,5 +1,5 @@
 version: 1.2.{build}
-os: Visual Studio 2015
+os: Visual Studio 2017
 configuration: Release
 environment:
   clone_folder: c:\gs
@@ -22,11 +22,11 @@ nuget:
   project_feed: true
   
 before_build:
-- cmd: nuget restore .\src\GeneticSharp.sln
+- cmd: dotnet --version
+- cmd: dotnet restore src
 
 build:
-  project: src\GeneticSharp.sln
-  verbosity: minimal
+- cmd: dotnet build src -c release
 
 after_build:
 - cmd: >-   
