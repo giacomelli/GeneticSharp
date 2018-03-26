@@ -14,8 +14,6 @@
    </PropertyGroup>
   
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="Mono.Posix" />
     <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-26216-02" />
     <Reference Include="atk-sharp">
       <HintPath>references\atk-sharp.dll</HintPath>
@@ -37,6 +35,9 @@
     </Reference>
     <Reference Include="pango-sharp">
       <HintPath>references\pango-sharp.dll</HintPath>
+    </Reference>
+      <Reference Include="Mono.Posix">
+      <HintPath>references\Mono.Posix.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
