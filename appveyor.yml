@@ -50,9 +50,13 @@ after_build:
     dotnet pack src/GeneticSharp.Domain/GeneticSharp.Domain.csproj -c release --no-build /p:PackageVersion=%APPVEYOR_BUILD_VERSION% --output .\src\nuget
 
 test_script:
-- cmd: dotnet clean
+- cmd: dotnet clean src/GeneticSharp.Domain.UnitTests
 - cmd: dotnet test src/GeneticSharp.Domain.UnitTests -f netcoreapp2.0
+
+- cmd: dotnet clean src/GeneticSharp.Extensions.UnitTests
 - cmd: dotnet test src/GeneticSharp.Extensions.UnitTests -f netcoreapp2.0
+
+- cmd: dotnet clean src/GeneticSharp.Infrastructure.Framework.UnitTests
 - cmd: dotnet test src/GeneticSharp.Infrastructure.Framework.UnitTests -f netcoreapp2.0
 
 artifacts:
