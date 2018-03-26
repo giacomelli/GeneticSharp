@@ -25,7 +25,7 @@ before_build:
 - cmd: dotnet --version
 - cmd: dotnet restore src
 
-build:
+build_script:
 - cmd: dotnet build src -c release
 
 after_build:
