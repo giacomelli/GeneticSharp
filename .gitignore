@@ -130,4 +130,4 @@ src/GeneticSharp.Runner.GtkApp/Samples/NumberlinkSampleController.cs
 dupFinder-report.xml
 Issue9Sample.sln.GhostDoc.xml
 .vs
-installing.md
+/build

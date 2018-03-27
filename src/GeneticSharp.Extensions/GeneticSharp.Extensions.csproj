@@ -1,21 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <Import Project="..\msbuilds\GeneticSharp.dotnet-core.targets" />
   <Import Project="..\msbuilds\GeneticSharp.common.targets" />
-  <Import Project="..\msbuilds\GeneticSharp.Extensions.targets" />
   
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <TargetFrameworks>netstandard2.0;net462</TargetFrameworks>    
     <AssemblyName>GeneticSharp.Extensions</AssemblyName>    
   </PropertyGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj" />
-    <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj" />
-  </ItemGroup>
-  
+
+  <!-- NuGet Package -->
+  <PropertyGroup>
+    <PackageId>GeneticSharp.Extensions</PackageId>
+    <PackageDescription>Extensions for GeneticSharp: a fast, extensible, multi-platform and multithreading C# Genetic Algorithm library that simplifies the development of applications using Genetic Algorithms (GAs).</PackageDescription>
+    <Authors>Diego Giacomelli</Authors>
+    <Owners>g1acomell1</Owners>
+    <PackageLicenseUrl>https://github.com/giacomelli/GeneticSharp/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/giacomelli/GeneticSharp</PackageProjectUrl>
+    <PackageReleaseNotes>See changes at https://github.com/giacomelli/GeneticSharp.</PackageReleaseNotes>
+    <PackageTags>genetic-algorithms geneticsharp genetic algotithms</PackageTags>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-26216-02" />
     <PackageReference Include="NCalc.NetCore" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj" />
+    <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj" PrivateAssets="all"/>
   </ItemGroup>
 </Project>

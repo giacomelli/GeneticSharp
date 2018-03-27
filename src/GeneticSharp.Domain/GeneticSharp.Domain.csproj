@@ -1,18 +1,41 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <Import Project="..\msbuilds\GeneticSharp.dotnet-core.targets" />
   <Import Project="..\msbuilds\GeneticSharp.common.targets" />
-  <Import Project="..\msbuilds\GeneticSharp.Domain.targets" />
   
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <TargetFrameworks>netstandard2.0;net462</TargetFrameworks>
     <AssemblyName>GeneticSharp.Domain</AssemblyName>
+   </PropertyGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
+  </ItemGroup>
+
+ <!-- NuGet Package -->
+  <PropertyGroup>
     <PackageId>GeneticSharp</PackageId>
-    <NuspecFile>GeneticSharp.Domain.nuspec</NuspecFile>
+    <PackageDescription>A fast, extensible, multi-platform and multithreading C# Genetic Algorithm library that simplifies the development of applications using Genetic Algorithms (GAs).</PackageDescription>
+    <Authors>Diego Giacomelli</Authors>
+    <Owners>g1acomell1</Owners>
+    <PackageLicenseUrl>https://github.com/giacomelli/GeneticSharp/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/giacomelli/GeneticSharp</PackageProjectUrl>
+    <PackageReleaseNotes>See changes at https://github.com/giacomelli/GeneticSharp.</PackageReleaseNotes>
+    <PackageTags>genetic-algorithms geneticsharp genetic algotithms</PackageTags>
+  </PropertyGroup>
+
+<!-- NuGet Package -->
+  <PropertyGroup>
+    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
   </PropertyGroup>
 
   <ItemGroup>
-    <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
-    <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj" />
+    <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj" PrivateAssets="all" />
   </ItemGroup>
+
+  <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveProjectReferences">
+    <ItemGroup>
+      <BuildOutputInPackage Include="@(_ResolvedProjectReferencePaths)" />
+    </ItemGroup>
+  </Target>
+
 </Project>
