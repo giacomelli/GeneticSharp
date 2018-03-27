@@ -26,6 +26,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
             });
             target.Add(() =>
             {
+                Thread.Sleep(10);
                 pipeline += "3";
             });
 
