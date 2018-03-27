@@ -47,7 +47,7 @@ after_build:
 - cmd: >-   
     mkdir .\src\nuget
 
-    dotnet pack src/GeneticSharp.Domain/GeneticSharp.Domain.csproj -c release --no-build /p:PackageVersion=2.0.0-rc1 --output ..\nuget
+    dotnet pack src/GeneticSharp.Domain/GeneticSharp.Domain.csproj -c release --no-build /p:PackageVersion=2.0.0-rc1 --output ../nuget 
 
 test_script:
 - cmd: dotnet clean src/GeneticSharp.Domain.UnitTests
