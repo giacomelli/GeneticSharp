@@ -99,7 +99,9 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
 - Equation solver
 - Function builder
 
+<center>
 ![](docs/gifs/GeneticSharp-ConsoleApp-EquationSolver-FunctionBuilder.gif)
+</center>
 
 - Ghostwriter
 - TSP (Travelling Salesman Problem)
@@ -107,10 +109,19 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
 ### [Runner app (GTK#)](src/GeneticSharp.Runner.GtkApp) with visual samples:
 
 #### TSP (Travelling Salesman Problem) and Function optimization
+<center>
 ![](docs/gifs/GeneticSharp-GtkApp.gif)
+</center>
  
 #### Bitmap equality
-![](docs/gifs/GeneticSharp-BitmapEquality_sample01.gif) 
+<center>
+![](docs/gifs/GeneticSharp-BitmapEquality_sample01.gif)
+</center>
+
+### Unity3d sample
+<center>
+![](docs/gifs/GeneticSharp-Unity-Sample-Checkers.gif)
+</center>
 
       
 ### Multi-platform
