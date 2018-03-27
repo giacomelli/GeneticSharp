@@ -49,7 +49,7 @@ after_build:
 
     dotnet pack src/GeneticSharp.Domain/GeneticSharp.Domain.csproj -c release --no-build --output ../nuget /p:PackageVersion=2.0.0-rc1 
     
-    dotnet pack ../src/GeneticSharp.Extensions/GeneticSharp.Extensions.csproj -c release --no-build --output ../nuget /p:PackageVersion=2.0.0-rc1 
+    dotnet pack src/GeneticSharp.Extensions/GeneticSharp.Extensions.csproj -c release --no-build --output ../nuget /p:PackageVersion=2.0.0-rc1 
 
     test_script:
 - cmd: dotnet clean src/GeneticSharp.Domain.UnitTests
