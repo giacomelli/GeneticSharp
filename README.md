@@ -1,5 +1,4 @@
-GeneticSharp
-===========
+# GeneticSharp
 
 [![Join the chat at https://gitter.im/GeneticSharp/Lobby](https://badges.gitter.im/GeneticSharp/Lobby.svg)](https://gitter.im/GeneticSharp/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build status](https://ci.appveyor.com/api/projects/status/h9ptxpyj30ah3mva/branch/master?svg=true)](https://ci.appveyor.com/project/giacomelli/geneticsharp)
@@ -128,26 +127,36 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
 
 --------
 
-Setup
-===
+## Setup
+
+### .NET Standard 2.0 and .NET Framework 4.6.2 
 .NET Standard 2.0 and .NET Framework 4.6.2 version is currently in release candidate, to install it use the command below:
 
+Only GeneticSharp:
+
 ```shell
-PM> Install-Package GeneticSharp -Version 2.0.0-rc1
+install-package GeneticSharp -Version 2.0.0-rc1
 ```
 
+GeneticSharp and extensions (TSP, AutoConfig, Bitmap equality, Equality equation, Equation solver, Function builder, etc):
+
+```shell
+install-package GeneticSharp.Extensions -Version 2.0.0-rc1
+```
+
+## Mono and .NET Framework 3.5
 To install previous version that support .NET Framework 3.5:
 
 ```shell
 PM> Install-Package GeneticSharp -Version 1.2.0
 ```
 
+## Running samples
+If you want to run the console, GTK# and Unity samples, just fork this repository and follow the instruction from our [setup](https://github.com/giacomelli/GeneticSharp/wiki/setup) page wiki.
 
-Usage
-===
+## Usage
 
-Creating your own fitness evaluation 
----
+### Creating your own fitness evaluation 
 ```csharp
 
 public class MyProblemFitness : IFitness
@@ -160,8 +169,7 @@ public class MyProblemFitness : IFitness
 
 ```
 
-Creating your own chromosome 
----
+### Creating your own chromosome 
 ```csharp
 
 public class MyProblemChromosome : ChromosomeBase
@@ -186,10 +194,9 @@ public class MyProblemChromosome : ChromosomeBase
 
 ```
 
-Running your GA 
----
-```csharp
+### Running your GA 
 
+```csharp
 var selection = new EliteSelection();
 var crossover = new OrderedCrossover();
 var mutation = new ReverseSequenceMutation();
@@ -204,13 +211,11 @@ Console.WriteLine("GA running...");
 ga.Start();
 
 Console.WriteLine("Best solution found has {0} fitness.", ga.BestChromosome.Fitness);
-
 ```
 
 --------
 
-Roadmap
---------
+## Roadmap
  - Add new problems/classic sample
    - Checkers 
    - Time series   
@@ -238,8 +243,7 @@ Roadmap
  
 --------
 
-FAQ
-======
+## FAQ
 
 Having troubles? 
 
@@ -249,14 +253,12 @@ Having troubles?
  
  --------
 
-How to improve it?
-======
+## How to improve it?
 
 Create a fork of [GeneticSharp](https://github.com/giacomelli/GeneticSharp/fork). 
 
 Did you change it? [Submit a pull request](https://github.com/giacomelli/GeneticSharp/pull/new/master).
 
-License
-======
+## License
 Licensed under the The MIT License (MIT).
 In others words, you can use this library for developement any kind of software: open source, commercial, proprietary and alien.
