@@ -11,7 +11,7 @@ GeneticSharp
 
 GeneticSharp is a fast, extensible, multi-platform and multithreading C# Genetic Algorithm library that simplifies the development of applications using Genetic Algorithms (GAs).
 
-Can be used in any kind of .NET apps, like ASP .NET MVC, Web Forms, Windows Forms, GTK# and Unity3D applications.
+Can be used in any kind of .NET Core and .NET Framework apps, like ASP .NET MVC, ASP .NET Core, Web Forms, UWP, Windows Forms, GTK#, Xamarin and Unity3D applications.
 
 --------
 
@@ -101,39 +101,47 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
 - Function builder
 
 ![](docs/gifs/GeneticSharp-ConsoleApp-EquationSolver-FunctionBuilder.gif)
+
 - Ghostwriter
 - TSP (Travelling Salesman Problem)
  	
 ### [Runner app (GTK#)](src/GeneticSharp.Runner.GtkApp) with visual samples:
 
-#### TSP (Travelling Salesman Problem)
-![](docs/screenshots/GtkApp.Samples.TSP.Win.png)
-
-#### Function optimization
-![](docs/screenshots/GtkApp.Samples.FunctionOptimization.OSX.png)
+#### TSP (Travelling Salesman Problem) and Function optimization
+![](docs/gifs/GeneticSharp-GtkApp.gif)
  
 #### Bitmap equality
 ![](docs/gifs/GeneticSharp-BitmapEquality_sample01.gif) 
 
       
 ### Multi-platform
-- Mono support.
-- Fully tested on Windows and MacOSX.
-      ![](docs/screenshots/XamarinStudio.png) 
-      ![](docs/screenshots/VisualStudio.png) 
+- Mono, .NET Standard 2.0 and .NET Framework 4.6.2 support.
+- Fully tested on Windows and MacOS.
+      ![](docs/screenshots/VisualStudioMacAndWin.png)
 
 ### Code quality
 - 100% unit test code coverage.
 - FxCop validated.
 - Code duplicated verification.
 - Good (and well used) design patterns.  
-- 100% code [documentation](src/Help/Documentation.chm).
+- 100% code documentation
 
 --------
 
 Setup
 ===
-PM> Install-Package GeneticSharp
+.NET Standard 2.0 and .NET Framework 4.6.2 version is currently in release candidate, to install it use the command below:
+
+```shell
+PM> Install-Package GeneticSharp -Version 2.0.0-rc1
+```
+
+To install previous version that support .NET Framework 3.5:
+
+```shell
+PM> Install-Package GeneticSharp -Version 1.2.0
+```
+
 
 Usage
 ===
@@ -203,15 +211,12 @@ Console.WriteLine("Best solution found has {0} fitness.", ga.BestChromosome.Fitn
 
 Roadmap
 --------
- - Unity3d game sample (WIP)
- - Improve Runner.GtkApp
-   - Add new problems/classic samples
-      - Checkers 
-	  - Time series   
-	  - Knapsack problem
- - Create the wiki
+ - Add new problems/classic sample
+   - Checkers 
+   - Time series   
+   - Knapsack problem
  - Add new selections   
-   - Reward-based
+  - Reward-based
  - Add new crossovers   
    - Voting recombination
    - Alternating-position (AP)
@@ -226,7 +231,9 @@ Roadmap
    - Fitness convergence 
    - Population convergence
    - Chromosome convergence   
- - MonoTouch Runner app (sample)
+ - New samples
+   - Xamarin runner app (sample)
+   - Unity3d runner app (sample)
  - Parallel populations (islands) 
  
 --------
