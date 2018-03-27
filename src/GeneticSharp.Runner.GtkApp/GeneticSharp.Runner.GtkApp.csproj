@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
+    <AssemblySearchPaths>$(AssemblySearchPaths);{GAC}</AssemblySearchPaths>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   
   <Import Project="..\msbuilds\GeneticSharp.dotnet-core.targets" />
@@ -15,31 +17,19 @@
   
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-26216-02" />
-    <Reference Include="atk-sharp">
-      <HintPath>references\atk-sharp.dll</HintPath>
-    </Reference>
-    <Reference Include="gtk-dotnet">
-      <HintPath>references\gtk-dotnet.dll</HintPath>
-    </Reference>
-    <Reference Include="gtk-sharp">
-      <HintPath>references\gtk-sharp.dll</HintPath>
-    </Reference>
-    <Reference Include="glib-sharp">
-      <HintPath>references\glib-sharp.dll</HintPath>
-    </Reference>
-    <Reference Include="glade-sharp">
-      <HintPath>references\glade-sharp.dll</HintPath>
-    </Reference>
-    <Reference Include="gdk-sharp">
-      <HintPath>references\gdk-sharp.dll</HintPath>
-    </Reference>
-    <Reference Include="pango-sharp">
-      <HintPath>references\pango-sharp.dll</HintPath>
-    </Reference>
-      <Reference Include="Mono.Posix">
-      <HintPath>references\Mono.Posix.dll</HintPath>
-    </Reference>
   </ItemGroup>
+
+ <ItemGroup>
+    <Reference Include="Mono.Posix" />
+    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gtk-dotnet, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+  </ItemGroup>
+
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
       <LogicalName>gui.stetic</LogicalName>
@@ -56,26 +46,5 @@
       <DeployService-UseProjectRelativePath>True</DeployService-UseProjectRelativePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="references\.DS_Store" />
-    <None Remove="references\atk-sharp.dll" />
-    <None Remove="references\atk-sharp.dll.config" />
-    <None Remove="references\atk-sharp.dll.mdb" />
-    <None Remove="references\gdk-sharp.dll" />
-    <None Remove="references\gdk-sharp.dll.config" />
-    <None Remove="references\gdk-sharp.dll.mdb" />
-    <None Remove="references\glade-sharp.dll" />
-    <None Remove="references\glade-sharp.dll.config" />
-    <None Remove="references\glade-sharp.dll.mdb" />
-    <None Remove="references\glib-sharp.dll" />
-    <None Remove="references\glib-sharp.dll.config" />
-    <None Remove="references\glib-sharp.dll.mdb" />
-    <None Remove="references\gtk-dotnet.dll" />
-    <None Remove="references\gtk-dotnet.dll.config" />
-    <None Remove="references\gtk-dotnet.dll.mdb" />
-    <None Remove="references\gtk-sharp.dll" />
-    <None Remove="references\gtk-sharp.dll.config" />
-    <None Remove="references\gtk-sharp.dll.mdb" />
   </ItemGroup>
 </Project>
