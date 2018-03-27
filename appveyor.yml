@@ -51,7 +51,7 @@ after_build:
     
     dotnet pack src/GeneticSharp.Extensions/GeneticSharp.Extensions.csproj -c release --no-build --output ../nuget /p:PackageVersion=2.0.0-rc1 
 
-    test_script:
+test_script:
 - cmd: dotnet clean src/GeneticSharp.Domain.UnitTests
 - cmd: dotnet test src/GeneticSharp.Domain.UnitTests -f netcoreapp2.0
 
