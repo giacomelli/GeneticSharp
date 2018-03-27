@@ -18,7 +18,7 @@
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
       
-  <ItemGroup Condition="$(ProjectName) != 'GeneticSharp.Domain'">
+  <ItemGroup Condition="$(ProjectName) != 'GeneticSharp.Domain' and Exists('..\GeneticSharp.Domain\Properties\SolutionInfo.cs')">
     <Compile Include="..\GeneticSharp.Domain\Properties\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
