@@ -99,10 +99,7 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
 - Equation solver
 - Function builder
 
-<center>
-<img src="docs/gifs/GeneticSharp-ConsoleApp-EquationSolver-FunctionBuilder.gif"/>
-</center>
-
+![](docs/gifs/GeneticSharp-ConsoleApp-EquationSolver-FunctionBuilder.gif)
 
 - Ghostwriter
 - TSP (Travelling Salesman Problem)
@@ -110,24 +107,20 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
 ### [Runner app (GTK#)](src/GeneticSharp.Runner.GtkApp) with visual samples:
 
 #### TSP (Travelling Salesman Problem) and Function optimization
-<center>
-<img src="docs/gifs/GeneticSharp-GtkApp.gif" />
-</center>
+![](docs/gifs/GeneticSharp-GtkApp.gif)
  
 #### Bitmap equality
-<center>
-<img src="docs/gifs/GeneticSharp-BitmapEquality_sample01.gif" />
-</center>
+![](docs/gifs/GeneticSharp-BitmapEquality_sample01.gif)
 
 ### Unity3d sample
-<center>
-<img src="docs/gifs/GeneticSharp-Unity-Sample-Checkers.gif" />
-</center>
+![](docs/gifs/GeneticSharp-Unity-Sample-Checkers.gif)
+
       
 ### Multi-platform
 - Mono, .NET Standard 2.0 and .NET Framework 4.6.2 support.
 - Fully tested on Windows and MacOS.
-      ![](docs/screenshots/VisualStudioMacAndWin.png)
+
+![](docs/screenshots/VisualStudioMacAndWin.png)
 
 ### Code quality
 - 100% unit test code coverage.
@@ -266,8 +259,9 @@ Having troubles?
 
 ## How to improve it?
 
-- Create a fork of [GeneticSharp](https://github.com/giacomelli/GeneticSharp/fork). 
-- Did you change it? [Submit a pull request](https://github.com/giacomelli/GeneticSharp/pull/new/master).
+Create a fork of [GeneticSharp](https://github.com/giacomelli/GeneticSharp/fork). 
+
+Did you change it? [Submit a pull request](https://github.com/giacomelli/GeneticSharp/pull/new/master).
 
 ## License
 Licensed under the The MIT License (MIT).
