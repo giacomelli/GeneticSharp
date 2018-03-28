@@ -100,8 +100,9 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
 - Function builder
 
 <center>
-![](docs/gifs/GeneticSharp-ConsoleApp-EquationSolver-FunctionBuilder.gif)
+<img src="docs/gifs/GeneticSharp-ConsoleApp-EquationSolver-FunctionBuilder.gif"/>
 </center>
+
 
 - Ghostwriter
 - TSP (Travelling Salesman Problem)
@@ -110,19 +111,18 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
 
 #### TSP (Travelling Salesman Problem) and Function optimization
 <center>
-![](docs/gifs/GeneticSharp-GtkApp.gif)
+<img src="docs/gifs/GeneticSharp-GtkApp.gif" />
 </center>
  
 #### Bitmap equality
 <center>
-![](docs/gifs/GeneticSharp-BitmapEquality_sample01.gif)
+<img src="docs/gifs/GeneticSharp-BitmapEquality_sample01.gif" />
 </center>
 
 ### Unity3d sample
 <center>
-![](docs/gifs/GeneticSharp-Unity-Sample-Checkers.gif)
+<img src="docs/gifs/GeneticSharp-Unity-Sample-Checkers.gif" />
 </center>
-
       
 ### Multi-platform
 - Mono, .NET Standard 2.0 and .NET Framework 4.6.2 support.
@@ -159,7 +159,7 @@ install-package GeneticSharp.Extensions -Version 2.0.0-rc1
 To install previous version that support .NET Framework 3.5:
 
 ```shell
-PM> Install-Package GeneticSharp -Version 1.2.0
+install-package GeneticSharp -Version 1.2.0
 ```
 
 ## Running samples
@@ -266,9 +266,8 @@ Having troubles?
 
 ## How to improve it?
 
-Create a fork of [GeneticSharp](https://github.com/giacomelli/GeneticSharp/fork). 
-
-Did you change it? [Submit a pull request](https://github.com/giacomelli/GeneticSharp/pull/new/master).
+- Create a fork of [GeneticSharp](https://github.com/giacomelli/GeneticSharp/fork). 
+- Did you change it? [Submit a pull request](https://github.com/giacomelli/GeneticSharp/pull/new/master).
 
 ## License
 Licensed under the The MIT License (MIT).
