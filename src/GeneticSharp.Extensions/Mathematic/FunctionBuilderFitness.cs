@@ -12,8 +12,8 @@ namespace GeneticSharp.Extensions.Mathematic
     public class FunctionBuilderFitness : IFitness
     {
         #region Fields
-        private FunctionBuilderInput[] m_inputs;
-        private string[] m_parameterNames;
+        private readonly FunctionBuilderInput[] m_inputs;
+        private readonly string[] m_parameterNames;
         #endregion
 
         #region Constructors

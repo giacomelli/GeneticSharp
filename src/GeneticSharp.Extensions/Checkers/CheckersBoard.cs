@@ -30,7 +30,7 @@ namespace GeneticSharp.Extensions.Checkers
     {
         #region Fields
         [SuppressMessage("Microsoft.Performance", "CA1814:PreferJaggedArraysOverMultidimensional", MessageId = "Member", Justification = "Better to checkers problem")]
-        private CheckersSquare[,] m_squares;
+        private readonly CheckersSquare[,] m_squares;
         #endregion
 
         #region Constructors
@@ -159,8 +159,6 @@ namespace GeneticSharp.Extensions.Checkers
                     {
                         GetSquare(from.ColumnIndex - (1 * indexModifier), from.RowIndex + (1 * indexModifier)).RemovePiece();
                     }
-
-                    moved = true;
                 }
             }
 

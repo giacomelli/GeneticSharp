@@ -10,7 +10,7 @@ namespace GeneticSharp.Extensions.Ghostwriter
 	/// </summary>
 	public class GhostwriterFitness : IFitness
 	{
-		private Func<string, double> m_evaluateFunc;
+		private readonly Func<string, double> m_evaluateFunc;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:GeneticSharp.Extensions.Ghostwriter.GhostwriterFitness"/> class.

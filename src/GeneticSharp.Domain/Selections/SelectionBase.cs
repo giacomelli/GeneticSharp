@@ -13,7 +13,7 @@ namespace GeneticSharp.Domain.Selections
     public abstract class SelectionBase : ISelection
     {
         #region Fields
-        private int m_minNumberChromosomes;
+        private readonly int m_minNumberChromosomes;
         #endregion
 
         #region Constructors

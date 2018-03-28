@@ -109,7 +109,8 @@ namespace GeneticSharp.Domain.Chromosomes
 			{
 				return m_minValue[index];
 			}
-			else if (value > m_maxValue[index])
+
+		    if (value > m_maxValue[index])
 			{
 				return m_maxValue[index];
 			}

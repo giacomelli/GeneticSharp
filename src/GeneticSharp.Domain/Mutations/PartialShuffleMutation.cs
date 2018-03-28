@@ -48,7 +48,7 @@ namespace GeneticSharp.Domain.Mutations
                     result = sequence.Shuffle(RandomizationProvider.Current);
                 }
 
-                return result;
+                return result; 
             }
 
             // All genes on sequence are equal, then sequence cannot be shuffled.

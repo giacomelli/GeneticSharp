@@ -100,11 +100,13 @@ namespace GeneticSharp.Domain.Chromosomes
             {
                 return false;
             }
-            else if ((object)first == null)
+
+            if ((object)first == null)
             {
                 return true;
             }
-            else if ((object)second == null)
+
+            if ((object)second == null)
             {
                 return false;
             }
