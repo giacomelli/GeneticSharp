@@ -1,9 +1,9 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Randomizations;
 using NUnit.Framework;
-using Rhino.Mocks;
+using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
@@ -21,7 +21,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         public void Cross_ParentsWithSameLength_Cross()
         {
             var target = new CutAndSpliceCrossover();
-            var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(4);
+            var chromosome1 = Substitute.For<ChromosomeBase>(4);
             chromosome1.ReplaceGenes(0, new Gene[]
             {
                 new Gene(1),
@@ -29,9 +29,9 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
                 new Gene(3),
                 new Gene(4),
             });
-            chromosome1.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(4));
+            chromosome1.CreateNew().Returns(Substitute.For<ChromosomeBase>(4));
 
-            var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(4);
+            var chromosome2 = Substitute.For<ChromosomeBase>(4);
             chromosome2.ReplaceGenes(0, new Gene[]
             {
                 new Gene(5),
@@ -39,18 +39,10 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
                 new Gene(7),
                 new Gene(8)
             });
-            chromosome2.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(4));
+            chromosome2.CreateNew().Returns(Substitute.For<ChromosomeBase>(4));
 
-            var repository = new MockRepository();
-            var rnd = repository.StrictMock<IRandomization>();
-
-            using (repository.Ordered())
-            {
-                rnd.Expect(r => r.GetInt(1, 4)).Return(1);
-                rnd.Expect(r => r.GetInt(1, 4)).Return(3);
-            }
-
-            repository.ReplayAll();
+            var rnd = Substitute.For<IRandomization>();
+            rnd.GetInt(1, 4).Returns(1, 3);
 
             RandomizationProvider.Current = rnd;
 
@@ -75,7 +67,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         public void Cross_ParentsWithDiffLength_Cross()
         {
             var target = new CutAndSpliceCrossover();
-            var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(4);
+            var chromosome1 = Substitute.ForPartsOf<ChromosomeBase>(4);
             chromosome1.ReplaceGenes(0, new Gene[]
             {
                 new Gene(1),
@@ -83,9 +75,9 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
                 new Gene(3),
                 new Gene(4),
             });
-            chromosome1.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(4));
+            chromosome1.CreateNew().Returns(Substitute.ForPartsOf<ChromosomeBase>(4));
 
-            var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(5);
+            var chromosome2 = Substitute.ForPartsOf<ChromosomeBase>(5);
             chromosome2.ReplaceGenes(0, new Gene[]
             {
                 new Gene(5),
@@ -94,18 +86,11 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
                 new Gene(8),
                 new Gene(9),
             });
-            chromosome2.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(5));
+            chromosome2.CreateNew().Returns(Substitute.ForPartsOf<ChromosomeBase>(5));
 
-            var repository = new MockRepository();
-            var rnd = repository.StrictMock<IRandomization>();
-
-            using (repository.Ordered())
-            {
-                rnd.Expect(r => r.GetInt(1, 4)).Return(2);
-                rnd.Expect(r => r.GetInt(1, 5)).Return(2);
-            }
-
-            repository.ReplayAll();
+            var rnd = Substitute.For<IRandomization>();
+            rnd.GetInt(1, 4).Returns(2);
+            rnd.GetInt(1, 5).Returns(2);
 
             RandomizationProvider.Current = rnd;
 

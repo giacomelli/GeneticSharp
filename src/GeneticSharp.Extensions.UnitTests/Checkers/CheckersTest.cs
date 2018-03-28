@@ -7,7 +7,6 @@ using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.Checkers;
 using NUnit.Framework;
-using TestSharp;
 
 namespace GeneticSharp.Extensions.UnitTests.Checkers
 {
@@ -22,6 +21,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
         }
 
         [Test()]
+        [MaxTime(100000)]
         public void Evolve_ManyGenerations_Fast()
         {
             int movesAhead = 10;
@@ -48,11 +48,8 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
 
             ga.Termination = new GenerationNumberTermination(2001);
 
-            TimeAssert.LessThan(100000, () =>
-            {
-                ga.Start();
-            });
-
+            ga.Start();
+     
             var lastFitness = ((CheckersChromosome)ga.Population.BestChromosome).Fitness;
 
             Assert.LessOrEqual(firstFitness, lastFitness);

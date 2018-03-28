@@ -1,89 +1,93 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3B5D7E7E-28B3-490E-AFF0-A231F246A963}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <TargetFramework>net462</TargetFramework>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  
+  <Import Project="..\msbuilds\GeneticSharp.dotnet-core.targets" />
+  <Import Project="..\msbuilds\GeneticSharp.common.targets" />
+ 
+  <PropertyGroup>
+   <OutputType>WinExe</OutputType>
     <RootNamespace>GeneticSharp.Runner.GtkApp</RootNamespace>
     <AssemblyName>GeneticSharp.Runner.GtkApp</AssemblyName>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-    <ReleaseVersion>1.1.0</ReleaseVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-    <PlatformTarget>x86</PlatformTarget>
-    <CodeAnalysisRuleSet>..\GeneticSharp.Domain\GeneticSharp.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-  </PropertyGroup>
+   </PropertyGroup>
+ 
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="Mono.Posix" />
-    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="gtk-dotnet, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Compile Remove="references\**" />
+    <EmbeddedResource Remove="references\**" />
+    <None Remove="references\**" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-26216-02" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(OS)' == 'Unix' ">
+    <Reference Include="atk-sharp">
+      <HintPath>references\Unix\atk-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="gtk-dotnet">
+      <HintPath>references\Unix\gtk-dotnet.dll</HintPath>
+    </Reference>
+    <Reference Include="gtk-sharp">
+      <HintPath>references\Unix\gtk-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="glib-sharp">
+      <HintPath>references\Unix\glib-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="glade-sharp">
+      <HintPath>references\Unix\glade-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="gdk-sharp">
+      <HintPath>references\Unix\gdk-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="pango-sharp">
+      <HintPath>references\Unix\pango-sharp.dll</HintPath>
+    </Reference>
+      <Reference Include="Mono.Posix">
+      <HintPath>references\Unix\Mono.Posix.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  
+  <ItemGroup  Condition=" '$(OS)' == 'Windows_NT' ">
+      <Reference Include="atk-sharp">
+        <HintPath>references\Windows_NT\atk-sharp.dll</HintPath>
+      </Reference>
+      <Reference Include="gtk-dotnet">
+        <HintPath>references\Windows_NT\gtk-dotnet.dll</HintPath>
+      </Reference>
+      <Reference Include="gtk-sharp">
+        <HintPath>references\Windows_NT\gtk-sharp.dll</HintPath>
+      </Reference>
+      <Reference Include="glib-sharp">
+        <HintPath>references\Windows_NT\glib-sharp.dll</HintPath>
+      </Reference>
+      <Reference Include="glade-sharp">
+        <HintPath>references\Windows_NT\glade-sharp.dll</HintPath>
+      </Reference>
+      <Reference Include="gdk-sharp">
+        <HintPath>references\Windows_NT\gdk-sharp.dll</HintPath>
+      </Reference>
+      <Reference Include="pango-sharp">
+        <HintPath>references\Windows_NT\pango-sharp.dll</HintPath>
+      </Reference>
+        <Reference Include="Mono.Posix">
+        <HintPath>references\Windows_NT\Mono.Posix.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
       <LogicalName>gui.stetic</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
+  
   <ItemGroup>
-    <Compile Include="gtk-gui\generated.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
-    </Compile>
-    <Compile Include="MainWindow.cs" />
-    <Compile Include="gtk-gui\MainWindow.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
-    </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyEditor.cs" />
-    <Compile Include="gtk-gui\GeneticSharp.Runner.GtkApp.PropertyEditor.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
-    </Compile>
-    <Compile Include="Samples\BitmapEqualitySampleController.cs" />
-    <Compile Include="Samples\ISampleController.cs" />
-    <Compile Include="Samples\SampleControllerBase.cs" />
-    <Compile Include="Samples\SampleContext.cs" />
-    <Compile Include="Samples\TspSampleController.cs" />
-    <Compile Include="Samples\FunctionOptimizationSampleController.cs" />
-    <Compile Include="..\GeneticSharp.Domain\Properties\SolutionInfo.cs">
-      <Link>Properties\SolutionInfo.cs</Link>
-    </Compile>
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj">
-      <Project>{C76DC1AD-FC7E-4168-BD19-101FF84A43F7}</Project>
-      <Name>GeneticSharp.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GeneticSharp.Extensions\GeneticSharp.Extensions.csproj">
-      <Project>{699AF592-1E11-4084-B87E-9AC72ED7861B}</Project>
-      <Name>GeneticSharp.Extensions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj">
-      <Project>{1498D792-D02B-4A9E-8AFC-24AEBA0DEE54}</Project>
-      <Name>GeneticSharp.Infrastructure.Framework</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj" />
+    <ProjectReference Include="..\GeneticSharp.Extensions\GeneticSharp.Extensions.csproj" />
+    <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.png">
@@ -91,5 +95,4 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>

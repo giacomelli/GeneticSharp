@@ -1,10 +1,9 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Randomizations;
 using NUnit.Framework;
-using Rhino.Mocks;
-using TestSharp;
+using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
@@ -23,7 +22,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         {
             var target = new PartiallyMappedCrossover();
 
-            var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(8);
+            var chromosome1 = Substitute.For<ChromosomeBase>(8);
             chromosome1.ReplaceGenes(0, new Gene[] {
                 new Gene(1),
                 new Gene(2),
@@ -34,9 +33,9 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
                 new Gene(7),
                 new Gene(8)
             });
-            chromosome1.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(8));
+            chromosome1.CreateNew().Returns(Substitute.For<ChromosomeBase>(8));
 
-            var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(8);
+            var chromosome2 = Substitute.For<ChromosomeBase>(8);
             chromosome2.ReplaceGenes(0, new Gene[]
                                      {
                 new Gene(3),
@@ -48,21 +47,22 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
                 new Gene(2),
                 new Gene(3)
             });
-            chromosome2.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(8));
+            chromosome2.CreateNew().Returns(Substitute.For<ChromosomeBase>(8));
 
-            ExceptionAssert.IsThrowing(new CrossoverException(target, "The Partially Mapped Crossover (PMX) can be only used with ordered chromosomes. The specified chromosome has repeated genes."), () =>
+            Assert.Catch <CrossoverException>(() =>
             {
                 target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
-            });
+            }, "The Partially Mapped Crossover (PMX) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
         }
 
         [Test]
+        [MaxTime(30)]
         public void Cross_ParentsWith8Genes_Cross()
         {
             var target = new PartiallyMappedCrossover();
 
             // 1 2 3 4 5 6 7 8 
-            var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(8);
+            var chromosome1 = Substitute.For<ChromosomeBase>(8);
             chromosome1.ReplaceGenes(0, new Gene[] {
                 new Gene(1),
                 new Gene(2),
@@ -73,10 +73,10 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
                 new Gene(7),
                 new Gene(8)
             });
-            chromosome1.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(8));
+            chromosome1.CreateNew().Returns(Substitute.For<ChromosomeBase>(8));
 
             // 3 7 5 1 6 8 2 4
-            var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(8);
+            var chromosome2 = Substitute.For<ChromosomeBase>(8);
             chromosome2.ReplaceGenes(0, new Gene[]
             {
                 new Gene(3),
@@ -88,18 +88,13 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
                 new Gene(2),
                 new Gene(4)
             });
-            chromosome2.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(8));
+            chromosome2.CreateNew().Returns(Substitute.For<ChromosomeBase>(8));
 
-            var rnd = MockRepository.GenerateMock<IRandomization>();
-            rnd.Expect(r => r.GetUniqueInts(2, 0, 8)).Return(new int[] { 5, 3 });
+            var rnd = Substitute.For<IRandomization>();
+            rnd.GetUniqueInts(2, 0, 8).Returns(new int[] { 5, 3 });
             RandomizationProvider.Current = rnd;
 
-            IList<IChromosome> actual = null; ;
-
-            TimeAssert.LessThan(30, () =>
-            {
-                actual = target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
-            });
+            var actual = target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
 
             Assert.AreEqual(2, actual.Count);
             Assert.AreEqual(8, actual[0].Length);

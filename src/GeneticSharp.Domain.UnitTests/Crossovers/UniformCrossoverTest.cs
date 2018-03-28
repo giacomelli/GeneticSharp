@@ -1,9 +1,9 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Randomizations;
 using NUnit.Framework;
-using Rhino.Mocks;
+using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
@@ -20,7 +20,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         [Test]
         public void Cross_ParentsWithTwoGenesProbabilityDiffPercents_DiffChildren()
         {
-            var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(4);
+            var chromosome1 = Substitute.For<ChromosomeBase>(4);
             chromosome1.ReplaceGenes(0, new Gene[]
             {
                 new Gene(1),
@@ -28,9 +28,9 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
                 new Gene(3),
                 new Gene(4),
             });
-            chromosome1.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(4));
+            chromosome1.CreateNew().Returns(Substitute.For<ChromosomeBase>(4));
 
-            var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(4);
+            var chromosome2 = Substitute.For<ChromosomeBase>(4);
             chromosome2.ReplaceGenes(0, new Gene[]
             {
                 new Gene(5),
@@ -38,26 +38,17 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
                 new Gene(7),
                 new Gene(8)
             });
-            chromosome2.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(4));
+            chromosome2.CreateNew().Returns(Substitute.For<ChromosomeBase>(4));
             var parents = new List<IChromosome>() { chromosome1, chromosome2 };
 
-            var mock = new MockRepository();
-            var rnd = mock.StrictMock<IRandomization>();
-
-            using (mock.Ordered())
-            {
-                rnd.Expect(r => r.GetDouble()).Return(0);
-                rnd.Expect(r => r.GetDouble()).Return(0.49);
-                rnd.Expect(r => r.GetDouble()).Return(0.5);
-                rnd.Expect(r => r.GetDouble()).Return(1);
-            }
+            var rnd = Substitute.For<IRandomization>();
+            rnd.GetDouble().Returns(0, 0.49, 0.5, 1);
 
             RandomizationProvider.Current = rnd;
 
             // 50%
             var target = new UniformCrossover(0.5f);
-            mock.ReplayAll();
-
+      
             var actual = target.Cross(parents);
             Assert.AreEqual(2, actual.Count);
             Assert.AreEqual(4, actual[0].Length);
@@ -75,20 +66,11 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
 
             // 70%
-            mock = new MockRepository();
-            rnd = mock.StrictMock<IRandomization>();
-
-            using (mock.Ordered())
-            {
-                rnd.Expect(r => r.GetDouble()).Return(0);
-                rnd.Expect(r => r.GetDouble()).Return(0.49);
-                rnd.Expect(r => r.GetDouble()).Return(0.5);
-                rnd.Expect(r => r.GetDouble()).Return(1);
-            }
+            rnd = Substitute.For<IRandomization>();
+            rnd.GetDouble().Returns(0, 0.49, 0.5, 1);
 
             RandomizationProvider.Current = rnd;
-            mock.ReplayAll();
-
+     
             target = new UniformCrossover(0.7f);
             actual = target.Cross(parents);
             Assert.AreEqual(2, actual.Count);

@@ -1,10 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using NUnit.Framework;
-using Rhino.Mocks;
-using TestSharp;
+using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Populations
 {
@@ -15,42 +14,42 @@ namespace GeneticSharp.Domain.UnitTests.Populations
         [Test()]
         public void Constructor_ZeroOrNegativeNumber_Exception()
         {
-            ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("number", "Generation number -1 is invalid. Generation number should be positive and start in 1."), () =>
+            Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
                 new Generation(-1, null);
-            });
+            }, "Generation number -1 is invalid. Generation number should be positive and start in 1.");
 
-            ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("number", "Generation number 0 is invalid. Generation number should be positive and start in 1."), () =>
+            Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
                 new Generation(0, null);
-            });
+            }, "Generation number 0 is invalid. Generation number should be positive and start in 1.");
         }
 
         [Test()]
         public void Constructor_InvalidChromosomesQuantity_Exception()
         {
-            ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("chromosomes", "A generation should have at least 2 chromosomes."), () =>
+            Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
                 new Generation(1, null);
-            });
+            }, "A generation should have at least 2 chromosomes.");
 
-            ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("chromosomes", "A generation should have at least 2 chromosomes."), () =>
+            Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
                 new Generation(1, new List<IChromosome>());
-            });
+            }, "A generation should have at least 2 chromosomes.");
 
-            ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("chromosomes", "A generation should have at least 2 chromosomes."), () =>
+            Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
-                new Generation(1, new List<IChromosome>() { MockRepository.GenerateMock<IChromosome>() });
-            });
+                new Generation(1, new List<IChromosome>() { Substitute.For<IChromosome>() });
+            }, "A generation should have at least 2 chromosomes.");
         }
 
         [Test()]
         public void Constructor_OkArguments_Instanced()
         {
             var target = new Generation(1, new List<IChromosome>() {
-                MockRepository.GenerateMock<IChromosome>(),
-                MockRepository.GenerateMock<IChromosome>()
+                Substitute.For<IChromosome>(),
+                Substitute.For<IChromosome>()
             });
 
             Assert.AreEqual(1, target.Number);
@@ -66,10 +65,10 @@ namespace GeneticSharp.Domain.UnitTests.Populations
                 new ChromosomeStub() { Fitness = 0.1 }
             });
 
-            ExceptionAssert.IsThrowing(new InvalidOperationException("There is unknown problem in current generation, because a chromosome has no fitness value."), () =>
+            Assert.Catch<InvalidOperationException>(() =>
             {
                 target.End(2);
-            });
+            }, "There is unknown problem in current generation, because a chromosome has no fitness value.");
         }
 
         [Test]

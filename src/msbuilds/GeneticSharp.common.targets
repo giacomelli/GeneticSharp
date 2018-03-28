@@ -1,0 +1,27 @@
+<Project>
+  <PropertyGroup>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RestorePackages>true</RestorePackages>
+    <ReleaseVersion>1.2.0</ReleaseVersion>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath> 
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(ProjectName) != 'GeneticSharp.Domain.UnitTests'">
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+      
+  <ItemGroup Condition="$(ProjectName) != 'GeneticSharp.Domain' and Exists('..\GeneticSharp.Domain\Properties\SolutionInfo.cs')">
+    <Compile Include="..\GeneticSharp.Domain\Properties\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
+  </ItemGroup>
+
+</Project>

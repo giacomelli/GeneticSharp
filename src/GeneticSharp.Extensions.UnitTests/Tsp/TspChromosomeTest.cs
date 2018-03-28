@@ -1,7 +1,6 @@
-using System;
+﻿using System;
 using GeneticSharp.Extensions.Tsp;
 using NUnit.Framework;
-using TestSharp;
 
 namespace GeneticSharp.Extensions.UnitTests.Tsp
 {
@@ -12,10 +11,10 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
         [Test()]
         public void Constructor_OneCity_Exception()
         {
-            ExceptionAssert.IsThrowing(new ArgumentException("The minimum length for a chromosome is 2 genes."), () =>
+            Assert.Catch<ArgumentException>(() =>
             {
                 new TspChromosome(1);
-            });
+            }, "The minimum length for a chromosome is 2 genes.");
         }
 
         [Test()]
@@ -30,11 +29,9 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
         public void Clone_NoArgs_Cloned()
         {
             var target = new TspChromosome(10);
-            target.Distance = 123;
-
+         
             var actual = target.Clone() as TspChromosome;
             Assert.IsFalse(Object.ReferenceEquals(target, actual));
-            Assert.AreEqual(123, actual.Distance);
         }
     }
 }

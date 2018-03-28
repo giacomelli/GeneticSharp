@@ -1,10 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using GeneticSharp.Domain.Randomizations;
 using NUnit.Framework;
-using TestSharp;
 
 namespace GeneticSharp.Domain.UnitTests.Randomizations
 {
@@ -132,12 +131,10 @@ namespace GeneticSharp.Domain.UnitTests.Randomizations
         {
             var target = new BasicRandomization();
 
-            ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("length", "The length is 5, but the possible unique values between 0 (inclusive) and 4 (exclusive) are 4."), () =>
+            Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
                 target.GetUniqueInts(5, 0, 4);
-            });
-
-
+            }, "The length is 5, but the possible unique values between 0 (inclusive) and 4 (exclusive) are 4.");
         }
 
         [Test]

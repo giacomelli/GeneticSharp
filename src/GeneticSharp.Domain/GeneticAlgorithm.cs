@@ -97,7 +97,7 @@ namespace GeneticSharp.Domain
                           ICrossover crossover,
                           IMutation mutation)
         {
-            ExceptionHelper.ThrowIfNull("Population", population);
+            ExceptionHelper.ThrowIfNull("population", population);
             ExceptionHelper.ThrowIfNull("fitness", fitness);
             ExceptionHelper.ThrowIfNull("selection", selection);
             ExceptionHelper.ThrowIfNull("crossover", crossover);

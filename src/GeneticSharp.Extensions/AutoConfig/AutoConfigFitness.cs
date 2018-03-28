@@ -92,6 +92,8 @@ namespace GeneticSharp.Extensions.AutoConfig
             }
             catch (Exception)
             {
+                // The selection, crossover and mutation combination is not valid,
+                // so this chromossome should have a bad fitness.
                 return 0;
             }
 

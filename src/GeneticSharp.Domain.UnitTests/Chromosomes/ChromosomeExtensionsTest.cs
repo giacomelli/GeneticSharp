@@ -1,10 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using NUnit.Framework;
-using Rhino.Mocks;
-using TestSharp;
+using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Chromosomes
 {
@@ -15,7 +14,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         [Test()]
         public void AnyChromosomeHasRepeatedGene_NonRepeatedGene_False()
         {
-            var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(3);
+            var chromosome1 = Substitute.For<ChromosomeBase>(3);
             chromosome1.ReplaceGenes(0, new Gene[]
                                      {
                 new Gene(1),
@@ -26,7 +25,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
             var chromosomes = new List<IChromosome>() { chromosome1 };
             Assert.IsFalse(chromosomes.AnyHasRepeatedGene());
 
-            var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(3);
+            var chromosome2 = Substitute.For<ChromosomeBase>(3);
             chromosome2.ReplaceGenes(0, new Gene[]
                                      {
                 new Gene(1),
@@ -41,7 +40,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         [Test()]
         public void AnyChromosomeHasRepeatedGene_RepeatedGene_True()
         {
-            var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(3);
+            var chromosome1 = Substitute.For<ChromosomeBase>(3);
             chromosome1.ReplaceGenes(0, new Gene[]
                                      {
                 new Gene(1),
@@ -49,7 +48,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
                 new Gene(3)
             });
 
-            var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(3);
+            var chromosome2 = Substitute.For<ChromosomeBase>(3);
             chromosome1.ReplaceGenes(0, new Gene[]
             {
                 new Gene(4),
@@ -65,19 +64,18 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
 		[Test]
 		public void ValidateGenes_GenesWithNullValue_Exception()
 		{
-			var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(3);
+			var chromosome1 = Substitute.For<ChromosomeBase>(3);
 
-			ExceptionAssert.IsThrowing (
-				new InvalidOperationException ("The chromosome '{0}' is generating genes with null value.".With(chromosome1.GetType().Name)),
+            Assert.Catch<InvalidOperationException> (
 				() => {
 					chromosome1.ValidateGenes();
-				});
+            }, "The chromosome '{0}' is generating genes with null value.".With(chromosome1.GetType().Name));
 		}
 
 		[Test]
 		public void ValidateGenes_AllGenesWithValue_NoException()
 		{
-			var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(3);
+			var chromosome1 = Substitute.For<ChromosomeBase>(3);
 			chromosome1.ReplaceGenes (0, new Gene[] { new Gene (1), new Gene (2), new Gene (3) });
 
 			chromosome1.ValidateGenes();
@@ -86,23 +84,22 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
 		[Test]
 		public void ValidateGenes_ChromosomesWithGenesWithNullValue_Exception()
 		{
-			var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(3);
+			var chromosome1 = Substitute.For<ChromosomeBase>(3);
 			chromosome1.ReplaceGenes (0, new Gene[] { new Gene (1), new Gene (2), new Gene (3) });
-			var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(3);
+			var chromosome2 = Substitute.For<ChromosomeBase>(3);
 
-			ExceptionAssert.IsThrowing (
-				new InvalidOperationException ("The chromosome '{0}' is generating genes with null value.".With(chromosome2.GetType().Name)),
+            Assert.Catch<InvalidOperationException>(
 				() => {
 					(new List<IChromosome>() { chromosome1, chromosome2 }).ValidateGenes();
-				});
+            }, "The chromosome '{0}' is generating genes with null value.".With(chromosome2.GetType().Name));
 		}
 
 		[Test]
 		public void ValidateGenes_ChromosomesWithAllGenesWithValue_NoException()
 		{
-			var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(3);
+			var chromosome1 = Substitute.For<ChromosomeBase>(3);
 			chromosome1.ReplaceGenes (0, new Gene[] { new Gene (1), new Gene (2), new Gene (3) });
-			var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(3);
+			var chromosome2 = Substitute.For<ChromosomeBase>(3);
 			chromosome2.ReplaceGenes (0, new Gene[] { new Gene (1), new Gene (2), new Gene (3) });
 
 			(new List<IChromosome>() { chromosome1, chromosome2 }).ValidateGenes();

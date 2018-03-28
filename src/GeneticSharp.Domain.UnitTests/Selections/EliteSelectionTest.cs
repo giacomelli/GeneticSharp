@@ -1,11 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Selections;
 using NUnit.Framework;
-using Rhino.Mocks;
-using TestSharp;
+using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Selections
 {
@@ -18,20 +17,20 @@ namespace GeneticSharp.Domain.UnitTests.Selections
         {
             var target = new EliteSelection();
 
-            ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("number", "The number of selected chromosomes should be at least 2."), () =>
+            Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
                 target.SelectChromosomes(-1, null);
-            });
+            }, "The number of selected chromosomes should be at least 2.");
 
-            ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("number", "The number of selected chromosomes should be at least 2."), () =>
+            Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
                 target.SelectChromosomes(0, null);
-            });
+            }, "The number of selected chromosomes should be at least 2.");
 
-            ExceptionAssert.IsThrowing(new ArgumentOutOfRangeException("number", "The number of selected chromosomes should be at least 2."), () =>
+            Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
                 target.SelectChromosomes(1, null);
-            });
+            }, "The number of selected chromosomes should be at least 2.");
         }
 
         [Test()]
@@ -39,26 +38,28 @@ namespace GeneticSharp.Domain.UnitTests.Selections
         {
             var target = new EliteSelection();
 
-            ExceptionAssert.IsThrowing(new ArgumentNullException("generation"), () =>
+            var actual = Assert.Catch<ArgumentNullException>(() =>
             {
                 target.SelectChromosomes(2, null);
             });
+
+            Assert.AreEqual("generation", actual.ParamName);
         }
 
         [Test()]
         public void SelectChromosomes_Generation_ChromosomesSelected()
         {
             var target = new EliteSelection();
-            var c1 = MockRepository.GeneratePartialMock<ChromosomeBase>(2);
+            var c1 = Substitute.ForPartsOf<ChromosomeBase>(2);
             c1.Fitness = 0.1;
 
-            var c2 = MockRepository.GeneratePartialMock<ChromosomeBase>(2);
+            var c2 = Substitute.ForPartsOf<ChromosomeBase>(2);
             c2.Fitness = 0.5;
 
-            var c3 = MockRepository.GeneratePartialMock<ChromosomeBase>(2);
+            var c3 = Substitute.ForPartsOf<ChromosomeBase>(2);
             c3.Fitness = 0;
 
-            var c4 = MockRepository.GeneratePartialMock<ChromosomeBase>(2);
+            var c4 = Substitute.ForPartsOf<ChromosomeBase>(2);
             c4.Fitness = 0.7;
 
             var generation = new Generation(1, new List<IChromosome>() {

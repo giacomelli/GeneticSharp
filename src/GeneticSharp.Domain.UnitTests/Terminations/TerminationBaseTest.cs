@@ -1,8 +1,7 @@
-using System;
+﻿using System;
 using GeneticSharp.Domain.Terminations;
+using NSubstitute;
 using NUnit.Framework;
-using Rhino.Mocks;
-using TestSharp;
 
 namespace GeneticSharp.Domain.UnitTests.Terminations
 {
@@ -13,12 +12,13 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
         [Test()]
         public void HasReached_NullGeneration_Exception()
         {
-            var target = MockRepository.GenerateStub<TerminationBase>();
-
-            ExceptionAssert.IsThrowing(new ArgumentNullException("geneticAlgorithm"), () =>
+            var target = Substitute.For<TerminationBase>();
+            var actual = Assert.Catch<ArgumentNullException>(() =>
             {
                 target.HasReached(null);
             });
+
+            Assert.AreEqual("geneticAlgorithm", actual.ParamName);
         }
     }
 }

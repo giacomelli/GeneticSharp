@@ -1,6 +1,6 @@
-using GeneticSharp.Domain.Terminations;
+﻿using GeneticSharp.Domain.Terminations;
 using NUnit.Framework;
-using Rhino.Mocks;
+using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Terminations
 {
@@ -11,22 +11,9 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
         [Test()]
         public void HasReached_GenerationNumberLowerThanCondition_False()
         {
-            var repository = new MockRepository();
-            var ga = repository.StrictMock<IGeneticAlgorithm>();
+            var ga = Substitute.For<IGeneticAlgorithm>();
 
-            using (repository.Ordered())
-            {
-                ga.Expect(g => g.GenerationsNumber).Return(1);
-                ga.Expect(g => g.GenerationsNumber).Return(2);
-                ga.Expect(g => g.GenerationsNumber).Return(3);
-                ga.Expect(g => g.GenerationsNumber).Return(4);
-                ga.Expect(g => g.GenerationsNumber).Return(5);
-                ga.Expect(g => g.GenerationsNumber).Return(6);
-                ga.Expect(g => g.GenerationsNumber).Return(7);
-                ga.Expect(g => g.GenerationsNumber).Return(8);
-                ga.Expect(g => g.GenerationsNumber).Return(0);
-            }
-            repository.ReplayAll();
+            ga.GenerationsNumber.Returns(1, 2, 3, 4, 5, 6, 7, 8, 0);
 
             var target = new GenerationNumberTermination(10);
             Assert.IsFalse(target.HasReached(ga));
@@ -41,15 +28,9 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
         [Test()]
         public void HasReached_GenerationNumberGreaterOrEqualThanCondition_True()
         {
-            var repository = new MockRepository();
-            var ga = repository.StrictMock<IGeneticAlgorithm>();
+            var ga = Substitute.For<IGeneticAlgorithm>();
 
-            using (repository.Ordered())
-            {
-                ga.Expect(g => g.GenerationsNumber).Return(10);
-                ga.Expect(g => g.GenerationsNumber).Return(11);
-            }
-            repository.ReplayAll();
+            ga.GenerationsNumber.Returns(10, 11);
 
             var target = new GenerationNumberTermination(10);
             Assert.IsTrue(target.HasReached(ga));

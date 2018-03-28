@@ -7,9 +7,8 @@ using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.AutoConfig;
-using GeneticSharp.Extensions.Checkers;
 using GeneticSharp.Extensions.Tsp;
-using GeneticSharp.Infrastructure.Threading;
+using GeneticSharp.Infrastructure.Framework.Threading;
 using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.AutoConfig
@@ -42,7 +41,7 @@ namespace GeneticSharp.Extensions.UnitTests.AutoConfig
 
             var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
             
-            ga.TaskExecutor = new SmartThreadPoolTaskExecutor()
+            ga.TaskExecutor = new ParallelTaskExecutor()
             {
                 MinThreads = 10,
                 MaxThreads = 20

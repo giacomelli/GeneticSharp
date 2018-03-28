@@ -1,11 +1,10 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Randomizations;
 using NUnit.Framework;
-using Rhino.Mocks;
-using TestSharp;
+using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
@@ -24,7 +23,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         {
             var target = new OrderedCrossover();
 
-            var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(10);
+            var chromosome1 = Substitute.For<ChromosomeBase>(10);
             chromosome1.ReplaceGenes(0, new Gene[] {
                 new Gene(8),
                 new Gene(4),
@@ -37,9 +36,9 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
                 new Gene(9),
                 new Gene(0)
             });
-            chromosome1.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(10));
+            chromosome1.CreateNew().Returns(Substitute.For<ChromosomeBase>(10));
 
-            var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(10);
+            var chromosome2 = Substitute.For<ChromosomeBase>(10);
             chromosome2.ReplaceGenes(0, new Gene[]
             {
                 new Gene(0),
@@ -53,21 +52,22 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
                 new Gene(8),
                 new Gene(9),
             });
-            chromosome2.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(10));
+            chromosome2.CreateNew().Returns(Substitute.For<ChromosomeBase>(10));
 
-            ExceptionAssert.IsThrowing(new CrossoverException(target, "The Ordered Crossover (OX1) can be only used with ordered chromosomes. The specified chromosome has repeated genes."), () =>
+            Assert.Catch<CrossoverException>(() =>
             {
                 target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
-            });
+            }, "The Ordered Crossover (OX1) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
         }
 
         [Test]
+        [MaxTime(40)]
         public void Cross_ParentsWith10Genes_Cross()
         {
             var target = new OrderedCrossover();
 
             // 8 4 7 3 6 2 5 1 9 0
-            var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(10);
+            var chromosome1 = Substitute.For<ChromosomeBase>(10);
             chromosome1.ReplaceGenes(0, new Gene[] {
                 new Gene(8),
                 new Gene(4),
@@ -80,10 +80,10 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
                 new Gene(9),
                 new Gene(0)
             });
-            chromosome1.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(10));
+            chromosome1.CreateNew().Returns(Substitute.For<ChromosomeBase>(10));
 
             // 0 1 2 3 4 5 6 7 8 9
-            var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(10);
+            var chromosome2 = Substitute.For<ChromosomeBase>(10);
             chromosome2.ReplaceGenes(0, new Gene[]
             {
                 new Gene(0),
@@ -97,20 +97,15 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
                 new Gene(8),
                 new Gene(9),
             });
-            chromosome2.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(10));
+            chromosome2.CreateNew().Returns(Substitute.For<ChromosomeBase>(10));
 
             // Child one: 0 4 7 3 6 2 5 1 8 9 
             // Child two: 8 2 1 3 4 5 6 7 9 0
-            var rnd = MockRepository.GenerateMock<IRandomization>();
-            rnd.Expect(r => r.GetUniqueInts(2, 0, 10)).Return(new int[] { 7, 3 });
+            var rnd = Substitute.For<IRandomization>();
+            rnd.GetUniqueInts(2, 0, 10).Returns(new int[] { 7, 3 });
             RandomizationProvider.Current = rnd;
 
-            IList<IChromosome> actual = null; ;
-
-            TimeAssert.LessThan(40, () =>
-            {
-                actual = target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
-            });
+            var actual = target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
 
             Assert.AreEqual(2, actual.Count);
             Assert.AreEqual(10, actual[0].Length);

@@ -1,9 +1,9 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Reinsertions;
 using NUnit.Framework;
-using Rhino.Mocks;
+using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Reinsertions
 {
@@ -15,7 +15,7 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
         public void SelectChromosomes_offspringSizeEqualsParentsSizeAndGreaterThanMinSizeAndLowerThanMaxSize_Selectoffspring()
         {
             var target = new PureReinsertion();
-            var chromosome = MockRepository.GenerateStub<ChromosomeBase>(2);
+            var chromosome = Substitute.For<ChromosomeBase>(2);
 
             var population = new Population(2, 6, chromosome);
             var offspring = new List<IChromosome>() {
@@ -23,10 +23,10 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             };
 
             var parents = new List<IChromosome>() {
-                MockRepository.GenerateStub<ChromosomeBase> (2),
-                MockRepository.GenerateStub<ChromosomeBase> (2),
-                MockRepository.GenerateStub<ChromosomeBase> (2),
-                MockRepository.GenerateStub<ChromosomeBase> (2)
+                Substitute.For<ChromosomeBase> (2),
+                Substitute.For<ChromosomeBase> (2),
+                Substitute.For<ChromosomeBase> (2),
+                Substitute.For<ChromosomeBase> (2)
             };
 
             var selected = target.SelectChromosomes(population, offspring, parents);

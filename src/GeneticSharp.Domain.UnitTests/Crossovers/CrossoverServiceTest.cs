@@ -1,7 +1,6 @@
 using System;
 using GeneticSharp.Domain.Crossovers;
 using NUnit.Framework;
-using TestSharp;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
@@ -48,19 +47,19 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         [Test()]
         public void CreateCrossoverByName_InvalidName_Exception()
         {
-            ExceptionAssert.IsThrowing(new ArgumentException("There is no ICrossover implementation with name 'Test'.", "name"), () =>
+            Assert.Catch<ArgumentException>(() =>
             {
                 CrossoverService.CreateCrossoverByName("Test");
-            });
+            }, "There is no ICrossover implementation with name 'Test'.");
         }
 
         [Test()]
         public void CreateCrossoverByName_ValidNameButInvalidConstructorArgs_Exception()
         {
-            ExceptionAssert.IsThrowing(new ArgumentException("A ICrossover's implementation with name 'One-Point' was found, but seems the constructor args were invalid.", "constructorArgs"), () =>
+            Assert.Catch<ArgumentException>(() =>
             {
                 CrossoverService.CreateCrossoverByName("One-Point", 1, 2, 3);
-            });
+            }, "A ICrossover's implementation with name 'One-Point' was found, but seems the constructor args were invalid");
         }
 
         [Test()]
@@ -91,10 +90,10 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         [Test()]
         public void GetCrossoverTypeByName_InvalidName_Exception()
         {
-            ExceptionAssert.IsThrowing(new ArgumentException("There is no ICrossover implementation with name 'Test'.", "name"), () =>
+            Assert.Catch<ArgumentException>(() =>
             {
                 CrossoverService.GetCrossoverTypeByName("Test");
-            });
+            }, "There is no ICrossover implementation with name 'Test'.");
         }
 
         [Test()]

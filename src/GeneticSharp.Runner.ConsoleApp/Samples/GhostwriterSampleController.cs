@@ -8,13 +8,13 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Extensions.Ghostwriter;
 using GeneticSharp.Infrastructure.Framework.Texts;
-using GeneticSharp.Infrastructure.Threading;
+using GeneticSharp.Infrastructure.Framework.Threading;
 using GeneticSharp.Runner.ConsoleApp.Samples.Resources;
 using Newtonsoft.Json;
 
 namespace GeneticSharp.Runner.ConsoleApp.Samples
 {
-	[DisplayName("Ghostwriter")]
+    [DisplayName("Ghostwriter")]
     public class GhostwriterSampleController : SampleControllerBase
     {
         private List<string> m_quotes;
@@ -27,8 +27,8 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
             m_words = new List<string>();
 
             for (int i = 0; i < json.value.Count; i++)
-            {
-                var quote = HttpUtility.HtmlDecode(json.value[i].joke.Value) as string;
+            {                
+                var quote = json.value[i].joke.Value as string;
                 m_quotes.Add(quote);
 
                 m_words.AddRange(quote.Split(' '));
@@ -40,7 +40,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         public override void ConfigGA(GeneticAlgorithm ga)
         {
             base.ConfigGA(ga);
-            ga.TaskExecutor = new SmartThreadPoolTaskExecutor()
+            ga.TaskExecutor = new ParallelTaskExecutor()
             {
                 MinThreads = 25,
                 MaxThreads = 50
@@ -54,7 +54,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
                 var minDistance = m_quotes.Min(q => LevenshteinDistance(q, text));
 
                 return 1 - (minDistance / 100f);
-			});
+            });
         }
 
         public override IChromosome CreateChromosome()

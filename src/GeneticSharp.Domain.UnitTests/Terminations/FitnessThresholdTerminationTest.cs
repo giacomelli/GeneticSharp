@@ -1,6 +1,6 @@
-using GeneticSharp.Domain.Terminations;
+﻿using GeneticSharp.Domain.Terminations;
 using NUnit.Framework;
-using Rhino.Mocks;
+using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Terminations
 {
@@ -11,15 +11,10 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
         [Test()]
         public void HasReached_BestChromosomeHasLowerFitness_False()
         {
-            var repository = new MockRepository();
-            var ga = repository.StrictMock<IGeneticAlgorithm>();
+            var ga = Substitute.For<IGeneticAlgorithm>();
 
-            using (repository.Ordered())
-            {
-                ga.Expect(g => g.BestChromosome).Return(new ChromosomeStub() { Fitness = 0.4 });
-                ga.Expect(g => g.BestChromosome).Return(new ChromosomeStub() { Fitness = 0.499 });
-            }
-            repository.ReplayAll();
+            ga.BestChromosome.Returns(new ChromosomeStub() { Fitness = 0.4 },
+                                      new ChromosomeStub() { Fitness = 0.499 });
 
             var target = new FitnessThresholdTermination(0.5);
             Assert.IsFalse(target.HasReached(ga));
@@ -29,15 +24,10 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
         [Test()]
         public void HasReached_BestChromosomeHasGreaterOrEqualFitness_True()
         {
-            var repository = new MockRepository();
-            var ga = repository.StrictMock<IGeneticAlgorithm>();
+            var ga = Substitute.For<IGeneticAlgorithm>();
 
-            using (repository.Ordered())
-            {
-                ga.Expect(g => g.BestChromosome).Return(new ChromosomeStub() { Fitness = 0.4 });
-                ga.Expect(g => g.BestChromosome).Return(new ChromosomeStub() { Fitness = 0.8 });
-            }
-            repository.ReplayAll();
+            ga.BestChromosome.Returns(new ChromosomeStub() { Fitness = 0.4 },
+                                      new ChromosomeStub() { Fitness = 0.8 });
 
             var target = new FitnessThresholdTermination(0.8);
 

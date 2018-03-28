@@ -18,7 +18,7 @@ public class SquareController : MonoBehaviour {
 	{
 		Unselect();
 	
-		m_piece = transform.FindChild ("PiecePrefab").gameObject;
+		m_piece = transform.Find ("PiecePrefab").gameObject;
 		m_piece.GetComponent<PieceController>().CurrentSquare = this;
 	}
 	

@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using System.Reflection;
 using System.Runtime.Serialization;
 using GeneticSharp.Domain.Fitnesses;
 using NUnit.Framework;
-using Rhino.Mocks;
+using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Chromosomes
 {
@@ -36,7 +36,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         [Test]
         public void Constructor_FitnessAndMessageAndInnerException_FitnessAndMessageAndInnerExcetion()
         {
-            var target = new FitnessException(MockRepository.GenerateMock<IFitness>(), "1", new Exception("2"));
+            var target = new FitnessException(Substitute.For<IFitness>(), "1", new Exception("2"));
             Assert.IsNotNull(target.Fitness);
             Assert.AreEqual(target.Fitness.GetType().Name + ": 1", target.Message);
             Assert.AreEqual("2", target.InnerException.Message);
@@ -47,7 +47,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         {
             var constructor = typeof(FitnessException).GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance)[0];
 
-            var serializationInfo = new SerializationInfo(typeof(int), MockRepository.GenerateMock<IFormatterConverter>());
+            var serializationInfo = new SerializationInfo(typeof(int), Substitute.For<IFormatterConverter>());
             serializationInfo.AddValue("ClassName", "FitnessException");
             serializationInfo.AddValue("Message", "1");
             serializationInfo.AddValue("InnerException", new Exception("2"));
@@ -71,7 +71,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         {
             var fitness = new FitnessStub();
             var target = new FitnessException(fitness, "1");
-            var serializationInfo = new SerializationInfo(typeof(int), MockRepository.GenerateMock<IFormatterConverter>());
+            var serializationInfo = new SerializationInfo(typeof(int), Substitute.For<IFormatterConverter>());
             target.GetObjectData(serializationInfo, new StreamingContext());
 
             Assert.AreEqual(fitness, serializationInfo.GetValue("Fitness", typeof(IFitness)));

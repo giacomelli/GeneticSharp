@@ -1,11 +1,10 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Randomizations;
 using NUnit.Framework;
-using Rhino.Mocks;
-using TestSharp;
+using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
@@ -24,7 +23,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         {
             var target = new PositionBasedCrossover();
 
-            var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(10);
+            var chromosome1 = Substitute.For<ChromosomeBase>(10);
             chromosome1.ReplaceGenes(0, new Gene[] {
                 new Gene(8),
                 new Gene(4),
@@ -37,9 +36,9 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
                 new Gene(9),
                 new Gene(0)
             });
-            chromosome1.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(10));
+            chromosome1.CreateNew().Returns(Substitute.For<ChromosomeBase>(10));
 
-            var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(10);
+            var chromosome2 = Substitute.For<ChromosomeBase>(10);
             chromosome2.ReplaceGenes(0, new Gene[]
             {
                 new Gene(0),
@@ -53,21 +52,22 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
                 new Gene(8),
                 new Gene(9),
             });
-            chromosome2.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(10));
+            chromosome2.CreateNew().Returns(Substitute.For<ChromosomeBase>(10));
 
-            ExceptionAssert.IsThrowing(new CrossoverException(target, "The Position-based Crossover (POS) can be only used with ordered chromosomes. The specified chromosome has repeated genes."), () =>
+            Assert.Catch<CrossoverException>(() =>
             {
                 target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
-            });
+            }, "The Position-based Crossover (POS) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
         }
 
         [Test]
+        [MaxTime(40)]
         public void Cross_ParentsWith8Genes_Cross()
         {
             var target = new PositionBasedCrossover();
 
 			// 1 2 3 4 5 6 7 8
-            var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(8);
+            var chromosome1 = Substitute.For<ChromosomeBase>(8);
             chromosome1.ReplaceGenes(0, new Gene[] {
                 new Gene(1),
                 new Gene(2),
@@ -77,10 +77,10 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
                 new Gene(6),
                 new Gene(7),
                 new Gene(8)            });
-            chromosome1.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(8));
+            chromosome1.CreateNew().Returns(Substitute.For<ChromosomeBase>(8));
 
 			// 2 4 6 8 7 5 3 1
-            var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(8);
+            var chromosome2 = Substitute.For<ChromosomeBase>(8);
             chromosome2.ReplaceGenes(0, new Gene[]
             {
                 new Gene(2),
@@ -92,21 +92,16 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
                 new Gene(3),
                 new Gene(1)
             });
-            chromosome2.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(8));
+            chromosome2.CreateNew().Returns(Substitute.For<ChromosomeBase>(8));
 
 			// Child one: 1 4 6 2 3 5 7 8
 			// Child two: 4 2 3 8 7 6 5 1
-            var rnd = MockRepository.GenerateMock<IRandomization>();
-			rnd.Expect(r => r.GetInt(1, 7)).Return(3);
-            rnd.Expect(r => r.GetUniqueInts(3, 0, 8)).Return(new int[] { 1, 2, 5 });
+            var rnd = Substitute.For<IRandomization>();
+			rnd.GetInt(1, 7).Returns(3);
+            rnd.GetUniqueInts(3, 0, 8).Returns(new int[] { 1, 2, 5 });
             RandomizationProvider.Current = rnd;
 
-            IList<IChromosome> actual = null; ;
-
-            TimeAssert.LessThan(40, () =>
-            {
-                actual = target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
-            });
+            var actual = target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
 
             Assert.AreEqual(2, actual.Count);
 			var childOne = actual [0];
@@ -137,12 +132,13 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         }
 
         [Test]
+        [MaxTime(40)]
         public void Cross_ParentsWith6Genes_Cross()
         {
             var target = new PositionBasedCrossover();
 
             // 1 5 4 0 3 2
-            var chromosome1 = MockRepository.GenerateStub<ChromosomeBase>(6);
+            var chromosome1 = Substitute.For<ChromosomeBase>(6);
             chromosome1.ReplaceGenes(0, new Gene[] {
                 new Gene(1),
                 new Gene(5),
@@ -151,10 +147,10 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
                 new Gene(3),
                 new Gene(2)
             });
-            chromosome1.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(6));
+            chromosome1.CreateNew().Returns(Substitute.For<ChromosomeBase>(6));
 
             // 2 3 5 0 1 4
-            var chromosome2 = MockRepository.GenerateStub<ChromosomeBase>(6);
+            var chromosome2 = Substitute.For<ChromosomeBase>(6);
             chromosome2.ReplaceGenes(0, new Gene[]
             {
                 new Gene(2),
@@ -164,21 +160,16 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
                 new Gene(1),
                 new Gene(4)
             });
-            chromosome2.Expect(c => c.CreateNew()).Return(MockRepository.GenerateStub<ChromosomeBase>(6));
+            chromosome2.CreateNew().Returns(Substitute.For<ChromosomeBase>(6));
 
             // Child one: 4 3 5 0 1 2
             // Child two: 2 5 4 0 3 1
-            var rnd = MockRepository.GenerateMock<IRandomization>();
-            rnd.Expect(r => r.GetInt(1, 5)).Return(3);
-            rnd.Expect(r => r.GetUniqueInts(3, 0, 6)).Return(new int[] { 2, 4, 3 });
+            var rnd = Substitute.For<IRandomization>();
+            rnd.GetInt(1, 5).Returns(3);
+            rnd.GetUniqueInts(3, 0, 6).Returns(new int[] { 2, 4, 3 });
             RandomizationProvider.Current = rnd;
 
-            IList<IChromosome> actual = null; ;
-
-            TimeAssert.LessThan(40, () =>
-            {
-                actual = target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
-            });
+            var actual = target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
 
             Assert.AreEqual(2, actual.Count);
             var childOne = actual[0];

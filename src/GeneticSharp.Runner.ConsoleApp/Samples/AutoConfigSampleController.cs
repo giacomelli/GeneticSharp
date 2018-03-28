@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
@@ -13,7 +9,7 @@ using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.AutoConfig;
 using GeneticSharp.Extensions.Tsp;
-using GeneticSharp.Infrastructure.Threading;
+using GeneticSharp.Infrastructure.Framework.Threading;
 
 namespace GeneticSharp.Runner.ConsoleApp.Samples
 {
@@ -40,7 +36,12 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
             return new UniformMutation();
         }
 
-        public override IFitness CreateFitness()
+		public override ITermination CreateTermination()
+		{
+            return new FitnessStagnationTermination(200);
+		}
+
+		public override IFitness CreateFitness()
         {
             var targetChromosome = new TspChromosome(10);
             var targetFitness = new TspFitness(10, 0, 100, 0, 100);
@@ -56,15 +57,17 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         public override void ConfigGA(GeneticAlgorithm ga)
         {
             base.ConfigGA(ga);
-            ga.TaskExecutor = new SmartThreadPoolTaskExecutor()
+            ga.TaskExecutor = new ParallelTaskExecutor()
             {
-                MinThreads = 25,
-                MaxThreads = 50
+                MinThreads = 250,
+                MaxThreads = 500
             };
         }
 
         public override void Draw(IChromosome bestChromosome)
         {
+            var c = GA.BestChromosome as AutoConfigChromosome;
+            Console.WriteLine($"Best GA configuration for TSP: {c.Crossover.GetType().Name} | {c.Mutation.GetType().Name} | {c.Selection.GetType().Name}");
         }
     }
 }

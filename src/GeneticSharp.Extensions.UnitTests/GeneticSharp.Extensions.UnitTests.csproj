@@ -1,112 +1,23 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
+  <Import Project="..\msbuilds\GeneticSharp.dotnet-core.targets" />
+  <Import Project="..\msbuilds\GeneticSharp.common.targets" />
+  <Import Project="..\msbuilds\GeneticSharp.unit-test.targets" />
+  
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7A40EB21-E80F-4FD6-9503-A76D83B0620D}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>GeneticSharp.Extensions.UnitTests</RootNamespace>
-    <AssemblyName>GeneticSharp.Extensions.UnitTests</AssemblyName>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-    <ReleaseVersion>1.1.0</ReleaseVersion>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFrameworks>netcoreapp2.0;net462</TargetFrameworks> 
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>GeneticSharp.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
+  
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="Ionic.Utils.Zip, Version=1.4.0.1, Culture=neutral, PublicKeyToken=c551e179877da246">
-      <HintPath>..\packages\TestSharp.1.0.3\lib\net40\Ionic.Utils.Zip.dll</HintPath>
-    </Reference>
-    <Reference Include="TestSharp, Version=0.0.6.0, Culture=neutral, PublicKeyToken=76c905e92dbc6707">
-      <HintPath>..\packages\TestSharp.1.0.3\lib\net40\TestSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.3.7.1\lib\net40\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Drawing" />
+    <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj" />
+    <ProjectReference Include="..\GeneticSharp.Extensions\GeneticSharp.Extensions.csproj" />
+    <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj" />
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  
   <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AutoConfig\AutoConfigTest.cs" />
-    <Compile Include="Checkers\CheckersMoveTest.cs" />
-    <Compile Include="Checkers\CheckersSquareTest.cs" />
-    <Compile Include="Checkers\CheckersTest.cs" />
-    <Compile Include="Tsp\TspTest.cs" />
-    <Compile Include="Checkers\CheckersBoardTest.cs" />
-    <Compile Include="Checkers\CheckersFitnessTest.cs" />
-    <Compile Include="Tsp\TspFitnessTest.cs" />
-    <Compile Include="Tsp\TspChromosomeTest.cs" />
-    <Compile Include="Checkers\CheckersChromosomeTest.cs" />
-    <Compile Include="Mathematic\FunctionBuilderChromosomeTest.cs" />
-    <Compile Include="Mathematic\FunctionBuilderFitnessTest.cs" />
-    <Compile Include="Mathematic\FunctionBuilderTest.cs" />
-    <Compile Include="Mathematic\EquationChromosomeTest.cs" />
-    <Compile Include="Mathematic\EquationSolverFitnessTest.cs" />
-    <Compile Include="Drawing\BitmapTest.cs" />
-    <Compile Include="Ghostwriter\GhostwriterTest.cs" />
-    <Compile Include="Mathematic\EqualityFitnessTest.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj">
-      <Project>{C76DC1AD-FC7E-4168-BD19-101FF84A43F7}</Project>
-      <Name>GeneticSharp.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GeneticSharp.Extensions\GeneticSharp.Extensions.csproj">
-      <Project>{699AF592-1E11-4084-B87E-9AC72ED7861B}</Project>
-      <Name>GeneticSharp.Extensions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj">
-      <Project>{1498D792-D02B-4A9E-8AFC-24AEBA0DEE54}</Project>
-      <Name>GeneticSharp.Infrastructure.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GeneticSharp.Infrastructure.Threading\GeneticSharp.Infrastructure.Threading.csproj">
-      <Project>{F7887A7C-89E6-483A-A762-0A8FE6FCD923}</Project>
-      <Name>GeneticSharp.Infrastructure.Threading</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="GeneticSharp.snk" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ProjectExtensions>
-    <MonoDevelop>
-      <Properties>
-        <Policies>
-          <DotNetNamingPolicy DirectoryNamespaceAssociation="PrefixedHierarchical" ResourceNamePolicy="FileFormatDefault" />
-        </Policies>
-      </Properties>
-    </MonoDevelop>
-  </ProjectExtensions>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <ItemGroup />
-  <ItemGroup>
-    <Folder Include="Drawing\" />
-    <Folder Include="Ghostwriter\" />
+    <PackageReference Include="NSubstitute" Version="3.1.0" />
+    <PackageReference Include="nunit" Version="3.9.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.9.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
   </ItemGroup>
 </Project>
