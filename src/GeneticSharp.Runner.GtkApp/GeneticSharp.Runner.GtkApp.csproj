@@ -24,7 +24,7 @@
     <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-26216-02" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(SO)' != 'Windows_NT'">
+  <ItemGroup Condition=" '$(OS)' == 'Unix' ">
     <Reference Include="atk-sharp">
       <HintPath>references\Unix\atk-sharp.dll</HintPath>
     </Reference>
