@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
-    
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   
   <Import Project="..\msbuilds\GeneticSharp.dotnet-core.targets" />
@@ -13,34 +13,70 @@
     <RootNamespace>GeneticSharp.Runner.GtkApp</RootNamespace>
     <AssemblyName>GeneticSharp.Runner.GtkApp</AssemblyName>
    </PropertyGroup>
+ 
+  <ItemGroup>
+    <Compile Remove="references\**" />
+    <EmbeddedResource Remove="references\**" />
+    <None Remove="references\**" />
+  </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-26216-02" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(SO)' == 'Unix'">
     <Reference Include="atk-sharp">
-      <HintPath>references\atk-sharp.dll</HintPath>
+      <HintPath>references\Unix\atk-sharp.dll</HintPath>
     </Reference>
     <Reference Include="gtk-dotnet">
-      <HintPath>references\gtk-dotnet.dll</HintPath>
+      <HintPath>references\Unix\gtk-dotnet.dll</HintPath>
     </Reference>
     <Reference Include="gtk-sharp">
-      <HintPath>references\gtk-sharp.dll</HintPath>
+      <HintPath>references\Unix\gtk-sharp.dll</HintPath>
     </Reference>
     <Reference Include="glib-sharp">
-      <HintPath>references\glib-sharp.dll</HintPath>
+      <HintPath>references\Unix\glib-sharp.dll</HintPath>
     </Reference>
     <Reference Include="glade-sharp">
-      <HintPath>references\glade-sharp.dll</HintPath>
+      <HintPath>references\Unix\glade-sharp.dll</HintPath>
     </Reference>
     <Reference Include="gdk-sharp">
-      <HintPath>references\gdk-sharp.dll</HintPath>
+      <HintPath>references\Unix\gdk-sharp.dll</HintPath>
     </Reference>
     <Reference Include="pango-sharp">
-      <HintPath>references\pango-sharp.dll</HintPath>
+      <HintPath>references\Unix\pango-sharp.dll</HintPath>
     </Reference>
       <Reference Include="Mono.Posix">
-      <HintPath>references\Mono.Posix.dll</HintPath>
+      <HintPath>references\Unix\Mono.Posix.dll</HintPath>
     </Reference>
   </ItemGroup>
+  
+  <ItemGroup  Condition=" '$(OS)' == 'Windows_NT' ">
+      <Reference Include="atk-sharp">
+        <HintPath>references\Windows_NT\atk-sharp.dll</HintPath>
+      </Reference>
+      <Reference Include="gtk-dotnet">
+        <HintPath>references\Windows_NT\gtk-dotnet.dll</HintPath>
+      </Reference>
+      <Reference Include="gtk-sharp">
+        <HintPath>references\Windows_NT\gtk-sharp.dll</HintPath>
+      </Reference>
+      <Reference Include="glib-sharp">
+        <HintPath>references\Windows_NT\glib-sharp.dll</HintPath>
+      </Reference>
+      <Reference Include="glade-sharp">
+        <HintPath>references\Windows_NT\glade-sharp.dll</HintPath>
+      </Reference>
+      <Reference Include="gdk-sharp">
+        <HintPath>references\Windows_NT\gdk-sharp.dll</HintPath>
+      </Reference>
+      <Reference Include="pango-sharp">
+        <HintPath>references\Windows_NT\pango-sharp.dll</HintPath>
+      </Reference>
+        <Reference Include="Mono.Posix">
+        <HintPath>references\Windows_NT\Mono.Posix.dll</HintPath>
+      </Reference>
+    </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
@@ -58,15 +94,5 @@
       <DeployService-UseProjectRelativePath>True</DeployService-UseProjectRelativePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="references\Mono.Posix.dll" />
-    <None Remove="references\atk-sharp.dll" />
-    <None Remove="references\gdk-sharp.dll" />
-    <None Remove="references\glade-sharp.dll" />
-    <None Remove="references\glib-sharp.dll" />
-    <None Remove="references\gtk-dotnet.dll" />
-    <None Remove="references\gtk-sharp.dll" />
-    <None Remove="references\pango-sharp.dll" />
   </ItemGroup>
 </Project>
