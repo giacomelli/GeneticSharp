@@ -10,17 +10,32 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
 	public class FloatingPointChromosomeTest
 	{
 		[Test]
-		public void ToFloatingPoint_NoArgs_Double()
+		public void ToFloatingPoint_PositiveValue_Double()
 		{
 			RandomizationProvider.Current = Substitute.For<IRandomization>();
 			RandomizationProvider.Current.GetDouble(0.5, 2.5).Returns(1.1);
-			var target = new FloatingPointChromosome(0.5, 2.5, 2);
-			var actual = target.ToFloatingPoint();
 
+            var target = new FloatingPointChromosome(0.5, 2.5, 64, 2);
+            Assert.AreEqual("0000000000000000000000000000000000000000000000000000000001101110", target.ToString());
+
+            var actual = target.ToFloatingPoint();
 			Assert.AreEqual(1.1, actual);
 		}
 
-		[Test]
+        [Test]
+        public void ToFloatingPoint_NegativeValue_Double()
+        {
+            RandomizationProvider.Current = Substitute.For<IRandomization>();
+            RandomizationProvider.Current.GetDouble(-2.5, 0.5).Returns(-1.1);
+
+            var target = new FloatingPointChromosome(-2.5, 0.5, 64, 2);
+            Assert.AreEqual("1111111111111111111111111111111111111111111111111111111110010010", target.ToString());
+
+            var actual = target.ToFloatingPoint();
+            Assert.AreEqual(-1.1, actual);
+        }
+
+        [Test]
 		public void ToFloatingPoints_NoArgs_Double()
 		{
 			RandomizationProvider.Current = Substitute.For<IRandomization>();
