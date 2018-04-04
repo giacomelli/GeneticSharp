@@ -27,13 +27,25 @@ namespace GeneticSharp.Domain.Chromosomes
 		{
 		}
 
-		/// <summary>
+        /// <summary>
 		/// Initializes a new instance of the <see cref="T:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome"/> class.
 		/// </summary>
 		/// <param name="minValue">Minimum value.</param>
 		/// <param name="maxValue">Max value.</param>
-		/// <param name="totalBits">Total bits.</param>
-		/// <param name="fractionDigits">Fraction digits.</param>
+        /// <param name="totalBits">Total bits.</param>
+		/// <param name="fractionDigits">Decimals.</param>
+        public FloatingPointChromosome(double minValue, double maxValue, int totalBits, int fractionDigits)
+            : this(new double[] { minValue }, new double[] { maxValue }, new int[] { totalBits }, new int[] { fractionDigits })
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome"/> class.
+        /// </summary>
+        /// <param name="minValue">Minimum value.</param>
+        /// <param name="maxValue">Max value.</param>
+        /// <param name="totalBits">Total bits.</param>
+        /// <param name="fractionDigits">Fraction digits.</param>
         public FloatingPointChromosome(double[] minValue, double[] maxValue, int[] totalBits, int[] fractionDigits)
 			: base(totalBits.Sum())
 		{

@@ -1,4 +1,6 @@
 ﻿using GeneticSharp.Domain.Randomizations;
+using GeneticSharp.Infrastructure.Framework.Commons;
+using System;
 using System.Collections;
 using System.Linq;
 
@@ -65,6 +67,15 @@ namespace GeneticSharp.Domain.Chromosomes
 
 			return array[0];
 		}
-	}
+
+        /// <summary>
+		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome"/>.
+		/// </summary>
+		/// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome"/>.</returns>
+		public override string ToString()
+        {
+            return String.Join("", GetGenes().Reverse().Select(g => (bool) g.Value ? "1" : "0").ToArray());
+        }
+    }
 }
 
