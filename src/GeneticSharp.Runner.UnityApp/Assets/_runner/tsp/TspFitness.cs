@@ -5,6 +5,7 @@ using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Randomizations;
+using UnityEngine;
 
 namespace GeneticSharp.Extensions.Tsp
 {
@@ -48,9 +49,15 @@ namespace GeneticSharp.Extensions.Tsp
 
             for (int i = 0; i < numberOfCities; i++)
             {
-                var city = new TspCity(RandomizationProvider.Current.GetInt(MinX, maxX + 1), RandomizationProvider.Current.GetInt(MinY, maxY + 1));
+                var p = GetCityRandomPosition();
+                var city = new TspCity(p.x, p.y);
                 Cities.Add(city);
             }
+        }
+
+        public Vector2 GetCityRandomPosition()
+        {
+            return new Vector2(RandomizationProvider.Current.GetInt(MinX, MaxX + 1), RandomizationProvider.Current.GetInt(MinY, MaxY + 1));
         }
         #endregion
 

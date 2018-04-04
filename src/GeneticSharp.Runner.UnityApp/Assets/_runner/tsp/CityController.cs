@@ -35,4 +35,9 @@ public class CityController : MonoBehaviour {
         Data.X = transform.position.x;
         Data.Y = transform.position.y;
     }
+
+    void Update()
+    {
+        transform.position = new Vector2(Data.X, Data.Y);
+    }
 }

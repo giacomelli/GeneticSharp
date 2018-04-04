@@ -115,5 +115,15 @@ namespace GeneticSharp.Runner.UnityApp.Tsp
         {
             m_currentGeneration = m_ga.Population.Generations[(int)index];
         }
+
+        public void ShuffleCities()
+        {
+            foreach(var c in m_fitness.Cities)
+            {
+                var p = m_fitness.GetCityRandomPosition();
+                c.X = p.x;
+                c.Y = p.y;
+            }
+        }
     }
 }
