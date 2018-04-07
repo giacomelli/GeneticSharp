@@ -1,0 +1,110 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Threading;
+using GeneticSharp.Domain;
+using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Mutations;
+using GeneticSharp.Domain.Populations;
+using GeneticSharp.Domain.Selections;
+using GeneticSharp.Domain.Terminations;
+using GeneticSharp.Infrastructure.Framework.Threading;
+using UnityEngine;
+
+public class WallBuilderController : MonoBehaviour {
+
+    public int BricksCount = 10;
+    public Vector3 MinPosition;
+    public Vector3 MaxPosition;
+    public Object BrickPrefab;
+    public int SecondsForEvaluation = 5;
+    public float TimeScale = 1;
+    public int NumberOfSimultaneousEvaluations = 100;
+    public Vector3 EvaluationDistance = new Vector3(0, 0, 2);
+
+    private GeneticAlgorithm m_ga;
+    private WallBuilderFitness m_fitness;
+    private Vector3 m_lastPosition = Vector3.zero;
+
+    private void Start()
+	{
+        Time.timeScale = TimeScale;
+        CreateGA();
+
+        new Thread(new ThreadStart(delegate {
+            Thread.Sleep(1000);
+            m_ga.Start();
+
+        })).Start();
+	}
+     
+	private void Update()
+	{
+        // end evaluation.
+        while (m_fitness.ChromosomesToEndEvaluation.Count > 0)
+        {
+            WallBuilderChromosome c;
+            m_fitness.ChromosomesToEndEvaluation.TryTake(out c);
+            var container = GameObject.Find(c.ID);
+
+            if (container.transform.childCount == 0)
+            {
+                Debug.LogError("Bricks not found on container");    
+            }
+
+            foreach (Transform child in container.transform)
+            {
+                c.FloorHits += child.GetComponent<BrickController>().FloorHits;
+                GameObject.Destroy(child.gameObject);
+            }
+
+            GameObject.Destroy(container);
+            c.Evaluated = true;
+
+            if (c.FloorHits == 0)
+            {
+                Debug.LogWarning("Chromosome did not touch the floor");
+            }
+        }
+
+        // in evaluation.
+        while (m_fitness.ChromosomesToBeginEvaluation.Count > 0)
+        {
+            WallBuilderChromosome c;
+            m_fitness.ChromosomesToBeginEvaluation.TryTake(out c);
+            c.Evaluated = false;
+            c.FloorHits = 0;
+
+            var container = new GameObject(c.ID);
+            container.transform.position = m_lastPosition;
+            m_lastPosition += EvaluationDistance;
+            var bricksPositions = c.GetBricksPositions();
+
+            foreach (var p in bricksPositions)
+            {
+                var brick = Object.Instantiate(BrickPrefab, p, Quaternion.identity) as GameObject;
+                brick.transform.SetParent(container.transform, false);
+            }
+        }
+	}
+
+	void CreateGA()
+    {
+        m_fitness = new WallBuilderFitness(SecondsForEvaluation / TimeScale);
+        var chromosome = new WallBuilderChromosome(BricksCount, MinPosition, MaxPosition);
+        var crossover = new UniformCrossover();
+        var mutation = new UniformMutation(true);
+        var selection = new EliteSelection();
+        var population = new Population(NumberOfSimultaneousEvaluations, NumberOfSimultaneousEvaluations, chromosome);
+        m_ga = new GeneticAlgorithm(population, m_fitness, selection, crossover, mutation);
+        m_ga.Termination = new FitnessStagnationTermination(100000);
+        m_ga.TaskExecutor = new ParallelTaskExecutor
+        {
+            MinThreads = population.MinSize,
+            MaxThreads = population.MaxSize * 2
+        };
+        m_ga.GenerationRan += delegate {
+            Debug.Log($"Generation: {m_ga.GenerationsNumber} - Best: ${m_ga.BestChromosome.Fitness}");
+            m_lastPosition = Vector3.zero;
+        };
+    }
+}
