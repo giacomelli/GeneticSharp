@@ -7,34 +7,37 @@ using System.Collections.Concurrent;
 using System;
 using System.Linq;
 
-public class WallBuilderFitness : IFitness
+namespace GeneticSharp.Runner.UnityApp.WallBuilder
 {
-    private float m_secondsForEvaluation = 5;
-
-    public WallBuilderFitness(float secondsForEvaluation)
+    public class WallBuilderFitness : IFitness
     {
-        m_secondsForEvaluation = secondsForEvaluation;
-        ChromosomesToBeginEvaluation = new BlockingCollection<WallBuilderChromosome>();
-        ChromosomesToEndEvaluation = new BlockingCollection<WallBuilderChromosome>();
-    }
+        private float m_secondsForEvaluation = 5;
 
-    public BlockingCollection<WallBuilderChromosome> ChromosomesToBeginEvaluation { get; private set; }
-    public BlockingCollection<WallBuilderChromosome> ChromosomesToEndEvaluation { get; private set; }
-
-    public double Evaluate(IChromosome chromosome)
-    {
-        var c = chromosome as WallBuilderChromosome;
-        ChromosomesToBeginEvaluation.Add(c);
-        Thread.Sleep(TimeSpan.FromSeconds(m_secondsForEvaluation));
-
-        ChromosomesToEndEvaluation.Add(c);
-
-        do
+        public WallBuilderFitness(float secondsForEvaluation)
         {
-            Thread.Sleep(100);
-        } while (!c.Evaluated);
+            m_secondsForEvaluation = secondsForEvaluation;
+            ChromosomesToBeginEvaluation = new BlockingCollection<WallBuilderChromosome>();
+            ChromosomesToEndEvaluation = new BlockingCollection<WallBuilderChromosome>();
+        }
 
-        return c.FloorHits * -1 + c.GetBricksPositions().Sum(p => Math.Abs(p.x)) * -1;
+        public BlockingCollection<WallBuilderChromosome> ChromosomesToBeginEvaluation { get; private set; }
+        public BlockingCollection<WallBuilderChromosome> ChromosomesToEndEvaluation { get; private set; }
+
+        public double Evaluate(IChromosome chromosome)
+        {
+            var c = chromosome as WallBuilderChromosome;
+            ChromosomesToBeginEvaluation.Add(c);
+            Thread.Sleep(TimeSpan.FromSeconds(m_secondsForEvaluation));
+
+            ChromosomesToEndEvaluation.Add(c);
+
+            do
+            {
+                Thread.Sleep(100);
+            } while (!c.Evaluated);
+
+            return c.FloorHits * -1 + c.GetBricksPositions().Sum(p => Math.Abs(p.x)) * -1;
+        }
+
     }
-
 }

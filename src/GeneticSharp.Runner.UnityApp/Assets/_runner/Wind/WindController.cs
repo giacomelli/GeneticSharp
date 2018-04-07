@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Crossovers;
@@ -10,22 +11,21 @@ using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Infrastructure.Framework.Threading;
 using UnityEngine;
 
-namespace GeneticSharp.Runner.UnityApp.WallBuilder
+namespace GeneticSharp.Runner.UnityApp.Wind
 {
-    public class WallBuilderController : MonoBehaviour
+    public class WindController : MonoBehaviour
     {
-
-        public int BricksCount = 10;
+        public int WindTurbineVertices = 10;
         public Vector3 MinPosition;
         public Vector3 MaxPosition;
-        public Object BrickPrefab;
+        public Object WindTurbinePrefab;
         public int SecondsForEvaluation = 5;
         public float TimeScale = 1;
         public int NumberOfSimultaneousEvaluations = 100;
         public Vector3 EvaluationDistance = new Vector3(0, 0, 2);
 
         private GeneticAlgorithm m_ga;
-        private WallBuilderFitness m_fitness;
+        private WindFitness m_fitness;
         private Vector3 m_lastPosition = Vector3.zero;
 
         private void Start()
@@ -46,55 +46,38 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
             // end evaluation.
             while (m_fitness.ChromosomesToEndEvaluation.Count > 0)
             {
-                WallBuilderChromosome c;
+                WindChromosome c;
                 m_fitness.ChromosomesToEndEvaluation.TryTake(out c);
-                var container = GameObject.Find(c.ID);
-
-                if (container.transform.childCount == 0)
-                {
-                    Debug.LogError("Bricks not found on container");
-                }
-
-                foreach (Transform child in container.transform)
-                {
-                    c.FloorHits += child.GetComponent<BrickController>().FloorHits;
-                    GameObject.Destroy(child.gameObject);
-                }
-
-                GameObject.Destroy(container);
+                var turbine = GameObject.Find(c.ID);
+                GameObject.Destroy(turbine);
                 c.Evaluated = true;
-
-                if (c.FloorHits == 0)
-                {
-                    Debug.LogWarning("Chromosome did not touch the floor");
-                }
             }
 
             // in evaluation.
             while (m_fitness.ChromosomesToBeginEvaluation.Count > 0)
             {
-                WallBuilderChromosome c;
+                WindChromosome c;
                 m_fitness.ChromosomesToBeginEvaluation.TryTake(out c);
                 c.Evaluated = false;
-                c.FloorHits = 0;
+                c.Turns = 0;
 
-                var container = new GameObject(c.ID);
-                container.transform.position = m_lastPosition;
+                var turbine = Object.Instantiate(WindTurbinePrefab, m_lastPosition, Quaternion.identity) as GameObject;
+                turbine.name = c.ID;
                 m_lastPosition += EvaluationDistance;
-                var bricksPositions = c.GetBricksPositions();
+                var vertices = c.GetVertices();
 
-                foreach (var p in bricksPositions)
-                {
-                    var brick = Object.Instantiate(BrickPrefab, p, Quaternion.identity) as GameObject;
-                    brick.transform.SetParent(container.transform, false);
-                }
+                var pc = turbine.GetComponent<PolygonCollider2D>();
+                pc.points = vertices;
+
+                var lr = turbine.GetComponent<LineRenderer>();
+                lr.SetPositions(vertices.Select(v => new Vector3(v.x, v.y, turbine.transform.position.z)).ToArray());
             }
         }
 
         void CreateGA()
         {
-            m_fitness = new WallBuilderFitness(SecondsForEvaluation / TimeScale);
-            var chromosome = new WallBuilderChromosome(BricksCount, MinPosition, MaxPosition);
+            m_fitness = new WindFitness(SecondsForEvaluation / TimeScale);
+            var chromosome = new WindChromosome(WindTurbineVertices, MinPosition, MaxPosition);
             var crossover = new UniformCrossover();
             var mutation = new UniformMutation(true);
             var selection = new EliteSelection();

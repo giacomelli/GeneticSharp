@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BrickController : MonoBehaviour {
-
-    public int FloorHits;
-
-    private void OnCollisionEnter(Collision collision)
+namespace GeneticSharp.Runner.UnityApp.WallBuilder
+{
+    public class BrickController : MonoBehaviour
     {
-        if (collision.collider.tag == "Floor")
+
+        public int FloorHits;
+
+        private void OnCollisionEnter(Collision collision)
         {
-            FloorHits++;
+            if (collision.collider.tag == "Floor")
+            {
+                FloorHits++;
+            }
         }
     }
 }
