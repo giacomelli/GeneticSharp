@@ -19,38 +19,17 @@ namespace GeneticSharp.Runner.UnityApp.Tsp
     /// TSP (Travelling Salesman Problem) sample controller.
     /// </summary>
     [RequireComponent(typeof(LineRenderer))]
-    public class TspSampleController : MonoBehaviour
+    public class TspController : SampleControllerBase
     {
         private TspFitness m_fitness;
-        private Generation m_currentGeneration;
        
         private bool m_showIndexes = true;
-        private GeneticAlgorithm m_ga;
         private LineRenderer m_lr;
         public Object CityPrefab;
-        public Canvas Canvas;
         public int m_numberOfCities = 50;
         public int FitnessStagnation = 1000;
-        public Text GenerationText;
-        public Text FitnessText;
        
-        void Start()
-        {
-            CreateGA();
-
-            m_lr = GetComponent<LineRenderer>();
-            m_lr.positionCount = m_numberOfCities + 1;
-
-            DrawCities();
-           
-            new Thread(new ThreadStart(delegate {
-                Thread.Sleep(1000);
-                m_ga.Start();
-
-            })).Start();
-        }
-
-        void CreateGA()
+        protected override GeneticAlgorithm CreateGA()
         {
             var r = Canvas.pixelRect;
             var size = (int)Camera.main.orthographicSize - 1;
@@ -60,24 +39,33 @@ namespace GeneticSharp.Runner.UnityApp.Tsp
             var mutation = new ReverseSequenceMutation();
             var selection = new RouletteWheelSelection();
             var population = new Population(50, 100, chromosome);
-            m_ga = new GeneticAlgorithm(population, m_fitness, selection, crossover, mutation);
-            m_ga.Termination = new FitnessStagnationTermination(FitnessStagnation);
-            m_ga.TaskExecutor = new ParallelTaskExecutor
+            var ga = new GeneticAlgorithm(population, m_fitness, selection, crossover, mutation);
+            ga.Termination = new FitnessStagnationTermination(FitnessStagnation);
+            ga.TaskExecutor = new ParallelTaskExecutor
             {
                 MinThreads = 100,
                 MaxThreads = 200
             };
+
+            return ga;
         }
 
-		private void Update()
+		protected override void StartSample()
 		{
-            var c = m_ga.BestChromosome as TspChromosome;
+            m_lr = GetComponent<LineRenderer>();
+            m_lr.positionCount = m_numberOfCities + 1;
+
+            DrawCities();
+		}
+
+		protected override void UpdateSample()
+		{
+            var c = GA.BestChromosome as TspChromosome;
 
             if (c != null)
             {
-                GenerationText.text = "Generation: " + m_ga.GenerationsNumber;
                 FitnessText.text = $"Distance: {c.Distance:N2}";
-                DrawPath(m_currentGeneration ?? m_ga.Population.CurrentGeneration);
+                DrawPath(GA.Population.CurrentGeneration);
             }
 		}
 
@@ -109,11 +97,6 @@ namespace GeneticSharp.Runner.UnityApp.Tsp
                 var firstCity = m_fitness.Cities[(int)genes[0].Value];
                 m_lr.SetPosition(m_numberOfCities, new Vector2(firstCity.X, firstCity.Y));
             }
-        }
-
-        public void ChangeCurrentGeneration(float index)
-        {
-            m_currentGeneration = m_ga.Population.Generations[(int)index];
         }
 
         public void ShuffleCities()

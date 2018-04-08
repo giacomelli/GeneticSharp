@@ -2,16 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour {
 
-	public void OpenTsp()
-    {
-        SceneManager.LoadScene("TspScene");
-    }
+    public Text Logo;
 
-    public void Open(string sceneName)
+	private void Start()
+	{
+        DontDestroyOnLoad(this);
+	}
+
+	public void Open(string sceneName)
     {
+        Logo.enabled = false;
         SceneManager.LoadScene($"{sceneName}Scene");
     }
 }
