@@ -23,6 +23,7 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
 
         private WallBuilderFitness m_fitness;
         private Vector3 m_lastPosition = Vector3.zero;
+        private PrefabPool m_brickPool;
 
         protected override GeneticAlgorithm CreateGA()
         {
@@ -50,6 +51,7 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
 
 		protected override void StartSample()
 		{
+            m_brickPool = new PrefabPool(BrickPrefab);
             Time.timeScale = TimeScale;
 		}
 
@@ -70,7 +72,7 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
                 foreach (Transform child in container.transform)
                 {
                     c.FloorHits += child.GetComponent<BrickController>().FloorHits;
-                    GameObject.Destroy(child.gameObject);
+                    m_brickPool.Release(child.gameObject);
                 }
 
                 GameObject.Destroy(container);
@@ -97,7 +99,7 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
 
                 foreach (var p in bricksPositions)
                 {
-                    var brick = Object.Instantiate(BrickPrefab, p, Quaternion.identity) as GameObject;
+                    var brick = m_brickPool.Get(p);
                     brick.transform.SetParent(container.transform, false);
                 }
             }

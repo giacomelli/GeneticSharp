@@ -20,11 +20,14 @@ public abstract class SampleControllerBase : MonoBehaviour {
         SampleCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
         FitSampleCameraRect();
 
-        GenerationText = GameObject.Find("GenerationText").GetComponent<Text>();
-        FitnessText = GameObject.Find("FitnessText").GetComponent<Text>();
+        GenerationText = GameObject.Find("GenerationText")?.GetComponent<Text>();
+        FitnessText = GameObject.Find("FitnessText")?.GetComponent<Text>();
 
-        GenerationText.text = string.Empty;
-        FitnessText.text = string.Empty;
+        if (GenerationText != null)
+        {
+            GenerationText.text = string.Empty;
+            FitnessText.text = string.Empty;
+        }
 
         GA = CreateGA();
 
@@ -46,11 +49,14 @@ public abstract class SampleControllerBase : MonoBehaviour {
 
     void Update()
     {
-        GenerationText.text = $"Generation: {GA.GenerationsNumber}";
-
-        if (GA.BestChromosome != null)
+        if (GenerationText != null)
         {
-            FitnessText.text = $"Fitness: {GA.BestChromosome.Fitness.Value:N2}";
+            GenerationText.text = $"Generation: {GA.GenerationsNumber}";
+
+            if (GA.BestChromosome != null)
+            {
+                FitnessText.text = $"Fitness: {GA.BestChromosome.Fitness.Value:N2}";
+            }
         }
 
         UpdateSample();
