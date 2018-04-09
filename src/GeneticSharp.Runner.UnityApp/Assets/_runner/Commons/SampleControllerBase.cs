@@ -19,6 +19,10 @@ public abstract class SampleControllerBase : MonoBehaviour {
         Canvas = GameObject.Find("Menu").GetComponent<Canvas>();
         GenerationText = GameObject.Find("GenerationText").GetComponent<Text>();
         FitnessText = GameObject.Find("FitnessText").GetComponent<Text>();
+
+        GenerationText.text = string.Empty;
+        FitnessText.text = string.Empty;
+
         GA = CreateGA();
 
         StartSample();
@@ -33,7 +37,13 @@ public abstract class SampleControllerBase : MonoBehaviour {
 
     void Update()
     {
-        GenerationText.text = "Generation: " + GA.GenerationsNumber;
+        GenerationText.text = $"Generation: {GA.GenerationsNumber}";
+
+        if (GA.BestChromosome != null)
+        {
+            FitnessText.text = $"Fitness: {GA.BestChromosome.Fitness.Value:N2}";
+        }
+
         UpdateSample();
     }
 

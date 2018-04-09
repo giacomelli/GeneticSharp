@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-using GeneticSharp.Domain;
+﻿using GeneticSharp.Domain;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
@@ -12,7 +9,7 @@ using UnityEngine;
 
 namespace GeneticSharp.Runner.UnityApp.WallBuilder
 {
-    public class WallBuilderController : MonoBehaviour
+    public class WallBuilderController : SampleControllerBase
     {
 
         public int BricksCount = 10;
@@ -24,24 +21,39 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
         public int NumberOfSimultaneousEvaluations = 100;
         public Vector3 EvaluationDistance = new Vector3(0, 0, 2);
 
-        private GeneticAlgorithm m_ga;
         private WallBuilderFitness m_fitness;
         private Vector3 m_lastPosition = Vector3.zero;
 
-        private void Start()
+        protected override GeneticAlgorithm CreateGA()
         {
-            Time.timeScale = TimeScale;
-            CreateGA();
-
-            new Thread(new ThreadStart(delegate
+            m_fitness = new WallBuilderFitness(SecondsForEvaluation / TimeScale);
+            var chromosome = new WallBuilderChromosome(BricksCount, MinPosition, MaxPosition);
+            var crossover = new UniformCrossover();
+            var mutation = new UniformMutation(true);
+            var selection = new EliteSelection();
+            var population = new Population(NumberOfSimultaneousEvaluations, NumberOfSimultaneousEvaluations, chromosome);
+            var ga = new GeneticAlgorithm(population, m_fitness, selection, crossover, mutation);
+            ga.Termination = new FitnessStagnationTermination(100000);
+            ga.TaskExecutor = new ParallelTaskExecutor
             {
-                Thread.Sleep(1000);
-                m_ga.Start();
+                MinThreads = population.MinSize,
+                MaxThreads = population.MaxSize * 2
+            };
+            ga.GenerationRan += delegate
+            {
+                Debug.Log($"Generation: {GA.GenerationsNumber} - Best: ${GA.BestChromosome.Fitness}");
+                m_lastPosition = Vector3.zero;
+            };
 
-            })).Start();
+            return ga;
         }
 
-        private void Update()
+		protected override void StartSample()
+		{
+            Time.timeScale = TimeScale;
+		}
+
+        protected override void UpdateSample()
         {
             // end evaluation.
             while (m_fitness.ChromosomesToEndEvaluation.Count > 0)
@@ -89,28 +101,6 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
                     brick.transform.SetParent(container.transform, false);
                 }
             }
-        }
-
-        void CreateGA()
-        {
-            m_fitness = new WallBuilderFitness(SecondsForEvaluation / TimeScale);
-            var chromosome = new WallBuilderChromosome(BricksCount, MinPosition, MaxPosition);
-            var crossover = new UniformCrossover();
-            var mutation = new UniformMutation(true);
-            var selection = new EliteSelection();
-            var population = new Population(NumberOfSimultaneousEvaluations, NumberOfSimultaneousEvaluations, chromosome);
-            m_ga = new GeneticAlgorithm(population, m_fitness, selection, crossover, mutation);
-            m_ga.Termination = new FitnessStagnationTermination(100000);
-            m_ga.TaskExecutor = new ParallelTaskExecutor
-            {
-                MinThreads = population.MinSize,
-                MaxThreads = population.MaxSize * 2
-            };
-            m_ga.GenerationRan += delegate
-            {
-                Debug.Log($"Generation: {m_ga.GenerationsNumber} - Best: ${m_ga.BestChromosome.Fitness}");
-                m_lastPosition = Vector3.zero;
-            };
         }
     }
 }
