@@ -4,19 +4,22 @@ using UnityEngine;
 using UnityEngine.UI;
 using GeneticSharp.Domain;
 using System.Threading;
+using System;
 
 public abstract class SampleControllerBase : MonoBehaviour {
 
     private Thread m_gaThread;
 
-    protected Canvas Canvas { get; private set; }
     protected Text GenerationText { get; private set; }
     protected Text FitnessText { get; private set;  }
     protected GeneticAlgorithm GA { get; private set; }
+    protected Camera SampleCamera { get; private set; }
 
 	private void Start()
 	{
-        Canvas = GameObject.Find("Menu").GetComponent<Canvas>();
+        SampleCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
+        FitSampleCameraRect();
+
         GenerationText = GameObject.Find("GenerationText").GetComponent<Text>();
         FitnessText = GameObject.Find("FitnessText").GetComponent<Text>();
 
@@ -34,6 +37,12 @@ public abstract class SampleControllerBase : MonoBehaviour {
         }));
         m_gaThread.Start();
 	}
+
+    private void FitSampleCameraRect()
+    {
+        var r = SampleCamera.rect;
+        SampleCamera.rect = new Rect(0.201f, 0, 0.8f, 1);
+    }
 
     void Update()
     {

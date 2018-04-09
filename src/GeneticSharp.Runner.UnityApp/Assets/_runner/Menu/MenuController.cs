@@ -8,11 +8,6 @@ public class MenuController : MonoBehaviour {
 
     public Text Logo;
 
-	private void Start()
-	{
-        DontDestroyOnLoad(this);
-	}
-
 	public void Open(string sceneName)
     {
         Logo.text = "Loading...";
