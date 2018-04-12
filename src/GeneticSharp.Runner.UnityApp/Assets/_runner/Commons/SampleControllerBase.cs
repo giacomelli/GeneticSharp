@@ -13,13 +13,12 @@ public abstract class SampleControllerBase : MonoBehaviour {
     protected Text GenerationText { get; private set; }
     protected Text FitnessText { get; private set;  }
     protected GeneticAlgorithm GA { get; private set; }
-    protected Camera SampleCamera { get; private set; }
+    protected Rect Area { get; private set; }
 
 	private void Start()
 	{
-        SampleCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
-        FitSampleCameraRect();
-
+        Area = GameObject.Find("SampleArea").GetComponent<RectTransform>().rect;
+   
         GenerationText = GameObject.Find("GenerationText")?.GetComponent<Text>();
         FitnessText = GameObject.Find("FitnessText")?.GetComponent<Text>();
 
@@ -40,12 +39,6 @@ public abstract class SampleControllerBase : MonoBehaviour {
         }));
         m_gaThread.Start();
 	}
-
-    private void FitSampleCameraRect()
-    {
-        var r = SampleCamera.rect;
-        SampleCamera.rect = new Rect(0.201f, 0, 0.8f, 1);
-    }
 
     void Update()
     {

@@ -29,7 +29,7 @@ namespace GeneticSharp.Extensions.Tsp
         /// <param name="maxX">The maximum city x coordinate.</param>
         /// <param name="minY">The minimum city y coordinate.</param>
         /// <param name="maxY">The maximum city y coordinate..</param>
-        public TspFitness(int numberOfCities, int minX, int maxX, int minY, int maxY)
+        public TspFitness(int numberOfCities, float minX, float maxX, float minY, float maxY)
         {
             Cities = new List<TspCity>(numberOfCities);
             MinX = minX;
@@ -57,7 +57,7 @@ namespace GeneticSharp.Extensions.Tsp
 
         public Vector2 GetCityRandomPosition()
         {
-            return new Vector2(RandomizationProvider.Current.GetInt(MinX, MaxX + 1), RandomizationProvider.Current.GetInt(MinY, MaxY + 1));
+            return new Vector2(RandomizationProvider.Current.GetFloat(MinX, MaxX + 1), RandomizationProvider.Current.GetFloat(MinY, MaxY + 1));
         }
         #endregion
 
@@ -72,25 +72,25 @@ namespace GeneticSharp.Extensions.Tsp
         /// Gets the minimum x.
         /// </summary>
         /// <value>The minimum x.</value>
-        public int MinX { get; private set; }
+        public float MinX { get; private set; }
 
         /// <summary>
         /// Gets the max x.
         /// </summary>
         /// <value>The max x.</value>
-        public int MaxX { get; private set; }
+        public float MaxX { get; private set; }
 
         /// <summary>
         /// Gets the minimum y.
         /// </summary>
         /// <value>The minimum y.</value>
-        public int MinY { get; private set; }
+        public float MinY { get; private set; }
 
         /// <summary>
         /// Gets the max y.
         /// </summary>
         /// <value>The max y.</value>
-        public int MaxY { get; private set; }
+        public float MaxY { get; private set; }
         #endregion
 
         #region IFitness implementation

@@ -31,7 +31,6 @@ namespace GeneticSharp.Runner.UnityApp.Tsp
        
         protected override GeneticAlgorithm CreateGA()
         {
-            var r = SampleCamera.rect;
             var size = (int)Camera.main.orthographicSize - 1;
             m_fitness = new TspFitness(m_numberOfCities, -size, size, -size, size);
             var chromosome = new TspChromosome(m_numberOfCities);
