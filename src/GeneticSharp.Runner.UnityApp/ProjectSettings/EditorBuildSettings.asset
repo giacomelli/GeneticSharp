@@ -6,8 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_runner/Menu/MenuScene.unity
+    path: Assets/_runner/Commons/MenuScene.unity
     guid: 3acea87bdfb5a430780d810c8d078e6a
+  - enabled: 1
+    path: Assets/_runner/Car/CarScene.unity
+    guid: 1110f35092f6e4e9ea326e755c71f6c2
   - enabled: 1
     path: Assets/_runner/Tsp/TspScene.unity
     guid: 21062d2980ea24e17b4bd3df4fd45904

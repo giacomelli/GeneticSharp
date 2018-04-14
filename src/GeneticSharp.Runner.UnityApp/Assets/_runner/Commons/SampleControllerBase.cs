@@ -9,7 +9,7 @@ using System;
 public abstract class SampleControllerBase : MonoBehaviour {
 
     private Thread m_gaThread;
-
+   
     protected Text GenerationText { get; private set; }
     protected Text FitnessText { get; private set;  }
     protected GeneticAlgorithm GA { get; private set; }
@@ -17,7 +17,10 @@ public abstract class SampleControllerBase : MonoBehaviour {
 
 	private void Start()
 	{
-        Area = GameObject.Find("SampleArea").GetComponent<RectTransform>().rect;
+        var sampleArea = GameObject.Find("SampleArea");
+        Area = sampleArea == null
+            ? Camera.main.rect
+            : sampleArea.GetComponent<RectTransform>().rect;
    
         GenerationText = GameObject.Find("GenerationText")?.GetComponent<Text>();
         FitnessText = GameObject.Find("FitnessText")?.GetComponent<Text>();
@@ -29,7 +32,13 @@ public abstract class SampleControllerBase : MonoBehaviour {
         }
 
         GA = CreateGA();
-
+        GA.GenerationRan += delegate {
+           Debug.Log($"Generation: {GA.GenerationsNumber} - Best: ${GA.BestChromosome.Fitness}");
+            foreach (var c in GA.Population.CurrentGeneration.Chromosomes)
+            {
+                c.Fitness = null;
+            }
+        };
         StartSample();
 
         m_gaThread = new Thread(new ThreadStart(delegate
@@ -45,10 +54,10 @@ public abstract class SampleControllerBase : MonoBehaviour {
         if (GenerationText != null)
         {
             GenerationText.text = $"Generation: {GA.GenerationsNumber}";
-
+               
             if (GA.BestChromosome != null)
             {
-                FitnessText.text = $"Fitness: {GA.BestChromosome.Fitness.Value:N2}";
+                FitnessText.text = $"Fitness: {GA.BestChromosome.Fitness:N2}";
             }
         }
 

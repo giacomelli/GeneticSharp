@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Bullet
   - Floor
+  - Car
   layers:
   - Default
   - TransparentFX
@@ -16,8 +17,8 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - 
-  - 
+  - Chromosome
+  - Floor
   - 
   - 
   - 
