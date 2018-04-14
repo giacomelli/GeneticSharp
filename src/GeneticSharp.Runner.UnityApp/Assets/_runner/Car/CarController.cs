@@ -7,17 +7,22 @@ namespace GeneticSharp.Runner.UnityApp.Car
         private PolygonCollider2D m_polygon;
         private Rigidbody2D m_rb;
         private CarChromosome m_chromosome;
+        private TextMesh m_fitnessText;
+
         public float Distance { get; private set; }
     
         private void Awake()
         {
             m_polygon = GetComponent<PolygonCollider2D>();
             m_rb = GetComponent<Rigidbody2D>();
+            m_fitnessText = GetComponentInChildren<TextMesh>();
         }
 
 		private void Update()
 		{
             Distance = Vector2.Distance(Vector2.zero, transform.position);
+            m_fitnessText.text = Distance.ToString("N2");
+            m_fitnessText.transform.rotation = Quaternion.identity;
 
             if (m_rb.IsSleeping())
             {

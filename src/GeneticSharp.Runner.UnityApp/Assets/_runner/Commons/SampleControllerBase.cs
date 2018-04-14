@@ -55,7 +55,7 @@ public abstract class SampleControllerBase : MonoBehaviour {
         {
             GenerationText.text = $"Generation: {GA.GenerationsNumber}";
                
-            if (GA.BestChromosome != null)
+            if (GA.BestChromosome != null && GA.BestChromosome.Fitness.HasValue)
             {
                 FitnessText.text = $"Fitness: {GA.BestChromosome.Fitness:N2}";
             }

@@ -16,7 +16,9 @@ namespace GeneticSharp.Runner.UnityApp.Car
         public Vector3 EvaluationDistance = new Vector3(0, 0, 2);
         public int VectorsCount = 8;
         public float VectorSize = 10;
+        public int WheelsCount = 2;
         public Object CarPrefab;
+        public FollowChromosomeCam FollowCamera;
 
         private CarFitness m_fitness;
         private Vector3 m_lastPosition = Vector3.zero;
@@ -25,7 +27,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
         protected override GeneticAlgorithm CreateGA()
         {
             m_fitness = new CarFitness(SecondsForEvaluation);
-            var chromosome = new CarChromosome(VectorsCount, VectorSize);
+            var chromosome = new CarChromosome(VectorsCount, VectorSize, WheelsCount);
             var crossover = new UniformCrossover();
             var mutation = new UniformMutation(true);
             var selection = new EliteSelection();
@@ -68,6 +70,13 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 c.Evaluated = true;
             }
 
+            var nearestCar = GameObject.FindWithTag("Car");
+
+            if (nearestCar != null)
+            {
+                FollowCamera.Target = nearestCar;
+            }
+               
             // in evaluation.
             while (m_fitness.ChromosomesToBeginEvaluation.Count > 0)
             {
