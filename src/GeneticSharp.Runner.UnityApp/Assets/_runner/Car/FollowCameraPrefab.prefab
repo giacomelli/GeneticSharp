@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 124447869941874912}
   - component: {fileID: 81130350535815820}
   - component: {fileID: 114108406809384616}
+  - component: {fileID: 114904811704234080}
   m_Layer: 0
   m_Name: FollowCameraPrefab
   m_TagString: Untagged
@@ -60,7 +61,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 10
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -100,6 +101,20 @@ MonoBehaviour:
   Target: {fileID: 0}
   Offset: {x: 0, y: 0, z: -4}
   Speed: 2
+--- !u!114 &114904811704234080
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1879827718766348}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 243a781cad112c75d0008dfa8d76c639, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shader: {fileID: 4800000, guid: daf9781cad112c75d0008dfa8d76c639, type: 3}
+  textureRamp: {fileID: 0}
+  rampOffset: 0
 --- !u!124 &124447869941874912
 Behaviour:
   m_ObjectHideFlags: 1

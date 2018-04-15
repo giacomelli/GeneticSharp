@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityStandardAssets.ImageEffects;
 
 namespace GeneticSharp.Runner.UnityApp.Car
 {
@@ -9,7 +10,8 @@ namespace GeneticSharp.Runner.UnityApp.Car
         private Rigidbody2D m_rb;
         private CarChromosome m_chromosome;
         private TextMesh m_fitnessText;
-        private Camera m_cam;
+        private FollowChromosomeCam m_cam;
+        private Grayscale m_evaluatedEffect;
         public Vector2Int SimulationsGrid { get; set; }
 
         public float Distance { get; private set; }
@@ -23,9 +25,11 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
         void Start()
         {
-            GameObject.Find("SimulationGrid")
+            m_cam = GameObject.Find("SimulationGrid")
                       .GetComponent<SimulationGrid>()
                       .AddChromosome(gameObject);
+
+            m_evaluatedEffect = m_cam.GetComponent<Grayscale>();
         }
 
 		private void Update()
@@ -37,6 +41,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             if (m_rb.IsSleeping())
             {
                 m_chromosome.Evaluated = true;
+                m_evaluatedEffect.enabled = true;
             }
   		}
 
@@ -44,6 +49,12 @@ namespace GeneticSharp.Runner.UnityApp.Car
         {
             m_chromosome = chromosome;
             m_polygon.points = chromosome.GetVectors();
+
+            if (m_cam != null)
+            {
+                m_cam.transform.position = transform.position;
+                m_evaluatedEffect.enabled = false;
+            }
         }
 	}
 }
