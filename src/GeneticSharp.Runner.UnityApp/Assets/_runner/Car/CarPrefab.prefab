@@ -11,6 +11,21 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1546867959699462}
   m_IsPrefabParent: 1
+--- !u!1 &1069455530112288
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4404997228492040}
+  m_Layer: 9
+  m_Name: Wheels
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1546867959699462
 GameObject:
   m_ObjectHideFlags: 0
@@ -48,6 +63,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4404997228492040
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1069455530112288}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4956903623553468}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4911247916328550
 Transform:
   m_ObjectHideFlags: 1
@@ -72,6 +100,7 @@ Transform:
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children:
   - {fileID: 4911247916328550}
+  - {fileID: 4404997228492040}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -168,7 +197,7 @@ TextMesh:
   m_GameObject: {fileID: 1668621643895548}
   m_Text: 0.00
   m_OffsetZ: 0
-  m_CharacterSize: 1
+  m_CharacterSize: 2
   m_LineSpacing: 1
   m_Anchor: 4
   m_Alignment: 1
@@ -179,7 +208,7 @@ TextMesh:
   m_Font: {fileID: 12800000, guid: 9622bdfff8a85443bb0458b915d2dd80, type: 3}
   m_Color:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278190080
 --- !u!114 &114254366891477830
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -191,6 +220,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43d004c2f60404941b9447be6add1047, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WheelPrefab: {fileID: 1963488490984766, guid: ca31c786a77a2432c8091b3feb40fd9e,
+    type: 2}
 --- !u!114 &114832752802023364
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -210,8 +241,8 @@ LineRenderer:
   m_GameObject: {fileID: 1546867959699462}
   m_Enabled: 1
   m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 0
   m_MotionVectors: 0
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0

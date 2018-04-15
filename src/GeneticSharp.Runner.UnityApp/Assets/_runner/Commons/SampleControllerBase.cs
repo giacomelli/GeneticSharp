@@ -14,7 +14,7 @@ public abstract class SampleControllerBase : MonoBehaviour {
     protected Text GenerationText { get; private set; }
     protected Text FitnessText { get; private set;  }
     protected GeneticAlgorithm GA { get; private set; }
-    protected Rect Area { get; private set; }
+    public Rect Area { get; private set; }
 
 	private void Start()
 	{

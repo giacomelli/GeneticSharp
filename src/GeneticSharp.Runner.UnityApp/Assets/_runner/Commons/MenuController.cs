@@ -6,7 +6,21 @@ using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour {
 
+    private Canvas m_canvas;
     public Text Logo;
+
+	private void Start()
+	{
+        m_canvas = GetComponent<Canvas>();
+	}
+
+	private void Update()
+	{
+	    if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            m_canvas.enabled = !m_canvas.enabled;
+        }
+	}
 
 	public void Open(string sceneName)
     {

@@ -12,8 +12,11 @@ namespace GeneticSharp.Runner.UnityApp.Car
         private TextMesh m_fitnessText;
         private FollowChromosomeCam m_cam;
         private Grayscale m_evaluatedEffect;
-        public Vector2Int SimulationsGrid { get; set; }
+        private GameObject m_wheels;
+      
+        public Object WheelPrefab;
 
+        public Vector2Int SimulationsGrid { get; set; }
         public float Distance { get; private set; }
     
         private void Awake()
@@ -21,6 +24,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             m_polygon = GetComponent<PolygonCollider2D>();
             m_rb = GetComponent<Rigidbody2D>();
             m_fitnessText = GetComponentInChildren<TextMesh>();
+            m_wheels = transform.Find("Wheels").gameObject;
         }
 
         void Start()
@@ -50,11 +54,42 @@ namespace GeneticSharp.Runner.UnityApp.Car
             m_chromosome = chromosome;
             m_polygon.points = chromosome.GetVectors();
 
+            var wheelIndexes = chromosome.GetWheelsIndexes();
+
+            for (int i = 0; i < wheelIndexes.Length; i++)
+            {
+                PrepareWheel(i, m_polygon.points[wheelIndexes[i]]);
+            }
+
+
             if (m_cam != null)
             {
                 m_cam.transform.position = transform.position;
                 m_evaluatedEffect.enabled = false;
             }
+        }
+
+        private GameObject PrepareWheel(int index, Vector2 anchorPosition)
+        {
+            GameObject wheel;
+            Transform wheelTransform = m_wheels.transform.childCount > index
+                                               ? m_wheels.transform.GetChild(index)
+                                               : null;
+
+            if (wheelTransform == null)
+            {
+                wheel = Instantiate(WheelPrefab, Vector3.zero, Quaternion.identity) as GameObject;
+                wheel.transform.SetParent(m_wheels.transform, false);
+                var joint = wheel.GetComponent<WheelJoint2D>();
+                joint.connectedBody = m_rb;
+                joint.connectedAnchor = anchorPosition;
+            }
+            else
+            {
+                wheel = wheelTransform.gameObject;    
+            }
+
+            return wheel;
         }
 	}
 }

@@ -53,7 +53,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BackGroundColor: {r: 0.59607846, g: 0.7764706, b: 0.90588236, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -99,8 +99,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 0}
-  Offset: {x: 0, y: 0, z: -4}
-  Speed: 2
+  Offset: {x: 0, y: 0, z: -5}
+  Speed: 3
 --- !u!114 &114904811704234080
 MonoBehaviour:
   m_ObjectHideFlags: 1

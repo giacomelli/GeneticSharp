@@ -61,7 +61,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             return RandomizationProvider.Current.GetFloat(0, m_vectorSize);
         }
 
-        float GetRandomWheelIndex()
+        int GetRandomWheelIndex()
         {
             return RandomizationProvider.Current.GetInt(0, m_vectorsCount);
         }

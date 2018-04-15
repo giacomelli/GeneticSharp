@@ -146,7 +146,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BackGroundColor: {r: 0.59607846, g: 0.77271414, b: 0.90588236, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -155,7 +155,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 57
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -256,12 +256,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8ead37db2604c2682ebcb605c8fc5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SecondsForEvaluation: 30
-  SimulationsGrid: {x: 5, y: 5}
+  SecondsForEvaluation: 15
+  SimulationsGrid: {x: 6, y: 5}
   EvaluationDistance: {x: 0, y: 0, z: 11}
   VectorsCount: 8
   VectorSize: 20
-  WheelsCount: 0
+  WheelsCount: 2
   CarPrefab: {fileID: 1546867959699462, guid: 10b214487dfc7483b959f776c3cb3f45, type: 2}
   FollowCamera: {fileID: 0}
 --- !u!4 &1241148172
@@ -451,7 +451,7 @@ GameObject:
   - component: {fileID: 1489170784}
   - component: {fileID: 1489170783}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: FakeFloor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
