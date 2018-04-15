@@ -55,10 +55,11 @@ namespace GeneticSharp.Runner.UnityApp.Car
             m_polygon.points = chromosome.GetVectors();
 
             var wheelIndexes = chromosome.GetWheelsIndexes();
+            var wheelRadius = chromosome.GetWheelsRadius();
 
             for (int i = 0; i < wheelIndexes.Length; i++)
             {
-                PrepareWheel(i, m_polygon.points[wheelIndexes[i]]);
+                PrepareWheel(i, m_polygon.points[wheelIndexes[i]], wheelRadius[i]);
             }
 
 
@@ -69,7 +70,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             }
         }
 
-        private GameObject PrepareWheel(int index, Vector2 anchorPosition)
+        private GameObject PrepareWheel(int index, Vector2 anchorPosition, float radius)
         {
             GameObject wheel;
             Transform wheelTransform = m_wheels.transform.childCount > index
@@ -80,14 +81,16 @@ namespace GeneticSharp.Runner.UnityApp.Car
             {
                 wheel = Instantiate(WheelPrefab, Vector3.zero, Quaternion.identity) as GameObject;
                 wheel.transform.SetParent(m_wheels.transform, false);
-                var joint = wheel.GetComponent<WheelJoint2D>();
-                joint.connectedBody = m_rb;
-                joint.connectedAnchor = anchorPosition;
             }
             else
             {
                 wheel = wheelTransform.gameObject;    
             }
+
+            wheel.transform.localScale = new Vector3(radius, radius, 1);
+            var joint = wheel.GetComponent<WheelJoint2D>();
+            joint.connectedBody = m_rb;
+            joint.connectedAnchor = anchorPosition;
 
             return wheel;
         }

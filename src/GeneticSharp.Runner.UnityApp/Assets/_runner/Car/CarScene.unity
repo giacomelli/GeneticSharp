@@ -256,12 +256,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8ead37db2604c2682ebcb605c8fc5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SecondsForEvaluation: 15
+  SecondsForEvaluation: 5
   SimulationsGrid: {x: 6, y: 5}
   EvaluationDistance: {x: 0, y: 0, z: 11}
   VectorsCount: 8
   VectorSize: 20
   WheelsCount: 2
+  MaxWheelRadius: 5
   CarPrefab: {fileID: 1546867959699462, guid: 10b214487dfc7483b959f776c3cb3f45, type: 2}
   FollowCamera: {fileID: 0}
 --- !u!4 &1241148172

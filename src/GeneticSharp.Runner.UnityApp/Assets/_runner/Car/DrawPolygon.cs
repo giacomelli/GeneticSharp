@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace GeneticSharp.Runner.UnityApp.WallBuilder
+namespace GeneticSharp.Runner.UnityApp.Car
 {
     [RequireComponent(typeof(PolygonCollider2D))]
     [RequireComponent(typeof(LineRenderer))]

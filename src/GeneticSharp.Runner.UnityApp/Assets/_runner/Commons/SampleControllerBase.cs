@@ -47,8 +47,15 @@ public abstract class SampleControllerBase : MonoBehaviour {
 
         m_gaThread = new Thread(new ThreadStart(delegate
         {
-            Thread.Sleep(1000);
-            GA.Start();
+            try
+            {
+                Thread.Sleep(1000);
+                GA.Start();
+            }
+            catch(Exception ex)
+            {
+                Debug.LogError($"GA thread error: {ex.Message}");
+            }
         }));
         m_gaThread.Start();
 	}

@@ -18,6 +18,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
         public int VectorsCount = 8;
         public float VectorSize = 10;
         public int WheelsCount = 2;
+        public float MaxWheelRadius = 1;
         public Object CarPrefab;
         public FollowChromosomeCam FollowCamera;
 
@@ -29,7 +30,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
         {
             NumberOfSimultaneousEvaluations = SimulationsGrid.x * SimulationsGrid.y;
             m_fitness = new CarFitness(SecondsForEvaluation);
-            var chromosome = new CarChromosome(VectorsCount, VectorSize, WheelsCount);
+            var chromosome = new CarChromosome(VectorsCount, VectorSize, WheelsCount, MaxWheelRadius);
             var crossover = new UniformCrossover();
             var mutation = new UniformMutation(true);
             var selection = new EliteSelection();
