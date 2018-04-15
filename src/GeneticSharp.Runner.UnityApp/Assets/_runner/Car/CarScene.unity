@@ -256,13 +256,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8ead37db2604c2682ebcb605c8fc5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SecondsForEvaluation: 5
+  SecondsForEvaluation: 10
   SimulationsGrid: {x: 6, y: 5}
   EvaluationDistance: {x: 0, y: 0, z: 11}
   VectorsCount: 8
   VectorSize: 20
-  WheelsCount: 2
-  MaxWheelRadius: 5
+  WheelsCount: 3
+  MaxWheelRadius: 3
   CarPrefab: {fileID: 1546867959699462, guid: 10b214487dfc7483b959f776c3cb3f45, type: 2}
   FollowCamera: {fileID: 0}
 --- !u!4 &1241148172
@@ -389,7 +389,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 0.1
+    widthMultiplier: 0.2
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -508,7 +508,7 @@ Transform:
   m_GameObject: {fileID: 1489170781}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.014247412, y: 0.690363, z: 0}
-  m_LocalScale: {x: 10, y: 1, z: 1000}
+  m_LocalScale: {x: 10, y: 10, z: 1000}
   m_Children: []
   m_Father: {fileID: 1306166070}
   m_RootOrder: 0

@@ -80,7 +80,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
         float GetRandomWheelRadius()
         {
-            return RandomizationProvider.Current.GetFloat(0, m_maxWheelRadius);
+            return RandomizationProvider.Current.GetFloat(-m_maxWheelRadius, m_maxWheelRadius);
         }
 
         Vector2 GetVector(int geneIndex, float geneValue)

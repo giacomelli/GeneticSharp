@@ -60,7 +60,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 10
   field of view: 60
   orthographic: 0
@@ -101,6 +101,7 @@ MonoBehaviour:
   Target: {fileID: 0}
   Offset: {x: 0, y: 0, z: -5}
   Speed: 3
+  MinY: -4.65
 --- !u!114 &114904811704234080
 MonoBehaviour:
   m_ObjectHideFlags: 1

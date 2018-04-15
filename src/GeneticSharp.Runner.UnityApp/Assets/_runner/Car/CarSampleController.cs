@@ -47,7 +47,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 m_lastPosition = Vector3.zero;
             };
 
-            ga.MutationProbability = 0.2f;
+            ga.MutationProbability = 0.1f;
 
             return ga;
         }
