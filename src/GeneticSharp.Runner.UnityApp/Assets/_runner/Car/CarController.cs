@@ -38,7 +38,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
 		private void Update()
 		{
-            Distance = Vector2.Distance(Vector2.zero, transform.position);
+            Distance = transform.position.x;
             m_fitnessText.text = Distance.ToString("N2");
             m_fitnessText.transform.rotation = Quaternion.identity;
         
@@ -61,7 +61,6 @@ namespace GeneticSharp.Runner.UnityApp.Car
             {
                 PrepareWheel(i, m_polygon.points[wheelIndexes[i]], wheelRadius[i]);
             }
-
 
             if (m_cam != null)
             {
@@ -87,10 +86,20 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 wheel = wheelTransform.gameObject;    
             }
 
-            wheel.transform.localScale = new Vector3(radius, radius, 1);
-            var joint = wheel.GetComponent<WheelJoint2D>();
-            joint.connectedBody = m_rb;
-            joint.connectedAnchor = anchorPosition;
+
+
+            if (radius <= 0)
+            {
+                wheel.SetActive(false);
+            }
+            else
+            {
+                wheel.SetActive(true);
+                wheel.transform.localScale = new Vector3(radius, radius, 1);
+                var joint = wheel.GetComponent<WheelJoint2D>();
+                joint.connectedBody = m_rb;
+                joint.connectedAnchor = anchorPosition;
+            }
 
             return wheel;
         }

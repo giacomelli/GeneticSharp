@@ -35,7 +35,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             var cam = m_availableCameras.Dequeue();
             cam.transform.position = chromosome.transform.position;
             cam.Target = chromosome;
-
+        
             return cam;
         }
     }

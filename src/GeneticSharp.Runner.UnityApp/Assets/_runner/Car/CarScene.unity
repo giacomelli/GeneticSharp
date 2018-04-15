@@ -257,13 +257,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SecondsForEvaluation: 10
-  SimulationsGrid: {x: 6, y: 5}
+  SimulationsGrid: {x: 2, y: 2}
   EvaluationDistance: {x: 0, y: 0, z: 11}
   VectorsCount: 8
   VectorSize: 20
-  WheelsCount: 3
+  WheelsCount: 1
   MaxWheelRadius: 3
-  CarPrefab: {fileID: 1546867959699462, guid: 10b214487dfc7483b959f776c3cb3f45, type: 2}
+  EvaluationPrefab: {fileID: 1313096203398122, guid: a2f32a86d918a4623841a5223eff1b70,
+    type: 2}
   FollowCamera: {fileID: 0}
 --- !u!4 &1241148172
 Transform:
@@ -295,7 +296,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!60 &1306166068
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -341,14 +342,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1306166067}
-  m_LocalRotation: {x: 0, y: 0, z: -0.13052624, w: 0.9914449}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -4, z: 0}
   m_LocalScale: {x: 100, y: 1, z: 1}
   m_Children:
   - {fileID: 1489170785}
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -15}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!120 &1306166071
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -457,7 +458,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &1489170783
 MeshRenderer:
   m_ObjectHideFlags: 0

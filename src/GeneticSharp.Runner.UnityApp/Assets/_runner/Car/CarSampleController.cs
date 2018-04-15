@@ -19,12 +19,12 @@ namespace GeneticSharp.Runner.UnityApp.Car
         public float VectorSize = 10;
         public int WheelsCount = 2;
         public float MaxWheelRadius = 1;
-        public Object CarPrefab;
+        public Object EvaluationPrefab;
         public FollowChromosomeCam FollowCamera;
 
         private CarFitness m_fitness;
         private Vector3 m_lastPosition = Vector3.zero;
-        private PrefabPool m_carPool;
+        private PrefabPool m_evaluationPool;
 
         protected override GeneticAlgorithm CreateGA()
         {
@@ -54,7 +54,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
         protected override void StartSample()
         {
-            m_carPool = new PrefabPool(CarPrefab);
+            m_evaluationPool = new PrefabPool(EvaluationPrefab);
         }
 
         protected override void UpdateSample()
@@ -64,10 +64,11 @@ namespace GeneticSharp.Runner.UnityApp.Car
             {
                 CarChromosome c;
                 m_fitness.ChromosomesToEndEvaluation.TryTake(out c);
-                var car = GameObject.Find(c.ID);
-                c.Distance = car.GetComponent<CarController>().Distance;
+                var evaluation = GameObject.Find(c.ID);
 
-                m_carPool.Release(car.gameObject);
+                c.Distance = evaluation.GetComponentInChildren<CarController>().Distance;
+
+                m_evaluationPool.Release(evaluation);
                 c.Evaluated = true;
             }
 
@@ -79,12 +80,16 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 m_fitness.ChromosomesToBeginEvaluation.TryTake(out c);
                 c.Evaluated = false;
                 c.Distance = 0;
-                 
-                var car = m_carPool.Get(m_lastPosition).GetComponent<CarController>();
-                car.name = c.ID;
-                m_lastPosition += EvaluationDistance;
+
+                var evaluation = m_evaluationPool.Get(m_lastPosition);
+                evaluation.name = c.ID;
+
+                var car = evaluation.GetComponentInChildren<CarController>();
+                car.transform.position = m_lastPosition;
                 car.SimulationsGrid = SimulationsGrid;
                 car.SetChromosome(c);
+
+                m_lastPosition += EvaluationDistance;
             }
         }
     }
