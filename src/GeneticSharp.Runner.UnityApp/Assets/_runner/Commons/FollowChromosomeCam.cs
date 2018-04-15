@@ -10,6 +10,7 @@ public class FollowChromosomeCam : MonoBehaviour {
 
     void LateUpdate() 
     {
-        transform.position = Vector3.Lerp(transform.position, Target.transform.position + Offset, Time.deltaTime * Speed);
+        if(Target != null)
+            transform.position = Vector3.Lerp(transform.position, Target.transform.position + Offset, Time.deltaTime * Speed);
     }
 }

@@ -9,7 +9,8 @@ using System;
 public abstract class SampleControllerBase : MonoBehaviour {
 
     private Thread m_gaThread;
-   
+    private double m_bestFitness;
+
     protected Text GenerationText { get; private set; }
     protected Text FitnessText { get; private set;  }
     protected GeneticAlgorithm GA { get; private set; }
@@ -33,7 +34,10 @@ public abstract class SampleControllerBase : MonoBehaviour {
 
         GA = CreateGA();
         GA.GenerationRan += delegate {
-           Debug.Log($"Generation: {GA.GenerationsNumber} - Best: ${GA.BestChromosome.Fitness}");
+            m_bestFitness = GA.BestChromosome.Fitness.Value;
+
+            Debug.Log($"Generation: {GA.GenerationsNumber} - Best: ${m_bestFitness}");
+
             foreach (var c in GA.Population.CurrentGeneration.Chromosomes)
             {
                 c.Fitness = null;
@@ -54,11 +58,7 @@ public abstract class SampleControllerBase : MonoBehaviour {
         if (GenerationText != null)
         {
             GenerationText.text = $"Generation: {GA.GenerationsNumber}";
-               
-            if (GA.BestChromosome != null && GA.BestChromosome.Fitness.HasValue)
-            {
-                FitnessText.text = $"Fitness: {GA.BestChromosome.Fitness:N2}";
-            }
+            FitnessText.text = $"Fitness: {m_bestFitness:N2}";
         }
 
         UpdateSample();

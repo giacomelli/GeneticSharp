@@ -33,7 +33,7 @@ public class PrefabPool
 
     public void Release(GameObject go)
     {
-        go.SetActive(false);
+        //go.SetActive(false);
         go.transform.SetParent(null);
         m_available.Add(go);
     }
