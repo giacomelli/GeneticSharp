@@ -52,6 +52,8 @@ namespace GeneticSharp.Runner.UnityApp.Car
 		public void SetChromosome(CarChromosome chromosome)
         {
             m_chromosome = chromosome;
+            m_rb.velocity = Vector2.zero;
+            m_rb.angularVelocity = 0;
             m_polygon.points = chromosome.GetVectors();
 
             var wheelIndexes = chromosome.GetWheelsIndexes();

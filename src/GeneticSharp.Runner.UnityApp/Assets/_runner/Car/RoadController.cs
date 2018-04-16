@@ -12,6 +12,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
         public int PathsCount = 100;
         public float MinPathSize = 2;
         public float MaxPathSize = 4;
+        public float MaxHeight = 1f;
     
         private void Awake()
         {
@@ -22,12 +23,13 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
             for (int i = 0; i < PathsCount; i++)
             {
-                points[i] = new Vector2(startX + MaxPathSize * i, startY);
+                points[i] = new Vector2(startX + MaxPathSize * i, i % 2 == 0 ? startY : startY + MaxHeight);
             }
 
             for (int i = PathsCount; i < points.Length; i++)
             {
-                points[i] = new Vector2(points[points.Length - i -1].x, startY - 0.1f);
+                var p = points[points.Length - i - 1];
+                points[i] = new Vector2(p.x, p.y - 0.5f);
             }
 
 
