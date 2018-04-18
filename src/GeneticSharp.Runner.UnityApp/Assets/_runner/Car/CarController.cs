@@ -99,7 +99,6 @@ namespace GeneticSharp.Runner.UnityApp.Car
             wheel.transform.localPosition = anchorPosition;
             wheel.SetActive(true);
 
-
             return wheel;
         }
 	}

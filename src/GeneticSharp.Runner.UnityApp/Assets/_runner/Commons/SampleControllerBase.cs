@@ -18,6 +18,7 @@ public abstract class SampleControllerBase : MonoBehaviour {
 
 	private void Start()
 	{
+        Application.runInBackground = true;
         var sampleArea = GameObject.Find("SampleArea");
         Area = sampleArea == null
             ? Camera.main.rect

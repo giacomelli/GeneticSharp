@@ -13,6 +13,8 @@ namespace GeneticSharp.Runner.UnityApp.Car
         public float MinPathSize = 2;
         public float MaxPathSize = 4;
         public float MaxHeight = 1f;
+        public float GapsRate = 0.1f;
+        public float MaxGapWidth = 1f;
     
         private void Awake()
         {
@@ -31,7 +33,6 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 var p = points[points.Length - i - 1];
                 points[i] = new Vector2(p.x, p.y - 0.5f);
             }
-
 
             m_polygon.points = points;
         }
