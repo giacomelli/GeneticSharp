@@ -17,8 +17,6 @@ namespace GeneticSharp.Runner.UnityApp.Car
       
         public Object WheelPrefab;
         public float MinWheelRadius = 0.1f;
-        public float MassFactor = 2f;
-
         public Vector2Int SimulationsGrid { get; set; }
         public float Distance { get; private set; }
     
@@ -58,9 +56,6 @@ namespace GeneticSharp.Runner.UnityApp.Car
             m_rb.velocity = Vector2.zero;
             m_rb.angularVelocity = 0;
             m_polygon.points = chromosome.GetVectors();
-
-            //m_rb.useAutoMass = false;
-            //m_rb.mass = m_polygon.points.Sum(p => p.magnitude) * MassFactor;
 
             var wheelIndexes = chromosome.GetWheelsIndexes();
             var wheelRadius = chromosome.GetWheelsRadius();
