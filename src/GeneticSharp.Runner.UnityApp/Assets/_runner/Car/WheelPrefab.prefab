@@ -22,10 +22,10 @@ GameObject:
   - component: {fileID: 212945195146758346}
   - component: {fileID: 58872983147994054}
   - component: {fileID: 50039708083340162}
-  - component: {fileID: 235638043164197298}
-  - component: {fileID: 120412771642350276}
-  - component: {fileID: 114614161213434304}
-  m_Layer: 9
+  - component: {fileID: 120581674080127408}
+  - component: {fileID: 114390830910891978}
+  - component: {fileID: 235378139500964162}
+  m_Layer: 12
   m_Name: WheelPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 1
+  m_Mass: 20
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -80,7 +80,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 2.5599997
---- !u!114 &114614161213434304
+--- !u!114 &114390830910891978
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ccacb07288f44bcd9d24fc9a22e2d3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!120 &120412771642350276
+--- !u!120 &120581674080127408
 LineRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -125,7 +125,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
@@ -228,7 +228,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
---- !u!235 &235638043164197298
+--- !u!235 &235378139500964162
 WheelJoint2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -240,13 +240,13 @@ WheelJoint2D:
   m_ConnectedRigidBody: {fileID: 0}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_AutoConfigureConnectedAnchor: 1
+  m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: 0, y: 0}
   m_Suspension:
     m_DampingRatio: 1
-    m_Frequency: 10
-    m_Angle: 90
+    m_Frequency: 1000000
+    m_Angle: 0
   m_UseMotor: 1
   m_Motor:
     m_MotorSpeed: 400

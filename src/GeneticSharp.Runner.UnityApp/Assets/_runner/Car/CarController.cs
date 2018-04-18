@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using UnityStandardAssets.ImageEffects;
 
 namespace GeneticSharp.Runner.UnityApp.Car
@@ -15,6 +16,8 @@ namespace GeneticSharp.Runner.UnityApp.Car
         private GameObject m_wheels;
       
         public Object WheelPrefab;
+        public float MinWheelRadius = 0.1f;
+        public float MassFactor = 2f;
 
         public Vector2Int SimulationsGrid { get; set; }
         public float Distance { get; private set; }
@@ -56,6 +59,9 @@ namespace GeneticSharp.Runner.UnityApp.Car
             m_rb.angularVelocity = 0;
             m_polygon.points = chromosome.GetVectors();
 
+            //m_rb.useAutoMass = false;
+            //m_rb.mass = m_polygon.points.Sum(p => p.magnitude) * MassFactor;
+
             var wheelIndexes = chromosome.GetWheelsIndexes();
             var wheelRadius = chromosome.GetWheelsRadius();
 
@@ -88,20 +94,16 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 wheel = wheelTransform.gameObject;    
             }
 
+            var joint = wheel.GetComponent<AnchoredJoint2D>();
+           
+            joint.connectedBody = m_rb;
+            joint.connectedAnchor = anchorPosition;
+            joint.enabled = true;
 
+            wheel.transform.localScale = new Vector3(radius, radius, 1);
+            wheel.transform.localPosition = anchorPosition;
+            wheel.SetActive(true);
 
-            if (radius <= 0)
-            {
-                wheel.SetActive(false);
-            }
-            else
-            {
-                wheel.SetActive(true);
-                wheel.transform.localScale = new Vector3(radius, radius, 1);
-                var joint = wheel.GetComponent<WheelJoint2D>();
-                joint.connectedBody = m_rb;
-                joint.connectedAnchor = anchorPosition;
-            }
 
             return wheel;
         }

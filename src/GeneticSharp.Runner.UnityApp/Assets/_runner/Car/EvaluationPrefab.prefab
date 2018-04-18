@@ -212,7 +212,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 0.023776414
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -281,7 +281,7 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1784560484136784}
-  m_Text: 0.00
+  m_Text: 
   m_OffsetZ: 0
   m_CharacterSize: 2
   m_LineSpacing: 1
@@ -330,6 +330,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WheelPrefab: {fileID: 1963488490984766, guid: ca31c786a77a2432c8091b3feb40fd9e,
     type: 2}
+  MinWheelRadius: 1
+  MassFactor: 2
 --- !u!114 &114575792311233606
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -412,7 +414,7 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0, g: 0, b: 0, a: 1}
+      key0: {r: 1, g: 1, b: 1, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 1}
       key3: {r: 0, g: 0, b: 0, a: 1}
@@ -420,7 +422,7 @@ LineRenderer:
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 193
+      ctime0: 0
       ctime1: 65535
       ctime2: 0
       ctime3: 0
@@ -436,7 +438,7 @@ LineRenderer:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
+      m_Mode: 1
       m_NumColorKeys: 2
       m_NumAlphaKeys: 3
     numCornerVertices: 0

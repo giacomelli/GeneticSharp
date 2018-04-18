@@ -23,7 +23,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
         public FollowChromosomeCam FollowCamera;
 
         private CarFitness m_fitness;
-        private Vector3 m_lastPosition = Vector3.zero;
+        private Vector3 m_lastPosition;
         private PrefabPool m_evaluationPool;
 
         protected override GeneticAlgorithm CreateGA()
@@ -54,6 +54,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
         protected override void StartSample()
         {
+            m_lastPosition = Vector3.zero;
             m_evaluationPool = new PrefabPool(EvaluationPrefab);
         }
 
