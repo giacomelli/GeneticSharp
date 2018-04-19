@@ -11,9 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a546e1b5aa11441198c7272b3f4c43d7, type: 3}
   m_Name: DefaultRoadConfig
   m_EditorClassIdentifier: 
-  PointsCount: 10
+  PointsCount: 30
   MinPointsDistance: 2
   MaxPointsDistance: 10
-  MaxHeight: 1
-  GapsRate: 0.1
-  MaxGapWidth: 5
+  MaxHeight: 10
+  GapsRate: 0
+  MaxGapWidth: 0.1

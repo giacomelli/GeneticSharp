@@ -15,7 +15,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             var startX = transform.position.x;
             var startY = transform.position.y;
 
-            var pathsCount = Mathf.CeilToInt(Config.PointsCount * Config.GapsRate);
+            var pathsCount = Config.GapsRate > 0 ? Mathf.CeilToInt(Config.PointsCount * Config.GapsRate) : 1;
             m_polygon.pathCount = pathsCount;
             var pointsPerPathCount = Config.PointsCount / pathsCount;
 
@@ -28,7 +28,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 for (int i = 0; i < pointsPerPathCount; i++)
                 {
                     var x = startX + Config.MaxPointsDistance * xIndex++;
-                    points[i] = new Vector2(x, startY + Mathf.Cos(x) * Config.MaxHeight);
+                    points[i] = new Vector2(x, startY + Mathf.Cos(x) * (Config.MaxHeight / Config.PointsCount) * xIndex);
                 }
 
                 startX += Config.MaxGapWidth;

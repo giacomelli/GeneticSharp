@@ -20,7 +20,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
         public int WheelsCount = 2;
         public float MaxWheelRadius = 1;
         public Object EvaluationPrefab;
-        public FollowChromosomeCam FollowCamera;
+        public RoadConfig Road;
 
         private CarFitness m_fitness;
         private Vector3 m_lastPosition;
