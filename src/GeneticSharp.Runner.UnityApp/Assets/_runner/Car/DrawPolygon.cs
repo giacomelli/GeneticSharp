@@ -18,6 +18,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
         private void Update()
         {
+            if (m_polygon.points.Length == 0) return;
             m_lr.positionCount = m_polygon.points.Length + 1;
 
             for (int i = 0; i < m_polygon.points.Length; i++)

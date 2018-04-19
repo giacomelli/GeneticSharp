@@ -1,40 +1,47 @@
 ﻿using UnityEngine;
-using UnityStandardAssets.ImageEffects;
 
 namespace GeneticSharp.Runner.UnityApp.Car
 {
-
     [RequireComponent(typeof(PolygonCollider2D))]
     public class RoadController : MonoBehaviour
     {
         private PolygonCollider2D m_polygon;
 
-        public int PathsCount = 100;
-        public float MinPathSize = 2;
-        public float MaxPathSize = 4;
-        public float MaxHeight = 1f;
-        public float GapsRate = 0.1f;
-        public float MaxGapWidth = 1f;
+        public RoadConfig Config;
     
         private void Awake()
         {
             m_polygon = GetComponent<PolygonCollider2D>();
-            var points = new Vector2[PathsCount * 2];
             var startX = transform.position.x;
             var startY = transform.position.y;
 
-            for (int i = 0; i < PathsCount; i++)
-            {
-                points[i] = new Vector2(startX + MaxPathSize * i, i % 2 == 0 ? startY : startY + MaxHeight);
-            }
+            var pathsCount = Mathf.CeilToInt(Config.PointsCount * Config.GapsRate);
+            m_polygon.pathCount = pathsCount;
+            var pointsPerPathCount = Config.PointsCount / pathsCount;
 
-            for (int i = PathsCount; i < points.Length; i++)
-            {
-                var p = points[points.Length - i - 1];
-                points[i] = new Vector2(p.x, p.y - 0.5f);
-            }
+            var xIndex = 0;
 
-            m_polygon.points = points;
+            for (int pathIndex = 0; pathIndex < pathsCount; pathIndex++)
+            {
+                var points = new Vector2[pointsPerPathCount * 2];
+               
+                for (int i = 0; i < pointsPerPathCount; i++)
+                {
+                    var x = startX + Config.MaxPointsDistance * xIndex++;
+                    points[i] = new Vector2(x, startY + Mathf.Cos(x) * Config.MaxHeight);
+                }
+
+                startX += Config.MaxGapWidth;
+
+                //  Closes the polygon.
+                for (int i = pointsPerPathCount; i < points.Length; i++)
+                {
+                    var point = points[points.Length - i - 1];
+                    points[i] = new Vector2(point.x, point.y - 0.5f);
+                }
+
+                m_polygon.SetPath(pathIndex, points);
+            }
         }
 
     }

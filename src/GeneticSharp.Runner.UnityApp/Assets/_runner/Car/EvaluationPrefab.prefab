@@ -342,12 +342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdb65f4cbd86e4f719cc934d0763387b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PathsCount: 10
-  MinPathSize: 20
-  MaxPathSize: 20
-  MaxHeight: 5
-  GapsRate: 0.1
-  MaxGapWidth: 1
+  Config: {fileID: 11400000, guid: 9c0230d6b54a948438cb47fbf27a2c30, type: 2}
 --- !u!120 &120193815767763640
 LineRenderer:
   m_ObjectHideFlags: 1
