@@ -379,6 +379,8 @@ MonoBehaviour:
   MinPathSize: 20
   MaxPathSize: 20
   MaxHeight: 5
+  GapsRate: 0.1
+  MaxGapWidth: 1
 --- !u!60 &890003024
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -445,12 +447,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c8ead37db2604c2682ebcb605c8fc5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SecondsForEvaluation: 10
+  SecondsForEvaluation: 30
   SimulationsGrid: {x: 4, y: 4}
   EvaluationDistance: {x: 0, y: 0, z: 11}
   VectorsCount: 10
   VectorSize: 20
-  WheelsCount: 4
+  WheelsCount: 5
   MaxWheelRadius: 3
   EvaluationPrefab: {fileID: 1313096203398122, guid: a2f32a86d918a4623841a5223eff1b70,
     type: 2}

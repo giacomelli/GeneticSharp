@@ -211,7 +211,7 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 1
+  m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
@@ -331,7 +331,6 @@ MonoBehaviour:
   WheelPrefab: {fileID: 1963488490984766, guid: ca31c786a77a2432c8091b3feb40fd9e,
     type: 2}
   MinWheelRadius: 1
-  MassFactor: 2
 --- !u!114 &114575792311233606
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -347,6 +346,8 @@ MonoBehaviour:
   MinPathSize: 20
   MaxPathSize: 20
   MaxHeight: 5
+  GapsRate: 0.1
+  MaxGapWidth: 1
 --- !u!120 &120193815767763640
 LineRenderer:
   m_ObjectHideFlags: 1

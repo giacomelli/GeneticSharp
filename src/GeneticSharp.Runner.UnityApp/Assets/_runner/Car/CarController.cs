@@ -14,7 +14,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
         private FollowChromosomeCam m_cam;
         private Grayscale m_evaluatedEffect;
         private GameObject m_wheels;
-      
+
         public Object WheelPrefab;
         public float MinWheelRadius = 0.1f;
         public Vector2Int SimulationsGrid { get; set; }
@@ -64,6 +64,11 @@ namespace GeneticSharp.Runner.UnityApp.Car
             {
                 PrepareWheel(i, m_polygon.points[wheelIndexes[i]], wheelRadius[i]);
             }
+
+            // The car mass should be greater than wheels sum mass, because the WheelJoint2d get crazy otherwise.
+            // If we comment the line bellow and enable the "Auto mass" on car gameobject, with 10 vectors and 20 wheels count 
+            // we can see all crazy behaviours.
+            m_rb.mass = 1 +  m_polygon.points.Sum(p => p.magnitude) + wheelRadius.Sum();
 
             if (m_cam != null)
             {

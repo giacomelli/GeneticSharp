@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 50039708083340162}
   - component: {fileID: 120581674080127408}
   - component: {fileID: 114390830910891978}
-  - component: {fileID: 235378139500964162}
+  - component: {fileID: 233875309244563436}
   m_Layer: 12
   m_Name: WheelPrefab
   m_TagString: Untagged
@@ -228,8 +228,8 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
---- !u!235 &235378139500964162
-WheelJoint2D:
+--- !u!233 &233875309244563436
+HingeJoint2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -243,11 +243,11 @@ WheelJoint2D:
   m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: 0, y: 0}
-  m_Suspension:
-    m_DampingRatio: 1
-    m_Frequency: 1000000
-    m_Angle: 0
   m_UseMotor: 1
   m_Motor:
     m_MotorSpeed: 400
     m_MaximumMotorForce: 10000
+  m_UseLimits: 0
+  m_AngleLimits:
+    m_LowerAngle: 0
+    m_UpperAngle: 359
