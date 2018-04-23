@@ -5,11 +5,14 @@ using UnityEngine.UI;
 using GeneticSharp.Domain;
 using System.Threading;
 using System;
+using System.Linq;
 
 public abstract class SampleControllerBase : MonoBehaviour {
 
     private Thread m_gaThread;
     private double m_bestFitness;
+    private double m_averageFitness;
+    private bool m_shouldUpdateInfo;
 
     protected Text GenerationText { get; private set; }
     protected Text FitnessText { get; private set;  }
@@ -36,8 +39,10 @@ public abstract class SampleControllerBase : MonoBehaviour {
         GA = CreateGA();
         GA.GenerationRan += delegate {
             m_bestFitness = GA.BestChromosome.Fitness.Value;
+            m_averageFitness = GA.Population.CurrentGeneration.Chromosomes.Average(c => c.Fitness.Value);
+            Debug.Log($"Generation: {GA.GenerationsNumber} - Best: ${m_bestFitness} - Average: ${m_averageFitness}");
 
-            Debug.Log($"Generation: {GA.GenerationsNumber} - Best: ${m_bestFitness}");
+            m_shouldUpdateInfo = true;
 
             foreach (var c in GA.Population.CurrentGeneration.Chromosomes)
             {
@@ -63,10 +68,11 @@ public abstract class SampleControllerBase : MonoBehaviour {
 
     void Update()
     {
-        if (GenerationText != null)
+        if (GenerationText != null && m_shouldUpdateInfo)
         {
             GenerationText.text = $"Generation: {GA.GenerationsNumber}";
-            FitnessText.text = $"Fitness: {m_bestFitness:N2}";
+            FitnessText.text = $"Fitness: Best {m_bestFitness:N2} | Average: {m_averageFitness:N2}";
+            m_shouldUpdateInfo = false;
         }
 
         UpdateSample();

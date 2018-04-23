@@ -84,7 +84,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             }
             else
             {
-                m_fitnessText.text = $"{formattedDistance} . {formattedMaxDistance}";
+                m_fitnessText.text = $"{formattedDistance}\t\t\t{formattedMaxDistance}";
             }
 
             m_fitnessText.transform.rotation = Quaternion.identity;
