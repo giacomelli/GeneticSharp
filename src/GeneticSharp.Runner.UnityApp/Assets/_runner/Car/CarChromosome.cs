@@ -30,7 +30,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
         public string ID { get; } = System.Guid.NewGuid().ToString();
 
         public bool Evaluated { get; set; }
-        public float Distance { get; set; }
+        public float MaxDistance { get; set; }
 
         public override IChromosome CreateNew()
         {

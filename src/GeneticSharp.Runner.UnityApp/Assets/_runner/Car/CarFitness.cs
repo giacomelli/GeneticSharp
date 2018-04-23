@@ -11,11 +11,8 @@ namespace GeneticSharp.Runner.UnityApp.Car
 {
     public class CarFitness : IFitness
     {
-        private float m_secondsForEvaluation = 5;
-
-        public CarFitness(float secondsForEvaluation)
+        public CarFitness()
         {
-            m_secondsForEvaluation = secondsForEvaluation;
             ChromosomesToBeginEvaluation = new BlockingCollection<CarChromosome>();
             ChromosomesToEndEvaluation = new BlockingCollection<CarChromosome>();
         }
@@ -28,13 +25,10 @@ namespace GeneticSharp.Runner.UnityApp.Car
             var c = chromosome as CarChromosome;
             ChromosomesToBeginEvaluation.Add(c);
 
-            var timeSpent = 0f;
-
             do
             {
-                Thread.Sleep(100);
-                timeSpent += 0.1f;
-            } while (!c.Evaluated && timeSpent < m_secondsForEvaluation);
+                Thread.Sleep(1000);
+            } while (!c.Evaluated);
 
             ChromosomesToEndEvaluation.Add(c);
 
@@ -43,7 +37,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 Thread.Sleep(100);
             } while (!c.Evaluated);
 
-            return c.Distance;
+            return c.MaxDistance;
         }
 
     }

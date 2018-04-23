@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityStandardAssets.ImageEffects;
 
@@ -17,8 +19,9 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
         public Object WheelPrefab;
         public float MinWheelRadius = 0.1f;
-        public Vector2Int SimulationsGrid { get; set; }
+        public CarSampleConfig Config;
         public float Distance { get; private set; }
+        public float MaxDistance { get; private set; }
     
         private void Awake()
         {
@@ -37,21 +40,60 @@ namespace GeneticSharp.Runner.UnityApp.Car
             m_evaluatedEffect = m_cam.GetComponent<Grayscale>();
         }
 
-		private void Update()
+		private IEnumerator CheckTimeout()
+        {
+            var lastMaxDistance = MaxDistance;
+            yield return new WaitForSeconds(Config.WarmupTime);
+       
+            do
+            {
+                if (MaxDistance - lastMaxDistance < Config.MinMaxDistanceDiff)
+                {
+                    m_rb.Sleep();
+
+                    foreach(var rb in m_wheels.GetComponentsInChildren<Rigidbody2D>())
+                    {
+                        rb.Sleep();
+                    }
+
+                    m_chromosome.Evaluated = true;
+                    m_evaluatedEffect.enabled = true;
+                    break;
+                }
+
+                lastMaxDistance = MaxDistance;
+                yield return new WaitForSeconds(Config.TimeoutNoBetterMaxDistance);
+            } while (true);
+        }
+
+        private void Update()
 		{
             Distance = transform.position.x;
-            m_fitnessText.text = Distance.ToString("N2");
-            m_fitnessText.transform.rotation = Quaternion.identity;
-        
-            if (m_rb.IsSleeping())
+
+            if (Distance > MaxDistance)
             {
-                m_chromosome.Evaluated = true;
-                m_evaluatedEffect.enabled = true;
+                MaxDistance = Distance;
             }
-  		}
+
+            var formattedDistance = Distance.ToString("N2");
+            var formattedMaxDistance = MaxDistance.ToString("N2");
+
+            if (formattedDistance == formattedMaxDistance)
+            {
+                m_fitnessText.text = formattedDistance;
+            }
+            else
+            {
+                m_fitnessText.text = $"{formattedDistance} . {formattedMaxDistance}";
+            }
+
+            m_fitnessText.transform.rotation = Quaternion.identity;
+       	}
 
 		public void SetChromosome(CarChromosome chromosome)
         {
+            MaxDistance = 0;
+            Distance = 0;
             m_chromosome = chromosome;
             m_rb.velocity = Vector2.zero;
             m_rb.angularVelocity = 0;
@@ -66,7 +108,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             }
 
             // The car mass should be greater than wheels sum mass, because the WheelJoint2d get crazy otherwise.
-            // If we comment the line bellow and enable the "Auto mass" on car gameobject, with 10 vectors and 20 wheels count 
+            // If we comment the line bellow and enable the crazy otherwise.\\r\\n            // If we comment the line bellow and enable the car mass should be greater than wheels sum mass, because the WheelJoint2d get crazy otherwise.\\\\\\\\\\\\\\\\r\\\\\\\\\\\\\\\\n            // If we comment the line bellow and enable the crazy otherwise.\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\r\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\n            // If we comment the line bellow and enable the "Auto mass" on car gameobject, with 10 vectors and 20 wheels count 
             // we can see all crazy behaviours.
             m_rb.mass = 1 +  m_polygon.points.Sum(p => p.magnitude) + wheelRadius.Sum();
 
@@ -75,6 +117,8 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 m_cam.transform.position = transform.position;
                 m_evaluatedEffect.enabled = false;
             }
+
+            StartCoroutine(CheckTimeout());
         }
 
         private GameObject PrepareWheel(int index, Vector2 anchorPosition, float radius)

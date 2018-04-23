@@ -7,7 +7,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
     {
         private PolygonCollider2D m_polygon;
 
-        public RoadConfig Config;
+        public CarSampleConfig Config;
     
         private void Awake()
         {
