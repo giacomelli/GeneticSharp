@@ -71,7 +71,7 @@ public abstract class SampleControllerBase : MonoBehaviour {
         if (GenerationText != null && m_shouldUpdateInfo)
         {
             GenerationText.text = $"Generation: {GA.GenerationsNumber}";
-            FitnessText.text = $"Fitness: Best {m_bestFitness:N2} | Average: {m_averageFitness:N2}";
+            FitnessText.text = $"Best {m_bestFitness:N2} \nAverage: {m_averageFitness:N2}";
             m_shouldUpdateInfo = false;
         }
 

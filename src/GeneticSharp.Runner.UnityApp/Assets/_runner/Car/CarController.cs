@@ -84,7 +84,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             }
             else
             {
-                m_fitnessText.text = $"{formattedDistance}\t\t\t{formattedMaxDistance}";
+                m_fitnessText.text = $"{formattedDistance}\t\t\t\t\t\t{formattedMaxDistance}";
             }
 
             m_fitnessText.transform.rotation = Quaternion.identity;
@@ -108,8 +108,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             }
 
             // The car mass should be greater than wheels sum mass, because the WheelJoint2d get crazy otherwise.
-            // If we comment the line bellow and enable the crazy otherwise.\\r\\n            // If we comment the line bellow and enable the car mass should be greater than wheels sum mass, because the WheelJoint2d get crazy otherwise.\\\\\\\\\\\\\\\\r\\\\\\\\\\\\\\\\n            // If we comment the line bellow and enable the crazy otherwise.\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\r\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\n            // If we comment the line bellow and enable the "Auto mass" on car gameobject, with 10 vectors and 20 wheels count 
-            // we can see all crazy behaviours.
+            // If we comment the line bellow and enable the car mass should be greater than wheels sum mass, because the WheelJoint2d get crazy otherwise.
             m_rb.mass = 1 +  m_polygon.points.Sum(p => p.magnitude) + wheelRadius.Sum();
 
             if (m_cam != null)
