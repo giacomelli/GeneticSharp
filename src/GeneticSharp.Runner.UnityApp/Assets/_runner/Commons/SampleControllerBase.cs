@@ -17,6 +17,7 @@ public abstract class SampleControllerBase : MonoBehaviour {
     protected Text GenerationText { get; private set; }
     protected Text FitnessText { get; private set;  }
     protected GeneticAlgorithm GA { get; private set; }
+    protected bool ChromosomesCleanupEnabled { get; set; }
     public Rect Area { get; private set; }
 
 	private void Start()
@@ -44,9 +45,12 @@ public abstract class SampleControllerBase : MonoBehaviour {
 
             m_shouldUpdateInfo = true;
 
-            foreach (var c in GA.Population.CurrentGeneration.Chromosomes)
+            if (ChromosomesCleanupEnabled)
             {
-                c.Fitness = null;
+                foreach (var c in GA.Population.CurrentGeneration.Chromosomes)
+                {
+                    c.Fitness = null;
+                }
             }
         };
         StartSample();
@@ -71,7 +75,7 @@ public abstract class SampleControllerBase : MonoBehaviour {
         if (GenerationText != null && m_shouldUpdateInfo)
         {
             GenerationText.text = $"Generation: {GA.GenerationsNumber}";
-            FitnessText.text = $"Best {m_bestFitness:N2} \nAverage: {m_averageFitness:N2}";
+            FitnessText.text = $"Best: {m_bestFitness:N2}\nAverage: {m_averageFitness:N2}";
             m_shouldUpdateInfo = false;
         }
 

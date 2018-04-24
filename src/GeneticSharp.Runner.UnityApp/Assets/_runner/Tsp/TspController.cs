@@ -23,7 +23,6 @@ namespace GeneticSharp.Runner.UnityApp.Tsp
     {
         private TspFitness m_fitness;
        
-        private bool m_showIndexes = true;
         private LineRenderer m_lr;
         public Object CityPrefab;
         public int m_numberOfCities = 50;
@@ -39,7 +38,7 @@ namespace GeneticSharp.Runner.UnityApp.Tsp
             var selection = new RouletteWheelSelection();
             var population = new Population(50, 100, chromosome);
             var ga = new GeneticAlgorithm(population, m_fitness, selection, crossover, mutation);
-            ga.Termination = new FitnessStagnationTermination(FitnessStagnation);
+            ga.Termination = new TimeEvolvingTermination(System.TimeSpan.FromDays(1));
             ga.TaskExecutor = new ParallelTaskExecutor
             {
                 MinThreads = 100,
@@ -59,14 +58,13 @@ namespace GeneticSharp.Runner.UnityApp.Tsp
 
 		protected override void UpdateSample()
 		{
-            var c = GA.BestChromosome as TspChromosome;
+            if (GA.Population.CurrentGeneration == null)
+                return;
 
-            if (c != null)
-            {
-                FitnessText.text = $"Distance: {c.Distance:N2}";
-                DrawPath(GA.Population.CurrentGeneration);
-            }
-		}
+            var c = GA.BestChromosome as TspChromosome;
+            FitnessText.text = $"Distance: {c.Distance}";
+            DrawPath(GA.Population.CurrentGeneration);
+       	}
 
 		void DrawCities()
         {

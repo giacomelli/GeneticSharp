@@ -53,6 +53,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
         protected override void StartSample()
         {
+            ChromosomesCleanupEnabled = true;
             m_lastPosition = Vector3.zero;
             m_evaluationPool = new PrefabPool(EvaluationPrefab);
         }
