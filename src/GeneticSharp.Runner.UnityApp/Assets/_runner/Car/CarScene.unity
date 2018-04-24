@@ -448,7 +448,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SimulationsGrid: {x: 4, y: 4}
   EvaluationDistance: {x: 0, y: 0, z: 11}
-  VectorsCount: 10
+  VectorsCount: 8
   VectorSize: 20
   WheelsCount: 5
   MaxWheelRadius: 3

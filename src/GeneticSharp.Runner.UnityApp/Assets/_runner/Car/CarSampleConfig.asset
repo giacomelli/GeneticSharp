@@ -17,5 +17,6 @@ MonoBehaviour:
   MaxHeight: 10
   GapsRate: 0
   MaxGapWidth: 0.1
-  TimeoutNoBetterMaxDistance: 5
+  WarmupTime: 10
+  TimeoutNoBetterMaxDistance: 10
   MinMaxDistanceDiff: 1

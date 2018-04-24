@@ -88,6 +88,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             }
 
             m_fitnessText.transform.rotation = Quaternion.identity;
+            //m_cam.Camera.backgroundColor += new Color(MaxDistance / 1000f, 0, 0);
        	}
 
 		public void SetChromosome(CarChromosome chromosome)
