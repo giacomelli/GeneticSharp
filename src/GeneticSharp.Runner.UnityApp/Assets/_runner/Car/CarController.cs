@@ -50,10 +50,17 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 if (MaxDistance - lastMaxDistance < Config.MinMaxDistanceDiff)
                 {
                     m_rb.Sleep();
+                    m_rb.isKinematic = true;
 
                     foreach(var rb in m_wheels.GetComponentsInChildren<Rigidbody2D>())
                     {
                         rb.Sleep();
+                        rb.isKinematic = true;
+                    }
+
+                    foreach (var joint in m_wheels.GetComponentsInChildren<HingeJoint2D>())
+                    {
+                        joint.useMotor = false;
                     }
 
                     m_chromosome.Evaluated = true;
@@ -88,7 +95,6 @@ namespace GeneticSharp.Runner.UnityApp.Car
             }
 
             m_fitnessText.transform.rotation = Quaternion.identity;
-            //m_cam.Camera.backgroundColor += new Color(MaxDistance / 1000f, 0, 0);
        	}
 
 		public void SetChromosome(CarChromosome chromosome)
@@ -96,6 +102,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             MaxDistance = 0;
             Distance = 0;
             m_chromosome = chromosome;
+            m_rb.isKinematic = false;
             m_rb.velocity = Vector2.zero;
             m_rb.angularVelocity = 0;
             m_polygon.points = chromosome.GetVectors();
@@ -138,8 +145,10 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 wheel = wheelTransform.gameObject;    
             }
 
-            var joint = wheel.GetComponent<AnchoredJoint2D>();
-           
+            var joint = wheel.GetComponent<HingeJoint2D>();
+
+            joint.attachedRigidbody.isKinematic = false;
+            joint.useMotor = true;
             joint.connectedBody = m_rb;
             joint.connectedAnchor = anchorPosition;
             joint.enabled = true;

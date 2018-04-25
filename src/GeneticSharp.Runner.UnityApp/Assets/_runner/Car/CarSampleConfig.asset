@@ -14,9 +14,9 @@ MonoBehaviour:
   PointsCount: 30
   MinPointsDistance: 2
   MaxPointsDistance: 10
-  MaxHeight: 10
+  MaxHeight: 9
   GapsRate: 0
   MaxGapWidth: 0.1
   WarmupTime: 10
-  TimeoutNoBetterMaxDistance: 10
+  TimeoutNoBetterMaxDistance: 5
   MinMaxDistanceDiff: 1

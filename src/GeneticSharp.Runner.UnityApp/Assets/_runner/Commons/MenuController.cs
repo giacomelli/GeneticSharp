@@ -6,13 +6,11 @@ using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour {
 
-    private Canvas m_canvas;
     private GameObject m_samples;
     public Text Logo;
 
 	private void Start()
 	{
-        m_canvas = GetComponent<Canvas>();
         m_samples = transform.Find("Panel/Samples").gameObject;
 	}
 
