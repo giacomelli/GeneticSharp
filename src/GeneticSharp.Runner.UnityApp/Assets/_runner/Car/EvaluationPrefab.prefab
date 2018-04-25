@@ -181,7 +181,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 9622bdfff8a85443bb0458b915d2dd80, type: 3}
+  - {fileID: 2100000, guid: aa72eb2456b724ea9aaa5354ad27b223, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -283,7 +283,7 @@ TextMesh:
   m_GameObject: {fileID: 1784560484136784}
   m_Text: 
   m_OffsetZ: 0
-  m_CharacterSize: 3
+  m_CharacterSize: 2
   m_LineSpacing: 1
   m_Anchor: 4
   m_Alignment: 1
@@ -291,7 +291,7 @@ TextMesh:
   m_FontSize: 0
   m_FontStyle: 0
   m_RichText: 1
-  m_Font: {fileID: 12800000, guid: 9622bdfff8a85443bb0458b915d2dd80, type: 3}
+  m_Font: {fileID: 12800000, guid: aa72eb2456b724ea9aaa5354ad27b223, type: 3}
   m_Color:
     serializedVersion: 2
     rgba: 4278190080
