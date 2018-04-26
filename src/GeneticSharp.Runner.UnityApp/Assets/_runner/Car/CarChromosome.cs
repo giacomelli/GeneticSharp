@@ -13,7 +13,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
         private float m_maxWheelRadius;
         private float m_angle;
 
-        public CarChromosome(int vectorsCount, float vectorSize, int wheelsCount, float maxWheelRadius) : base(vectorsCount + wheelsCount + wheelsCount)
+        public CarChromosome(int vectorsCount, float vectorSize, int wheelsCount, float maxWheelRadius) : base(vectorsCount)
         {
             m_vectorsCount = vectorsCount;
             m_vectorSize = vectorSize;
@@ -39,33 +39,47 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
         public override Gene GenerateGene(int geneIndex)
         {
-            if (geneIndex < m_vectorsCount)
+
+            CarGene value;
+
+            if (geneIndex < m_wheelsCount)
             {
-                return new Gene(GetRandomVectorSize());
+                value = new CarGene(GetRandomVectorSize(), GetRandomWheelIndex(), GetRandomWheelRadius());
             }
+            else
+            {
+                value = new CarGene(GetRandomVectorSize(), 0, 0);
+            }
+
+
+            return new Gene(value);
+            //if (geneIndex < m_vectorsCount)
+            //{
+            //    return new Gene(GetRandomVectorSize());
+            //}
            
-            if (geneIndex < m_vectorsCount + m_wheelsCount)
-            {
-                return new Gene(GetRandomWheelIndex());
-            }
+            //if (geneIndex < m_vectorsCount + m_wheelsCount)
+            //{
+            //    return new Gene(GetRandomWheelIndex());
+            //}
 
 
-            return new Gene(GetRandomWheelRadius());
+            //return new Gene(GetRandomWheelRadius());
         }
 
         public Vector2[] GetVectors()
         {
-            return GetGenes().Take(m_vectorsCount).Select((g, i) => GetVector(i, (float)g.Value)).ToArray();
+            return GetGenes().Select((g, i) => GetVector(i, ((CarGene)g.Value).VectorSize)).ToArray();
         }
 
         public int[] GetWheelsIndexes()
         {
-            return GetGenes().Skip(m_vectorsCount).Take(m_wheelsCount).Select(g => (int)g.Value).ToArray();
+            return GetGenes().Select(g => ((CarGene)g.Value).WheelIndex).ToArray();
         }
 
         public float[] GetWheelsRadius()
         {
-            return GetGenes().Skip(m_vectorsCount + m_wheelsCount).Select(g => (float)g.Value).ToArray();
+            return GetGenes().Select(g => ((CarGene)g.Value).WheelRadius).ToArray();
         }
 
         float GetRandomVectorSize()
@@ -83,13 +97,13 @@ namespace GeneticSharp.Runner.UnityApp.Car
             return RandomizationProvider.Current.GetFloat(-m_maxWheelRadius, m_maxWheelRadius);
         }
 
-        Vector2 GetVector(int geneIndex, float geneValue)
+        Vector2 GetVector(int geneIndex, float vectorSize)
         {
             var rnd = RandomizationProvider.Current;
             var angle = m_angle * geneIndex;
 
             // GeneValue is the radius.
-            var offset = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle)) * geneValue;
+            var offset = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle)) * vectorSize;
             return Vector2.zero + offset;
         }
     }

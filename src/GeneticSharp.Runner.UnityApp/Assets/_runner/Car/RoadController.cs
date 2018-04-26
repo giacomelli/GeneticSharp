@@ -28,7 +28,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 for (int i = 0; i < pointsPerPathCount; i++)
                 {
                     var x = startX + Config.MaxPointsDistance * xIndex++;
-                    points[i] = new Vector2(x, startY + Mathf.Cos(x) * (Config.MaxHeight / Config.PointsCount) * xIndex);
+                    points[i] = new Vector2(x, CalculateY(i, x, xIndex));
                 }
 
                 startX += Config.MaxGapWidth;
@@ -44,5 +44,11 @@ namespace GeneticSharp.Runner.UnityApp.Car
             }
         }
 
+        private float CalculateY(int pointIndex, float x, int xIndex)
+        {
+            return  Mathf.Cos(x) * (Config.MaxHeight / Config.PointsCount) * xIndex;
+            // https://en.wikipedia.org/wiki/Sine_wave
+            //return Mathf.Sin(x / Config.MaxHeight);
+        }
     }
 }
