@@ -41,8 +41,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 value = new CarGeneValue(
                     GetRandomVectorSize(), 
                     GetRandomWheelIndex(), 
-                    GetRandomWheelRadius(),
-                    GetRandomWheelSpeed());
+                    GetRandomWheelRadius());
             }
             else
             {
@@ -61,7 +60,11 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
         float GetRandomVectorSize()
         {
-            return RandomizationProvider.Current.GetFloat(0, m_config.VectorSize);
+            // The range is form negative to positive MaxVectorSize, because we want the same probability to have a 
+            // point and not poitn.
+            var size = RandomizationProvider.Current.GetFloat(-m_config.MaxVectorSize, m_config.MaxVectorSize);
+
+            return size > m_config.MinVectorSize ? size : m_config.MinVectorSize;
         }
 
         int GetRandomWheelIndex()
@@ -71,12 +74,11 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
         float GetRandomWheelRadius()
         {
-            return RandomizationProvider.Current.GetFloat(-m_config.MaxWheelRadius, m_config.MaxWheelRadius);
-        }
+            // The range is form negative to positive MaxWheelRadius, because we want the same probability to have a 
+            // point with a wheel and without one.
+            var radius =  RandomizationProvider.Current.GetFloat(-m_config.MaxWheelRadius, m_config.MaxWheelRadius);
 
-        float GetRandomWheelSpeed()
-        {
-            return RandomizationProvider.Current.GetFloat(m_config.MinWheelSpeed, m_config.MaxWheelSpeed);
+            return radius > 0 ? radius : 0;
         }
 
         public Vector2 GetVector(int geneIndex, float vectorSize)

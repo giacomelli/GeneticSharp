@@ -24,8 +24,8 @@ MonoBehaviour:
   TimeoutNoBetterMaxDistance: 5
   MinMaxDistanceDiff: 5
   VectorsCount: 8
-  VectorSize: 30
+  MinVectorSize: 1
+  MaxVectorSize: 30
   WheelsCount: 8
   MaxWheelRadius: 3
-  MinWheelSpeed: 200
   MaxWheelSpeed: 600

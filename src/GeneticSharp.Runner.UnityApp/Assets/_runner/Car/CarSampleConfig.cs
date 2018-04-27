@@ -24,10 +24,19 @@ public class CarSampleConfig : ScriptableObject {
     [Header("Car")]
     [Range(2, 100)]
     public int VectorsCount = 8;
-    public float VectorSize = 10;
+
+    [Range(1, 100)]
+    public float MinVectorSize = 5;
+
+    [Range(2, 100)]
+    public float MaxVectorSize = 10;
+
+    [Range(2, 100)]
     public int WheelsCount = 2;
+
+    [Range(1, 10)]
     public float MaxWheelRadius = 1;
 
-    public float MinWheelSpeed = 400f;
+    [Range(1, 1000)]
     public float MaxWheelSpeed = 800f;
 }

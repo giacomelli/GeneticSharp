@@ -16,6 +16,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
         private FollowChromosomeCam m_cam;
         private Grayscale m_evaluatedEffect;
         private GameObject m_wheels;
+        private float m_wheelSpeedByRadius;
 
         public Object WheelPrefab;
         public float MinWheelRadius = 0.1f;
@@ -29,6 +30,8 @@ namespace GeneticSharp.Runner.UnityApp.Car
             m_rb = GetComponent<Rigidbody2D>();
             m_fitnessText = GetComponentInChildren<TextMesh>();
             m_wheels = transform.Find("Wheels").gameObject;
+
+            m_wheelSpeedByRadius = Config.MaxWheelSpeed / Config.MaxWheelRadius;
         }
 
         void Start()
@@ -47,6 +50,8 @@ namespace GeneticSharp.Runner.UnityApp.Car
        
             do
             {
+                // Car should run at least MinMaxDistanceDiff in the the TimeoutNoBetterMaxDistance seconds,
+                // otherwise its simulation will end
                 if (MaxDistance - lastMaxDistance < Config.MinMaxDistanceDiff)
                 {
                     m_rb.Sleep();
@@ -113,7 +118,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             for (int i = 0; i < phenotypes.Length; i++)
             {
                 var p = phenotypes[i];
-                PrepareWheel(i, m_polygon.points[p.WheelIndex], p.WheelRadius, p.WheelTorque);
+                PrepareWheel(i, m_polygon.points[p.WheelIndex], p.WheelRadius);
                 wheelsMass += p.WheelRadius;
             }
 
@@ -130,7 +135,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             StartCoroutine(CheckTimeout());
         }
 
-        private GameObject PrepareWheel(int index, Vector2 anchorPosition, float radius, float torque)
+        private GameObject PrepareWheel(int index, Vector2 anchorPosition, float radius)
         {
             GameObject wheel;
             Transform wheelTransform = m_wheels.transform.childCount > index
@@ -153,7 +158,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             joint.useMotor = true;
             joint.connectedBody = m_rb;
             joint.connectedAnchor = anchorPosition;
-            joint.motor = new JointMotor2D { motorSpeed = torque, maxMotorTorque = joint.motor.maxMotorTorque };
+            joint.motor = new JointMotor2D { motorSpeed = m_wheelSpeedByRadius * radius, maxMotorTorque = joint.motor.maxMotorTorque };
             joint.enabled = true;
 
             wheel.transform.localScale = new Vector3(radius, radius, 1);
