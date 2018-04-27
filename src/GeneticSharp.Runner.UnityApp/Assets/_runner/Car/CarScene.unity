@@ -380,6 +380,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Config: {fileID: 11400000, guid: 9c0230d6b54a948438cb47fbf27a2c30, type: 2}
+  ObstaclePrefab: {fileID: 1133613196733970, guid: 647a747b3f32442b7bb0efc2b3a91e6e,
+    type: 2}
 --- !u!60 &890003024
 PolygonCollider2D:
   m_ObjectHideFlags: 0

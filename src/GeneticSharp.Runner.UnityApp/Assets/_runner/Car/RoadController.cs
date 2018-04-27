@@ -8,6 +8,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
         private PolygonCollider2D m_polygon;
 
         public CarSampleConfig Config;
+        public Object ObstaclePrefab;
     
         private void Awake()
         {
@@ -29,6 +30,8 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 {
                     var x = startX + Config.MaxPointsDistance * xIndex++;
                     points[i] = new Vector2(x, CalculateY(i, x, xIndex));
+
+                    DeployObstacle(i, points[i]);
                 }
 
                 startX += Config.MaxGapWidth;
@@ -41,6 +44,17 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 }
 
                 m_polygon.SetPath(pathIndex, points);
+            }
+        }
+
+        private void DeployObstacle(int pointIndex, Vector2 point)
+        {
+            if (Config.ObstaclesEachPoints > 0 && pointIndex % Config.ObstaclesEachPoints == 0)
+            {
+                for (int i = 0; i < Config.MaxObstaclesPerPoint; i++)
+                {
+                    Instantiate(ObstaclePrefab, point + Vector2.up * (i + 1), Quaternion.identity);
+                }
             }
         }
 

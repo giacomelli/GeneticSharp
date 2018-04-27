@@ -11,18 +11,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f5716a751cb9449eb6372c420c01840, type: 3}
   m_Name: DefaultCarSampleConfig
   m_EditorClassIdentifier: 
-  PointsCount: 50
+  PointsCount: 40
   MinPointsDistance: 1
   MaxPointsDistance: 10
-  MaxHeight: 20
+  MaxHeight: 15
   GapsRate: 0
   MaxGapWidth: 0.1
+  MaxObstacleSize: {x: 5, y: 5}
+  ObstaclesEachPoints: 0
+  MaxObstaclesPerPoint: 2
   WarmupTime: 10
   TimeoutNoBetterMaxDistance: 5
   MinMaxDistanceDiff: 5
   VectorsCount: 8
-  VectorSize: 20
+  VectorSize: 30
   WheelsCount: 8
   MaxWheelRadius: 3
-  MinWheelSpeed: 400
-  MaxWheelSpeed: 400
+  MinWheelSpeed: 200
+  MaxWheelSpeed: 600
