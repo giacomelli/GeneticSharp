@@ -14,12 +14,9 @@ namespace GeneticSharp.Runner.UnityApp.Car
         private int NumberOfSimultaneousEvaluations = 100;
         public Vector2Int SimulationsGrid = new Vector2Int(5, 5);
         public Vector3 EvaluationDistance = new Vector3(0, 0, 2);
-        public int VectorsCount = 8;
-        public float VectorSize = 10;
-        public int WheelsCount = 2;
-        public float MaxWheelRadius = 1;
+     
         public Object EvaluationPrefab;
-        public CarSampleConfig Road;
+        public CarSampleConfig Config;
 
         private CarFitness m_fitness;
         private Vector3 m_lastPosition;
@@ -29,7 +26,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
         {
             NumberOfSimultaneousEvaluations = SimulationsGrid.x * SimulationsGrid.y;
             m_fitness = new CarFitness();
-            var chromosome = new CarChromosome(VectorsCount, VectorSize, WheelsCount, MaxWheelRadius);
+            var chromosome = new CarChromosome(Config);
             var crossover = new UniformCrossover();
             var mutation = new UniformMutation(true);
             var selection = new EliteSelection();

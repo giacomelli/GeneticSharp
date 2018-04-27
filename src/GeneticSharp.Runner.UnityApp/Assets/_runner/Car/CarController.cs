@@ -105,19 +105,21 @@ namespace GeneticSharp.Runner.UnityApp.Car
             m_rb.isKinematic = false;
             m_rb.velocity = Vector2.zero;
             m_rb.angularVelocity = 0;
-            m_polygon.points = chromosome.GetVectors();
 
-            var wheelIndexes = chromosome.GetWheelsIndexes();
-            var wheelRadius = chromosome.GetWheelsRadius();
+            var phenotypes = chromosome.GetGenesValues();
+            m_polygon.points = phenotypes.Select((p, i) => chromosome.GetVector(i, p.VectorSize)).ToArray();
+            var wheelsMass = 0f;
 
-            for (int i = 0; i < wheelIndexes.Length; i++)
+            for (int i = 0; i < phenotypes.Length; i++)
             {
-                PrepareWheel(i, m_polygon.points[wheelIndexes[i]], wheelRadius[i]);
+                var p = phenotypes[i];
+                PrepareWheel(i, m_polygon.points[p.WheelIndex], p.WheelRadius, p.WheelTorque);
+                wheelsMass += p.WheelRadius;
             }
 
             // The car mass should be greater than wheels sum mass, because the WheelJoint2d get crazy otherwise.
             // If we comment the line bellow and enable the car mass should be greater than wheels sum mass, because the WheelJoint2d get crazy otherwise.
-            m_rb.mass = 1 +  m_polygon.points.Sum(p => p.magnitude) + wheelRadius.Sum();
+            m_rb.mass = 1 +  m_polygon.points.Sum(p => p.magnitude) + wheelsMass;
 
             if (m_cam != null)
             {
@@ -128,7 +130,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             StartCoroutine(CheckTimeout());
         }
 
-        private GameObject PrepareWheel(int index, Vector2 anchorPosition, float radius)
+        private GameObject PrepareWheel(int index, Vector2 anchorPosition, float radius, float torque)
         {
             GameObject wheel;
             Transform wheelTransform = m_wheels.transform.childCount > index
@@ -151,6 +153,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             joint.useMotor = true;
             joint.connectedBody = m_rb;
             joint.connectedAnchor = anchorPosition;
+            joint.motor = new JointMotor2D { motorSpeed = torque, maxMotorTorque = joint.motor.maxMotorTorque };
             joint.enabled = true;
 
             wheel.transform.localScale = new Vector3(radius, radius, 1);

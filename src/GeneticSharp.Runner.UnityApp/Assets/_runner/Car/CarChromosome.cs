@@ -7,19 +7,13 @@ namespace GeneticSharp.Runner.UnityApp.Car
 {
     public class CarChromosome : ChromosomeBase
     {
-        private int m_vectorsCount;
-        private float m_vectorSize;
-        private int m_wheelsCount;
-        private float m_maxWheelRadius;
+        private CarSampleConfig m_config;
         private float m_angle;
 
-        public CarChromosome(int vectorsCount, float vectorSize, int wheelsCount, float maxWheelRadius) : base(vectorsCount)
+        public CarChromosome(CarSampleConfig config) : base(config.VectorsCount)
         {
-            m_vectorsCount = vectorsCount;
-            m_vectorSize = vectorSize;
-            m_wheelsCount = wheelsCount;
-            m_maxWheelRadius = maxWheelRadius;
-            m_angle = 360f / vectorsCount;
+            m_config = config;
+            m_angle = 360f / config.VectorsCount;
 
             for (int i = 0; i < Length; i++)
             {
@@ -34,70 +28,58 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
         public override IChromosome CreateNew()
         {
-            return new CarChromosome(m_vectorsCount, m_vectorSize, m_wheelsCount, m_maxWheelRadius);
+            return new CarChromosome(m_config);
         }
 
         public override Gene GenerateGene(int geneIndex)
         {
 
-            CarGene value;
+            CarGeneValue value;
 
-            if (geneIndex < m_wheelsCount)
+            if (geneIndex < m_config.WheelsCount)
             {
-                value = new CarGene(GetRandomVectorSize(), GetRandomWheelIndex(), GetRandomWheelRadius());
+                value = new CarGeneValue(
+                    GetRandomVectorSize(), 
+                    GetRandomWheelIndex(), 
+                    GetRandomWheelRadius(),
+                    GetRandomWheelSpeed());
             }
             else
             {
-                value = new CarGene(GetRandomVectorSize(), 0, 0);
+                value = new CarGeneValue(GetRandomVectorSize());
             }
 
 
             return new Gene(value);
-            //if (geneIndex < m_vectorsCount)
-            //{
-            //    return new Gene(GetRandomVectorSize());
-            //}
-           
-            //if (geneIndex < m_vectorsCount + m_wheelsCount)
-            //{
-            //    return new Gene(GetRandomWheelIndex());
-            //}
-
-
-            //return new Gene(GetRandomWheelRadius());
+   
         }
 
-        public Vector2[] GetVectors()
+        public CarGeneValue[] GetGenesValues()
         {
-            return GetGenes().Select((g, i) => GetVector(i, ((CarGene)g.Value).VectorSize)).ToArray();
-        }
-
-        public int[] GetWheelsIndexes()
-        {
-            return GetGenes().Select(g => ((CarGene)g.Value).WheelIndex).ToArray();
-        }
-
-        public float[] GetWheelsRadius()
-        {
-            return GetGenes().Select(g => ((CarGene)g.Value).WheelRadius).ToArray();
+            return GetGenes().Select(g => (CarGeneValue)g.Value).ToArray();
         }
 
         float GetRandomVectorSize()
         {
-            return RandomizationProvider.Current.GetFloat(0, m_vectorSize);
+            return RandomizationProvider.Current.GetFloat(0, m_config.VectorSize);
         }
 
         int GetRandomWheelIndex()
         {
-            return RandomizationProvider.Current.GetInt(0, m_vectorsCount);
+            return RandomizationProvider.Current.GetInt(0, m_config.VectorsCount);
         }
 
         float GetRandomWheelRadius()
         {
-            return RandomizationProvider.Current.GetFloat(-m_maxWheelRadius, m_maxWheelRadius);
+            return RandomizationProvider.Current.GetFloat(-m_config.MaxWheelRadius, m_config.MaxWheelRadius);
         }
 
-        Vector2 GetVector(int geneIndex, float vectorSize)
+        float GetRandomWheelSpeed()
+        {
+            return RandomizationProvider.Current.GetFloat(m_config.MinWheelSpeed, m_config.MaxWheelSpeed);
+        }
+
+        public Vector2 GetVector(int geneIndex, float vectorSize)
         {
             var rnd = RandomizationProvider.Current;
             var angle = m_angle * geneIndex;
