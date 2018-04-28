@@ -12,9 +12,11 @@ public class CarSampleConfig : ScriptableObject {
     public float GapsRate = 0.1f;
     public float MaxGapWidth = 1f;
 
+    [Header("Obstacles")]
     public Vector2 MaxObstacleSize = new Vector2(5, 5);
     public int ObstaclesEachPoints = 5;
-    public int MaxObstaclesPerPoint = 2; 
+    public int MaxObstaclesPerPoint = 2;
+    public float ObstaclesStartPoint = 10f;
 
     [Header("Evaluation")]
     public float WarmupTime = 10f;

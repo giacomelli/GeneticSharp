@@ -82,9 +82,12 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 var evaluation = m_evaluationPool.Get(m_lastPosition);
                 evaluation.name = c.ID;
 
+                var road = evaluation.GetComponentInChildren<RoadController>();
+                road.Build(Config);
+
                 var car = evaluation.GetComponentInChildren<CarController>();
                 car.transform.position = m_lastPosition;
-                car.SetChromosome(c);
+                car.SetChromosome(c, Config);
 
                 m_lastPosition += EvaluationDistance;
             }

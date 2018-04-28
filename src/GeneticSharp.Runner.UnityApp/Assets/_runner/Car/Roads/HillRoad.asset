@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6f5716a751cb9449eb6372c420c01840, type: 3}
-  m_Name: DefaultCarSampleConfig
+  m_Name: HillRoad
   m_EditorClassIdentifier: 
   PointsCount: 40
   MinPointsDistance: 1
@@ -17,9 +17,9 @@ MonoBehaviour:
   MaxHeight: 15
   GapsRate: 0
   MaxGapWidth: 0.1
-  MaxObstacleSize: {x: 5, y: 5}
+  MaxObstacleSize: {x: 1, y: 1}
   ObstaclesEachPoints: 0
-  MaxObstaclesPerPoint: 2
+  MaxObstaclesPerPoint: 0
   WarmupTime: 10
   TimeoutNoBetterMaxDistance: 5
   MinMaxDistanceDiff: 5

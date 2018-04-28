@@ -17,10 +17,11 @@ namespace GeneticSharp.Runner.UnityApp.Car
         private Grayscale m_evaluatedEffect;
         private GameObject m_wheels;
         private float m_wheelSpeedByRadius;
+        private CarSampleConfig m_config;
 
         public Object WheelPrefab;
         public float MinWheelRadius = 0.1f;
-        public CarSampleConfig Config;
+
         public float Distance { get; private set; }
         public float MaxDistance { get; private set; }
     
@@ -30,8 +31,6 @@ namespace GeneticSharp.Runner.UnityApp.Car
             m_rb = GetComponent<Rigidbody2D>();
             m_fitnessText = GetComponentInChildren<TextMesh>();
             m_wheels = transform.Find("Wheels").gameObject;
-
-            m_wheelSpeedByRadius = Config.MaxWheelSpeed / Config.MaxWheelRadius;
         }
 
         void Start()
@@ -46,13 +45,13 @@ namespace GeneticSharp.Runner.UnityApp.Car
 		private IEnumerator CheckTimeout()
         {
             var lastMaxDistance = MaxDistance;
-            yield return new WaitForSeconds(Config.WarmupTime);
+            yield return new WaitForSeconds(m_config.WarmupTime);
        
             do
             {
                 // Car should run at least MinMaxDistanceDiff in the the TimeoutNoBetterMaxDistance seconds,
                 // otherwise its simulation will end
-                if (MaxDistance - lastMaxDistance < Config.MinMaxDistanceDiff)
+                if (MaxDistance - lastMaxDistance < m_config.MinMaxDistanceDiff)
                 {
                     m_rb.Sleep();
                     m_rb.isKinematic = true;
@@ -74,7 +73,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 }
 
                 lastMaxDistance = MaxDistance;
-                yield return new WaitForSeconds(Config.TimeoutNoBetterMaxDistance);
+                yield return new WaitForSeconds(m_config.TimeoutNoBetterMaxDistance);
             } while (true);
         }
 
@@ -102,8 +101,10 @@ namespace GeneticSharp.Runner.UnityApp.Car
             m_fitnessText.transform.rotation = Quaternion.identity;
        	}
 
-		public void SetChromosome(CarChromosome chromosome)
+		public void SetChromosome(CarChromosome chromosome, CarSampleConfig config)
         {
+            m_config = config;
+            m_wheelSpeedByRadius = m_config.MaxWheelSpeed / m_config.MaxWheelRadius;
             MaxDistance = 0;
             Distance = 0;
             m_chromosome = chromosome;

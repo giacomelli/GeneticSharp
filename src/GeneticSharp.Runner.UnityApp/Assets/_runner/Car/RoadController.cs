@@ -6,61 +6,69 @@ namespace GeneticSharp.Runner.UnityApp.Car
     public class RoadController : MonoBehaviour
     {
         private PolygonCollider2D m_polygon;
+        private CarSampleConfig m_config;
 
-        public CarSampleConfig Config;
         public Object ObstaclePrefab;
     
-        private void Awake()
+        public void Build(CarSampleConfig config)
         {
-            m_polygon = GetComponent<PolygonCollider2D>();
-            var startX = transform.position.x;
-            var startY = transform.position.y;
-
-            var pathsCount = Config.GapsRate > 0 ? Mathf.CeilToInt(Config.PointsCount * Config.GapsRate) : 1;
-            m_polygon.pathCount = pathsCount;
-            var pointsPerPathCount = Config.PointsCount / pathsCount;
-
-            var xIndex = 0;
-
-            for (int pathIndex = 0; pathIndex < pathsCount; pathIndex++)
+            if (m_config == null)
             {
-                var points = new Vector2[pointsPerPathCount * 2];
-               
-                for (int i = 0; i < pointsPerPathCount; i++)
+                m_config = config;
+                m_polygon = GetComponent<PolygonCollider2D>();
+                var startX = transform.position.x;
+                var startY = transform.position.y;
+
+                var pathsCount = m_config.GapsRate > 0 ? Mathf.CeilToInt(m_config.PointsCount * m_config.GapsRate) : 1;
+                m_polygon.pathCount = pathsCount;
+                var pointsPerPathCount = m_config.PointsCount / pathsCount;
+
+                var xIndex = 0;
+
+                for (int pathIndex = 0; pathIndex < pathsCount; pathIndex++)
                 {
-                    var x = startX + Config.MaxPointsDistance * xIndex++;
-                    points[i] = new Vector2(x, CalculateY(i, x, xIndex));
+                    var points = new Vector2[pointsPerPathCount * 2];
 
-                    DeployObstacle(i, points[i]);
+                    for (int i = 0; i < pointsPerPathCount; i++)
+                    {
+                        var x = startX + m_config.MaxPointsDistance * xIndex++;
+                        points[i] = new Vector2(x, CalculateY(i, x, xIndex));
+
+                        DeployObstacle(i, points[i]);
+                    }
+
+                    startX += m_config.MaxGapWidth;
+
+                    //  Closes the polygon.
+                    for (int i = pointsPerPathCount; i < points.Length; i++)
+                    {
+                        var point = points[points.Length - i - 1];
+                        points[i] = new Vector2(point.x, point.y - 0.5f);
+                    }
+
+                    m_polygon.SetPath(pathIndex, points);
                 }
-
-                startX += Config.MaxGapWidth;
-
-                //  Closes the polygon.
-                for (int i = pointsPerPathCount; i < points.Length; i++)
-                {
-                    var point = points[points.Length - i - 1];
-                    points[i] = new Vector2(point.x, point.y - 0.5f);
-                }
-
-                m_polygon.SetPath(pathIndex, points);
             }
         }
 
         private void DeployObstacle(int pointIndex, Vector2 point)
         {
-            if (Config.ObstaclesEachPoints > 0 && pointIndex % Config.ObstaclesEachPoints == 0)
+            if (m_config.ObstaclesEachPoints > 0 && 
+                point.x  >= m_config.ObstaclesStartPoint && 
+                pointIndex % m_config.ObstaclesEachPoints == 0)
             {
-                for (int i = 0; i < Config.MaxObstaclesPerPoint; i++)
+                for (int i = 0; i < m_config.MaxObstaclesPerPoint; i++)
                 {
-                    Instantiate(ObstaclePrefab, point + Vector2.up * (i + 1), Quaternion.identity);
+                    var obstacle = Instantiate(ObstaclePrefab, point + Vector2.up * (i + 1), Quaternion.identity) as GameObject;
+                    obstacle.transform.SetParent(transform, false);
+                    obstacle.transform.localScale = new Vector3(m_config.MaxObstacleSize.x, m_config.MaxObstacleSize.y, 1);
                 }
             }
         }
 
         private float CalculateY(int pointIndex, float x, int xIndex)
         {
-            return  Mathf.Cos(x) * (Config.MaxHeight / Config.PointsCount) * xIndex;
+            return  Mathf.Cos(x) * (m_config.MaxHeight / m_config.PointsCount) * xIndex;
             // https://en.wikipedia.org/wiki/Sine_wave
             //return Mathf.Sin(x / Config.MaxHeight);
         }
