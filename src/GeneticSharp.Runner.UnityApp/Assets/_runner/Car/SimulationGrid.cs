@@ -10,7 +10,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
         public Object CameraPrefab;
         public CarSampleController Sample;
 
-		private void Start()
+		private void Awake()
 		{
             m_availableCameras = new Queue<FollowChromosomeCam>();
 

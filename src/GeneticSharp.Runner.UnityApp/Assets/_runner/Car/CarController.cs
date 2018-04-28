@@ -118,7 +118,6 @@ namespace GeneticSharp.Runner.UnityApp.Car
         {
             Chromosome = chromosome;
             Chromosome.MaxDistance = 0;
-            Chromosome.TimeToMaxDistance = 0;
             Distance = 0;
            
             m_config = config;
