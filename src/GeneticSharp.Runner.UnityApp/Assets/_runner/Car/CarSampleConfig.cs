@@ -4,6 +4,7 @@
 public class CarSampleConfig : ScriptableObject {
 
     [Header("Road")]
+    [Range(2, 1000)]
     public int PointsCount = 100;
     public float MinPointsDistance = 2;
     public float MaxPointsDistance = 4;
@@ -11,6 +12,7 @@ public class CarSampleConfig : ScriptableObject {
     public float MaxHeight = 1f;
     public float GapsRate = 0.1f;
     public float MaxGapWidth = 1f;
+    public float ZRotation = 0f;
 
     [Header("Obstacles")]
     public Vector2 MaxObstacleSize = new Vector2(5, 5);
@@ -33,7 +35,7 @@ public class CarSampleConfig : ScriptableObject {
     [Range(2, 100)]
     public float MaxVectorSize = 10;
 
-    [Range(2, 100)]
+    [Range(0, 100)]
     public int WheelsCount = 2;
 
     [Range(1, 10)]

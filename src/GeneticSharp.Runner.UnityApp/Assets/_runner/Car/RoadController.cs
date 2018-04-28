@@ -19,6 +19,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 m_polygon = GetComponent<PolygonCollider2D>();
                 var startX = transform.position.x;
                 var startY = transform.position.y;
+                transform.rotation = Quaternion.Euler(0, 0, config.ZRotation);
 
                 var pathsCount = m_config.GapsRate > 0 ? Mathf.CeilToInt(m_config.PointsCount * m_config.GapsRate) : 1;
                 m_polygon.pathCount = pathsCount;
