@@ -19,7 +19,6 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
         public BlockingCollection<CarChromosome> ChromosomesToBeginEvaluation { get; private set; }
         public BlockingCollection<CarChromosome> ChromosomesToEndEvaluation { get; private set; }
-
         public double Evaluate(IChromosome chromosome)
         {
             var c = chromosome as CarChromosome;

@@ -11,7 +11,6 @@ namespace GeneticSharp.Runner.UnityApp.Car
         private static Rect? s_lastCameraRect;
         private PolygonCollider2D m_polygon;
         private Rigidbody2D m_rb;
-        private CarChromosome m_chromosome;
         private TextMesh m_fitnessText;
         private FollowChromosomeCam m_cam;
         private Grayscale m_evaluatedEffect;
@@ -23,8 +22,8 @@ namespace GeneticSharp.Runner.UnityApp.Car
         public float MinWheelRadius = 0.1f;
 
         public float Distance { get; private set; }
-        public float MaxDistance { get; private set; }
-    
+        public CarChromosome Chromosome { get; private set; }
+
         private void Awake()
         {
             m_polygon = GetComponent<PolygonCollider2D>();
@@ -44,20 +43,20 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
 		private IEnumerator CheckTimeout()
         {
-            var lastMaxDistance = MaxDistance;
+            var lastMaxDistance = Chromosome.MaxDistance;
             yield return new WaitForSeconds(m_config.WarmupTime);
        
             do
             {
                 // Car should run at least MinMaxDistanceDiff in the the TimeoutNoBetterMaxDistance seconds,
                 // otherwise its simulation will end
-                if (MaxDistance - lastMaxDistance < m_config.MinMaxDistanceDiff)
+                if (Chromosome.MaxDistance - lastMaxDistance < m_config.MinMaxDistanceDiff)
                 {
                     StopEvaluation();
                     break;
                 }
 
-                lastMaxDistance = MaxDistance;
+                lastMaxDistance = Chromosome.MaxDistance;
                 yield return new WaitForSeconds(m_config.TimeoutNoBetterMaxDistance);
             } while (true);
         }
@@ -78,7 +77,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 joint.useMotor = false;
             }
 
-            m_chromosome.Evaluated = true;
+            Chromosome.Evaluated = true;
             m_evaluatedEffect.enabled = true;
         }
 
@@ -95,13 +94,13 @@ namespace GeneticSharp.Runner.UnityApp.Car
 		{
             Distance = transform.position.x;
 
-            if (Distance > MaxDistance)
+            if (Distance > Chromosome.MaxDistance)
             {
-                MaxDistance = Distance;
+                Chromosome.MaxDistance = Distance;
             }
 
             var formattedDistance = Distance.ToString("N2");
-            var formattedMaxDistance = MaxDistance.ToString("N2");
+            var formattedMaxDistance = Chromosome.MaxDistance.ToString("N2");
 
             if (formattedDistance == formattedMaxDistance)
             {
@@ -117,11 +116,15 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
 		public void SetChromosome(CarChromosome chromosome, CarSampleConfig config)
         {
-            m_config = config;
-            m_wheelSpeedByRadius = m_config.MaxWheelSpeed / m_config.MaxWheelRadius;
-            MaxDistance = 0;
+            Chromosome = chromosome;
+            Chromosome.MaxDistance = 0;
+            Chromosome.TimeToMaxDistance = 0;
             Distance = 0;
-            m_chromosome = chromosome;
+           
+            m_config = config;
+
+            m_wheelSpeedByRadius = m_config.MaxWheelSpeed / m_config.MaxWheelRadius;
+          
             m_rb.isKinematic = false;
             m_rb.velocity = Vector2.zero;
             m_rb.angularVelocity = 0;
