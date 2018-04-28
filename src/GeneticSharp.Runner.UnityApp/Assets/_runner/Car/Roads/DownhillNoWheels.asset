@@ -22,11 +22,12 @@ MonoBehaviour:
   ObstaclesEachPoints: 0
   MaxObstaclesPerPoint: 1
   ObstaclesStartPoint: 11
+  ObstaclesMass: 100
   WarmupTime: 5
   TimeoutNoBetterMaxDistance: 5
   MinMaxDistanceDiff: 5
-  VectorsCount: 30
-  MinVectorSize: 10.3
+  VectorsCount: 10
+  MinVectorSize: 1
   MaxVectorSize: 30
   WheelsCount: 0
   MaxWheelRadius: 1
