@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6f5716a751cb9449eb6372c420c01840, type: 3}
-  m_Name: ObstacleRoads
+  m_Name: SmallObstacleRoads
   m_EditorClassIdentifier: 
   PointsCount: 10
   MinPointsDistance: 1
@@ -18,11 +18,11 @@ MonoBehaviour:
   GapsRate: 0
   MaxGapWidth: 0.1
   ZRotation: 0
-  MaxObstacleSize: {x: 2, y: 2}
+  MaxObstacleSize: {x: 1, y: 1}
   ObstaclesEachPoints: 1
-  MaxObstaclesPerPoint: 3
+  MaxObstaclesPerPoint: 1
   ObstaclesStartPoint: 20
-  ObstaclesMass: 15
+  ObstaclesMass: 1000
   WarmupTime: 5
   TimeoutNoBetterMaxDistance: 5
   MinMaxDistanceDiff: 1
