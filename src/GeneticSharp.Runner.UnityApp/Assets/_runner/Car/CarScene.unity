@@ -449,7 +449,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SimulationsGrid: {x: 5, y: 5}
-  EvaluationDistance: {x: 0, y: 0, z: 11}
+  EvaluationDistance: {x: 1000, y: 0, z: 11}
   EvaluationPrefab: {fileID: 1313096203398122, guid: a2f32a86d918a4623841a5223eff1b70,
     type: 2}
   Config: {fileID: 11400000, guid: 9c0230d6b54a948438cb47fbf27a2c30, type: 2}
