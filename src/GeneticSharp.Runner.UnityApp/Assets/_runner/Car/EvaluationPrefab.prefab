@@ -80,6 +80,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1775858467083670
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4929123321761376}
+  m_Layer: 10
+  m_Name: Obstacles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1784560484136784
 GameObject:
   m_ObjectHideFlags: 1
@@ -149,7 +164,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -10, y: -4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4929123321761376}
   m_Father: {fileID: 4412949701911728}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -165,6 +181,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4629255943484420}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4929123321761376
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1775858467083670}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4739052578807896}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23977255726254092
 MeshRenderer:
@@ -331,7 +360,6 @@ MonoBehaviour:
   WheelPrefab: {fileID: 1963488490984766, guid: ca31c786a77a2432c8091b3feb40fd9e,
     type: 2}
   MinWheelRadius: 1
-  Config: {fileID: 11400000, guid: 9c0230d6b54a948438cb47fbf27a2c30, type: 2}
 --- !u!114 &114575792311233606
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -343,7 +371,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdb65f4cbd86e4f719cc934d0763387b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Config: {fileID: 11400000, guid: 9c0230d6b54a948438cb47fbf27a2c30, type: 2}
   ObstaclePrefab: {fileID: 1133613196733970, guid: 647a747b3f32442b7bb0efc2b3a91e6e,
     type: 2}
 --- !u!120 &120193815767763640

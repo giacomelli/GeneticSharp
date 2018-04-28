@@ -21,8 +21,8 @@ MonoBehaviour:
   ObstaclesEachPoints: 1
   MaxObstaclesPerPoint: 1
   ObstaclesStartPoint: 11
-  WarmupTime: 10
-  TimeoutNoBetterMaxDistance: 5
+  WarmupTime: 5
+  TimeoutNoBetterMaxDistance: 2
   MinMaxDistanceDiff: 10
   VectorsCount: 8
   MinVectorSize: 1

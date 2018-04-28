@@ -7,6 +7,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
     {
         private PolygonCollider2D m_polygon;
         private CarSampleConfig m_config;
+        private GameObject m_obstacles;
 
         public Object ObstaclePrefab;
     
@@ -24,6 +25,8 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 var pointsPerPathCount = m_config.PointsCount / pathsCount;
 
                 var xIndex = 0;
+
+                m_obstacles = transform.Find("Obstacles").gameObject;
 
                 for (int pathIndex = 0; pathIndex < pathsCount; pathIndex++)
                 {
@@ -49,6 +52,10 @@ namespace GeneticSharp.Runner.UnityApp.Car
                     m_polygon.SetPath(pathIndex, points);
                 }
             }
+            else 
+            {
+                RedeployObstacles();
+            }
         }
 
         private void DeployObstacle(int pointIndex, Vector2 point)
@@ -59,12 +66,20 @@ namespace GeneticSharp.Runner.UnityApp.Car
             {
                 for (int i = 0; i < m_config.MaxObstaclesPerPoint; i++)
                 {
-                    var obstacle = Instantiate(ObstaclePrefab, point + Vector2.up * (i + 1), Quaternion.identity) as GameObject;
-                    obstacle.transform.SetParent(transform, false);
-                    obstacle.transform.localScale = new Vector3(m_config.MaxObstacleSize.x, m_config.MaxObstacleSize.y, 1);
+                    var obstacle = Instantiate(ObstaclePrefab) as GameObject;
+                    obstacle.GetComponent<ObstacleController>().Deploy(m_config, transform, point + Vector2.up * (i + 1));
                 }
             }
         }
+
+        private void RedeployObstacles()
+        {
+            for (int i = 0; i < m_obstacles.transform.childCount; i++)
+            {
+                m_obstacles.transform.GetChild(i).GetComponent<ObstacleController>().Redeploy();
+            }
+        }
+
 
         private float CalculateY(int pointIndex, float x, int xIndex)
         {
