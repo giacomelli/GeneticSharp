@@ -10,9 +10,10 @@ public class ObstacleController : MonoBehaviour {
     public void Deploy(CarSampleConfig config, Transform road, Vector2 point)
     {
         transform.position = point;
-        m_originalPosition = transform.position;
         transform.SetParent(road, false);
         transform.localScale = new Vector3(config.MaxObstacleSize.x, config.MaxObstacleSize.y, 1);
+
+        m_originalPosition = transform.position;
     }
    
     public void Redeploy()

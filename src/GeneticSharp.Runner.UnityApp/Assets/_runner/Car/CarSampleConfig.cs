@@ -19,6 +19,7 @@ public class CarSampleConfig : ScriptableObject {
     public int ObstaclesEachPoints = 5;
     public int MaxObstaclesPerPoint = 2;
     public float ObstaclesStartPoint = 10f;
+    public float ObstaclesMass = 100f;
 
     [Header("Evaluation")]
     public float WarmupTime = 10f;

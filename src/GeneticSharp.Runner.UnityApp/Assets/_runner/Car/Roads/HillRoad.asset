@@ -17,9 +17,12 @@ MonoBehaviour:
   MaxHeight: 15
   GapsRate: 0
   MaxGapWidth: 0.1
+  ZRotation: 0
   MaxObstacleSize: {x: 1, y: 1}
   ObstaclesEachPoints: 0
   MaxObstaclesPerPoint: 0
+  ObstaclesStartPoint: 10
+  ObstaclesMass: 20
   WarmupTime: 10
   TimeoutNoBetterMaxDistance: 5
   MinMaxDistanceDiff: 5
