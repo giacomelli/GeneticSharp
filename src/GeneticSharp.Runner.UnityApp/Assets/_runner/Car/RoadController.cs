@@ -86,8 +86,6 @@ namespace GeneticSharp.Runner.UnityApp.Car
         private float CalculateY(int pointIndex, float x, int xIndex)
         {
             return  Mathf.Cos(x) * (m_config.MaxHeight / m_config.PointsCount) * xIndex;
-            // https://en.wikipedia.org/wiki/Sine_wave
-            //return Mathf.Sin(x / Config.MaxHeight);
         }
     }
 }

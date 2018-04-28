@@ -60,11 +60,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
         float GetRandomVectorSize()
         {
-            // The range is form negative to positive MaxVectorSize, because we want the same probability to have a 
-            // point and not poitn.
-            var size = RandomizationProvider.Current.GetFloat(-m_config.MaxVectorSize, m_config.MaxVectorSize);
-
-            return size > m_config.MinVectorSize ? size : m_config.MinVectorSize;
+            return RandomizationProvider.Current.GetFloat(1, m_config.MaxVectorSize);
         }
 
         int GetRandomWheelIndex()
