@@ -53,22 +53,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 // otherwise its simulation will end
                 if (MaxDistance - lastMaxDistance < m_config.MinMaxDistanceDiff)
                 {
-                    m_rb.Sleep();
-                    m_rb.isKinematic = true;
-
-                    foreach(var rb in m_wheels.GetComponentsInChildren<Rigidbody2D>())
-                    {
-                        rb.Sleep();
-                        rb.isKinematic = true;
-                    }
-
-                    foreach (var joint in m_wheels.GetComponentsInChildren<HingeJoint2D>())
-                    {
-                        joint.useMotor = false;
-                    }
-
-                    m_chromosome.Evaluated = true;
-                    m_evaluatedEffect.enabled = true;
+                    StopEvaluation();
                     break;
                 }
 
@@ -77,7 +62,36 @@ namespace GeneticSharp.Runner.UnityApp.Car
             } while (true);
         }
 
-        private void Update()
+        private void StopEvaluation()
+        {
+            m_rb.Sleep();
+            m_rb.isKinematic = true;
+
+            foreach (var rb in m_wheels.GetComponentsInChildren<Rigidbody2D>())
+            {
+                rb.Sleep();
+                rb.isKinematic = true;
+            }
+
+            foreach (var joint in m_wheels.GetComponentsInChildren<HingeJoint2D>())
+            {
+                joint.useMotor = false;
+            }
+
+            m_chromosome.Evaluated = true;
+            m_evaluatedEffect.enabled = true;
+        }
+
+		private void OnCollisionEnter2D(Collision2D collision)
+		{
+			if (collision.gameObject.tag == "DeadZone")
+            {
+                StopEvaluation();
+                StopCoroutine("CheckTimeout");
+            }
+		}
+
+		private void Update()
 		{
             Distance = transform.position.x;
 

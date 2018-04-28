@@ -7,6 +7,7 @@ TagManager:
   - Bullet
   - Floor
   - Car
+  - DeadZone
   layers:
   - Default
   - TransparentFX
@@ -23,7 +24,7 @@ TagManager:
   - Wheel
   - Camera
   - Obstacle
-  - 
+  - DeadZone
   - 
   - 
   - 
