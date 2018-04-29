@@ -264,7 +264,7 @@ MonoBehaviour:
   EvaluationDistance: {x: 0, y: 100, z: 0}
   EvaluationPrefab: {fileID: 1313096203398122, guid: a2f32a86d918a4623841a5223eff1b70,
     type: 2}
-  Config: {fileID: 11400000, guid: 9c0230d6b54a948438cb47fbf27a2c30, type: 2}
+  Config: {fileID: 11400000, guid: a7621d0bee2734f1faf971ef5e24c5ad, type: 2}
 --- !u!4 &1241148172
 Transform:
   m_ObjectHideFlags: 0
