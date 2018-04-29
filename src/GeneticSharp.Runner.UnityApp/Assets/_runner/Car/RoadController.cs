@@ -9,8 +9,6 @@ namespace GeneticSharp.Runner.UnityApp.Car
         private CarSampleConfig m_config;
         private GameObject m_obstacles;
 
-        public Object ObstaclePrefab;
-    
         public void Build(CarSampleConfig config)
         {
             if (m_config == null)
@@ -67,7 +65,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             {
                 for (int i = 0; i < m_config.MaxObstaclesPerPoint; i++)
                 {
-                    var obstacle = Instantiate(ObstaclePrefab) as GameObject;
+                    var obstacle = Instantiate(m_config.ObstaclePrefab) as GameObject;
                     obstacle.GetComponent<ObstacleController>().Deploy(m_config, m_obstacles.transform, point + Vector2.up * (i + 1));
                     obstacle.GetComponent<Rigidbody2D>().mass = m_config.ObstaclesMass;
                 }

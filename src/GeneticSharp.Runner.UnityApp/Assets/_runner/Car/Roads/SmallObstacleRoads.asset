@@ -23,6 +23,8 @@ MonoBehaviour:
   MaxObstaclesPerPoint: 1
   ObstaclesStartPoint: 20
   ObstaclesMass: 1000
+  ObstaclePrefab: {fileID: 1133613196733970, guid: 647a747b3f32442b7bb0efc2b3a91e6e,
+    type: 2}
   WarmupTime: 5
   TimeoutNoBetterMaxDistance: 5
   MinMaxDistanceDiff: 1
