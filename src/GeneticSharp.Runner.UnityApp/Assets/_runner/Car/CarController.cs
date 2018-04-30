@@ -17,11 +17,13 @@ namespace GeneticSharp.Runner.UnityApp.Car
         private GameObject m_wheels;
         private float m_wheelSpeedByRadius;
         private CarSampleConfig m_config;
+        private float m_startTime;
 
         public Object WheelPrefab;
         public float MinWheelRadius = 0.1f;
 
         public float Distance { get; private set; }
+        public float DistanceTime { get; set; }
         public CarChromosome Chromosome { get; private set; }
 
         private void Awake()
@@ -92,33 +94,39 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
 		private void Update()
 		{
+            if (!Chromosome.Evaluated)
+            {
+                CheckMaxDistance();
+
+                m_fitnessText.text = FormatFitnessText(Chromosome.MaxDistance, Chromosome.MaxDistanceTime);
+                m_fitnessText.transform.rotation = Quaternion.identity;
+            }
+        }
+
+        public static string FormatFitnessText(float distance, float time)
+        {
+            return $"{distance:N2}m - {(distance / time):N2}m/s";
+        }
+
+        private void CheckMaxDistance()
+        {
             Distance = transform.position.x;
+            DistanceTime = Time.time - m_startTime;
 
             if (Distance > Chromosome.MaxDistance)
             {
                 Chromosome.MaxDistance = Distance;
+                Chromosome.MaxDistanceTime = DistanceTime;
             }
-
-            var formattedDistance = Distance.ToString("N2");
-            var formattedMaxDistance = Chromosome.MaxDistance.ToString("N2");
-
-            if (formattedDistance == formattedMaxDistance)
-            {
-                m_fitnessText.text = formattedDistance;
-            }
-            else
-            {
-                m_fitnessText.text = $"{formattedDistance}\t\t\t\t\t\t{formattedMaxDistance}";
-            }
-
-            m_fitnessText.transform.rotation = Quaternion.identity;
-       	}
+        }
 
 		public void SetChromosome(CarChromosome chromosome, CarSampleConfig config)
         {
             Chromosome = chromosome;
             Chromosome.MaxDistance = 0;
+            chromosome.MaxDistanceTime = 0;
             Distance = 0;
+            m_startTime = Time.time;
            
             m_config = config;
 

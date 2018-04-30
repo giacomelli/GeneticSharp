@@ -36,7 +36,8 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 Thread.Sleep(100);
             } while (!c.Evaluated);
 
-            return c.MaxDistance;
+            // Distance + Velocity.
+            return c.MaxDistance + c.MaxDistance / c.MaxDistanceTime;
         }
 
     }
