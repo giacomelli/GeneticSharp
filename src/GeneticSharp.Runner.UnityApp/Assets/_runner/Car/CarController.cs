@@ -65,6 +65,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
         private void StopEvaluation()
         {
+            StopCoroutine("CheckTimeout");
             m_rb.Sleep();
             m_rb.isKinematic = true;
 
@@ -88,7 +89,6 @@ namespace GeneticSharp.Runner.UnityApp.Car
 			if (collision.gameObject.tag == "DeadZone")
             {
                 StopEvaluation();
-                StopCoroutine("CheckTimeout");
             }
 		}
 
