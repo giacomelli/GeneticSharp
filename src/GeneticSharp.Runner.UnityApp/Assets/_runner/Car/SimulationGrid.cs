@@ -1,18 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GeneticSharp.Runner.UnityApp.Car
 {
     public class SimulationGrid : MonoBehaviour
     {
-        private Queue<FollowChromosomeCam> m_availableCameras;
+        private ConcurrentQueue<FollowChromosomeCam> m_availableCameras;
 
         public Object CameraPrefab;
         public CarSampleController Sample;
 
 		private void Awake()
 		{
-            m_availableCameras = new Queue<FollowChromosomeCam>();
+            m_availableCameras = new ConcurrentQueue<FollowChromosomeCam>();
 
             for (int x = 0; x < Sample.SimulationsGrid.x; x++)
             { 
@@ -32,10 +33,19 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
 		public FollowChromosomeCam AddChromosome(GameObject chromosome)
         {
-            var cam = m_availableCameras.Dequeue();
-            cam.transform.position = chromosome.transform.position;
-            cam.Target = chromosome;
+            FollowChromosomeCam cam;
+
+            if (m_availableCameras.TryDequeue(out cam))
+            {
+                cam.transform.position = chromosome.transform.position;
+                cam.Target = chromosome;
+            }
         
+            if (cam == null)
+            {
+                Debug.LogError("Cannot dequeue camera");    
+            }
+
             return cam;
         }
     }
