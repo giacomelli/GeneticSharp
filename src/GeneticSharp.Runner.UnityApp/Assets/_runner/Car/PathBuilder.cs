@@ -6,8 +6,9 @@ namespace GeneticSharp.Runner.UnityApp.Car
     {
         private CarSampleConfig m_config;
         private GameObject m_obstacles;
+        private PolygonCollider2D m_polygon;
 
-        public void Build(CarSampleConfig config, RoadController road, Vector2 start)
+        public Vector2 Build(CarSampleConfig config, RoadController road, Vector2 start, int pointsCount)
         {
             if (m_config == null)
             {
@@ -23,47 +24,42 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 var startY = start.y;
                
                 // Gets the polygon component.
-                var m_polygon = path.GetComponent<PolygonCollider2D>();
-
-
-                var pathsCount = m_config.GapsRate > 0 ? Mathf.CeilToInt(m_config.PointsCount * m_config.GapsRate) : 1;
-                m_polygon.pathCount = pathsCount;
-                var pointsPerPathCount = m_config.PointsCount / pathsCount;
-
+                m_polygon = path.GetComponent<PolygonCollider2D>();
+                m_polygon.pathCount = pointsCount;
+            
                 var xIndex = 0;
 
                 // Gets the obstacles container game object.
                 m_obstacles = path.transform.Find("Obstacles").gameObject;
                 m_obstacles.transform.parent = path.transform;
 
-                for (int pathIndex = 0; pathIndex < pathsCount; pathIndex++)
+                var points = new Vector2[pointsCount * 2];
+
+                for (int i = 0; i < pointsCount; i++)
                 {
-                    var points = new Vector2[pointsPerPathCount * 2];
+                    var x = startX + m_config.MaxPointsDistance * xIndex++;
+                    points[i] = new Vector2(x, CalculateY(i, x, xIndex));
 
-                    for (int i = 0; i < pointsPerPathCount; i++)
-                    {
-                        var x = startX + m_config.MaxPointsDistance * xIndex++;
-                        points[i] = new Vector2(x, CalculateY(i, x, xIndex));
-
-                        DeployObstacle(i, points[i]);
-                    }
-
-                    startX += m_config.MaxGapWidth;
-
-                    //  Closes the polygon.
-                    for (int i = pointsPerPathCount; i < points.Length; i++)
-                    {
-                        var point = points[points.Length - i - 1];
-                        points[i] = new Vector2(point.x, point.y - 0.5f);
-                    }
-
-                    m_polygon.SetPath(pathIndex, points);
+                    DeployObstacle(i, points[i]);
                 }
+
+                startX += m_config.MaxGapWidth;
+
+                //  Closes the polygon.
+                for (int i = pointsCount; i < points.Length; i++)
+                {
+                    var point = points[points.Length - i - 1];
+                    points[i] = new Vector2(point.x, point.y - 0.5f);
+                }
+
+                m_polygon.points = points;
             }
             else 
             {
                 RedeployObstacles();
             }
+
+            return m_polygon.points[pointsCount - 1];
         }
 
         private void DeployObstacle(int pointIndex, Vector2 point)
