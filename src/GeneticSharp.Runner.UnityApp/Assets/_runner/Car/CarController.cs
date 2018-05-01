@@ -105,7 +105,9 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
         public static string FormatFitnessText(float distance, float time)
         {
-            return $"{distance:N2}m - {(distance / time):N2}m/s";
+            return time > 0
+                    ? $"{distance:N2}m - {(distance / time):N2}m/s"
+                    : "0m - 0m/s";
         }
 
         private void CheckMaxDistance()
