@@ -41,6 +41,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             ga.GenerationRan += delegate
             {
                 m_lastPosition = Vector3.zero;
+                m_evaluationPool.ReleaseAll();
             };
 
             ga.MutationProbability = 0.1f;
@@ -63,7 +64,6 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 CarChromosome c;
                 m_fitness.ChromosomesToEndEvaluation.TryTake(out c);
                 var evaluation = GameObject.Find(c.ID);
-                m_evaluationPool.Release(evaluation);
                 c.Evaluated = true;
             }
 

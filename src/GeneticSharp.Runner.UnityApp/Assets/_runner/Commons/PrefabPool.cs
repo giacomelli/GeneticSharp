@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
 using UnityEngine;
 
 public class PrefabPool 
 {
     private BlockingCollection<GameObject> m_available = new BlockingCollection<GameObject>();
+    private BlockingCollection<GameObject> m_unavailable = new BlockingCollection<GameObject>();
     private Object Prefab;
 
     public PrefabPool(Object prefab)
@@ -28,6 +27,7 @@ public class PrefabPool
             go = Object.Instantiate(Prefab, position, Quaternion.identity) as GameObject;
         }
 
+        m_unavailable.Add(go);
         return go;
     }
 
@@ -35,5 +35,13 @@ public class PrefabPool
     {
         go.transform.SetParent(null);
         m_available.Add(go);
+    }
+
+    public void ReleaseAll()
+    {
+        while(m_unavailable.Count > 0)
+        {
+            m_available.Add(m_unavailable.Take());
+        }
     }
 }
