@@ -28,7 +28,7 @@ public class CarSampleConfig : ScriptableObject {
     public float MinMaxDistanceDiff = 1f;
 
     [Header("Car")]
-    [Range(2, 100)]
+    [Range(3, 100)]
     public int VectorsCount = 8;
 
     [Range(1, 100)]
