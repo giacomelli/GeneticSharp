@@ -27,10 +27,10 @@ MonoBehaviour:
   WarmupTime: 5
   TimeoutNoBetterMaxDistance: 1
   MinMaxDistanceDiff: 1
-  VectorsCount: 16
+  VectorsCount: 8
   MinVectorSize: 1
-  MaxVectorSize: 50
-  WheelsCount: 16
+  MaxVectorSize: 64
+  WheelsCount: 8
   MaxWheelRadius: 4
   MaxWheelSpeed: 100
   WheelSpeedBaseOnRadius: 0
