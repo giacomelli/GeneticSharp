@@ -30,7 +30,8 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
             //var swapPointOne = Config.VectorsCount / 3;
             //var crossover = new TwoPointCrossover(swapPointOne, swapPointOne * 2);
-            var crossover = new UniformCrossover();
+            var crossover = new CarCrossover();
+            //var crossover = new UniformCrossover();
             var mutation = new UniformMutation(true);
             var selection = new EliteSelection();
             var population = new Population(NumberOfSimultaneousEvaluations, NumberOfSimultaneousEvaluations, chromosome);

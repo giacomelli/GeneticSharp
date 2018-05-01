@@ -19,5 +19,6 @@ public class ObstacleController : MonoBehaviour {
     {
         transform.position = m_originalPosition;
         transform.rotation = Quaternion.identity;
+        transform.GetComponent<Rigidbody2D>().Sleep();
     }
 }

@@ -41,12 +41,13 @@ namespace GeneticSharp.Runner.UnityApp.Car
             {
                 value = new CarGeneValue(
                     GetRandomVectorSize(), 
+                    GetRandomVectorAngle(),
                     GetRandomWheelIndex(), 
                     GetRandomWheelRadius());
             }
             else
             {
-                value = new CarGeneValue(GetRandomVectorSize());
+                value = new CarGeneValue(GetRandomVectorSize(), GetRandomVectorAngle());
             }
 
 
@@ -64,6 +65,11 @@ namespace GeneticSharp.Runner.UnityApp.Car
             return RandomizationProvider.Current.GetFloat(1, m_config.MaxVectorSize);
         }
 
+        float GetRandomVectorAngle()
+        {
+            return RandomizationProvider.Current.GetFloat(0, 360);
+        }
+
         int GetRandomWheelIndex()
         {
             return RandomizationProvider.Current.GetInt(0, m_config.VectorsCount);
@@ -78,13 +84,13 @@ namespace GeneticSharp.Runner.UnityApp.Car
             return radius > 0 ? radius : 0;
         }
 
-        public Vector2 GetVector(int geneIndex, float vectorSize)
+        public Vector2 GetVector(int geneIndex, CarGeneValue geneValue)
         {
             var rnd = RandomizationProvider.Current;
-            var angle = m_angle * geneIndex;
+            var angle = geneValue.VectorAngle * geneIndex;
 
             // GeneValue is the radius.
-            var offset = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle)) * vectorSize;
+            var offset = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle)) * geneValue.VectorSize;
             return Vector2.zero + offset;
         }
     }

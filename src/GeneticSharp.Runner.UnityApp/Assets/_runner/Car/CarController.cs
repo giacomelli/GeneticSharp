@@ -142,7 +142,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             m_rb.angularVelocity = 0;
 
             var phenotypes = chromosome.GetGenesValues();
-            m_polygon.points = phenotypes.Select((p, i) => chromosome.GetVector(i, p.VectorSize)).ToArray();
+            m_polygon.points = phenotypes.Select((p, i) => chromosome.GetVector(i, p)).ToArray();
             var wheelsMass = 0f;
 
             for (int i = 0; i < phenotypes.Length; i++)
