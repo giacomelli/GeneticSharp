@@ -25,9 +25,9 @@ MonoBehaviour:
   ObstaclesMass: 1000
   ObstaclePrefab: {fileID: 1133613196733970, guid: 647a747b3f32442b7bb0efc2b3a91e6e,
     type: 2}
-  WarmupTime: 5
+  WarmupTime: 10
   TimeoutNoBetterMaxDistance: 5
-  MinMaxDistanceDiff: 5
+  MinMaxDistanceDiff: 10
   VectorsCount: 8
   MinVectorSize: 1
   MaxVectorSize: 40

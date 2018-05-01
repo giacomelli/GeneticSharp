@@ -157,7 +157,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 m_evaluatedEffect.enabled = false;
             }
 
-            StartCoroutine(CheckTimeout());
+            StartCoroutine("CheckTimeout");
         }
 
         private GameObject PrepareWheel(int index, Vector2 anchorPosition, float radius)

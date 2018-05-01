@@ -40,8 +40,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 cam.transform.position = chromosome.transform.position;
                 cam.Target = chromosome;
             }
-        
-            if (cam == null)
+            else
             {
                 Debug.LogError("Cannot dequeue camera");    
             }
