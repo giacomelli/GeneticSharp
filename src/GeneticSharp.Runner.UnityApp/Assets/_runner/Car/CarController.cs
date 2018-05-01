@@ -52,7 +52,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             {
                 // Car should run at least MinMaxDistanceDiff in the the TimeoutNoBetterMaxDistance seconds,
                 // otherwise its simulation will end
-                if (m_rb.IsSleeping() || Chromosome.MaxDistance - lastMaxDistance < m_config.MinMaxDistanceDiff)
+                if (Chromosome.MaxDistance - lastMaxDistance < m_config.MinMaxDistanceDiff)
                 {
                     StopEvaluation();
                     break;
