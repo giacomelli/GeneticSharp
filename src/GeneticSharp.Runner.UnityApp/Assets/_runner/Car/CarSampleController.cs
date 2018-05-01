@@ -11,18 +11,33 @@ namespace GeneticSharp.Runner.UnityApp.Car
 {
     public class CarSampleController : SampleControllerBase
     {
+        private static CarSampleConfig s_config;
+
         private int NumberOfSimultaneousEvaluations = 100;
         public Vector2Int SimulationsGrid = new Vector2Int(5, 5);
         public Vector3 EvaluationDistance = new Vector3(0, 0, 2);
      
         public Object EvaluationPrefab;
         public CarSampleConfig Config;
-
+     
         private CarFitness m_fitness;
         private Vector3 m_lastPosition;
         private PrefabPool m_evaluationPool;
 
-        protected override GeneticAlgorithm CreateGA()
+        public static void SetConfig(CarSampleConfig config)
+        {
+            s_config = config;
+        }
+
+		private void Awake()
+		{
+			if(s_config != null)
+            {
+                Config = s_config;
+            }
+		}
+
+		protected override GeneticAlgorithm CreateGA()
         {
             NumberOfSimultaneousEvaluations = SimulationsGrid.x * SimulationsGrid.y;
             m_fitness = new CarFitness();

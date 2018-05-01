@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_runner/WallBuilder/WallBuilderScene.unity
     guid: f3c56e4862509408a9c5b88b2980b8df
+  - enabled: 1
+    path: Assets/_runner/Car/CarMenuScene.unity
+    guid: 3b48e04dbc4b84d3da4b10f3ca1014e2
   m_configObjects: {}
