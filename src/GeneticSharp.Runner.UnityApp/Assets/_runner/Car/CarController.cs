@@ -132,7 +132,9 @@ namespace GeneticSharp.Runner.UnityApp.Car
            
             m_config = config;
 
-            m_wheelSpeedByRadius = m_config.MaxWheelSpeed / m_config.MaxWheelRadius;
+            m_wheelSpeedByRadius = m_config.WheelSpeedBaseOnRadius
+                                           ? m_config.MaxWheelSpeed / m_config.MaxWheelRadius
+                                           : m_config.MaxWheelSpeed;
           
             m_rb.isKinematic = false;
             m_rb.velocity = Vector2.zero;

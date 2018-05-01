@@ -33,4 +33,5 @@ MonoBehaviour:
   MaxVectorSize: 40
   WheelsCount: 8
   MaxWheelRadius: 3
-  MaxWheelSpeed: 400
+  MaxWheelSpeed: 200
+  WheelSpeedBaseOnRadius: 0

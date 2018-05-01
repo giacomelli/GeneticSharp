@@ -45,4 +45,6 @@ public class CarSampleConfig : ScriptableObject {
 
     [Range(1, 1000)]
     public float MaxWheelSpeed = 800f;
+
+    public bool WheelSpeedBaseOnRadius = true;
 }
