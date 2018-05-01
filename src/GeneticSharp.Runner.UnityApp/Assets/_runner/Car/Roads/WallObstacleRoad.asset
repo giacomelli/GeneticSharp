@@ -11,17 +11,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f5716a751cb9449eb6372c420c01840, type: 3}
   m_Name: WallObstacleRoad
   m_EditorClassIdentifier: 
-  PointsCount: 10
-  MaxPointsDistance: 15
+  PointsCount: 15
+  MaxPointsDistance: 10
   MaxHeight: 0
   GapsEachPoints: 0
   MaxGapWidth: 0.1
   ZRotation: 0
-  MaxObstacleSize: {x: 1, y: 1}
+  MaxObstacleSize: {x: 4, y: 8}
   ObstaclesEachPoints: 1
-  MaxObstaclesPerPoint: 10
+  MaxObstaclesPerPoint: 5
   ObstaclesStartPoint: 30
-  ObstaclesMass: 100
+  ObstaclesMass: 30
   ObstaclePrefab: {fileID: 1133613196733970, guid: 647a747b3f32442b7bb0efc2b3a91e6e,
     type: 2}
   WarmupTime: 5
