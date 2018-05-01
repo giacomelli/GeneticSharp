@@ -361,6 +361,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PathPrefab: {fileID: 1063005508200208, guid: 66123df4965dd4c41868d757b5123154, type: 2}
+  DeadEndPrefab: {fileID: 1931938440070100, guid: 5f553e966383040f0bf2ee822df9696d,
+    type: 2}
 --- !u!120 &120308117859928948
 LineRenderer:
   m_ObjectHideFlags: 1

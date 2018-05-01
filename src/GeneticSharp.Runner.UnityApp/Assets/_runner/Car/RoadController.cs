@@ -7,6 +7,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
         private PathBuilder[] m_pathBuilders;
         private int m_pointsPerPath;
         public Object PathPrefab;
+        public Object DeadEndPrefab;
 
         public void Build(CarSampleConfig config)
         {
@@ -31,6 +32,10 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 start = m_pathBuilders[i].Build(config, this, start, m_pointsPerPath);
                 start += new Vector2(config.MaxGapWidth * (i + 1) / m_pathBuilders.Length, 0);
             }
+
+            // Creates the dead-end.
+            var deadEnd = Instantiate(DeadEndPrefab, start, Quaternion.identity) as GameObject;
+            deadEnd.transform.SetParent(transform, false);
         }
     }
 }

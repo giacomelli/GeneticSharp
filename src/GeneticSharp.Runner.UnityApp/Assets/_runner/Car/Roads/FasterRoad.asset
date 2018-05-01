@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f5716a751cb9449eb6372c420c01840, type: 3}
   m_Name: FasterRoad
   m_EditorClassIdentifier: 
-  PointsCount: 10
+  PointsCount: 7
   MinPointsDistance: 1
   MaxPointsDistance: 10
   MaxHeight: 0
