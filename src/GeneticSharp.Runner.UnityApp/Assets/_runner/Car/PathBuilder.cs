@@ -8,26 +8,23 @@ namespace GeneticSharp.Runner.UnityApp.Car
         private GameObject m_obstacles;
         private PolygonCollider2D m_polygon;
 
-        public Vector2 Build(CarSampleConfig config, RoadController road, Vector2 start, int pointsCount)
+        public Vector2 Build(CarSampleConfig config, RoadController road, Vector2 start, int pointsCount, int startPointIndex)
         {
             if (m_config == null)
             {
                 m_config = config;
 
                 // Creates the path game object.
-                var path = GameObject.Instantiate(road.PathPrefab) as GameObject;
+                var path = Object.Instantiate(road.PathPrefab) as GameObject;
                 path.layer = LayerMask.NameToLayer("Floor");
                 path.transform.SetParent(road.transform, false);
                 path.transform.rotation = Quaternion.Euler(0, 0, m_config.ZRotation);
 
-                var startX = start.x;
-                var startY = start.y;
-               
                 // Gets the polygon component.
                 m_polygon = path.GetComponent<PolygonCollider2D>();
                 m_polygon.pathCount = pointsCount;
             
-                var xIndex = 0;
+                var xIndex = startPointIndex;
 
                 // Gets the obstacles container game object.
                 m_obstacles = path.transform.Find("Obstacles").gameObject;
@@ -37,13 +34,11 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
                 for (int i = 0; i < pointsCount; i++)
                 {
-                    var x = startX + m_config.MaxPointsDistance * xIndex++;
-                    points[i] = new Vector2(x, CalculateY(i, x, xIndex));
+                    var x = start.x + m_config.MaxPointsDistance * xIndex++;
+                    points[i] = new Vector2(x, CalculateY(x, xIndex));
 
                     DeployObstacle(i, points[i]);
                 }
-
-                startX += m_config.MaxGapWidth;
 
                 //  Closes the polygon.
                 for (int i = pointsCount; i < points.Length; i++)
@@ -70,7 +65,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             {
                 for (int i = 0; i < m_config.MaxObstaclesPerPoint; i++)
                 {
-                    var obstacle = GameObject.Instantiate(m_config.ObstaclePrefab) as GameObject;
+                    var obstacle = Object.Instantiate(m_config.ObstaclePrefab) as GameObject;
                     obstacle.GetComponent<ObstacleController>().Deploy(m_config, m_obstacles.transform, point + Vector2.up * (i + 1));
                     obstacle.GetComponent<Rigidbody2D>().mass = m_config.ObstaclesMass;
                 }
@@ -86,7 +81,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
         }
 
 
-        private float CalculateY(int pointIndex, float x, int xIndex)
+        private float CalculateY(float x, int xIndex)
         {
             return  Mathf.Cos(x) * (m_config.MaxHeight / m_config.PointsCount) * xIndex;
         }

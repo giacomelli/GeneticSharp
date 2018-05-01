@@ -15,8 +15,8 @@ MonoBehaviour:
   MinPointsDistance: 1
   MaxPointsDistance: 10
   MaxHeight: 15
-  GapsRate: 0
-  MaxGapWidth: 0.1
+  GapsEachPoints: 0
+  MaxGapWidth: 0
   ZRotation: 0
   MaxObstacleSize: {x: 1, y: 1}
   ObstaclesEachPoints: 0
