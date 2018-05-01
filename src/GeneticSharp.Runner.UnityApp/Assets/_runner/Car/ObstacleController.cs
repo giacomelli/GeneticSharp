@@ -11,8 +11,7 @@ public class ObstacleController : MonoBehaviour {
     {
         transform.position = point;
         transform.SetParent(road, false);
-        transform.localScale = new Vector3(config.MaxObstacleSize.x, config.MaxObstacleSize.y, 1);
-
+      
         m_originalPosition = transform.position;
     }
    

@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 0}
-  Offset: {x: 0, y: 0, z: -7}
+  Offset: {x: 0, y: 0, z: -10}
   Speed: 4
 --- !u!114 &114904811704234080
 MonoBehaviour:

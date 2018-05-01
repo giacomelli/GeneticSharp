@@ -9,8 +9,8 @@ public class CarSampleConfig : ScriptableObject {
     public float MaxPointsDistance = 4;
 
     public float MaxHeight = 1f;
-    [Range(2, 1000)]
-    public int GapsEachPoints = 2;
+    [Range(0, 1000)]
+    public int GapsEachPoints = 0;
     public float MaxGapWidth = 1f;
     public float ZRotation = 0f;
 

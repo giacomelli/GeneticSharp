@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Name: FasterRoad
   m_EditorClassIdentifier: 
   PointsCount: 7
-  MinPointsDistance: 1
   MaxPointsDistance: 10
   MaxHeight: 0
   GapsEachPoints: 0
@@ -32,5 +31,6 @@ MonoBehaviour:
   MinVectorSize: 1
   MaxVectorSize: 40
   WheelsCount: 8
-  MaxWheelRadius: 3
-  MaxWheelSpeed: 400
+  MaxWheelRadius: 6
+  MaxWheelSpeed: 50
+  WheelSpeedBaseOnRadius: 0

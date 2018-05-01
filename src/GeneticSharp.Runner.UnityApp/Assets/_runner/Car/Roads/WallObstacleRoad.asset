@@ -12,25 +12,25 @@ MonoBehaviour:
   m_Name: WallObstacleRoad
   m_EditorClassIdentifier: 
   PointsCount: 10
-  MinPointsDistance: 1
-  MaxPointsDistance: 10
+  MaxPointsDistance: 15
   MaxHeight: 0
   GapsEachPoints: 0
   MaxGapWidth: 0.1
   ZRotation: 0
-  MaxObstacleSize: {x: 2, y: 2}
+  MaxObstacleSize: {x: 4, y: 4}
   ObstaclesEachPoints: 1
-  MaxObstaclesPerPoint: 3
+  MaxObstaclesPerPoint: 10
   ObstaclesStartPoint: 20
   ObstaclesMass: 15
   ObstaclePrefab: {fileID: 1133613196733970, guid: 647a747b3f32442b7bb0efc2b3a91e6e,
     type: 2}
   WarmupTime: 5
   TimeoutNoBetterMaxDistance: 5
-  MinMaxDistanceDiff: 1
+  MinMaxDistanceDiff: 2
   VectorsCount: 8
   MinVectorSize: 1
-  MaxVectorSize: 30
-  WheelsCount: 4
-  MaxWheelRadius: 3
-  MaxWheelSpeed: 600
+  MaxVectorSize: 40
+  WheelsCount: 8
+  MaxWheelRadius: 6
+  MaxWheelSpeed: 50
+  WheelSpeedBaseOnRadius: 0

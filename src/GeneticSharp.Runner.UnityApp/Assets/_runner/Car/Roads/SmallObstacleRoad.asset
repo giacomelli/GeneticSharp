@@ -11,14 +11,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f5716a751cb9449eb6372c420c01840, type: 3}
   m_Name: SmallObstacleRoad
   m_EditorClassIdentifier: 
-  PointsCount: 10
-  MinPointsDistance: 1
+  PointsCount: 15
   MaxPointsDistance: 10
   MaxHeight: 0
-  GapsEachPoints: 2
-  MaxGapWidth: 0.1
+  GapsEachPoints: 0
+  MaxGapWidth: 0
   ZRotation: 0
-  MaxObstacleSize: {x: 1, y: 1}
+  MaxObstacleSize: {x: 3, y: 3}
   ObstaclesEachPoints: 1
   MaxObstaclesPerPoint: 1
   ObstaclesStartPoint: 20
@@ -30,7 +29,8 @@ MonoBehaviour:
   MinMaxDistanceDiff: 1
   VectorsCount: 8
   MinVectorSize: 1
-  MaxVectorSize: 30
-  WheelsCount: 4
-  MaxWheelRadius: 3
-  MaxWheelSpeed: 600
+  MaxVectorSize: 40
+  WheelsCount: 8
+  MaxWheelRadius: 6
+  MaxWheelSpeed: 50
+  WheelSpeedBaseOnRadius: 0

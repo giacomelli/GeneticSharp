@@ -37,7 +37,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
                     var x = start.x + m_config.MaxPointsDistance * xIndex++;
                     points[i] = new Vector2(x, CalculateY(x, xIndex));
 
-                    DeployObstacle(i, points[i]);
+                    DeployObstacle(i, points[i], xIndex);
                 }
 
                 //  Closes the polygon.
@@ -57,16 +57,18 @@ namespace GeneticSharp.Runner.UnityApp.Car
             return m_polygon.points[pointsCount - 1];
         }
 
-        private void DeployObstacle(int pointIndex, Vector2 point)
+        private void DeployObstacle(int pointIndex, Vector2 point, int xIndex)
         {
             if (m_config.ObstaclesEachPoints > 0 && 
                 point.x  >= m_config.ObstaclesStartPoint && 
-                pointIndex % m_config.ObstaclesEachPoints == 0)
+                pointIndex % m_config.ObstaclesEachPoints == 0 &&
+                pointIndex < m_config.PointsCount - 1)
             {
                 for (int i = 0; i < m_config.MaxObstaclesPerPoint; i++)
                 {
                     var obstacle = Object.Instantiate(m_config.ObstaclePrefab) as GameObject;
-                    obstacle.GetComponent<ObstacleController>().Deploy(m_config, m_obstacles.transform, point + Vector2.up * (i + 1));
+                    obstacle.transform.localScale = m_config.MaxObstacleSize * xIndex / m_config.PointsCount;
+                    obstacle.GetComponent<ObstacleController>().Deploy(m_config, m_obstacles.transform, point + Vector2.up * obstacle.transform.localScale * (i + 1));
                     obstacle.GetComponent<Rigidbody2D>().mass = m_config.ObstaclesMass;
                 }
             }

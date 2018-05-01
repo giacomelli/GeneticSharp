@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Name: HillRoad
   m_EditorClassIdentifier: 
   PointsCount: 40
-  MinPointsDistance: 1
   MaxPointsDistance: 10
   MaxHeight: 15
   GapsEachPoints: 0
@@ -30,7 +29,8 @@ MonoBehaviour:
   MinMaxDistanceDiff: 5
   VectorsCount: 8
   MinVectorSize: 1
-  MaxVectorSize: 30
+  MaxVectorSize: 40
   WheelsCount: 8
-  MaxWheelRadius: 3
-  MaxWheelSpeed: 600
+  MaxWheelRadius: 6
+  MaxWheelSpeed: 50
+  WheelSpeedBaseOnRadius: 0
