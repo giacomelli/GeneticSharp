@@ -6,11 +6,11 @@ public class CarSampleConfig : ScriptableObject {
     [Header("Road")]
     [Range(2, 1000)]
     public int PointsCount = 100;
-    public float MinPointsDistance = 2;
     public float MaxPointsDistance = 4;
 
     public float MaxHeight = 1f;
-    public int GapsEachPoints = 0;
+    [Range(2, 1000)]
+    public int GapsEachPoints = 2;
     public float MaxGapWidth = 1f;
     public float ZRotation = 0f;
 

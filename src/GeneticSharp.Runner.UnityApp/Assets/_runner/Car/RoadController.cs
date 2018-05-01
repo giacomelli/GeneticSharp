@@ -14,8 +14,18 @@ namespace GeneticSharp.Runner.UnityApp.Car
             // Creates the path builders.
             if (m_pathBuilders == null)
             {
-                var pathsCount = config.GapsEachPoints > 0 ? config.PointsCount / config.GapsEachPoints : 1;
-                m_pointsPerPath = config.PointsCount / pathsCount;
+                var pathsCount = 1;
+
+                if (config.GapsEachPoints > 0)
+                {
+                    pathsCount = Mathf.CeilToInt(config.PointsCount / config.GapsEachPoints) * 2;
+                    m_pointsPerPath = config.GapsEachPoints;
+                }
+                else
+                {
+                    m_pointsPerPath = config.PointsCount / pathsCount;
+                }
+
                 m_pathBuilders = new PathBuilder[pathsCount]; 
 
                 for (int i = 0; i < pathsCount; i++)

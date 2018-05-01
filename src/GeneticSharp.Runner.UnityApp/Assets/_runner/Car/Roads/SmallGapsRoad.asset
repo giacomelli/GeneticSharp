@@ -11,11 +11,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f5716a751cb9449eb6372c420c01840, type: 3}
   m_Name: SmallGapsRoad
   m_EditorClassIdentifier: 
-  PointsCount: 80
-  MinPointsDistance: 1
+  PointsCount: 10
   MaxPointsDistance: 10
   MaxHeight: 0
-  GapsEachPoints: 3
+  GapsEachPoints: 2
   MaxGapWidth: 5
   ZRotation: 0
   MaxObstacleSize: {x: 1, y: 1}
@@ -32,6 +31,6 @@ MonoBehaviour:
   MinVectorSize: 1
   MaxVectorSize: 40
   WheelsCount: 8
-  MaxWheelRadius: 3
-  MaxWheelSpeed: 200
+  MaxWheelRadius: 6
+  MaxWheelSpeed: 50
   WheelSpeedBaseOnRadius: 0
