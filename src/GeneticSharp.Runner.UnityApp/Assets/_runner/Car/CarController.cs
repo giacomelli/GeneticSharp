@@ -128,6 +128,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             Chromosome.MaxDistance = 0;
             chromosome.MaxDistanceTime = 0;
             Distance = 0;
+            DistanceTime = 0;
             m_startTime = Time.time;
            
             m_config = config;
