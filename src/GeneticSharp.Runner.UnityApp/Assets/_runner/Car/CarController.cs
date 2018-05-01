@@ -20,7 +20,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
         private float m_startTime;
 
         public Object WheelPrefab;
-        public float MinWheelRadius = 0.1f;
+        public float VectorMagnitudeMass = 2f;
 
         public float Distance { get; private set; }
         public float DistanceTime { get; set; }
@@ -154,7 +154,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
             // The car mass should be greater than wheels sum mass, because the WheelJoint2d get crazy otherwise.
             // If we comment the line bellow and enable the car mass should be greater than wheels sum mass, because the WheelJoint2d get crazy otherwise.
-            m_rb.mass = 1 +  m_polygon.points.Sum(p => p.magnitude) + wheelsMass;
+            m_rb.mass = 1 +  m_polygon.points.Sum(p => p.magnitude) * VectorMagnitudeMass + wheelsMass;
 
             if (m_cam != null)
             {

@@ -87,10 +87,9 @@ namespace GeneticSharp.Runner.UnityApp.Car
         public Vector2 GetVector(int geneIndex, CarGeneValue geneValue)
         {
             var rnd = RandomizationProvider.Current;
-            var angle = geneValue.VectorAngle * geneIndex;
-
+        
             // GeneValue is the radius.
-            var offset = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle)) * geneValue.VectorSize;
+            var offset = new Vector2(Mathf.Sin(geneValue.VectorAngle), Mathf.Cos(geneValue.VectorAngle)) * geneValue.VectorSize;
             return Vector2.zero + offset;
         }
     }

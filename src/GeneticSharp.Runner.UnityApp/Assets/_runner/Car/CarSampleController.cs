@@ -28,10 +28,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             m_fitness = new CarFitness();
             var chromosome = new CarChromosome(Config);
 
-            //var swapPointOne = Config.VectorsCount / 3;
-            //var crossover = new TwoPointCrossover(swapPointOne, swapPointOne * 2);
             var crossover = new CarCrossover();
-            //var crossover = new UniformCrossover();
             var mutation = new UniformMutation(true);
             var selection = new EliteSelection();
             var population = new Population(NumberOfSimultaneousEvaluations, NumberOfSimultaneousEvaluations, chromosome);
@@ -48,7 +45,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 m_evaluationPool.ReleaseAll();
             };
 
-            ga.MutationProbability = 0.1f;
+            ga.MutationProbability = 0.05f;
 
             return ga;
         }

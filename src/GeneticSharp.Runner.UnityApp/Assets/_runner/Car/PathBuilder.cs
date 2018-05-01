@@ -69,7 +69,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
                     var obstacle = Object.Instantiate(m_config.ObstaclePrefab) as GameObject;
                     obstacle.transform.localScale = m_config.MaxObstacleSize * xIndex / m_config.PointsCount;
                     obstacle.GetComponent<ObstacleController>().Deploy(m_config, m_obstacles.transform, point + Vector2.up * obstacle.transform.localScale * (i + 1));
-                    obstacle.GetComponent<Rigidbody2D>().mass = m_config.ObstaclesMass;
+                    obstacle.GetComponent<Rigidbody2D>().mass = m_config.ObstaclesMass * xIndex / m_config.PointsCount;
                 }
             }
         }

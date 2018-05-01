@@ -348,7 +348,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WheelPrefab: {fileID: 1963488490984766, guid: ca31c786a77a2432c8091b3feb40fd9e,
     type: 2}
-  MinWheelRadius: 1
+  VectorMagnitudeMass: 2
 --- !u!114 &114575792311233606
 MonoBehaviour:
   m_ObjectHideFlags: 1

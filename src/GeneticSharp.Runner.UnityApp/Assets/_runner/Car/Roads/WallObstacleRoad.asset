@@ -17,20 +17,20 @@ MonoBehaviour:
   GapsEachPoints: 0
   MaxGapWidth: 0.1
   ZRotation: 0
-  MaxObstacleSize: {x: 4, y: 4}
+  MaxObstacleSize: {x: 1, y: 1}
   ObstaclesEachPoints: 1
   MaxObstaclesPerPoint: 10
-  ObstaclesStartPoint: 20
-  ObstaclesMass: 15
+  ObstaclesStartPoint: 30
+  ObstaclesMass: 100
   ObstaclePrefab: {fileID: 1133613196733970, guid: 647a747b3f32442b7bb0efc2b3a91e6e,
     type: 2}
   WarmupTime: 5
   TimeoutNoBetterMaxDistance: 1
   MinMaxDistanceDiff: 1
-  VectorsCount: 8
+  VectorsCount: 16
   MinVectorSize: 1
   MaxVectorSize: 50
-  WheelsCount: 8
-  MaxWheelRadius: 6
-  MaxWheelSpeed: 50
+  WheelsCount: 16
+  MaxWheelRadius: 4
+  MaxWheelSpeed: 100
   WheelSpeedBaseOnRadius: 0

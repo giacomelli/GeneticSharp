@@ -24,13 +24,13 @@ MonoBehaviour:
   ObstaclesMass: 20
   ObstaclePrefab: {fileID: 1133613196733970, guid: 647a747b3f32442b7bb0efc2b3a91e6e,
     type: 2}
-  WarmupTime: 10
-  TimeoutNoBetterMaxDistance: 5
-  MinMaxDistanceDiff: 5
-  VectorsCount: 8
+  WarmupTime: 5
+  TimeoutNoBetterMaxDistance: 1
+  MinMaxDistanceDiff: 1
+  VectorsCount: 16
   MinVectorSize: 1
-  MaxVectorSize: 40
-  WheelsCount: 8
-  MaxWheelRadius: 6
-  MaxWheelSpeed: 50
+  MaxVectorSize: 50
+  WheelsCount: 16
+  MaxWheelRadius: 4
+  MaxWheelSpeed: 100
   WheelSpeedBaseOnRadius: 0
