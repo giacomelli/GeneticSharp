@@ -43,8 +43,10 @@ namespace GeneticSharp.Runner.UnityApp.Car
             m_fitness = new CarFitness();
             var chromosome = new CarChromosome(Config);
 
-            var crossover = new CarCrossover();
-            var mutation = new UniformMutation(true);
+            //var crossover = new CarCrossover();
+            var crossover = new UniformCrossover();
+            //var mutation = new UniformMutation(true);
+            var mutation = new FlipBitMutation();
             var selection = new EliteSelection();
             var population = new Population(NumberOfSimultaneousEvaluations, NumberOfSimultaneousEvaluations, chromosome);
             var ga = new GeneticAlgorithm(population, m_fitness, selection, crossover, mutation);

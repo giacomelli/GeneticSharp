@@ -2,23 +2,52 @@ using GeneticSharp.Domain.Chromosomes;
 using UnityEngine;
 using GeneticSharp.Domain.Randomizations;
 using System.Linq;
+using System;
+using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Runner.UnityApp.Car
 {
-    public class CarChromosome : ChromosomeBase
+    public class CarChromosome : StringChromosome
     {
         private CarSampleConfig m_config;
-        private float m_angle;
+        private string m_originalValueStringRepresentation;
 
-        public CarChromosome(CarSampleConfig config) : base(config.VectorsCount)
+        public const int VectorSizeBits = 7;
+        public const int VectorAngleBits = 9;
+        public const int WheelIndexBits = 7;
+        public const int WheelRadiusBits = 4;
+        public const int PhenotypeSize = VectorSizeBits + VectorAngleBits + WheelIndexBits + WheelRadiusBits;
+
+        public CarChromosome(CarSampleConfig config)
+            : base(config.VectorsCount * PhenotypeSize)
         {
             m_config = config;
-            m_angle = 360f / config.VectorsCount;
 
-            for (int i = 0; i < Length; i++)
+            var originalValues = new double[Length];
+            var totalBits = new int[Length];
+            var fractionBits = new int[Length];
+
+            for (int i = 0; i < originalValues.Length; i += 4)
             {
-                ReplaceGene(i, GenerateGene(i));
-            }
+                originalValues[i] = GetRandomVectorSize();
+                originalValues[i + 1] = GetRandomVectorAngle();
+                originalValues[i + 2] = GetRandomWheelIndex();
+                originalValues[i + 3] = GetRandomWheelRadius();
+
+                totalBits[i] = VectorSizeBits;
+                totalBits[i + 1] = VectorAngleBits;
+                totalBits[i + 2] = WheelIndexBits;
+                totalBits[i + 3] = WheelRadiusBits;
+            };
+
+            m_originalValueStringRepresentation = String.Join(
+                "",
+                BinaryStringRepresentation.ToRepresentation(
+                originalValues,
+                    totalBits,
+                    fractionBits));
+            
+            CreateGenes();
         }
 
         public string ID { get; } = System.Guid.NewGuid().ToString();
@@ -31,33 +60,25 @@ namespace GeneticSharp.Runner.UnityApp.Car
         {
             return new CarChromosome(m_config);
         }
+	
+		public CarGeneValue[] GetGenesValues()
+        {
+            var genes = GetGenes();
+            var phenotype = new CarGeneValue[genes.Length / PhenotypeSize];
+            var phenotypeIndex = 0;
+
+            for (int i = 0; i < genes.Length; i += PhenotypeSize)
+            {
+                phenotype[phenotypeIndex] = new CarGeneValue(m_config, phenotypeIndex, genes.Select(g => (int)g.Value).Skip(i).Take(PhenotypeSize));
+                phenotypeIndex++;                        
+            }
+
+            return phenotype;
+        }
 
         public override Gene GenerateGene(int geneIndex)
         {
-
-            CarGeneValue value;
-
-            if (geneIndex < m_config.WheelsCount)
-            {
-                value = new CarGeneValue(
-                    GetRandomVectorSize(), 
-                    GetRandomVectorAngle(),
-                    GetRandomWheelIndex(), 
-                    GetRandomWheelRadius());
-            }
-            else
-            {
-                value = new CarGeneValue(GetRandomVectorSize(), GetRandomVectorAngle());
-            }
-
-
-            return new Gene(value);
-   
-        }
-
-        public CarGeneValue[] GetGenesValues()
-        {
-            return GetGenes().Select(g => (CarGeneValue)g.Value).ToArray();
+            return new Gene(Convert.ToInt32(m_originalValueStringRepresentation[geneIndex].ToString()));
         }
 
         float GetRandomVectorSize()
@@ -84,7 +105,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             return radius > 0 ? radius : 0;
         }
 
-        public Vector2 GetVector(int geneIndex, CarGeneValue geneValue)
+        public Vector2 GetVector(CarGeneValue geneValue)
         {
             var rnd = RandomizationProvider.Current;
         

@@ -31,9 +31,6 @@ public class CarSampleConfig : ScriptableObject {
     [Range(3, 100)]
     public int VectorsCount = 8;
 
-    [Range(1, 100)]
-    public float MinVectorSize = 5;
-
     [Range(2, 100)]
     public float MaxVectorSize = 10;
 

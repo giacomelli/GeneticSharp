@@ -21,14 +21,13 @@ MonoBehaviour:
   ObstaclesEachPoints: 1
   MaxObstaclesPerPoint: 1
   ObstaclesStartPoint: 20
-  ObstaclesMass: 1000
+  ObstaclesMass: 10000
   ObstaclePrefab: {fileID: 1133613196733970, guid: 647a747b3f32442b7bb0efc2b3a91e6e,
     type: 2}
   WarmupTime: 5
-  TimeoutNoBetterMaxDistance: 1
+  TimeoutNoBetterMaxDistance: 3
   MinMaxDistanceDiff: 1
   VectorsCount: 8
-  MinVectorSize: 1
   MaxVectorSize: 64
   WheelsCount: 8
   MaxWheelRadius: 4
