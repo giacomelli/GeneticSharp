@@ -63,7 +63,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 m_evaluationPool.ReleaseAll();
             };
 
-            ga.MutationProbability = .1f;
+            ga.MutationProbability = .2f;
 
             return ga;
         }

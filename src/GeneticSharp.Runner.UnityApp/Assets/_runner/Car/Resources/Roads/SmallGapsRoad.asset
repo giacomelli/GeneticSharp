@@ -11,11 +11,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f5716a751cb9449eb6372c420c01840, type: 3}
   m_Name: SmallGapsRoad
   m_EditorClassIdentifier: 
-  PointsCount: 10
+  PointsCount: 20
   MaxPointsDistance: 10
   MaxHeight: 0
   GapsEachPoints: 2
-  MaxGapWidth: 5
+  MaxGapWidth: 10
   ZRotation: 0
   MaxObstacleSize: {x: 1, y: 1}
   ObstaclesEachPoints: 0
