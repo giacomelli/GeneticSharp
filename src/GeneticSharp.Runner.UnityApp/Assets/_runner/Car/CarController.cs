@@ -13,7 +13,6 @@ namespace GeneticSharp.Runner.UnityApp.Car
         private Rigidbody2D m_rb;
         private TextMesh m_fitnessText;
         private FollowChromosomeCam m_cam;
-        private Grayscale m_evaluatedEffect;
         private GameObject m_wheels;
         private float m_wheelSpeedByRadius;
         private CarSampleConfig m_config;
@@ -40,7 +39,6 @@ namespace GeneticSharp.Runner.UnityApp.Car
                       .GetComponent<SimulationGrid>()
                       .AddChromosome(gameObject);
 
-            m_evaluatedEffect = m_cam.GetComponent<Grayscale>();
         }
 
 		private IEnumerator CheckTimeout()
@@ -81,7 +79,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             }
 
             Chromosome.Evaluated = true;
-            m_evaluatedEffect.enabled = true;
+            m_cam.StopFollowing();
         }
 
 		private void OnCollisionEnter2D(Collision2D collision)
@@ -141,8 +139,8 @@ namespace GeneticSharp.Runner.UnityApp.Car
             m_rb.velocity = Vector2.zero;
             m_rb.angularVelocity = 0;
 
-            var phenotypes = chromosome.GetGenesValues();
-            m_polygon.points = phenotypes.Select(p => chromosome.GetVector(p)).ToArray();
+            var phenotypes = chromosome.GetPhenotypes();
+            m_polygon.points = phenotypes.Select(p => p.Vector).ToArray();
             var wheelsMass = 0f;
 
             for (int i = 0; i < phenotypes.Length; i++)
@@ -159,7 +157,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             if (m_cam != null)
             {
                 m_cam.transform.position = transform.position;
-                m_evaluatedEffect.enabled = false;
+                m_cam.StartFollowing();
             }
 
             StartCoroutine("CheckTimeout");

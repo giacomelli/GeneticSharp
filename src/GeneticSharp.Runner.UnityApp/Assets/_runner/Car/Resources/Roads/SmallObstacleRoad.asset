@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: SmallObstacleRoad
   m_EditorClassIdentifier: 
   PointsCount: 15
-  MaxPointsDistance: 10
+  MaxPointsDistance: 20
   MaxHeight: 0
   GapsEachPoints: 0
   MaxGapWidth: 0
@@ -20,12 +20,12 @@ MonoBehaviour:
   MaxObstacleSize: {x: 3, y: 3}
   ObstaclesEachPoints: 1
   MaxObstaclesPerPoint: 1
-  ObstaclesStartPoint: 20
+  ObstaclesStartPoint: 15
   ObstaclesMass: 10000
   ObstaclePrefab: {fileID: 1133613196733970, guid: 647a747b3f32442b7bb0efc2b3a91e6e,
     type: 2}
   WarmupTime: 5
-  TimeoutNoBetterMaxDistance: 3
+  TimeoutNoBetterMaxDistance: 10
   MinMaxDistanceDiff: 1
   VectorsCount: 8
   MaxVectorSize: 64

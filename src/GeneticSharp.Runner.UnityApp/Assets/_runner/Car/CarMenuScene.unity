@@ -298,7 +298,6 @@ MonoBehaviour:
   RoadButtonPrefab: {fileID: 1207376801323590, guid: db20c19c4f99b4f5fa63f9ba45c288b5,
     type: 2}
   StartPosition: {x: 0, y: 200}
-  PositionModifier: {x: 0, y: -40}
 --- !u!1 &1970310919
 GameObject:
   m_ObjectHideFlags: 0

@@ -25,7 +25,7 @@ MonoBehaviour:
   ObstaclePrefab: {fileID: 1133613196733970, guid: 647a747b3f32442b7bb0efc2b3a91e6e,
     type: 2}
   WarmupTime: 5
-  TimeoutNoBetterMaxDistance: 3
+  TimeoutNoBetterMaxDistance: 2
   MinMaxDistanceDiff: 1
   VectorsCount: 8
   MaxVectorSize: 64

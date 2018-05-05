@@ -37,10 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4390982392478652}
   - component: {fileID: 20751381874951150}
-  - component: {fileID: 124447869941874912}
-  - component: {fileID: 81130350535815820}
   - component: {fileID: 114108406809384616}
-  - component: {fileID: 114904811704234080}
   m_Layer: 13
   m_Name: FollowCameraPrefab
   m_TagString: Untagged
@@ -140,13 +137,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 25, y: 25}
   m_EdgeRadius: 0
---- !u!81 &81130350535815820
-AudioListener:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1879827718766348}
-  m_Enabled: 0
 --- !u!114 &114054461843417174
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -172,24 +162,4 @@ MonoBehaviour:
   Target: {fileID: 0}
   Offset: {x: 0, y: 0, z: -10}
   Speed: 4
---- !u!114 &114904811704234080
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1879827718766348}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 243a781cad112c75d0008dfa8d76c639, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shader: {fileID: 4800000, guid: daf9781cad112c75d0008dfa8d76c639, type: 3}
-  textureRamp: {fileID: 0}
-  rampOffset: 0
---- !u!124 &124447869941874912
-Behaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1879827718766348}
-  m_Enabled: 1
+  NoFollowingColor: {r: 0.6415094, g: 0.6263795, b: 0.6263795, a: 1}
