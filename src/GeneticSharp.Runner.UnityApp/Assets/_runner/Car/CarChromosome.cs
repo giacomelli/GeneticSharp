@@ -1,4 +1,5 @@
 using GeneticSharp.Domain.Chromosomes;
+using GeneticSharp.Runner.UnityApp.Commons;
 
 namespace GeneticSharp.Runner.UnityApp.Car
 {

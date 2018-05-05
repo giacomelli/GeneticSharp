@@ -6,15 +6,25 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
 {
     public class BrickController : MonoBehaviour
     {
-
-        public int FloorHits;
+        public bool HitFloor;
 
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.collider.tag == "Floor")
             {
-                FloorHits++;
+                HitFloor = true;
             }
+        }
+
+        private void OnGetFromPool()
+        {
+            gameObject.SetActive(true);
+            HitFloor = false;
+        }
+
+        private void OnRelaseToPool()
+        {
+            gameObject.SetActive(false);
         }
     }
 }

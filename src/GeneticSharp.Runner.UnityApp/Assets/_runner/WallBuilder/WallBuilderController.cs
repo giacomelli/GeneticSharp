@@ -30,7 +30,7 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
             m_fitness = new WallBuilderFitness(SecondsForEvaluation / TimeScale);
             var chromosome = new WallBuilderChromosome(BricksCount, MinPosition, MaxPosition);
             var crossover = new UniformCrossover();
-            var mutation = new UniformMutation(true);
+            var mutation = new FlipBitMutation();
             var selection = new EliteSelection();
             var population = new Population(NumberOfSimultaneousEvaluations, NumberOfSimultaneousEvaluations, chromosome);
             var ga = new GeneticAlgorithm(population, m_fitness, selection, crossover, mutation);
@@ -42,7 +42,6 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
             };
             ga.GenerationRan += delegate
             {
-                Debug.Log($"Generation: {GA.GenerationsNumber} - Best: ${GA.BestChromosome.Fitness}");
                 m_lastPosition = Vector3.zero;
             };
 
@@ -69,14 +68,27 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
                     Debug.LogError("Bricks not found on container");
                 }
 
-                foreach (Transform child in container.transform)
+                if (container.transform.childCount != BricksCount)
                 {
-                    c.FloorHits += child.GetComponent<BrickController>().FloorHits;
+                    Debug.LogWarning("Less bricks on container than expected");
+                }
+
+                while (container.transform.childCount > 0)
+                {
+                    var child = container.transform.GetChild(0);
+
+                    if (child.GetComponent<BrickController>().HitFloor)
+                    {
+                        c.FloorHits++;
+                    }
+
                     m_brickPool.Release(child.gameObject);
                 }
 
-                GameObject.Destroy(container);
+                Object.Destroy(container);
                 c.Evaluated = true;
+
+                Debug.Assert(c.FloorHits != 0, "At least one brick should hit the floor");
 
                 if (c.FloorHits == 0)
                 {
@@ -95,11 +107,11 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
                 var container = new GameObject(c.ID);
                 container.transform.position = m_lastPosition;
                 m_lastPosition += EvaluationDistance;
-                var bricksPositions = c.GetBricksPositions();
+                var bricksPhenotypes = c.GetPhenotypes();
 
-                foreach (var p in bricksPositions)
+                foreach (var p in bricksPhenotypes)
                 {
-                    var brick = m_brickPool.Get(p);
+                    var brick = m_brickPool.Get(p.Position);
                     brick.transform.SetParent(container.transform, false);
                 }
             }

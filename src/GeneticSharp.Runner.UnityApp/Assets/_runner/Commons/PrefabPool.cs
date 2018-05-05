@@ -5,11 +5,13 @@ public class PrefabPool
 {
     private BlockingCollection<GameObject> m_available = new BlockingCollection<GameObject>();
     private BlockingCollection<GameObject> m_unavailable = new BlockingCollection<GameObject>();
-    private Object Prefab;
+    private Object m_prefab;
+    private GameObject m_poolContainer;
 
     public PrefabPool(Object prefab)
     {
-        Prefab = prefab;
+        m_prefab = prefab;
+        m_poolContainer = new GameObject($"{prefab.name}Pool");
     }
 
     public GameObject Get(Vector3 position)
@@ -21,10 +23,12 @@ public class PrefabPool
             go.transform.position = position;
             go.transform.rotation = Quaternion.identity;
             go.SetActive(true);
+
+            go.SendMessage("OnGetFromPool");
         }
         else
         {
-            go = Object.Instantiate(Prefab, position, Quaternion.identity) as GameObject;
+            go = Object.Instantiate(m_prefab, position, Quaternion.identity) as GameObject;
         }
 
         m_unavailable.Add(go);
@@ -33,8 +37,10 @@ public class PrefabPool
 
     public void Release(GameObject go)
     {
-        go.transform.SetParent(null);
+        go.transform.SetParent(m_poolContainer.transform);
         m_available.Add(go);
+
+        go.SendMessage("OnRelaseToPool");
     }
 
     public void ReleaseAll()

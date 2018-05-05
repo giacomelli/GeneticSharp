@@ -36,7 +36,7 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
                 Thread.Sleep(100);
             } while (!c.Evaluated);
 
-            return c.FloorHits * -1 + c.GetBricksPositions().Sum(p => Math.Abs(p.x)) * -1;
+            return c.FloorHits * -1;
         }
 
     }

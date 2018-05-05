@@ -4,8 +4,9 @@ using System.Linq;
 using GeneticSharp.Infrastructure.Framework.Commons;
 using GeneticSharp.Domain.Randomizations;
 using System.Collections.Generic;
+using System.Diagnostics;
 
-namespace GeneticSharp.Runner.UnityApp.Car
+namespace GeneticSharp.Runner.UnityApp.Commons
 {
     public abstract class BitStringChromosome<TPhenotypeEntity> : BinaryChromosomeBase
         where TPhenotypeEntity : IPhenotypeEntity
@@ -138,6 +139,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
         }
     }
 
+    [DebuggerDisplay("{Name} = {MinValue} <= {Value} <= {MaxValue}")]
     public class Phenotype : IPhenotype
     {
         public Phenotype(string name, int length)
@@ -148,8 +150,8 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
         public string Name { get; }
         public int Length { get; }
-        public double MinValue { get; set; } = double.MinValue;
-        public double MaxValue { get; set; } = double.MaxValue;
+        public double MinValue { get; set; } = 0;
+        public double MaxValue { get; set; } = 100;
         public virtual double Value { get; set; }
     
         public virtual double GenerateGenes()

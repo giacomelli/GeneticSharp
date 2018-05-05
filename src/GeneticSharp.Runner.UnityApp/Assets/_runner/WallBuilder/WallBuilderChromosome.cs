@@ -1,25 +1,29 @@
-using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Chromosomes;
 using UnityEngine;
-using GeneticSharp.Domain.Randomizations;
-using System.Linq;
+using GeneticSharp.Runner.UnityApp.Commons;
 
 namespace GeneticSharp.Runner.UnityApp.WallBuilder
 {
-    public class WallBuilderChromosome : ChromosomeBase
+    public class WallBuilderChromosome : BitStringChromosome<BrickPhenotypeEntity>
     {
+        private int m_bricksCount;
         private Vector3 m_minPosition, m_maxPosition;
 
-        public WallBuilderChromosome(int bricksCount, Vector3 minPosition, Vector3 maxPosition) : base(bricksCount)
+        public WallBuilderChromosome(int bricksCount, Vector3 minPosition, Vector3 maxPosition)
         {
+            m_bricksCount = bricksCount;
             m_minPosition = minPosition;
             m_maxPosition = maxPosition;
 
+            var phenotypeEntities = new BrickPhenotypeEntity[bricksCount];
 
-            for (int i = 0; i < bricksCount; i++)
+            for (int i = 0; i < phenotypeEntities.Length; i++)
             {
-                ReplaceGene(i, new Gene(GetRandomPosition()));
+                phenotypeEntities[i] = new BrickPhenotypeEntity(minPosition, maxPosition);
             }
+
+            SetPhenotypes(phenotypeEntities);
+            CreateGenes();
         }
 
         public string ID { get; } = System.Guid.NewGuid().ToString();
@@ -29,28 +33,7 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
 
         public override IChromosome CreateNew()
         {
-            return new WallBuilderChromosome(Length, m_minPosition, m_maxPosition);
-        }
-
-        public override Gene GenerateGene(int geneIndex)
-        {
-            return new Gene(GetRandomPosition());
-        }
-
-        public Vector3[] GetBricksPositions()
-        {
-            return GetGenes().Select(g => (Vector3)g.Value).ToArray();
-        }
-
-
-        Vector3 GetRandomPosition()
-        {
-            var rnd = RandomizationProvider.Current;
-
-            return new Vector3(
-                rnd.GetFloat(m_minPosition.x, m_maxPosition.x),
-                rnd.GetFloat(m_minPosition.y, m_maxPosition.y),
-                rnd.GetFloat(m_minPosition.z, m_maxPosition.z));
+            return new WallBuilderChromosome(m_bricksCount, m_minPosition, m_maxPosition);
         }
     }
 }
