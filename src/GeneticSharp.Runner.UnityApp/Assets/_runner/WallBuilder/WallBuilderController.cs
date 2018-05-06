@@ -5,6 +5,7 @@ using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Infrastructure.Framework.Threading;
+using GeneticSharp.Runner.UnityApp.Commons;
 using UnityEngine;
 
 namespace GeneticSharp.Runner.UnityApp.WallBuilder
@@ -30,7 +31,10 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
             m_fitness = new WallBuilderFitness(SecondsForEvaluation / TimeScale);
             var chromosome = new WallBuilderChromosome(BricksCount, MinPosition, MaxPosition);
             var crossover = new UniformCrossover();
-            var mutation = new FlipBitMutation();
+            var mutation = new RandomMutation()
+                .AddMutation(new FlipBitMutation(), .7f)
+                .AddMutation(new UniformMutation(), .3f);
+            
             var selection = new EliteSelection();
             var population = new Population(NumberOfSimultaneousEvaluations, NumberOfSimultaneousEvaluations, chromosome);
             var ga = new GeneticAlgorithm(population, m_fitness, selection, crossover, mutation);
