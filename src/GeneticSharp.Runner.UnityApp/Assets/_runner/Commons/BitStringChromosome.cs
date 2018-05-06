@@ -60,7 +60,7 @@ namespace GeneticSharp.Runner.UnityApp.Commons
                 for (int i = 0; i < entity.Phenotypes.Length; i++)
                 {
                     phenotype = entity.Phenotypes[i];
-                    originalValues[valueIndex] = phenotype.GenerateGenes();
+                    originalValues[valueIndex] = phenotype.RandomValue();
                     totalBits[valueIndex] = phenotype.Length;
                     fractionBits[valueIndex] = 0;
 
@@ -92,7 +92,7 @@ namespace GeneticSharp.Runner.UnityApp.Commons
         double MaxValue { get; }
         double Value { get; set; }
 
-        double GenerateGenes();
+        double RandomValue();
     }
 
     public interface IPhenotypeEntity
@@ -130,7 +130,7 @@ namespace GeneticSharp.Runner.UnityApp.Commons
             var value = (float)BinaryStringRepresentation.ToDouble(representation, 0);
 
             if (value < phenotype.MinValue)
-                return phenotype.MaxValue;
+                return phenotype.MinValue;
 
             if (value > phenotype.MaxValue)
                 return phenotype.MaxValue;
@@ -154,7 +154,7 @@ namespace GeneticSharp.Runner.UnityApp.Commons
         public double MaxValue { get; set; } = 100;
         public virtual double Value { get; set; }
     
-        public virtual double GenerateGenes()
+        public virtual double RandomValue()
         {
             return RandomizationProvider.Current.GetDouble(MinValue, MaxValue + 1);
         }

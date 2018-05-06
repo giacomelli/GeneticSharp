@@ -34,7 +34,7 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
             var selection = new EliteSelection();
             var population = new Population(NumberOfSimultaneousEvaluations, NumberOfSimultaneousEvaluations, chromosome);
             var ga = new GeneticAlgorithm(population, m_fitness, selection, crossover, mutation);
-            ga.Termination = new FitnessStagnationTermination(100000);
+            ga.Termination = new TimeEvolvingTermination(System.TimeSpan.FromDays(1));
             ga.TaskExecutor = new ParallelTaskExecutor
             {
                 MinThreads = population.MinSize,
@@ -50,13 +50,14 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
 
 		protected override void StartSample()
 		{
+            ChromosomesCleanupEnabled = true;
             m_brickPool = new PrefabPool(BrickPrefab);
             Time.timeScale = TimeScale;
 		}
 
         protected override void UpdateSample()
         {
-            // end evaluation.
+             // end evaluation.
             while (m_fitness.ChromosomesToEndEvaluation.Count > 0)
             {
                 WallBuilderChromosome c;
@@ -76,11 +77,14 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
                 while (container.transform.childCount > 0)
                 {
                     var child = container.transform.GetChild(0);
+                    var ctrl = child.GetComponent<BrickController>();
 
-                    if (child.GetComponent<BrickController>().HitFloor)
+                    if (ctrl.HitFloor)
                     {
                         c.FloorHits++;
                     }
+
+                    c.BrickHits += ctrl.HitBricksCount;
 
                     m_brickPool.Release(child.gameObject);
                 }
@@ -96,15 +100,18 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
                 }
             }
 
-            // in evaluation.
+            // begin evaluation.
             while (m_fitness.ChromosomesToBeginEvaluation.Count > 0)
             {
                 WallBuilderChromosome c;
                 m_fitness.ChromosomesToBeginEvaluation.TryTake(out c);
                 c.Evaluated = false;
                 c.FloorHits = 0;
-
+                c.BrickHits = 0;
+            
                 var container = new GameObject(c.ID);
+                var wallCtrl = container.AddComponent<WallController>();
+                wallCtrl.SetChromosome(c);
                 container.transform.position = m_lastPosition;
                 m_lastPosition += EvaluationDistance;
                 var bricksPhenotypes = c.GetPhenotypes();

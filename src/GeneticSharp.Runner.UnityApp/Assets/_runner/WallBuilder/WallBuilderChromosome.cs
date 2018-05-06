@@ -1,6 +1,7 @@
 using GeneticSharp.Domain.Chromosomes;
 using UnityEngine;
 using GeneticSharp.Runner.UnityApp.Commons;
+using System.Collections.Generic;
 
 namespace GeneticSharp.Runner.UnityApp.WallBuilder
 {
@@ -30,7 +31,8 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
 
         public bool Evaluated { get; set; }
         public int FloorHits { get; set; }
-
+        public int BrickHits { get; set; }
+     
         public override IChromosome CreateNew()
         {
             return new WallBuilderChromosome(m_bricksCount, m_minPosition, m_maxPosition);

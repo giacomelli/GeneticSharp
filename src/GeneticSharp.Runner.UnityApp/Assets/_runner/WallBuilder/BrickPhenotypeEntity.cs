@@ -9,9 +9,9 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
         {
             Phenotypes = new IPhenotype[]
             {
-                new Phenotype("x", 64) { MinValue = minPosition.x, MaxValue = maxPosition.x },
-                new Phenotype("y", 64) { MinValue = minPosition.y, MaxValue = maxPosition.y },
-                new Phenotype("z", 64) { MinValue = minPosition.z, MaxValue = maxPosition.z },
+                new Phenotype("x", 5) { MinValue = minPosition.x, MaxValue = maxPosition.x },
+                new Phenotype("y", 5) { MinValue = minPosition.y, MaxValue = maxPosition.y },
+                new Phenotype("z", 5) { MinValue = minPosition.z, MaxValue = maxPosition.z },
             };
         }
 

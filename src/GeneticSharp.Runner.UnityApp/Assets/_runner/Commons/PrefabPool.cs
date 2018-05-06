@@ -24,7 +24,7 @@ public class PrefabPool
             go.transform.rotation = Quaternion.identity;
             go.SetActive(true);
 
-            go.SendMessage("OnGetFromPool");
+            go.SendMessage("OnGetFromPool", SendMessageOptions.DontRequireReceiver);
         }
         else
         {
@@ -40,7 +40,7 @@ public class PrefabPool
         go.transform.SetParent(m_poolContainer.transform);
         m_available.Add(go);
 
-        go.SendMessage("OnRelaseToPool");
+        go.SendMessage("OnRelaseToPool", SendMessageOptions.DontRequireReceiver);
     }
 
     public void ReleaseAll()

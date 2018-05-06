@@ -27,7 +27,13 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
         {
             var c = chromosome as WallBuilderChromosome;
             ChromosomesToBeginEvaluation.Add(c);
-            Thread.Sleep(TimeSpan.FromSeconds(m_secondsForEvaluation));
+            var remainingTime = m_secondsForEvaluation;
+
+            do
+            {
+                Thread.Sleep(1000);
+                remainingTime--;
+            } while (!c.Evaluated && remainingTime > 0);
 
             ChromosomesToEndEvaluation.Add(c);
 
@@ -36,7 +42,8 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
                 Thread.Sleep(100);
             } while (!c.Evaluated);
 
-            return c.FloorHits * -1;
+            return c.FloorHits * -10 +
+                    c.BrickHits * -1;
         }
 
     }
