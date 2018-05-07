@@ -5,6 +5,7 @@ using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Infrastructure.Framework.Threading;
+using GeneticSharp.Runner.UnityApp.Commons;
 using UnityEngine;
 
 namespace GeneticSharp.Runner.UnityApp.Car
@@ -43,8 +44,14 @@ namespace GeneticSharp.Runner.UnityApp.Car
             m_fitness = new CarFitness();
             var chromosome = new CarChromosome(Config);
 
-            var crossover = new UniformCrossover();
-            var mutation = new FlipBitMutation();
+            var crossover = new RandomCrossover()
+               .AddCrossover(new UniformCrossover(), 0.9f)
+               .AddCrossover(new SectionCrossover(chromosome.Length / Config.VectorsCount, true), 0.1f);
+
+            var mutation = new RandomMutation()
+                .AddMutation(new FlipBitMutation(), .9f)
+                .AddMutation(new UniformMutation(), .1f);
+            
             var selection = new EliteSelection();
             var population = new Population(NumberOfSimultaneousEvaluations, NumberOfSimultaneousEvaluations, chromosome)
             {
@@ -63,7 +70,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 m_evaluationPool.ReleaseAll();
             };
 
-            ga.MutationProbability = .2f;
+            ga.MutationProbability = .1f;
 
             return ga;
         }
