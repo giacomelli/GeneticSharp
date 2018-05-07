@@ -42,10 +42,7 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
                 Thread.Sleep(100);
             } while (!c.Evaluated);
 
-            //return c.FloorHits * -10 +
-            //c.BrickHits * -1;
-
-            return c.BricksEndPositions.Sum(t => t.y);
+            return c.BricksEndPositions.Max(t => t.y);
         }
 
     }
