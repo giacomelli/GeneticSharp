@@ -12,12 +12,12 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
             m_chromosome = chromosome;
         }
 
-		private void Update()
-        {
-            if (!m_chromosome.Evaluated && GetComponentsInChildren<Rigidbody>().All(r => r.IsSleeping()))
-            {
-                m_chromosome.Evaluated = true;
-            }
-        }
+		//private void Update()
+        //{
+        //    if (!m_chromosome.Evaluated && GetComponentsInChildren<Rigidbody>().All(r => r.IsSleeping()))
+        //    {
+        //        m_chromosome.Evaluated = true;
+        //    }
+        //}
     }
 }

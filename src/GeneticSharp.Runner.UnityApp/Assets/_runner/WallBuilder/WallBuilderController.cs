@@ -30,10 +30,15 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
         {
             m_fitness = new WallBuilderFitness(SecondsForEvaluation / TimeScale);
             var chromosome = new WallBuilderChromosome(BricksCount, MinPosition, MaxPosition);
-            var crossover = new UniformCrossover();
+
+            var fraction = chromosome.Length / 3;
+            var crossover = new RandomCrossover()
+                .AddCrossover(new UniformCrossover(), 0.9f)
+                .AddCrossover(new SectionCrossover(chromosome.Length / chromosome.BricksCount, true), 0.1f);
+
             var mutation = new RandomMutation()
-                .AddMutation(new FlipBitMutation(), .7f)
-                .AddMutation(new UniformMutation(), .3f);
+                .AddMutation(new FlipBitMutation(), .9f)
+                .AddMutation(new UniformMutation(), .1f);
             
             var selection = new EliteSelection();
             var population = new Population(NumberOfSimultaneousEvaluations, NumberOfSimultaneousEvaluations, chromosome);
@@ -89,6 +94,7 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
                     }
 
                     c.BrickHits += ctrl.HitBricksCount;
+                    c.BricksEndPositions.Add(child.transform.position);
 
                     m_brickPool.Release(child.gameObject);
                 }
@@ -112,6 +118,7 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
                 c.Evaluated = false;
                 c.FloorHits = 0;
                 c.BrickHits = 0;
+                c.BricksEndPositions.Clear();
             
                 var container = new GameObject(c.ID);
                 var wallCtrl = container.AddComponent<WallController>();

@@ -7,12 +7,11 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
 {
     public class WallBuilderChromosome : BitStringChromosome<BrickPhenotypeEntity>
     {
-        private int m_bricksCount;
         private Vector3 m_minPosition, m_maxPosition;
 
         public WallBuilderChromosome(int bricksCount, Vector3 minPosition, Vector3 maxPosition)
         {
-            m_bricksCount = bricksCount;
+            BricksCount = bricksCount;
             m_minPosition = minPosition;
             m_maxPosition = maxPosition;
 
@@ -28,14 +27,15 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
         }
 
         public string ID { get; } = System.Guid.NewGuid().ToString();
-
+        public int BricksCount { get; private set; }
         public bool Evaluated { get; set; }
         public int FloorHits { get; set; }
         public int BrickHits { get; set; }
+        public IList<Vector3> BricksEndPositions { get; set; } = new List<Vector3>();
      
         public override IChromosome CreateNew()
         {
-            return new WallBuilderChromosome(m_bricksCount, m_minPosition, m_maxPosition);
+            return new WallBuilderChromosome(BricksCount, m_minPosition, m_maxPosition);
         }
     }
 }
