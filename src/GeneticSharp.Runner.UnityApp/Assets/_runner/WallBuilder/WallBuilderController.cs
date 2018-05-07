@@ -121,8 +121,6 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
                 c.BricksEndPositions.Clear();
             
                 var container = new GameObject(c.ID);
-                var wallCtrl = container.AddComponent<WallController>();
-                wallCtrl.SetChromosome(c);
                 container.transform.position = m_lastPosition;
                 m_lastPosition += EvaluationDistance;
                 var bricksPhenotypes = c.GetPhenotypes();

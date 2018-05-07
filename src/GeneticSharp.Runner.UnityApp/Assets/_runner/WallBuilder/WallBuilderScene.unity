@@ -330,7 +330,7 @@ MonoBehaviour:
   MaxPosition: {x: 10, y: 20, z: 0}
   BrickPrefab: {fileID: 1345198529428996, guid: 81714114e034442c6809fa05b05882fb,
     type: 2}
-  SecondsForEvaluation: 5
+  SecondsForEvaluation: 10
   TimeScale: 1
   NumberOfSimultaneousEvaluations: 50
   EvaluationDistance: {x: 0, y: 0, z: 2}
