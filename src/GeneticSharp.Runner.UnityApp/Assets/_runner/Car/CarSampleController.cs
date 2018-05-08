@@ -48,10 +48,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
                .AddCrossover(new UniformCrossover(), 0.9f)
                .AddCrossover(new SectionCrossover(chromosome.Length / Config.VectorsCount, true), 0.1f);
 
-            var mutation = new RandomMutation()
-                .AddMutation(new FlipBitMutation(), .9f)
-                .AddMutation(new UniformMutation(), .1f);
-            
+            var mutation = new FlipBitMutation();
             var selection = new EliteSelection();
             var population = new Population(NumberOfSimultaneousEvaluations, NumberOfSimultaneousEvaluations, chromosome)
             {
