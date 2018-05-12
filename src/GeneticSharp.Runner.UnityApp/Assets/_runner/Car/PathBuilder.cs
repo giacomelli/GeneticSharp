@@ -85,7 +85,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
         private float CalculateY(float x, int xIndex)
         {
-            return  Mathf.Cos(x) * (m_config.MaxHeight / m_config.PointsCount) * x;
+            return (Mathf.Cos(x) / (m_config.PointsCount / xIndex) * m_config.MaxHeight);
         }
     }
 }

@@ -128,6 +128,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             Distance = 0;
             DistanceTime = 0;
             m_startTime = Time.time;
+            transform.rotation = Quaternion.identity;
            
             m_config = config;
 

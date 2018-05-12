@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Name: HillRoad
   m_EditorClassIdentifier: 
   PointsCount: 100
-  MaxPointsDistance: 10
-  MaxHeight: 1
+  MaxPointsDistance: 5
+  MaxHeight: 4
   GapsEachPoints: 0
   MaxGapWidth: 0
   ZRotation: 0
@@ -25,7 +25,7 @@ MonoBehaviour:
   ObstaclePrefab: {fileID: 1133613196733970, guid: 647a747b3f32442b7bb0efc2b3a91e6e,
     type: 2}
   WarmupTime: 5
-  TimeoutNoBetterMaxDistance: 2
+  TimeoutNoBetterMaxDistance: 5
   MinMaxDistanceDiff: 1
   VectorsCount: 8
   MaxVectorSize: 64

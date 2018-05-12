@@ -44,16 +44,18 @@ namespace GeneticSharp.Runner.UnityApp.Car
             m_fitness = new CarFitness();
             var chromosome = new CarChromosome(Config);
 
-            var crossover = new RandomCrossover()
-               .AddCrossover(new UniformCrossover(), 0.9f)
-               .AddCrossover(new SectionCrossover(chromosome.Length / Config.VectorsCount, true), 0.1f);
+            //var crossover = new RandomCrossover()
+            //.AddCrossover(new UniformCrossover(), 0.9f)
+            //.AddCrossover(new SectionCrossover(chromosome.Length / Config.VectorsCount, true), 0.1f);
 
+            var crossover = new UniformCrossover();
             var mutation = new FlipBitMutation();
             var selection = new EliteSelection();
             var population = new Population(NumberOfSimultaneousEvaluations, NumberOfSimultaneousEvaluations, chromosome)
             {
                 GenerationStrategy = new PerformanceGenerationStrategy()
             };
+
             var ga = new GeneticAlgorithm(population, m_fitness, selection, crossover, mutation);
             ga.Termination = new TimeEvolvingTermination(System.TimeSpan.FromDays(1));
             ga.TaskExecutor = new ParallelTaskExecutor

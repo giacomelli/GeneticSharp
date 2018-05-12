@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Name: SmallGapsRoad
   m_EditorClassIdentifier: 
   PointsCount: 20
-  MaxPointsDistance: 10
+  MaxPointsDistance: 20
   MaxHeight: 0
-  GapsEachPoints: 2
-  MaxGapWidth: 10
+  GapsEachPoints: 3
+  MaxGapWidth: 7
   ZRotation: 0
   MaxObstacleSize: {x: 1, y: 1}
   ObstaclesEachPoints: 0
@@ -25,7 +25,7 @@ MonoBehaviour:
   ObstaclePrefab: {fileID: 1133613196733970, guid: 647a747b3f32442b7bb0efc2b3a91e6e,
     type: 2}
   WarmupTime: 5
-  TimeoutNoBetterMaxDistance: 5
+  TimeoutNoBetterMaxDistance: 2
   MinMaxDistanceDiff: 0.5
   VectorsCount: 8
   MaxVectorSize: 64
