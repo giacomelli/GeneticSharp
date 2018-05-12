@@ -17,11 +17,11 @@ MonoBehaviour:
   GapsEachPoints: 0
   MaxGapWidth: 0
   ZRotation: 0
-  MaxObstacleSize: {x: 3, y: 3}
+  MaxObstacleSize: {x: 2, y: 2}
   ObstaclesEachPoints: 2
   MaxObstaclesPerPoint: 1
   ObstaclesStartPoint: 15
-  ObstaclesMass: 10000
+  ObstaclesMass: 100000
   ObstaclePrefab: {fileID: 1133613196733970, guid: 647a747b3f32442b7bb0efc2b3a91e6e,
     type: 2}
   WarmupTime: 5

@@ -11,9 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f5716a751cb9449eb6372c420c01840, type: 3}
   m_Name: HillRoad
   m_EditorClassIdentifier: 
-  PointsCount: 100
+  PointsCount: 75
   MaxPointsDistance: 5
-  MaxHeight: 4
+  MaxHeight: 3
   GapsEachPoints: 0
   MaxGapWidth: 0
   ZRotation: 0
@@ -26,7 +26,7 @@ MonoBehaviour:
     type: 2}
   WarmupTime: 5
   TimeoutNoBetterMaxDistance: 5
-  MinMaxDistanceDiff: 1
+  MinMaxDistanceDiff: 4
   VectorsCount: 8
   MaxVectorSize: 64
   WheelsCount: 8
