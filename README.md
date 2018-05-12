@@ -135,18 +135,16 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
 ## Setup
 
 ### .NET Standard 2.0 and .NET Framework 4.6.2 
-.NET Standard 2.0 and .NET Framework 4.6.2 version is currently in release candidate, to install it use the command below:
-
 Only GeneticSharp:
 
 ```shell
-install-package GeneticSharp -Version 2.0.0-rc1
+install-package GeneticSharp
 ```
 
 GeneticSharp and extensions (TSP, AutoConfig, Bitmap equality, Equality equation, Equation solver, Function builder, etc):
 
 ```shell
-install-package GeneticSharp.Extensions -Version 2.0.0-rc1
+install-package GeneticSharp.Extensions
 ```
 
 ## Mono and .NET Framework 3.5
