@@ -322,15 +322,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1429504117}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f21b6a2f7da242e2be717be5923d5ee, type: 3}
+  m_Script: {fileID: 11500000, guid: ffe6807e5c32c4e16b982547c5d38007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   BricksCount: 10
-  MinPosition: {x: 0, y: 0.5, z: 0}
-  MaxPosition: {x: 10, y: 20, z: 0}
-  BrickPrefab: {fileID: 1345198529428996, guid: 81714114e034442c6809fa05b05882fb,
+  MinPosition: {x: 0, y: 0.5, z: 2}
+  MaxPosition: {x: 10, y: 20, z: 2}
+  BrickPrefab: {fileID: 1345198529428996, guid: 778f13782b488400ab4c88267b9d6d53,
     type: 2}
-  SecondsForEvaluation: 10
+  SecondsForEvaluation: 7
   TimeScale: 1
   NumberOfSimultaneousEvaluations: 50
   EvaluationDistance: {x: 0, y: 0, z: 2}

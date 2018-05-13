@@ -59,7 +59,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: d9cc3190941fa4fffb2058f346228c70, type: 2}
+  - {fileID: 2100000, guid: 91eb118b5f0fb439cbc00ef05f8535c6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -107,7 +107,7 @@ BoxCollider:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1345198529428996}
-  m_Material: {fileID: 13400000, guid: de806b93da40445a6b12e3e04ce815c7, type: 2}
+  m_Material: {fileID: 13400000, guid: 6cba3e66b69f74f5ea4ebde581fe9c0e, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -121,8 +121,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1345198529428996}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 256a8fde970a945ac87f4cf24f43be92, type: 3}
+  m_Script: {fileID: 11500000, guid: 8b80df94d05ca46818d0162fbb1534fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HitFloor: 0
-  HitBricksCount: 0

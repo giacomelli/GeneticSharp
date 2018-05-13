@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace GeneticSharp.Runner.UnityApp.WallBuilder
 {
     public class BrickController : MonoBehaviour
     {
-        public bool HitFloor;
-        public int HitBricksCount;
+        public bool HitFloor { get; private set; }
+        public int HitBricksCount { get; private set; }
 
         private void OnCollisionEnter(Collision collision)
         {
