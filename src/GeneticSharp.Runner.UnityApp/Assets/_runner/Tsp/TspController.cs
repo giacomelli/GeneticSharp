@@ -61,7 +61,12 @@ namespace GeneticSharp.Runner.UnityApp.Tsp
                 return;
 
             var c = GA.BestChromosome as TspChromosome;
-            SetFitnessText($"Distance: {c.Distance}");
+
+            if (c != null)
+            {
+                SetFitnessText($"Distance: {c.Distance}");
+            }
+           
             DrawPath(GA.Population.CurrentGeneration);
        	}
 

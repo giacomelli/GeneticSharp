@@ -209,7 +209,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: aa72eb2456b724ea9aaa5354ad27b223, type: 3}
+  - {fileID: 2100000, guid: ee319997f0c6047238be648050984e9d, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -295,7 +295,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 5.12, y: 5.12}
-    newSize: {x: 0.512, y: 0.512}
+    newSize: {x: 5.12, y: 5.12}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -320,7 +320,7 @@ TextMesh:
   m_FontSize: 0
   m_FontStyle: 0
   m_RichText: 1
-  m_Font: {fileID: 12800000, guid: aa72eb2456b724ea9aaa5354ad27b223, type: 3}
+  m_Font: {fileID: 12800000, guid: ee319997f0c6047238be648050984e9d, type: 3}
   m_Color:
     serializedVersion: 2
     rgba: 4278190080
@@ -332,7 +332,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1432373010454088}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45cfca973efa34c2286ca215f0eaf395, type: 3}
+  m_Script: {fileID: 11500000, guid: 97e38231ba038459a94a90efe029de84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114418931867190420
@@ -343,12 +343,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1432373010454088}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43d004c2f60404941b9447be6add1047, type: 3}
+  m_Script: {fileID: 11500000, guid: 41dddcc923a954293abb187be55606ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WheelPrefab: {fileID: 1963488490984766, guid: ca31c786a77a2432c8091b3feb40fd9e,
+  WheelPrefab: {fileID: 1963488490984766, guid: dc9a92b5c114743f1a8577bc3ce9cb1f,
     type: 2}
-  VectorMagnitudeMass: 2
+  VectorMagnitudeMass: 4
 --- !u!114 &114575792311233606
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -357,11 +357,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1415234128879552}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdb65f4cbd86e4f719cc934d0763387b, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f874d20aa6354cf4997a6d5d3ba9705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PathPrefab: {fileID: 1063005508200208, guid: 66123df4965dd4c41868d757b5123154, type: 2}
-  DeadEndPrefab: {fileID: 1931938440070100, guid: 5f553e966383040f0bf2ee822df9696d,
+  PathPrefab: {fileID: 1063005508200208, guid: 6d8baff964ddc4c50ad66f56b8be3321, type: 2}
+  DeadEndPrefab: {fileID: 1931938440070100, guid: 1937103e2dcc944809cd1c27b0120ceb,
     type: 2}
 --- !u!120 &120308117859928948
 LineRenderer:
@@ -490,12 +490,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 3d5fdf99ad6b94b68a3f80d5cc6b2852, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cbaea2a7772674364981b187ef634b1a, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.512, y: 0.512}
+  m_Size: {x: 5.12, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

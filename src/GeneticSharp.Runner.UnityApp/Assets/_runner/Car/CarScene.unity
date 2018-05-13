@@ -214,10 +214,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 422351493}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 647627dc4c5e14d679235bbfb17381f8, type: 3}
+  m_Script: {fileID: 11500000, guid: 438583b4dc647441894dbf8c816fcdad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CameraPrefab: {fileID: 1879827718766348, guid: 7b9d427c927384be2901bf408750f1ff,
+  CameraPrefab: {fileID: 1879827718766348, guid: 141b4e59edddb4d5e8ccf4238dfbc2fd,
     type: 2}
   Sample: {fileID: 1241148171}
 --- !u!4 &422351495
@@ -257,14 +257,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1241148170}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c8ead37db2604c2682ebcb605c8fc5f, type: 3}
+  m_Script: {fileID: 11500000, guid: 5b7f6b0b763b1446b9871fffb753082d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SimulationsGrid: {x: 6, y: 4}
+  SimulationsGrid: {x: 4, y: 4}
   EvaluationDistance: {x: 0, y: 100, z: 0}
-  EvaluationPrefab: {fileID: 1313096203398122, guid: a2f32a86d918a4623841a5223eff1b70,
+  EvaluationPrefab: {fileID: 1313096203398122, guid: d2af270efb6d44d9dbbcef0597e0c111,
     type: 2}
-  Config: {fileID: 11400000, guid: 1d0d1b3a15b3641bbabcf2a56b2247b4, type: 2}
+  Config: {fileID: 11400000, guid: 9cac0073e6df94ea2a3a5ee23d39b7a0, type: 2}
 --- !u!4 &1241148172
 Transform:
   m_ObjectHideFlags: 0

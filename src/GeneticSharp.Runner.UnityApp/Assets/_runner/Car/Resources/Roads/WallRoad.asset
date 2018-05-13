@@ -8,28 +8,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f5716a751cb9449eb6372c420c01840, type: 3}
-  m_Name: WallObstacleRoad
+  m_Script: {fileID: 11500000, guid: 6a8b820e13ba841d08d2a7b62050daed, type: 3}
+  m_Name: WallRoad
   m_EditorClassIdentifier: 
-  PointsCount: 15
+  PointsCount: 25
   MaxPointsDistance: 10
   MaxHeight: 0
   GapsEachPoints: 0
-  MaxGapWidth: 0.1
+  MaxGapWidth: 1
   ZRotation: 0
-  MaxObstacleSize: {x: 4, y: 8}
+  MaxObstacleSize: {x: 1, y: 1}
   ObstaclesEachPoints: 1
   MaxObstaclesPerPoint: 5
-  ObstaclesStartPoint: 30
-  ObstaclesMass: 30
-  ObstaclePrefab: {fileID: 1133613196733970, guid: 647a747b3f32442b7bb0efc2b3a91e6e,
+  ObstaclesStartPoint: 20
+  ObstaclesMass: 100
+  ObstaclePrefab: {fileID: 1133613196733970, guid: 0a4474f08b3984012bfc1fd9b63ccd02,
     type: 2}
-  WarmupTime: 5
-  TimeoutNoBetterMaxDistance: 10
-  MinMaxDistanceDiff: 1
+  WarmupTime: 10
+  TimeoutNoBetterMaxDistance: 5
+  MinMaxDistanceDiff: 2
   VectorsCount: 8
   MaxVectorSize: 64
   WheelsCount: 8
-  MaxWheelRadius: 4
+  MaxWheelRadius: 3
   MaxWheelSpeed: 100
   WheelSpeedBaseOnRadius: 0

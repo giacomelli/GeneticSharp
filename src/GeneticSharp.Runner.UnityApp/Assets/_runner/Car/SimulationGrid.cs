@@ -37,8 +37,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
             if (m_availableCameras.TryDequeue(out cam))
             {
-                cam.transform.position = chromosome.transform.position;
-                cam.Target = chromosome;
+                cam.StartFollowing(chromosome);
             }
             else
             {

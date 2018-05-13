@@ -157,8 +157,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
             if (m_cam != null)
             {
-                m_cam.transform.position = transform.position;
-                m_cam.StartFollowing();
+                m_cam.StartFollowing(gameObject);
             }
 
             StartCoroutine("CheckTimeout");

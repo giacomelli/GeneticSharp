@@ -292,10 +292,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1147697670}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5ea22df460214ed48b75959e1c2bebc, type: 3}
+  m_Script: {fileID: 11500000, guid: ab6957c37e7024bafa1779e98b8c4cc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RoadButtonPrefab: {fileID: 1207376801323590, guid: db20c19c4f99b4f5fa63f9ba45c288b5,
+  RoadButtonPrefab: {fileID: 1207376801323590, guid: 1e042075e3fc3456f8cdc1c2ebee097d,
     type: 2}
   StartPosition: {x: 0, y: 200}
 --- !u!1 &1970310919
