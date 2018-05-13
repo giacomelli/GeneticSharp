@@ -13,9 +13,9 @@ public abstract class SampleControllerBase : MonoBehaviour {
     private double m_bestFitness;
     private double m_averageFitness;
     private bool m_shouldUpdateInfo;
+    private Text m_generationText;
+    private Text m_fitnessText;
 
-    protected Text GenerationText { get; private set; }
-    protected Text FitnessText { get; private set;  }
     protected GeneticAlgorithm GA { get; private set; }
     protected bool ChromosomesCleanupEnabled { get; set; }
     public Rect Area { get; private set; }
@@ -28,13 +28,13 @@ public abstract class SampleControllerBase : MonoBehaviour {
             ? Camera.main.rect
             : sampleArea.GetComponent<RectTransform>().rect;
    
-        GenerationText = GameObject.Find("GenerationText")?.GetComponent<Text>();
-        FitnessText = GameObject.Find("FitnessText")?.GetComponent<Text>();
+        m_generationText = GameObject.Find("GenerationText")?.GetComponent<Text>();
+        m_fitnessText = GameObject.Find("FitnessText")?.GetComponent<Text>();
 
-        if (GenerationText != null)
+        if (m_generationText != null)
         {
-            GenerationText.text = string.Empty;
-            FitnessText.text = string.Empty;
+            m_generationText.text = string.Empty;
+            m_fitnessText.text = string.Empty;
         }
 
         GA = CreateGA();
@@ -72,10 +72,10 @@ public abstract class SampleControllerBase : MonoBehaviour {
 
     void Update()
     {
-        if (GenerationText != null && m_shouldUpdateInfo)
+        if (m_generationText != null && m_shouldUpdateInfo)
         {
-            GenerationText.text = $"Generation: {GA.GenerationsNumber}";
-            FitnessText.text = $"Best: {m_bestFitness:N2}\nAverage: {m_averageFitness:N2}";
+            m_generationText.text = $"Generation: {GA.GenerationsNumber}";
+            m_fitnessText.text = $"Best: {m_bestFitness:N2}\nAverage: {m_averageFitness:N2}";
             m_shouldUpdateInfo = false;
         }
 
@@ -98,5 +98,13 @@ public abstract class SampleControllerBase : MonoBehaviour {
     protected virtual void UpdateSample()
     {
         
+    }
+
+    protected void SetFitnessText(string text)
+    {
+        if(m_fitnessText != null)
+        {
+            m_fitnessText.text = text;
+        }
     }
 }

@@ -116,9 +116,9 @@ NavMeshSettings:
 --- !u!1 &808009923
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 808009928}
   - component: {fileID: 808009927}
@@ -132,13 +132,17 @@ GameObject:
 --- !u!20 &808009927
 Camera:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 808009923}
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
   m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
+  m_projectionMatrixMode: 1
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -168,7 +172,7 @@ Camera:
 --- !u!4 &808009928
 Transform:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 808009923}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -181,9 +185,9 @@ Transform:
 --- !u!1 &840510823
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 840510824}
   - component: {fileID: 840510826}
@@ -198,7 +202,7 @@ GameObject:
 --- !u!4 &840510824
 Transform:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 840510823}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -211,22 +215,20 @@ Transform:
 --- !u!114 &840510825
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 840510823}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1305f1b94863e40b383fbfa7f18f327b, type: 3}
+  m_Script: {fileID: 11500000, guid: 1629ec49fa5c84f859ecd0ff9bb13583, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CityPrefab: {fileID: 1027600120782472, guid: 8e2aad8e6352d42f28d396f50ef7fa7b, type: 2}
-  Canvas: {fileID: 0}
+  CityPrefab: {fileID: 1027600120782472, guid: df2a2f6fd6de74b999ecaba3af2b25b1, type: 2}
   m_numberOfCities: 20
-  FitnessStagnation: 100000
 --- !u!120 &840510826
 LineRenderer:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 840510823}
   m_Enabled: 1

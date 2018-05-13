@@ -26,8 +26,7 @@ namespace GeneticSharp.Runner.UnityApp.Tsp
         private LineRenderer m_lr;
         public Object CityPrefab;
         public int m_numberOfCities = 50;
-        public int FitnessStagnation = 1000;
-       
+      
         protected override GeneticAlgorithm CreateGA()
         {
             var size = (int)Camera.main.orthographicSize - 1;
@@ -62,7 +61,7 @@ namespace GeneticSharp.Runner.UnityApp.Tsp
                 return;
 
             var c = GA.BestChromosome as TspChromosome;
-            FitnessText.text = $"Distance: {c.Distance}";
+            SetFitnessText($"Distance: {c.Distance}");
             DrawPath(GA.Population.CurrentGeneration);
        	}
 
