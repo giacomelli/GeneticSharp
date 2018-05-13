@@ -348,7 +348,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WheelPrefab: {fileID: 1963488490984766, guid: dc9a92b5c114743f1a8577bc3ce9cb1f,
     type: 2}
-  VectorMagnitudeMass: 4
+  VectorMagnitudeMass: 0.5
 --- !u!114 &114575792311233606
 MonoBehaviour:
   m_ObjectHideFlags: 1

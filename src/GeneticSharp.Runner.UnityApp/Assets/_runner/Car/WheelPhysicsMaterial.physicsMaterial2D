@@ -6,5 +6,5 @@ PhysicsMaterial2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: WheelPhysicsMaterial
-  friction: 10
+  friction: 1
   bounciness: 0

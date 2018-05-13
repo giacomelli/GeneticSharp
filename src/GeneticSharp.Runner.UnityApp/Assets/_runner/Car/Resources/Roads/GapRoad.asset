@@ -15,7 +15,7 @@ MonoBehaviour:
   MaxPointsDistance: 20
   MaxHeight: 0
   GapsEachPoints: 2
-  MaxGapWidth: 4
+  MaxGapWidth: 7
   ZRotation: 0
   MaxObstacleSize: {x: 5, y: 5}
   ObstaclesEachPoints: 0
@@ -31,5 +31,5 @@ MonoBehaviour:
   MaxVectorSize: 64
   WheelsCount: 8
   MaxWheelRadius: 3
-  MaxWheelSpeed: 100
+  MaxWheelSpeed: 200
   WheelSpeedBaseOnRadius: 0
