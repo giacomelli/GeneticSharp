@@ -160,5 +160,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Offset: {x: 0, y: 0, z: -9}
-  Speed: 5
+  Speed: 2
   NoFollowingColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}

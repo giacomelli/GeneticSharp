@@ -26,6 +26,14 @@ namespace GeneticSharp.Runner.UnityApp.Car
         public bool Evaluated { get; set; }
         public float MaxDistance { get; set; }
         public float MaxDistanceTime { get; set; }
+        public float MaxVelocity 
+        { 
+            get 
+            {
+                return MaxDistanceTime > 0 ? MaxDistance / MaxDistanceTime : 0; 
+                            
+            } 
+        }
       
         public override IChromosome CreateNew()
         {

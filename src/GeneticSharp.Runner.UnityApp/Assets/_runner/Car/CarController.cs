@@ -1,8 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityStandardAssets.ImageEffects;
 
 namespace GeneticSharp.Runner.UnityApp.Car
 {
@@ -14,9 +12,10 @@ namespace GeneticSharp.Runner.UnityApp.Car
         private TextMesh m_fitnessText;
         private FollowChromosomeCam m_cam;
         private GameObject m_wheels;
-        private float m_wheelSpeedByRadius;
         private CarSampleConfig m_config;
         private float m_startTime;
+        private float m_currentVelocity;
+    
 
         public Object WheelPrefab;
         public float VectorMagnitudeMass = 2f;
@@ -41,24 +40,32 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
         }
 
-		private IEnumerator CheckTimeout()
+      	private IEnumerator CheckTimeout()
         {
-            var lastMaxDistance = Chromosome.MaxDistance;
+            var intervalLastDistance = Distance;
+            var intervalLastTime = Time.time;
             yield return new WaitForSeconds(m_config.WarmupTime);
        
             do
             {
-                // Car should run at least MinMaxDistanceDiff in the the TimeoutNoBetterMaxDistance seconds,
-                // otherwise its simulation will end
-                if (Chromosome.MaxDistance - lastMaxDistance < m_config.MinMaxDistanceDiff)
+                // Check if car as the min velocity expected in the inteval.
+                if(DistanceTime > 0 && CalculateVelocity(ref intervalLastDistance, ref intervalLastTime) < m_config.MinVelocity)
                 {
                     StopEvaluation();
                     break;
                 }
-
-                lastMaxDistance = Chromosome.MaxDistance;
-                yield return new WaitForSeconds(m_config.TimeoutNoBetterMaxDistance);
+                yield return new WaitForSeconds(m_config.MinVelocityCheckTime);
             } while (true);
+        }
+
+        private float CalculateVelocity(ref float lastDistance, ref float lastTime)
+        {
+            var result = (Distance - lastDistance) / (Time.time - lastTime);
+
+            lastDistance = Distance;
+            lastTime = Time.time;
+
+            return result;
         }
 
         private void StopEvaluation()
@@ -90,6 +97,9 @@ namespace GeneticSharp.Runner.UnityApp.Car
             }
 		}
 
+        float m_lastDistance;
+        float m_lastTime;
+
 		private void Update()
 		{
             if (!Chromosome.Evaluated)
@@ -101,11 +111,11 @@ namespace GeneticSharp.Runner.UnityApp.Car
             }
         }
 
-        public static string FormatFitnessText(float distance, float time)
+        private string FormatFitnessText(float distance, float time)
         {
             return time > 0
-                    ? $"{distance:N2}m - {(distance / time):N2}m/s"
-                    : "0m - 0m/s";
+                ? $"{distance:N2}m - {(distance / time):N2}m/s\n{CalculateVelocity(ref m_lastDistance, ref m_lastTime):N2}m/s"
+                   : "0m - 0m/s";
         }
 
         private void CheckMaxDistance()

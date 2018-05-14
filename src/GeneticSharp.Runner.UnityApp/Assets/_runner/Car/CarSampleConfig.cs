@@ -25,8 +25,8 @@ public class CarSampleConfig : ScriptableObject {
 
     [Header("Evaluation")]
     public float WarmupTime = 10f;
-    public float TimeoutNoBetterMaxDistance = 5f;
-    public float MinMaxDistanceDiff = 1f;
+    public float MinVelocityCheckTime = 5f;
+    public float MinVelocity = 2f;
 
     [Header("Car")]
     [Range(3, 100)]
