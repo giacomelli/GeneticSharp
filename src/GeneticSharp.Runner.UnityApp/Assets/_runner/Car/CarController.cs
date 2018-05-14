@@ -131,11 +131,6 @@ namespace GeneticSharp.Runner.UnityApp.Car
             transform.rotation = Quaternion.identity;
            
             m_config = config;
-
-            m_wheelSpeedByRadius = m_config.WheelSpeedBaseOnRadius
-                                           ? m_config.MaxWheelSpeed / m_config.MaxWheelRadius
-                                           : m_config.MaxWheelSpeed;
-          
             m_rb.isKinematic = false;
             m_rb.velocity = Vector2.zero;
             m_rb.angularVelocity = 0;
@@ -186,7 +181,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             joint.useMotor = true;
             joint.connectedBody = m_rb;
             joint.connectedAnchor = anchorPosition;
-            joint.motor = new JointMotor2D { motorSpeed = m_wheelSpeedByRadius * radius, maxMotorTorque = joint.motor.maxMotorTorque };
+            joint.motor = new JointMotor2D { motorSpeed = m_config.MaxWheelSpeed * radius, maxMotorTorque = joint.motor.maxMotorTorque };
             joint.enabled = true;
 
             wheel.transform.localScale = new Vector3(radius, radius, 1);
