@@ -4,6 +4,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
 {
     public class PathBuilder 
     {
+        public float Height { get; set; } = 10f;
         private CarSampleConfig m_config;
         private GameObject m_obstacles;
         private PolygonCollider2D m_polygon;
@@ -44,7 +45,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
                 for (int i = pointsCount; i < points.Length; i++)
                 {
                     var point = points[points.Length - i - 1];
-                    points[i] = new Vector2(point.x, point.y - 0.5f);
+                    points[i] = new Vector2(point.x, point.y - Height);
                 }
 
                 m_polygon.points = points;

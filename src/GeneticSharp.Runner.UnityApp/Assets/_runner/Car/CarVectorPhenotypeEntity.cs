@@ -56,7 +56,8 @@ namespace GeneticSharp.Runner.UnityApp.Car
         {
             get
             {
-                return (float)Phenotypes[3].Value;
+                var v = (float)Phenotypes[3].Value;
+                return v >= 1 ? v : 0;
             }
         }
 

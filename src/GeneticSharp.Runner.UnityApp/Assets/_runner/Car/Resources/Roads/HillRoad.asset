@@ -11,9 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a8b820e13ba841d08d2a7b62050daed, type: 3}
   m_Name: HillRoad
   m_EditorClassIdentifier: 
-  PointsCount: 75
-  MaxPointsDistance: 4
-  MaxHeight: 2
+  PointsCount: 50
+  MaxPointsDistance: 15
+  MaxHeight: 5
   GapsEachPoints: 0
   MaxGapWidth: 0
   ZRotation: 0
