@@ -159,6 +159,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d40cb6d898454c7fa1273bdae7d2b32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Offset: {x: 0, y: 0, z: -9}
+  Offset: {x: 0, y: 0, z: -10}
   Speed: 2
   NoFollowingColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}

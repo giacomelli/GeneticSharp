@@ -11,13 +11,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a8b820e13ba841d08d2a7b62050daed, type: 3}
   m_Name: ObstacleRoad
   m_EditorClassIdentifier: 
-  PointsCount: 25
-  MaxPointsDistance: 10
+  PointsCount: 20
+  MaxPointsDistance: 30
   MaxHeight: 0
+  ZRotation: 0
   GapsEachPoints: 0
   MaxGapWidth: 1
-  ZRotation: 0
-  MaxObstacleSize: {x: 1, y: 1}
+  MaxObstacleSize: {x: 0.6, y: 0.6}
   ObstaclesEachPoints: 1
   MaxObstaclesPerPoint: 1
   ObstaclesStartPoint: 20
@@ -25,11 +25,10 @@ MonoBehaviour:
   ObstaclePrefab: {fileID: 1133613196733970, guid: 0a4474f08b3984012bfc1fd9b63ccd02,
     type: 2}
   WarmupTime: 10
-  TimeoutNoBetterMaxDistance: 5
-  MinMaxDistanceDiff: 2
+  MinVelocityCheckTime: 10
+  MinVelocity: 2
   VectorsCount: 8
   MaxVectorSize: 64
   WheelsCount: 8
   MaxWheelRadius: 3
   MaxWheelSpeed: 200
-  WheelSpeedBaseOnRadius: 0
