@@ -253,6 +253,9 @@ Console.WriteLine("Best solution found has {0} fitness.", ga.BestChromosome.Fitn
 Having troubles? 
 
 - Read our [wiki](https://github.com/giacomelli/GeneticSharp/wiki).
+- Tutorials
+   - [Function optimization with GeneticSharp](http://diegogiacomelli.com.br/function-optimization-with-geneticsharp/) 
+   - [TSP with GeneticSharp and Unity3D](http://diegogiacomelli.com.br/tsp-with-GeneticSharp-and-Unity3d/)
 - Ask on Twitter [@ogiacomelli](http://twitter.com/ogiacomelli).
 - Ask on [Stack Overflow](http://stackoverflow.com/questions/tagged/geneticsharp) using the tag [GeneticSharp](http://stackoverflow.com/questions/tagged/geneticsharp).
  
