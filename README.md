@@ -146,6 +146,8 @@ GeneticSharp and extensions (TSP, AutoConfig, Bitmap equality, Equality equation
 ```shell
 install-package GeneticSharp.Extensions
 ```
+## Unity3D
+If want to use GeneticSharp on Unity3D you can use the latest GeneticSharp.2.0.0.unitypackage available on our [release page](https://github.com/giacomelli/GeneticSharp/releases).
 
 ## Mono and .NET Framework 3.5
 To install previous version that support .NET Framework 3.5:
