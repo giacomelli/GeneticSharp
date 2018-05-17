@@ -1,9 +1,5 @@
-﻿using System.ComponentModel;
-using System.Threading;
-using GeneticSharp.Domain;
-using GeneticSharp.Domain.Chromosomes;
+﻿using GeneticSharp.Domain;
 using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Selections;
@@ -11,7 +7,6 @@ using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.Tsp;
 using GeneticSharp.Infrastructure.Framework.Threading;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace GeneticSharp.Runner.UnityApp.Tsp
 {
@@ -99,15 +94,6 @@ namespace GeneticSharp.Runner.UnityApp.Tsp
                 m_lr.SetPosition(m_numberOfCities, new Vector2(firstCity.X, firstCity.Y));
             }
         }
-
-        public void ShuffleCities()
-        {
-            foreach(var c in m_fitness.Cities)
-            {
-                var p = m_fitness.GetCityRandomPosition();
-                c.X = p.x;
-                c.Y = p.y;
-            }
-        }
+       
     }
 }

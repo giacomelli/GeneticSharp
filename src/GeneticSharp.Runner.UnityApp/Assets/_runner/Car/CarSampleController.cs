@@ -88,7 +88,6 @@ namespace GeneticSharp.Runner.UnityApp.Car
             {
                 CarChromosome c;
                 m_fitness.ChromosomesToEndEvaluation.TryTake(out c);
-                var evaluation = GameObject.Find(c.ID);
                 c.Evaluated = true;
             }
 

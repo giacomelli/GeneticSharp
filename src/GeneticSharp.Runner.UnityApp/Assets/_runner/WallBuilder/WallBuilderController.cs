@@ -31,7 +31,6 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
             m_fitness = new WallBuilderFitness(SecondsForEvaluation / TimeScale);
             var chromosome = new WallBuilderChromosome(BricksCount, MinPosition, MaxPosition);
 
-            var fraction = chromosome.Length / 3;
             var crossover = new RandomCrossover()
                 .AddCrossover(new UniformCrossover(), 0.9f)
                 .AddCrossover(new SectionCrossover(chromosome.Length / chromosome.BricksCount, true), 0.1f);

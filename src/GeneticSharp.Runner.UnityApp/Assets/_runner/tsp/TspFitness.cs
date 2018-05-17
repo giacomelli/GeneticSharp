@@ -9,26 +9,8 @@ using UnityEngine;
 
 namespace GeneticSharp.Extensions.Tsp
 {
-    /// <summary>
-    /// Travelling Salesman Problem fitness function.
-    /// <remarks>
-    /// The travelling salesman problem (TSP) or travelling salesperson problem asks the following question: 
-    /// Given a list of cities and the distances between each pair of cities, what is the shortest possible 
-    /// route that visits each city exactly once and returns to the origin city?
-    /// <see href="http://en.wikipedia.org/wiki/Travelling_salesman_problem">Wikipedia</see> 
-    /// </remarks>
-    /// </summary>
     public class TspFitness : IFitness
     {
-        #region Constructors
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.Tsp.TspFitness"/> class.
-        /// </summary>
-        /// <param name="numberOfCities">The number of cities.</param>
-        /// <param name="minX">The minimum city x coordinate.</param>
-        /// <param name="maxX">The maximum city x coordinate.</param>
-        /// <param name="minY">The minimum city y coordinate.</param>
-        /// <param name="maxY">The maximum city y coordinate..</param>
         public TspFitness(int numberOfCities, float minX, float maxX, float minY, float maxY)
         {
             Cities = new List<TspCity>(numberOfCities);
@@ -55,50 +37,12 @@ namespace GeneticSharp.Extensions.Tsp
             }
         }
 
-        public Vector2 GetCityRandomPosition()
-        {
-            return new Vector2(RandomizationProvider.Current.GetFloat(MinX, MaxX + 1), RandomizationProvider.Current.GetFloat(MinY, MaxY + 1));
-        }
-        #endregion
-
-        #region Properties
-        /// <summary>
-        /// Gets the cities.
-        /// </summary>
-        /// <value>The cities.</value>
         public IList<TspCity> Cities { get; private set; }
-
-        /// <summary>
-        /// Gets the minimum x.
-        /// </summary>
-        /// <value>The minimum x.</value>
         public float MinX { get; private set; }
-
-        /// <summary>
-        /// Gets the max x.
-        /// </summary>
-        /// <value>The max x.</value>
         public float MaxX { get; private set; }
-
-        /// <summary>
-        /// Gets the minimum y.
-        /// </summary>
-        /// <value>The minimum y.</value>
         public float MinY { get; private set; }
-
-        /// <summary>
-        /// Gets the max y.
-        /// </summary>
-        /// <value>The max y.</value>
         public float MaxY { get; private set; }
-        #endregion
 
-        #region IFitness implementation
-        /// <summary>
-        /// Performs the evaluation against the specified chromosome.
-        /// </summary>
-        /// <param name="chromosome">The chromosome to be evaluated.</param>
-        /// <returns>The fitness of the chromosome.</returns>
         public double Evaluate(IChromosome chromosome)
         {
             var genes = chromosome.GetGenes();
@@ -138,16 +82,14 @@ namespace GeneticSharp.Extensions.Tsp
             return fitness;
         }
 
-        /// <summary>
-        /// Calculates the distance between two cities.
-        /// </summary>
-        /// <returns>The distance two cities.</returns>
-        /// <param name="one">City one.</param>
-        /// <param name="two">City two.</param>
+        private Vector2 GetCityRandomPosition()
+        {
+            return new Vector2(RandomizationProvider.Current.GetFloat(MinX, MaxX + 1), RandomizationProvider.Current.GetFloat(MinY, MaxY + 1));
+        }
+
         private static double CalcDistanceTwoCities(TspCity one, TspCity two)
         {
             return Math.Sqrt(Math.Pow(two.X - one.X, 2) + Math.Pow(two.Y - one.Y, 2));
         }
-        #endregion
     }
 }

@@ -8,7 +8,6 @@ public class CityController : MonoBehaviour {
     private Vector3 screenPoint;
     private Vector3 offset;
 
-
     public TspCity Data { get; set;}
 
     void OnMouseDown()
