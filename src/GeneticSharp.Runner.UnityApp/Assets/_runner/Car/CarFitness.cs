@@ -27,6 +27,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             do
             {
                 Thread.Sleep(1000);
+                c.Fitness = c.MaxDistance + c.MaxVelocity;
             } while (!c.Evaluated);
 
             ChromosomesToEndEvaluation.Add(c);

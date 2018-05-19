@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using GeneticSharp.Domain;
 using System.Threading;
@@ -10,14 +8,16 @@ using System.Linq;
 public abstract class SampleControllerBase : MonoBehaviour {
 
     private Thread m_gaThread;
-    private double m_bestFitness;
-    private double m_averageFitness;
-    private bool m_shouldUpdateInfo;
     private Text m_generationText;
     private Text m_fitnessText;
+    private Text m_previousGenerationText;
+    private Text m_previousFitnessText;
+    private double m_previousBestFitness;
+    private double m_previousAverageFitness;
 
     protected GeneticAlgorithm GA { get; private set; }
     protected bool ChromosomesCleanupEnabled { get; set; }
+    protected bool ShowPreviousInfoEnabled { get; set; } = true;
     public Rect Area { get; private set; }
 
 	private void Start()
@@ -27,9 +27,20 @@ public abstract class SampleControllerBase : MonoBehaviour {
         Area = sampleArea == null
             ? Camera.main.rect
             : sampleArea.GetComponent<RectTransform>().rect;
-   
-        m_generationText = GameObject.Find("GenerationText")?.GetComponent<Text>();
-        m_fitnessText = GameObject.Find("FitnessText")?.GetComponent<Text>();
+
+        var generationTextGO = GameObject.Find("CurrentInfo/Background/GenerationText");
+
+        if (generationTextGO != null)
+        {
+            var fitnessTextGO = GameObject.Find("CurrentInfo/Background/FitnessText");
+            m_generationText = generationTextGO.GetComponent<Text>();
+            m_fitnessText = fitnessTextGO.GetComponent<Text>();
+
+            m_previousGenerationText = GameObject.Find("PreviousInfo/Background/GenerationText").GetComponent<Text>();
+            m_previousFitnessText = GameObject.Find("PreviousInfo/Background/FitnessText").GetComponent<Text>();
+            m_previousGenerationText.text = string.Empty;
+            m_previousFitnessText.text = string.Empty;
+        }
 
         if (m_generationText != null)
         {
@@ -39,11 +50,10 @@ public abstract class SampleControllerBase : MonoBehaviour {
 
         GA = CreateGA();
         GA.GenerationRan += delegate {
-            m_bestFitness = GA.BestChromosome.Fitness.Value;
-            m_averageFitness = GA.Population.CurrentGeneration.Chromosomes.Average(c => c.Fitness.Value);
-            Debug.Log($"Generation: {GA.GenerationsNumber} - Best: ${m_bestFitness} - Average: ${m_averageFitness}");
+            m_previousBestFitness = GA.BestChromosome.Fitness.Value;
+            m_previousAverageFitness = GA.Population.CurrentGeneration.Chromosomes.Average(c => c.Fitness.Value);
+            Debug.Log($"Generation: {GA.GenerationsNumber} - Best: ${m_previousBestFitness} - Average: ${m_previousAverageFitness}");
 
-            m_shouldUpdateInfo = true;
 
             if (ChromosomesCleanupEnabled)
             {
@@ -72,11 +82,27 @@ public abstract class SampleControllerBase : MonoBehaviour {
 
     void Update()
     {
-        if (m_generationText != null && m_shouldUpdateInfo)
+        if (m_generationText != null && GA.Population.CurrentGeneration != null)
         {
-            m_generationText.text = $"Generation: {GA.GenerationsNumber}";
-            m_fitnessText.text = $"Best: {m_bestFitness:N2}\nAverage: {m_averageFitness:N2}";
-            m_shouldUpdateInfo = false;
+            var averageFitness = GA.Population.CurrentGeneration.Chromosomes.Average(c => c.Fitness.HasValue ? c.Fitness.Value : 0);
+            var bestFitness = GA.Population.CurrentGeneration.Chromosomes.Max(c => c.Fitness.HasValue ? c.Fitness.Value : 0);
+
+            UpdateTexts(
+                m_generationText,
+                m_fitnessText,
+                GA.GenerationsNumber,
+                bestFitness, 
+                averageFitness);
+
+            if (ShowPreviousInfoEnabled && GA.GenerationsNumber > 1)
+            {
+                UpdateTexts(
+                    m_previousGenerationText,
+                    m_previousFitnessText,
+                    GA.GenerationsNumber - 1,
+                    m_previousBestFitness,
+                    m_previousAverageFitness);
+            }
         }
 
         UpdateSample();
@@ -106,5 +132,11 @@ public abstract class SampleControllerBase : MonoBehaviour {
         {
             m_fitnessText.text = text;
         }
+    }
+
+    private void UpdateTexts(Text generationText, Text fitnessText, int generationsNumber, double bestFitness, double averageFitness)
+    {
+        generationText.text = $"Generation: {generationsNumber}";
+        fitnessText.text = $"Best: {bestFitness:N2}\nAverage: {averageFitness:N2}";
     }
 }

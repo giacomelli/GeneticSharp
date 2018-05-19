@@ -46,7 +46,7 @@ namespace GeneticSharp.Runner.UnityApp.Tsp
 		{
             m_lr = GetComponent<LineRenderer>();
             m_lr.positionCount = m_numberOfCities + 1;
-
+            ShowPreviousInfoEnabled = false;
             DrawCities();
 		}
 

@@ -59,6 +59,7 @@ namespace GeneticSharp.Runner.UnityApp.WallBuilder
 		protected override void StartSample()
 		{
             ChromosomesCleanupEnabled = true;
+            ShowPreviousInfoEnabled = false;
             m_brickPool = new PrefabPool(BrickPrefab);
             Time.timeScale = TimeScale;
 		}

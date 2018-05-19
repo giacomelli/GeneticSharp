@@ -17,7 +17,7 @@ MonoBehaviour:
   ZRotation: 0
   GapsEachPoints: 0
   MaxGapWidth: 1
-  MaxObstacleSize: {x: 0.6, y: 0.6}
+  MaxObstacleSize: {x: 0.5, y: 0.5}
   ObstaclesEachPoints: 1
   MaxObstaclesPerPoint: 1
   ObstaclesStartPoint: 20

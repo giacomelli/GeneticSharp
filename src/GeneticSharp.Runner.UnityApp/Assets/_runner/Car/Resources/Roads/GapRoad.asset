@@ -14,9 +14,9 @@ MonoBehaviour:
   PointsCount: 10
   MaxPointsDistance: 20
   MaxHeight: 0
-  GapsEachPoints: 2
-  MaxGapWidth: 10
   ZRotation: 0
+  GapsEachPoints: 2
+  MaxGapWidth: 8
   MaxObstacleSize: {x: 5, y: 5}
   ObstaclesEachPoints: 0
   MaxObstaclesPerPoint: 2
@@ -25,11 +25,10 @@ MonoBehaviour:
   ObstaclePrefab: {fileID: 1133613196733970, guid: 0a4474f08b3984012bfc1fd9b63ccd02,
     type: 2}
   WarmupTime: 5
-  TimeoutNoBetterMaxDistance: 5
-  MinMaxDistanceDiff: 3
+  MinVelocityCheckTime: 5
+  MinVelocity: 2
   VectorsCount: 8
   MaxVectorSize: 64
   WheelsCount: 8
   MaxWheelRadius: 3
   MaxWheelSpeed: 200
-  WheelSpeedBaseOnRadius: 0

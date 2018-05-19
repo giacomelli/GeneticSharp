@@ -20,8 +20,8 @@ namespace GeneticSharp.Runner.UnityApp.Car
             foreach (var road in roads)
             {
                 var go = Instantiate(RoadButtonPrefab, transform) as GameObject;
-                go.name = road.name;
-                go.GetComponentInChildren<Text>().text = road.name;
+                go.name = road.name.Replace("Road", string.Empty);
+                go.GetComponentInChildren<Text>().text = go.name;
 
                 var r = go.GetComponent<RectTransform>();
                 r.localPosition = position;
