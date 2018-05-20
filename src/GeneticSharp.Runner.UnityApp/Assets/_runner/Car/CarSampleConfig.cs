@@ -44,4 +44,20 @@ public class CarSampleConfig : ScriptableObject {
 
     [Range(1, 1000)]
     public float MaxWheelSpeed = 800f;
+
+    public float RoadLength
+    {
+        get 
+        {
+            return PointsCount * MaxPointsDistance;    
+        }
+    }
+
+    public float RoadMiddle
+    {
+        get 
+        {
+            return RoadLength / 2f;
+        }
+    }
 }

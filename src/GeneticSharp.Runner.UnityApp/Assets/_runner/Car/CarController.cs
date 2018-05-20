@@ -15,6 +15,8 @@ namespace GeneticSharp.Runner.UnityApp.Car
         private CarSampleConfig m_config;
         private float m_startTime;
         private float m_currentVelocity;
+        private float m_lastDistance;
+        private float m_lastTime;
     
 
         public Object WheelPrefab;
@@ -91,24 +93,34 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
 		private void OnCollisionEnter2D(Collision2D collision)
 		{
-			if (collision.gameObject.tag == "DeadZone")
+            var other = collision.gameObject;
+
+			if (other.tag == "DeadZone")
             {
+                // When reach the road dead end, use the dead end position as max distance.
+                if (transform.position.x > m_config.RoadMiddle && other.name.Equals("dead-end"))
+                {
+                    Chromosome.MaxDistance = other.transform.position.x;
+                    UpdateFitnessText();
+                }
+
                 StopEvaluation();
             }
 		}
 
-        float m_lastDistance;
-        float m_lastTime;
-
-		private void Update()
+     	private void Update()
 		{
             if (!Chromosome.Evaluated)
             {
                 CheckMaxDistance();
-
-                m_fitnessText.text = FormatFitnessText(Chromosome.MaxDistance, Chromosome.MaxDistanceTime);
-                m_fitnessText.transform.rotation = Quaternion.identity;
+                UpdateFitnessText();
             }
+        }
+
+        private void UpdateFitnessText()
+        {
+            m_fitnessText.text = FormatFitnessText(Chromosome.MaxDistance, Chromosome.MaxDistanceTime);
+            m_fitnessText.transform.rotation = Quaternion.identity;
         }
 
         private string FormatFitnessText(float distance, float time)

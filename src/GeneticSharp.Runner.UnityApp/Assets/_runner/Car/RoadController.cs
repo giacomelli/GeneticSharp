@@ -49,6 +49,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             // Creates the dead-end.
             var deadEnd = Instantiate(DeadEndPrefab, end, Quaternion.identity) as GameObject;
             deadEnd.transform.SetParent(transform, false);
+            deadEnd.name = "dead-end";
         }
     }
 }
