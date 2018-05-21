@@ -139,9 +139,37 @@ TextMesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1836895966281794}
-  m_Text: END
+  m_Text: 'E
+
+    N
+
+    D
+
+    .
+
+    E
+
+    N
+
+    D
+
+    .
+
+    E
+
+    N
+
+    D
+
+    .
+
+    E
+
+    N
+
+    D'
   m_OffsetZ: 0
-  m_CharacterSize: 2
+  m_CharacterSize: 4
   m_LineSpacing: 1
   m_Anchor: 4
   m_Alignment: 1
@@ -189,7 +217,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: cbaea2a7772674364981b187ef634b1a, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.65882355, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
