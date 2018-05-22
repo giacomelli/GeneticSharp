@@ -25,6 +25,7 @@ Can be used in any kind of .NET Core and .NET Framework apps, like ASP .NET MVC,
 * [Overload journal 142: Evolutionary computing frameworks for optimisation (journal)](https://accu.org/var/uploads/journals/Overload142.pdf)
 * [Path Finding with Genetic Algorithms (project)](https://yoloprogramming.com/post/2017/01/11/path-finding-with-genetic-algorithms)
 * [SurvivorAI: some experiments of survival scenarios (project)](https://github.com/giacomelli/SurvivorAI)
+* [TSP with GeneticSharp and Unity3D (tutorial)](http://diegogiacomelli.com.br/tsp-with-GeneticSharp-and-Unity3d/)
 * Are you using GeneticSharp in your project? Please, [let me know!](https://twitter.com/ogiacomelli)
 
 ## Features
