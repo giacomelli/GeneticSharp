@@ -47,7 +47,10 @@ public class FollowChromosomeCam : MonoBehaviour {
         if (m_isFollowing)
         {
             m_isFollowing = false;
-            Camera.backgroundColor = NoFollowingColor;
+
+
+            if (Camera != null)
+                Camera.backgroundColor = NoFollowingColor;
         }
         else
             Debug.LogWarning("Trying to stop an already stopped camera");

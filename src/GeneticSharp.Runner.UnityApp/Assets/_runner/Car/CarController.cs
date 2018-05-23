@@ -91,6 +91,11 @@ namespace GeneticSharp.Runner.UnityApp.Car
             m_cam.StopFollowing();
         }
 
+        void OnDestroy()
+        {
+            StopEvaluation();
+        }
+
 		private void OnCollisionEnter2D(Collision2D collision)
 		{
             var other = collision.gameObject;
