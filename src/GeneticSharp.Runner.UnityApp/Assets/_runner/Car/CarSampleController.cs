@@ -42,12 +42,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
         {
             NumberOfSimultaneousEvaluations = SimulationsGrid.x * SimulationsGrid.y;
             m_fitness = new CarFitness();
-            var chromosome = new CarChromosome(Config);
-
-            //var crossover = new RandomCrossover()
-            //.AddCrossover(new UniformCrossover(), 0.9f)
-            //.AddCrossover(new SectionCrossover(chromosome.Length / Config.VectorsCount, true), 0.1f);
-
+            var chromosome = new CarChromosome(Config);      
             var crossover = new UniformCrossover();
             var mutation = new FlipBitMutation();
             var selection = new EliteSelection();
