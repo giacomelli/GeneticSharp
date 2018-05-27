@@ -52,7 +52,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
             };
 
             var ga = new GeneticAlgorithm(population, m_fitness, selection, crossover, mutation);
-            ga.Termination = new TimeEvolvingTermination(System.TimeSpan.FromDays(1));
+            ga.Termination = new CarTermination();
             ga.TaskExecutor = new ParallelTaskExecutor
             {
                 MinThreads = population.MinSize,
@@ -71,7 +71,7 @@ namespace GeneticSharp.Runner.UnityApp.Car
 
         protected override void StartSample()
         {
-            ChromosomesCleanupEnabled = true;
+            ChromosomesCleanupEnabled = false;
             m_lastPosition = Vector3.zero;
             m_evaluationPool = new PrefabPool(EvaluationPrefab);
         }
