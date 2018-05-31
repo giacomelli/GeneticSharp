@@ -121,7 +121,7 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
 - TSP
 - Wall builder
 <center>
-<iframe width="640" height="480" src="https://www.youtube.com/embed/xXqNcgeOU_g" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+[![](docs/screenshots/GeneticSharp-UnityApp.png)](https://youtu.be/xXqNcgeOU_g)
 </center>
       
 ### Multi-platform
