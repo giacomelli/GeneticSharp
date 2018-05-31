@@ -27,6 +27,7 @@ Can be used in any kind of .NET Core and .NET Framework apps, like ASP .NET MVC,
 * [Overload journal 142: Evolutionary computing frameworks for optimisation (journal)](https://accu.org/var/uploads/journals/Overload142.pdf)
 * [Path Finding with Genetic Algorithms (project)](https://yoloprogramming.com/post/2017/01/11/path-finding-with-genetic-algorithms)
 * [SurvivorAI: some experiments of survival scenarios (project)](https://github.com/giacomelli/SurvivorAI)
+* [TSP with GeneticSharp and Unity3D (tutorial)](http://diegogiacomelli.com.br/tsp-with-GeneticSharp-and-Unity3d/)
 * Are you using GeneticSharp in your project? Please, [let me know!](https://twitter.com/ogiacomelli)
 
 ## Features
@@ -152,6 +153,8 @@ GeneticSharp and extensions (TSP, AutoConfig, Bitmap equality, Equality equation
 ```shell
 install-package GeneticSharp.Extensions
 ```
+## Unity3D
+If want to use GeneticSharp on Unity3D you can use the latest GeneticSharp.unitypackage available on our [release page](https://github.com/giacomelli/GeneticSharp/releases).
 
 ## Mono and .NET Framework 3.5
 To install previous version that support .NET Framework 3.5:
@@ -256,6 +259,9 @@ Console.WriteLine("Best solution found has {0} fitness.", ga.BestChromosome.Fitn
 Having troubles? 
 
 - Read our [wiki](https://github.com/giacomelli/GeneticSharp/wiki).
+- Tutorials
+   - [Function optimization with GeneticSharp](http://diegogiacomelli.com.br/function-optimization-with-geneticsharp/) 
+   - [TSP with GeneticSharp and Unity3D](http://diegogiacomelli.com.br/tsp-with-GeneticSharp-and-Unity3d/)
 - Ask on Twitter [@ogiacomelli](http://twitter.com/ogiacomelli).
 - Ask on [Stack Overflow](http://stackoverflow.com/questions/tagged/geneticsharp) using the tag [GeneticSharp](http://stackoverflow.com/questions/tagged/geneticsharp).
  
