@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: f2b37a019611c4abd9d290f0dd96ca9b
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Begok v15
+  fontNames:
+  - Begok v15
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 7e283acb040484e5cb0248867c4a34b0, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
