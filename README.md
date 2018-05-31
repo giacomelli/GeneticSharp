@@ -120,9 +120,7 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
 - Car2D
 - TSP
 - Wall builder
-<center>
 [![](docs/screenshots/GeneticSharp-UnityApp.png)](https://youtu.be/xXqNcgeOU_g)
-</center>
       
 ### Multi-platform
 - Mono, .NET Standard 2.0 and .NET Framework 4.6.2 support.
