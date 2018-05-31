@@ -14,9 +14,11 @@ Can be used in any kind of .NET Core and .NET Framework apps, like ASP .NET MVC,
 
 --------
 
-## Projects, papers, journals and tutorials using GeneticSharp
+## Projects, papers, journals, books and tutorials using GeneticSharp
 * [AeroVision: aircraft trajectories optimization and visualization (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/AeroVision-Aircraft-trajectories-optimization-and-visualization.pdf)
+* [Analysis and comparison between Black-Scholes and Merton and Corrado-Su for options pricing (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Analysis-and-comparison-between-Black-Scholes-and-Merton-and-Corrado-Su-for-options-pricing.pdf)
 * [Context-Sensitive Code Completion: improving predictions with genetic algorithms (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Context-Sensitive-Code-Completion-improving-predictions-with-genetic-algorithms.pdf) [(Github)](https://github.com/godtopus/GeneCSCC)
+* [Deriving Functions for Pareto Optimal Fronts Using Genetic Programming (paper/book)](https://books.google.com.br/books?id=w_lcDwAAQBAJ&lpg=PA473&ots=Rv7O6FhCSM&dq=%22GeneticSharp%22&hl=pt-BR&pg=PA464#v=onepage&q=%22GeneticSharp%22&f=false)
 * [Designing and creating a self managing distributed file system (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Designing-and-creating-a-self-managing-distributed-file-system.pdf)
 * [Developing trading strategies with genetic algorithms (forum)](https://www.quantconnect.com/forum/discussion/2396/developing-trading-strategies-with-genetic-algorithms) [(paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Developing-Trading-Strategies-with-Genetic-Algorithms.pdf)
 * [Function optimization with GeneticSharp (tutorial)](http://diegogiacomelli.com.br/function-optimization-with-geneticsharp/)
@@ -93,7 +95,7 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
    - [Fast random](src/GeneticSharp.Domain/Randomizations/FastRandomRandomization.cs)   
    - If you need a special kind of randomization for your GA, just implement the [IRandomization](src/GeneticSharp.Domain/Randomizations/IRandomization.cs) interface.
 
-### [Runner app (console)](src/GeneticSharp.Runner.ConsoleApp) with samples
+### [Console sample](src/GeneticSharp.Runner.ConsoleApp)
 - AutoConfig
 - Bitmap equality
 - Equality equation
@@ -105,7 +107,7 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
 - Ghostwriter
 - TSP (Travelling Salesman Problem)
  	
-### [Runner app (GTK#)](src/GeneticSharp.Runner.GtkApp) with visual samples:
+### [GTK# sample](src/GeneticSharp.Runner.GtkApp)
 
 #### TSP (Travelling Salesman Problem) and Function optimization
 ![](docs/gifs/GeneticSharp-GtkApp.gif)
@@ -113,9 +115,13 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
 #### Bitmap equality
 ![](docs/gifs/GeneticSharp-BitmapEquality_sample01.gif)
 
-### Unity3d sample
-![](docs/gifs/GeneticSharp-Unity-Sample-Checkers.gif)
-
+### [Unity3D sample](src/GeneticSharp.Runner.UnityApp)
+- Car2D
+- TSP
+- Wall builder
+<center>
+<iframe width="640" height="480" src="https://www.youtube.com/embed/xXqNcgeOU_g" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</center>
       
 ### Multi-platform
 - Mono, .NET Standard 2.0 and .NET Framework 4.6.2 support.
@@ -241,7 +247,6 @@ Console.WriteLine("Best solution found has {0} fitness.", ga.BestChromosome.Fitn
    - Chromosome convergence   
  - New samples
    - Xamarin runner app (sample)
-   - Unity3d runner app (sample)
  - Parallel populations (islands) 
  
 --------
