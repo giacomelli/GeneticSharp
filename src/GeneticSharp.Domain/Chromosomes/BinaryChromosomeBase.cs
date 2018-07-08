@@ -7,6 +7,7 @@ namespace GeneticSharp.Domain.Chromosomes
 	/// <summary>
 	/// A base class for binary chromosome of 0 and 1 genes.
 	/// </summary>
+    [Serializable]
 	public abstract class BinaryChromosomeBase : ChromosomeBase, IBinaryChromosome
 	{
 		#region Constructors
