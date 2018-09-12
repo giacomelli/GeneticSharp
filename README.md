@@ -22,6 +22,7 @@ Can be used in any kind of .NET Core and .NET Framework apps, like ASP .NET MVC,
 * [Designing and creating a self managing distributed file system (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Designing-and-creating-a-self-managing-distributed-file-system.pdf)
 * [Developing trading strategies with genetic algorithms (forum)](https://www.quantconnect.com/forum/discussion/2396/developing-trading-strategies-with-genetic-algorithms) [(paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Developing-Trading-Strategies-with-Genetic-Algorithms.pdf)
 * [Function optimization with GeneticSharp (tutorial)](http://diegogiacomelli.com.br/function-optimization-with-geneticsharp/)
+* [GeneticSharp Car2D (sample)](http://diegogiacomelli.com.br/GeneticSharp-Car2D/)
 * [Genetic Scheduler: a genetic algorithm for scheduling tasks with temporal restriction in distributed systems (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Genetic-Scheduler.pdf)
 * [Lean Optimization: genetic optimization using LEAN (GitHub)](https://github.com/Jay-Jay-D/LeanOptimization) 
 * [Overload journal 142: Evolutionary computing frameworks for optimisation (journal)](https://accu.org/var/uploads/journals/Overload142.pdf)
