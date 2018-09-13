@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Advertisements;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour {
 
     private GameObject m_samples;
+    private string m_selectedSceneName;
     public Text Logo;
     public RectTransform CurrentInfo;
     public RectTransform PreviousInfo;
@@ -26,6 +28,27 @@ public class MenuController : MonoBehaviour {
 
 	public void Open(string sceneName)
     {
+        m_selectedSceneName = sceneName;
+
+        if (Advertisement.IsReady())
+        {
+            var options = new ShowOptions { resultCallback = HandleShowResult };
+            Advertisement.Show("rewardedVideo", options);
+        }
+        else
+        {
+            OpenScene();
+        }
+    }
+
+    void HandleShowResult(ShowResult result)
+    {
+        if (result == ShowResult.Finished)
+            OpenScene();
+    }
+
+    void OpenScene()
+    {
         CurrentInfo.transform.position = new Vector3(CurrentInfo.transform.position.x, 60, 0);
         PreviousInfo.transform.position = new Vector3(PreviousInfo.transform.position.x, 60, 0);
 
@@ -35,7 +58,8 @@ public class MenuController : MonoBehaviour {
         {
             Logo.enabled = false;
         };
-        SceneManager.LoadScene($"{sceneName}Scene");
+
+        SceneManager.LoadScene($"{m_selectedSceneName}Scene");
     }
 
     public void OpenLink()
