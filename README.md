@@ -278,4 +278,4 @@ Licensed under the The MIT License (MIT).
 In others words, you can use this library for developement any kind of software: open source, commercial, proprietary and alien.
 
 # Thanks to
-I would like to thanks to the guys from [SMASHINGLOG (https://smashinglogo.com)](https://smashinglogo.com/) for the amazing GeneticSharp logo.
+I would like to thanks to the guys from [SMASHINGLOGO (https://smashinglogo.com)](https://smashinglogo.com/) for the amazing GeneticSharp logo.
