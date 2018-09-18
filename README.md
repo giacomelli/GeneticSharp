@@ -1,4 +1,5 @@
-# GeneticSharp
+
+![](docs/logo/logo-small.png)
 
 [![Join the chat at https://gitter.im/GeneticSharp/Lobby](https://badges.gitter.im/GeneticSharp/Lobby.svg)](https://gitter.im/GeneticSharp/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build status](https://ci.appveyor.com/api/projects/status/h9ptxpyj30ah3mva/branch/master?svg=true)](https://ci.appveyor.com/project/giacomelli/geneticsharp)
@@ -275,3 +276,6 @@ Did you change it? [Submit a pull request](https://github.com/giacomelli/Genetic
 ## License
 Licensed under the The MIT License (MIT).
 In others words, you can use this library for developement any kind of software: open source, commercial, proprietary and alien.
+
+# Thanks to
+I would like to thanks to the guys from [SMASHINGLOGO (https://smashinglogo.com)](https://smashinglogo.com/) for the amazing GeneticSharp logo.
