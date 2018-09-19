@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Advertisements;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,7 +7,7 @@ public class MenuController : MonoBehaviour {
 
     private GameObject m_samples;
     private string m_selectedSceneName;
-    public Text Logo;
+    public Image Logo;
     public RectTransform CurrentInfo;
     public RectTransform PreviousInfo;
 
@@ -32,27 +30,20 @@ public class MenuController : MonoBehaviour {
 
         if (Advertisement.IsReady())
         {
-            var options = new ShowOptions { resultCallback = HandleShowResult };
-            Advertisement.Show("rewardedVideo", options);
+            var options = new ShowOptions { resultCallback = OpenScene };
+            Advertisement.Show(options);
         }
         else
         {
-            OpenScene();
+            OpenScene(ShowResult.Skipped);
         }
     }
 
-    void HandleShowResult(ShowResult result)
-    {
-        if (result == ShowResult.Finished)
-            OpenScene();
-    }
-
-    void OpenScene()
+    void OpenScene(ShowResult result)
     {
         CurrentInfo.transform.position = new Vector3(CurrentInfo.transform.position.x, 60, 0);
         PreviousInfo.transform.position = new Vector3(PreviousInfo.transform.position.x, 60, 0);
 
-        Logo.text = "Loading...";
         Logo.enabled = true;
         SceneManager.sceneLoaded += delegate
         {
