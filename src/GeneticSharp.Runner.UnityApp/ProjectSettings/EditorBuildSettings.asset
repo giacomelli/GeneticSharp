@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_runner/WallBuilder/WallBuilderScene.unity
     guid: a928f461698a34bd58e4be35bbc21f35
+  - enabled: 1
+    path: Assets/_runner/About/AboutScene.unity
+    guid: 74ebc11cc091a4d27a4e90417ad39060
   m_configObjects: {}

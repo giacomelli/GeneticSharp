@@ -26,9 +26,10 @@ public class MenuController : MonoBehaviour {
 
 	public void Open(string sceneName)
     {
+        Logo.enabled = false;
         m_selectedSceneName = sceneName;
 
-        if (Advertisement.IsReady())
+        if (Advertisement.IsReady() && !sceneName.Equals("About"))
         {
             var options = new ShowOptions { resultCallback = OpenScene };
             Advertisement.Show(options);
@@ -43,13 +44,7 @@ public class MenuController : MonoBehaviour {
     {
         CurrentInfo.transform.position = new Vector3(CurrentInfo.transform.position.x, 60, 0);
         PreviousInfo.transform.position = new Vector3(PreviousInfo.transform.position.x, 60, 0);
-
-        Logo.enabled = true;
-        SceneManager.sceneLoaded += delegate
-        {
-            Logo.enabled = false;
-        };
-
+       
         SceneManager.LoadScene($"{m_selectedSceneName}Scene");
     }
 
