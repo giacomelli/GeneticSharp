@@ -13,6 +13,7 @@ GeneticSharp is a fast, extensible, multi-platform and multithreading C# Genetic
 
 Can be used in any kind of .NET Core and .NET Framework apps, like ASP .NET MVC, ASP .NET Core, Web Forms, UWP, Windows Forms, GTK#, Xamarin and Unity3D games.
 
+
 --------
 
 ## Projects, papers, journals, books and tutorials using GeneticSharp
@@ -98,6 +99,7 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
    - [Fast random](src/GeneticSharp.Domain/Randomizations/FastRandomRandomization.cs)   
    - If you need a special kind of randomization for your GA, just implement the [IRandomization](src/GeneticSharp.Domain/Randomizations/IRandomization.cs) interface.
 
+##  Samples
 ### [Console sample](src/GeneticSharp.Runner.ConsoleApp)
 - AutoConfig
 - Bitmap equality
@@ -118,19 +120,18 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
 #### Bitmap equality
 ![](docs/gifs/GeneticSharp-BitmapEquality_sample01.gif)
 
-### [Unity3D sample](src/GeneticSharp.Runner.UnityApp)
-- Car2D
-- TSP
-- Wall builder
+### [Unity3D Samples](src/GeneticSharp.Runner.UnityApp)
 [![](docs/screenshots/GeneticSharp-UnityApp.png)](https://youtu.be/xXqNcgeOU_g)
+[![](docs/images/google-play-badge.png)](https://play.google.com/store/apps/details?id=br.com.diegogiacomelli.geneticsharprunnersunityapp)
+
       
-### Multi-platform
+## Multi-platform
 - Mono, .NET Standard 2.0 and .NET Framework 4.6.2 support.
 - Fully tested on Windows and MacOS.
 
 ![](docs/screenshots/VisualStudioMacAndWin.png)
 
-### Code quality
+## Code quality
 - 100% unit test code coverage.
 - FxCop validated.
 - Code duplicated verification.
