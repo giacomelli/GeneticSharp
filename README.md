@@ -1,4 +1,5 @@
-# GeneticSharp
+
+![](docs/logo/logo-small.png)
 
 [![Join the chat at https://gitter.im/GeneticSharp/Lobby](https://badges.gitter.im/GeneticSharp/Lobby.svg)](https://gitter.im/GeneticSharp/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build status](https://ci.appveyor.com/api/projects/status/h9ptxpyj30ah3mva/branch/master?svg=true)](https://ci.appveyor.com/project/giacomelli/geneticsharp)
@@ -12,6 +13,7 @@ GeneticSharp is a fast, extensible, multi-platform and multithreading C# Genetic
 
 Can be used in any kind of .NET Core and .NET Framework apps, like ASP .NET MVC, ASP .NET Core, Web Forms, UWP, Windows Forms, GTK#, Xamarin and Unity3D games.
 
+
 --------
 
 ## Projects, papers, journals, books and tutorials using GeneticSharp
@@ -22,11 +24,13 @@ Can be used in any kind of .NET Core and .NET Framework apps, like ASP .NET MVC,
 * [Designing and creating a self managing distributed file system (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Designing-and-creating-a-self-managing-distributed-file-system.pdf)
 * [Developing trading strategies with genetic algorithms (forum)](https://www.quantconnect.com/forum/discussion/2396/developing-trading-strategies-with-genetic-algorithms) [(paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Developing-Trading-Strategies-with-Genetic-Algorithms.pdf)
 * [Function optimization with GeneticSharp (tutorial)](http://diegogiacomelli.com.br/function-optimization-with-geneticsharp/)
+* [GeneticSharp Car2D (sample)](http://diegogiacomelli.com.br/GeneticSharp-Car2D/)
 * [Genetic Scheduler: a genetic algorithm for scheduling tasks with temporal restriction in distributed systems (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Genetic-Scheduler.pdf)
 * [Lean Optimization: genetic optimization using LEAN (GitHub)](https://github.com/Jay-Jay-D/LeanOptimization) 
 * [Overload journal 142: Evolutionary computing frameworks for optimisation (journal)](https://accu.org/var/uploads/journals/Overload142.pdf)
 * [Path Finding with Genetic Algorithms (project)](https://yoloprogramming.com/post/2017/01/11/path-finding-with-genetic-algorithms)
 * [SurvivorAI: some experiments of survival scenarios (project)](https://github.com/giacomelli/SurvivorAI)
+* [TSP with GeneticSharp and Unity3D (tutorial)](http://diegogiacomelli.com.br/tsp-with-GeneticSharp-and-Unity3d/)
 * Are you using GeneticSharp in your project? Please, [let me know!](https://twitter.com/ogiacomelli)
 
 ## Features
@@ -95,6 +99,7 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
    - [Fast random](src/GeneticSharp.Domain/Randomizations/FastRandomRandomization.cs)   
    - If you need a special kind of randomization for your GA, just implement the [IRandomization](src/GeneticSharp.Domain/Randomizations/IRandomization.cs) interface.
 
+##  Samples
 ### [Console sample](src/GeneticSharp.Runner.ConsoleApp)
 - AutoConfig
 - Bitmap equality
@@ -115,21 +120,18 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
 #### Bitmap equality
 ![](docs/gifs/GeneticSharp-BitmapEquality_sample01.gif)
 
-### [Unity3D sample](src/GeneticSharp.Runner.UnityApp)
-- Car2D
-- TSP
-- Wall builder
-<center>
-<iframe width="640" height="480" src="https://www.youtube.com/embed/xXqNcgeOU_g" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-</center>
+### [Unity3D Samples](src/GeneticSharp.Runner.UnityApp)
+[![](docs/screenshots/GeneticSharp-UnityApp.png)](https://youtu.be/xXqNcgeOU_g)
+[![](docs/images/google-play-badge.png)](https://play.google.com/store/apps/details?id=br.com.diegogiacomelli.geneticsharprunnersunityapp)
+
       
-### Multi-platform
+## Multi-platform
 - Mono, .NET Standard 2.0 and .NET Framework 4.6.2 support.
 - Fully tested on Windows and MacOS.
 
 ![](docs/screenshots/VisualStudioMacAndWin.png)
 
-### Code quality
+## Code quality
 - 100% unit test code coverage.
 - FxCop validated.
 - Code duplicated verification.
@@ -152,6 +154,8 @@ GeneticSharp and extensions (TSP, AutoConfig, Bitmap equality, Equality equation
 ```shell
 install-package GeneticSharp.Extensions
 ```
+## Unity3D
+If want to use GeneticSharp on Unity3D you can use the latest GeneticSharp.unitypackage available on our [release page](https://github.com/giacomelli/GeneticSharp/releases).
 
 ## Mono and .NET Framework 3.5
 To install previous version that support .NET Framework 3.5:
@@ -256,6 +260,9 @@ Console.WriteLine("Best solution found has {0} fitness.", ga.BestChromosome.Fitn
 Having troubles? 
 
 - Read our [wiki](https://github.com/giacomelli/GeneticSharp/wiki).
+- Tutorials
+   - [Function optimization with GeneticSharp](http://diegogiacomelli.com.br/function-optimization-with-geneticsharp/) 
+   - [TSP with GeneticSharp and Unity3D](http://diegogiacomelli.com.br/tsp-with-GeneticSharp-and-Unity3d/)
 - Ask on Twitter [@ogiacomelli](http://twitter.com/ogiacomelli).
 - Ask on [Stack Overflow](http://stackoverflow.com/questions/tagged/geneticsharp) using the tag [GeneticSharp](http://stackoverflow.com/questions/tagged/geneticsharp).
  
@@ -270,3 +277,6 @@ Did you change it? [Submit a pull request](https://github.com/giacomelli/Genetic
 ## License
 Licensed under the The MIT License (MIT).
 In others words, you can use this library for developement any kind of software: open source, commercial, proprietary and alien.
+
+# Thanks to
+I would like to thanks to the guys from [SMASHINGLOGO (https://smashinglogo.com)](https://smashinglogo.com/) for the amazing GeneticSharp logo.
