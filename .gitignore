@@ -133,3 +133,4 @@ Issue9Sample.sln.GhostDoc.xml
 .vs
 .idea
 *.opencover.xml
+.sonarqube
