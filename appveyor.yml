@@ -5,8 +5,7 @@ environment:
   clone_folder: c:\gs
   GeneticSharp_SonarQube_login:
     secure: WfezXAszeX9KG1vsPaNo+uLHmT1dAkxMKdB2HxRIqMthyZvlUMWOY1N3irS7o4yS
-  VSTEST_CONNECTION_TIMEOUT:
-    value: 600
+  VSTEST_CONNECTION_TIMEOUT: 600
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
