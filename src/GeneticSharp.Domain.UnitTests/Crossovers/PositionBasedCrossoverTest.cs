@@ -61,7 +61,6 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         }
 
         [Test]
-        [MaxTime(40)]
         public void Cross_ParentsWith8Genes_Cross()
         {
             var target = new PositionBasedCrossover();
@@ -132,7 +131,6 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         }
 
         [Test]
-        [MaxTime(40)]
         public void Cross_ParentsWith6Genes_Cross()
         {
             var target = new PositionBasedCrossover();
