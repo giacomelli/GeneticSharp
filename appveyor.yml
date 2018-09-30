@@ -42,9 +42,25 @@ build_script:
 - cmd: dotnet build src/GeneticSharp.Runner.ConsoleApp -f netcoreapp2.0
 
 test_script:
-- cmd: cd src
-- cmd: cd ..\tools\runSonar.cmd
-- cmd: cd ..
+- cmd: src
+- cmd: dotnet ../tools/sonar-scanner-msbuild/SonarScanner.MSBuild.dll begin \
+    /k:"GeneticSharp" \
+    /v:$env:APPVEYOR_REPO_BRANCH  \
+    /d:sonar.organization="giacomelli-github" \
+    /d:sonar.host.url="https://sonarcloud.io" \
+    /d:sonar.login=$env:GeneticSharp_SonarQube_login \
+    /d:sonar.cs.opencover.reportsPaths="**/*.opencover.xml" \
+    /d:sonar.exclusions="**/*Test.cs,**/Samples/*.cs,MainWindow.cs,Program.cs,PropertyEditor.cs" 
+  
+- cmd: dotnet clean
+- cmd: dotnet build -c release
+
+- cmd: dotnet test GeneticSharp.Domain.UnitTests -f netcoreapp2.0 /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+- cmd: dotnet test GeneticSharp.Extensions.UnitTests -f netcoreapp2.0 /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+- cmd: dotnet test GeneticSharp.Infrastructure.Framework.UnitTests -f netcoreapp2.0 /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+
+- cmd: dotnet ../tools/sonar-scanner-msbuild/SonarScanner.MSBuild.dll end \
+    /d:sonar.login=$env:GeneticSharp_SonarQube_login
 
 after_build:
 - cmd: >-   
