@@ -48,16 +48,16 @@ after_build:
     dotnet pack src/GeneticSharp.Domain/GeneticSharp.Domain.csproj -c release --no-build --output ../nuget /p:PackageVersion=2.0.0 
     
     dotnet pack src/GeneticSharp.Extensions/GeneticSharp.Extensions.csproj -c release --no-build --output ../nuget /p:PackageVersion=2.0.0
-    
+
 test_script:
 - cmd: cd src
-- cmd: dotnet ../tools/sonar-scanner-msbuild/SonarScanner.MSBuild.dll begin \
-    /k:"GeneticSharp" \
-    /v:$env:APPVEYOR_REPO_BRANCH  \
-    /d:sonar.organization="giacomelli-github" \
-    /d:sonar.host.url="https://sonarcloud.io" \
-    /d:sonar.login=$env:GeneticSharp_SonarQube_login \
-    /d:sonar.cs.opencover.reportsPaths="**/*.opencover.xml" \
+- cmd: dotnet ../tools/sonar-scanner-msbuild/SonarScanner.MSBuild.dll begin
+    /k:"GeneticSharp"
+    /v:$env:APPVEYOR_REPO_BRANCH 
+    /d:sonar.organization="giacomelli-github"
+    /d:sonar.host.url="https://sonarcloud.io"
+    /d:sonar.login=$env:GeneticSharp_SonarQube_login
+    /d:sonar.cs.opencover.reportsPaths="**/*.opencover.xml"
     /d:sonar.exclusions="**/*Test.cs,**/Samples/*.cs,MainWindow.cs,Program.cs,PropertyEditor.cs" 
   
 - cmd: dotnet clean
