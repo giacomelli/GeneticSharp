@@ -1,13 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Advertisements;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour {
 
     private GameObject m_samples;
-    public Text Logo;
+    private string m_selectedSceneName;
+    public Image Logo;
     public RectTransform CurrentInfo;
     public RectTransform PreviousInfo;
 
@@ -26,16 +26,26 @@ public class MenuController : MonoBehaviour {
 
 	public void Open(string sceneName)
     {
+        Logo.enabled = false;
+        m_selectedSceneName = sceneName;
+
+        if (Advertisement.IsReady() && !sceneName.Equals("About"))
+        {
+            var options = new ShowOptions { resultCallback = OpenScene };
+            Advertisement.Show(options);
+        }
+        else
+        {
+            OpenScene(ShowResult.Skipped);
+        }
+    }
+
+    void OpenScene(ShowResult result)
+    {
         CurrentInfo.transform.position = new Vector3(CurrentInfo.transform.position.x, 60, 0);
         PreviousInfo.transform.position = new Vector3(PreviousInfo.transform.position.x, 60, 0);
-
-        Logo.text = "Loading...";
-        Logo.enabled = true;
-        SceneManager.sceneLoaded += delegate
-        {
-            Logo.enabled = false;
-        };
-        SceneManager.LoadScene($"{sceneName}Scene");
+       
+        SceneManager.LoadScene($"{m_selectedSceneName}Scene");
     }
 
     public void OpenLink()

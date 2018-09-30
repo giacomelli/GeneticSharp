@@ -112,6 +112,12 @@ public abstract class SampleControllerBase : MonoBehaviour {
 	{
         GA.Stop();
         m_gaThread.Abort();
+
+        m_generationText.text = String.Empty;
+        m_fitnessText.text = String.Empty;
+
+        m_previousGenerationText.text = String.Empty;
+        m_previousFitnessText.text = String.Empty;
 	}
 
 	protected virtual void StartSample() 

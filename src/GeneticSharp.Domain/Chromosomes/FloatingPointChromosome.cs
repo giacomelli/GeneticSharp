@@ -47,36 +47,53 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <param name="totalBits">Total bits.</param>
         /// <param name="fractionDigits">Fraction digits.</param>
         public FloatingPointChromosome(double[] minValue, double[] maxValue, int[] totalBits, int[] fractionDigits)
-			: base(totalBits.Sum())
+			: this(minValue, maxValue, totalBits, fractionDigits, null)
 		{
-			m_minValue = minValue;
-			m_maxValue = maxValue;
-			m_totalBits = totalBits;
-			m_fractionDigits = fractionDigits;
-
-			var originalValues = new double[minValue.Length];
-			var rnd = RandomizationProvider.Current;
-
-			for (int i = 0; i < originalValues.Length; i++)
-			{
-				originalValues[i] = rnd.GetDouble(minValue[i], maxValue[i]);
-			}
-
-			m_originalValueStringRepresentation = String.Join(
-				"", 
-				BinaryStringRepresentation.ToRepresentation(
-				originalValues, 
-				totalBits,
-					fractionDigits));
-
-			CreateGenes();
 		}
 
-		/// <summary>
-		/// Creates the new.
-		/// </summary>
-		/// <returns>The new.</returns>
-		public override IChromosome CreateNew ()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome"/> class.
+        /// </summary>
+        /// <param name="minValue">Minimum value.</param>
+        /// <param name="maxValue">Max value.</param>
+        /// <param name="totalBits">Total bits.</param>
+        /// <param name="fractionDigits">Fraction digits.</param>
+        /// /// <param name="geneValues">Gene values.</param>
+        public FloatingPointChromosome(double[] minValue, double[] maxValue, int[] totalBits, int[] fractionDigits, double[] geneValues)
+            : base(totalBits.Sum())
+        {
+            m_minValue = minValue;
+            m_maxValue = maxValue;
+            m_totalBits = totalBits;
+            m_fractionDigits = fractionDigits;
+
+            // If values are not supplied, create random values
+            if (geneValues == null)
+            {
+                geneValues = new double[minValue.Length];
+                var rnd = RandomizationProvider.Current;
+
+                for (int i = 0; i < geneValues.Length; i++)
+                {
+                    geneValues[i] = rnd.GetDouble(minValue[i], maxValue[i]);
+                }
+            }
+
+            m_originalValueStringRepresentation = String.Join(
+                "",
+                BinaryStringRepresentation.ToRepresentation(
+                geneValues,
+                totalBits,
+                fractionDigits));
+
+            CreateGenes();
+        }
+
+        /// <summary>
+        /// Creates the new.
+        /// </summary>
+        /// <returns>The new.</returns>
+        public override IChromosome CreateNew ()
 		{
 			return new FloatingPointChromosome (m_minValue, m_maxValue, m_totalBits, m_fractionDigits);
 		}
