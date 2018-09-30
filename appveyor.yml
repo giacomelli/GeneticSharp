@@ -5,6 +5,8 @@ environment:
   clone_folder: c:\gs
   GeneticSharp_SonarQube_login:
     secure: WfezXAszeX9KG1vsPaNo+uLHmT1dAkxMKdB2HxRIqMthyZvlUMWOY1N3irS7o4yS
+  VSTEST_CONNECTION_TIMEOUT:
+    value: 600
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
@@ -50,6 +52,7 @@ after_build:
     dotnet pack src/GeneticSharp.Extensions/GeneticSharp.Extensions.csproj -c release --no-build --output ../nuget /p:PackageVersion=2.0.0
 
 test_script:
+- cmd: 
 - cmd: cd src
 - cmd: dotnet ../tools/sonar-scanner-msbuild/SonarScanner.MSBuild.dll begin
     /k:"GeneticSharp"
