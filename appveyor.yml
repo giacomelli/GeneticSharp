@@ -43,13 +43,13 @@ build_script:
 # - cmd: dotnet build src/GeneticSharp.Infrastructure.Framework.UnitTests -f netcoreapp2.0
 # - cmd: dotnet build src/GeneticSharp.Runner.ConsoleApp -f netcoreapp2.0
 
-after_build:
-- cmd: >-   
-    mkdir .\src\nuget
+# after_build:
+# - cmd: >-   
+#     mkdir .\src\nuget
 
-    dotnet pack src/GeneticSharp.Domain/GeneticSharp.Domain.csproj -c release --no-build --output ../nuget /p:PackageVersion=2.0.0 
+#     dotnet pack src/GeneticSharp.Domain/GeneticSharp.Domain.csproj -c release --no-build --output ../nuget /p:PackageVersion=2.0.0 
     
-    dotnet pack src/GeneticSharp.Extensions/GeneticSharp.Extensions.csproj -c release --no-build --output ../nuget /p:PackageVersion=2.0.0
+#     dotnet pack src/GeneticSharp.Extensions/GeneticSharp.Extensions.csproj -c release --no-build --output ../nuget /p:PackageVersion=2.0.0
 
 test_script:
 - cmd: cd src
