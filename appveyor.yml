@@ -5,7 +5,6 @@ environment:
   clone_folder: c:\gs
   GeneticSharp_SonarQube_login:
     secure: WfezXAszeX9KG1vsPaNo+uLHmT1dAkxMKdB2HxRIqMthyZvlUMWOY1N3irS7o4yS
-  VSTEST_CONNECTION_TIMEOUT: 3600
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
@@ -25,22 +24,24 @@ before_build:
 - cmd: dotnet restore src
 
 build_script:
+- cmd: dotnet clean src
+
 # The default build
-- cmd: dotnet build src -c release
+# - cmd: dotnet build src -c release
 
-# All projects support net462 (GTK# only support net462)
-- cmd: dotnet build src -c release -f net462
+# # All projects support net462 (GTK# only support net462)
+# - cmd: dotnet build src -c release -f net462
 
-# Libraries support .netstandard2.0
-- cmd: dotnet build src/GeneticSharp.Domain -f netstandard2.0
-- cmd: dotnet build src/GeneticSharp.Extensions -f netstandard2.0
-- cmd: dotnet build src/GeneticSharp.Infrastructure.Framework -f netstandard2.0
+# # Libraries support .netstandard2.0
+# - cmd: dotnet build src/GeneticSharp.Domain -f netstandard2.0
+# - cmd: dotnet build src/GeneticSharp.Extensions -f netstandard2.0
+# - cmd: dotnet build src/GeneticSharp.Infrastructure.Framework -f netstandard2.0
 
-# Unit tests and ConsoleApp support .netcoreapp2.0
-- cmd: dotnet build src/GeneticSharp.Domain.UnitTests -f netcoreapp2.0
-- cmd: dotnet build src/GeneticSharp.Extensions.UnitTests -f netcoreapp2.0
-- cmd: dotnet build src/GeneticSharp.Infrastructure.Framework.UnitTests -f netcoreapp2.0
-- cmd: dotnet build src/GeneticSharp.Runner.ConsoleApp -f netcoreapp2.0
+# # Unit tests and ConsoleApp support .netcoreapp2.0
+# - cmd: dotnet build src/GeneticSharp.Domain.UnitTests -f netcoreapp2.0
+# - cmd: dotnet build src/GeneticSharp.Extensions.UnitTests -f netcoreapp2.0
+# - cmd: dotnet build src/GeneticSharp.Infrastructure.Framework.UnitTests -f netcoreapp2.0
+# - cmd: dotnet build src/GeneticSharp.Runner.ConsoleApp -f netcoreapp2.0
 
 after_build:
 - cmd: >-   
@@ -51,7 +52,6 @@ after_build:
     dotnet pack src/GeneticSharp.Extensions/GeneticSharp.Extensions.csproj -c release --no-build --output ../nuget /p:PackageVersion=2.0.0
 
 test_script:
-- cmd: 
 - cmd: cd src
 - cmd: dotnet clean
 - cmd: dotnet ../tools/sonar-scanner-msbuild/SonarScanner.MSBuild.dll begin
@@ -63,7 +63,6 @@ test_script:
     /d:sonar.cs.opencover.reportsPaths="**/*.opencover.xml"
     /d:sonar.exclusions="**/*Test.cs,**/Samples/*.cs,MainWindow.cs,Program.cs,PropertyEditor.cs" 
   
-- cmd: dotnet clean
 - cmd: dotnet build -c release
 
 - cmd: dotnet test GeneticSharp.Domain.UnitTests -f netcoreapp2.0 /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
