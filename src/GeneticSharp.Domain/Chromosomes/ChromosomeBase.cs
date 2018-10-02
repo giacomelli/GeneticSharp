@@ -257,7 +257,6 @@ namespace GeneticSharp.Domain.Chromosomes
                 return 0;
             }
 
-            // TODO: chromosomes with same fitnesss are really equals?
             return Fitness > otherFitness ? 1 : -1;
         }
 

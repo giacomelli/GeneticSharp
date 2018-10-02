@@ -51,7 +51,29 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
 			Assert.AreEqual(3, actual[2]);
 		}
 
-		[Test]
+        [Test]
+        public void ToFloatingPoint_LowerMinValue_MinValue()
+        {
+            RandomizationProvider.Current = Substitute.For<IRandomization>();
+            RandomizationProvider.Current.GetDouble(0.5, 2.5).Returns(0.4);
+
+            var target = new FloatingPointChromosome(0.5, 2.5, 64, 2);
+            var actual = target.ToFloatingPoint();
+            Assert.AreEqual(0.5, actual);
+        }
+
+        [Test]
+        public void ToFloatingPoint_GreaterMaxValue_MaxValue()
+        {
+            RandomizationProvider.Current = Substitute.For<IRandomization>();
+            RandomizationProvider.Current.GetDouble(0.5, 2.5).Returns(2.6);
+
+            var target = new FloatingPointChromosome(0.5, 2.5, 64, 2);
+            var actual = target.ToFloatingPoint();
+            Assert.AreEqual(2.5, actual);
+        }
+
+        [Test]
 		public void Constructor_FromZeroToZero_Double()
 		{
 			RandomizationProvider.Current = Substitute.For<IRandomization>();

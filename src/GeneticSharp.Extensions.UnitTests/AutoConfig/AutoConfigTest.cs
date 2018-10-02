@@ -9,6 +9,7 @@ using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.AutoConfig;
 using GeneticSharp.Extensions.Tsp;
 using GeneticSharp.Infrastructure.Framework.Threading;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.AutoConfig
@@ -53,7 +54,44 @@ namespace GeneticSharp.Extensions.UnitTests.AutoConfig
             Assert.NotNull(ga.BestChromosome);            
         }
 
-		[Test()]
+        [Test()]
+        public void Evolve_InvalidOperatorsCombination_ZeroFitness()
+        {
+            RandomizationProvider.Current = Substitute.For<IRandomization>();
+            RandomizationProvider.Current.GetUniqueInts(10, 0, 10).Returns(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 });
+            RandomizationProvider.Current.GetInt(0, 3).Returns(2);
+
+            var selection = new EliteSelection();
+            var crossover = new CutAndSpliceCrossover();
+            var mutation = new UniformMutation(true);
+            var chromosome = new AutoConfigChromosome();
+            var targetChromosome = new TspChromosome(10);
+            var targetFitness = new TspFitness(10, 0, 100, 0, 100);
+            var fitness = new AutoConfigFitness(targetFitness, targetChromosome)
+            {
+                PopulationMinSize = 20,
+                PopulationMaxSize = 20,
+                Termination = new TimeEvolvingTermination(TimeSpan.FromSeconds(5))
+            };
+
+            var population = new Population(10, 10, chromosome);
+
+            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation)
+            {
+                TaskExecutor = new ParallelTaskExecutor()
+                {
+                    MinThreads = 10,
+                    MaxThreads = 20
+                },
+
+                Termination = new GenerationNumberTermination(100)
+            };
+            ga.Start();
+
+            Assert.AreEqual(0, ga.BestChromosome.Fitness);
+        }
+
+        [Test()]
 		public void GenerateGene_InvalidIndex_Exception()
 		{
 			var target = new AutoConfigChromosome();

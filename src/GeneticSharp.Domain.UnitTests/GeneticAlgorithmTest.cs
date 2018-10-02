@@ -203,7 +203,24 @@ namespace GeneticSharp.Domain.UnitTests
 			Assert.AreEqual(GeneticAlgorithmState.Stopped, target.State);
 		}
 
-		[Test()]
+        [Test()]
+        public void Start_FitnessEvaluationFailed_FitnessException()
+        {
+            var selection = new RouletteWheelSelection();
+            var crossover = new OnePointCrossover(1);
+            var mutation = new UniformMutation();
+            var chromosome = new ChromosomeStub();
+            var fitness = new FuncFitness((c) => throw new Exception("TEST"));
+
+            var target = new GeneticAlgorithm(new Population(100, 150, chromosome), fitness, selection, crossover, mutation);
+          
+            Assert.Catch<FitnessException>(target.Start);
+
+            Assert.IsFalse(target.IsRunning);
+            Assert.AreEqual(GeneticAlgorithmState.Stopped, target.State);
+        }
+
+        [Test()]
       	public void Start_NotParallelManyGenerations_Fast()
 		{
 			var selection = new EliteSelection();

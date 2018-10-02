@@ -6,33 +6,38 @@ namespace GeneticSharp.Domain.Randomizations
     /// <summary>
     /// An IRandomization implementation using System.Random has pseudo-number generator.
     /// </summary>
+    /// <remarks>
+    /// https://codeblog.jonskeet.uk/2009/11/04/revisiting-randomness/
+    /// </remarks>
     public class BasicRandomization : RandomizationBase
     {
-        #region Fields   
-        // TODO: change to ThreadLocal when we migrate GeneticSharp to .NET 4.0+.
-        // http://codeblog.jonskeet.uk/2009/11/04/revisiting-randomness/
-        private static int s_seed = Environment.TickCount;
+        private static readonly Random m_globalRandom = new Random();
+        private static readonly object m_globalLock = new object();
+       
+        /// <summary> 
+        /// Random number generator 
+        /// </summary> 
+        private static readonly ThreadLocal<Random> s_threadRandom = new ThreadLocal<Random>(NewRandom);
 
-        [ThreadStatic]
-        private static Random s_random;
-        #endregion
-
-        #region Properties
-        private static Random Random
+        /// <summary> 
+        /// Creates a new instance of Random. The seed is derived 
+        /// from a global (static) instance of Random, rather 
+        /// than time. 
+        /// </summary> 
+        public static Random NewRandom()
         {
-            get
+            lock (m_globalLock)
             {
-                if (s_random == null)
-                {
-                    s_random = new Random(Interlocked.Increment(ref s_seed));
-                }
-
-                return s_random;
+                return new Random(m_globalRandom.Next());
             }
         }
-        #endregion
 
-        #region Methods
+        /// <summary> 
+        /// Returns an instance of Random which can be used freely 
+        /// within the current thread. 
+        /// </summary> 
+        public static Random Instance { get { return s_threadRandom.Value; } }
+
         /// <summary>
         /// Gets an integer value between minimum value (inclusive) and maximum value (exclusive).
         /// </summary>
@@ -41,7 +46,7 @@ namespace GeneticSharp.Domain.Randomizations
         /// <param name="max">Maximum value (exclusive).</param>
         public override int GetInt(int min, int max)
         {
-            return Random.Next(min, max);            
+            return Instance.Next(min, max);            
         }
 
         /// <summary>
@@ -52,7 +57,7 @@ namespace GeneticSharp.Domain.Randomizations
         /// </returns>
         public override float GetFloat()
         {
-            return (float)Random.NextDouble();
+            return (float)Instance.NextDouble();
         }
 
         /// <summary>
@@ -61,8 +66,7 @@ namespace GeneticSharp.Domain.Randomizations
         /// <returns>The double value.</returns>
         public override double GetDouble()
         {
-            return Random.NextDouble();
+            return Instance.NextDouble();
         }       
-        #endregion
     }
 }
