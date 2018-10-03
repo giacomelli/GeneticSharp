@@ -132,3 +132,5 @@ Issue9Sample.sln.GhostDoc.xml
 /src/.vs/GeneticSharp/v15/Server/sqlite3
 .vs
 .idea
+*.opencover.xml
+.sonarqube

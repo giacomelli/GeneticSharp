@@ -9,11 +9,8 @@ namespace GeneticSharp.Domain.Randomizations
     /// </summary>
     public class FastRandomRandomization : RandomizationBase
     {
-        #region Fields
-        private FastRandom m_random = new FastRandom(DateTime.Now.Millisecond);
-        #endregion
-
-        #region Methods
+        private readonly FastRandom m_random = new FastRandom(DateTime.Now.Millisecond);
+       
         /// <summary>
         /// Gets an integer value between minimum value (inclusive) and maximum value (exclusive).
         /// </summary>
@@ -44,6 +41,5 @@ namespace GeneticSharp.Domain.Randomizations
         {
             return m_random.NextDouble();
         }
-        #endregion
     }
 }

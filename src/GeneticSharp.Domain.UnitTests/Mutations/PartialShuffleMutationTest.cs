@@ -92,5 +92,39 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             Assert.AreEqual(2, chromosome.GetGene(4).Value);
             Assert.AreEqual(6, chromosome.GetGene(5).Value);
         }
+
+        [Test()]
+        public void Mutate_AllGenesAreEqual_NoShuffle()
+        {
+            var target = new PartialShuffleMutation();
+            var chromosome = Substitute.For<ChromosomeBase>(6);
+            chromosome.ReplaceGenes(0, new Gene[]
+            {
+                new Gene(1),
+                new Gene(1),
+                new Gene(1),
+                new Gene(1),
+                new Gene(1),
+                new Gene(1)
+            });
+
+            var rnd = Substitute.For<IRandomization>();
+            rnd.GetUniqueInts(2, 0, 6).Returns(new int[] { 1, 4 });
+            rnd.GetInt(0, 4).Returns(2);
+            rnd.GetInt(0, 3).Returns(1);
+            rnd.GetInt(0, 2).Returns(1);
+            rnd.GetInt(0, 1).Returns(0);
+            RandomizationProvider.Current = rnd;
+
+            target.Mutate(chromosome, 1);
+
+            Assert.AreEqual(6, chromosome.Length);
+            Assert.AreEqual(1, chromosome.GetGene(0).Value);
+            Assert.AreEqual(1, chromosome.GetGene(1).Value);
+            Assert.AreEqual(1, chromosome.GetGene(2).Value);
+            Assert.AreEqual(1, chromosome.GetGene(3).Value);
+            Assert.AreEqual(1, chromosome.GetGene(4).Value);
+            Assert.AreEqual(1, chromosome.GetGene(5).Value);
+        }
     }
 }

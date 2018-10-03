@@ -10,11 +10,11 @@ namespace GeneticSharp.Domain.Chromosomes
 	/// </summary>
 	public class FloatingPointChromosome : BinaryChromosomeBase
 	{
-		private double[] m_minValue;
-		private double[] m_maxValue;
-		private int[] m_totalBits;
-        private int[] m_fractionDigits;
-		private string m_originalValueStringRepresentation;
+		private readonly double[] m_minValue;
+		private readonly double[] m_maxValue;
+		private readonly int[] m_totalBits;
+        private readonly int[] m_fractionDigits;
+		private readonly string m_originalValueStringRepresentation;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome"/> class.

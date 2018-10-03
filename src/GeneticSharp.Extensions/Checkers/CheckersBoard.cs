@@ -185,16 +185,9 @@ namespace GeneticSharp.Extensions.Checkers
                 if (from.State == currentSquareState && to.State == CheckersSquareState.Free)
                 {
                     int indexModifier = GetIndexModifier(player);
-                    CheckersSquareState opponentState;
-
-                    if (from.State == CheckersSquareState.OccupiedByPlayerOne)
-                    {
-                        opponentState = CheckersSquareState.OccupiedByPlayerTwo;
-                    }
-                    else
-                    {
-                        opponentState = CheckersSquareState.OccupiedByPlayerOne;
-                    }
+                    var opponentState = from.State == CheckersSquareState.OccupiedByPlayerOne
+                        ? CheckersSquareState.OccupiedByPlayerTwo
+                        : CheckersSquareState.OccupiedByPlayerOne;
 
                     // Forward move.
                     if (to.RowIndex == from.RowIndex + (1 * indexModifier)
@@ -202,23 +195,9 @@ namespace GeneticSharp.Extensions.Checkers
                     {
                         kind = CheckersMoveKind.Forward;
                     }
-                    else
-                    if (to.RowIndex == from.RowIndex + (2 * indexModifier))
+                    else if (CanCapture(to, from, opponentState, indexModifier))
                     {
-                        // Capture move.
-
-                        // To right or To left?
-                        if (to.ColumnIndex == from.ColumnIndex + (2 * indexModifier)
-                        && GetSquare(from.ColumnIndex + (1 * indexModifier), from.RowIndex + (1 * indexModifier)).State == opponentState)
-                        {
-                            kind = CheckersMoveKind.Capture;
-                        }
-                        else
-                        if (to.ColumnIndex == from.ColumnIndex - (2 * indexModifier)
-                        && GetSquare(from.ColumnIndex - (1 * indexModifier), from.RowIndex + (1 * indexModifier)).State == opponentState)
-                        {
-                            kind = CheckersMoveKind.Capture;
-                        }
+                        kind = CheckersMoveKind.Capture;
                     }
                 }
             }
@@ -283,23 +262,24 @@ namespace GeneticSharp.Extensions.Checkers
 
                 if (IsValidIndex(enemyLeftColumnIndex) && IsValidIndex(enemyRightColumnIndex))
                 {
-                    var enemyPiece = GetSquare(enemyLeftColumnIndex, enemyPieceRowIndex).CurrentPiece;
-
-                    if (enemyPiece != null)
-                    {
-                        capturedCount += GetMoveKind(new CheckersMove(enemyPiece, GetSquare(enemyRightColumnIndex, enemyToSquareRowIndex))) == CheckersMoveKind.Capture ? 1 : 0;
-                    }
-
-                    enemyPiece = GetSquare(enemyRightColumnIndex, enemyPieceRowIndex).CurrentPiece;
-
-                    if (enemyPiece != null)
-                    {
-                        capturedCount += GetMoveKind(new CheckersMove(enemyPiece, GetSquare(enemyLeftColumnIndex, enemyToSquareRowIndex))) == CheckersMoveKind.Capture ? 1 : 0;
-                    }
+                    capturedCount += CountIfEnemyPiece(enemyPieceRowIndex, enemyToSquareRowIndex, enemyLeftColumnIndex, enemyRightColumnIndex);
+                    capturedCount += CountIfEnemyPiece(enemyPieceRowIndex, enemyToSquareRowIndex, enemyRightColumnIndex, enemyLeftColumnIndex);
                 }
             }
 
             return capturedCount;
+        }
+
+        private int CountIfEnemyPiece(int enemyFromRowIndex, int enemyToRowIndex, int enemyFromColumnIndex, int enemyToColumnIndex)
+        {
+            var enemyPiece = GetSquare(enemyFromColumnIndex, enemyFromRowIndex).CurrentPiece;
+
+            if (enemyPiece != null)
+            {
+                return GetMoveKind(new CheckersMove(enemyPiece, GetSquare(enemyToColumnIndex, enemyToRowIndex))) == CheckersMoveKind.Capture ? 1 : 0;
+            }
+
+            return 0;
         }
         #endregion
 
@@ -323,6 +303,26 @@ namespace GeneticSharp.Extensions.Checkers
         private bool IsValidIndex(int index)
         {
             return index >= 0 && index < Size;
+        }
+
+        private bool CanCapture(CheckersSquare to, CheckersSquare from, CheckersSquareState opponentState, int indexModifier)
+        {
+            if (to.RowIndex == from.RowIndex + (2 * indexModifier))
+            {
+                // To right or To left?
+                if (to.ColumnIndex == from.ColumnIndex + (2 * indexModifier)
+                && GetSquare(from.ColumnIndex + (1 * indexModifier), from.RowIndex + (1 * indexModifier)).State == opponentState)
+                {
+                    return true;
+                }
+                else if (to.ColumnIndex == from.ColumnIndex - (2 * indexModifier)
+                && GetSquare(from.ColumnIndex - (1 * indexModifier), from.RowIndex + (1 * indexModifier)).State == opponentState)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
         #endregion
     }
