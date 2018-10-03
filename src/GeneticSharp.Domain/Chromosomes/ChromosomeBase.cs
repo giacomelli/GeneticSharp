@@ -163,7 +163,7 @@ namespace GeneticSharp.Domain.Chromosomes
         {
             if (index < 0 || index >= m_length)
             {
-                throw new ArgumentOutOfRangeException("index", "There is no Gene on index {0} to be replaced.".With(index));
+                throw new ArgumentOutOfRangeException(nameof(index), "There is no Gene on index {0} to be replaced.".With(index));
             }
 
             m_genes[index] = gene;
@@ -186,7 +186,7 @@ namespace GeneticSharp.Domain.Chromosomes
             {
                 if (startIndex < 0 || startIndex >= m_length)
                 {
-                    throw new ArgumentOutOfRangeException("index", "There is no Gene on index {0} to be replaced.".With(startIndex));
+                    throw new ArgumentOutOfRangeException(nameof(startIndex), "There is no Gene on index {0} to be replaced.".With(startIndex));
                 }
 
                 var genesToBeReplacedLength = genes.Length;
@@ -196,7 +196,9 @@ namespace GeneticSharp.Domain.Chromosomes
                 if (genesToBeReplacedLength > availableSpaceLength)
                 {
                     throw new ArgumentException(
-                        "genes", "The number of genes to be replaced is greater than available space, there is {0} genes between the index {1} and the end of chromosome, but there is {2} genes to be replaced.".With(availableSpaceLength, startIndex, genesToBeReplacedLength));
+                        nameof(Gene),
+                        "The number of genes to be replaced is greater than available space, there is {0} genes between the index {1} and the end of chromosome, but there is {2} genes to be replaced."
+                        .With(availableSpaceLength, startIndex, genesToBeReplacedLength));
                 }
 
                 Array.Copy(genes, 0, m_genes, startIndex, genes.Length);
@@ -333,7 +335,7 @@ namespace GeneticSharp.Domain.Chromosomes
         {
             if (length < 2)
             {
-                throw new ArgumentException("The minimum length for a chromosome is 2 genes.");
+                throw new ArgumentException("The minimum length for a chromosome is 2 genes.", nameof(length));
             }
         }
         #endregion      

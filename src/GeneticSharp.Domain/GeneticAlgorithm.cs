@@ -437,9 +437,8 @@ namespace GeneticSharp.Domain
         /// <summary>
         /// Runs the evaluate fitness.
         /// </summary>
-        /// <returns>The evaluate fitness.</returns>
         /// <param name="chromosome">The chromosome.</param>
-        private object RunEvaluateFitness(object chromosome)
+        private void RunEvaluateFitness(object chromosome)
         {
             var c = chromosome as IChromosome;
 
@@ -451,8 +450,6 @@ namespace GeneticSharp.Domain
             {
                 throw new FitnessException(Fitness, "Error executing Fitness.Evaluate for chromosome: {0}".With(ex.Message), ex);
             }
-
-            return c.Fitness;
         }
 
         /// <summary>

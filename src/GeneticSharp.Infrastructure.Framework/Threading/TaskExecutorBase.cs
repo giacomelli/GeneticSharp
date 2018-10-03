@@ -8,11 +8,8 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
     /// </summary>
     public abstract class TaskExecutorBase : ITaskExecutor
     {
-        #region Fields
-        private object m_lock = new object();
-        #endregion
+        private readonly object m_lock = new object();
 
-        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Infrastructure.Framework.Threading.TaskExecutorBase"/> class.
         /// </summary>
@@ -21,9 +18,7 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
             Tasks = new List<Action>();
             Timeout = TimeSpan.MaxValue;
         }
-        #endregion
 
-        #region Properties
         /// <summary>
         /// Gets or sets the timeout to execute the tasks.
         /// </summary>
@@ -49,9 +44,7 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
         /// </summary>
         /// <value><c>true</c> if stop requested; otherwise, <c>false</c>.</value>
         protected bool StopRequested { get; private set; }
-        #endregion
-
-        #region Methods
+  
         /// <summary>
         /// Add the specified task to be executed.
         /// </summary>
@@ -94,6 +87,5 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
                 StopRequested = true;
             }
         }
-        #endregion
-    }
+     }
 }

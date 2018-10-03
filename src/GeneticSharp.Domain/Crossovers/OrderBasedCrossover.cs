@@ -49,14 +49,14 @@ namespace GeneticSharp.Domain.Crossovers
         {
             ValidateParents(parents);
 
-            var firstParent = parents[0];
-            var secondParent = parents[1];
+            var parentOne = parents[0];
+            var parentTwo = parents[1];
 
             var rnd = RandomizationProvider.Current;
-            var swapIndexesLength = rnd.GetInt(1, firstParent.Length - 1);
-            var swapIndexes = rnd.GetUniqueInts(swapIndexesLength, 0, firstParent.Length);            
-            var firstChild = CreateChild(firstParent, secondParent, swapIndexes);
-            var secondChild = CreateChild(secondParent, firstParent, swapIndexes);
+            var swapIndexesLength = rnd.GetInt(1, parentOne.Length - 1);
+            var swapIndexes = rnd.GetUniqueInts(swapIndexesLength, 0, parentOne.Length);            
+            var firstChild = CreateChild(parentOne, parentTwo, swapIndexes);
+            var secondChild = CreateChild(parentTwo, parentOne, swapIndexes);
 
             return new List<IChromosome>() { firstChild, secondChild };
         }
