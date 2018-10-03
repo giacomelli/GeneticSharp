@@ -53,15 +53,6 @@ namespace GeneticSharp.Extensions.Ghostwriter
         }
 
         /// <summary>
-        /// Creates a clone.
-        /// </summary>
-        /// <returns>The chromosome clone.</returns>
-        public override IChromosome Clone()
-        {
-            return base.Clone();
-        }
-
-        /// <summary>
         /// Gets the text.
         /// </summary>
         /// <returns>The text.</returns>

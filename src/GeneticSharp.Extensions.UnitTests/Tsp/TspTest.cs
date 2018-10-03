@@ -14,7 +14,6 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
     public class TspTest
     {
         [Test()]
-        [MaxTime(100000)]
         public void Evolve_ManyGenerations_Fast()
         {
             int numberOfCities = 40;

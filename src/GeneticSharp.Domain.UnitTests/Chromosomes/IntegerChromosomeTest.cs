@@ -1,12 +1,11 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
 using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Chromosomes
 {
-	[TestFixture]
+    [TestFixture]
 	public class IntegerChromosomeTest
 	{
 		[Test]
@@ -29,6 +28,22 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
             RandomizationProvider.Current.GetInt(0, 3).Returns(-2);
 
             var target = new IntegerChromosome(0, 3);
+            Assert.AreEqual("11111111111111111111111111111110", target.ToString());
+
+            var actual = target.ToInteger();
+            Assert.AreEqual(-2, actual);
+        }
+
+        [Test]
+        public void CreateNew_NoArgs_NewInstance()
+        {
+            RandomizationProvider.Current = Substitute.For<IRandomization>();
+            RandomizationProvider.Current.GetInt(0, 3).Returns(-2);
+
+            var old = new IntegerChromosome(0, 3);
+            var target = old.CreateNew() as IntegerChromosome;
+
+            Assert.AreNotSame(old, target);
             Assert.AreEqual("11111111111111111111111111111110", target.ToString());
 
             var actual = target.ToInteger();

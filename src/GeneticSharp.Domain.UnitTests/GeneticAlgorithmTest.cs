@@ -94,7 +94,6 @@ namespace GeneticSharp.Domain.UnitTests
 		}
 
 		[Test()]
-        [MaxTime(1000)]
 		public void Start_NotParallelManyGenerations_Optimization()
 		{
 			var selection = new EliteSelection();
@@ -204,9 +203,25 @@ namespace GeneticSharp.Domain.UnitTests
 			Assert.AreEqual(GeneticAlgorithmState.Stopped, target.State);
 		}
 
-		[Test()]
-        [MaxTime(100)]
-		public void Start_NotParallelManyGenerations_Fast()
+        [Test()]
+        public void Start_FitnessEvaluationFailed_FitnessException()
+        {
+            var selection = new RouletteWheelSelection();
+            var crossover = new OnePointCrossover(1);
+            var mutation = new UniformMutation();
+            var chromosome = new ChromosomeStub();
+            var fitness = new FuncFitness((c) => throw new Exception("TEST"));
+
+            var target = new GeneticAlgorithm(new Population(100, 150, chromosome), fitness, selection, crossover, mutation);
+          
+            Assert.Catch<FitnessException>(target.Start);
+
+            Assert.IsFalse(target.IsRunning);
+            Assert.AreEqual(GeneticAlgorithmState.Stopped, target.State);
+        }
+
+        [Test()]
+      	public void Start_NotParallelManyGenerations_Fast()
 		{
 			var selection = new EliteSelection();
 			var crossover = new OnePointCrossover(2);
@@ -224,25 +239,24 @@ namespace GeneticSharp.Domain.UnitTests
 			Assert.Greater(target.TimeEvolving.TotalMilliseconds, 1);
 		}
 
-        //[Test()]
-        //[MaxTime(100)]
-        //public void Start_ParallelManyGenerations_Faster()
-        //{
-        //    var selection = new EliteSelection();
-        //    var crossover = new OnePointCrossover(2);
-        //    var mutation = new UniformMutation();
-        //    var chromosome = new ChromosomeStub();
-        //    var target = new GeneticAlgorithm(new Population(100, 100, chromosome),
-        //            new FitnessStub() { SupportsParallel = true }, selection, crossover, mutation);
+        [Test()]
+        public void Start_ParallelManyGenerations_Faster()
+        {
+            var selection = new EliteSelection();
+            var crossover = new OnePointCrossover(2);
+            var mutation = new UniformMutation();
+            var chromosome = new ChromosomeStub();
+            var target = new GeneticAlgorithm(new Population(100, 100, chromosome),
+                    new FitnessStub() { SupportsParallel = true }, selection, crossover, mutation);
 
-        //    target.Population.GenerationStrategy = new TrackingGenerationStrategy();
-        //    target.Termination = new GenerationNumberTermination(100);
-        //    target.TaskExecutor = new ParallelTaskExecutor();
-        //    target.Start();
+            target.Population.GenerationStrategy = new TrackingGenerationStrategy();
+            target.Termination = new GenerationNumberTermination(100);
+            target.TaskExecutor = new ParallelTaskExecutor();
+            target.Start();
 
-        //    Assert.AreEqual(100, target.Population.Generations.Count);
-        //    Assert.Greater(target.TimeEvolving.TotalMilliseconds, 1);
-        //}
+            Assert.AreEqual(100, target.Population.Generations.Count);
+            Assert.Greater(target.TimeEvolving.TotalMilliseconds, 1);
+        }
 
 		[Test()]
 		public void Start_ParallelGAs_Fast()
@@ -437,14 +451,14 @@ namespace GeneticSharp.Domain.UnitTests
 			var lastTimeEvolving = target.TimeEvolving.TotalMilliseconds;
 			Assert.AreEqual(100, target.Population.Generations.Count);
 			Assert.Greater(target.TimeEvolving.TotalMilliseconds, 1);
-			Assert.Less(target.TimeEvolving.TotalMilliseconds, 1000);
+			Assert.Less(target.TimeEvolving.TotalMilliseconds, 1000, "Time evolving should be less than 1000ms");
 			Assert.AreEqual(GeneticAlgorithmState.TerminationReached, target.State);
 			Assert.IsFalse(target.IsRunning);
 
 			target.Termination = new GenerationNumberTermination(50);
 			target.Start();
 			Assert.AreEqual(50, target.Population.Generations.Count);
-			Assert.Less(target.TimeEvolving.TotalMilliseconds, lastTimeEvolving);
+            Assert.Less(target.TimeEvolving.TotalMilliseconds, lastTimeEvolving, "Time evolving 50 generations should be less than 100-199 generations");
 			lastTimeEvolving = target.TimeEvolving.TotalMilliseconds;
 			Assert.AreEqual(GeneticAlgorithmState.TerminationReached, target.State);
 			Assert.IsFalse(target.IsRunning);

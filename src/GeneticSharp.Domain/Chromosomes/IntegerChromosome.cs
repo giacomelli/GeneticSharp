@@ -1,19 +1,18 @@
 ﻿using GeneticSharp.Domain.Randomizations;
-using GeneticSharp.Infrastructure.Framework.Commons;
 using System;
 using System.Collections;
 using System.Linq;
 
 namespace GeneticSharp.Domain.Chromosomes
 {
-	/// <summary>
-	/// Integer chromosome with binary values (0 and 1).
-	/// </summary>
-	public class IntegerChromosome : BinaryChromosomeBase
+    /// <summary>
+    /// Integer chromosome with binary values (0 and 1).
+    /// </summary>
+    public class IntegerChromosome : BinaryChromosomeBase
 	{
-		private int m_minValue;
-		private int m_maxValue;
-		private BitArray m_originalValue;
+		private readonly int m_minValue;
+		private readonly int m_maxValue;
+		private readonly BitArray m_originalValue;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:GeneticSharp.Domain.Chromosomes.IntegerChromosome"/> class.

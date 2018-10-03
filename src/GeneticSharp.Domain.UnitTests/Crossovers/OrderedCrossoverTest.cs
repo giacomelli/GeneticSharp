@@ -61,7 +61,6 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         }
 
         [Test]
-        [MaxTime(40)]
         public void Cross_ParentsWith10Genes_Cross()
         {
             var target = new OrderedCrossover();

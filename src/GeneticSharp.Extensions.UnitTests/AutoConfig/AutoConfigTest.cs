@@ -9,6 +9,7 @@ using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.AutoConfig;
 using GeneticSharp.Extensions.Tsp;
 using GeneticSharp.Infrastructure.Framework.Threading;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.AutoConfig
@@ -53,7 +54,7 @@ namespace GeneticSharp.Extensions.UnitTests.AutoConfig
             Assert.NotNull(ga.BestChromosome);            
         }
 
-		[Test()]
+        [Test()]
 		public void GenerateGene_InvalidIndex_Exception()
 		{
 			var target = new AutoConfigChromosome();
