@@ -3,7 +3,7 @@ echo 'Branch:' $branch
 
 dotnet ../tools/sonar-scanner-msbuild/SonarScanner.MSBuild.dll begin \
     /k:"GeneticSharp" \
-    /v:$branch \
+    /d:sonar.branch.name=$branch \
     /d:sonar.organization="giacomelli-github" \
     /d:sonar.host.url="https://sonarcloud.io" \
     /d:sonar.login=$GeneticSharp_SonarQube_login \
