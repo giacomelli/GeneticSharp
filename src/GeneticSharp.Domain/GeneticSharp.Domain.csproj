@@ -19,6 +19,7 @@
     <Owners>g1acomell1</Owners>
     <PackageLicenseUrl>https://github.com/giacomelli/GeneticSharp/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/giacomelli/GeneticSharp</PackageProjectUrl>
+    <PackageIconUrl>https://github.com/giacomelli/GeneticSharp/raw/master/docs/logo/icon-64x64-transparent.png</PackageIconUrl>
     <PackageReleaseNotes>See changes at https://github.com/giacomelli/GeneticSharp.</PackageReleaseNotes>
     <PackageTags>genetic-algorithms geneticsharp genetic algotithms</PackageTags>
   </PropertyGroup>
