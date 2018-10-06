@@ -160,7 +160,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
             });
             target.Add(() =>
             {
-                Thread.Sleep(100);
+                Thread.Sleep(200);
             });
             target.Add(() =>
             {
