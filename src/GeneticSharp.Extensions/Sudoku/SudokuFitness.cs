@@ -40,7 +40,7 @@ namespace GeneticSharp.Extensions.Sudoku
       return scores.Sum();
     }
 
-    private double Evaluate(Sudoku testSudoku)
+    public double Evaluate(Sudoku testSudoku)
     {
      
 

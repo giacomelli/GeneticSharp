@@ -50,7 +50,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 
 
     private string _ChromosomeType = nameof(SudokuChromosomeType.RowsPermutations); // The selected type of chromosome
-    private int _nbPermutations = 5; //The number of genes per permutation for random permutations
+    private int _nbPermutations = 2; //The number of genes per permutation for random permutations
     private int _nbSudokus = 5; //The number of Sudokus to generate from random permutations
     private HBox _nbPermsHBox ;
     private bool _multipleChromosome = false; // Do we evolve several sudokus/sub-chromosomes per individual solution
