@@ -6,7 +6,7 @@ using GeneticSharp.Domain.Randomizations;
 namespace GeneticSharp.Extensions.Sudoku
 { 
   /// <summary>
-  /// This simple chromosome simply represents each cell by a gene with value between 1 and 9, accounting for the target mask
+  /// This simple chromosome simply represents each cell by a gene with value between 1 and 9, accounting for the target mask if given
   /// </summary>
 public class SudokuCellsChromosome : ChromosomeBase, ISudokuChromosome
   {
@@ -27,6 +27,7 @@ public class SudokuCellsChromosome : ChromosomeBase, ISudokuChromosome
 
     public override Gene GenerateGene(int geneIndex)
     {
+      //If a target mask exist and has a digit for the cell, we use it.
       if (_targetSudoku != null && _targetSudoku.CellsList[geneIndex] != 0)
       {
         return new Gene(_targetSudoku.CellsList[geneIndex]);

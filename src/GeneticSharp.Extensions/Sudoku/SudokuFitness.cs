@@ -7,7 +7,7 @@ using GeneticSharp.Domain.Fitnesses;
 namespace GeneticSharp.Extensions.Sudoku
 {
   /// <summary>
-  /// Evaluates a sudoku chromosome for completion by counting duplicates in rows, columns, and boxes
+  /// Evaluates a sudoku chromosome for completion by counting duplicates in rows, columns, boxes, and differences from the target mask
   /// </summary>
   public class SudokuFitness : IFitness
   {
@@ -17,9 +17,6 @@ namespace GeneticSharp.Extensions.Sudoku
     {
       _targetSudoku = targetSudoku;
     }
-
-
-    private static ConcurrentDictionary<IChromosome, int> _count = new ConcurrentDictionary<IChromosome, int>();
 
 
     public double Evaluate(IChromosome chromosome)
@@ -42,15 +39,13 @@ namespace GeneticSharp.Extensions.Sudoku
 
     public double Evaluate(Sudoku testSudoku)
     {
-     
-
       // We use a large lambda expression to count duplicates in rows, columns and boxes
       var cells = testSudoku.CellsList.Select((c, i) => new { index = i, cell = c });
       var toTest = cells.GroupBy(x => x.index / 9).Select(g => g.Select(c => c.cell)) // rows
         .Concat(cells.GroupBy(x => x.index % 9).Select(g => g.Select(c => c.cell))) //columns
         .Concat(cells.GroupBy(x => x.index / 27 * 27 + x.index % 9 / 3 * 3).Select(g => g.Select(c => c.cell))); //boxes
-      var toReturn = -toTest.Sum(test => test.GroupBy(x => x).Select(g => g.Count() - 1).Sum());
-      toReturn -= cells.Count(x => _targetSudoku.CellsList[x.index] > 0 && _targetSudoku.CellsList[x.index] != x.cell);
+      var toReturn = -toTest.Sum(test => test.GroupBy(x => x).Select(g => g.Count() - 1).Sum()); // Summing over duplicates
+      toReturn -= cells.Count(x => _targetSudoku.CellsList[x.index] > 0 && _targetSudoku.CellsList[x.index] != x.cell); // Mask
       return toReturn;
     }
 
