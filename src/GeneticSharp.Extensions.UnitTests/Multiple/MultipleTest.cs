@@ -26,20 +26,20 @@ namespace GeneticSharp.Extensions.UnitTests.Multiple
     [Test()]
     public void Evolve_ManyGenerations_Fast()
     {
-      int numberOfCities = 50;
+      int numberOfCities = 30;
       var selection = new EliteSelection();
       var crossover = new UniformCrossover();
       var mutation = new TworsMutation();
 
 
       // Given enough generations, the Multiple Chromosome should start exhibiting convergence
-      // we compare TSP /50 gen with 3*TSP / 500 gen
+      // we compare TSP /25 gen with 3*TSP / 500 gen
 
       IChromosome chromosome = new TspChromosome(numberOfCities);
       IFitness fitness = new TspFitness(numberOfCities, 0, 1000, 0, 1000);
-      var population = new Population(40, 40, chromosome);
+      var population = new Population(30, 30, chromosome);
       var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
-      ga.Termination = new GenerationNumberTermination(51);
+      ga.Termination = new GenerationNumberTermination(26);
       ga.Start();
       var simpleChromosomeDistance = ((TspChromosome)ga.Population.BestChromosome).Distance;
 
@@ -50,7 +50,7 @@ namespace GeneticSharp.Extensions.UnitTests.Multiple
       fitness = new MultipleFitness(fitness);
       //Multi fitness should sum over the fitnesses of individual chromosomes
       Assert.AreEqual(tempMultiFitness, fitness.Evaluate(chromosome));
-      population = new Population(40, 40, chromosome);
+      population = new Population(30, 30, chromosome);
       ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
       ga.Termination = new GenerationNumberTermination(501);
       ga.Start();
