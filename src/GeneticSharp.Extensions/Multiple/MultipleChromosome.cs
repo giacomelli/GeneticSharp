@@ -27,6 +27,8 @@ namespace GeneticSharp.Extensions.Multiple
       {
         ReplaceGene(i, GenerateGene(i));
       }
+
+      UpdateSubGenes();
     }
 
     public override Gene GenerateGene(int geneIndex)

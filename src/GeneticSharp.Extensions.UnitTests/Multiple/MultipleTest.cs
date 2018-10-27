@@ -33,22 +33,26 @@ namespace GeneticSharp.Extensions.UnitTests.Multiple
 
 
       // Given enough generations, the Multiple Chromosome should start exhibiting convergence
-      // we compare TSP /100 gen with 5*TSP / 1000 gen
+      // we compare TSP /50 gen with 3*TSP / 500 gen
 
       IChromosome chromosome = new TspChromosome(numberOfCities);
       IFitness fitness = new TspFitness(numberOfCities, 0, 1000, 0, 1000);
       var population = new Population(40, 40, chromosome);
       var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
-      ga.Termination = new GenerationNumberTermination(101);
+      ga.Termination = new GenerationNumberTermination(51);
       ga.Start();
       var simpleChromosomeDistance = ((TspChromosome)ga.Population.BestChromosome).Distance;
 
-
-      chromosome = new MultipleChromosome(()=> new  TspChromosome(numberOfCities), 5);
+      chromosome = new MultipleChromosome(()=> new  TspChromosome(numberOfCities), 3);
+      //MultiChromosome should create 3 TSP chromosomes and store them in the corresponding property
+      Assert.AreEqual(((MultipleChromosome) chromosome).Chromosomes.Count, 3);
+      var tempMultiFitness = ((MultipleChromosome) chromosome).Chromosomes.Sum(c => fitness.Evaluate(c));
       fitness = new MultipleFitness(fitness);
+      //Multi fitness should sum over the fitnesses of individual chromosomes
+      Assert.AreEqual(tempMultiFitness, fitness.Evaluate(chromosome));
       population = new Population(40, 40, chromosome);
       ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
-      ga.Termination = new GenerationNumberTermination(1001);
+      ga.Termination = new GenerationNumberTermination(501);
       ga.Start();
       var  bestTSPChromosome = (TspChromosome)((MultipleChromosome) ga.Population.BestChromosome).Chromosomes
         .OrderByDescending(c => c.Fitness).First();
