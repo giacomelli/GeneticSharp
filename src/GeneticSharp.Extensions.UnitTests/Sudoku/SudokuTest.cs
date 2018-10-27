@@ -66,7 +66,7 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
          //the cells chromosome should solve the sudoku or nearly in less than 50 generations with 500 chromosomes
          var chromosome = new SudokuCellsChromosome(sudoku);
          var fitness = EvaluatesSudokuChromosome(chromosome, sudoku, 500, -20, 30);
-         Assert.Greater(fitness, -20);
+         Assert.GreaterOrEqual(fitness, -20);
 
       }
 
@@ -84,7 +84,7 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
          var chromosome = new SudokuRandomPermutationsChromosome(sudoku, 2, 3);
          var fitness1 = new SudokuFitness(sudoku).Evaluate((ISudokuChromosome)chromosome);
          var fitness2 = EvaluatesSudokuChromosome(chromosome, sudoku, 5, fitness1 + 20, 3);
-         Assert.Greater(fitness2, fitness1 + 20);
+         Assert.GreaterOrEqual(fitness2, fitness1 + 20);
 
       }
 
