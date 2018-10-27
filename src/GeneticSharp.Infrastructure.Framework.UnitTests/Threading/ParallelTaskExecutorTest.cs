@@ -84,32 +84,32 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
         {
             var pipeline = "";
             var target = new ParallelTaskExecutor();
-			target.Timeout = TimeSpan.FromMilliseconds(1000);
+            target.Timeout = TimeSpan.FromMilliseconds(1000);
 
-			target.Add(() =>
-			{
-				Thread.Sleep(5);
-				pipeline += "1";
-			});
-			target.Add(() =>
-			{
-				Thread.Sleep(5);
-				pipeline += "2";
-			});
-			target.Add(() =>
-			{
-				Thread.Sleep(5);
-				pipeline += "3";
-			});
+            target.Add(() =>
+            {
+                Thread.Sleep(5);
+                pipeline += "1";
+            });
+            target.Add(() =>
+            {
+                Thread.Sleep(5);
+                pipeline += "2";
+            });
+            target.Add(() =>
+            {
+                Thread.Sleep(5);
+                pipeline += "3";
+            });
 
-			Parallel.Invoke(
-				() => Assert.IsTrue(target.Start()),
-				() =>
-				{
-					Thread.Sleep(100);
-					target.Stop();
-				});
-			
+            Parallel.Invoke(
+                () => Assert.IsTrue(target.Start()),
+                () =>
+                {
+                    Thread.Sleep(100);
+                    target.Stop();
+                });
+
         }
 
         [Test()]
@@ -144,6 +144,48 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
                 });
 
             Assert.IsFalse(target.IsRunning);
+        }
+
+        [Test()]
+        public void Start_MaxThreads1_DoNotBlockOtherThreads()
+        {
+            var target = new ParallelTaskExecutor
+            {
+                MinThreads = 1,
+                MaxThreads = 1
+            };
+
+            target.Add(() =>
+            {
+            });
+            target.Add(() =>
+            {
+                Thread.Sleep(200);
+            });
+            target.Add(() =>
+            {
+                Thread.Sleep(10);
+            });
+
+
+            int otherThreadCount = 0;
+            var otherThread = new System.Timers.Timer(50)
+            {
+                AutoReset = true
+            };
+            otherThread.Elapsed += (sender, arg) =>
+            {
+                otherThreadCount++;
+            };
+            otherThread.Start();
+
+            Task.Run(() =>
+            {
+                target.Start();
+            }).Wait();
+
+            otherThread.Stop();
+            Assert.GreaterOrEqual(otherThreadCount, 2);
         }
     }
 }
