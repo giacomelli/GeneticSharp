@@ -21,6 +21,7 @@
   </ItemGroup>
   
   <ItemGroup>
+    <PackageReference Include="Accord.Imaging" Version="3.8.2-alpha" />
     <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-26216-02" />
   </ItemGroup>
 
@@ -51,7 +52,7 @@
     </Reference>
   </ItemGroup>
   
-  <ItemGroup  Condition=" '$(OS)' == 'Windows_NT' ">
+  <ItemGroup Condition=" '$(OS)' == 'Windows_NT' ">
       <Reference Include="atk-sharp">
         <HintPath>references\Windows_NT\atk-sharp.dll</HintPath>
       </Reference>
