@@ -1,14 +1,11 @@
 using System.Reflection;
-[assembly: AssemblyCompany("Skahal Studios")]
-[assembly: AssemblyProduct("GeneticSharp")]
-[assembly: AssemblyCopyright("Diego Giacomelli, http://diegogiacomelli.com.br")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-
+// Switch beetwen configurantios.
 #if DEBUG
+ // Debug only used for development porpuses.
  [assembly: AssemblyConfiguration("Debug")]
 #else
-[assembly: AssemblyConfiguration("Release")]
+ // Only used for production porpuses. 
+ [assembly: AssemblyConfiguration("Release")]
 #endif
 
 [assembly: AssemblyVersion("2.1.0")]

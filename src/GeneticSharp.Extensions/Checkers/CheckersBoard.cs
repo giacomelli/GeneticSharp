@@ -5,7 +5,6 @@ using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Extensions.Checkers
 {
-    #region Enums
     /// <summary>
     /// The checkers player.
     /// </summary>
@@ -21,19 +20,16 @@ namespace GeneticSharp.Extensions.Checkers
         /// </summary>
         PlayerTwo
     }
-    #endregion
-
+ 
     /// <summary>
     /// Checkers board.
     /// </summary>
     public class CheckersBoard
     {
-        #region Fields
         [SuppressMessage("Microsoft.Performance", "CA1814:PreferJaggedArraysOverMultidimensional", MessageId = "Member", Justification = "Better to checkers problem")]
         private readonly CheckersSquare[,] m_squares;
-        #endregion
+ 
 
-        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.Checkers.CheckersBoard"/> class.
         /// </summary>
@@ -49,9 +45,7 @@ namespace GeneticSharp.Extensions.Checkers
             m_squares = new CheckersSquare[size, size];
             Reset();
         }
-        #endregion
-
-        #region Properties
+    
         /// <summary>
         /// Gets the size.
         /// </summary>
@@ -66,14 +60,13 @@ namespace GeneticSharp.Extensions.Checkers
         /// Gets the player two's pieces.
         /// </summary>
         public IList<CheckersPiece> PlayerTwoPieces { get; private set; }
-        #endregion
-
-        #region Methods
+    
         /// <summary>
         /// Reset the board to initial state (player one and two with pieces in start positions).
         /// </summary>
         public void Reset()
         {
+            // Creates the two lists of pieces por player one and two.ß
             PlayerOnePieces = new List<CheckersPiece>();
             PlayerTwoPieces = new List<CheckersPiece>();
 
@@ -81,16 +74,23 @@ namespace GeneticSharp.Extensions.Checkers
             {
                 for (int r = 0; r < Size; r++)
                 {
+                    // For each combinatino of collumn and row of the board
+                    // Is create a new CheckersSquare.
                     var square = new CheckersSquare(c, r);
 
+                    // If the sqaure is free.
                     if (square.State == CheckersSquareState.Free)
                     {
+                        // If the actual line index is lower than 3, 
+                        // then is a square for player one.
                         if (r < 3)
                         {
                             var piece = new CheckersPiece(CheckersPlayer.PlayerOne);
                             PlayerOnePieces.Add(piece);
                             square.PutPiece(piece);
                         }
+                        /// fi the actual line index is bigger than max lines index -3, 
+                        /// then it is a square for player two.
                         else if (r >= Size - 3)
                         {
                             var piece = new CheckersPiece(CheckersPlayer.PlayerTwo);
@@ -114,12 +114,12 @@ namespace GeneticSharp.Extensions.Checkers
         {
             if (!IsValidIndex(columnIndex))
             {
-                throw new ArgumentOutOfRangeException("columnIndex");
+                throw new ArgumentOutOfRangeException(nameof(columnIndex));
             }
 
             if (!IsValidIndex(rowIndex))
             {
-                throw new ArgumentOutOfRangeException("rowIndex");
+                throw new ArgumentOutOfRangeException(nameof(rowIndex));
             }
 
             return m_squares[columnIndex, rowIndex];
@@ -132,18 +132,24 @@ namespace GeneticSharp.Extensions.Checkers
         /// <returns>True if move was performed, otherwise false.</returns>
         public bool MovePiece(CheckersMove move)
         {
-            ExceptionHelper.ThrowIfNull("move", move);
+            ExceptionHelper.ThrowIfNull(nameof(move), move);
 
+            // Gets the piece's actual position and movement kind.
             bool moved = false;
             var from = GetSquare(move.Piece.CurrentSquare.ColumnIndex, move.Piece.CurrentSquare.RowIndex);
             var moveKind = GetMoveKind(move);
 
+            // Se the movement kind is invalid between From e To positions.
             if (moveKind != CheckersMoveKind.Invalid)
             {
+                // Moves the piece to 'To' position.
                 var to = GetSquare(move.ToSquare.ColumnIndex, move.ToSquare.RowIndex);
                 to.PutPiece(from.CurrentPiece);
 
+                // Geets the current indexModifier.
                 var indexModifier = to.State == CheckersSquareState.OccupiedByPlayerOne ? 1 : -1;
+               
+                // Removes the piece "From" position.
                 from.RemovePiece();
 
                 moved = true;
@@ -151,6 +157,7 @@ namespace GeneticSharp.Extensions.Checkers
                 // Capture move.
                 if (moveKind == CheckersMoveKind.Capture)
                 {
+                    // Here is checked if needs to capture a piece between To and From.
                     if (to.ColumnIndex == from.ColumnIndex + (2 * indexModifier))
                     {
                         GetSquare(from.ColumnIndex + (1 * indexModifier), from.RowIndex + (1 * indexModifier)).RemovePiece();
@@ -281,7 +288,7 @@ namespace GeneticSharp.Extensions.Checkers
 
             return 0;
         }
-        #endregion
+       
 
         #region Helpers
         private static int GetIndexModifier(CheckersPlayer player)

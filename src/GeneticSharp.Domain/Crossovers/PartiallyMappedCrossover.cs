@@ -44,20 +44,27 @@ namespace GeneticSharp.Domain.Crossovers
                 throw new CrossoverException(this, "The Partially Mapped Crossover (PMX) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
             }
 
+            // Chosse the thow parents.
             var parent1 = parents[0];
             var parent2 = parents[1];
 
+            // Create, sort and define the cut point indexes.
             var cutPointsIndexes = RandomizationProvider.Current.GetUniqueInts(2, 0, parent1.Length);
             Array.Sort(cutPointsIndexes);
             var firstCutPointIndex = cutPointsIndexes[0];
             var secondCutPointIdnex = cutPointsIndexes[1];
 
+            // Parent1 creates the mapping section.
             var parent1Genes = parent1.GetGenes();
             var parent1MappingSection = parent1Genes.Skip(firstCutPointIndex).Take((secondCutPointIdnex - firstCutPointIndex) + 1).ToArray();
 
+            // Parent12 creates the mapping section.
             var parent2Genes = parent2.GetGenes();
             var parent2MappingSection = parent2Genes.Skip(firstCutPointIndex).Take((secondCutPointIdnex - firstCutPointIndex) + 1).ToArray();
 
+            // The new offsprings are created and 
+            // their genes ar replaced starat in the first cut point index
+            // and using the genes in the mapping section from parent 1 e 2.
             var offspring1 = parent1.CreateNew();
             var offspring2 = parent2.CreateNew();
 
@@ -73,8 +80,8 @@ namespace GeneticSharp.Domain.Crossovers
                     continue;
                 }
 
-                var geneForoffspring1 = GetGeneNotInMappingSection(parent1Genes[i], parent2MappingSection, parent1MappingSection);
-                offspring1.ReplaceGene(i, geneForoffspring1);
+                var geneForUffspring1 = GetGeneNotInMappingSection(parent1Genes[i], parent2MappingSection, parent1MappingSection);
+                offspring1.ReplaceGene(i, geneForUffspring1);
 
                 var geneForoffspring2 = GetGeneNotInMappingSection(parent2Genes[i], parent1MappingSection, parent2MappingSection);
                 offspring2.ReplaceGene(i, geneForoffspring2);
