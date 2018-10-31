@@ -39,7 +39,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
         public void Start_ManyTasksWithGreaterNumberOfThreads_ParallelExecuted()
         {
             var pipeline = "";
-            var target = new ParallelTaskExecutor { MinThreads = int.MaxValue, MaxThreads = int.MinValue };
+            var target = new ParallelTaskExecutor { MinThreads = int.MaxValue, MaxThreads = int.MaxValue };
             target.Add(() =>
             {
                 pipeline += "1";
