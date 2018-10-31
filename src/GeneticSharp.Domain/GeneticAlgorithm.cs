@@ -233,11 +233,7 @@ namespace GeneticSharp.Domain
 
                 if (shouldStop)
                 {
-                    var handler = Stopped;
-                    if (handler != null)
-                    {
-                        handler(this, EventArgs.Empty);
-                    }
+                    Stopped?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
@@ -377,20 +373,14 @@ namespace GeneticSharp.Domain
             Population.EndCurrentGeneration();
 
             var handler = GenerationRan;
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
+            handler?.Invoke(this, EventArgs.Empty);
 
             if (Termination.HasReached(this))
             {
                 State = GeneticAlgorithmState.TerminationReached;
 
                 handler = TerminationReached;
-                if (handler != null)
-                {
-                    handler(this, EventArgs.Empty);
-                }
+                handler?.Invoke(this, EventArgs.Empty);
 
                 return true;
             }

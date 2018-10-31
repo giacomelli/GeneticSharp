@@ -10,42 +10,58 @@ namespace GeneticSharp.Extensions.Sudoku
     /// </summary>
     public class SudokuCellsChromosome : ChromosomeBase, ISudokuChromosome
     {
-        private Sudoku _targetSudoku;
+        /// <summary>
+        /// The target sudoku board to solve
+        /// </summary>
+        private readonly SudokuBoard _targetSudokuBoard;
 
         public SudokuCellsChromosome() : this(null)
         {
         }
 
-        public SudokuCellsChromosome(Sudoku targetSudoku) : base(81)
+        /// <summary>
+        /// Constructor that accepts a Sudoku to solve
+        /// </summary>
+        /// <param name="targetSudokuBoard">the target sudoku to solve</param>
+        public SudokuCellsChromosome(SudokuBoard targetSudokuBoard) : base(81)
         {
-            _targetSudoku = targetSudoku;
+            _targetSudokuBoard = targetSudokuBoard;
             for (int i = 0; i < Length; i++)
             {
                 ReplaceGene(i, GenerateGene(i));
             }
         }
 
+        /// <summary>
+        /// Generates genes with digits for each index within the 81 Sudoku cells
+        /// </summary>
+        /// <param name="geneIndex"></param>
+        /// <returns>a gene with a digit for the corresponding cell index</returns>
         public override Gene GenerateGene(int geneIndex)
         {
             //If a target mask exist and has a digit for the cell, we use it.
-            if (_targetSudoku != null && _targetSudoku.CellsList[geneIndex] != 0)
+            if (_targetSudokuBoard != null && _targetSudokuBoard.CellsList[geneIndex] != 0)
             {
-                return new Gene(_targetSudoku.CellsList[geneIndex]);
+                return new Gene(_targetSudokuBoard.CellsList[geneIndex]);
             }
             var rnd = RandomizationProvider.Current;
+            // otherwise we use a random digit.
             return new Gene(rnd.GetInt(1, 10));
         }
 
         public override IChromosome CreateNew()
         {
-            return new SudokuCellsChromosome(_targetSudoku);
+            return new SudokuCellsChromosome(_targetSudokuBoard);
         }
 
-
-        public List<Sudoku> GetSudokus()
+        /// <summary>
+        /// Builds a single Sudoku from the 81 genes
+        /// </summary>
+        /// <returns>A Sudoku board built from the 81 genes</returns>
+        public IList<SudokuBoard> GetSudokus()
         {
-            var sudoku = new Sudoku(GetGenes().Select(g => (int)g.Value));
-            return new List<Sudoku>(new[] { sudoku });
+            var sudoku = new SudokuBoard(GetGenes().Select(g => (int)g.Value));
+            return new List<SudokuBoard>(new[] { sudoku });
         }
     }
 }

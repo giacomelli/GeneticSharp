@@ -38,13 +38,13 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         public SudokuSampleController()
         {
             // Super easy - Population 250 - generation 16 - 0.2s
-            _SudokuList.Add(Sudoku.Parse("9.2..54.31...63.255.84.7.6..263.9..1.57.1.29..9.67.53.24.53.6..7.52..3.4.8..4195."));
+            _sudokuList.Add(SudokuBoard.Parse("9.2..54.31...63.255.84.7.6..263.9..1.57.1.29..9.67.53.24.53.6..7.52..3.4.8..4195."));
             //Easy - Population 5000 - generation 24 - 10s
-            _SudokuList.Add(Sudoku.Parse("..48...1767.9.....5.8.3...43..74.1...69...78...1.69..51...8.3.6.....6.9124...15.."));
+            _sudokuList.Add(SudokuBoard.Parse("..48...1767.9.....5.8.3...43..74.1...69...78...1.69..51...8.3.6.....6.9124...15.."));
             //Medium - Population 100000 - generation 30  - 10mn
-            _SudokuList.Add(Sudoku.Parse("..6.......8..542...4..9..7...79..3......8.4..6.....1..2.3.67981...5...4.478319562"));
+            _sudokuList.Add(SudokuBoard.Parse("..6.......8..542...4..9..7...79..3......8.4..6.....1..2.3.67981...5...4.478319562"));
             // Hard - Population 300000 - generation 37 - 1h30mn
-            _SudokuList.Add(Sudoku.Parse("....9.4.8.....2.7..1.7....32.4..156...........952..7.19....5.1..3.4.....1.2.7...."));
+            _sudokuList.Add(SudokuBoard.Parse("....9.4.8.....2.7..1.7....32.4..156...........952..7.19....5.1..3.4.....1.2.7...."));
 
         }
 
@@ -61,14 +61,14 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 
 
 
-        private List<Sudoku> _SudokuList = new List<Sudoku>();
-        private int _SudokuIndex;
+        private IList<SudokuBoard> _sudokuList = new List<SudokuBoard>();
+        private int _sudokuIndex;
 
 
 
-        private Sudoku GetTargetSudoku()
+        private SudokuBoard GetTargetSudoku()
         {
-            return _SudokuList[_SudokuIndex];
+            return _sudokuList[_sudokuIndex];
         }
 
 
@@ -97,7 +97,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             }
             else
             {
-                return new MultipleChromosome(() => CreateChromosome(false), nbChromosomes);
+                return new MultipleChromosome(i => CreateChromosome(false), nbChromosomes);
             }
 
 
@@ -124,11 +124,10 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             var indexLabel = new Label { Text = "Sudoku index" };
             indexHBox.Add(indexLabel);
 
-            var indexButton = new SpinButton(1, _SudokuList.Count, 1);
-            indexButton.Value = 1;
+            var indexButton = new SpinButton(1, _sudokuList.Count, 1) {Value = 1};
             indexButton.ValueChanged += delegate
             {
-                _SudokuIndex = (int)indexButton.Value - 1;
+                _sudokuIndex = (int)indexButton.Value - 1;
 
                 OnReconfigured();
             };
@@ -151,8 +150,8 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 
                 if (filechooser.Run() == (int)ResponseType.Accept)
                 {
-                    _SudokuList = Sudoku.ParseFile(filechooser.Filename);
-                    indexButton.SetRange(1, _SudokuList.Count);
+                    _sudokuList = SudokuBoard.ParseFile(filechooser.Filename);
+                    indexButton.SetRange(1, _sudokuList.Count);
                 }
 
                 filechooser.Destroy();
@@ -160,7 +159,23 @@ namespace GeneticSharp.Runner.GtkApp.Samples
                 OnReconfigured();
             };
             fileHBox.Add(selectImageButton);
+            var helpImageButton = new Button { Label = "?" };
+            
+            helpImageButton.Clicked += delegate
+            {
+                var msg = new MessageDialog(
+                    Context.GtkWindow,
+                    DialogFlags.Modal,
+                    MessageType.Info,
+                    ButtonsType.Ok,
+                    "Accepted formats represent Sudokus on one or several lines," +
+                    "\n with characters '.', '-', or 'X' for empty cells and digits otherwise." +
+                    "\n Lines starting with other characters are ignored such as '#' for comments on the common sdk format.");
+                msg.Run();
 
+                msg.Destroy();
+            };
+            fileHBox.Add(helpImageButton);
 
 
 
@@ -184,8 +199,10 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         ,nameof(SudokuChromosomeType.CellsWithoutMask)
       };
 
-            _nbPermsHBox = new HBox();
-            _nbPermsHBox.Visible = _ChromosomeType == nameof(SudokuChromosomeType.RandomRowsPermutations);
+            _nbPermsHBox = new HBox
+            {
+                Visible = _ChromosomeType == nameof(SudokuChromosomeType.RandomRowsPermutations)
+            };
 
 
             var nbPermsLabel = new Label { Text = "Nb Permutations" };
@@ -229,8 +246,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 
             //Multi check
             var multiHBox = new HBox();
-            var multiCheck = new CheckButton("Multi-Solutions");
-            multiCheck.Active = _multipleChromosome;
+            var multiCheck = new CheckButton("Multi-Solutions") {Active = _multipleChromosome};
 
             _nbChromosomesHBox = new HBox();
             _nbChromosomesHBox.Spacing += 2;
@@ -308,7 +324,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             var buffer = Context.Buffer;
             var layout = Context.Layout;
             var population = Context.Population;
-            Sudoku sudokuToDraw = null;
+            SudokuBoard sudokuBoardToDraw = null;
             if (population != null)
             {
                 if ((population.BestChromosome is ISudokuChromosome bestChromosome))
@@ -324,7 +340,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
                         }
 
                     }
-                    sudokuToDraw = bestChromosome.GetSudokus().First();
+                    sudokuBoardToDraw = bestChromosome.GetSudokus().First();
                 }
                 else
                 {
@@ -333,7 +349,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
                         var orderedSubChromosomes = multiChromosome.Chromosomes.OrderByDescending(c => c.Fitness).ToList();
                         bestChromosome = (ISudokuChromosome)orderedSubChromosomes.First();
                         var worstChromosome = (ISudokuChromosome)orderedSubChromosomes.Last();
-                        sudokuToDraw = bestChromosome.GetSudokus().First();
+                        sudokuBoardToDraw = bestChromosome.GetSudokus().First();
                         Context.WriteText($"Best Chromosome Best Sub-Fitness: {((IChromosome)bestChromosome).Fitness}");
                         Context.WriteText($"Best Chromosome Worst Sub-Fitness:: {((IChromosome)worstChromosome).Fitness}");
                     }
@@ -342,11 +358,11 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             }
             else
             {
-                sudokuToDraw = GetTargetSudoku();
+                sudokuBoardToDraw = GetTargetSudoku();
             }
-            if (sudokuToDraw != null)
+            if (sudokuBoardToDraw != null)
             {
-                layout.SetMarkup($"<span color='black'>{sudokuToDraw}</span>");
+                layout.SetMarkup($"<span color='black'>{sudokuBoardToDraw}</span>");
                 buffer.DrawLayout(Context.GC, 50, 120, layout);
             }
         }

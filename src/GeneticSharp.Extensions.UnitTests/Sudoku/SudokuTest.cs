@@ -21,7 +21,7 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
     public class SudokuTest
     {
 
-        private string _easySudokuString = "9.2..54.31...63.255.84.7.6..263.9..1.57.1.29..9.67.53.24.53.6..7.52..3.4.8..4195.";
+        private readonly string _easySudokuString = "9.2..54.31...63.255.84.7.6..263.9..1.57.1.29..9.67.53.24.53.6..7.52..3.4.8..4195.";
 
         /// <summary>
         /// The sample sudoku string should parse properly into corresponding cells
@@ -30,7 +30,7 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
         public void ParseSudoku()
         {
 
-            var sudoku = Extensions.Sudoku.Sudoku.Parse(_easySudokuString);
+            var sudoku = Extensions.Sudoku.SudokuBoard.Parse(_easySudokuString);
 
             Assert.AreEqual(sudoku.CellsList[0], 9);
             Assert.AreEqual(sudoku.CellsList[1], 0);
@@ -47,7 +47,7 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
         [Test()]
         public void Solve_sudoku_with_permutations()
         {
-            var sudoku = Extensions.Sudoku.Sudoku.Parse(_easySudokuString);
+            var sudoku = Extensions.Sudoku.SudokuBoard.Parse(_easySudokuString);
 
             IChromosome chromosome = new SudokuPermutationsChromosome(sudoku);
             var fitness = EvaluatesSudokuChromosome(chromosome, sudoku, 1000, 0, 50);
@@ -61,7 +61,7 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
         [Test()]
         public void Nearly_solve_sudoku_with_Cells()
         {
-            var sudoku = Extensions.Sudoku.Sudoku.Parse(_easySudokuString);
+            var sudoku = Extensions.Sudoku.SudokuBoard.Parse(_easySudokuString);
 
             //the cells chromosome should solve the sudoku or nearly in less than 50 generations with 500 chromosomes
             var chromosome = new SudokuCellsChromosome(sudoku);
@@ -76,7 +76,7 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
         [Test()]
         public void Make_Progresses_with_random_permutations()
         {
-            var sudoku = Extensions.Sudoku.Sudoku.Parse(_easySudokuString);
+            var sudoku = Extensions.Sudoku.SudokuBoard.Parse(_easySudokuString);
 
 
             //the Random permutations chromosome should make significant progresses over 3 generations with 5 individuals
@@ -90,16 +90,22 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
 
 
 
-        private double EvaluatesSudokuChromosome(IChromosome sudokuChromosome, Extensions.Sudoku.Sudoku sudoku, int populationSize, double fitnessThreshold, int generationNb)
+        private double EvaluatesSudokuChromosome(IChromosome sudokuChromosome, Extensions.Sudoku.SudokuBoard sudokuBoard, int populationSize, double fitnessThreshold, int generationNb)
         {
-            var fitness = new SudokuFitness(sudoku);
+            var fitness = new SudokuFitness(sudokuBoard);
             var selection = new EliteSelection();
             var crossover = new UniformCrossover();
             var mutation = new UniformMutation();
 
             var population = new Population(populationSize, populationSize, sudokuChromosome);
-            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
-            ga.Termination = new OrTermination(new ITermination[] { new FitnessThresholdTermination(fitnessThreshold), new GenerationNumberTermination(generationNb) });
+            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation)
+            {
+                Termination = new OrTermination(new ITermination[]
+                {
+                    new FitnessThresholdTermination(fitnessThreshold),
+                    new GenerationNumberTermination(generationNb)
+                })
+            };
 
             ga.Start();
 

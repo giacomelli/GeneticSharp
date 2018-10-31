@@ -11,33 +11,50 @@ namespace GeneticSharp.Extensions.Sudoku
     /// Holds a list of 81 int for cells, with 0 for empty cells
     /// Can parse strings and files from most common formats and displays the sudoku in an easy to read format
     /// </summary>
-    public class Sudoku
+    public class SudokuBoard
     {
 
-        public Sudoku()
+        public SudokuBoard()
         {
         }
 
-        public Sudoku(IEnumerable<int> cells)
+        /// <summary>
+        /// constructor that initializes the board with 81 cells
+        /// </summary>
+        /// <param name="cells"></param>
+        public SudokuBoard(IEnumerable<int> cells)
         {
-            if (cells.Count() != 81)
+            var enumerable = cells.ToList();
+            if (enumerable.Count() != 81)
             {
                 throw new ArgumentException(nameof(cells));
             }
-            CellsList = new List<int>(cells);
+            _cellsList = new List<int>(enumerable);
         }
 
         // We use a list for easier access to cells,
-        public List<int> CellsList = Enumerable.Repeat(0, 81).ToList();
+        private IList<int> _cellsList = Enumerable.Repeat(0, 81).ToList();
 
+        /// <summary>
+        /// Easy access by row and column number
+        /// </summary>
+        /// <param name="x">row number (between 0 and 8)</param>
+        /// <param name="y">column number (between 0 and 8)</param>
+        /// <returns>value of the cell</returns>
         public int GetCell(int x, int y)
         {
-            return CellsList[(9 * x) + y];
+            return _cellsList[(9 * x) + y];
         }
 
+        /// <summary>
+        /// Easy setter by row and column number
+        /// </summary>
+        /// <param name="x">row number (between 0 and 8)</param>
+        /// <param name="y">column number (between 0 and 8)</param>
+        /// <param name="value">value of the cell to set</param>
         public void SetCell(int x, int y, int value)
         {
-            CellsList[(9 * x) + y] = value;
+            _cellsList[(9 * x) + y] = value;
         }
 
         /// <summary>
@@ -45,8 +62,14 @@ namespace GeneticSharp.Extensions.Sudoku
         /// </summary>
         public int[] Cells
         {
-            get => CellsList.ToArray();
-            set => CellsList = new List<int>(value);
+            get => _cellsList.ToArray();
+            set => _cellsList = new List<int>(value);
+        }
+
+        public IList<int> CellsList
+        {
+            get => _cellsList;
+            set => _cellsList = value;
         }
 
         /// <summary>
@@ -56,7 +79,6 @@ namespace GeneticSharp.Extensions.Sudoku
         public override string ToString()
         {
             var lineSep = new string('-', 31);
-            var blankSep = new string(' ', 8);
 
             var output = new StringBuilder();
             output.Append(lineSep);
@@ -68,7 +90,7 @@ namespace GeneticSharp.Extensions.Sudoku
                 for (int column = 1; column <= 9; column++)
                 {
 
-                    var value = CellsList[(row - 1) * 9 + (column - 1)];
+                    var value = _cellsList[(row - 1) * 9 + (column - 1)];
                     output.Append(value);
                     output.Append(column % 3 == 0 ? " | " : "  ");
                 }
@@ -78,16 +100,7 @@ namespace GeneticSharp.Extensions.Sudoku
                 {
                     output.Append(lineSep);
                 }
-                // todo:for some reason, GTK does not seem to like the following display
-                //else
-                //{
-                //  output.Append("| ");
-                //  for (var i = 0; i < 3; i++)
-                //  {
-                //    output.Append(blankSep);
-                //    output.Append("| ");
-                //  }
-                //}
+               
                 output.AppendLine();
             }
 
@@ -99,7 +112,7 @@ namespace GeneticSharp.Extensions.Sudoku
         /// </summary>
         /// <param name="sudokuAsString">the string representing the sudoku</param>
         /// <returns>the parsed sudoku</returns>
-        public static Sudoku Parse(string sudokuAsString)
+        public static SudokuBoard Parse(string sudokuAsString)
         {
             return ParseMulti(new[] { sudokuAsString })[0];
         }
@@ -109,7 +122,7 @@ namespace GeneticSharp.Extensions.Sudoku
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns>the list of parsed Sudokus</returns>
-        public static List<Sudoku> ParseFile(string fileName)
+        public static List<SudokuBoard> ParseFile(string fileName)
         {
             return ParseMulti(File.ReadAllLines(fileName));
         }
@@ -119,47 +132,46 @@ namespace GeneticSharp.Extensions.Sudoku
         /// </summary>
         /// <param name="lines">the lines of string to parse</param>
         /// <returns>the list of parsed Sudokus</returns>
-        public static List<Sudoku> ParseMulti(string[] lines)
+        public static List<SudokuBoard> ParseMulti(string[] lines)
         {
-            var toReturn = new List<Sudoku>();
+            var toReturn = new List<SudokuBoard>();
             var cells = new List<int>(81);
-            foreach (var line in lines)
+            // we ignore lines not starting with a sudoku character
+            foreach (var line in lines.Where(l => l.Length > 0
+                                                 && IsSudokuChar(l[0])))
             {
-                if (line.Length > 0)
+                foreach (char c in line)
                 {
-                    if (char.IsDigit(line[0]) || line[0] == '.' || line[0] == 'X' || line[0] == '-')
+                    if (IsSudokuChar(c))
                     {
-                        foreach (char c in line)
+                        if (char.IsDigit(c))
                         {
-                            int? cellToAdd = null;
-                            if (char.IsDigit(c))
-                            {
-                                var cell = (int)Char.GetNumericValue(c);
-                                cellToAdd = cell;
-                            }
-                            else
-                            {
-                                if (c == '.' || c == 'X' || c == '-')
-                                {
-                                    cellToAdd = 0;
-                                }
-                            }
-
-                            if (cellToAdd.HasValue)
-                            {
-                                cells.Add(cellToAdd.Value);
-                                if (cells.Count == 81)
-                                {
-                                    toReturn.Add(new Sudoku() { CellsList = new List<int>(cells) });
-                                    cells.Clear();
-                                }
-                            }
+                            cells.Add((int)Char.GetNumericValue(c));
+                        }
+                        else
+                        {
+                            cells.Add(0);
                         }
                     }
+
+                    if (cells.Count == 81)
+                    {
+                        toReturn.Add(new SudokuBoard() { _cellsList = new List<int>(cells) });
+                        cells.Clear();
+                    }
+
                 }
             }
 
             return toReturn;
         }
+
+        private static bool IsSudokuChar(char c)
+        {
+            return char.IsDigit(c) || c == '.' || c == 'X' || c == '-';
+        }
+
     }
+
+
 }
