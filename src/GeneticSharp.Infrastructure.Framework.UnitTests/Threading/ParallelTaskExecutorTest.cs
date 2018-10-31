@@ -10,7 +10,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
     [Category("Infrastructure")]
     public class ParallelTaskExecutorTest
     {
-        [Test()]
+        [Test]
         public void Start_ManyTasks_ParallelExecuted()
         {
             var pipeline = "";
@@ -35,7 +35,32 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
             Assert.AreEqual("132", pipeline);
         }
 
-        [Test()]
+        [Test]
+        public void Start_ManyTasksWithGreaterNumberOfThreads_ParallelExecuted()
+        {
+            var pipeline = "";
+            var target = new ParallelTaskExecutor { MinThreads = int.MaxValue, MaxThreads = int.MinValue };
+            target.Add(() =>
+            {
+                pipeline += "1";
+            });
+            target.Add(() =>
+            {
+                Thread.Sleep(100);
+                pipeline += "2";
+            });
+            target.Add(() =>
+            {
+                Thread.Sleep(10);
+                pipeline += "3";
+            });
+
+            var actual = target.Start();
+            Assert.IsTrue(actual);
+            Assert.AreEqual("132", pipeline);
+        }
+
+        [Test]
         public void Start_Timeout_False()
         {
             var pipeline = "1";
@@ -52,7 +77,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
             Assert.IsFalse(actual);
         }
 
-        [Test()]
+        [Test]
         public void Start_AnyTaskWithException_Exception()
         {
             var pipeline = "";
@@ -79,7 +104,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
             }, "1");
         }
 
-        [Test()]
+        [Test]
         public void Stop_ManyTasks_StopAll()
         {
             var pipeline = "";
@@ -112,12 +137,14 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
 
         }
 
-        [Test()]
+        [Test]
         public void Stop_Tasks_ShutdownCalled()
         {
             var pipeline = "";
-            var target = new ParallelTaskExecutor();
-            target.Timeout = TimeSpan.FromMilliseconds(1000);
+            var target = new ParallelTaskExecutor
+            {
+                Timeout = TimeSpan.FromMilliseconds(1000)
+            };
 
             target.Add(() =>
             {
@@ -146,7 +173,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
             Assert.IsFalse(target.IsRunning);
         }
 
-        [Test()]
+        [Test]
         public void Start_MaxThreads1_DoNotBlockOtherThreads()
         {
             var target = new ParallelTaskExecutor
