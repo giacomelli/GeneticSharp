@@ -40,9 +40,9 @@ namespace GeneticSharp.Extensions.Sudoku
         public override Gene GenerateGene(int geneIndex)
         {
             //If a target mask exist and has a digit for the cell, we use it.
-            if (_targetSudokuBoard != null && _targetSudokuBoard.CellsList[geneIndex] != 0)
+            if (_targetSudokuBoard != null && _targetSudokuBoard.Cells[geneIndex] != 0)
             {
-                return new Gene(_targetSudokuBoard.CellsList[geneIndex]);
+                return new Gene(_targetSudokuBoard.Cells[geneIndex]);
             }
             var rnd = RandomizationProvider.Current;
             // otherwise we use a random digit.

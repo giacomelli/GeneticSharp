@@ -25,15 +25,14 @@ namespace GeneticSharp.Extensions.Sudoku
         public SudokuBoard(IEnumerable<int> cells)
         {
             var enumerable = cells.ToList();
-            if (enumerable.Count() != 81)
+            if (enumerable.Count != 81)
             {
                 throw new ArgumentException(nameof(cells));
             }
-            _cellsList = new List<int>(enumerable);
+            Cells = new List<int>(enumerable);
         }
 
         // We use a list for easier access to cells,
-        private IList<int> _cellsList = Enumerable.Repeat(0, 81).ToList();
 
         /// <summary>
         /// Easy access by row and column number
@@ -43,7 +42,7 @@ namespace GeneticSharp.Extensions.Sudoku
         /// <returns>value of the cell</returns>
         public int GetCell(int x, int y)
         {
-            return _cellsList[(9 * x) + y];
+            return Cells[(9 * x) + y];
         }
 
         /// <summary>
@@ -54,23 +53,11 @@ namespace GeneticSharp.Extensions.Sudoku
         /// <param name="value">value of the cell to set</param>
         public void SetCell(int x, int y, int value)
         {
-            _cellsList[(9 * x) + y] = value;
+            Cells[(9 * x) + y] = value;
         }
 
-        /// <summary>
-        /// The array property is to be used in linq to Z3
-        /// </summary>
-        public int[] Cells
-        {
-            get => _cellsList.ToArray();
-            set => _cellsList = new List<int>(value);
-        }
-
-        public IList<int> CellsList
-        {
-            get => _cellsList;
-            set => _cellsList = value;
-        }
+     
+        public IList<int> Cells { get; set; } = Enumerable.Repeat(0, 81).ToList();
 
         /// <summary>
         /// Displays a Sudoku in an easy to read format
@@ -86,16 +73,19 @@ namespace GeneticSharp.Extensions.Sudoku
 
             for (int row = 1; row <= 9; row++)
             {
+                // we start each line with |
                 output.Append("| ");
                 for (int column = 1; column <= 9; column++)
                 {
 
-                    var value = _cellsList[(row - 1) * 9 + (column - 1)];
+                    var value = Cells[(row - 1) * 9 + (column - 1)];
                     output.Append(value);
+                    //we identify boxes with | within lines
                     output.Append(column % 3 == 0 ? " | " : "  ");
                 }
 
                 output.AppendLine();
+                //we identify boxes with - within columns
                 if (row % 3 == 0)
                 {
                     output.Append(lineSep);
@@ -146,17 +136,19 @@ namespace GeneticSharp.Extensions.Sudoku
                     {
                         if (char.IsDigit(c))
                         {
+                            // if char is a digit, we add it to a cell
                             cells.Add((int)Char.GetNumericValue(c));
                         }
                         else
                         {
+                            // if char represents an empty cell, we add 0
                             cells.Add(0);
                         }
                     }
-
+                    // when 81 cells are entered, we create a sudoku and start collecting cells again.
                     if (cells.Count == 81)
                     {
-                        toReturn.Add(new SudokuBoard() { _cellsList = new List<int>(cells) });
+                        toReturn.Add(new SudokuBoard() { Cells = new List<int>(cells) });
                         cells.Clear();
                     }
 
@@ -166,6 +158,12 @@ namespace GeneticSharp.Extensions.Sudoku
             return toReturn;
         }
 
+
+        /// <summary>
+        /// identifies characters to be parsed into sudoku cells
+        /// </summary>
+        /// <param name="c">a character to test</param>
+        /// <returns>true if the character is a cell's char</returns>
         private static bool IsSudokuChar(char c)
         {
             return char.IsDigit(c) || c == '.' || c == 'X' || c == '-';

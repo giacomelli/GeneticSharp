@@ -27,16 +27,16 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
         /// The sample sudoku string should parse properly into corresponding cells
         /// </summary>
         [Test()]
-        public void ParseSudoku()
+        public void Parse_SampleString_CellsDefined()
         {
 
-            var sudoku = Extensions.Sudoku.SudokuBoard.Parse(_easySudokuString);
+            var sudoku = SudokuBoard.Parse(_easySudokuString);
 
-            Assert.AreEqual(sudoku.CellsList[0], 9);
-            Assert.AreEqual(sudoku.CellsList[1], 0);
-            Assert.AreEqual(sudoku.CellsList[2], 2);
-            Assert.AreEqual(sudoku.CellsList[sudoku.CellsList.Count - 2], 5);
-            Assert.AreEqual(sudoku.CellsList[sudoku.CellsList.Count - 1], 0);
+            Assert.AreEqual(sudoku.Cells[0], 9);
+            Assert.AreEqual(sudoku.Cells[1], 0);
+            Assert.AreEqual(sudoku.Cells[2], 2);
+            Assert.AreEqual(sudoku.Cells[sudoku.Cells.Count - 2], 5);
+            Assert.AreEqual(sudoku.Cells[sudoku.Cells.Count - 1], 0);
 
         }
 
@@ -45,7 +45,7 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
         /// The permutation chromosome should always solve the sudoku in a reasonable time with 1000 chromosomes
         /// </summary>
         [Test()]
-        public void Solve_sudoku_with_permutations()
+        public void Evolve_SimpleSudokuPermutationsChromosome_Solved()
         {
             var sudoku = Extensions.Sudoku.SudokuBoard.Parse(_easySudokuString);
 
@@ -59,7 +59,7 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
         /// The cells chromosome might need more individuals, so in order to keep execution time low, we only expect near completion
         /// </summary>
         [Test()]
-        public void Nearly_solve_sudoku_with_Cells()
+        public void Evolve_SimpleSudokuCellsChromosome_NearlySolved()
         {
             var sudoku = Extensions.Sudoku.SudokuBoard.Parse(_easySudokuString);
 
@@ -74,7 +74,7 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
         /// The random permutations chromosome require more individuals and generations, so we only test for significant progresses
         /// </summary>
         [Test()]
-        public void Make_Progresses_with_random_permutations()
+        public void Evolve_SimpleSudokuRandomPermutationsChromosome_Progressed()
         {
             var sudoku = Extensions.Sudoku.SudokuBoard.Parse(_easySudokuString);
 

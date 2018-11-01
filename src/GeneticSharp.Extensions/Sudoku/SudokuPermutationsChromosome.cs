@@ -130,7 +130,7 @@ namespace GeneticSharp.Extensions.Sudoku
                     }
                 }
             }
-            return (IList<IList<IList<int>>>) toReturn;
+            return toReturn;
         }
 
         private IList<IList<IList<int>>> GetRowsPermutationsUncached(SudokuBoard sudokuBoard)

@@ -333,10 +333,10 @@ namespace GeneticSharp.Runner.GtkApp.Samples
                     {
                         var stats = population.CurrentGeneration.Chromosomes.GroupBy(c => c.Fitness).OrderByDescending(g => g.Key).Select(g => new { Fitness = g.Key, Count = g.Count(), First = ((ISudokuChromosome)g.First()).GetSudokus().First(), Last = ((ISudokuChromosome)g.Last()).GetSudokus().First() }).ToList();
                         Context.WriteText($"Fitness,Count:({stats[0].Fitness},{stats[0].Count})...({stats[stats.Count / 3].Fitness},{stats[stats.Count / 3].Count})...({stats[stats.Count * 2 / 3].Fitness},{stats[stats.Count * 2 / 3].Count})...({stats[stats.Count - 1].Fitness},{stats[stats.Count - 1].Count})");
-                        Context.WriteText($"Top: [{string.Join(",", stats[0].First.CellsList.Take(9).Select(i => i.ToString()).ToArray())}] [{string.Join(",", stats[0].Last.CellsList.Take(9).Select(i => i.ToString()).ToArray())}]");
+                        Context.WriteText($"Top: [{string.Join(",", stats[0].First.Cells.Take(9).Select(i => i.ToString()).ToArray())}] [{string.Join(",", stats[0].Last.Cells.Take(9).Select(i => i.ToString()).ToArray())}]");
                         if (stats.Count > 1)
                         {
-                            Context.WriteText($"Next: [{string.Join(",", stats[1].First.CellsList.Take(9).Select(i => i.ToString()).ToArray())}] [{string.Join(",", stats[1].Last.CellsList.Take(9).Select(i => i.ToString()).ToArray())}]");
+                            Context.WriteText($"Next: [{string.Join(",", stats[1].First.Cells.Take(9).Select(i => i.ToString()).ToArray())}] [{string.Join(",", stats[1].Last.Cells.Take(9).Select(i => i.ToString()).ToArray())}]");
                         }
 
                     }

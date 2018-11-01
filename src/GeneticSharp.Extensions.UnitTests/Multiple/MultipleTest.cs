@@ -24,7 +24,7 @@ namespace GeneticSharp.Extensions.UnitTests.Multiple
     {
 
         [Test()]
-        public void Evolve_ManyGenerations_Fast()
+        public void Evolve_CompareToSingleChromosome_Evolved()
         {
             int numberOfCities = 30;
             var selection = new EliteSelection();
