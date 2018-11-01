@@ -13,8 +13,7 @@ namespace GeneticSharp.Extensions.Multiple
     public class MultipleFitness : IFitness
     {
 
-        private readonly IFitness _individualFitness;
-        private readonly Func<IEnumerable<IChromosome>, Func<IChromosome, double>, double> _aggregator;
+        private readonly Func<IEnumerable<IChromosome>, double> _globalEvaluator;
 
         /// <summary>
         /// constructor that accepts a child fitness class to be used on child chromosomes
@@ -25,14 +24,24 @@ namespace GeneticSharp.Extensions.Multiple
         }
 
         /// <summary>
-        /// Constructor that specifies a custom aggregator to the children fitness evaluations
+        /// Constructor that specifies a custom aggregator to the children fitness evaluations together with the individual child fitness implementation
         /// </summary>
         /// <param name="individualFitness">the IFitness class to be used for children chromosomes</param>
         /// <param name="aggregator">the function to aggregate child chromosomes fitness results</param>
-        public MultipleFitness(IFitness individualFitness, Func<IEnumerable<IChromosome>, Func<IChromosome, double>, double> aggregator)
+        public MultipleFitness(IFitness individualFitness,
+            Func<IEnumerable<IChromosome>, Func<IChromosome, double>, double> aggregator)
+            : this(chromosomes => aggregator(chromosomes, c => (c.Fitness= individualFitness.Evaluate(c)).Value))
         {
-            _individualFitness = individualFitness;
-            _aggregator = aggregator;
+        }
+     
+
+        /// <summary>
+        /// Constructor that specifies a custom global evaluator of the children chromosomes
+        /// </summary>
+        /// <param name="globalEvaluator">the function to evaluate child chromosomes</param>
+        public MultipleFitness(Func<IEnumerable<IChromosome>, double> globalEvaluator)
+        {
+            _globalEvaluator = globalEvaluator;
         }
 
         public double Evaluate(IChromosome chromosome)
@@ -48,11 +57,7 @@ namespace GeneticSharp.Extensions.Multiple
         public double Evaluate(MultipleChromosome chromosome)
         {
             chromosome.UpdateSubGenes();
-         foreach (var childChromosome in chromosome.Chromosomes)
-         {
-          childChromosome.Fitness = _individualFitness.Evaluate(childChromosome);
-         }
-            return _aggregator(chromosome.Chromosomes.Where(c => c.Fitness.HasValue), c => c.Fitness.Value);
+            return _globalEvaluator(chromosome.Chromosomes);
         }
 
 

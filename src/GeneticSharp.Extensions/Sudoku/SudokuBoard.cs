@@ -14,6 +14,9 @@ namespace GeneticSharp.Extensions.Sudoku
     public class SudokuBoard
     {
 
+        /// <summary>
+        /// The empty constructor assumes no mask
+        /// </summary>
         public SudokuBoard()
         {
         }
@@ -27,7 +30,7 @@ namespace GeneticSharp.Extensions.Sudoku
             var enumerable = cells.ToList();
             if (enumerable.Count != 81)
             {
-                throw new ArgumentException(nameof(cells));
+                throw new ArgumentException("Sudoku should have exactly 81 cells", nameof(cells));
             }
             Cells = new List<int>(enumerable);
         }
@@ -56,7 +59,9 @@ namespace GeneticSharp.Extensions.Sudoku
             Cells[(9 * x) + y] = value;
         }
 
-     
+        /// <summary>
+        /// Sudoku cells are initialized with zeros standing for empty cells
+        /// </summary>
         public IList<int> Cells { get; set; } = Enumerable.Repeat(0, 81).ToList();
 
         /// <summary>
@@ -77,7 +82,7 @@ namespace GeneticSharp.Extensions.Sudoku
                 output.Append("| ");
                 for (int column = 1; column <= 9; column++)
                 {
-
+                    // we obtain the 81-cell index from the 9x9 row/column index
                     var value = Cells[(row - 1) * 9 + (column - 1)];
                     output.Append(value);
                     //we identify boxes with | within lines
@@ -132,6 +137,7 @@ namespace GeneticSharp.Extensions.Sudoku
             {
                 foreach (char c in line)
                 {
+                    //we ignore lines not starting with cell chars
                     if (IsSudokuChar(c))
                     {
                         if (char.IsDigit(c))
@@ -149,6 +155,7 @@ namespace GeneticSharp.Extensions.Sudoku
                     if (cells.Count == 81)
                     {
                         toReturn.Add(new SudokuBoard() { Cells = new List<int>(cells) });
+                        // we empty the current cell collector to start building a new Sudoku
                         cells.Clear();
                     }
 
