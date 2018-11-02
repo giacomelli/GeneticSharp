@@ -30,11 +30,10 @@ namespace GeneticSharp.Extensions.Multiple
         /// <param name="aggregator">the function to aggregate child chromosomes fitness results</param>
         public MultipleFitness(IFitness individualFitness,
             Func<IEnumerable<IChromosome>, Func<IChromosome, double>, double> aggregator)
-            : this(chromosomes => aggregator(chromosomes, c => (c.Fitness= individualFitness.Evaluate(c)).Value))
+            : this(chromosomes => ApplyAggregator(chromosomes, individualFitness, aggregator))
         {
         }
-     
-
+       
         /// <summary>
         /// Constructor that specifies a custom global evaluator of the children chromosomes
         /// </summary>
@@ -60,6 +59,23 @@ namespace GeneticSharp.Extensions.Multiple
             return _globalEvaluator(chromosome.Chromosomes);
         }
 
+        /// <summary>
+        /// Applies a global aggregator (typically sum, max or average) to child chromosomes fitnesses, given the individual fitness function
+        /// </summary>
+        /// <param name="childChromosomes">the child chromosomes to be aggregated</param>
+        /// <param name="individualFitness">the individual fitness function to evaluate child chromosomes</param>
+        /// <param name="aggregator">the global aggregator for the child fitnesses</param>
+        /// <returns>an aggregated global fitness</returns>
+        private static double ApplyAggregator(IEnumerable<IChromosome> childChromosomes, IFitness individualFitness, Func<IEnumerable<IChromosome>, Func<IChromosome, double>, double> aggregator)
+        {
+            var chromosomesEnumerated = childChromosomes as IList<IChromosome> ?? childChromosomes.ToList();
+            foreach (var childChromosome in chromosomesEnumerated)
+            {
+                childChromosome.Fitness = individualFitness.Evaluate(childChromosome);
+            }
+
+            return aggregator(chromosomesEnumerated, individualFitness.Evaluate);
+        }
 
 
 
