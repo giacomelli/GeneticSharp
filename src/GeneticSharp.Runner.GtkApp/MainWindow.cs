@@ -66,7 +66,7 @@ public partial class MainWindow : Gtk.Window
         PrepareComboBoxes();
         PrepareSamples();
 
-        cmbSample.Active = 2;
+        cmbSample.Active = 3;
         hslCrossoverProbability.Value = GeneticAlgorithm.DefaultCrossoverProbability;
         hslMutationProbability.Value = GeneticAlgorithm.DefaultMutationProbability;
 
@@ -108,21 +108,21 @@ public partial class MainWindow : Gtk.Window
             m_sampleContext.Population = new Population(
                 Convert.ToInt32(sbtPopulationMinSize.Value),
                 Convert.ToInt32(sbtPopulationMaxSize.Value),
-                m_sampleController.CreateChromosome());
+                m_sampleController.CreateChromosome()) {GenerationStrategy = m_generationStrategy};
 
-            m_sampleContext.Population.GenerationStrategy = m_generationStrategy;
 
             m_ga = new GeneticAlgorithm(
                 m_sampleContext.Population,
                 m_fitness,
                 m_selection,
                 m_crossover,
-                m_mutation);
-
-            m_ga.CrossoverProbability = Convert.ToSingle(hslCrossoverProbability.Value);
-            m_ga.MutationProbability = Convert.ToSingle(hslMutationProbability.Value);
-            m_ga.Reinsertion = m_reinsertion;
-            m_ga.Termination = m_termination;
+                m_mutation)
+            {
+                CrossoverProbability = Convert.ToSingle(hslCrossoverProbability.Value),
+                MutationProbability = Convert.ToSingle(hslMutationProbability.Value),
+                Reinsertion = m_reinsertion,
+                Termination = m_termination
+            };
 
             m_sampleContext.GA = m_ga;
             m_ga.GenerationRan += delegate
@@ -176,14 +176,13 @@ public partial class MainWindow : Gtk.Window
 
                 if (msg.Run() == (int)ResponseType.Yes)
                 {
-				    var details = new MessageDialog(
-						this, 
-						DialogFlags.Modal, 
-						MessageType.Info, 
-						ButtonsType.Ok,
-						"StackTrace");
+                    var details = new MessageDialog(
+                        this,
+                        DialogFlags.Modal,
+                        MessageType.Info,
+                        ButtonsType.Ok,
+                        "StackTrace") {SecondaryText = ex.StackTrace};
 
-					details.SecondaryText = ex.StackTrace;
                     details.Run();
                     details.Destroy();
                 }
@@ -209,9 +208,10 @@ public partial class MainWindow : Gtk.Window
         m_sampleController = TypeHelper.CreateInstanceByName<ISampleController>(cmbSample.ActiveText);
 
         // Sample context.
-        var layout = new Pango.Layout(this.PangoContext);
-        layout.Alignment = Pango.Alignment.Center;
-        layout.FontDescription = Pango.FontDescription.FromString("Arial 16");
+        var layout = new Pango.Layout(this.PangoContext)
+        {
+            Alignment = Pango.Alignment.Center, FontDescription = Pango.FontDescription.FromString("Arial 16")
+        };
 
         m_sampleContext = new SampleContext(drawingArea.GdkWindow, this)
         {

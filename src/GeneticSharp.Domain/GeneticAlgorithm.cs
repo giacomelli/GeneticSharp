@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
@@ -79,6 +80,7 @@ namespace GeneticSharp.Domain
         private bool m_stopRequested;
         private readonly object m_lock = new object();
         private GeneticAlgorithmState m_state;
+        private Stopwatch m_stopwatch;
         #endregion              
 
         #region Constructors
@@ -231,11 +233,7 @@ namespace GeneticSharp.Domain
 
                 if (shouldStop)
                 {
-                    var handler = Stopped;
-                    if (handler != null)
-                    {
-                        handler(this, EventArgs.Empty);
-                    }
+                    Stopped?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
@@ -268,9 +266,10 @@ namespace GeneticSharp.Domain
             lock (m_lock)
             {
                 State = GeneticAlgorithmState.Started;
-                var startDateTime = DateTime.Now;
+                m_stopwatch = Stopwatch.StartNew();
                 Population.CreateInitialGeneration();
-                TimeEvolving = DateTime.Now - startDateTime;
+                m_stopwatch.Stop();
+                TimeEvolving = m_stopwatch.Elapsed;
             }
 
             Resume();
@@ -312,7 +311,6 @@ namespace GeneticSharp.Domain
                 }
 
                 bool terminationConditionReached = false;
-                DateTime startDateTime;
 
                 do
                 {
@@ -321,9 +319,10 @@ namespace GeneticSharp.Domain
                         break;
                     }
 
-                    startDateTime = DateTime.Now;
+                    m_stopwatch.Restart();
                     terminationConditionReached = EvolveOneGeneration();
-                    TimeEvolving += DateTime.Now - startDateTime;
+                    m_stopwatch.Stop();
+                    TimeEvolving += m_stopwatch.Elapsed;
                 }
                 while (!terminationConditionReached);
             }
@@ -374,20 +373,14 @@ namespace GeneticSharp.Domain
             Population.EndCurrentGeneration();
 
             var handler = GenerationRan;
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
+            handler?.Invoke(this, EventArgs.Empty);
 
             if (Termination.HasReached(this))
             {
                 State = GeneticAlgorithmState.TerminationReached;
 
                 handler = TerminationReached;
-                if (handler != null)
-                {
-                    handler(this, EventArgs.Empty);
-                }
+                handler?.Invoke(this, EventArgs.Empty);
 
                 return true;
             }
