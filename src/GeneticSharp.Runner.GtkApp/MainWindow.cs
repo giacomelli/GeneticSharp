@@ -66,7 +66,7 @@ public partial class MainWindow : Gtk.Window
         PrepareComboBoxes();
         PrepareSamples();
 
-        cmbSample.Active = 2;
+        cmbSample.Active = 3;
         hslCrossoverProbability.Value = GeneticAlgorithm.DefaultCrossoverProbability;
         hslMutationProbability.Value = GeneticAlgorithm.DefaultMutationProbability;
 
