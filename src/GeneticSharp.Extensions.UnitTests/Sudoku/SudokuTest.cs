@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using GeneticSharp.Domain;
@@ -68,18 +69,16 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
         /// <summary>
         /// The sample sudoku file should parse properly into corresponding individual Sudokus
         /// </summary>
-        [Test()]
+        [Test()]  
         public void Parse_SampleFile_SudokusAreParsedFromFile()
         {
 
-            var fileName = @".\Sudoku\SudokuList.sdk";
+            var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Sudoku", "SudokuList.sdk");
             var sudokus = SudokuBoard.ParseFile(fileName);
             Assert.AreEqual(sudokus.Count, 16002);
             Assert.AreEqual(sudokus[0].Cells[2], 7);
             Assert.AreEqual(sudokus[1].Cells[1], 2);
-
         }
-
 
 
 
