@@ -104,7 +104,6 @@ namespace GeneticSharp.Extensions.Sudoku
         }
 
 
-
         /// <summary>
         /// This method computes for each row the list of digit permutations that respect the target mask, that is the list of valid rows discarding columns and boxes
         /// </summary>
@@ -116,6 +115,7 @@ namespace GeneticSharp.Extensions.Sudoku
             {
                 return UnfilteredPermutations;
             }
+
             // we store permutations to compute them once only for each target Sudoku
             if (!_rowsPermutations.TryGetValue(sudokuBoard, out var toReturn))
             {
