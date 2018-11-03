@@ -17,9 +17,10 @@ Can be used in any kind of .NET Core and .NET Framework apps, like ASP .NET MVC,
 
 --------
 
-## Projects, papers, journals, books, tutorials and apps using GeneticSharp
+## Projects, papers, journals, books, tutorials, courses and apps using GeneticSharp
 * [AeroVision: aircraft trajectories optimization and visualization (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/AeroVision-Aircraft-trajectories-optimization-and-visualization.pdf)
-* [Analysis and comparison between Black-Scholes and Merton and Corrado-Su for options pricing (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Analysis-and-comparison-between-Black-Scholes-and-Merton-and-Corrado-Su-for-options-pricing.pdf) [PT]
+* [Artificial Intelligence course in French engineering schools (course)](https://github.com/giacomelli/GeneticSharp/pull/43#issuecomment-433662175)
+* [Analysis and comparison between Black-Scholes and Merton and Corrado-Su for options pricing (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Analysis-and-comparison-between-Black-Scholes-and-Merton-and-Corrado-Su-for-options-pricing.pdf) 🇧🇷
 * [Context-Sensitive Code Completion: improving predictions with genetic algorithms (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Context-Sensitive-Code-Completion-improving-predictions-with-genetic-algorithms.pdf) [(Github)](https://github.com/godtopus/GeneCSCC)
 * [Deriving Functions for Pareto Optimal Fronts Using Genetic Programming (paper/book)](https://books.google.com.br/books?id=w_lcDwAAQBAJ&lpg=PA473&ots=Rv7O6FhCSM&dq=%22GeneticSharp%22&hl=pt-BR&pg=PA464#v=onepage&q=%22GeneticSharp%22&f=false)
 * [Designing and creating a self managing distributed file system (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Designing-and-creating-a-self-managing-distributed-file-system.pdf)
@@ -27,7 +28,7 @@ Can be used in any kind of .NET Core and .NET Framework apps, like ASP .NET MVC,
 * [Function optimization with GeneticSharp (tutorial)](http://diegogiacomelli.com.br/function-optimization-with-geneticsharp/)
 * [GeneticSharp Car2D (sample)](http://diegogiacomelli.com.br/GeneticSharp-Car2D/)
 * [GeneticSharp Unity3d Samples (Android app)](https://play.google.com/store/apps/details?id=br.com.diegogiacomelli.geneticsharprunnersunityapp)
-* [Genetic Scheduler: a genetic algorithm for scheduling tasks with temporal restriction in distributed systems (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Genetic-Scheduler.pdf) [PT]
+* [Genetic Scheduler: a genetic algorithm for scheduling tasks with temporal restriction in distributed systems (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Genetic-Scheduler.pdf) 🇧🇷
 * [Lean Optimization: genetic optimization using LEAN (GitHub)](https://github.com/Jay-Jay-D/LeanOptimization) 
 * [Overload journal 142: Evolutionary computing frameworks for optimisation (journal)](https://accu.org/var/uploads/journals/Overload142.pdf)
 * [Path Finding with Genetic Algorithms (project)](https://yoloprogramming.com/post/2017/01/11/path-finding-with-genetic-algorithms)
@@ -116,7 +117,7 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
  	
 ### [GTK# sample](src/GeneticSharp.Runner.GtkApp)
 
-#### TSP (Travelling Salesman Problem) and Function optimization
+#### TSP (Travelling Salesman Problem), Function optimization and Sudoku
 ![](docs/gifs/GeneticSharp-GtkApp.gif)
  
 #### Bitmap equality
