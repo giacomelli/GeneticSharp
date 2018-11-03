@@ -18,21 +18,21 @@ Can be used in any kind of .NET Core and .NET Framework apps, like ASP .NET MVC,
 --------
 
 ## Projects, papers, journals, books, tutorials and apps using GeneticSharp
-* [EN] [AeroVision: aircraft trajectories optimization and visualization (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/AeroVision-Aircraft-trajectories-optimization-and-visualization.pdf)
-* [ES] [Analysis and comparison between Black-Scholes and Merton and Corrado-Su for options pricing (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Analysis-and-comparison-between-Black-Scholes-and-Merton-and-Corrado-Su-for-options-pricing.pdf)
-* [EN] [Context-Sensitive Code Completion: improving predictions with genetic algorithms (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Context-Sensitive-Code-Completion-improving-predictions-with-genetic-algorithms.pdf) [(Github)](https://github.com/godtopus/GeneCSCC)
-* [EN] [Deriving Functions for Pareto Optimal Fronts Using Genetic Programming (paper/book)](https://books.google.com.br/books?id=w_lcDwAAQBAJ&lpg=PA473&ots=Rv7O6FhCSM&dq=%22GeneticSharp%22&hl=pt-BR&pg=PA464#v=onepage&q=%22GeneticSharp%22&f=false)
-* [EN] [Designing and creating a self managing distributed file system (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Designing-and-creating-a-self-managing-distributed-file-system.pdf)
-* [EN] [Developing trading strategies with genetic algorithms (forum)](https://www.quantconnect.com/forum/discussion/2396/developing-trading-strategies-with-genetic-algorithms) [(paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Developing-Trading-Strategies-with-Genetic-Algorithms.pdf)
-* [EN] [Function optimization with GeneticSharp (tutorial)](http://diegogiacomelli.com.br/function-optimization-with-geneticsharp/)
-* [EN] [GeneticSharp Car2D (sample)](http://diegogiacomelli.com.br/GeneticSharp-Car2D/)
+* [AeroVision: aircraft trajectories optimization and visualization (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/AeroVision-Aircraft-trajectories-optimization-and-visualization.pdf)
+* [Analysis and comparison between Black-Scholes and Merton and Corrado-Su for options pricing (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Analysis-and-comparison-between-Black-Scholes-and-Merton-and-Corrado-Su-for-options-pricing.pdf) [PT]
+* [Context-Sensitive Code Completion: improving predictions with genetic algorithms (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Context-Sensitive-Code-Completion-improving-predictions-with-genetic-algorithms.pdf) [(Github)](https://github.com/godtopus/GeneCSCC)
+* [Deriving Functions for Pareto Optimal Fronts Using Genetic Programming (paper/book)](https://books.google.com.br/books?id=w_lcDwAAQBAJ&lpg=PA473&ots=Rv7O6FhCSM&dq=%22GeneticSharp%22&hl=pt-BR&pg=PA464#v=onepage&q=%22GeneticSharp%22&f=false)
+* [Designing and creating a self managing distributed file system (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Designing-and-creating-a-self-managing-distributed-file-system.pdf)
+* [Developing trading strategies with genetic algorithms (forum)](https://www.quantconnect.com/forum/discussion/2396/developing-trading-strategies-with-genetic-algorithms) [(paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Developing-Trading-Strategies-with-Genetic-Algorithms.pdf)
+* [Function optimization with GeneticSharp (tutorial)](http://diegogiacomelli.com.br/function-optimization-with-geneticsharp/)
+* [GeneticSharp Car2D (sample)](http://diegogiacomelli.com.br/GeneticSharp-Car2D/)
 * [GeneticSharp Unity3d Samples (Android app)](https://play.google.com/store/apps/details?id=br.com.diegogiacomelli.geneticsharprunnersunityapp)
-* [ES] [Genetic Scheduler: a genetic algorithm for scheduling tasks with temporal restriction in distributed systems (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Genetic-Scheduler.pdf)
+* [Genetic Scheduler: a genetic algorithm for scheduling tasks with temporal restriction in distributed systems (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Genetic-Scheduler.pdf) [PT]
 * [Lean Optimization: genetic optimization using LEAN (GitHub)](https://github.com/Jay-Jay-D/LeanOptimization) 
-* [EN] [Overload journal 142: Evolutionary computing frameworks for optimisation (journal)](https://accu.org/var/uploads/journals/Overload142.pdf)
-* [EN] [Path Finding with Genetic Algorithms (project)](https://yoloprogramming.com/post/2017/01/11/path-finding-with-genetic-algorithms)
+* [Overload journal 142: Evolutionary computing frameworks for optimisation (journal)](https://accu.org/var/uploads/journals/Overload142.pdf)
+* [Path Finding with Genetic Algorithms (project)](https://yoloprogramming.com/post/2017/01/11/path-finding-with-genetic-algorithms)
 * [SurvivorAI: some experiments of survival scenarios (project)](https://github.com/giacomelli/SurvivorAI)
-* [EN] [TSP with GeneticSharp and Unity3D (tutorial)](http://diegogiacomelli.com.br/tsp-with-GeneticSharp-and-Unity3d/)
+* [TSP with GeneticSharp and Unity3D (tutorial)](http://diegogiacomelli.com.br/tsp-with-GeneticSharp-and-Unity3d/)
 * Are you using GeneticSharp in your project? Please, [let me know!](https://twitter.com/ogiacomelli)
 
 ## Features
