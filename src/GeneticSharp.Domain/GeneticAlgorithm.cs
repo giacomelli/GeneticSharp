@@ -14,6 +14,8 @@ using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Framework.Threading;
 using GeneticSharp.Infrastructure.Framework.Commons;
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
 
 namespace GeneticSharp.Domain
 {
@@ -415,7 +417,7 @@ namespace GeneticSharp.Domain
 
                 if (!TaskExecutor.Start())
                 {
-                    throw new TimeoutException("The fitness evaluation rech the {0} timeout.".With(TaskExecutor.Timeout));
+                    throw new TimeoutException("The fitness evaluation reach the {0} timeout.".With(TaskExecutor.Timeout));
                 }
             }
             finally
@@ -461,9 +463,9 @@ namespace GeneticSharp.Domain
         /// <returns>The result chromosomes.</returns>
         private IList<IChromosome> Cross(IList<IChromosome> parents)
         {
-            var offspring = new List<IChromosome>();
+            var offspring = new ConcurrentBag<IChromosome>();
 
-            for (int i = 0; i < Population.MinSize; i += Crossover.ParentsNumber)
+            Parallel.ForEach(Enumerable.Range(0, Population.MinSize / Crossover.ParentsNumber).Select(i => i * Crossover.ParentsNumber), i =>
             {
                 var selectedParents = parents.Skip(i).Take(Crossover.ParentsNumber).ToList();
 
@@ -472,11 +474,13 @@ namespace GeneticSharp.Domain
                 // have some rest chromosomes.
                 if (selectedParents.Count == Crossover.ParentsNumber && RandomizationProvider.Current.GetDouble() <= CrossoverProbability)
                 {
-                    offspring.AddRange(Crossover.Cross(selectedParents));
+                    var children = Crossover.Cross(selectedParents);
+                    foreach (var item in children)
+                        offspring.Add(item);
                 }
-            }
+            });
 
-            return offspring;
+            return offspring.ToList();
         }
 
         /// <summary>
@@ -485,10 +489,10 @@ namespace GeneticSharp.Domain
         /// <param name="chromosomes">The chromosomes.</param>
         private void Mutate(IList<IChromosome> chromosomes)
         {
-            foreach (var c in chromosomes)
+            Parallel.ForEach(chromosomes, c =>
             {
                 Mutation.Mutate(c, MutationProbability);
-            }
+            });
         }
 
         /// <summary>

@@ -30,7 +30,7 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
                 t();
 
                 // If take more time expected on Timeout property,
-                // tehn stop thre running.
+                // then stop thre running.
                 if ((DateTime.Now - startTime) > Timeout)
                 {
                     return false;
