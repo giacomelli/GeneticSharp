@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Threading.Tasks;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Infrastructure.Framework.Commons;
 
@@ -117,9 +120,8 @@ namespace GeneticSharp.Domain.Populations
             Generations = new List<Generation>();
             GenerationsNumber = 0;
 
-            var chromosomes = new List<IChromosome>();
-
-            for (int i = 0; i < MinSize; i++)
+            var chromosomes = new ConcurrentBag<IChromosome>();
+            Parallel.For(0, MinSize, i =>
             {
                 var c = AdamChromosome.CreateNew();
 
@@ -131,9 +133,9 @@ namespace GeneticSharp.Domain.Populations
                 c.ValidateGenes();
 
                 chromosomes.Add(c);
-            }
+            });
 
-            CreateNewGeneration(chromosomes);
+            CreateNewGeneration(chromosomes.ToList());
         }
 
         /// <summary>
