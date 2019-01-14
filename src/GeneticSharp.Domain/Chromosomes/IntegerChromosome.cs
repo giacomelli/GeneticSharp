@@ -29,7 +29,6 @@ namespace GeneticSharp.Domain.Chromosomes
 			CreateGenes();
 		}
 
-		#region implemented abstract members of ChromosomeBase
 		/// <summary>
 		/// Generates the gene.
 		/// </summary>
@@ -50,8 +49,6 @@ namespace GeneticSharp.Domain.Chromosomes
 		{
 			return new IntegerChromosome(m_minValue, m_maxValue);
 		}
-
-		#endregion
 
 		/// <summary>
 		/// Converts the chromosome to its integer representation.
@@ -74,6 +71,20 @@ namespace GeneticSharp.Domain.Chromosomes
 		public override string ToString()
         {
             return String.Join("", GetGenes().Reverse().Select(g => (bool) g.Value ? "1" : "0").ToArray());
+        }
+
+        /// <summary>
+        /// Flips the gene.
+        /// </summary>
+        /// <remarks>>
+        /// If gene's value is 0, the it will be flip to 1 and vice-versa.</remarks>
+        /// <param name="index">The gene index.</param>
+        public override void FlipGene(int index)
+        {
+            var realIndex = Math.Abs(31 - index);
+            var value = (bool)GetGene(realIndex).Value;
+
+            ReplaceGene(realIndex, new Gene(!value));
         }
     }
 }

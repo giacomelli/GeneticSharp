@@ -83,6 +83,26 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
 
 			Assert.AreEqual(0, actual);
 		}
-	}
+
+        [Test]
+        public void FlipGene_Index_ValueFlip()
+        {
+            RandomizationProvider.Current = Substitute.For<IRandomization>();
+            RandomizationProvider.Current.GetDouble(0, 0).Returns(0);
+            var target = new FloatingPointChromosome(0, 0, 2);
+
+            target.FlipGene(0);
+            Assert.AreEqual("10000000000000000000000000000000", target.ToString());
+
+            target.FlipGene(1);
+            Assert.AreEqual("11000000000000000000000000000000", target.ToString());
+
+            target.FlipGene(31);
+            Assert.AreEqual("11000000000000000000000000000001", target.ToString());
+
+            target.FlipGene(30);
+            Assert.AreEqual("11000000000000000000000000000011", target.ToString());
+        }
+    }
 }
 
