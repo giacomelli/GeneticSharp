@@ -13,7 +13,7 @@ namespace GeneticSharp.Domain.Crossovers
     /// The partially-mapped crossover operator was suggested by Gold- berg and Lingle (1985). 
     /// It passes on ordering and value information from the parent tours to the offspring tours. 
     /// A portion of one parent’s string is mapped onto a portion of the other parent’s string and the remaining information is exchanged.
-    /// <see href="http://lev4projdissertation.googlecode.com/svn-history/r100/trunk/reading/read/aiRev99.pdf">Genetic Algorithms for the Travelling Salesman Problem - A Review of Representations and Operators</see>
+    /// <see href="http://www.dca.fee.unicamp.br/~gomide/courses/EA072/artigos/Genetic_Algorithm_TSPR_eview_Larranaga_1999.pdf">Genetic Algorithms for the Travelling Salesman Problem - A Review of Representations and Operators</see>
     /// </remarks>
     /// </summary>
     [DisplayName("Partially Mapped (PMX)")]
@@ -44,7 +44,7 @@ namespace GeneticSharp.Domain.Crossovers
                 throw new CrossoverException(this, "The Partially Mapped Crossover (PMX) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
             }
 
-            // Chosse the thow parents.
+            // Choose the thow parents.
             var parent1 = parents[0];
             var parent2 = parents[1];
 
@@ -52,18 +52,18 @@ namespace GeneticSharp.Domain.Crossovers
             var cutPointsIndexes = RandomizationProvider.Current.GetUniqueInts(2, 0, parent1.Length);
             Array.Sort(cutPointsIndexes);
             var firstCutPointIndex = cutPointsIndexes[0];
-            var secondCutPointIdnex = cutPointsIndexes[1];
+            var secondCutPointIndex = cutPointsIndexes[1];
 
             // Parent1 creates the mapping section.
             var parent1Genes = parent1.GetGenes();
-            var parent1MappingSection = parent1Genes.Skip(firstCutPointIndex).Take((secondCutPointIdnex - firstCutPointIndex) + 1).ToArray();
+            var parent1MappingSection = parent1Genes.Skip(firstCutPointIndex).Take((secondCutPointIndex - firstCutPointIndex) + 1).ToArray();
 
             // Parent12 creates the mapping section.
             var parent2Genes = parent2.GetGenes();
-            var parent2MappingSection = parent2Genes.Skip(firstCutPointIndex).Take((secondCutPointIdnex - firstCutPointIndex) + 1).ToArray();
+            var parent2MappingSection = parent2Genes.Skip(firstCutPointIndex).Take((secondCutPointIndex - firstCutPointIndex) + 1).ToArray();
 
             // The new offsprings are created and 
-            // their genes ar replaced starat in the first cut point index
+            // their genes ar replaced start in the first cut point index
             // and using the genes in the mapping section from parent 1 e 2.
             var offspring1 = parent1.CreateNew();
             var offspring2 = parent2.CreateNew();
@@ -75,16 +75,16 @@ namespace GeneticSharp.Domain.Crossovers
 
             for (int i = 0; i < length; i++)
             {
-                if (i >= firstCutPointIndex && i <= secondCutPointIdnex)
+                if (i >= firstCutPointIndex && i <= secondCutPointIndex)
                 {
                     continue;
                 }
 
-                var geneForUffspring1 = GetGeneNotInMappingSection(parent1Genes[i], parent2MappingSection, parent1MappingSection);
-                offspring1.ReplaceGene(i, geneForUffspring1);
+                var geneForOffspring1 = GetGeneNotInMappingSection(parent1Genes[i], parent2MappingSection, parent1MappingSection);
+                offspring1.ReplaceGene(i, geneForOffspring1);
 
-                var geneForoffspring2 = GetGeneNotInMappingSection(parent2Genes[i], parent1MappingSection, parent2MappingSection);
-                offspring2.ReplaceGene(i, geneForoffspring2);
+                var geneForOffspring2 = GetGeneNotInMappingSection(parent2Genes[i], parent1MappingSection, parent2MappingSection);
+                offspring2.ReplaceGene(i, geneForOffspring2);
             }
 
             return new List<IChromosome>() { offspring1, offspring2 };
