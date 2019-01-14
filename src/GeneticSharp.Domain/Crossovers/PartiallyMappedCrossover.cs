@@ -13,7 +13,7 @@ namespace GeneticSharp.Domain.Crossovers
     /// The partially-mapped crossover operator was suggested by Gold- berg and Lingle (1985). 
     /// It passes on ordering and value information from the parent tours to the offspring tours. 
     /// A portion of one parent’s string is mapped onto a portion of the other parent’s string and the remaining information is exchanged.
-    /// <see href="http://lev4projdissertation.googlecode.com/svn-history/r100/trunk/reading/read/aiRev99.pdf">Genetic Algorithms for the Travelling Salesman Problem - A Review of Representations and Operators</see>
+    /// <see href="http://www.dca.fee.unicamp.br/~gomide/courses/EA072/artigos/Genetic_Algorithm_TSPR_eview_Larranaga_1999.pdf">Genetic Algorithms for the Travelling Salesman Problem - A Review of Representations and Operators</see>
     /// </remarks>
     /// </summary>
     [DisplayName("Partially Mapped (PMX)")]
