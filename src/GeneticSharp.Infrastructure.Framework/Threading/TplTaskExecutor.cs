@@ -48,6 +48,7 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
                 }
                 catch (OperationCanceledException)
                 {
+                    // Mute cancellation exception
                 }
 
                 return result.IsCompleted;
