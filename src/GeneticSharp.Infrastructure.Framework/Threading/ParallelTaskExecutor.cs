@@ -74,7 +74,7 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
         public override void Stop()
 		{
             base.Stop();
-            m_cancellationTokenSource.Cancel();
+            m_cancellationTokenSource?.Cancel();
             IsRunning = false;
 		}
 

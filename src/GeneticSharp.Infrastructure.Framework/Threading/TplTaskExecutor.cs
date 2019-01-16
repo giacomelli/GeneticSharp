@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace GeneticSharp.Infrastructure.Framework.Threading
 {
     /// <summary>
-    /// An ITaskExecutor's implementation that executes the tasks in a parallel fashion.
+    /// An ITaskExecutor's implementation that executes the tasks in a parallel fashion using TPL.
     /// </summary>
     public class TplTaskExecutor : ParallelTaskExecutor
     {
@@ -22,15 +22,12 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
         /// <summary>
         /// Starts the tasks execution.
         /// </summary>
-        /// <returns>If has reach the timeout false, otherwise true.</returns>
+        /// <returns>If has reach the timeout or has been interrupted false, otherwise true.</returns>
         public override bool Start()
         {
-            SetThreadPoolConfig(out int minWorker, out int minIOC, out int maxWorker, out int maxIOC);
-
             try
             {
                 var startTime = DateTime.Now;
-                base.Start();
                 m_cancellationTokenSource = new CancellationTokenSource();
                 ParallelLoopResult result = new ParallelLoopResult();
                 try
@@ -41,15 +38,11 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
                         if (state.ShouldExitCurrentIteration && state.LowestBreakIteration < i)
                             return;
 
-                        Tasks[i].Invoke();
+                        // Execute the target function (fitness)
+                        Tasks[i]();
 
-                        if (m_cancellationTokenSource.IsCancellationRequested)
-                            if (!state.ShouldExitCurrentIteration)
-                                state.Break();
-
-                        // If take more time expected on Timeout property,
-                        // then stop the running.
-                        if ((DateTime.Now - startTime) > Timeout && !state.ShouldExitCurrentIteration)
+                        // If cancellation token was requested OR take more time expected on Timeout property, then stop the running.
+                        if ((m_cancellationTokenSource.IsCancellationRequested && !state.ShouldExitCurrentIteration) || ((DateTime.Now - startTime) > Timeout && !state.ShouldExitCurrentIteration))
                             state.Break();
                     });
                 }
@@ -61,7 +54,6 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
             }
             finally
             {
-                ResetThreadPoolConfig(minWorker, minIOC, maxWorker, maxIOC);
                 IsRunning = false;
             }
         }

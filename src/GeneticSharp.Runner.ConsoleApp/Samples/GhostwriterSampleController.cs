@@ -40,11 +40,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         public override void ConfigGA(GeneticAlgorithm ga)
         {
             base.ConfigGA(ga);
-            ga.TaskExecutor = new TplTaskExecutor()
-            {
-                MinThreads = 25,
-                MaxThreads = 50
-            };
+            ga.TaskExecutor = new TplTaskExecutor();
         }
 
         public override IFitness CreateFitness()
