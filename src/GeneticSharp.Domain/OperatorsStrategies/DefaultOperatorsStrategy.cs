@@ -1,0 +1,42 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using GeneticSharp.Domain.Chromosomes;
+using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Mutations;
+using GeneticSharp.Domain.Randomizations;
+
+namespace GeneticSharp.Domain.OperatorsStrategies
+{
+    public class DefaultOperatorsStrategy : IOperatorsStrategy
+    {
+        public IList<IChromosome> Cross(ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
+        {
+            var offspring = new List<IChromosome>();
+
+            for (int i = 0; i < parents.Count; i += crossover.ParentsNumber)
+            {
+                var selectedParents = parents.Skip(i).Take(crossover.ParentsNumber).ToList();
+
+                // If match the probability cross is made, otherwise the offspring is an exact copy of the parents.
+                // Checks if the number of selected parents is equal which the crossover expect, because the in the end of the list we can
+                // have some rest chromosomes.
+                if (selectedParents.Count == crossover.ParentsNumber && RandomizationProvider.Current.GetDouble() <= crossoverProbability)
+                {
+                    offspring.AddRange(crossover.Cross(selectedParents));
+                }
+            }
+
+            return offspring;
+        }
+
+        public void Mutate(IMutation mutation, float mutationProbability, IList<IChromosome> chromosomes)
+        {
+            foreach (var c in chromosomes)
+            {
+                mutation.Mutate(c, mutationProbability);
+            }
+        }
+    }
+}
