@@ -8,10 +8,17 @@ using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Randomizations;
 
-namespace GeneticSharp.Domain.OperatorsStrategies
+namespace GeneticSharp.Domain
 {
     public class TplOperatorsStrategy : IOperatorsStrategy
     {
+        /// <summary>
+        /// Crosses the specified parents.
+        /// </summary>
+        /// <param name="crossover">The crossover class.</param>
+        /// <param name="crossoverProbability">The crossover probability.</param>
+        /// <param name="parents">The parents.</param>
+        /// <returns>The result chromosomes.</returns>
         public IList<IChromosome> Cross(ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
             var offspring = new ConcurrentBag<IChromosome>();
@@ -34,6 +41,12 @@ namespace GeneticSharp.Domain.OperatorsStrategies
             return offspring.ToList();
         }
 
+        /// <summary>
+        /// Mutate the specified chromosomes.
+        /// </summary>
+        /// <param name="mutation">The mutation class.</param>
+        /// <param name="mutationProbability">The mutation probability.</param>
+        /// <param name="chromosomes">The chromosomes.</param>
         public void Mutate(IMutation mutation, float mutationProbability, IList<IChromosome> chromosomes)
         {
             Parallel.ForEach(chromosomes, c =>

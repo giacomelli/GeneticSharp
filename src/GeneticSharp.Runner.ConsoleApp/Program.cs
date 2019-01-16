@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using GeneticSharp.Domain;
-using GeneticSharp.Domain.OperatorsStrategies;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Infrastructure.Framework.Reflection;
 using GeneticSharp.Runner.ConsoleApp.Samples;

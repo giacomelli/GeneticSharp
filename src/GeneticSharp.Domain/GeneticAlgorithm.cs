@@ -14,7 +14,6 @@ using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Framework.Threading;
 using GeneticSharp.Infrastructure.Framework.Commons;
-using GeneticSharp.Domain.OperatorsStrategies;
 
 namespace GeneticSharp.Domain
 {
