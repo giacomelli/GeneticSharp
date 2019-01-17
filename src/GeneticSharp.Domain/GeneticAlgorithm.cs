@@ -464,7 +464,7 @@ namespace GeneticSharp.Domain
         /// <returns>The result chromosomes.</returns>
         private IList<IChromosome> Cross(IList<IChromosome> parents)
         {
-            return OperatorsStrategy.Cross(Crossover, CrossoverProbability, parents);
+            return OperatorsStrategy.Cross(Population, Crossover, CrossoverProbability, parents);
         }
 
         /// <summary>
