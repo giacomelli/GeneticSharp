@@ -239,8 +239,6 @@ Console.WriteLine("Best solution found has {0} fitness.", ga.BestChromosome.Fitn
  - Add new selections   
   - Reward-based
  - Add new crossovers   
-   - Voting recombination
-   - Alternating-position (AP)
    - Sequential Constructive (SCX)    
    - Shuffle crossover
    - Precedence Preservative Crossover (PPX)
