@@ -197,7 +197,7 @@ namespace GeneticSharp.Domain.UnitTests
             Assert.Catch<TimeoutException>(() =>
 			{
 				target.Start();
-            }, "The fitness evaluation rech the 00:00:01 timeout.");
+            }, "The fitness evaluation reached the 00:00:01 timeout.");
 
 			Assert.IsFalse(target.IsRunning);
 			Assert.AreEqual(GeneticAlgorithmState.Stopped, target.State);
@@ -355,7 +355,7 @@ namespace GeneticSharp.Domain.UnitTests
             Assert.Catch<TimeoutException>(() =>
             {
                 target.Start();
-            }, "The fitness evaluation rech the 00:00:01 timeout.");
+            }, "The fitness evaluation reached the 00:00:01 timeout.");
 
             Assert.IsFalse(target.IsRunning);
             Assert.AreEqual(GeneticAlgorithmState.Stopped, target.State);

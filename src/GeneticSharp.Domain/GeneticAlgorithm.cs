@@ -418,7 +418,7 @@ namespace GeneticSharp.Domain
 
                 if (!TaskExecutor.Start())
                 {
-                    throw new TimeoutException("The fitness evaluation rech the {0} timeout.".With(TaskExecutor.Timeout));
+                    throw new TimeoutException("The fitness evaluation reached the {0} timeout.".With(TaskExecutor.Timeout));
                 }
             }
             finally
