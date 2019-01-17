@@ -13,7 +13,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         {
             var actual = CrossoverService.GetCrossoverTypes();
 
-            Assert.AreEqual(10, actual.Count);
+            Assert.AreEqual(11, actual.Count);
             Assert.AreEqual(typeof(CutAndSpliceCrossover), actual[0]);
             Assert.AreEqual(typeof(CycleCrossover), actual[1]);
             Assert.AreEqual(typeof(OnePointCrossover), actual[2]);
@@ -24,6 +24,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             Assert.AreEqual(typeof(ThreeParentCrossover), actual[7]);
             Assert.AreEqual(typeof(TwoPointCrossover), actual[8]);
             Assert.AreEqual(typeof(UniformCrossover), actual[9]);
+            Assert.AreEqual(typeof(VotingRecombinationCrossover), actual[10]);
         }
 
         [Test()]
@@ -31,7 +32,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         {
             var actual = CrossoverService.GetCrossoverNames();
 
-            Assert.AreEqual(10, actual.Count);
+            Assert.AreEqual(11, actual.Count);
             Assert.AreEqual("Cut and Splice", actual[0]);
             Assert.AreEqual("Cycle (CX)", actual[1]);
             Assert.AreEqual("One-Point", actual[2]);
@@ -42,6 +43,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             Assert.AreEqual("Three Parent", actual[7]);
             Assert.AreEqual("Two-Point", actual[8]);
             Assert.AreEqual("Uniform", actual[9]);
+            Assert.AreEqual("Voting Recombination (VR)", actual[10]);
         }
 
         [Test()]
