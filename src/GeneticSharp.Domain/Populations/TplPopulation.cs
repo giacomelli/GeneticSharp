@@ -15,6 +15,12 @@ namespace GeneticSharp.Domain.Populations
     public class TplPopulation : Population
     {
         #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Populations.TplPopulation"/> class.
+        /// </summary>
+        /// <param name="minSize">The minimum size (chromosomes).</param>
+        /// <param name="maxSize">The maximum size (chromosomes).</param>
+        /// <param name="adamChromosome">The original chromosome of all population ;).</param>
         public TplPopulation(int minSize, int maxSize, IChromosome adamChromosome) : base(minSize, maxSize, adamChromosome)
         {
         }
