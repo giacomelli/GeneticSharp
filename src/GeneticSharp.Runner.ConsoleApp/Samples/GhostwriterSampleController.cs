@@ -27,7 +27,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
             m_words = new List<string>();
 
             for (int i = 0; i < json.value.Count; i++)
-            {                
+            {
                 var quote = json.value[i].joke.Value as string;
                 m_quotes.Add(quote);
 
@@ -40,7 +40,11 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         public override void ConfigGA(GeneticAlgorithm ga)
         {
             base.ConfigGA(ga);
-            ga.TaskExecutor = new TplTaskExecutor();
+            ga.TaskExecutor = new ParallelTaskExecutor()
+            {
+                MinThreads = 25,
+                MaxThreads = 50
+            };
         }
 
         public override IFitness CreateFitness()
