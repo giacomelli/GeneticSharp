@@ -570,19 +570,19 @@ namespace GeneticSharp.Domain.UnitTests
 					new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
 
 			target.Population.GenerationStrategy = new TrackingGenerationStrategy();
-			target.Termination = new GenerationNumberTermination(100);
+			target.Termination = new GenerationNumberTermination(500);
 
 			target.Start();
 			var lastTimeEvolving = target.TimeEvolving.TotalMilliseconds;
-			Assert.AreEqual(100, target.Population.Generations.Count);
+			Assert.AreEqual(500, target.Population.Generations.Count);
 			Assert.Greater(target.TimeEvolving.TotalMilliseconds, 1);
 			Assert.Less(target.TimeEvolving.TotalMilliseconds, 1000, "Time evolving should be less than 1000ms");
 			Assert.AreEqual(GeneticAlgorithmState.TerminationReached, target.State);
 			Assert.IsFalse(target.IsRunning);
 
-			target.Termination = new GenerationNumberTermination(50);
+			target.Termination = new GenerationNumberTermination(100);
 			target.Start();
-			Assert.AreEqual(50, target.Population.Generations.Count);
+			Assert.AreEqual(100, target.Population.Generations.Count);
             Assert.Less(target.TimeEvolving.TotalMilliseconds, lastTimeEvolving, "Time evolving 50 generations should be less than 100-199 generations");
 			lastTimeEvolving = target.TimeEvolving.TotalMilliseconds;
 			Assert.AreEqual(GeneticAlgorithmState.TerminationReached, target.State);
