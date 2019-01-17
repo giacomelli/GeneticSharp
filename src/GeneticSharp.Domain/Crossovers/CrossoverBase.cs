@@ -76,7 +76,7 @@ namespace GeneticSharp.Domain.Crossovers
 
             if (parents.Count != ParentsNumber)
             {
-                throw new ArgumentOutOfRangeException("parents", "The number of parents should be the same of ParentsNumber.");
+                throw new ArgumentOutOfRangeException(nameof(parents), "The number of parents should be the same of ParentsNumber.");
             }
 
             var firstParent = parents[0];
