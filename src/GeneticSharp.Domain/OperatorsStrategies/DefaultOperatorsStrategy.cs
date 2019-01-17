@@ -5,6 +5,7 @@ using System.Text;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Mutations;
+using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Randomizations;
 
 namespace GeneticSharp.Domain
@@ -18,7 +19,7 @@ namespace GeneticSharp.Domain
         /// <param name="crossoverProbability">The crossover probability.</param>
         /// <param name="parents">The parents.</param>
         /// <returns>The result chromosomes.</returns>
-        public IList<IChromosome> Cross(ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
+        public IList<IChromosome> Cross(IPopulation population, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
             var offspring = new List<IChromosome>();
 

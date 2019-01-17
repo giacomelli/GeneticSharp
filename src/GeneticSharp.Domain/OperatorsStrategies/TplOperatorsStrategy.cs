@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Mutations;
+using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Randomizations;
 
 namespace GeneticSharp.Domain
@@ -19,11 +20,11 @@ namespace GeneticSharp.Domain
         /// <param name="crossoverProbability">The crossover probability.</param>
         /// <param name="parents">The parents.</param>
         /// <returns>The result chromosomes.</returns>
-        public IList<IChromosome> Cross(ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
+        public IList<IChromosome> Cross(IPopulation population, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
             var offspring = new ConcurrentBag<IChromosome>();
 
-            Parallel.ForEach(Enumerable.Range(0, parents.Count / crossover.ParentsNumber).Select(i => i * crossover.ParentsNumber), i =>
+            Parallel.ForEach(Enumerable.Range(0, population.MinSize / crossover.ParentsNumber).Select(i => i * crossover.ParentsNumber), i =>
             {
                 var selectedParents = parents.Skip(i).Take(crossover.ParentsNumber).ToList();
 
