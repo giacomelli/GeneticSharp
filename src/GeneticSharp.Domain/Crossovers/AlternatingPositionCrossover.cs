@@ -45,10 +45,10 @@ namespace GeneticSharp.Domain.Crossovers
                 throw new CrossoverException(this, "The Alternating-position (AP) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
             }
 
-            var firstParent = parents[0];
-            var secondParent = parents[1];
-            var child1 = CreateChild(firstParent, secondParent);
-            var child2 = CreateChild(secondParent, firstParent);
+            var p1 = parents[0];
+            var p2 = parents[1];
+            var child1 = CreateChild(p1, p2);
+            var child2 = CreateChild(p2, p1);
 
             return new List<IChromosome> { child1, child2 };
         }
