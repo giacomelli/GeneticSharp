@@ -26,7 +26,7 @@ namespace GeneticSharp.Domain
         {
             var offspring = new List<IChromosome>();
 
-            for (int i = 0; i < parents.Count; i += crossover.ParentsNumber)
+            for (int i = 0; i < population.MinSize; i += crossover.ParentsNumber)
             {
                 var selectedParents = parents.Skip(i).Take(crossover.ParentsNumber).ToList();
 
