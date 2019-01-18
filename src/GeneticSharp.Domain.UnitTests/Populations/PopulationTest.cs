@@ -66,14 +66,7 @@ namespace GeneticSharp.Domain.UnitTests.Populations
 
             Assert.Catch<InvalidOperationException>(() =>
             {
-                try
-                {
-                    population.CreateInitialGeneration();
-                }
-                catch (AggregateException e)
-                {
-                    throw e.InnerException;
-                }
+                population.CreateInitialGeneration();
             }, "The Adam chromosome's 'CreateNew' method generated a null chromosome. This is a invalid behavior, please, check your chromosome code.");
         }
 
