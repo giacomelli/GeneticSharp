@@ -47,10 +47,21 @@ Can be used in any kind of .NET Core and .NET Framework apps, like ASP .NET MVC,
 Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain/Fitnesses/IFitness.cs) interface.
 
 ### [Populations](src/GeneticSharp.Domain/Populations)
+   - [Population](src/GeneticSharp.Domain/Populations/Population.cs)
+   - [TplPopulation](src/GeneticSharp.Domain/Populations/TplPopulation.cs)
+   - Others populations can be added implementing [IPopulation](src/GeneticSharp.Domain/IPopulation) interface or extending [Population](src/GeneticSharp.Domain/Populations/Population.cs).
+
+### [Generations](src/GeneticSharp.Domain/Populations/Generation.cs)
    - [Generation](src/GeneticSharp.Domain/Populations/Generation.cs)
    - [Generation strategy](src/GeneticSharp.Domain/Populations/IGenerationStrategy.cs)
      - [Performance strategy](src/GeneticSharp.Domain/Populations/PerformanceGenerationStrategy.cs)
      - [Tracking strategy](src/GeneticSharp.Domain/Populations/TrackingGenerationStrategy.cs)  
+     - Others generation strategies can be added implementing [IGenerationStrategy.cs](src/GeneticSharp.Domain/IGenerationStrategy.cs) interface.
+     
+### [Operators strategy](src/GeneticSharp.Domain/src/GeneticSharp.Domain/IOperatorsStrategy.cs)
+   - [DefaultOperatorsStrategy](src/GeneticSharp.Domain/DefaultOperatorsStrategy.cs)
+   - [TplOperatorsStrategy](src/GeneticSharp.Domain/TplOperatorsStrategy.cs)
+   - Others operators strategies can be added implementing [IOperatorsStrategy](src/GeneticSharp.Domain/IOperatorsStrategy.cs) interface.
 
 ### [Selections](src/GeneticSharp.Domain/Selections)
    - [Elite](src/GeneticSharp.Domain/Selections/EliteSelection.cs) (also know as Truncate or Truncation)
@@ -104,6 +115,12 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
    - [Fast random](src/GeneticSharp.Domain/Randomizations/FastRandomRandomization.cs)   
    - If you need a special kind of randomization for your GA, just implement the [IRandomization](src/GeneticSharp.Domain/Randomizations/IRandomization.cs) interface.
 
+### [Task executors](src/GeneticSharp.Infrastructure.Framework/Threading/ITaskExecutor.cs)
+   - [LinearTaskExecutor](src/GeneticSharp.Infrastructure.Framework/Threading/LinearTaskExecutor.cs)
+   - [ParallelTaskExecutor](src/GeneticSharp.Infrastructure.Framework/Threading/ParallelTaskExecutor.cs)
+   - [TplTaskExecutor](src/GeneticSharp.Infrastructure.Framework/Threading/TplTaskExecutor.cs)
+   - Others task executors can be added implementing [ITaskExecutor](src/GeneticSharp.Infrastructure.Framework/Threading/ITaskExecutor.cs) interface.
+   
 ##  Samples
 ### [Console sample](src/GeneticSharp.Runner.ConsoleApp)
 - AutoConfig
