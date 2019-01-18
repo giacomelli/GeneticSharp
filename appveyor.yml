@@ -15,11 +15,7 @@ assembly_info:
   assembly_informational_version: '{version}'
   
 install:
-- cmd: choco install gtksharp    
-
-nuget:
-  account_feed: true
-  project_feed: true
+- cmd: choco install gtksharp
   
 before_build:
 - cmd: dotnet --version
