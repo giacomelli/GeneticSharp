@@ -10,14 +10,6 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
     public class TplTaskExecutor : ParallelTaskExecutor
     {
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="T:GeneticSharp.Infrastructure.Framework.Threading.TplTaskExecutor"/> class.
-        /// </summary>
-        public TplTaskExecutor() : base()
-        {
-        }
-
-        /// <summary>
         /// Starts the tasks execution.
         /// </summary>
         /// <returns>If has reach the timeout or has been interrupted false, otherwise true.</returns>
@@ -26,27 +18,28 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
             try
             {
                 var startTime = DateTime.Now;
-                m_cancellationTokenSource = new CancellationTokenSource();
-                ParallelLoopResult result = new ParallelLoopResult();
+                CancellationTokenSource = new CancellationTokenSource();
+                var result = new ParallelLoopResult();
+
                 try
                 {
-                    result = Parallel.For(0, Tasks.Count, new ParallelOptions() { CancellationToken = m_cancellationTokenSource.Token }, (i, state) =>
+                    result = Parallel.For(0, Tasks.Count, new ParallelOptions() { CancellationToken = CancellationTokenSource.Token }, (i, state) =>
                     {
-                        // Check if any has called Break()
+                        // Check if any has called Break().
                         if (state.ShouldExitCurrentIteration && state.LowestBreakIteration < i)
                             return;
 
-                        // Execute the target function (fitness)
+                        // Execute the target function (fitness).
                         Tasks[i]();
 
                         // If cancellation token was requested OR take more time expected on Timeout property, then stop the running.
-                        if ((m_cancellationTokenSource.IsCancellationRequested && !state.ShouldExitCurrentIteration) || ((DateTime.Now - startTime) > Timeout && !state.ShouldExitCurrentIteration))
+                        if ((CancellationTokenSource.IsCancellationRequested && !state.ShouldExitCurrentIteration) || ((DateTime.Now - startTime) > Timeout && !state.ShouldExitCurrentIteration))
                             state.Break();
                     });
                 }
                 catch (OperationCanceledException)
                 {
-                    // Mute cancellation exception
+                    // Mute cancellation exception.
                 }
 
                 return result.IsCompleted;
