@@ -28,7 +28,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.VotingRecombinationCrossover"/> class.
         /// </summary>
-        public AlternatingPositionCrossover() : base(2, 1)
+        public AlternatingPositionCrossover() : base(2, 2)
         {
             IsOrdered = true;
         }
@@ -47,6 +47,14 @@ namespace GeneticSharp.Domain.Crossovers
 
             var firstParent = parents[0];
             var secondParent = parents[1];
+            var child1 = CreateChild(firstParent, secondParent);
+            var child2 = CreateChild(secondParent, firstParent);
+
+            return new List<IChromosome> { child1, child2 };
+        }
+
+        private IChromosome CreateChild(IChromosome firstParent, IChromosome secondParent)
+        {
             var child = firstParent.CreateNew();
             var childGenes = new Gene[firstParent.Length];
             var childGenesIndex = 0;
@@ -59,7 +67,7 @@ namespace GeneticSharp.Domain.Crossovers
 
             child.ReplaceGenes(0, childGenes);
 
-            return new List<IChromosome> { child };
+            return child;
         }
 
         private void AddChildGene(Gene[] childGenes, ref int childGenesIndex, Gene parentGene)
