@@ -60,6 +60,7 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
    - Others selections can be added implementing [ISelection](src/GeneticSharp.Domain/Selections/ISelection.cs) interface or extending [SelectionBase](src/GeneticSharp.Domain/Selections/SelectionBase.cs). 
 
 ### [Crossovers](src/GeneticSharp.Domain/Crossovers)
+   - [Alternating-position (AP)](src/GeneticSharp.Domain/Crossovers/AlternatingPositionCrossover.cs)  
    - [Cut and Splice](src/GeneticSharp.Domain/Crossovers/CutAndSpliceCrossover.cs) 
    - [Cycle (CX)](src/GeneticSharp.Domain/Crossovers/CycleCrossover.cs)   
    - [One-Point (C1)](src/GeneticSharp.Domain/Crossovers/OnePointCrossover.cs)
@@ -70,6 +71,7 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
    - [Three parent](src/GeneticSharp.Domain/Crossovers/ThreeParentCrossover.cs)
    - [Two-Point (C2)](src/GeneticSharp.Domain/Crossovers/TwoPointCrossover.cs)
    - [Uniform](src/GeneticSharp.Domain/Crossovers/UniformCrossover.cs)
+   - [Voting Recombination (VR)](src/GeneticSharp.Domain/Crossovers/VotingRecombinationCrossover.cs)  
    - Others crossovers can be added implementing [ICrossover](src/GeneticSharp.Domain/Crossovers/ICrossover.cs) interface or extending [CrossoverBase](src/GeneticSharp.Domain/Crossovers/CrossoverBase.cs).   
 
 ### [Mutations](src/GeneticSharp.Domain/Mutations)
