@@ -9,8 +9,6 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
     /// </summary>
     public class TplTaskExecutor : ParallelTaskExecutor
     {
-        private CancellationTokenSource m_cancellationTokenSource;
-
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="T:GeneticSharp.Infrastructure.Framework.Threading.TplTaskExecutor"/> class.

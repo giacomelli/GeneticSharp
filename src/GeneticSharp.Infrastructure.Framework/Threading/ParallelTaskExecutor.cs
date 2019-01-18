@@ -9,7 +9,7 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
     /// </summary>
     public class ParallelTaskExecutor : TaskExecutorBase
     {
-        private CancellationTokenSource m_cancellationTokenSource;
+        protected CancellationTokenSource m_cancellationTokenSource;
 
         /// <summary>
         /// Initializes a new instance of the
