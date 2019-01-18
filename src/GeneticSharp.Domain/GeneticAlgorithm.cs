@@ -118,6 +118,7 @@ namespace GeneticSharp.Domain
             TimeEvolving = TimeSpan.Zero;
             State = GeneticAlgorithmState.NotStarted;
             TaskExecutor = new LinearTaskExecutor();
+            OperatorsStrategy = new DefaultOperatorsStrategy();
         }
         #endregion
 
@@ -139,6 +140,11 @@ namespace GeneticSharp.Domain
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Gets the operators strategy
+        /// </summary>
+        public IOperatorsStrategy OperatorsStrategy { get; set; }
+
         /// <summary>
         /// Gets the population.
         /// </summary>
@@ -415,7 +421,7 @@ namespace GeneticSharp.Domain
 
                 if (!TaskExecutor.Start())
                 {
-                    throw new TimeoutException("The fitness evaluation rech the {0} timeout.".With(TaskExecutor.Timeout));
+                    throw new TimeoutException("The fitness evaluation reached the {0} timeout.".With(TaskExecutor.Timeout));
                 }
             }
             finally
@@ -461,22 +467,7 @@ namespace GeneticSharp.Domain
         /// <returns>The result chromosomes.</returns>
         private IList<IChromosome> Cross(IList<IChromosome> parents)
         {
-            var offspring = new List<IChromosome>();
-
-            for (int i = 0; i < Population.MinSize; i += Crossover.ParentsNumber)
-            {
-                var selectedParents = parents.Skip(i).Take(Crossover.ParentsNumber).ToList();
-
-                // If match the probability cross is made, otherwise the offspring is an exact copy of the parents.
-                // Checks if the number of selected parents is equal which the crossover expect, because the in the end of the list we can
-                // have some rest chromosomes.
-                if (selectedParents.Count == Crossover.ParentsNumber && RandomizationProvider.Current.GetDouble() <= CrossoverProbability)
-                {
-                    offspring.AddRange(Crossover.Cross(selectedParents));
-                }
-            }
-
-            return offspring;
+            return OperatorsStrategy.Cross(Population, Crossover, CrossoverProbability, parents);
         }
 
         /// <summary>
@@ -485,10 +476,7 @@ namespace GeneticSharp.Domain
         /// <param name="chromosomes">The chromosomes.</param>
         private void Mutate(IList<IChromosome> chromosomes)
         {
-            foreach (var c in chromosomes)
-            {
-                Mutation.Mutate(c, MutationProbability);
-            }
+            OperatorsStrategy.Mutate(Mutation, MutationProbability, chromosomes);
         }
 
         /// <summary>

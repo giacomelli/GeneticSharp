@@ -9,7 +9,7 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
     /// </summary>
     public class ParallelTaskExecutor : TaskExecutorBase
     {
-        private CancellationTokenSource m_cancellationTokenSource;
+        protected CancellationTokenSource m_cancellationTokenSource;
 
         /// <summary>
         /// Initializes a new instance of the
@@ -74,7 +74,7 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
         public override void Stop()
 		{
             base.Stop();
-            m_cancellationTokenSource.Cancel();
+            m_cancellationTokenSource?.Cancel();
             IsRunning = false;
 		}
 
@@ -85,7 +85,7 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
         /// <param name="minIOC">Minimum ioc.</param>
         /// <param name="maxWorker">Max worker.</param>
         /// <param name="maxIOC">Max ioc.</param>
-        private void SetThreadPoolConfig(out int minWorker, out int minIOC, out int maxWorker, out int maxIOC)
+        protected void SetThreadPoolConfig(out int minWorker, out int minIOC, out int maxWorker, out int maxIOC)
         {
             // Do not change values if the new values to min and max threads are lower than already configured on ThreadPool.
             ThreadPool.GetMinThreads(out minWorker, out minIOC);
@@ -110,7 +110,7 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
         /// <param name="minIOC">Minimum ioc.</param>
         /// <param name="maxWorker">Max worker.</param>
         /// <param name="maxIOC">Max ioc.</param>
-        private static void ResetThreadPoolConfig(int minWorker, int minIOC, int maxWorker, int maxIOC)
+        protected static void ResetThreadPoolConfig(int minWorker, int minIOC, int maxWorker, int maxIOC)
         {
             ThreadPool.SetMinThreads(minWorker, minIOC);
             ThreadPool.SetMaxThreads(maxWorker, maxIOC);

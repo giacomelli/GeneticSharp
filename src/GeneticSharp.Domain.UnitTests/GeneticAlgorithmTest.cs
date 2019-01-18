@@ -33,7 +33,7 @@ namespace GeneticSharp.Domain.UnitTests
 			RandomizationProvider.Current = new BasicRandomization();
 		}
 
-		[Test()]
+        [Test()]
 		public void Constructor_NullPopulation_Exception()
 		{
             var actual = Assert.Catch<ArgumentNullException>(() =>
@@ -93,7 +93,7 @@ namespace GeneticSharp.Domain.UnitTests
             Assert.AreEqual("mutation", actual.ParamName);
 		}
 
-		[Test()]
+        [Test()]
 		public void Start_NotParallelManyGenerations_Optimization()
 		{
 			var selection = new EliteSelection();
@@ -197,7 +197,7 @@ namespace GeneticSharp.Domain.UnitTests
             Assert.Catch<TimeoutException>(() =>
 			{
 				target.Start();
-            }, "The fitness evaluation rech the 00:00:01 timeout.");
+            }, "The fitness evaluation reached the 00:00:01 timeout.");
 
 			Assert.IsFalse(target.IsRunning);
 			Assert.AreEqual(GeneticAlgorithmState.Stopped, target.State);
@@ -292,7 +292,132 @@ namespace GeneticSharp.Domain.UnitTests
 			Assert.AreEqual(1000, ga2.Population.Generations.Count);
 		}
 
-		[Test()]
+        [Test()]
+        public void Start_TplManyGenerations_Optimization()
+        {
+            var taskExecutor = new TplTaskExecutor();
+            var selection = new EliteSelection();
+            var crossover = new OnePointCrossover(1);
+            var mutation = new UniformMutation();
+            var chromosome = new ChromosomeStub();
+
+            FlowAssert.IsAtLeastOneAttemptOk(20, () =>
+            {
+                var target = new GeneticAlgorithm(new TplPopulation(100, 150, chromosome),
+                new FitnessStub() { SupportsParallel = true }, selection, crossover, mutation);
+                target.OperatorsStrategy = new TplOperatorsStrategy();
+                target.TaskExecutor = taskExecutor;
+
+                Assert.AreEqual(GeneticAlgorithmState.NotStarted, target.State);
+                Assert.IsFalse(target.IsRunning);
+
+                target.Start();
+
+                Assert.AreEqual(GeneticAlgorithmState.TerminationReached, target.State);
+                Assert.IsFalse(target.IsRunning);
+                Assert.IsTrue(target.Population.CurrentGeneration.Chromosomes.Count >= 100);
+                Assert.IsTrue(target.Population.CurrentGeneration.Chromosomes.Count <= 150);
+                Assert.IsNotNull(target.Population.BestChromosome);
+                Assert.IsTrue(target.Population.BestChromosome.Fitness >= 0.9);
+                Assert.IsTrue(target.Population.Generations.Count > 0);
+            });
+
+            FlowAssert.IsAtLeastOneAttemptOk(20, () =>
+            {
+                var target = new GeneticAlgorithm(new TplPopulation(100, 150, chromosome),
+                new FitnessStub() { SupportsParallel = true }, selection, crossover, mutation);
+                target.OperatorsStrategy = new TplOperatorsStrategy();
+                target.TaskExecutor = taskExecutor;
+                target.Start();
+                Assert.IsTrue(target.Population.CurrentGeneration.Chromosomes.Count >= 100);
+                Assert.IsTrue(target.Population.CurrentGeneration.Chromosomes.Count <= 150);
+                Assert.IsNotNull(target.Population.BestChromosome);
+                Assert.IsTrue(target.Population.BestChromosome.Fitness >= 0.9);
+                Assert.IsTrue(target.Population.Generations.Count > 0);
+            });
+        }
+
+        [Test()]
+        public void Start_TplManySlowFitness_Timeout()
+        {
+            var taskExecutor = new TplTaskExecutor();
+            taskExecutor.Timeout = TimeSpan.FromMilliseconds(1000);
+
+            var selection = new RouletteWheelSelection();
+            var crossover = new OnePointCrossover(1);
+            var mutation = new UniformMutation();
+            var chromosome = new ChromosomeStub();
+            var target = new GeneticAlgorithm(new TplPopulation(100, 150, chromosome),
+                new FitnessStub() { SupportsParallel = true, ParallelSleep = 1500 }, selection, crossover, mutation);
+            target.OperatorsStrategy = new TplOperatorsStrategy();
+            target.TaskExecutor = taskExecutor;
+
+            Assert.Catch<TimeoutException>(() =>
+            {
+                target.Start();
+            }, "The fitness evaluation reached the 00:00:01 timeout.");
+
+            Assert.IsFalse(target.IsRunning);
+            Assert.AreEqual(GeneticAlgorithmState.Stopped, target.State);
+        }
+
+        [Test()]
+        public void Start_TplManyGenerations_Faster()
+        {
+            var selection = new EliteSelection();
+            var crossover = new OnePointCrossover(2);
+            var mutation = new UniformMutation();
+            var chromosome = new ChromosomeStub();
+            var target = new GeneticAlgorithm(new TplPopulation(100, 100, chromosome),
+                    new FitnessStub() { SupportsParallel = true }, selection, crossover, mutation);
+            target.OperatorsStrategy = new TplOperatorsStrategy();
+
+            target.Population.GenerationStrategy = new TrackingGenerationStrategy();
+            target.Termination = new GenerationNumberTermination(100);
+            target.TaskExecutor = new TplTaskExecutor();
+            target.Start();
+
+            Assert.AreEqual(100, target.Population.Generations.Count);
+            Assert.Greater(target.TimeEvolving.TotalMilliseconds, 1);
+        }
+
+        [Test()]
+        public void Start_TplGAs_Fast()
+        {
+            // GA 1     
+            var selection1 = new EliteSelection();
+            var crossover1 = new OnePointCrossover(2);
+            var mutation1 = new UniformMutation();
+            var chromosome1 = new ChromosomeStub();
+            var ga1 = new GeneticAlgorithm(new TplPopulation(100, 199, chromosome1),
+                    new FitnessStub() { SupportsParallel = false }, selection1, crossover1, mutation1);
+            ga1.OperatorsStrategy = new TplOperatorsStrategy();
+
+            ga1.Population.GenerationStrategy = new TrackingGenerationStrategy();
+            ga1.Termination = new GenerationNumberTermination(1000);
+
+            // GA 2     
+            var selection2 = new EliteSelection();
+            var crossover2 = new OnePointCrossover(2);
+            var mutation2 = new UniformMutation();
+            var chromosome2 = new ChromosomeStub();
+            var ga2 = new GeneticAlgorithm(new TplPopulation(100, 199, chromosome2),
+                    new FitnessStub() { SupportsParallel = false }, selection2, crossover2, mutation2);
+            ga2.OperatorsStrategy = new TplOperatorsStrategy();
+
+            ga2.Population.GenerationStrategy = new TrackingGenerationStrategy();
+            ga2.Termination = new GenerationNumberTermination(1000);
+
+            Parallel.Invoke(
+                () => ga1.Start(),
+                () => ga2.Start());
+
+
+            Assert.AreEqual(1000, ga1.Population.Generations.Count);
+            Assert.AreEqual(1000, ga2.Population.Generations.Count);
+        }
+
+        [Test()]
 		public void Start_TerminationReached_TerminationReachedEventRaised()
 		{
 			var selection = new EliteSelection();
@@ -445,19 +570,19 @@ namespace GeneticSharp.Domain.UnitTests
 					new FitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
 
 			target.Population.GenerationStrategy = new TrackingGenerationStrategy();
-			target.Termination = new GenerationNumberTermination(100);
+			target.Termination = new GenerationNumberTermination(500);
 
 			target.Start();
 			var lastTimeEvolving = target.TimeEvolving.TotalMilliseconds;
-			Assert.AreEqual(100, target.Population.Generations.Count);
+			Assert.AreEqual(500, target.Population.Generations.Count);
 			Assert.Greater(target.TimeEvolving.TotalMilliseconds, 1);
 			Assert.Less(target.TimeEvolving.TotalMilliseconds, 1000, "Time evolving should be less than 1000ms");
 			Assert.AreEqual(GeneticAlgorithmState.TerminationReached, target.State);
 			Assert.IsFalse(target.IsRunning);
 
-			target.Termination = new GenerationNumberTermination(50);
+			target.Termination = new GenerationNumberTermination(100);
 			target.Start();
-			Assert.AreEqual(50, target.Population.Generations.Count);
+			Assert.AreEqual(100, target.Population.Generations.Count);
             Assert.Less(target.TimeEvolving.TotalMilliseconds, lastTimeEvolving, "Time evolving 50 generations should be less than 100-199 generations");
 			lastTimeEvolving = target.TimeEvolving.TotalMilliseconds;
 			Assert.AreEqual(GeneticAlgorithmState.TerminationReached, target.State);
