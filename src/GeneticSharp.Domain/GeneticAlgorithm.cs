@@ -140,6 +140,9 @@ namespace GeneticSharp.Domain
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Gets the operators strategy
+        /// </summary>
         public IOperatorsStrategy OperatorsStrategy { get; set; }
 
         /// <summary>

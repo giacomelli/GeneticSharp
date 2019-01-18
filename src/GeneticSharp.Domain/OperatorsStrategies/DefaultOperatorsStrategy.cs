@@ -10,6 +10,9 @@ using GeneticSharp.Domain.Randomizations;
 
 namespace GeneticSharp.Domain
 {
+    /// <summary>
+    /// Defines an operators strategy which use a linear execution
+    /// </summary>
     public class DefaultOperatorsStrategy : IOperatorsStrategy
     {
         /// <summary>

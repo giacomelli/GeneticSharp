@@ -11,6 +11,9 @@ using GeneticSharp.Domain.Randomizations;
 
 namespace GeneticSharp.Domain
 {
+    /// <summary>
+    /// Defines an operators strategy which use Task Parallel Library for parallel execution
+    /// </summary>
     public class TplOperatorsStrategy : IOperatorsStrategy
     {
         /// <summary>

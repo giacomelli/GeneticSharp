@@ -8,6 +8,9 @@ using GeneticSharp.Domain.Populations;
 
 namespace GeneticSharp.Domain
 {
+    /// <summary>
+    /// Define an interface for operators strategy
+    /// </summary>
     public interface IOperatorsStrategy
     {
         /// <summary>
