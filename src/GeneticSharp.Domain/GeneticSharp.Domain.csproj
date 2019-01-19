@@ -21,7 +21,7 @@
     <PackageProjectUrl>https://github.com/giacomelli/GeneticSharp</PackageProjectUrl>
     <PackageIconUrl>https://github.com/giacomelli/GeneticSharp/raw/master/docs/logo/icon-64x64-transparent.png</PackageIconUrl>
     <PackageReleaseNotes>See changes at https://github.com/giacomelli/GeneticSharp.</PackageReleaseNotes>
-    <PackageTags>genetic-algorithms geneticsharp genetic algotithms</PackageTags>
+    <PackageTags>genetic-algorithms geneticsharp genetic algorithms</PackageTags>
   </PropertyGroup>
 
 <!-- NuGet Package -->

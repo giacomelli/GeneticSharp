@@ -8,7 +8,7 @@ using GeneticSharp.Domain.Chromosomes;
 namespace GeneticSharp.Domain.Populations
 {
     /// <summary>
-    /// Represents a population of candidate solutions (chromosomes) using TPL to create the them.
+    /// Represents a population of candidate solutions (chromosomes) using TPL to create them.
     /// </summary>
     public class TplPopulation : Population
     {
