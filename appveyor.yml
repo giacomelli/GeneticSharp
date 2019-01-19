@@ -1,4 +1,4 @@
-version: 2.2.{build}
+version: 2.4.{build}
 os: Visual Studio 2017
 configuration: Release
 environment:
@@ -15,11 +15,7 @@ assembly_info:
   assembly_informational_version: '{version}'
   
 install:
-- cmd: choco install gtksharp    
-
-nuget:
-  account_feed: true
-  project_feed: true
+- cmd: choco install gtksharp
   
 before_build:
 - cmd: dotnet --version
@@ -47,9 +43,9 @@ after_build:
 - cmd: >-   
     mkdir .\src\nuget
 
-    dotnet pack src/GeneticSharp.Domain/GeneticSharp.Domain.csproj -c release --no-build --output ../nuget /p:PackageVersion=2.2.0
+    dotnet pack src/GeneticSharp.Domain/GeneticSharp.Domain.csproj -c release --no-build --output ../nuget /p:PackageVersion=2.4.0
     
-    dotnet pack src/GeneticSharp.Extensions/GeneticSharp.Extensions.csproj -c release --no-build --output ../nuget /p:PackageVersion=2.2.0
+    dotnet pack src/GeneticSharp.Extensions/GeneticSharp.Extensions.csproj -c release --no-build --output ../nuget /p:PackageVersion=2.4.0
 
 test_script:
 - cmd: dotnet clean src/GeneticSharp.Domain.UnitTests

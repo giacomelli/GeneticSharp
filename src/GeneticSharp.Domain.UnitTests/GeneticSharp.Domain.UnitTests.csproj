@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj" />
     <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj" />
+    <ProjectReference Include="..\GeneticSharp.Extensions\GeneticSharp.Extensions.csproj" />
   </ItemGroup>
   
   <ItemGroup>
