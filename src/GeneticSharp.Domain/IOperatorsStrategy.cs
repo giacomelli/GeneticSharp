@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Mutations;
@@ -9,7 +7,7 @@ using GeneticSharp.Domain.Populations;
 namespace GeneticSharp.Domain
 {
     /// <summary>
-    /// Define an interface for operators strategy
+    /// Defines an interface for operators strategy.
     /// </summary>
     public interface IOperatorsStrategy
     {

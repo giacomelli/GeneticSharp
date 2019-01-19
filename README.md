@@ -47,10 +47,21 @@ Can be used in any kind of .NET Core and .NET Framework apps, like ASP .NET MVC,
 Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain/Fitnesses/IFitness.cs) interface.
 
 ### [Populations](src/GeneticSharp.Domain/Populations)
+   - [Population](src/GeneticSharp.Domain/Populations/Population.cs)
+   - [TplPopulation](src/GeneticSharp.Domain/Populations/TplPopulation.cs)
+   - Others populations can be added implementing [IPopulation](src/GeneticSharp.Domain/IPopulation) interface or extending [Population](src/GeneticSharp.Domain/Populations/Population.cs).
+
+### [Generations](src/GeneticSharp.Domain/Populations/Generation.cs)
    - [Generation](src/GeneticSharp.Domain/Populations/Generation.cs)
    - [Generation strategy](src/GeneticSharp.Domain/Populations/IGenerationStrategy.cs)
      - [Performance strategy](src/GeneticSharp.Domain/Populations/PerformanceGenerationStrategy.cs)
      - [Tracking strategy](src/GeneticSharp.Domain/Populations/TrackingGenerationStrategy.cs)  
+     - Others generation strategies can be added implementing [IGenerationStrategy.cs](src/GeneticSharp.Domain/IGenerationStrategy.cs) interface.
+     
+### [Operators strategy](src/GeneticSharp.Domain/src/GeneticSharp.Domain/IOperatorsStrategy.cs)
+   - [DefaultOperatorsStrategy](src/GeneticSharp.Domain/DefaultOperatorsStrategy.cs)
+   - [TplOperatorsStrategy](src/GeneticSharp.Domain/TplOperatorsStrategy.cs)
+   - Others operators strategies can be added implementing [IOperatorsStrategy](src/GeneticSharp.Domain/IOperatorsStrategy.cs) interface.
 
 ### [Selections](src/GeneticSharp.Domain/Selections)
    - [Elite](src/GeneticSharp.Domain/Selections/EliteSelection.cs) (also know as Truncate or Truncation)
@@ -104,28 +115,38 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
    - [Fast random](src/GeneticSharp.Domain/Randomizations/FastRandomRandomization.cs)   
    - If you need a special kind of randomization for your GA, just implement the [IRandomization](src/GeneticSharp.Domain/Randomizations/IRandomization.cs) interface.
 
+### [Task executors](src/GeneticSharp.Infrastructure.Framework/Threading/ITaskExecutor.cs)
+   - [LinearTaskExecutor](src/GeneticSharp.Infrastructure.Framework/Threading/LinearTaskExecutor.cs)
+   - [ParallelTaskExecutor](src/GeneticSharp.Infrastructure.Framework/Threading/ParallelTaskExecutor.cs)
+   - [TplTaskExecutor](src/GeneticSharp.Infrastructure.Framework/Threading/TplTaskExecutor.cs)
+   - Others task executors can be added implementing [ITaskExecutor](src/GeneticSharp.Infrastructure.Framework/Threading/ITaskExecutor.cs) interface.
+   
 ##  Samples
-### [Console sample](src/GeneticSharp.Runner.ConsoleApp)
+### [Console samples](src/GeneticSharp.Runner.ConsoleApp)
 - AutoConfig
 - Bitmap equality
 - Equality equation
 - Equation solver
 - Function builder
+- Ghostwriter
+- TSP (Travelling Salesman Problem)
 
 ![](docs/gifs/GeneticSharp-ConsoleApp-EquationSolver-FunctionBuilder.gif)
 
-- Ghostwriter
-- TSP (Travelling Salesman Problem)
  	
-### [GTK# sample](src/GeneticSharp.Runner.GtkApp)
+### [GTK# samples](src/GeneticSharp.Runner.GtkApp)
+- Bitmap equality
+- Function optimization
+- Sudoku
+- TSP (Travelling Salesman Problem)
 
-#### TSP (Travelling Salesman Problem), Function optimization and Sudoku
 ![](docs/gifs/GeneticSharp-GtkApp.gif)
  
-#### Bitmap equality
-![](docs/gifs/GeneticSharp-BitmapEquality_sample01.gif)
-
 ### [Unity3D Samples](src/GeneticSharp.Runner.UnityApp)
+- Car2D
+- TSP (Travelling Salesman Problem)
+- Wall Builder
+
 [![](docs/screenshots/GeneticSharp-UnityApp.png)](https://youtu.be/xXqNcgeOU_g)
 [![](docs/images/google-play-badge.png)](https://play.google.com/store/apps/details?id=br.com.diegogiacomelli.geneticsharprunnersunityapp)
 
@@ -134,14 +155,10 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
 - Mono, .NET Standard 2.0 and .NET Framework 4.6.2 support.
 - Fully tested on Windows and MacOS.
 
-![](docs/screenshots/VisualStudioMacAndWin.png)
-
 ## Code quality
 - 100% unit test code coverage.
-- FxCop validated.
-- Code duplicated verification.
-- Good (and well used) design patterns.  
 - 100% code documentation
+- [SonarCloud](https://sonarcloud.io/dashboard?id=GeneticSharp) validated.
 
 --------
 
@@ -171,6 +188,8 @@ install-package GeneticSharp -Version 1.2.0
 
 ## Running samples
 If you want to run the console, GTK# and Unity samples, just fork this repository and follow the instruction from our [setup](https://github.com/giacomelli/GeneticSharp/wiki/setup) page wiki.
+
+An easy way to run the Unity Samples, if you have a Android device, is download it from [Google Play](https://play.google.com/store/apps/details?id=br.com.diegogiacomelli.geneticsharprunnersunityapp).
 
 ## Usage
 
@@ -230,31 +249,6 @@ ga.Start();
 
 Console.WriteLine("Best solution found has {0} fitness.", ga.BestChromosome.Fitness);
 ```
-
---------
-
-## Roadmap
- - Add new problems/classic sample
-   - Checkers 
-   - Time series   
-   - Knapsack problem
- - Add new selections   
-  - Reward-based
- - Add new crossovers   
-   - Sequential Constructive (SCX)    
-   - Shuffle crossover
-   - Precedence Preservative Crossover (PPX)
- - Add new mutations
-   - Non-Uniform
-   - Boundary
-   - Gaussian 
- - Add new terminations
-   - Fitness convergence 
-   - Population convergence
-   - Chromosome convergence   
- - New samples
-   - Xamarin runner app (sample)
- - Parallel populations (islands) 
  
 --------
 
@@ -266,10 +260,10 @@ Having troubles?
 - Tutorials
    - [Function optimization with GeneticSharp](http://diegogiacomelli.com.br/function-optimization-with-geneticsharp/) 
    - [TSP with GeneticSharp and Unity3D](http://diegogiacomelli.com.br/tsp-with-GeneticSharp-and-Unity3d/)
-- Ask on Twitter [@ogiacomelli](http://twitter.com/ogiacomelli).
 - Ask on [Stack Overflow](http://stackoverflow.com/questions/tagged/geneticsharp) using the tag [GeneticSharp](http://stackoverflow.com/questions/tagged/geneticsharp).
- 
- --------
+- Open an [issue](https://github.com/giacomelli/GeneticSharp/issues).
+
+--------
 
 ## How to improve it?
 
@@ -278,8 +272,8 @@ Create a fork of [GeneticSharp](https://github.com/giacomelli/GeneticSharp/fork)
 Did you change it? [Submit a pull request](https://github.com/giacomelli/GeneticSharp/pull/new/master).
 
 ## License
-Licensed under the The MIT License (MIT).
-In others words, you can use this library for developement any kind of software: open source, commercial, proprietary and alien.
+Licensed under the The [MIT License (MIT)](LICENSE).
+In others words, you can use this library for developement any kind of software: open source, commercial, proprietary, etc.
 
 # Thanks to
 I would like to thanks to the guys from [SMASHINGLOGO (https://smashinglogo.com)](https://smashinglogo.com/) for the amazing GeneticSharp logo.

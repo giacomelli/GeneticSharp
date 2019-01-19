@@ -9,8 +9,6 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
     /// </summary>
     public class ParallelTaskExecutor : TaskExecutorBase
     {
-        protected CancellationTokenSource m_cancellationTokenSource;
-
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="T:GeneticSharp.Infrastructure.Framework.Threading.ParallelTaskExecutor"/> class.
@@ -32,7 +30,12 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
         /// </summary>
         /// <value>The max threads.</value>
         public int MaxThreads { get; set; }
-    
+
+        /// <summary>
+        /// Gets or sets the cancellation token source.
+        /// </summary>
+        protected CancellationTokenSource CancellationTokenSource { get; set; }
+
         /// <summary>
         /// Starts the tasks execution.
         /// </summary>
@@ -44,12 +47,12 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
             try
             {
                 base.Start();
-                m_cancellationTokenSource = new CancellationTokenSource();
+                CancellationTokenSource = new CancellationTokenSource();
                 var parallelTasks = new Task[Tasks.Count];
 
                 for (int i = 0; i < Tasks.Count; i++)
                 {
-                    parallelTasks[i] = Task.Run(Tasks[i], m_cancellationTokenSource.Token);
+                    parallelTasks[i] = Task.Run(Tasks[i], CancellationTokenSource.Token);
                 }
 
                 // Need to verify, because TimeSpan.MaxValue passed to Task.WaitAll throws a System.ArgumentOutOfRangeException.
@@ -74,7 +77,7 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
         public override void Stop()
 		{
             base.Stop();
-            m_cancellationTokenSource?.Cancel();
+            CancellationTokenSource?.Cancel();
             IsRunning = false;
 		}
 
