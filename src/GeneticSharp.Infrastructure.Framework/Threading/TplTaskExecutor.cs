@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 namespace GeneticSharp.Infrastructure.Framework.Threading
 {
     /// <summary>
-    /// An ITaskExecutor's implementation that executes the tasks in a parallel fashion using TPL.
+    /// An ITaskExecutor's implementation that executes the tasks in a parallel fashion using Task Parallel Library (TPL).
     /// </summary>
+    /// <see href="https://github.com/giacomelli/GeneticSharp/wiki/multithreading"/>
     public class TplTaskExecutor : ParallelTaskExecutor
     {
         /// <summary>
@@ -32,8 +33,10 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
                         // Execute the target function (fitness).
                         Tasks[i]();
 
-                        // If cancellation token was requested OR take more time expected on Timeout property, then stop the running.
-                        if ((CancellationTokenSource.IsCancellationRequested && !state.ShouldExitCurrentIteration) || ((DateTime.Now - startTime) > Timeout && !state.ShouldExitCurrentIteration))
+                        // If cancellation token was requested OR take more time expected on Timeout property, 
+                        // then stop the running.
+                        if ((CancellationTokenSource.IsCancellationRequested && !state.ShouldExitCurrentIteration) 
+                        || ((DateTime.Now - startTime) > Timeout && !state.ShouldExitCurrentIteration))
                             state.Break();
                     });
                 }
