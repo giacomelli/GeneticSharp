@@ -1,0 +1,1 @@
+dotnet ./src/GeneticSharp.Benchmarks/bin/Release/netcoreapp2.1/GeneticSharp.Benchmarks.dll
