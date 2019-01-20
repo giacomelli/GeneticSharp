@@ -1,4 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Diagnostics.Windows.Configs;
 using BenchmarkDotNet.Order;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Crossovers;
@@ -12,6 +13,7 @@ using GeneticSharp.Infrastructure.Framework.Threading;
 namespace GeneticSharp.Benchmarks
 {
     [MemoryDiagnoser]
+    [EtwProfiler]
     [Orderer(SummaryOrderPolicy.FastestToSlowest, MethodOrderPolicy.Declared)]
     public class GeneticAlgorithmsBenchmark
     {
