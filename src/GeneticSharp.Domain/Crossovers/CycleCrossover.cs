@@ -119,7 +119,7 @@ namespace GeneticSharp.Domain.Crossovers
             {
                 var parent2Gene = parent2Genes[geneIndex];
                 cycle.Add(geneIndex);
-                var newGeneIndex = parent1Genes.Select((g, i) => new { Value = g.Value, Index = i }).First(g => g.Value.Equals(parent2Gene.Value));
+                var newGeneIndex = parent1Genes.Select((g, i) => new { g.Value, Index = i }).First(g => g.Value.Equals(parent2Gene.Value));
 
                 if (geneIndex != newGeneIndex.Index)
                 {

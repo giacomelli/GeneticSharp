@@ -129,6 +129,22 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         }
 
         [Test]
+        [Repeat(10)]
+        public void Cross_TspChromosome_Child()
+        {
+            var target = new AlternatingPositionCrossover();
+            var chromosome1 = new TspChromosome(100);
+            var chromosome2 = new TspChromosome(100);
+            var actual = target.Cross(new TspChromosome[] { chromosome1, chromosome2 });
+
+            Assert.AreEqual(2, actual.Count);
+
+            CollectionAssert.AllItemsAreUnique(chromosome1.GetGenes());
+            CollectionAssert.AllItemsAreUnique(chromosome2.GetGenes());
+        }
+
+
+        [Test]
         public void GA_WithAlternatingPositionCrossover_Evolve()
         {
             var chromosome = new TspChromosome(50);

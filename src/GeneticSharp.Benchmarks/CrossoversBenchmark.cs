@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using BenchmarkDotNet.Attributes;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
@@ -10,52 +9,107 @@ namespace GeneticSharp.Benchmarks
     [MemoryDiagnoser]
     public class CrossoversBenchmark
     {
-        private readonly IList<IChromosome> _parents;
+        private readonly IList<IChromosome> _twoParents;
+        private readonly IList<IChromosome> _threeParents;
 
         public CrossoversBenchmark()
         {
-            _parents = new TspChromosome[]
+            _twoParents = new TspChromosome[]
             {
+                new TspChromosome(100),
+                new TspChromosome(100)
+            };
+
+            _threeParents = new TspChromosome[]
+            {
+                new TspChromosome(100),
                 new TspChromosome(100),
                 new TspChromosome(100),
             };
         }
 
         [Benchmark]
-        public void AlternatingPosition()
+        public IList<IChromosome> AlternatingPosition()
         {
             var target = new AlternatingPositionCrossover();
-            target.Cross(CreateParents());
+            return target.Cross(_twoParents);
         }
 
         [Benchmark]
-        public void CutAndSpliceCrossover()
+        public IList<IChromosome> CutAndSpliceCrossover()
         {
             var target = new CutAndSpliceCrossover();
-            target.Cross(CreateParents());
+            return target.Cross(_twoParents);
         }
 
         [Benchmark]
-        public void CycleCrossover()
+        public IList<IChromosome> CycleCrossover()
         {
             var target = new CycleCrossover();
-            target.Cross(CreateParents());
+            return target.Cross(_twoParents);
         }
 
         [Benchmark]
-        public void OnePointCrossover()
+        public IList<IChromosome> OnePointCrossover()
         {
             var target = new OnePointCrossover();
-            target.Cross(CreateParents());
+            return target.Cross(_twoParents);
         }
 
-        private static IList<IChromosome> CreateParents()
+        [Benchmark]
+        public IList<IChromosome> OrderBasedCrossover()
         {
-            return new TspChromosome[]
-            {
-                new TspChromosome(100),
-                new TspChromosome(100),
-            };
+            var target = new OrderBasedCrossover();
+            return target.Cross(_twoParents);
+        }
+
+        [Benchmark]
+        public IList<IChromosome> OrderedCrossover()
+        {
+            var target = new OrderedCrossover();
+            return target.Cross(_twoParents);
+        }
+
+        [Benchmark]
+        public IList<IChromosome> PartiallyMappedCrossover()
+        {
+            var target = new PartiallyMappedCrossover();
+            return target.Cross(_twoParents);
+        }
+
+        [Benchmark]
+        public IList<IChromosome> PositionBasedCrossover()
+        {
+            var target = new PositionBasedCrossover();
+            return target.Cross(_twoParents);
+        }
+
+        [Benchmark]
+        public IList<IChromosome> ThreeParentCrossover()
+        {
+            var target = new ThreeParentCrossover();
+            return target.Cross(_threeParents);
+        }
+
+        [Benchmark]
+        public IList<IChromosome> TwoPointCrossover()
+        {
+            var target = new TwoPointCrossover();
+            return target.Cross(_twoParents);
+        }
+
+        [Benchmark]
+        public IList<IChromosome> UniformCrossover()
+        {
+            var target = new UniformCrossover();
+            return target.Cross(_twoParents);
+        }
+
+        [Benchmark]
+        public IList<IChromosome> VotingRecombinationCrossover()
+        {
+            var target = new VotingRecombinationCrossover();
+            return target.Cross(_threeParents);
         }
     }
 }
