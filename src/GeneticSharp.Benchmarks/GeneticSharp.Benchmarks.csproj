@@ -4,6 +4,7 @@
     <TargetFrameworks>netcoreapp2.1;net462</TargetFrameworks>
     <OutputType>Exe</OutputType>    
     <RuntimeIdentifiers>win7-x86;osx-x64;linux-x64</RuntimeIdentifiers>
+    <ReleaseVersion>1.2.0</ReleaseVersion>
   </PropertyGroup>
 
   <ItemGroup>

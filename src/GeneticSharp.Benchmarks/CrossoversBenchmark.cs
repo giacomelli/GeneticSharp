@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Order;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Extensions.Tsp;
@@ -7,6 +8,7 @@ using GeneticSharp.Extensions.Tsp;
 namespace GeneticSharp.Benchmarks
 {
     [MemoryDiagnoser]
+    [Orderer(SummaryOrderPolicy.FastestToSlowest, MethodOrderPolicy.Declared)]
     public class CrossoversBenchmark
     {
         private readonly IList<IChromosome> _twoParents;
