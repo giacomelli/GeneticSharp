@@ -57,12 +57,6 @@ test_script:
 - cmd: dotnet clean src/GeneticSharp.Infrastructure.Framework.UnitTests
 - cmd: dotnet test src/GeneticSharp.Infrastructure.Framework.UnitTests -f netcoreapp2.0
 
-after_test:
-- cmd: tools/runBenchmarks.cmd
-
 artifacts:
   - path: .\src\nuget\*.nupkg
     name: NuGet packages
-
-  - path: BenchmarkDotNet.Artifacts\results
-    name: Benchmarks results
