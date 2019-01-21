@@ -1,5 +1,5 @@
-﻿using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Diagnostics.Windows.Configs;
+﻿using System;
+using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Order;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Crossovers;
@@ -13,46 +13,63 @@ using GeneticSharp.Infrastructure.Framework.Threading;
 namespace GeneticSharp.Benchmarks
 {
     [MemoryDiagnoser]
-    [EtwProfiler]
+    [RPlotExporter]
     [Orderer(SummaryOrderPolicy.FastestToSlowest, MethodOrderPolicy.Declared)]
     public class GeneticAlgorithmsBenchmark
     {
+        [Params(10, 100)]
+        public int NumberOfCities { get; set; }
+
+        [Params(50)]
+        public int MinPopulationSize { get; set; }
+
+        [Params(1000)]
+        public int Generations { get; set; }
+
         [Benchmark]
-        public void Start_Tsp_LinearTaskExecutor()
+        public GeneticAlgorithm LinearTaskExecutor()
         {
-            StartGA(new LinearTaskExecutor());
+            var ga = CreateGA(); 
+            ga.TaskExecutor = new LinearTaskExecutor();
+
+            return ga;
         }
 
         [Benchmark]
-        public void Start_Tsp_ParallelTaskExecutor()
+        public GeneticAlgorithm ParallelTaskExecutor()
         {
-            StartGA(new ParallelTaskExecutor());
+            var ga = CreateGA();
+            ga.TaskExecutor = new ParallelTaskExecutor();
+
+            return ga;
         }
 
         [Benchmark]
-        public void Start_Tsp_TplTaskExecutor()
+        public GeneticAlgorithm TplTaskExecutor()
         {
-            StartGA(new TplTaskExecutor());
+            var ga = CreateGA(c =>  new TplPopulation(MinPopulationSize, MinPopulationSize, c));
+            ga.OperatorsStrategy = new TplOperatorsStrategy();
+            ga.TaskExecutor = new TplTaskExecutor();
+
+            return ga;
         }
 
-        private void StartGA(ITaskExecutor taskExecutor)
+        private GeneticAlgorithm CreateGA(Func<TspChromosome, Population> createPopulation = null)
         {
-            int numberOfCities = 100;
             var selection = new EliteSelection();
             var crossover = new OrderedCrossover();
             var mutation = new ReverseSequenceMutation();
-            var chromosome = new TspChromosome(numberOfCities);
-            var fitness = new TspFitness(numberOfCities, 0, 1000, 0, 1000);
+            var chromosome = new TspChromosome(NumberOfCities);
+            var fitness = new TspFitness(NumberOfCities, 0, 1000, 0, 1000);
 
-            var population = new Population(50, 50, chromosome);
+            var population = createPopulation == null ? new Population(MinPopulationSize, MinPopulationSize, chromosome) : createPopulation(chromosome);
 
             var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation)
             {
-                Termination = new GenerationNumberTermination(1000),
-                TaskExecutor = taskExecutor
+                Termination = new GenerationNumberTermination(Generations)
             };
 
-            ga.Start();
+            return ga;
         }
     }
 }
