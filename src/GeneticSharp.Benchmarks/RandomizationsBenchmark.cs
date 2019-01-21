@@ -1,82 +1,111 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Order;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Extensions.Tsp;
+using GeneticSharp.Domain.Randomizations;
 
 namespace GeneticSharp.Benchmarks
 {
     [MemoryDiagnoser]
-    [Orderer(SummaryOrderPolicy.FastestToSlowest, MethodOrderPolicy.Declared)]
-    public class MuttionsBenchmark
+    [Orderer(SummaryOrderPolicy.Method, MethodOrderPolicy.Declared)]
+    public class RandomizationsBenchmark
     {
-        [Params(10, 100)]
-        public int NumberOfCities { get; set; }
+        private BasicRandomization _basic = new BasicRandomization();
+        private FastRandomRandomization _fastRandom = new FastRandomRandomization();
 
-        [Params(1f)]
-        public float Probability { get; set; }
+        [Params(-100)]
+        public int Min { get; set; }
 
+        [Params(100)]
+        public int Max { get; set; }
+
+        [Params(10)]
+        public int ArrayLength { get; set; }
+
+        #region Basic
         [Benchmark]
-        public IMutation DisplacementMutation()
+        public void Basic_GetDouble()
         {
-            var target = new DisplacementMutation();
-            target.Mutate(new TspChromosome(NumberOfCities), Probability);
-
-            return target;
+            _basic.GetDouble();
         }
 
         [Benchmark]
-        public IMutation FlipBitMutation()
+        public void Basic_GetEvenInt()
         {
-            var target = new FlipBitMutation();
-            target.Mutate(new FloatingPointChromosome(0, NumberOfCities, 0), Probability);
-
-            return target;
+            _basic.GetEvenInt(Min, Max);
         }
 
         [Benchmark]
-        public IMutation InsertionMutation()
+        public void Basic_GetFloat()
         {
-            var target = new InsertionMutation();
-            target.Mutate(new TspChromosome(NumberOfCities), Probability);
-
-            return target;
+            _basic.GetFloat();
         }
 
         [Benchmark]
-        public IMutation PartialShuffleMutation()
+        public void Basic_GetInt()
         {
-            var target = new PartialShuffleMutation();
-            target.Mutate(new TspChromosome(NumberOfCities), Probability);
-
-            return target;
+            _basic.GetInt(Min, Max);
         }
 
         [Benchmark]
-        public IMutation ReverseSequenceMutation()
+        public void Basic_GetInts()
         {
-            var target = new ReverseSequenceMutation();
-            target.Mutate(new TspChromosome(NumberOfCities), Probability);
-
-            return target;
+            _basic.GetInts(ArrayLength, Min, Max);
         }
 
         [Benchmark]
-        public IMutation TworsMutation()
+        public void Basic_GetOddInt()
         {
-            var target = new TworsMutation();
-            target.Mutate(new TspChromosome(NumberOfCities), Probability);
-
-            return target;
+            _basic.GetOddInt(Min, Max);
         }
 
         [Benchmark]
-        public IMutation UniformMutation()
+        public void Basic_GetUniqueInts()
         {
-            var target = new UniformMutation();
-            target.Mutate(new TspChromosome(NumberOfCities), Probability);
-
-            return target;
+            _basic.GetUniqueInts(ArrayLength, Min, Max);
         }
+        #endregion 
+
+        #region FastRandom
+        [Benchmark(Baseline = true)]
+        public void FastRandom_GetDouble()
+        {
+            _fastRandom.GetDouble();
+        }
+
+        [Benchmark]
+        public void FastRandom_GetEvenInt()
+        {
+            _fastRandom.GetEvenInt(Min, Max);
+        }
+
+        [Benchmark]
+        public void FastRandom_GetFloat()
+        {
+            _fastRandom.GetFloat();
+        }
+
+        [Benchmark]
+        public void FastRandom_GetInt()
+        {
+            _fastRandom.GetInt(Min, Max);
+        }
+
+        [Benchmark]
+        public void FastRandom_GetInts()
+        {
+            _fastRandom.GetInts(ArrayLength, Min, Max);
+        }
+
+        [Benchmark]
+        public void FastRandom_GetOddInt()
+        {
+            _basic.GetOddInt(Min, Max);
+        }
+
+        [Benchmark]
+        public void FastRandom_GetUniqueInts()
+        {
+            _fastRandom.GetUniqueInts(ArrayLength, Min, Max);
+        }
+        #endregion 
     }
 }
