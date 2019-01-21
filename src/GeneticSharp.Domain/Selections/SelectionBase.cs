@@ -38,7 +38,7 @@ namespace GeneticSharp.Domain.Selections
         {
             if (number < m_minNumberChromosomes)
             {
-                throw new ArgumentOutOfRangeException("number", "The number of selected chromosomes should be at least {0}.".With(m_minNumberChromosomes));
+                throw new ArgumentOutOfRangeException(nameof(number), "The number of selected chromosomes should be at least {0}.".With(m_minNumberChromosomes));
             }
 
             ExceptionHelper.ThrowIfNull("generation", generation);
