@@ -11,8 +11,8 @@ namespace GeneticSharp.Domain.Randomizations
     /// </remarks>
     public class BasicRandomization : RandomizationBase
     {
-        private static readonly Random m_globalRandom = new Random();
-        private static readonly object m_globalLock = new object();
+        private static readonly Random _globalRandom = new Random();
+        private static readonly object _globalLock = new object();
        
         /// <summary> 
         /// Random number generator 
@@ -24,11 +24,11 @@ namespace GeneticSharp.Domain.Randomizations
         /// from a global (static) instance of Random, rather 
         /// than time. 
         /// </summary> 
-        public static Random NewRandom()
+        private static Random NewRandom()
         {
-            lock (m_globalLock)
+            lock (_globalLock)
             {
-                return new Random(m_globalRandom.Next());
+                return new Random(_globalRandom.Next());
             }
         }
 
@@ -36,7 +36,7 @@ namespace GeneticSharp.Domain.Randomizations
         /// Returns an instance of Random which can be used freely 
         /// within the current thread. 
         /// </summary> 
-        public static Random Instance { get { return s_threadRandom.Value; } }
+        private static Random Instance { get { return s_threadRandom.Value; } }
 
         /// <summary>
         /// Gets an integer value between minimum value (inclusive) and maximum value (exclusive).
