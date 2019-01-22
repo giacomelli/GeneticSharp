@@ -125,3 +125,4 @@ Issue9Sample.sln.GhostDoc.xml
 .idea
 *.opencover.xml
 .sonarqube
+BenchmarkDotNet.Artifacts
