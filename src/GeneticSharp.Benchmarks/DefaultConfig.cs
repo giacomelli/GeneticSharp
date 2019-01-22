@@ -9,9 +9,9 @@ namespace GeneticSharp.Benchmarks
     {
         public DefaultConfig()
         {
-            Set(new DefaultOrderer(SummaryOrderPolicy.Method, MethodOrderPolicy.Declared));
+            Set(new DefaultOrderer(SummaryOrderPolicy.FastestToSlowest, MethodOrderPolicy.Alphabetical));
             Add(new MemoryDiagnoser());
-
+          
             Add(Job.Core
                 .WithMinIterationCount(15)
                 .WithMaxIterationCount(20));
