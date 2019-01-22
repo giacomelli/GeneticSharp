@@ -1,7 +1,7 @@
 
 ![](docs/logo/logo-small.png)
 
-[![Join the chat at https://gitter.im/GeneticSharp/Lobby](https://badges.gitter.im/GeneticSharp/Lobby.svg)](https://gitter.im/GeneticSharp/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build status](https://ci.appveyor.com/api/projects/status/h9ptxpyj30ah3mva/branch/master?svg=true)](https://ci.appveyor.com/project/giacomelli/geneticsharp)
 [![Quality status](https://sonarcloud.io/api/project_badges/measure?project=GeneticSharp&metric=alert_status)](https://sonarcloud.io/dashboard?id=GeneticSharp)
 [![Coverage Status](https://sonarcloud.io/api/project_badges/measure?project=GeneticSharp&metric=coverage)](https://sonarcloud.io/dashboard?id=GeneticSharp)
