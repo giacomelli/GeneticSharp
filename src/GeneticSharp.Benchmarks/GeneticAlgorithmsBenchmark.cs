@@ -16,9 +16,7 @@ namespace GeneticSharp.Benchmarks
     {
         private const int _minPopulationSize = 50;
         private const int _generations = 1000;
-
-        [Params(10, 100)]
-        public int NumberOfCities { get; set; }
+        private const int _numberOfCities = 100;
 
         [Benchmark]
         public GeneticAlgorithm LinearTaskExecutor()
@@ -53,8 +51,8 @@ namespace GeneticSharp.Benchmarks
             var selection = new EliteSelection();
             var crossover = new OrderedCrossover();
             var mutation = new ReverseSequenceMutation();
-            var chromosome = new TspChromosome(NumberOfCities);
-            var fitness = new TspFitness(NumberOfCities, 0, 1000, 0, 1000);
+            var chromosome = new TspChromosome(_numberOfCities);
+            var fitness = new TspFitness(_numberOfCities, 0, 1000, 0, 1000);
 
             var population = createPopulation == null ? new Population(_minPopulationSize, _minPopulationSize, chromosome) : createPopulation(chromosome);
 

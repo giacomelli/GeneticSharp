@@ -16,7 +16,7 @@ namespace GeneticSharp.Benchmarks
 
             Add(Job.Core
                 .WithMinIterationCount(15)
-                .WithMaxIterationCount(20));
+                .WithMaxIterationCount(100));
          }
     }
 }

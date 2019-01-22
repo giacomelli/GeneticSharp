@@ -25,14 +25,13 @@ namespace GeneticSharp.Benchmarks
             new TspChromosome(10) { Fitness = 10 },
         });
 
-        [Params(2, 4)]
-        public int ChromosomesNumber { get; set; }
+        private const int _chromosomesNumber = 4;
 
         [Benchmark(Baseline = true)]
         public ISelection Elite()
         {
             var target = new EliteSelection();
-            target.SelectChromosomes(ChromosomesNumber, _generation);
+            target.SelectChromosomes(_chromosomesNumber, _generation);
             return target;
         }
 
@@ -40,7 +39,7 @@ namespace GeneticSharp.Benchmarks
         public ISelection RouletteWheel()
         {
             var target = new RouletteWheelSelection();
-            target.SelectChromosomes(ChromosomesNumber, _generation);
+            target.SelectChromosomes(_chromosomesNumber, _generation);
             return target;
         }
 
@@ -48,7 +47,7 @@ namespace GeneticSharp.Benchmarks
         public ISelection StochasticUniversalSampling()
         {
             var target = new StochasticUniversalSamplingSelection();
-            target.SelectChromosomes(ChromosomesNumber, _generation);
+            target.SelectChromosomes(_chromosomesNumber, _generation);
             return target;
         }
 
@@ -56,7 +55,7 @@ namespace GeneticSharp.Benchmarks
         public ISelection Tournament()
         {
             var target = new TournamentSelection();
-            target.SelectChromosomes(ChromosomesNumber, _generation);
+            target.SelectChromosomes(_chromosomesNumber, _generation);
             return target;
         }
     }
