@@ -1,11 +1,9 @@
 ﻿using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Order;
 using GeneticSharp.Domain.Chromosomes;
 
 namespace GeneticSharp.Benchmarks
 {
-    [MemoryDiagnoser]
-    [Orderer(SummaryOrderPolicy.FastestToSlowest, MethodOrderPolicy.Declared)]
+    [Config(typeof(DefaultConfig))]
     public class ChromosomesBenchmark
     {
         private readonly FloatingPointChromosome _floatingPoint;

@@ -1,11 +1,9 @@
 ﻿using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Order;
 using GeneticSharp.Domain.Randomizations;
 
 namespace GeneticSharp.Benchmarks
 {
-    [MemoryDiagnoser]
-    [Orderer(SummaryOrderPolicy.Method, MethodOrderPolicy.Declared)]
+    [Config(typeof(DefaultConfig))]
     public class RandomizationsBenchmark
     {
         private BasicRandomization _basic = new BasicRandomization();

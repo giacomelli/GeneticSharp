@@ -12,9 +12,7 @@ using GeneticSharp.Infrastructure.Framework.Threading;
 
 namespace GeneticSharp.Benchmarks
 {
-    [MemoryDiagnoser]
-    [RPlotExporter]
-    [Orderer(SummaryOrderPolicy.FastestToSlowest, MethodOrderPolicy.Declared)]
+    [Config(typeof(DefaultConfig))]
     public class GeneticAlgorithmsBenchmark
     {
         [Params(10, 100)]

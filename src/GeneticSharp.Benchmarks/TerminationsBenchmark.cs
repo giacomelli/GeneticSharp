@@ -12,8 +12,7 @@ using NSubstitute;
 
 namespace GeneticSharp.Benchmarks
 {
-    [MemoryDiagnoser]
-    [Orderer(SummaryOrderPolicy.Method, MethodOrderPolicy.Declared)]
+    [Config(typeof(DefaultConfig))]
     public class TerminationsBenchmark
     {
         private static readonly int _numberOfCities = 10;

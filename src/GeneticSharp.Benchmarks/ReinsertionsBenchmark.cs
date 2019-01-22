@@ -8,10 +8,7 @@ using GeneticSharp.Extensions.Tsp;
 
 namespace GeneticSharp.Benchmarks
 {
-    [MemoryDiagnoser]
-    [Orderer(SummaryOrderPolicy.Method, MethodOrderPolicy.Declared)]
-    [MinIterationCount(5)]
-    [MaxIterationCount(10)]
+    [Config(typeof(DefaultConfig))]
     public class ReinsertionsBenchmark
     {
         private static readonly int _numberOfCities = 10;

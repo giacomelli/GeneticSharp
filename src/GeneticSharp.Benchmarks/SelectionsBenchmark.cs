@@ -8,20 +8,17 @@ using GeneticSharp.Extensions.Tsp;
 
 namespace GeneticSharp.Benchmarks
 {
-    [MemoryDiagnoser]
-    [Orderer(SummaryOrderPolicy.Method, MethodOrderPolicy.Declared)]
-    [MinIterationCount(5)]
-    [MaxIterationCount(10)]
+    [Config(typeof(DefaultConfig))]
     public class SelectionsBenchmark
     {
         private static readonly int _numberOfCities = 10;
         private readonly Generation _generation = new Generation(1, new List<IChromosome>
         {
-            new TspChromosome(_numberOfCities),
-            new TspChromosome(_numberOfCities),
-            new TspChromosome(_numberOfCities),
-            new TspChromosome(_numberOfCities),
-            new TspChromosome(_numberOfCities)
+            new TspChromosome(_numberOfCities) { Fitness = 1 },
+            new TspChromosome(_numberOfCities) { Fitness = 2 },
+            new TspChromosome(_numberOfCities) { Fitness = 3 },
+            new TspChromosome(_numberOfCities) { Fitness = 4 },
+            new TspChromosome(_numberOfCities) { Fitness = 5 },
         });
 
         [Params(2)]

@@ -1,14 +1,12 @@
 ﻿using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Order;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Extensions.Tsp;
 
 namespace GeneticSharp.Benchmarks
 {
-    [MemoryDiagnoser]
-    [Orderer(SummaryOrderPolicy.FastestToSlowest, MethodOrderPolicy.Declared)]
-    public class MuttionsBenchmark
+    [Config(typeof(DefaultConfig))]
+    public class MutationsBenchmark
     {
         [Params(10, 100)]
         public int NumberOfCities { get; set; }
