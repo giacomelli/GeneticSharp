@@ -14,14 +14,11 @@ namespace GeneticSharp.Benchmarks
     [Config(typeof(DefaultConfig))]
     public class GeneticAlgorithmsBenchmark
     {
+        private const int _minPopulationSize = 50;
+        private const int _generations = 1000;
+
         [Params(10, 100)]
         public int NumberOfCities { get; set; }
-
-        [Params(50)]
-        public int MinPopulationSize { get; set; }
-
-        [Params(1000)]
-        public int Generations { get; set; }
 
         [Benchmark]
         public GeneticAlgorithm LinearTaskExecutor()
@@ -44,7 +41,7 @@ namespace GeneticSharp.Benchmarks
         [Benchmark]
         public GeneticAlgorithm TplTaskExecutor()
         {
-            var ga = CreateGA(c =>  new TplPopulation(MinPopulationSize, MinPopulationSize, c));
+            var ga = CreateGA(c =>  new TplPopulation(_minPopulationSize, _minPopulationSize, c));
             ga.OperatorsStrategy = new TplOperatorsStrategy();
             ga.TaskExecutor = new TplTaskExecutor();
 
@@ -59,11 +56,11 @@ namespace GeneticSharp.Benchmarks
             var chromosome = new TspChromosome(NumberOfCities);
             var fitness = new TspFitness(NumberOfCities, 0, 1000, 0, 1000);
 
-            var population = createPopulation == null ? new Population(MinPopulationSize, MinPopulationSize, chromosome) : createPopulation(chromosome);
+            var population = createPopulation == null ? new Population(_minPopulationSize, _minPopulationSize, chromosome) : createPopulation(chromosome);
 
             var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation)
             {
-                Termination = new GenerationNumberTermination(Generations)
+                Termination = new GenerationNumberTermination(_generations)
             };
 
             return ga;
