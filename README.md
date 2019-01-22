@@ -157,13 +157,14 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
 
       
 ## Multi-platform
-- Mono, .NET Standard 2.0 and .NET Framework 4.6.2 support.
-- Fully tested on Windows and MacOS.
+- Mono, .NET Standard 2.0 and .NET Framework 4.6.2 support
+- Fully tested on Windows and MacOS
 
 ## Code quality
-- 100% unit test code coverage.
+- 100% unit test code coverage
 - 100% code documentation
-- [SonarCloud](https://sonarcloud.io/dashboard?id=GeneticSharp) validated.
+- [SonarCloud](https://sonarcloud.io/dashboard?id=GeneticSharp) validated
+- Performance [benchmarks](https://github.com/giacomelli/GeneticSharp/wiki/Performance#benchmarks)
 
 --------
 
