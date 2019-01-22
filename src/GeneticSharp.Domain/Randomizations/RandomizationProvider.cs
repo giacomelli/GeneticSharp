@@ -11,7 +11,7 @@ namespace GeneticSharp.Domain.Randomizations
         /// </summary>
         static RandomizationProvider()
         {
-            Current = new BasicRandomization();
+            Current = new FastRandomRandomization();
         }
         #endregion
 
