@@ -13,8 +13,8 @@ namespace GeneticSharp.Benchmarks
             Add(new MemoryDiagnoser());
 
             Add(Job.Core
-                .WithMinIterationCount(5)
-                .WithMaxIterationCount(10));
+                .WithMinIterationCount(15)
+                .WithMaxIterationCount(20));
                 
          }
     }

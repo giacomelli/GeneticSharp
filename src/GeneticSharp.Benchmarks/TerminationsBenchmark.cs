@@ -71,7 +71,7 @@ namespace GeneticSharp.Benchmarks
             return target;
         }
 
-        [Benchmark]
+        [Benchmark(Baseline = true)]
         public ITermination TimeEvolving()
         {
             var target = new TimeEvolvingTermination(TimeSpan.FromMilliseconds(1));

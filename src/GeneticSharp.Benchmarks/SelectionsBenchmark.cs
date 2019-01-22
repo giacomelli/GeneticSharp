@@ -11,20 +11,24 @@ namespace GeneticSharp.Benchmarks
     [Config(typeof(DefaultConfig))]
     public class SelectionsBenchmark
     {
-        private static readonly int _numberOfCities = 10;
         private readonly Generation _generation = new Generation(1, new List<IChromosome>
         {
-            new TspChromosome(_numberOfCities) { Fitness = 1 },
-            new TspChromosome(_numberOfCities) { Fitness = 2 },
-            new TspChromosome(_numberOfCities) { Fitness = 3 },
-            new TspChromosome(_numberOfCities) { Fitness = 4 },
-            new TspChromosome(_numberOfCities) { Fitness = 5 },
+            new TspChromosome(10) { Fitness = 1 },
+            new TspChromosome(10) { Fitness = 2 },
+            new TspChromosome(10) { Fitness = 3 },
+            new TspChromosome(10) { Fitness = 4 },
+            new TspChromosome(10) { Fitness = 5 },
+            new TspChromosome(10) { Fitness = 6 },
+            new TspChromosome(10) { Fitness = 7 },
+            new TspChromosome(10) { Fitness = 8 },
+            new TspChromosome(10) { Fitness = 9 },
+            new TspChromosome(10) { Fitness = 10 },
         });
 
-        [Params(2)]
+        [Params(2, 4)]
         public int ChromosomesNumber { get; set; }
 
-        [Benchmark]
+        [Benchmark(Baseline = true)]
         public ISelection Elite()
         {
             var target = new EliteSelection();
