@@ -282,4 +282,11 @@ Licensed under the The [MIT License (MIT)](LICENSE).
 In others words, you can use this library for developement any kind of software: open source, commercial, proprietary, etc.
 
 # Thanks to
-I would like to thanks to the guys from [SMASHINGLOGO (https://smashinglogo.com)](https://smashinglogo.com/) for the amazing GeneticSharp logo.
+* [AppVeyor](https://www.appveyor.com/): open source license for continuous integration.
+* [JetBrains](https://www.jetbrains.com/): open source license for all products pack.
+* [SMASHINGLOGO](https://smashinglogo.com/): GeneticSharp's logo.
+* [SonarCloud](https://sonarcloud.io): open source license for online inspection.
+
+
+[![](docs/images/appveyor-logo.png)](https://www.appveyor.com/)|[![](docs/images/jetbrains-logo.png)](https://www.jetbrains.com/)|[![](docs/images/smashinglogo-logo.png)](https://smashinglogo.com/)|[![](docs/images/sonarcloud-logo.png)](https://sonarcloud.io)| 
+|:-:|:-:|:-:|:-:|
