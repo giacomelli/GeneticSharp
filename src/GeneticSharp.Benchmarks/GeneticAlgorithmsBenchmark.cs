@@ -23,6 +23,7 @@ namespace GeneticSharp.Benchmarks
         {
             var ga = CreateGA(); 
             ga.TaskExecutor = new LinearTaskExecutor();
+            ga.Start();
 
             return ga;
         }
@@ -32,6 +33,7 @@ namespace GeneticSharp.Benchmarks
         {
             var ga = CreateGA();
             ga.TaskExecutor = new ParallelTaskExecutor();
+            ga.Start();
 
             return ga;
         }
@@ -39,9 +41,13 @@ namespace GeneticSharp.Benchmarks
         [Benchmark]
         public GeneticAlgorithm TplTaskExecutor()
         {
-            var ga = CreateGA(c =>  new TplPopulation(_minPopulationSize, _minPopulationSize, c));
+            var ga = CreateGA(c => new TplPopulation(_minPopulationSize, _minPopulationSize, c)
+            {
+                GenerationStrategy = new PerformanceGenerationStrategy()
+            });
             ga.OperatorsStrategy = new TplOperatorsStrategy();
             ga.TaskExecutor = new TplTaskExecutor();
+            ga.Start();
 
             return ga;
         }
@@ -54,7 +60,9 @@ namespace GeneticSharp.Benchmarks
             var chromosome = new TspChromosome(_numberOfCities);
             var fitness = new TspFitness(_numberOfCities, 0, 1000, 0, 1000);
 
-            var population = createPopulation == null ? new Population(_minPopulationSize, _minPopulationSize, chromosome) : createPopulation(chromosome);
+            var population = createPopulation == null 
+            ? new Population(_minPopulationSize, _minPopulationSize, chromosome) { GenerationStrategy = new PerformanceGenerationStrategy() }
+            : createPopulation(chromosome);
 
             var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation)
             {
