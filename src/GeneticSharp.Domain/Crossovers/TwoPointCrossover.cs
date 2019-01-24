@@ -76,7 +76,7 @@ namespace GeneticSharp.Domain.Crossovers
 			if (SwapPointTwoGeneIndex >= swapPointsLength)
 			{
 				throw new ArgumentOutOfRangeException(
-					"parents",
+                    nameof(parents),
 					"The swap point two index is {0}, but there is only {1} genes. The swap should result at least one gene to each sides.".With(SwapPointTwoGeneIndex, parentLength));
 			}
 

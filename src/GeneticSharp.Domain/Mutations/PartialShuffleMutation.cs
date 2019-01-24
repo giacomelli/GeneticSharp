@@ -35,15 +35,13 @@ namespace GeneticSharp.Domain.Mutations
         /// <param name="sequence">The sequence to be mutated.</param>
         protected override IEnumerable<T> MutateOnSequence<T>(IEnumerable<T> sequence)
         {
-            T[] sourceElements = sequence.ToArray();
-
             // If there is at least two differente genes on source sequence,
             // Then is possible shuffle their in sequence.
-            if (sourceElements.Distinct().Count() > 1)
+            if (sequence.Distinct().Count() > 1)
             {
-                IEnumerable<T> result = sequence.Shuffle(RandomizationProvider.Current);
+                var result = sequence.Shuffle(RandomizationProvider.Current);
               
-                while (Enumerable.SequenceEqual(sourceElements, result.ToArray()))
+                while (sequence.SequenceEqual(result))
                 {
                     result = sequence.Shuffle(RandomizationProvider.Current);
                 }

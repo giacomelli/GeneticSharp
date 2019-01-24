@@ -70,6 +70,7 @@ namespace GeneticSharp.Domain.UnitTests.Randomizations
         }
 
         [Test]
+        [Repeat(10)]
         public void GetDouble_ManyThreads_DiffRandomResult()
         {
             var target = new BasicRandomization();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using SharpNeatLib.Maths;
 
 namespace GeneticSharp.Domain.Randomizations
@@ -9,8 +10,33 @@ namespace GeneticSharp.Domain.Randomizations
     /// </summary>
     public class FastRandomRandomization : RandomizationBase
     {
-        private readonly FastRandom m_random = new FastRandom(DateTime.Now.Millisecond);
-       
+        private static readonly FastRandom _globalRandom = new FastRandom(DateTime.Now.Millisecond);
+        private static readonly object _globalLock = new object();
+
+        /// <summary> 
+        /// Random number generator 
+        /// </summary> 
+        private static readonly ThreadLocal<FastRandom> _threadRandom = new ThreadLocal<FastRandom>(NewRandom);
+
+        /// <summary> 
+        /// Creates a new instance of FastRandom. The seed is derived 
+        /// from a global (static) instance of Random, rather 
+        /// than time. 
+        /// </summary> 
+        private static FastRandom NewRandom()
+        {
+            lock (_globalLock)
+            {
+                return new FastRandom(_globalRandom.Next(0, int.MaxValue));
+            }
+        }
+
+        /// <summary> 
+        /// Returns an instance of Random which can be used freely 
+        /// within the current thread. 
+        /// </summary> 
+        private static FastRandom Instance { get { return _threadRandom.Value; } }
+
         /// <summary>
         /// Gets an integer value between minimum value (inclusive) and maximum value (exclusive).
         /// </summary>
@@ -19,7 +45,7 @@ namespace GeneticSharp.Domain.Randomizations
         /// <param name="max">Maximum value (exclusive).</param>
         public override int GetInt(int min, int max)
         {
-            return m_random.Next(min, max);
+            return Instance.Next(min, max);
         }
 
         /// <summary>
@@ -30,7 +56,7 @@ namespace GeneticSharp.Domain.Randomizations
         /// </returns>
         public override float GetFloat()
         {
-            return (float)m_random.NextDouble();
+            return (float)Instance.NextDouble();
         }
 
         /// <summary>
@@ -39,7 +65,7 @@ namespace GeneticSharp.Domain.Randomizations
         /// <returns>The double value.</returns>
         public override double GetDouble()
         {
-            return m_random.NextDouble();
+            return Instance.NextDouble();
         }
     }
 }

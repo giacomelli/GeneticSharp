@@ -55,8 +55,12 @@ namespace GeneticSharp.Domain.Selections
             {
                 var pointer = getPointer();
 
-                var chromosomeIndex = rouletteWheel.Select((value, index) => new { Value = value, Index = index }).FirstOrDefault(r => r.Value >= pointer).Index;
-                selected.Add(chromosomes[chromosomeIndex]);
+                var chromosome = rouletteWheel
+                                        .Select((value, index) => new { Value = value, Index = index })
+                                        .FirstOrDefault(r => r.Value >= pointer);
+
+                if (chromosome != null)
+                    selected.Add(chromosomes[chromosome.Index]);
             }
 
             return selected;

@@ -54,9 +54,7 @@ namespace GeneticSharp.Domain.Mutations
         /// <param name="maxCount">max possible count of genes to shift.</param>
         protected virtual int DetermineGeneToShift(int maxCount)
         {
-            var randomSubSequenceLength = RandomizationProvider.Current.GetInt(0, maxCount);
-
-            return randomSubSequenceLength + 1;
+             return RandomizationProvider.Current.GetInt(0, maxCount) + 1;
         }
         #endregion
     }

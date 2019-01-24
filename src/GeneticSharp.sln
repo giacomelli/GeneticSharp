@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticSharp.Extensions.Uni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticSharp.Runner.GtkApp", "GeneticSharp.Runner.GtkApp\GeneticSharp.Runner.GtkApp.csproj", "{3B5D7E7E-28B3-490E-AFF0-A231F246A963}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticSharp.Benchmarks", "GeneticSharp.Benchmarks\GeneticSharp.Benchmarks.csproj", "{10697C20-79EF-4E03-981D-0497864DAE4B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{3B5D7E7E-28B3-490E-AFF0-A231F246A963}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B5D7E7E-28B3-490E-AFF0-A231F246A963}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B5D7E7E-28B3-490E-AFF0-A231F246A963}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10697C20-79EF-4E03-981D-0497864DAE4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10697C20-79EF-4E03-981D-0497864DAE4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10697C20-79EF-4E03-981D-0497864DAE4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10697C20-79EF-4E03-981D-0497864DAE4B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
