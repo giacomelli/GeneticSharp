@@ -19,7 +19,7 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
 
             // For each Tasks passed to excutor, 
             // run it one in linear way.
-            foreach (var t in Tasks)
+            for (int i = 0; i < Tasks.Count; i++)
             {
                 // Check if a stop was requested.
                 if (StopRequested)
@@ -27,7 +27,7 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
                     return true;
                 }
 
-                t();
+                Tasks[i]();
 
                 // If take more time expected on Timeout property,
                 // tehn stop thre running.
