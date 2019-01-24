@@ -70,8 +70,6 @@ namespace GeneticSharp.Domain.Mutations
             {
                 swapIndex = randomization.GetInt(0, i + 1);
                 yield return elements[swapIndex];
-
-                // TODO: should not change the source enumerable. This is a breaking change.
                 elements[swapIndex] = elements[i];
             }
         }
