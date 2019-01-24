@@ -1,6 +1,5 @@
 ﻿using BenchmarkDotNet.Columns;
 using BenchmarkDotNet.Configs;
-using BenchmarkDotNet.Diagnosers;
 using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Order;
 
@@ -11,7 +10,6 @@ namespace GeneticSharp.Benchmarks
         public DefaultConfig()
         {
             Set(new DefaultOrderer(SummaryOrderPolicy.Default, MethodOrderPolicy.Alphabetical));
-            Add(new MemoryDiagnoser());
             Add(RankColumn.Arabic);
 
             Add(Job.Core
