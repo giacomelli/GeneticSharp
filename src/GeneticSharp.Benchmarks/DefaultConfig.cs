@@ -1,5 +1,5 @@
-﻿using BenchmarkDotNet.Configs;
-using BenchmarkDotNet.Diagnosers;
+﻿using BenchmarkDotNet.Columns;
+using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Order;
 
@@ -9,13 +9,12 @@ namespace GeneticSharp.Benchmarks
     {
         public DefaultConfig()
         {
-            Set(new DefaultOrderer(SummaryOrderPolicy.FastestToSlowest, MethodOrderPolicy.Alphabetical));
-            Add(new MemoryDiagnoser());
-          
+            Set(new DefaultOrderer(SummaryOrderPolicy.Default, MethodOrderPolicy.Alphabetical));
+            Add(RankColumn.Arabic);
+
             Add(Job.Core
                 .WithMinIterationCount(15)
-                .WithMaxIterationCount(20));
-                
+                .WithMaxIterationCount(100));
          }
     }
 }

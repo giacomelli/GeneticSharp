@@ -14,20 +14,16 @@ namespace GeneticSharp.Benchmarks
     [Config(typeof(DefaultConfig))]
     public class GeneticAlgorithmsBenchmark
     {
-        [Params(10, 100)]
-        public int NumberOfCities { get; set; }
-
-        [Params(50)]
-        public int MinPopulationSize { get; set; }
-
-        [Params(1000)]
-        public int Generations { get; set; }
+        private const int _minPopulationSize = 50;
+        private const int _generations = 1000;
+        private const int _numberOfCities = 100;
 
         [Benchmark]
         public GeneticAlgorithm LinearTaskExecutor()
         {
             var ga = CreateGA(); 
             ga.TaskExecutor = new LinearTaskExecutor();
+            ga.Start();
 
             return ga;
         }
@@ -37,6 +33,7 @@ namespace GeneticSharp.Benchmarks
         {
             var ga = CreateGA();
             ga.TaskExecutor = new ParallelTaskExecutor();
+            ga.Start();
 
             return ga;
         }
@@ -44,9 +41,10 @@ namespace GeneticSharp.Benchmarks
         [Benchmark]
         public GeneticAlgorithm TplTaskExecutor()
         {
-            var ga = CreateGA(c =>  new TplPopulation(MinPopulationSize, MinPopulationSize, c));
+            var ga = CreateGA(c => new TplPopulation(_minPopulationSize, _minPopulationSize, c));
             ga.OperatorsStrategy = new TplOperatorsStrategy();
             ga.TaskExecutor = new TplTaskExecutor();
+            ga.Start();
 
             return ga;
         }
@@ -56,14 +54,18 @@ namespace GeneticSharp.Benchmarks
             var selection = new EliteSelection();
             var crossover = new OrderedCrossover();
             var mutation = new ReverseSequenceMutation();
-            var chromosome = new TspChromosome(NumberOfCities);
-            var fitness = new TspFitness(NumberOfCities, 0, 1000, 0, 1000);
+            var chromosome = new TspChromosome(_numberOfCities);
+            var fitness = new TspFitness(_numberOfCities, 0, 1000, 0, 1000);
 
-            var population = createPopulation == null ? new Population(MinPopulationSize, MinPopulationSize, chromosome) : createPopulation(chromosome);
+            var population = createPopulation == null 
+            ? new Population(_minPopulationSize, _minPopulationSize, chromosome)
+            : createPopulation(chromosome);
+
+            population.GenerationStrategy = new PerformanceGenerationStrategy();
 
             var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation)
             {
-                Termination = new GenerationNumberTermination(Generations)
+                Termination = new GenerationNumberTermination(_generations)
             };
 
             return ga;

@@ -59,15 +59,16 @@ namespace GeneticSharp.Domain.Mutations
         /// Shuffle sequence.
         /// </summary>
         /// <returns>The shuffled sequence.</returns>
-        /// <param name="source">source of sequence</param>
-        /// <param name="rng">random number generator to select next index to shuffle</param>
-        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, IRandomization rng)
+        /// <param name="source">Source of sequence.</param>
+        /// <param name="randomization">Random number generator to select next index to shuffle.</param>
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, IRandomization randomization)
         {
-            T[] elements = source.ToArray();
+            var elements = source.ToArray();
+            int swapIndex;
 
             for (int i = elements.Length - 1; i >= 0; i--)
             {
-                int swapIndex = rng.GetInt(0, i + 1);
+                swapIndex = randomization.GetInt(0, i + 1);
                 yield return elements[swapIndex];
                 elements[swapIndex] = elements[i];
             }
@@ -81,15 +82,10 @@ namespace GeneticSharp.Domain.Mutations
         /// <param name="valueToShift">count of units to be shifted</param>
         public static IEnumerable<T> LeftShift<T>(this IEnumerable<T> source, int valueToShift)
         {
-            T[] sourceElements = source.ToArray();
-
-            // all elements except for the first one... and at the end, the first one. to array.
-            T[] shiftedElements = sourceElements.Skip(valueToShift).Concat(sourceElements.Take(valueToShift)).ToArray();
-
-            foreach (T element in shiftedElements)
-            {
-                yield return element;
-            }
+            // all elements except for the first one... and at the end, the first one.
+            return source
+                        .Skip(valueToShift)
+                        .Concat(source.Take(valueToShift));
         }
 
         /// <summary>
@@ -100,15 +96,12 @@ namespace GeneticSharp.Domain.Mutations
         /// <param name="valueToShift">count of units to be shifted</param>
         public static IEnumerable<T> RightShift<T>(this IEnumerable<T> source, int valueToShift)
         {
-            T[] sourceElements = source.ToArray();
-
             // the last element (because we're skipping all but one)... then all but the last one.
-            T[] shiftedElements = sourceElements.Skip(sourceElements.Length - valueToShift).Concat(sourceElements.Take(sourceElements.Length - valueToShift)).ToArray();
-           
-            foreach (T element in shiftedElements)
-            {
-                yield return element;
-            }
+            var skipCount = source.Count() - valueToShift;
+
+            return source
+                .Skip(skipCount)
+                .Concat(source.Take(skipCount));
         }
         #endregion
     }
