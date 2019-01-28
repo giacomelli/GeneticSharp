@@ -73,7 +73,7 @@ namespace GeneticSharp.Domain.Populations
         public void End(int chromosomesNumber)
         {
             Chromosomes = Chromosomes
-                .Where(c => ValidateChromosome(c))
+                .Where(ValidateChromosome)
                 .OrderByDescending(c => c.Fitness.Value)
                 .ToList();
 

@@ -22,9 +22,10 @@ namespace GeneticSharp.Domain
         /// <returns>The result chromosomes.</returns>
         public IList<IChromosome> Cross(IPopulation population, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
-            var offspring = new List<IChromosome>();
+            var minSize = population.MinSize;
+            var offspring = new List<IChromosome>(minSize);
 
-            for (int i = 0; i < population.MinSize; i += crossover.ParentsNumber)
+            for (int i = 0; i < minSize; i += crossover.ParentsNumber)
             {
                 var selectedParents = parents.Skip(i).Take(crossover.ParentsNumber).ToList();
 
@@ -48,9 +49,9 @@ namespace GeneticSharp.Domain
         /// <param name="chromosomes">The chromosomes.</param>
         public void Mutate(IMutation mutation, float mutationProbability, IList<IChromosome> chromosomes)
         {
-            foreach (var c in chromosomes)
+            for (int i = 0; i < chromosomes.Count; i++)
             {
-                mutation.Mutate(c, mutationProbability);
+                mutation.Mutate(chromosomes[i], mutationProbability);
             }
         }
     }
