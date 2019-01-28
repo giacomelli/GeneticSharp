@@ -75,16 +75,18 @@ namespace GeneticSharp.Domain.Mutations
                 }
             }
 
-            foreach (var i in m_mutableGenesIndexes)
+            for (int i = 0; i < m_mutableGenesIndexes.Length; i++)
             {
-                if (i >= genesLength)
+                var geneIndex = m_mutableGenesIndexes[i];
+
+                if (geneIndex >= genesLength)
                 {
-                    throw new MutationException(this, "The chromosome has no gene on index {0}. The chromosome genes length is {1}.".With(i, genesLength));
+                    throw new MutationException(this, "The chromosome has no gene on index {0}. The chromosome genes length is {1}.".With(geneIndex, genesLength));
                 }
 
                 if (RandomizationProvider.Current.GetDouble() <= probability)
                 {
-                    chromosome.ReplaceGene(i, chromosome.GenerateGene(i));
+                    chromosome.ReplaceGene(geneIndex, chromosome.GenerateGene(geneIndex));
                 }
             }
         }
