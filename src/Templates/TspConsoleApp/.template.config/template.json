@@ -1,0 +1,12 @@
+{
+	"author": "Diego Giacomelli",
+	"classifications": [ "GeneticSharp", "Console" ],
+	"name": "GeneticSharp TSP Console Application",
+	"identity": "GeneticSharp.DotNetNew.Templates.TspConsoleApp",  // Unique name for this template
+	"shortName": "GeneticSharpTspConsoleApp",                 	// Short name that can be used on the cli
+	"tags": {
+		"language": "C#"                       					// Specify that this template is in C#.
+	},
+	"sourceName": "ConsoleTspApp",    
+	"preferNameDirectory" : "true"
+}

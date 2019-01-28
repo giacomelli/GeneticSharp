@@ -10,6 +10,10 @@ namespace ConsoleApp
 {
     class Program
     {
+        /// <summary>
+        /// GeneticSharp Console Application template.
+        /// <see href="https://github.com/giacomelli/GeneticSharp"/>
+        /// </summary>
         static void Main(string[] args)
         {
             // TODO: use the best genetic algorithm operators to your optimization problem.
