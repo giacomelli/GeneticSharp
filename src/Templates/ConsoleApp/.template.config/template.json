@@ -2,10 +2,10 @@
 	"author": "Diego Giacomelli",
 	"classifications": [ "GeneticSharp", "Console" ],
 	"name": "GeneticSharp Console Application",
-	"identity": "GeneticSharp.DotNetNew.Templates.ConsoleApp",  // Unique name for this template
-	"shortName": "GeneticSharpConsoleApp",                 	// Short name that can be used on the cli
+	"identity": "GeneticSharp.DotNetNew.Templates.ConsoleApp",  
+	"shortName": "GeneticSharpConsoleApp",                 
 	"tags": {
-		"language": "C#"                       					// Specify that this template is in C#.
+		"language": "C#"                       					
 	},
 	"sourceName": "ConsoleApp",    
 	"preferNameDirectory" : "true"
