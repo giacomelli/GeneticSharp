@@ -4,7 +4,6 @@
   <Import Project="..\msbuilds\GeneticSharp.unit-test.targets" />
   
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
     <TargetFrameworks>netcoreapp2.0;net462</TargetFrameworks>
   </PropertyGroup>
 
