@@ -40,12 +40,29 @@ build_script:
 - cmd: dotnet build src/GeneticSharp.Runner.ConsoleApp -f netcoreapp2.0
 
 after_build:
+# Build the GeneticSharp and GeneticSharp.Extensions NuGet packages.
 - cmd: >-   
     mkdir .\src\nuget
-
     dotnet pack src/GeneticSharp.Domain/GeneticSharp.Domain.csproj -c release --no-build --output ../nuget /p:PackageVersion=2.5.0
-    
     dotnet pack src/GeneticSharp.Extensions/GeneticSharp.Extensions.csproj -c release --no-build --output ../nuget /p:PackageVersion=2.5.0
+
+# Build the GeneticSharp.Templates NuGet package.
+- cmd: >-   
+    cd .\src\Templates
+    nuget pack -Version 1.0.0
+    dotnet new -i GeneticSharp.Templates.1.0.0.nupkg
+
+    # GeneticSharpConsoleApp
+    dotnet new GeneticSharpConsoleApp -n ConsoleApp -o ConsoleApp
+    dotnet build ConsoleApp/ConsoleApp.csproj # We don't run it, because this templates throw an exception asking to programmer to implement the Chromomosome representation.
+
+    # GeneticSharpTspConsoleApp
+    dotnet new GeneticSharpTspConsoleApp -n TspConsoleApp -o TspConsoleApp
+    dotnet run TspConsoleApp/TspConsoleApp.csproj
+
+    # GeneticSharpTspUnity3d
+    dotnet new GeneticSharpTspUnity3d -n TspUnity3d -o TspUnity3d
+    # We don't build this template, because it needs Unity3d installed.
 
 test_script:
 - cmd: dotnet clean src/GeneticSharp.Domain.UnitTests
@@ -59,4 +76,7 @@ test_script:
 
 artifacts:
   - path: .\src\nuget\*.nupkg
-    name: NuGet packages
+    name: Libraries NuGet packages
+
+  - path: .\src\Templates\*.nupkg
+    name: Templates NuGet package
