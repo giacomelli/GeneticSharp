@@ -41,10 +41,10 @@ build_script:
 
 after_build:
 # Build the GeneticSharp and GeneticSharp.Extensions NuGet packages.
-- cmd: buildLibrariesNuget.cmd
+- cmd: tools/buildLibrariesNuget.cmd
 
 # Build the GeneticSharp.Templates NuGet package.
-- cmd: buildTemplatesNuget.cmd
+- cmd: tools/buildTemplatesNuget.cmd
 
 test_script:
 - cmd: dotnet clean src/GeneticSharp.Domain.UnitTests
