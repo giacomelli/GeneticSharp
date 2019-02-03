@@ -15,6 +15,10 @@
         </description>
         <authors>Diego Giacomelli</authors>
         <owners>g1acomell1</owners>
+        <licenseUrl>https://github.com/giacomelli/GeneticSharp/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/giacomelli/GeneticSharp</projectUrl>
+        <iconUrl>https://github.com/giacomelli/GeneticSharp/raw/master/docs/logo/icon-64x64-transparent.png</iconUrl>
+        <releaseNotes>See changes at https://github.com/giacomelli/GeneticSharp.</releaseNotes>
         <tags>genetic-algorithms geneticsharp genetic algorithms dotnet-new templates</tags>
 
         <packageTypes>
