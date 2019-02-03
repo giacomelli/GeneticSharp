@@ -255,6 +255,34 @@ ga.Start();
 
 Console.WriteLine("Best solution found has {0} fitness.", ga.BestChromosome.Fitness);
 ```
+
+
+## Templates for `dotnet new`
+If you're using .NET Core, you can install GeneticSharp.Templates:
+
+```shell
+dotnet new -i GeneticSharp.Templates
+```
+
+There are 3 templates in GeneticSharp.Templates:
+
+### Console application
+A console application template with GeneticSharp, you just need to implement the chromosome and fitness function.
+```shell
+dotnet new GeneticSharpConsoleApp -n MyNamespace -o MyOutoputFolder
+```
+
+### TSP Console application
+A console application template with GeneticSharp ready to run a Travelling Salesman Problem (TSP).
+```shell
+dotnet new GeneticSharpTspConsoleApp -n MyNamespace -o MyOutoputFolder
+```
+
+### TSP Unity3D
+A Unity3D template with GeneticSharp ready to run a Travelling Salesman Problem (TSP).
+```shell
+dotnet new GeneticSharpTspUnity3d -n MyNamespace -o MyOutoputFolder
+```
  
 --------
 

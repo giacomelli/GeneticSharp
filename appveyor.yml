@@ -40,12 +40,11 @@ build_script:
 - cmd: dotnet build src/GeneticSharp.Runner.ConsoleApp -f netcoreapp2.0
 
 after_build:
-- cmd: >-   
-    mkdir .\src\nuget
+# Build the GeneticSharp and GeneticSharp.Extensions NuGet packages.
+- cmd: tools/buildLibrariesNuget.cmd
 
-    dotnet pack src/GeneticSharp.Domain/GeneticSharp.Domain.csproj -c release --no-build --output ../nuget /p:PackageVersion=2.5.1
-    
-    dotnet pack src/GeneticSharp.Extensions/GeneticSharp.Extensions.csproj -c release --no-build --output ../nuget /p:PackageVersion=2.5.1
+# Build the GeneticSharp.Templates NuGet package.
+- cmd: tools/buildTemplatesNuget.cmd
 
 test_script:
 - cmd: dotnet clean src/GeneticSharp.Domain.UnitTests
@@ -59,4 +58,7 @@ test_script:
 
 artifacts:
   - path: .\src\nuget\*.nupkg
-    name: NuGet packages
+    name: Libraries NuGet packages
+
+  - path: .\src\Templates\*.nupkg
+    name: Templates NuGet package

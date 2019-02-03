@@ -1,0 +1,12 @@
+{
+	"author": "Diego Giacomelli",
+	"classifications": [ "GeneticSharp", "Console" ],
+	"name": "GeneticSharp Console Application",
+	"identity": "GeneticSharp.DotNetNew.Templates.ConsoleApp",  
+	"shortName": "GeneticSharpConsoleApp",                 
+	"tags": {
+		"language": "C#"                       					
+	},
+	"sourceName": "ConsoleApp",    
+	"preferNameDirectory" : "true"
+}
