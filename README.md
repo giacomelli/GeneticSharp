@@ -217,7 +217,7 @@ public class MyProblemFitness : IFitness
 
 public class MyProblemChromosome : ChromosomeBase
 {
-	// Change the argument value passed to base construtor to change the length 
+	// Change the argument value passed to base constructor to change the length 
 	// of your chromosome.
 	public MyProblemChromosome() : base(10) 
 	{
