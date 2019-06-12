@@ -8,5 +8,5 @@ using System.Reflection;
  [assembly: AssemblyConfiguration("Release")]
 #endif
 
-[assembly: AssemblyVersion("2.5.1")]
-[assembly: AssemblyFileVersion("2.5.1.0")]
+[assembly: AssemblyVersion("2.5.2")]
+[assembly: AssemblyFileVersion("2.5.2.0")]
