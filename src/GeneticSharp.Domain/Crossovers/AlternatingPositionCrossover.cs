@@ -62,7 +62,10 @@ namespace GeneticSharp.Domain.Crossovers
             for (int i = 0; i < firstParent.Length && childGenesIndex < firstParent.Length; i++)
             {
                 AddChildGene(childGenes, ref childGenesIndex, firstParent.GetGene(i));
-                AddChildGene(childGenes, ref childGenesIndex, secondParent.GetGene(i));
+
+                // The childGenesIndes could be incremented by the previous AddChildGene call
+                if (childGenesIndex < secondParent.Length)
+                    AddChildGene(childGenes, ref childGenesIndex, secondParent.GetGene(i));
             }
 
             child.ReplaceGenes(0, childGenes);
