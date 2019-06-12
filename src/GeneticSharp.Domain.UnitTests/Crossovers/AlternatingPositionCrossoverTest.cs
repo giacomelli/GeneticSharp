@@ -13,6 +13,7 @@ using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Terminations;
 using System.Diagnostics;
 using GeneticSharp.Extensions.Tsp;
+using GeneticSharp.Domain.UnitTests.Crossovers.Issues;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
@@ -164,6 +165,39 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             Assert.Less(
                 population.Generations.First().BestChromosome.Fitness.Value,
                 population.Generations.Last().BestChromosome.Fitness.Value);
+        }
+
+        /// <summary>
+        /// https://github.com/giacomelli/GeneticSharp/issues/61
+        /// </summary>
+        [Test]
+        public void GA_Issue61_Solved()
+        {
+            const Int32 FinalAns = 4567213;
+            var chromosome = new Issue61.GuessNumberChromosome(FinalAns.ToString().Length);
+            var population = new Population(1000, 5000, chromosome);
+            var fitness = new Issue61.GuessNumberFitness(FinalAns);
+            var selection = new EliteSelection();
+            var crossover = new AlternatingPositionCrossover();
+            var mutation = new ReverseSequenceMutation();
+            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
+            ga.MutationProbability = 0.2f;
+            ga.CrossoverProbability = 0.75f;
+            ga.Termination = new OrTermination(
+                new FitnessThresholdTermination(1.0),
+                new FitnessStagnationTermination(200),
+                new GenerationNumberTermination(1000));
+            ga.Population.GenerationStrategy = new TrackingGenerationStrategy();
+            ga.Start();
+
+            foreach(var gen in ga.Population.Generations)
+            {
+                foreach(var chromossome in gen.Chromosomes)
+                {
+                    // Asserts if AlternatingPositionCrossover generated only ordered chromossomes.
+                    Assert.AreEqual(chromosome.Length, chromosome.GetGenes().Distinct().Count());
+                }
+            }
         }
     }
 }
