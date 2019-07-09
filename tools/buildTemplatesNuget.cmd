@@ -1,9 +1,12 @@
-SET PACKAGE_VERSION="0.1.0"
+SET PACKAGE_VERSION=1.1.0
 
 cd .\src\Templates
 
 nuget pack -Version %PACKAGE_VERSION%
 dotnet new -i GeneticSharp.Templates.%PACKAGE_VERSION%.nupkg
+
+echo GeneticSharpTspBlazor
+dotnet new GeneticSharpTspBlazor -n TspBlazor -o TspBlazor
 
 echo GeneticSharpConsoleApp
 dotnet new GeneticSharpConsoleApp -n ConsoleApp -o ConsoleApp

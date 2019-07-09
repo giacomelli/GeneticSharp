@@ -272,7 +272,12 @@ If you're using .NET Core, you can install GeneticSharp.Templates:
 dotnet new -i GeneticSharp.Templates
 ```
 
-There are 3 templates in GeneticSharp.Templates:
+There are 4 templates in GeneticSharp.Templates:
+### TSP Blazor application
+A Blazor client application template with GeneticSharp ready to run a Travelling Salesman Problem (TSP).
+```shell
+dotnet new GeneticSharpTspBlazorApp -n MyNamespace -o MyOutoputFolder
+```
 
 ### Console application
 A console application template with GeneticSharp, you just need to implement the chromosome and fitness function.
