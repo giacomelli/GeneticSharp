@@ -1,6 +1,5 @@
 ![](docs/logo/logo-small.png)
 
-
 [![Build status](https://ci.appveyor.com/api/projects/status/h9ptxpyj30ah3mva/branch/master?svg=true)](https://ci.appveyor.com/project/giacomelli/geneticsharp)
 [![Quality status](https://sonarcloud.io/api/project_badges/measure?project=GeneticSharp&metric=alert_status)](https://sonarcloud.io/dashboard?id=GeneticSharp)
 [![Coverage Status](https://sonarcloud.io/api/project_badges/measure?project=GeneticSharp&metric=coverage)](https://sonarcloud.io/dashboard?id=GeneticSharp)
@@ -11,7 +10,7 @@
 
 GeneticSharp is a fast, extensible, multi-platform and multithreading C# Genetic Algorithm library that simplifies the development of applications using Genetic Algorithms (GAs).
 
-Can be used in any kind of .NET Core and .NET Framework apps, like ASP .NET MVC, ASP .NET Core, Web Forms, UWP, Windows Forms, GTK#, Xamarin and Unity3D games.
+Can be used in any kind of .NET Core and .NET Framework apps, like ASP .NET MVC, ASP .NET Core, Blazor, Web Forms, UWP, Windows Forms, GTK#, Xamarin and Unity3D games.
 
 
 --------
@@ -131,6 +130,9 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
    - Others task executors can be added implementing [ITaskExecutor](src/GeneticSharp.Infrastructure.Framework/Threading/ITaskExecutor.cs) interface.
    
 ##  Samples
+### [Blazor samples](src/GeneticSharp.Runner.BlacorApp)
+- [TSP (Travelling Salesman Problem) [online]](http://diegogiacomelli.com.br/apps/geneticsharp-runner-blazorapp)
+
 ### [Console samples](src/GeneticSharp.Runner.ConsoleApp)
 - AutoConfig
 - Bitmap equality
@@ -187,7 +189,9 @@ GeneticSharp and extensions (TSP, AutoConfig, Bitmap equality, Equality equation
 install-package GeneticSharp.Extensions
 ```
 ## Unity3D
-If want to use GeneticSharp on Unity3D you can use the latest GeneticSharp.unitypackage available on our [release page](https://github.com/giacomelli/GeneticSharp/releases).
+You should use the [UnityNuGet](https://github.com/xoofx/UnityNuGet) to install GeneticSharp directly from NuGet.
+
+Or you can use the latest GeneticSharp.unitypackage available on our [release page](https://github.com/giacomelli/GeneticSharp/releases).
 
 ## Mono and .NET Framework 3.5
 To install previous version that support .NET Framework 3.5:
@@ -296,7 +300,8 @@ Having troubles?
 
 - Read our [wiki](https://github.com/giacomelli/GeneticSharp/wiki).
 - Tutorials
-   - [Function optimization with GeneticSharp](http://diegogiacomelli.com.br/function-optimization-with-geneticsharp/) 
+   - [Function optimization with GeneticSharp](http://diegogiacomelli.com.br/function-optimization-with-geneticsharp/)
+   - [TSP with GeneticSharp and Blazor](http://diegogiacomelli.com.br/tsp-with-geneticsharp-and-blazor) 
    - [TSP with GeneticSharp and Unity3D](http://diegogiacomelli.com.br/tsp-with-GeneticSharp-and-Unity3d/)
 - Ask on [Stack Overflow](http://stackoverflow.com/questions/tagged/geneticsharp) using the tag [GeneticSharp](http://stackoverflow.com/questions/tagged/geneticsharp).
 - Open an [issue](https://github.com/giacomelli/GeneticSharp/issues).
