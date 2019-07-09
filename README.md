@@ -1,4 +1,3 @@
-mpl
 ![](docs/logo/logo-small.png)
 
 
