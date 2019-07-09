@@ -1,0 +1,12 @@
+{
+	"author": "Diego Giacomelli",
+	"classifications": [ "GeneticSharp", "Blazor" ],
+	"name": "GeneticSharp TSP Blazor Application",
+	"identity": "GeneticSharp.DotNetNew.Templates.TspBlazorApp",  
+	"shortName": "GeneticSharpTspBlazorApp", 
+	"tags": {
+		"language": "C#"               
+	},
+	"sourceName": "TspBlazorApp",    
+	"preferNameDirectory" : "true"
+}

@@ -1,0 +1,105 @@
+@page "/tsp"
+@inject IJSRuntime _js
+
+<div class="container">
+     <div class="row">
+        <div>
+            Cities: <input type="text" @bind=@_numberOfCities onblur=@ResetGA disabled=@_tspGA.IsRunning />
+        </div>
+         <div>
+            <button onclick=@ResetGA disabled=@_tspGA.IsRunning >Reset</button>
+        </div>
+        <div>
+            <button onclick=@_tspGA.Run disabled=@_tspGA.IsRunning >Run</button>
+        </div>
+        <div>
+            <button onclick=@StopGA disabled=@(!_tspGA.IsRunning)>Stop</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col alert alert-info">Generations: @_tspGA.GenerationsNumber</div>
+        <div class="col alert alert-info">Distance: @_tspGA.BestChromosome?.Distance</div>
+    </div>
+ </div>
+
+<canvas id="canvas" style="border:1px solid #d3d3d3;">Your browser does not support the HTML5 canvas tag.</canvas>
+<br>
+<span class="alert alert-warn">Post <a href="http://diegogiacomelli.com.br/tsp-with-geneticsharp-and-blazor">"TSP with GeneticSharp and Blazor"</a></span>
+
+@code {
+    int _numberOfCities = 10;
+    int _canvasWidth;
+    int _canvasHeight;
+    bool _initialized;
+    TspGA _tspGA = new TspGA();
+
+    async Task InitializeGAAsync()
+    {
+        // This need to be called after the first render to get
+        // the size of the canvas.
+        var size = await _js.InvokeAsync<int[]>("initializeCanvas");
+        _canvasWidth = size[0];
+        _canvasHeight = size[1];
+        _tspGA.GenerationRan += HandleGenerationRan;
+        ResetGA();
+    }
+
+    void HandleGenerationRan()
+    {
+        // Console.WriteLine($"Generation: {_tspGA.GenerationsNumber} - Distance: {_tspGA.BestChromosome.Distance}");
+        StateHasChanged();
+    }
+
+    void ResetGA()
+    {
+        _tspGA.Initialize(_numberOfCities, _canvasWidth, _canvasHeight);
+        StateHasChanged();
+    }
+
+    void StopGA()
+    {
+        _tspGA.Stop();
+        StateHasChanged();
+    }
+
+    protected override async Task OnAfterRenderAsync()
+    {
+        if (!_initialized) {
+            _initialized = true;
+            await InitializeGAAsync();
+        }
+        
+        await _js.InvokeAsync<object>("clearCanvas");
+        await DrawCitiesAsync();
+        await DrawRouteAsync();
+    }
+
+    async Task DrawCitiesAsync()
+    {
+        foreach(var city in _tspGA.Fitness.Cities)
+            await _js.InvokeAsync<object>("drawCircle", city.X, city.Y, 10);
+    }
+
+    async Task DrawRouteAsync()
+    {
+        var bestChromosome = _tspGA.BestChromosome;
+
+        if(bestChromosome != null)
+        {
+            var genes = bestChromosome.GetGenes();
+            var fitness = _tspGA.Fitness;
+            var firstCity = fitness.Cities[(int)genes[0].Value];
+            var previousCity = firstCity;
+          
+            for(var i = 1; i < genes.Length; i++)
+            {
+                var city = fitness.Cities[(int)genes[i].Value];
+                await _js.InvokeAsync<object>("drawLine", previousCity.X, previousCity.Y, city.X, city.Y);
+
+                previousCity = city;
+            }
+            
+            await _js.InvokeAsync<object>("drawLine", previousCity.X, previousCity.Y, firstCity.X, firstCity.Y);
+        }
+    }
+}
