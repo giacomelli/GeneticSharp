@@ -97,12 +97,14 @@ namespace GeneticSharp.Extensions.Tsp
             var genes = chromosome.GetGenes();
             var distanceSum = 0.0;
             var lastCityIndex = Convert.ToInt32(genes[0].Value, CultureInfo.InvariantCulture);
-            var citiesIndexes = new List<int>();
-            citiesIndexes.Add(lastCityIndex);
-
-            foreach (var g in genes)
+            var citiesIndexes = new List<int>
             {
-                var currentCityIndex = Convert.ToInt32(g.Value, CultureInfo.InvariantCulture);
+                lastCityIndex
+            };
+
+            for (int i = 0, genesLength = genes.Length; i < genesLength; i++)
+            {
+                var currentCityIndex = Convert.ToInt32(genes[i].Value, CultureInfo.InvariantCulture);
                 distanceSum += CalcDistanceTwoCities(Cities[currentCityIndex], Cities[lastCityIndex]);
                 lastCityIndex = currentCityIndex;
 
