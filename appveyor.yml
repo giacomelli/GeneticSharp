@@ -19,15 +19,17 @@ before_build:
 - cmd: dotnet --version
 
 build_script:
-- ps: .\build.ps1
+# - ps: .\build.ps1
+- cmd: cd
 
 after_build:
 - cmd: cd
+- cmd: dir C:\projects\geneticsharp
 # Build the GeneticSharp and GeneticSharp.Extensions NuGet packages.
 - cmd: C:\projects\geneticsharp\tools\buildLibrariesNuget.cmd
 
 # Build the GeneticSharp.Templates NuGet package.
-- cmd: C:\projects\geneticsharp\tools\buildTemplatesNuget.cmd
+- cmd: C:\projects\geneticsharp 
 
 artifacts:
   - path: .\src\nuget\*.nupkg
