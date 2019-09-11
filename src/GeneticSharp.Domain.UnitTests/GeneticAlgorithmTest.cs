@@ -576,7 +576,7 @@ namespace GeneticSharp.Domain.UnitTests
 			var lastTimeEvolving = target.TimeEvolving.TotalMilliseconds;
 			Assert.AreEqual(500, target.Population.Generations.Count);
 			Assert.Greater(target.TimeEvolving.TotalMilliseconds, 1);
-			Assert.Less(target.TimeEvolving.TotalMilliseconds, 1000, "Time evolving should be less than 1000ms");
+			Assert.Less(target.TimeEvolving.TotalMilliseconds, 1500, "Time evolving should be less than 1000ms");
 			Assert.AreEqual(GeneticAlgorithmState.TerminationReached, target.State);
 			Assert.IsFalse(target.IsRunning);
 
