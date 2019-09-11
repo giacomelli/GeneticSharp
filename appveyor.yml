@@ -24,10 +24,10 @@ build_script:
 after_build:
 - cmd: cd
 # Build the GeneticSharp and GeneticSharp.Extensions NuGet packages.
-- cmd: tools/buildLibrariesNuget.cmd
+- cmd: C:\projects\geneticsharp\tools\buildLibrariesNuget.cmd
 
 # Build the GeneticSharp.Templates NuGet package.
-- cmd: tools/buildTemplatesNuget.cmd
+- cmd: C:\projects\geneticsharp\tools\buildTemplatesNuget.cmd
 
 artifacts:
   - path: .\src\nuget\*.nupkg
