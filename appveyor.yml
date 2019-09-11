@@ -3,8 +3,6 @@ os: Visual Studio 2017
 configuration: Release
 environment:
   clone_folder: c:\gs
-  COVERALLS_REPO_TOKEN:
-    secure: O/w+gFTqDriJlktWz0p4xJbT0RnDfj8NZsVAShy54prPmxKEBDBGKwt8S4heGOcq
   GITHUB_REPO_TOKEN:
     secure: Jmpeow5aAcDhUHkwac/AC6MzQciGc9TLgrp5oz4U0gyAwCWGqqxJhmjz3AVrWp/V	
 assembly_info:
@@ -25,10 +23,10 @@ build_script:
 
 after_build:
 # Build the GeneticSharp and GeneticSharp.Extensions NuGet packages.
-- cmd: tools/buildLibrariesNuget.cmd
+- cmd: .\tools\buildLibrariesNuget.cmd
 
 # Build the GeneticSharp.Templates NuGet package.
-- cmd: tools/buildTemplatesNuget.cmd
+- cmd: .\tools\buildTemplatesNuget.cmd
 
 artifacts:
   - path: .\src\nuget\*.nupkg
