@@ -126,3 +126,4 @@ Issue9Sample.sln.GhostDoc.xml
 *.opencover.xml
 .sonarqube
 BenchmarkDotNet.Artifacts
+/tools
