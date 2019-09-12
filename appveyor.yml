@@ -20,15 +20,13 @@ before_build:
 
 build_script:
 - ps: .\build.ps1
-- cmd: cd
 
 after_build:
-- cmd: cd C:\projects\geneticsharp
 # Build the GeneticSharp and GeneticSharp.Extensions NuGet packages.
-- cmd: C:\projects\geneticsharp\tools\buildLibrariesNuget.cmd
+- cmd: buildLibrariesNuget.cmd
 
 # Build the GeneticSharp.Templates NuGet package.
-- cmd: C:\projects\geneticsharp 
+- cmd: buildTemplatesNuget.cmd
 
 artifacts:
   - path: .\src\nuget\*.nupkg
