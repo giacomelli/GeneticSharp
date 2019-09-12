@@ -19,6 +19,7 @@ before_build:
 - cmd: dotnet --version
 
 build_script:
+# Cake.
 - ps: .\build.ps1
 
 after_build:
@@ -27,6 +28,9 @@ after_build:
 
 # Build the GeneticSharp.Templates NuGet package.
 - cmd: buildTemplatesNuget.cmd
+
+# Tests are executed by Cake.
+test: off
 
 artifacts:
   - path: .\src\nuget\*.nupkg
