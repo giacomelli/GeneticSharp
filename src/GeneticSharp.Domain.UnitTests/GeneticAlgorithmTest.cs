@@ -687,7 +687,7 @@ namespace GeneticSharp.Domain.UnitTests
 			});
 
 			Assert.Less(target.Population.Generations.Count, 10000);
-			Assert.Greater(target.TimeEvolving.TotalMilliseconds, 8.8);
+			Assert.Less(target.TimeEvolving.TotalMilliseconds, 1000);
 		}
 
 		[Test()]
