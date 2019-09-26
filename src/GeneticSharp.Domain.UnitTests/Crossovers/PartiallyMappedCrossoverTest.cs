@@ -112,7 +112,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             Assert.AreEqual(7, actual[0].GetGene(6).Value);
             Assert.AreEqual(5, actual[0].GetGene(7).Value);
 
-            //        	// offspring 2: (3 7 8 4 5 6 2 1)
+            //            // offspring 2: (3 7 8 4 5 6 2 1)
             Assert.AreEqual(3, actual[1].GetGene(0).Value);
             Assert.AreEqual(7, actual[1].GetGene(1).Value);
             Assert.AreEqual(8, actual[1].GetGene(2).Value);

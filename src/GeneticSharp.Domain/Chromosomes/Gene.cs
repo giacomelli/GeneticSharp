@@ -7,7 +7,7 @@ namespace GeneticSharp.Domain.Chromosomes
     /// Represents a gene of a chromosome.
     /// </summary>
     [DebuggerDisplay("{Value}")]
-	[Serializable]
+    [Serializable]
     public struct Gene : IEquatable<Gene>
     {
         #region Fields

@@ -16,7 +16,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
             {
                 try
                 {
-					Substitute.For<ChromosomeBase>(1);
+                    Substitute.For<ChromosomeBase>(1);
                 }
                 catch (Exception ex)
                 {
@@ -28,10 +28,10 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         [Test]
         public void CompareTo_Others_DiffResults()
         {
-			var target = Substitute.For<ChromosomeBase>(2);
+            var target = Substitute.For<ChromosomeBase>(2);
             target.Fitness = 0.5;
 
-			var other = Substitute.For<ChromosomeBase>(2);
+            var other = Substitute.For<ChromosomeBase>(2);
             other.Fitness = 0.5;
 
             Assert.AreEqual(-1, target.CompareTo(null));
@@ -176,7 +176,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         [Test]
         public void Resize_InvalidLength_Exception()
         {
-			var target = Substitute.For<ChromosomeBase>(2);
+            var target = Substitute.For<ChromosomeBase>(2);
 
             Assert.Catch<ArgumentException>(() =>
             {
@@ -187,7 +187,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         [Test]
         public void Resize_ToLowerLength_TruncateGenes()
         {
-			var target = Substitute.For<ChromosomeBase>(4);
+            var target = Substitute.For<ChromosomeBase>(4);
             target.ReplaceGenes(0, new Gene[]
             {
                 new Gene(1),
@@ -205,7 +205,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         [Test]
         public void Resize_ToGreaterLength_KeepOldGenesAndNullValueNewOnes()
         {
-			var target = Substitute.For<ChromosomeBase>(2);
+            var target = Substitute.For<ChromosomeBase>(2);
             target.ReplaceGenes(0, new Gene[]
             {
                 new Gene(1),

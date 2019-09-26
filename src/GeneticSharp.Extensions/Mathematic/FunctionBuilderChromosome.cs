@@ -17,7 +17,6 @@ namespace GeneticSharp.Extensions.Mathematic
         /// <summary>
         /// The max integer operation.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "int", Justification = "Is right in this context")]
         public const int MaxIntOperation = 9;
         #endregion
 

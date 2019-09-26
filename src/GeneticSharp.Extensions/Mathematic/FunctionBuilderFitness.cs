@@ -45,7 +45,6 @@ namespace GeneticSharp.Extensions.Mathematic
         /// </summary>
         /// <param name="chromosome">The chromosome to be evaluated.</param>
         /// <returns>The fitness of the chromosome.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Any error on function be evaluated should be a fitness penalty")]
         public double Evaluate(IChromosome chromosome)
         {
             var c = chromosome as FunctionBuilderChromosome;

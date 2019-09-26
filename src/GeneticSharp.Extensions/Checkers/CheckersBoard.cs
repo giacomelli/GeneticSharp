@@ -26,7 +26,6 @@ namespace GeneticSharp.Extensions.Checkers
     /// </summary>
     public class CheckersBoard
     {
-        [SuppressMessage("Microsoft.Performance", "CA1814:PreferJaggedArraysOverMultidimensional", MessageId = "Member", Justification = "Better to checkers problem")]
         private readonly CheckersSquare[,] m_squares;
  
 

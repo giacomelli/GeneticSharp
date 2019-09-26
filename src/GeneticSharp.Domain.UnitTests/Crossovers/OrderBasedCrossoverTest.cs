@@ -65,7 +65,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         {
             var target = new OrderBasedCrossover();
 
-			// 1 2 3 4 5 6 7 8
+            // 1 2 3 4 5 6 7 8
             var chromosome1 = Substitute.For<ChromosomeBase>(8);
             chromosome1.ReplaceGenes(0, new Gene[] {
                 new Gene(1),
@@ -78,7 +78,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
                 new Gene(8)            });
             chromosome1.CreateNew().Returns(Substitute.For<ChromosomeBase>(8));
 
-			// 2 4 6 8 7 5 3 1
+            // 2 4 6 8 7 5 3 1
             var chromosome2 = Substitute.For<ChromosomeBase>(8);
             chromosome2.ReplaceGenes(0, new Gene[]
             {
@@ -93,18 +93,18 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             });
             chromosome2.CreateNew().Returns(Substitute.For<ChromosomeBase>(8));
 
-			// Child one: 1 2 3 4 6 5 7 8
-			// Child two: 2 4 3 8 7 5 6 1
+            // Child one: 1 2 3 4 6 5 7 8
+            // Child two: 2 4 3 8 7 5 6 1
             var rnd = Substitute.For<IRandomization>();
-			rnd.GetInt(1, 7).Returns(3);
+            rnd.GetInt(1, 7).Returns(3);
             rnd.GetUniqueInts(3, 0, 8).Returns(new int[] { 1, 2, 5 });
             RandomizationProvider.Current = rnd;
 
             var actual = target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
 
             Assert.AreEqual(2, actual.Count);
-			var childOne = actual [0];
-			var childTwo = actual [1];
+            var childOne = actual [0];
+            var childTwo = actual [1];
             Assert.AreEqual(8, childOne.Length);
             Assert.AreEqual(8, childTwo.Length);
 

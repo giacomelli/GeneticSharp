@@ -7,7 +7,7 @@ using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Mutations
 {
-	[TestFixture()]
+    [TestFixture()]
     [Category("Mutations")]
     public class ReverseSequenceMutationTest
     {

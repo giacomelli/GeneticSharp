@@ -75,11 +75,11 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
         /// Stops the tasks execution.
         /// </summary>
         public override void Stop()
-		{
+        {
             base.Stop();
             CancellationTokenSource?.Cancel();
             IsRunning = false;
-		}
+        }
 
         /// <summary>
         /// Configure the ThreadPool min and max threads number to the define on this instance properties.

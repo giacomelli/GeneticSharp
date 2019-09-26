@@ -14,9 +14,8 @@ namespace GeneticSharp.Domain.Randomizations
         /// <returns>The integer.</returns>
         /// <param name="min">Minimum value (inclusive).</param>
         /// <param name="max">Maximum value (exclusive).</param>
-        [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "int")]
         int GetInt(int min, int max);
-
+        
         /// <summary>
         /// Gets an integer array with values between minimum value (inclusive) and maximum value (exclusive).
         /// </summary>
@@ -33,14 +32,12 @@ namespace GeneticSharp.Domain.Randomizations
         /// <param name="length">The array length</param>
         /// <param name="min">Minimum value (inclusive).</param>
         /// <param name="max">Maximum value (exclusive).</param>
-        [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "int")]
         int[] GetUniqueInts(int length, int min, int max);
 
         /// <summary>
         /// Gets a float value between 0.0 and 1.0.
         /// </summary>
         /// <returns>The float value.</returns>
-        [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "float")]
         float GetFloat();
 
         /// <summary>
@@ -49,7 +46,6 @@ namespace GeneticSharp.Domain.Randomizations
         /// <returns>The float value.</returns>
         /// <param name="min">Minimum value.</param>
         /// <param name="max">Max value.</param>
-        [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "float")]
         float GetFloat(float min, float max);
 
         /// <summary>

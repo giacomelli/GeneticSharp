@@ -8,10 +8,10 @@ using GeneticSharp.Infrastructure.Framework.Texts;
 
 namespace GeneticSharp.Infrastructure.Framework.Reflection
 {
-	/// <summary>
-	/// Type helper.
-	/// </summary>
-	public static class TypeHelper
+    /// <summary>
+    /// Type helper.
+    /// </summary>
+    public static class TypeHelper
     {
         #region Methods
         /// <summary>

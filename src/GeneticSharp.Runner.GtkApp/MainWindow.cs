@@ -133,7 +133,7 @@ public partial class MainWindow : Gtk.Window
                 });
             };
 
-			m_sampleController.ConfigGA(m_ga);
+            m_sampleController.ConfigGA(m_ga);
             m_ga.Start();
         });
     }
@@ -167,12 +167,12 @@ public partial class MainWindow : Gtk.Window
             Application.Invoke(delegate
             {
                 var msg = new MessageDialog(
-					this, 
-					DialogFlags.Modal, 
-					MessageType.Error, 
-					ButtonsType.YesNo, 
-					"{0}\n\nDo you want to see more details about this error?", 
-					ex.Message);
+                    this, 
+                    DialogFlags.Modal, 
+                    MessageType.Error, 
+                    ButtonsType.YesNo, 
+                    "{0}\n\nDo you want to see more details about this error?", 
+                    ex.Message);
 
                 if (msg.Run() == (int)ResponseType.Yes)
                 {

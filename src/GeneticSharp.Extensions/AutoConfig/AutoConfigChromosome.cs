@@ -114,8 +114,7 @@ namespace GeneticSharp.Extensions.AutoConfig
                     throw new InvalidOperationException("Invalid AutoConfigChromosome gene index.");
             }
         }
-
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
+        
         private static Gene CreateRandomGene<TGeneValue>(IList<string> available)
         {
             return new Gene(TypeHelper.CreateInstanceByName<TGeneValue>(available[s_randomization.GetInt(0, available.Count)]));
