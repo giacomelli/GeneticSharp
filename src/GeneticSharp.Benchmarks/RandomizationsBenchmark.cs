@@ -8,6 +8,8 @@ namespace GeneticSharp.Benchmarks
     {
         private BasicRandomization _basic = new BasicRandomization();
         private FastRandomRandomization _fastRandom = new FastRandomRandomization();
+        private XorShiftRandomRandomization _xorShiftRandomRandomization = new XorShiftRandomRandomization();
+        private Xoshiro256StarStarRandomRandomization _xoshiro256StarStarRandomRandomization = new Xoshiro256StarStarRandomRandomization();
         private const int _min = -100;
         private const int _max = 100;
         private const int _arrayLength = 10;
@@ -90,13 +92,101 @@ namespace GeneticSharp.Benchmarks
         [Benchmark]
         public void FastRandom_GetOddInt()
         {
-            _basic.GetOddInt(_min, _max);
+            _fastRandom.GetOddInt(_min, _max);
         }
 
         [Benchmark]
         public void FastRandom_GetUniqueInts()
         {
             _fastRandom.GetUniqueInts(_arrayLength, _min, _max);
+        }
+        #endregion
+
+        #region XorShiftRandomRandom
+        [Benchmark(Baseline = false)]
+        public void XorShiftRandomRandom_GetDouble()
+        {
+            _xorShiftRandomRandomization.GetDouble();
+        }
+
+        [Benchmark]
+        public void XorShiftRandomRandom_GetEvenInt()
+        {
+            _xorShiftRandomRandomization.GetEvenInt(_min, _max);
+        }
+
+        [Benchmark]
+        public void XorShiftRandomRandom_GetFloat()
+        {
+            _xorShiftRandomRandomization.GetFloat();
+        }
+
+        [Benchmark]
+        public void XorShiftRandomRandom_GetInt()
+        {
+            _xorShiftRandomRandomization.GetInt(_min, _max);
+        }
+
+        [Benchmark]
+        public void XorShiftRandomRandom_GetInts()
+        {
+            _xorShiftRandomRandomization.GetInts(_arrayLength, _min, _max);
+        }
+
+        [Benchmark]
+        public void XorShiftRandomRandom_GetOddInt()
+        {
+            _xorShiftRandomRandomization.GetOddInt(_min, _max);
+        }
+
+        [Benchmark]
+        public void XorShiftRandomRandom_GetUniqueInts()
+        {
+            _xorShiftRandomRandomization.GetUniqueInts(_arrayLength, _min, _max);
+        }
+        #endregion 
+
+        #region Xoshiro256StarStarRandom
+        [Benchmark(Baseline = false)]
+        public void Xoshiro256StarStarRandom_GetDouble()
+        {
+            _xoshiro256StarStarRandomRandomization.GetDouble();
+        }
+
+        [Benchmark]
+        public void Xoshiro256StarStarRandom_GetEvenInt()
+        {
+            _xoshiro256StarStarRandomRandomization.GetEvenInt(_min, _max);
+        }
+
+        [Benchmark]
+        public void Xoshiro256StarStarRandom_GetFloat()
+        {
+            _xoshiro256StarStarRandomRandomization.GetFloat();
+        }
+
+        [Benchmark]
+        public void Xoshiro256StarStarRandom_GetInt()
+        {
+            _xoshiro256StarStarRandomRandomization.GetInt(_min, _max);
+        }
+
+        [Benchmark]
+        public void Xoshiro256StarStarRandom_GetInts()
+        {
+            _xoshiro256StarStarRandomRandomization.GetInts(_arrayLength, _min, _max);
+        }
+
+        [Benchmark]
+        public void Xoshiro256StarStarRandom_GetOddInt()
+        {
+            _xoshiro256StarStarRandomRandomization.GetOddInt(_min, _max);
+        }
+
+        [Benchmark]
+        public void Xoshiro256StarStarRandom_GetUniqueInts()
+        {
+            _xoshiro256StarStarRandomRandomization.GetUniqueInts(_arrayLength, _min, _max);
         }
         #endregion 
     }
