@@ -102,45 +102,45 @@ namespace GeneticSharp.Benchmarks
         }
         #endregion
 
-        #region XorShiftRandomRandom
+        #region XorShiftRandom
         [Benchmark(Baseline = false)]
-        public void XorShiftRandomRandom_GetDouble()
+        public void XorShiftRandom_GetDouble()
         {
             _xorShiftRandomRandomization.GetDouble();
         }
 
         [Benchmark]
-        public void XorShiftRandomRandom_GetEvenInt()
+        public void XorShiftRandom_GetEvenInt()
         {
             _xorShiftRandomRandomization.GetEvenInt(_min, _max);
         }
 
         [Benchmark]
-        public void XorShiftRandomRandom_GetFloat()
+        public void XorShiftRandom_GetFloat()
         {
             _xorShiftRandomRandomization.GetFloat();
         }
 
         [Benchmark]
-        public void XorShiftRandomRandom_GetInt()
+        public void XorShiftRandom_GetInt()
         {
             _xorShiftRandomRandomization.GetInt(_min, _max);
         }
 
         [Benchmark]
-        public void XorShiftRandomRandom_GetInts()
+        public void XorShiftRandom_GetInts()
         {
             _xorShiftRandomRandomization.GetInts(_arrayLength, _min, _max);
         }
 
         [Benchmark]
-        public void XorShiftRandomRandom_GetOddInt()
+        public void XorShiftRandom_GetOddInt()
         {
             _xorShiftRandomRandomization.GetOddInt(_min, _max);
         }
 
         [Benchmark]
-        public void XorShiftRandomRandom_GetUniqueInts()
+        public void XorShiftRandom_GetUniqueInts()
         {
             _xorShiftRandomRandomization.GetUniqueInts(_arrayLength, _min, _max);
         }
