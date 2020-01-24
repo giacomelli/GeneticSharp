@@ -18,8 +18,9 @@ Can be used in any kind of .NET Core and .NET Framework apps, like ASP .NET MVC,
 ## Projects, papers, journals, books, tutorials, courses and apps using GeneticSharp
 * [A CPS-Based Simulation Platform for Long Production Factories (paper)](https://www.mdpi.com/2075-4701/9/10/1025/pdf)
 * [AeroVision: aircraft trajectories optimization and visualization (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/AeroVision-Aircraft-trajectories-optimization-and-visualization.pdf)
-* [Artificial Intelligence course in French engineering schools (course)](https://github.com/giacomelli/GeneticSharp/pull/43#issuecomment-433662175)
 * [Analysis and comparison between Black-Scholes and Merton and Corrado-Su for options pricing (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Analysis-and-comparison-between-Black-Scholes-and-Merton-and-Corrado-Su-for-options-pricing.pdf) ![](https://img.shields.io/badge/BR-green.svg)
+* [Application of genetic algorithms to optimize RFID antenna readings (paper)](https://github.com/gsalibi/artificial-intelligence-course/blob/master/Project%202/Relat%C3%B3rio.pdf) ![](https://img.shields.io/badge/BR-green.svg)
+* [Artificial Intelligence course in French engineering schools (course)](https://github.com/giacomelli/GeneticSharp/pull/43#issuecomment-433662175)
 * [Context-Sensitive Code Completion: improving predictions with genetic algorithms (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Context-Sensitive-Code-Completion-improving-predictions-with-genetic-algorithms.pdf) [(Github)](https://github.com/godtopus/GeneCSCC)
 * [Deriving Functions for Pareto Optimal Fronts Using Genetic Programming (paper/book)](https://books.google.com.br/books?id=w_lcDwAAQBAJ&lpg=PA473&ots=Rv7O6FhCSM&dq=%22GeneticSharp%22&hl=pt-BR&pg=PA464#v=onepage&q=%22GeneticSharp%22&f=false)
 * [Designing and creating a self managing distributed file system (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Designing-and-creating-a-self-managing-distributed-file-system.pdf)
