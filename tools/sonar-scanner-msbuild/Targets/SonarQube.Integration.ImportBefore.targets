@@ -33,10 +33,10 @@
   <!-- **************************************************************************** -->
   <!-- Diagnostic/error-checking target
 
-        Causes the build to fail if the analysis properties are not correctly configured 
+        Causes the build to fail if the analysis properties are not correctly configured
         i.e. if the user has requested a SonarQube analysis run, but the analysis targets
         cannot be found.
-        
+
         Writes out diagnostic information to help with troubleshooting.  -->
   <!-- **************************************************************************** -->
   <Target Name="SonarQubeImportBeforeInfo" Condition=" $(SonarQubeTempPath) != '' AND $(BuildingInsideVisualStudio) != 'true' " BeforeTargets="CoreCompile">

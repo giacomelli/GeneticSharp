@@ -4,12 +4,14 @@ using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Framework.Commons;
+using System.Diagnostics;
 
 namespace GeneticSharp.Domain.Populations
 {
     /// <summary>
     /// Represents a generation of a population.
     /// </summary>
+    [DebuggerDisplay("{Number} = {BestChromosome.Fitness}")]
     public sealed class Generation
     {
         #region Constructors
@@ -23,13 +25,13 @@ namespace GeneticSharp.Domain.Populations
             if (number < 1)
             {
                 throw new ArgumentOutOfRangeException(
-                    "number",
+                    nameof(number),
                     "Generation number {0} is invalid. Generation number should be positive and start in 1.".With(number));
             }
 
             if (chromosomes == null || chromosomes.Count < 2)
             {
-                throw new ArgumentOutOfRangeException("chromosomes", "A generation should have at least 2 chromosomes.");
+                throw new ArgumentOutOfRangeException(nameof(chromosomes), "A generation should have at least 2 chromosomes.");
             }
 
             Number = number;
@@ -71,7 +73,7 @@ namespace GeneticSharp.Domain.Populations
         public void End(int chromosomesNumber)
         {
             Chromosomes = Chromosomes
-                .Where(c => ValidateChromosome(c))
+                .Where(ValidateChromosome)
                 .OrderByDescending(c => c.Fitness.Value)
                 .ToList();
 

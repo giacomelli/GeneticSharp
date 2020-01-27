@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+ <PropertyGroup>
+    <TargetFrameworks>netcoreapp2.1;net462</TargetFrameworks>
+    <OutputType>Exe</OutputType>    
+    <RuntimeIdentifiers>win7-x86;osx-x64;linux-x64</RuntimeIdentifiers>
+    <ReleaseVersion>1.2.0</ReleaseVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj" />
+    <ProjectReference Include="..\GeneticSharp.Extensions\GeneticSharp.Extensions.csproj" />
+    <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.11.3" />
+    <PackageReference Include="NSubstitute" Version="3.1.0" />
+  </ItemGroup>
+</Project>

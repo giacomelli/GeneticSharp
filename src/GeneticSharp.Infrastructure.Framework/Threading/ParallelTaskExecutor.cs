@@ -9,8 +9,6 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
     /// </summary>
     public class ParallelTaskExecutor : TaskExecutorBase
     {
-        private CancellationTokenSource m_cancellationTokenSource;
-
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="T:GeneticSharp.Infrastructure.Framework.Threading.ParallelTaskExecutor"/> class.
@@ -32,29 +30,29 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
         /// </summary>
         /// <value>The max threads.</value>
         public int MaxThreads { get; set; }
-    
+
+        /// <summary>
+        /// Gets or sets the cancellation token source.
+        /// </summary>
+        protected CancellationTokenSource CancellationTokenSource { get; set; }
+
         /// <summary>
         /// Starts the tasks execution.
         /// </summary>
         /// <returns>If has reach the timeout false, otherwise true.</returns>
         public override bool Start()
         {
-            // Configure the ThreadPool min and max threads number to the define on this instance properties..
-            ThreadPool.GetMinThreads(out int minWorker, out int minIOC);
-            ThreadPool.SetMinThreads(MinThreads, minIOC);
-
-            ThreadPool.GetMaxThreads(out int maxWorker, out int maxIOC);
-            ThreadPool.SetMaxThreads(MaxThreads, maxIOC);
+            SetThreadPoolConfig(out int minWorker, out int minIOC, out int maxWorker, out int maxIOC);
 
             try
             {
                 base.Start();
-                m_cancellationTokenSource = new CancellationTokenSource();
+                CancellationTokenSource = new CancellationTokenSource();
                 var parallelTasks = new Task[Tasks.Count];
 
                 for (int i = 0; i < Tasks.Count; i++)
                 {
-                    parallelTasks[i] = Task.Run(Tasks[i], m_cancellationTokenSource.Token);
+                    parallelTasks[i] = Task.Run(Tasks[i], CancellationTokenSource.Token);
                 }
 
                 // Need to verify, because TimeSpan.MaxValue passed to Task.WaitAll throws a System.ArgumentOutOfRangeException.
@@ -68,10 +66,7 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
             }
             finally
             {
-                // Rollback ThreadPool previous min and max threads configuration.
-                ThreadPool.SetMinThreads(minWorker, minIOC);
-                ThreadPool.SetMaxThreads(maxWorker, maxIOC);
-
+                ResetThreadPoolConfig(minWorker, minIOC, maxWorker, maxIOC);
                 IsRunning = false;
             }
         }
@@ -79,11 +74,49 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
         /// <summary>
         /// Stops the tasks execution.
         /// </summary>
-		public override void Stop()
+        public override void Stop()
 		{
             base.Stop();
-            m_cancellationTokenSource.Cancel();
+            CancellationTokenSource?.Cancel();
             IsRunning = false;
 		}
-	}
+
+        /// <summary>
+        /// Configure the ThreadPool min and max threads number to the define on this instance properties.
+        /// </summary>
+        /// <param name="minWorker">Minimum worker.</param>
+        /// <param name="minIOC">Minimum ioc.</param>
+        /// <param name="maxWorker">Max worker.</param>
+        /// <param name="maxIOC">Max ioc.</param>
+        protected void SetThreadPoolConfig(out int minWorker, out int minIOC, out int maxWorker, out int maxIOC)
+        {
+            // Do not change values if the new values to min and max threads are lower than already configured on ThreadPool.
+            ThreadPool.GetMinThreads(out minWorker, out minIOC);
+
+            if (MinThreads > minWorker)
+            {
+                ThreadPool.SetMinThreads(MinThreads, minIOC);
+            }
+
+            ThreadPool.GetMaxThreads(out maxWorker, out maxIOC);
+
+            if (MaxThreads > maxWorker)
+            {
+                ThreadPool.SetMaxThreads(MaxThreads, maxIOC);
+            }
+        }
+
+        /// <summary>
+        /// Rollback ThreadPool previous min and max threads configuration.
+        /// </summary>
+        /// <param name="minWorker">Minimum worker.</param>
+        /// <param name="minIOC">Minimum ioc.</param>
+        /// <param name="maxWorker">Max worker.</param>
+        /// <param name="maxIOC">Max ioc.</param>
+        protected static void ResetThreadPoolConfig(int minWorker, int minIOC, int maxWorker, int maxIOC)
+        {
+            ThreadPool.SetMinThreads(minWorker, minIOC);
+            ThreadPool.SetMaxThreads(maxWorker, maxIOC);
+        }
+    }
 }

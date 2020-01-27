@@ -4,7 +4,6 @@
   <Import Project="..\msbuilds\GeneticSharp.unit-test.targets" />
   
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
     <TargetFrameworks>netcoreapp2.0;net462</TargetFrameworks> 
   </PropertyGroup>
   
@@ -20,5 +19,11 @@
     <PackageReference Include="nunit" Version="3.9.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.9.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Update="Sudoku\SudokuList.sdk">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

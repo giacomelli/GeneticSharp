@@ -3,9 +3,13 @@
   <Import Project="..\msbuilds\GeneticSharp.common.targets" />
   
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
     <TargetFrameworks>netstandard2.0;net462</TargetFrameworks>    
     <AssemblyName>GeneticSharp.Extensions</AssemblyName>    
+    <AssemblyCompany>Skahal Studios</AssemblyCompany>
+    <AssemblyProduct>GeneticSharp</AssemblyProduct>
+    <AssemblyCopyright>Diego Giacomelli, http://diegogiacomelli.com.br</AssemblyCopyright>
+    <AssemblyTrademark></AssemblyTrademark>
+    <AssemblyCulture></AssemblyCulture>
   </PropertyGroup>
 
   <!-- NuGet Package -->
@@ -16,6 +20,7 @@
     <Owners>g1acomell1</Owners>
     <PackageLicenseUrl>https://github.com/giacomelli/GeneticSharp/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/giacomelli/GeneticSharp</PackageProjectUrl>
+    <PackageIconUrl>https://github.com/giacomelli/GeneticSharp/raw/master/docs/logo/icon-64x64-transparent.png</PackageIconUrl>
     <PackageReleaseNotes>See changes at https://github.com/giacomelli/GeneticSharp.</PackageReleaseNotes>
     <PackageTags>genetic-algorithms geneticsharp genetic algotithms</PackageTags>
   </PropertyGroup>

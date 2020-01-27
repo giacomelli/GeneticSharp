@@ -8,7 +8,7 @@ dotnet ../tools/sonar-scanner-msbuild/SonarScanner.MSBuild.dll begin \
     /d:sonar.host.url="https://sonarcloud.io" \
     /d:sonar.login=$GeneticSharp_SonarQube_login \
     /d:sonar.cs.opencover.reportsPaths="**/*.opencover.xml" \
-    /d:sonar.exclusions="**/*Test.cs,**/Samples/*.cs,MainWindow.cs,Program.cs,PropertyEditor.cs,*.xml" 
+    /d:sonar.exclusions="GeneticSharp.Benchmarks/*.cs,**/*Test.cs,**/Samples/*.cs,GeneticSharp.Runner.GtkApp/MainWindow.cs,GeneticSharp.Runner.GtkApp/PropertyEditor.cs,**/*.xml,**/Program.cs,**/AssemblyInfo.cs" 
   
 dotnet clean
 dotnet build -c release

@@ -35,9 +35,9 @@ namespace GeneticSharp.Domain.Terminations
         {
             if (terminations != null)
             {
-                foreach (var t in terminations)
+                for (int i = 0; i < terminations.Length; i++)
                 {
-                    AddTermination(t);
+                    AddTermination(terminations[i]);
                 }
             }
         }

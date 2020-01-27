@@ -4,13 +4,13 @@
   <Import Project="..\msbuilds\GeneticSharp.unit-test.targets" />
   
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
     <TargetFrameworks>netcoreapp2.0;net462</TargetFrameworks>  
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj" />
     <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj" />
+    <ProjectReference Include="..\GeneticSharp.Extensions\GeneticSharp.Extensions.csproj" />
   </ItemGroup>
   
   <ItemGroup>

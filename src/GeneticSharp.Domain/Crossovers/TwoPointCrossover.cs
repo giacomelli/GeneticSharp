@@ -28,7 +28,7 @@ namespace GeneticSharp.Domain.Crossovers
 		{
 			if (swapPointOneGeneIndex >= swapPointTwoGeneIndex)
 			{
-				throw new ArgumentOutOfRangeException("swapPointTwoGeneIndex", "The the swap point two index should be greater than swap point one index.");
+				throw new ArgumentOutOfRangeException(nameof(swapPointTwoGeneIndex), "The swap point two gene index should be greater than swap point one index.");
 			}
 
 			SwapPointOneGeneIndex = swapPointOneGeneIndex;
@@ -76,7 +76,7 @@ namespace GeneticSharp.Domain.Crossovers
 			if (SwapPointTwoGeneIndex >= swapPointsLength)
 			{
 				throw new ArgumentOutOfRangeException(
-					"parents",
+                    nameof(parents),
 					"The swap point two index is {0}, but there is only {1} genes. The swap should result at least one gene to each sides.".With(SwapPointTwoGeneIndex, parentLength));
 			}
 

@@ -27,7 +27,7 @@ namespace GeneticSharp.Domain.Chromosomes
 		/// <remarks>>
 		/// If gene's value is 0, the it will be flip to 1 and vice-versa.</remarks>
 		/// <param name="index">The gene index.</param>
-		public void FlipGene (int index)	
+		public virtual void FlipGene (int index)	
 		{
 			var value = (int) GetGene (index).Value;
 

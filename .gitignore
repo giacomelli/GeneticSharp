@@ -1,5 +1,5 @@
 # Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
-[Bb]in/
+
 [Oo]bj/
 
 # mstest test results
@@ -88,7 +88,6 @@ csx
 AppPackages/
 
 # Others
-[Bb]in
 [Oo]bj
 sql
 TestResults
@@ -118,14 +117,6 @@ opencoverCoverage.xml
 *.nupkg
 stylecop-report.violations.xml
 stylecop-report.xml
-src/GeneticSharp.Extensions/ExpressionTree/ExpressionTreeChromosome.cs
-src/GeneticSharp.Extensions/Hangman/HangmanChromosome.cs
-src/GeneticSharp.Extensions/Hangman/HangmanEnglishFitness.cs
-src/GeneticSharp.Extensions/Numberlink/NumberlinkChromosome.cs
-src/GeneticSharp.Extensions/Numberlink/NumberlinkFitness.cs
-src/GeneticSharp.Extensions/Numberlink/NumberlinkSquare.cs
-src/GeneticSharp.Runner.ConsoleApp/Samples/HangmanSampleController.cs
-src/GeneticSharp.Runner.GtkApp/Samples/NumberlinkSampleController.cs
 dupFinder-report.xml
 Issue9Sample.sln.GhostDoc.xml
 /build
@@ -134,3 +125,4 @@ Issue9Sample.sln.GhostDoc.xml
 .idea
 *.opencover.xml
 .sonarqube
+BenchmarkDotNet.Artifacts

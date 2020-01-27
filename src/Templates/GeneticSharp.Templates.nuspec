@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+    <metadata>
+        <id>GeneticSharp.Templates</id>
+        <version>1.1.0</version>
+        <summary>A set of templates written for the GeneticSharp: console application, TSP console application and TSP Unity3d.</summary>
+        <description>
+        A set of templates written for the GeneticSharp: TSP Blazor, basic console application, TSP console application and TSP Unity3d.
+
+        * Install the templates with command: dotnet new -i GeneticSharp.Templates
+        * Create new projects for GeneticCharp:
+			* dotnet new GeneticSharpTspBlazorApp
+            * dotnet new GeneticSharpConsoleApp
+            * dotnet new GeneticSharpTspConsoleApp
+            * dotnet new GeneticSharpTspUnity3d
+        </description>
+        <authors>Diego Giacomelli</authors>
+        <owners>g1acomell1</owners>
+        <licenseUrl>https://github.com/giacomelli/GeneticSharp/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/giacomelli/GeneticSharp</projectUrl>
+        <iconUrl>https://github.com/giacomelli/GeneticSharp/raw/master/docs/logo/icon-64x64-transparent.png</iconUrl>
+        <releaseNotes>See changes at https://github.com/giacomelli/GeneticSharp.</releaseNotes>
+        <tags>genetic-algorithms geneticsharp genetic algorithms dotnet-new templates blazor unity3d</tags>
+
+        <packageTypes>
+            <packageType name="Template" />
+        </packageTypes>
+    </metadata>
+    <files>
+        <file src="content/**" target="" />
+    </files>
+</package>

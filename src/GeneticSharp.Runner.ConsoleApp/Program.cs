@@ -58,7 +58,7 @@ namespace GeneticSharp.Runner.ConsoleApp
             population.GenerationStrategy = new PerformanceGenerationStrategy();
 
             var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
-            ga.Termination = sampleController.CreateTermination();            
+            ga.Termination = sampleController.CreateTermination();
 
             var terminationName = ga.Termination.GetType().Name;
 
@@ -71,6 +71,7 @@ namespace GeneticSharp.Runner.ConsoleApp
                 Console.WriteLine("Generations: {0}", ga.Population.GenerationsNumber);
                 Console.WriteLine("Fitness: {0,10}", bestChromosome.Fitness);
                 Console.WriteLine("Time: {0}", ga.TimeEvolving);
+                Console.WriteLine("Speed (gen/sec): {0:0.0000}", ga.Population.GenerationsNumber / ga.TimeEvolving.TotalSeconds);
                 sampleController.Draw(bestChromosome);
             };
 

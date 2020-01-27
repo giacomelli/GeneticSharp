@@ -14,7 +14,7 @@ namespace GeneticSharp.Domain.UnitTests.Fitnesses
 				return c.Fitness.Value + 1;
 			});
 
-			Assert.AreEqual(3, target.Evaluate(new ChromosomeStub(2)));
+			Assert.AreEqual(3, target.Evaluate(new ChromosomeStub(2d)));
 		}
 	}
 }
