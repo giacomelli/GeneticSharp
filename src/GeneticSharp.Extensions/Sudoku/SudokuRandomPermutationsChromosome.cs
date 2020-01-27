@@ -16,7 +16,7 @@ namespace GeneticSharp.Extensions.Sudoku
         private readonly int _nbSudokus = 10;
 
 
-        public SudokuRandomPermutationsChromosome(Sudoku targetSudoku, int nbPermutations, int nbSudokus) : base(targetSudoku, 9 * nbPermutations)
+        public SudokuRandomPermutationsChromosome(Sudoku targetSudoku, int nbPermutations, int nbSudokus) : base(targetSudoku, 9 * nbPermutations, null)
         {
             _nbPermutations = nbPermutations;
             _nbSudokus = nbSudokus;

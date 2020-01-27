@@ -134,3 +134,4 @@ Issue9Sample.sln.GhostDoc.xml
 .idea
 *.opencover.xml
 .sonarqube
+/src/SolverSudoku

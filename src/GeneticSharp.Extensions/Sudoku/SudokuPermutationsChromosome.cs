@@ -13,20 +13,26 @@ namespace GeneticSharp.Extensions.Sudoku
     {
         protected readonly Sudoku TargetSudoku;
         protected readonly List<List<List<int>>> TargetRowsPermutations;
+	    private Dictionary<int, List<int>> _extendedMask;
 
-
-        public SudokuPermutationsChromosome() : this(null)
+		public SudokuPermutationsChromosome() : this(null)
         {
         }
 
-        public SudokuPermutationsChromosome(Sudoku targetSudoku) : this(targetSudoku, 9)
+        public SudokuPermutationsChromosome(Sudoku targetSudoku) : this(targetSudoku, 9, null)
         {
 
         }
 
-        public SudokuPermutationsChromosome(Sudoku targetSudoku, int length) : base(length)
+	    public SudokuPermutationsChromosome(Sudoku targetSudoku, Dictionary<int, List<int>> mask) : this(targetSudoku, 9, mask)
+	    {
+
+	    }
+
+		public SudokuPermutationsChromosome(Sudoku targetSudoku, int length, Dictionary<int, List<int>> mask) : base(length)
         {
             TargetSudoku = targetSudoku;
+	        _extendedMask = mask;
             TargetRowsPermutations = GetRowsPermutations(TargetSudoku);
             for (int i = 0; i < Length; i++)
             {
@@ -44,7 +50,7 @@ namespace GeneticSharp.Extensions.Sudoku
 
         public override IChromosome CreateNew()
         {
-            var toReturn = new SudokuPermutationsChromosome(TargetSudoku);
+            var toReturn = new SudokuPermutationsChromosome(TargetSudoku, ExtendedMask);
             return toReturn;
         }
 
@@ -68,14 +74,66 @@ namespace GeneticSharp.Extensions.Sudoku
             return (int)GetGene(rowIndex).Value;
         }
 
+	    public Dictionary<int, List<int>> ExtendedMask
+	    {
+		    get
+		    {
+			    if (_extendedMask == null)
+			    {
 
+				    var invertedMask = new Dictionary<int, List<int>>();
+				    List<int> targetList = null;
+				    for (var index = 0; index < TargetSudoku.CellsList.Count; index++)
+				    {
+					    var targetCell = TargetSudoku.CellsList[index];
+					    if (targetCell != 0)
+					    {
+						    var row = index / 9;
+						    var col = index % 9;
+						    var boxStartIdx = (index / 27 * 27) + (index % 9 / 3 * 3);
 
-        /// <summary>
-        /// This method computes for each row the list of digit permutations that respect the target mask, that is the list of valid rows discarding columns and boxes
-        /// </summary>
-        /// <param name="sudoku">the target sudoku to account for</param>
-        /// <returns>the list of permutations available</returns>
-        public List<List<List<int>>> GetRowsPermutations(Sudoku sudoku)
+							for (int i = 0; i < 9; i++)
+							{
+								var boxtargetIdx = boxStartIdx + (i % 3) + ((i / 3) * 9);
+								var targetIndices = new[] { (row * 9) + i, i * 9 + col, boxtargetIdx };
+								foreach (var targetIndex in targetIndices)
+								{
+									if (targetIndex != index)
+									{
+										if (!invertedMask.TryGetValue(targetIndex, out targetList))
+										{
+											targetList = new List<int>();
+											invertedMask[targetIndex] = targetList;
+										}
+										if (!targetList.Contains(targetCell))
+										{
+											targetList.Add(targetCell);
+										}
+									}
+								}
+							}
+						}
+					}
+				    _extendedMask = new Dictionary<int, List<int>>();
+				    var indices = Enumerable.Range(1, 9).ToList();
+				    for (var index = 0; index < TargetSudoku.CellsList.Count; index++)
+				    {
+					    _extendedMask[index] = indices.Where(i => !invertedMask[index].Contains(i)).ToList();
+				    }
+
+				   
+
+			    }
+			    return _extendedMask;
+		    }
+	    }
+
+		/// <summary>
+		/// This method computes for each row the list of digit permutations that respect the target mask, that is the list of valid rows discarding columns and boxes
+		/// </summary>
+		/// <param name="sudoku">the target sudoku to account for</param>
+		/// <returns>the list of permutations available</returns>
+		public List<List<List<int>>> GetRowsPermutations(Sudoku sudoku)
         {
             if (sudoku == null)
             {
@@ -93,8 +151,9 @@ namespace GeneticSharp.Extensions.Sudoku
                             var tempList = new List<List<int>>();
                             foreach (var perm in AllPermutations)
                             {
-                                if (!Range9.Any(j => sudoku.GetCell(i, j) > 0 && (perm[j] != sudoku.GetCell(i, j))))
-                                {
+								//if (!Range9.Any(j => sudoku.GetCell(i, j) > 0 && (perm[j] != sudoku.GetCell(i, j))))
+								if (Range9.All(j => ExtendedMask[9 * i + j].Contains(perm[j])))
+								{
                                     tempList.Add(perm);
                                 }
                             }

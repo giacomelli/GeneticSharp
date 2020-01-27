@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -30,7 +31,8 @@ namespace GeneticSharp.Extensions.Sudoku
         // We use a list for easier access to cells,
         public List<int> CellsList = Enumerable.Repeat(0, 81).ToList();
 
-        public int GetCell(int x, int y)
+
+	    public int GetCell(int x, int y)
         {
             return CellsList[(9 * x) + y];
         }
@@ -40,21 +42,14 @@ namespace GeneticSharp.Extensions.Sudoku
             CellsList[(9 * x) + y] = value;
         }
 
-        /// <summary>
-        /// The array property is to be used in linq to Z3
-        /// </summary>
-        public int[] Cells
-        {
-            get => CellsList.ToArray();
-            set => CellsList = new List<int>(value);
-        }
-
+        
         /// <summary>
         /// Displays a Sudoku in an easy to read format
         /// </summary>
         /// <returns></returns>
         public override string ToString()
         {
+	       
             var lineSep = new string('-', 31);
             var blankSep = new string(' ', 8);
 
@@ -65,6 +60,7 @@ namespace GeneticSharp.Extensions.Sudoku
             for (int row = 1; row <= 9; row++)
             {
                 output.Append("| ");
+	           
                 for (int column = 1; column <= 9; column++)
                 {
 
@@ -78,17 +74,16 @@ namespace GeneticSharp.Extensions.Sudoku
                 {
                     output.Append(lineSep);
                 }
-                // todo:for some reason, GTK does not seem to like the following display
-                //else
-                //{
-                //  output.Append("| ");
-                //  for (var i = 0; i < 3; i++)
-                //  {
-                //    output.Append(blankSep);
-                //    output.Append("| ");
-                //  }
-                //}
-                output.AppendLine();
+				else
+				{
+					output.Append("| ");
+					for (var i = 0; i < 3; i++)
+					{
+						output.Append(blankSep);
+						output.Append("| ");
+					}
+				}
+				output.AppendLine();
             }
 
             return output.ToString();
