@@ -44,6 +44,7 @@ Can be used in any kind of .NET Core and .NET Framework apps, like ASP .NET MVC,
 * [Path Finding with Genetic Algorithms (project)](https://yoloprogramming.com/post/2017/01/11/path-finding-with-genetic-algorithms)
 * [SurvivorAI: some experiments of survival scenarios (project)](https://github.com/giacomelli/SurvivorAI)
 * [System for the decision-making support of the synthesis of physical topology of collection and data transfer network in energy management system (paper)](http://hi-tech.asu.edu.ru/files/1(45)/193-210.pdf) ![](https://img.shields.io/badge/RU-red.svg)
+* [The Method of Studying of Electromagnetic Characteristics and Synthesis of Metamaterial (paper)](https://cyberleninka.ru/article/n/metodika-issledovaniya-elektromagnitnyh-harakteristik-i-sinteza-metamateriala) ![](https://img.shields.io/badge/RU-red.svg)
 * [ThermalDesign (project)](https://github.com/simonjduff/ThermalDesign)
 * [TrussOptimization (project)](https://trussoptimizationweb.herokuapp.com)
 * [TSP with GeneticSharp and Unity3D (tutorial)](http://diegogiacomelli.com.br/tsp-with-GeneticSharp-and-Unity3d/)
