@@ -1,14 +1,12 @@
-﻿using System;
+﻿using GeneticSharp.Domain.Chromosomes;
+using System;
 using System.Collections.Generic;
-using GeneticSharp.Domain.Chromosomes;
 
-namespace GeneticSharp.Domain.Populations
-{
+namespace GeneticSharp.Domain.Populations {
     /// <summary>
     /// Defines an interface for a population of candidate solutions (chromosomes).
     /// </summary>
-    public interface IPopulation
-    {
+    public interface IPopulation {
         #region Events
         /// <summary>
         /// Occurs when best chromosome changed.

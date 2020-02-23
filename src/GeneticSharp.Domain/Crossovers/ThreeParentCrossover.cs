@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using GeneticSharp.Domain.Chromosomes;
+using System.Collections.Generic;
 using System.ComponentModel;
-using GeneticSharp.Domain.Chromosomes;
 
-namespace GeneticSharp.Domain.Crossovers
-{
+namespace GeneticSharp.Domain.Crossovers {
     /// <summary>
     /// Three Parent Crossover.
     /// <remarks>
@@ -14,15 +13,13 @@ namespace GeneticSharp.Domain.Crossovers
     /// </remarks>
     /// </summary>
     [DisplayName("Three Parent")]
-    public class ThreeParentCrossover : CrossoverBase
-    {
+    public class ThreeParentCrossover : CrossoverBase {
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="ThreeParentCrossover"/> class.
         /// </summary>
         public ThreeParentCrossover()
-            : base(3, 1)
-        {
+            : base(3, 1) {
         }
         #endregion
 
@@ -34,8 +31,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>
         /// The offspring (children) of the parents.
         /// </returns>
-        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
-        {
+        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents) {
             var parent1 = parents[0];
             var parent1Genes = parent1.GetGenes();
             var parent2Genes = parents[1].GetGenes();
@@ -43,16 +39,12 @@ namespace GeneticSharp.Domain.Crossovers
             var offspring = parent1.CreateNew();
             Gene parent1Gene;
 
-            for (int i = 0; i < parent1.Length; i++)
-            {
+            for (int i = 0; i < parent1.Length; i++) {
                 parent1Gene = parent1Genes[i];
 
-                if (parent1Gene == parent2Genes[i])
-                {
+                if (parent1Gene == parent2Genes[i]) {
                     offspring.ReplaceGene(i, parent1Gene);
-                }
-                else
-                {
+                } else {
                     offspring.ReplaceGene(i, parent3Genes[i]);
                 }
             }

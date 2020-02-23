@@ -1,12 +1,9 @@
-﻿using System;
+﻿using GeneticSharp.Domain.Chromosomes;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Randomizations;
 
-namespace GeneticSharp.Domain.Crossovers
-{
+namespace GeneticSharp.Domain.Crossovers {
     /// <summary>
     /// Position-based crossover (POS).
     /// <remarks>
@@ -19,15 +16,13 @@ namespace GeneticSharp.Domain.Crossovers
     /// </remarks>
     /// </summary>
     [DisplayName("Position-based (POS)")]
-    public class PositionBasedCrossover : OrderBasedCrossover
-    {
+    public class PositionBasedCrossover : OrderBasedCrossover {
         #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.PositionBasedCrossover"/> class.
         /// </summary>
-        public PositionBasedCrossover()
-        {
+        public PositionBasedCrossover() {
         }
 
         #endregion
@@ -38,10 +33,8 @@ namespace GeneticSharp.Domain.Crossovers
         /// Validates the parents.
         /// </summary>
         /// <param name="parents">The parents.</param>
-        protected override void ValidateParents(IList<IChromosome> parents)
-        {
-            if (parents.AnyHasRepeatedGene())
-            {
+        protected override void ValidateParents(IList<IChromosome> parents) {
+            if (parents.AnyHasRepeatedGene()) {
                 throw new CrossoverException(this, "The Position-based Crossover (POS) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
             }
         }
@@ -55,27 +48,21 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>
         /// The child.
         /// </returns>
-        protected override IChromosome CreateChild(IChromosome firstParent, IChromosome secondParent, int[] swapIndexes)
-        {
+        protected override IChromosome CreateChild(IChromosome firstParent, IChromosome secondParent, int[] swapIndexes) {
             var secondParentSwapGenes = secondParent.GetGenes()
                  .Select((g, i) => new { Gene = g, Index = i })
                  .Where((g) => swapIndexes.Contains(g.Index))
                  .ToArray();
 
             using (var firstParentRemainingGenes = firstParent.GetGenes()
-                .Except(secondParentSwapGenes.Select(element => element.Gene).ToArray()).GetEnumerator())
-            {
+                .Except(secondParentSwapGenes.Select(element => element.Gene).ToArray()).GetEnumerator()) {
                 var child = firstParent.CreateNew();
                 var secondParentSwapGensIndex = 0;
 
-                for (int i = 0; i < firstParent.Length; i++)
-                {
-                    if (secondParentSwapGenes.Any(f => f.Index == i))
-                    {
+                for (int i = 0; i < firstParent.Length; i++) {
+                    if (secondParentSwapGenes.Any(f => f.Index == i)) {
                         child.ReplaceGene(i, secondParentSwapGenes[secondParentSwapGensIndex++].Gene);
-                    }
-                    else
-                    {
+                    } else {
                         firstParentRemainingGenes.MoveNext();
                         child.ReplaceGene(i, firstParentRemainingGenes.Current);
                     }

@@ -1,26 +1,23 @@
+using GeneticSharp.Domain.Randomizations;
+using GeneticSharp.Infrastructure.Framework.Reflection;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Diagnostics.CodeAnalysis;
-using GeneticSharp.Infrastructure.Framework.Reflection;
-using GeneticSharp.Domain.Randomizations;
+using System.Linq;
 
 
-namespace GeneticSharp.Domain.Mutations
-{
+namespace GeneticSharp.Domain.Mutations {
     /// <summary>
     /// Mutation service.
     /// </summary>
-    public static class MutationService
-    {
+    public static class MutationService {
         #region Methods
         /// <summary>
         /// Gets available mutation types.
         /// </summary>
         /// <returns>All available mutation types.</returns>
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
-        public static IList<Type> GetMutationTypes()
-        {
+        public static IList<Type> GetMutationTypes() {
             return TypeHelper.GetTypesByInterface<IMutation>();
         }
 
@@ -29,8 +26,7 @@ namespace GeneticSharp.Domain.Mutations
         /// </summary>
         /// <returns>The mutation names.</returns>
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
-        public static IList<string> GetMutationNames()
-        {
+        public static IList<string> GetMutationNames() {
             return TypeHelper.GetDisplayNamesByInterface<IMutation>();
         }
 
@@ -40,8 +36,7 @@ namespace GeneticSharp.Domain.Mutations
         /// <returns>The IMutation's implementation instance.</returns>
         /// <param name="name">The IMutation name.</param>
         /// <param name="constructorArgs">Constructor arguments.</param>
-        public static IMutation CreateMutationByName(string name, params object[] constructorArgs)
-        {
+        public static IMutation CreateMutationByName(string name, params object[] constructorArgs) {
             return TypeHelper.CreateInstanceByName<IMutation>(name, constructorArgs);
         }
 
@@ -50,8 +45,7 @@ namespace GeneticSharp.Domain.Mutations
         /// </summary>
         /// <returns>The mutation type.</returns>
         /// <param name="name">The name of mutation.</param>
-        public static Type GetMutationTypeByName(string name)
-        {
+        public static Type GetMutationTypeByName(string name) {
             return TypeHelper.GetTypeByName<IMutation>(name);
         }
 
@@ -61,13 +55,11 @@ namespace GeneticSharp.Domain.Mutations
         /// <returns>The shuffled sequence.</returns>
         /// <param name="source">Source of sequence.</param>
         /// <param name="randomization">Random number generator to select next index to shuffle.</param>
-        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, IRandomization randomization)
-        {
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, IRandomization randomization) {
             var elements = source.ToArray();
             int swapIndex;
 
-            for (int i = elements.Length - 1; i >= 0; i--)
-            {
+            for (int i = elements.Length - 1; i >= 0; i--) {
                 swapIndex = randomization.GetInt(0, i + 1);
                 yield return elements[swapIndex];
                 elements[swapIndex] = elements[i];
@@ -80,8 +72,7 @@ namespace GeneticSharp.Domain.Mutations
         /// <returns>The sequence shifted to left.</returns>
         /// <param name="source">source of sequence</param>
         /// <param name="valueToShift">count of units to be shifted</param>
-        public static IEnumerable<T> LeftShift<T>(this IEnumerable<T> source, int valueToShift)
-        {
+        public static IEnumerable<T> LeftShift<T>(this IEnumerable<T> source, int valueToShift) {
             // all elements except for the first one... and at the end, the first one.
             return source
                         .Skip(valueToShift)
@@ -94,8 +85,7 @@ namespace GeneticSharp.Domain.Mutations
         /// <returns>The sequence shifted to right.</returns>
         /// <param name="source">source of sequence</param>
         /// <param name="valueToShift">count of units to be shifted</param>
-        public static IEnumerable<T> RightShift<T>(this IEnumerable<T> source, int valueToShift)
-        {
+        public static IEnumerable<T> RightShift<T>(this IEnumerable<T> source, int valueToShift) {
             // the last element (because we're skipping all but one)... then all but the last one.
             var skipCount = source.Count() - valueToShift;
 

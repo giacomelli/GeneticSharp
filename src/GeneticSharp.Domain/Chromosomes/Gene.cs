@@ -1,15 +1,13 @@
 using System;
 using System.Diagnostics;
 
-namespace GeneticSharp.Domain.Chromosomes
-{
+namespace GeneticSharp.Domain.Chromosomes {
     /// <summary>
     /// Represents a gene of a chromosome.
     /// </summary>
     [DebuggerDisplay("{Value}")]
-	[Serializable]
-    public struct Gene : IEquatable<Gene>
-    {
+    [Serializable]
+    public struct Gene : IEquatable<Gene> {
         #region Fields
         private object m_value;
         #endregion
@@ -19,8 +17,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Chromosomes.Gene"/> struct.
         /// </summary>
         /// <param name="value">The gene initial value.</param>
-        public Gene(object value)
-        {
+        public Gene(object value) {
             m_value = value;
         }
         #endregion
@@ -31,10 +28,8 @@ namespace GeneticSharp.Domain.Chromosomes
         /// Gets the value.
         /// </summary>
         /// <value>The value.</value>
-        public Object Value
-        {
-            get
-            {
+        public Object Value {
+            get {
                 return m_value;
             }
         }
@@ -49,8 +44,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator ==(Gene first, Gene second)
-        {
+        public static bool operator ==(Gene first, Gene second) {
             return first.Equals(second);
         }
 
@@ -62,8 +56,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator !=(Gene first, Gene second)
-        {
+        public static bool operator !=(Gene first, Gene second) {
             return !(first == second);
         }
 
@@ -71,8 +64,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// Returns a <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>.
         /// </summary>
         /// <returns>A <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>.</returns>
-        public override string ToString()
-        {
+        public override string ToString() {
             return Value != null ? Value.ToString() : String.Empty;
         }
 
@@ -82,8 +74,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <param name="other">The <see cref="GeneticSharp.Domain.Chromosomes.Gene"/> to compare with the current <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>.</param>
         /// <returns><c>true</c> if the specified <see cref="GeneticSharp.Domain.Chromosomes.Gene"/> is equal to the current
         /// <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>; otherwise, <c>false</c>.</returns>
-        public bool Equals(Gene other)
-        {
+        public bool Equals(Gene other) {
             if (Value == null)
                 return other.Value == null;
 
@@ -96,10 +87,8 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <param name="obj">The <see cref="System.Object"/> to compare with the current <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>.</param>
         /// <returns><c>true</c> if the specified <see cref="System.Object"/> is equal to the current
         /// <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>; otherwise, <c>false</c>.</returns>
-        public override bool Equals(object obj)
-        {
-            if (obj is Gene other)
-            {
+        public override bool Equals(object obj) {
+            if (obj is Gene other) {
                 return this.Equals(other);
             }
 
@@ -112,10 +101,8 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <returns>
         /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
         /// </returns>
-        public override int GetHashCode()
-        {
-            if (Value == null)
-            {
+        public override int GetHashCode() {
+            if (Value == null) {
                 return 0;
             }
 

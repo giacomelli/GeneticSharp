@@ -1,12 +1,11 @@
-﻿using System;
+﻿using GeneticSharp.Domain.Chromosomes;
+using GeneticSharp.Domain.Mutations;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Mutations;
 
-namespace GeneticSharp.Domain.Crossovers
-{
+namespace GeneticSharp.Domain.Crossovers {
     /// <summary>
     /// Voting Recombination Crossover (VR).
     /// <remarks>
@@ -32,8 +31,7 @@ namespace GeneticSharp.Domain.Crossovers
     /// </remarks>
     /// </summary>
     [DisplayName("Voting Recombination (VR)")]
-    public sealed class VotingRecombinationCrossover : CrossoverBase
-    {
+    public sealed class VotingRecombinationCrossover : CrossoverBase {
         private readonly int _threshold;
 
         /// <summary>
@@ -42,10 +40,8 @@ namespace GeneticSharp.Domain.Crossovers
         /// <param name="parentsNumber">The number of parents need for cross.</param>
         /// <param name="threshold">An element occurs at least the threshold number of times, it is copied into the offspring</param>
         public VotingRecombinationCrossover(int parentsNumber, int threshold)
-            : base(parentsNumber, 1)
-        {
-            if (threshold > parentsNumber)
-            {
+            : base(parentsNumber, 1) {
+            if (threshold > parentsNumber) {
                 throw new ArgumentOutOfRangeException(nameof(threshold), "The threshold should be smaller or equal to the parents number.");
             }
 
@@ -56,8 +52,7 @@ namespace GeneticSharp.Domain.Crossovers
         // <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.VotingRecombinationCrossover"/> class.
         /// </summary>
-        public VotingRecombinationCrossover() : this(3, 2)
-        {
+        public VotingRecombinationCrossover() : this(3, 2) {
         }
 
         /// <summary>
@@ -65,34 +60,28 @@ namespace GeneticSharp.Domain.Crossovers
         /// </summary>
         /// <param name="parents">The parents chromosomes.</param>
         /// <returns>The offspring (children) of the parents.</returns>
-        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
-        {
+        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents) {
             var firstParent = parents[0];
             var child = firstParent.CreateNew();
             var mutableGenesIndexes = new List<int>();
-           
-            for (int i = 0; i < child.Length; i++)
-            {
-                // If in this set an element occurs at least the threshold number of times, it is copied into the offspring.
-                 var moreOcurrencesGeneValue = parents
-                                            .GroupBy(p => p.GetGene(i).Value)
-                                            .Where(p => p.Count() >= _threshold)
-                                            .OrderByDescending(g => g.Count())
-                                            .FirstOrDefault();
 
-                if (moreOcurrencesGeneValue != null)
-                {
+            for (int i = 0; i < child.Length; i++) {
+                // If in this set an element occurs at least the threshold number of times, it is copied into the offspring.
+                var moreOcurrencesGeneValue = parents
+                                           .GroupBy(p => p.GetGene(i).Value)
+                                           .Where(p => p.Count() >= _threshold)
+                                           .OrderByDescending(g => g.Count())
+                                           .FirstOrDefault();
+
+                if (moreOcurrencesGeneValue != null) {
                     child.ReplaceGene(i, new Gene(moreOcurrencesGeneValue.Key));
-                }
-                else
-                {
+                } else {
                     mutableGenesIndexes.Add(i);
                 }
             }
 
             // The remaining positions of the offspring are filled with mutations.
-            if (mutableGenesIndexes.Count > 0)
-            {
+            if (mutableGenesIndexes.Count > 0) {
                 new UniformMutation(mutableGenesIndexes.ToArray())
                     .Mutate(child, 1);
             }

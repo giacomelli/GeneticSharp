@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using GeneticSharp.Domain.Chromosomes;
+﻿using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
+using System.Collections.Generic;
+using System.ComponentModel;
 
-namespace GeneticSharp.Domain.Crossovers
-{
+namespace GeneticSharp.Domain.Crossovers {
     /// <summary>
     /// The Uniform Crossover uses a fixed mixing ratio between two parents. 
     /// Unlike one-point and two-point crossover, the Uniform Crossover enables the parent chromosomes to contribute the gene level rather than the segment level.
@@ -14,16 +13,14 @@ namespace GeneticSharp.Domain.Crossovers
     /// <see href="http://en.wikipedia.org/wiki/Crossover_(genetic_algorithm)#Uniform_Crossover_and_Half_Uniform_Crossover">Wikipedia</see>
     /// </summary>
     [DisplayName("Uniform")]
-    public class UniformCrossover : CrossoverBase
-    {
+    public class UniformCrossover : CrossoverBase {
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.UniformCrossover"/> class.
         /// </summary>
         /// <param name="mixProbability">The mix probability. he default mix probability is 0.5.</param>
         public UniformCrossover(float mixProbability)
-            : base(2, 2)
-        {
+            : base(2, 2) {
             MixProbability = mixProbability;
         }
 
@@ -33,8 +30,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// The default mix probability is 0.5.
         /// </remarks>
         /// </summary>
-        public UniformCrossover() : this(0.5f)
-        {
+        public UniformCrossover() : this(0.5f) {
         }
         #endregion
 
@@ -52,22 +48,17 @@ namespace GeneticSharp.Domain.Crossovers
         /// </summary>
         /// <param name="parents">The parents chromosomes.</param>
         /// <returns>The offspring (children) of the parents.</returns>
-        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
-        {
+        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents) {
             var firstParent = parents[0];
             var secondParent = parents[1];
             var firstChild = firstParent.CreateNew();
             var secondChild = secondParent.CreateNew();
 
-            for (int i = 0; i < firstParent.Length; i++)
-            {
-                if (RandomizationProvider.Current.GetDouble() < MixProbability)
-                {
+            for (int i = 0; i < firstParent.Length; i++) {
+                if (RandomizationProvider.Current.GetDouble() < MixProbability) {
                     firstChild.ReplaceGene(i, firstParent.GetGene(i));
                     secondChild.ReplaceGene(i, secondParent.GetGene(i));
-                }
-                else
-                {
+                } else {
                     firstChild.ReplaceGene(i, secondParent.GetGene(i));
                     secondChild.ReplaceGene(i, firstParent.GetGene(i));
                 }

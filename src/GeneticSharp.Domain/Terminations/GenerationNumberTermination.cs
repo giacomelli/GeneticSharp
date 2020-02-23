@@ -1,7 +1,6 @@
 using System.ComponentModel;
 
-namespace GeneticSharp.Domain.Terminations
-{
+namespace GeneticSharp.Domain.Terminations {
     /// <summary>
     /// Generation number termination.
     /// <remarks>
@@ -9,8 +8,7 @@ namespace GeneticSharp.Domain.Terminations
     /// </remarks>
     /// </summary>
     [DisplayName("Generation Number")]
-    public class GenerationNumberTermination : TerminationBase
-    {
+    public class GenerationNumberTermination : TerminationBase {
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Terminations.GenerationNumberTermination"/> class.
@@ -18,16 +16,14 @@ namespace GeneticSharp.Domain.Terminations
         /// <remarks>
         /// The default expected generation number is 100.
         /// </remarks>
-        public GenerationNumberTermination() : this(100)
-        {
+        public GenerationNumberTermination() : this(100) {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Terminations.GenerationNumberTermination"/> class.
         /// </summary>
         /// <param name="expectedGenerationNumber">The generation number to consider the termination has been reached.</param>
-        public GenerationNumberTermination(int expectedGenerationNumber)
-        {
+        public GenerationNumberTermination(int expectedGenerationNumber) {
             ExpectedGenerationNumber = expectedGenerationNumber;
         }
         #endregion
@@ -46,8 +42,7 @@ namespace GeneticSharp.Domain.Terminations
         /// </summary>
         /// <returns>True if termination has been reached, otherwise false.</returns>
         /// <param name="geneticAlgorithm">The genetic algorithm.</param>
-        protected override bool PerformHasReached(IGeneticAlgorithm geneticAlgorithm)
-        {
+        protected override bool PerformHasReached(IGeneticAlgorithm geneticAlgorithm) {
             return geneticAlgorithm.GenerationsNumber >= ExpectedGenerationNumber;
         }
         #endregion

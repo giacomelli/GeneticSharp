@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using GeneticSharp.Domain.Chromosomes;
+﻿using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Randomizations;
+using System.Collections.Generic;
+using System.ComponentModel;
 
-namespace GeneticSharp.Domain.Selections
-{
+namespace GeneticSharp.Domain.Selections {
     /// <summary>
     /// Stochastic Universal Sampling.
     /// <remarks>
@@ -25,15 +24,13 @@ namespace GeneticSharp.Domain.Selections
     /// </remarks>
     /// </summary>
     [DisplayName("Stochastic Universal Sampling")]
-    public class StochasticUniversalSamplingSelection : RouletteWheelSelection
-    {
+    public class StochasticUniversalSamplingSelection : RouletteWheelSelection {
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="GeneticSharp.Domain.Selections.StochasticUniversalSamplingSelection"/> class.
         /// </summary>
-        public StochasticUniversalSamplingSelection()
-        {
+        public StochasticUniversalSamplingSelection() {
         }
         #endregion
 
@@ -46,8 +43,7 @@ namespace GeneticSharp.Domain.Selections
         /// <returns>
         /// The selected chromosomes.
         /// </returns>
-        protected override IList<IChromosome> PerformSelectChromosomes(int number, Generation generation)
-        {
+        protected override IList<IChromosome> PerformSelectChromosomes(int number, Generation generation) {
             var chromosomes = generation.Chromosomes;
             var rouleteWheel = new List<double>();
             double stepSize = 1.0 / number;
@@ -60,10 +56,8 @@ namespace GeneticSharp.Domain.Selections
                 number,
                 chromosomes,
                 rouleteWheel,
-                () =>
-                {
-                    if (pointer > 1.0)
-                    {
+                () => {
+                    if (pointer > 1.0) {
                         pointer -= 1.0;
                     }
 

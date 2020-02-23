@@ -1,7 +1,6 @@
 using GeneticSharp.Domain.Chromosomes;
 
-namespace GeneticSharp.Domain.Mutations
-{
+namespace GeneticSharp.Domain.Mutations {
     /// <summary>
     /// Mutation is a genetic operator used to maintain genetic diversity from one generation of a population of genetic algorithm 
     /// chromosomes to the next. It is analogous to biological mutation. Mutation alters one or more gene values in a chromosome from 
@@ -23,8 +22,7 @@ namespace GeneticSharp.Domain.Mutations
     /// </para>
     /// <see href="http://en.wikipedia.org/wiki/Mutation_(genetic_algorithm)"/> 
     /// </summary>
-    public interface IMutation : IChromosomeOperator
-    {
+    public interface IMutation : IChromosomeOperator {
         /// <summary>
         /// Mutate the specified chromosome.
         /// </summary>

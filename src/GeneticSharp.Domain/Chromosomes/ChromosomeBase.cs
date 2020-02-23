@@ -1,17 +1,15 @@
+using GeneticSharp.Infrastructure.Framework.Commons;
+using GeneticSharp.Infrastructure.Framework.Texts;
 using System;
 using System.Diagnostics;
-using GeneticSharp.Infrastructure.Framework.Texts;
-using GeneticSharp.Infrastructure.Framework.Commons;
 
-namespace GeneticSharp.Domain.Chromosomes
-{
+namespace GeneticSharp.Domain.Chromosomes {
     /// <summary>
     /// A base class for chromosomes.
     /// </summary>
     [DebuggerDisplay("Fitness:{Fitness}, Genes:{Length}")]
     [Serializable]
-	public abstract class ChromosomeBase : IChromosome
-    {
+    public abstract class ChromosomeBase : IChromosome {
         #region Fields
         private Gene[] m_genes;
         private int m_length;
@@ -22,8 +20,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// Initializes a new instance of the <see cref="ChromosomeBase"/> class.
         /// </summary>
         /// <param name="length">The length, in genes, of the chromosome.</param>
-        protected ChromosomeBase(int length)
-        {
+        protected ChromosomeBase(int length) {
             ValidateLength(length);
 
             m_length = length;
@@ -40,10 +37,8 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <summary>
         /// Gets the length, in genes, of the chromosome.
         /// </summary>
-        public int Length
-        {
-            get
-            {
+        public int Length {
+            get {
                 return m_length;
             }
         }
@@ -58,15 +53,12 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator ==(ChromosomeBase first, ChromosomeBase second)
-        {
-            if (Object.ReferenceEquals(first, second))
-            {
+        public static bool operator ==(ChromosomeBase first, ChromosomeBase second) {
+            if (Object.ReferenceEquals(first, second)) {
                 return true;
             }
 
-            if (((object)first == null) || ((object)second == null))
-            {
+            if (((object)first == null) || ((object)second == null)) {
                 return false;
             }
 
@@ -81,8 +73,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator !=(ChromosomeBase first, ChromosomeBase second)
-        {
+        public static bool operator !=(ChromosomeBase first, ChromosomeBase second) {
             return !(first == second);
         }
 
@@ -94,20 +85,16 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator <(ChromosomeBase first, ChromosomeBase second)
-        {
-            if (Object.ReferenceEquals(first, second))
-            {
+        public static bool operator <(ChromosomeBase first, ChromosomeBase second) {
+            if (Object.ReferenceEquals(first, second)) {
                 return false;
             }
 
-            if ((object)first == null)
-            {
+            if ((object)first == null) {
                 return true;
             }
 
-            if ((object)second == null)
-            {
+            if ((object)second == null) {
                 return false;
             }
 
@@ -122,8 +109,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator >(ChromosomeBase first, ChromosomeBase second)
-        {
+        public static bool operator >(ChromosomeBase first, ChromosomeBase second) {
             return !(first == second) && !(first < second);
         }
 
@@ -144,8 +130,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// Creates a clone.
         /// </summary>
         /// <returns>The chromosome clone.</returns>
-        public virtual IChromosome Clone()
-        {
+        public virtual IChromosome Clone() {
             var clone = CreateNew();
             clone.ReplaceGenes(0, GetGenes());
             clone.Fitness = Fitness;
@@ -159,10 +144,8 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <param name="index">The gene index to replace.</param>
         /// <param name="gene">The new gene.</param>
         /// <exception cref="System.ArgumentOutOfRangeException">index;There is no Gene on index {0} to be replaced..With(index)</exception>
-        public void ReplaceGene(int index, Gene gene)
-        {
-            if (index < 0 || index >= m_length)
-            {
+        public void ReplaceGene(int index, Gene gene) {
+            if (index < 0 || index >= m_length) {
                 throw new ArgumentOutOfRangeException(nameof(index), "There is no Gene on index {0} to be replaced.".With(index));
             }
 
@@ -178,14 +161,11 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <remarks>
         /// The genes to be replaced can't be greater than the available space between the start index and the end of the chromosome.
         /// </remarks>
-        public void ReplaceGenes(int startIndex, Gene[] genes)
-        {
+        public void ReplaceGenes(int startIndex, Gene[] genes) {
             ExceptionHelper.ThrowIfNull("genes", genes);
 
-            if (genes.Length > 0)
-            {
-                if (startIndex < 0 || startIndex >= m_length)
-                {
+            if (genes.Length > 0) {
+                if (startIndex < 0 || startIndex >= m_length) {
                     throw new ArgumentOutOfRangeException(nameof(startIndex), "There is no Gene on index {0} to be replaced.".With(startIndex));
                 }
 
@@ -193,8 +173,7 @@ namespace GeneticSharp.Domain.Chromosomes
 
                 var availableSpaceLength = m_length - startIndex;
 
-                if (genesToBeReplacedLength > availableSpaceLength)
-                {
+                if (genesToBeReplacedLength > availableSpaceLength) {
                     throw new ArgumentException(
                         nameof(Gene),
                         "The number of genes to be replaced is greater than available space, there is {0} genes between the index {1} and the end of chromosome, but there is {2} genes to be replaced."
@@ -211,8 +190,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// Resizes the chromosome to the new length.
         /// </summary>
         /// <param name="newLength">The new length.</param>
-        public void Resize(int newLength)
-        {
+        public void Resize(int newLength) {
             ValidateLength(newLength);
 
             Array.Resize(ref m_genes, newLength);
@@ -226,8 +204,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <returns>
         /// The gene.
         /// </returns>
-        public Gene GetGene(int index)
-        {
+        public Gene GetGene(int index) {
             return m_genes[index];
         }
 
@@ -235,8 +212,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// Gets the genes.
         /// </summary>
         /// <returns>The genes.</returns>
-        public Gene[] GetGenes()
-        {
+        public Gene[] GetGenes() {
             return m_genes;
         }
 
@@ -245,17 +221,14 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </summary>
         /// <returns>The to.</returns>
         /// <param name="other">The other chromosome.</param>
-        public int CompareTo(IChromosome other)
-        {
-            if (other == null)
-            {
+        public int CompareTo(IChromosome other) {
+            if (other == null) {
                 return -1;
             }
 
             var otherFitness = other.Fitness;
 
-            if (Fitness == otherFitness)
-            {
+            if (Fitness == otherFitness) {
                 return 0;
             }
 
@@ -268,12 +241,10 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <param name="obj">The <see cref="System.Object"/> to compare with the current <see cref="GeneticSharp.Domain.Chromosomes.ChromosomeBase"/>.</param>
         /// <returns><c>true</c> if the specified <see cref="System.Object"/> is equal to the current
         /// <see cref="GeneticSharp.Domain.Chromosomes.ChromosomeBase"/>; otherwise, <c>false</c>.</returns>
-        public override bool Equals(object obj)
-        {
+        public override bool Equals(object obj) {
             var other = obj as IChromosome;
 
-            if (other == null)
-            {
+            if (other == null) {
                 return false;
             }
 
@@ -286,8 +257,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <returns>
         /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
         /// </returns>
-        public override int GetHashCode()
-        {
+        public override int GetHashCode() {
             return Fitness.GetHashCode();
         }
 
@@ -301,8 +271,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </remarks>
         /// </summary>
         /// <param name="index">The gene index.</param>
-        protected virtual void CreateGene(int index)
-        {
+        protected virtual void CreateGene(int index) {
             ReplaceGene(index, GenerateGene(index));
         }
 
@@ -318,10 +287,8 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </code>
         /// </remarks>
         /// </summary>        
-        protected virtual void CreateGenes()
-        {
-            for (int i = 0; i < Length; i++)
-            {
+        protected virtual void CreateGenes() {
+            for (int i = 0; i < Length; i++) {
                 ReplaceGene(i, GenerateGene(i));
             }
         }
@@ -331,10 +298,8 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </summary>
         /// <param name="length">The length.</param>
         /// <exception cref="System.ArgumentException">The minimum length for a chromosome is 2 genes.</exception>
-        private static void ValidateLength(int length)
-        {
-            if (length < 2)
-            {
+        private static void ValidateLength(int length) {
+            if (length < 2) {
                 throw new ArgumentException("The minimum length for a chromosome is 2 genes.", nameof(length));
             }
         }

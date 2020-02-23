@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using GeneticSharp.Domain.Chromosomes;
+using GeneticSharp.Domain.Randomizations;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Randomizations;
 
-namespace GeneticSharp.Domain.Crossovers
-{
+namespace GeneticSharp.Domain.Crossovers {
     /// <summary>
     /// Cut and Splice crossover.
     /// <remarks>
@@ -14,15 +13,13 @@ namespace GeneticSharp.Domain.Crossovers
     /// </remarks>
     /// </summary>
     [DisplayName("Cut and Splice")]
-    public class CutAndSpliceCrossover : CrossoverBase
-    {
+    public class CutAndSpliceCrossover : CrossoverBase {
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="CutAndSpliceCrossover"/> class.
         /// </summary>
         public CutAndSpliceCrossover()
-            : base(2, 2)
-        {
+            : base(2, 2) {
             IsOrdered = false;
         }
         #endregion
@@ -35,8 +32,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>
         /// The offspring (children) of the parents.
         /// </returns>
-        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
-        {
+        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents) {
             var parent1 = parents[0];
             var parent2 = parents[1];
 
@@ -50,8 +46,7 @@ namespace GeneticSharp.Domain.Crossovers
             return new List<IChromosome>() { offspring1, offspring2 };
         }
 
-        private static IChromosome CreateOffspring(IChromosome leftParent, IChromosome rightParent, int leftParentPoint, int rightParentPoint)
-        {
+        private static IChromosome CreateOffspring(IChromosome leftParent, IChromosome rightParent, int leftParentPoint, int rightParentPoint) {
             var offspring = leftParent.CreateNew();
 
             offspring.Resize(leftParentPoint + (rightParent.Length - rightParentPoint));

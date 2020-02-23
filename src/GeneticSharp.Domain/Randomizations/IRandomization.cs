@@ -1,12 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace GeneticSharp.Domain.Randomizations
-{
+namespace GeneticSharp.Domain.Randomizations {
     /// <summary>
     /// Defines an interface for randomization.
     /// </summary>
-    public interface IRandomization
-    {
+    public interface IRandomization {
         #region Methods
         /// <summary>
         /// Gets an integer value between minimum value (inclusive) and maximum value (exclusive).

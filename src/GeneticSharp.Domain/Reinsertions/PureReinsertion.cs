@@ -1,10 +1,9 @@
-using System.Collections.Generic;
-using System.ComponentModel;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
+using System.Collections.Generic;
+using System.ComponentModel;
 
-namespace GeneticSharp.Domain.Reinsertions
-{
+namespace GeneticSharp.Domain.Reinsertions {
     /// <summary>
     /// Pure Reinsertion.
     /// <remarks>
@@ -13,14 +12,12 @@ namespace GeneticSharp.Domain.Reinsertions
     /// </remarks>
     /// </summary>
     [DisplayName("Pure")]
-    public class PureReinsertion : ReinsertionBase
-    {
+    public class PureReinsertion : ReinsertionBase {
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Reinsertions.PureReinsertion"/> class.
         /// </summary>
-        public PureReinsertion() : base(false, false)
-        {
+        public PureReinsertion() : base(false, false) {
         }
         #endregion
 
@@ -32,8 +29,7 @@ namespace GeneticSharp.Domain.Reinsertions
         /// <param name="population">The population.</param>
         /// <param name="offspring">The offspring.</param>
         /// <param name="parents">The parents.</param>
-        protected override IList<IChromosome> PerformSelectChromosomes(IPopulation population, IList<IChromosome> offspring, IList<IChromosome> parents)
-        {
+        protected override IList<IChromosome> PerformSelectChromosomes(IPopulation population, IList<IChromosome> offspring, IList<IChromosome> parents) {
             return offspring;
         }
         #endregion

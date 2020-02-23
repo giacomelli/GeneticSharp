@@ -1,13 +1,11 @@
-using System;
 using GeneticSharp.Domain.Chromosomes;
+using System;
 
-namespace GeneticSharp.Domain
-{
+namespace GeneticSharp.Domain {
     /// <summary>
     /// Defines a interface for a genetic algorithm.
     /// </summary>
-    public interface IGeneticAlgorithm
-    {
+    public interface IGeneticAlgorithm {
         #region Properties
         /// <summary>
         /// Gets the generations number.

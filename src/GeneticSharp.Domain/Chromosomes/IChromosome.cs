@@ -1,7 +1,6 @@
 using System;
 
-namespace GeneticSharp.Domain.Chromosomes
-{
+namespace GeneticSharp.Domain.Chromosomes {
     /// <summary>
     /// Defines an interface for a chromosome.
     /// <remarks>
@@ -12,8 +11,7 @@ namespace GeneticSharp.Domain.Chromosomes
     /// <see href="http://en.wikipedia.org/wiki/Chromosome_(genetic_algorithm)">http://en.wikipedia.org/wiki/Chromosome_(genetic_algorithm)</see> 
     /// </remarks>
     /// </summary>
-    public interface IChromosome : IComparable<IChromosome>
-    {
+    public interface IChromosome : IComparable<IChromosome> {
         #region Properties
         /// <summary>
         /// Gets or sets the fitness.

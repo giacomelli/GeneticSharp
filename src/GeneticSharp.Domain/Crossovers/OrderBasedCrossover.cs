@@ -1,12 +1,10 @@
-﻿using System;
+﻿using GeneticSharp.Domain.Chromosomes;
+using GeneticSharp.Domain.Randomizations;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Randomizations;
 
-namespace GeneticSharp.Domain.Crossovers
-{
+namespace GeneticSharp.Domain.Crossovers {
     /// <summary>
     /// Order-based crossover (OX2).
     /// <remarks>
@@ -23,16 +21,14 @@ namespace GeneticSharp.Domain.Crossovers
     /// </remarks>
     /// </summary>
     [DisplayName("Order-based (OX2)")]
-    public class OrderBasedCrossover : CrossoverBase
-    {
+    public class OrderBasedCrossover : CrossoverBase {
         #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.OrderBasedCrossover"/> class.
         /// </summary>
         public OrderBasedCrossover()
-            : base(2, 2)
-        {
+            : base(2, 2) {
             IsOrdered = true;
         }
 
@@ -45,8 +41,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// </summary>
         /// <param name="parents">The parents chromosomes.</param>
         /// <returns>The offspring (children) of the parents.</returns>
-        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
-        {
+        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents) {
             ValidateParents(parents);
 
             var parentOne = parents[0];
@@ -54,7 +49,7 @@ namespace GeneticSharp.Domain.Crossovers
 
             var rnd = RandomizationProvider.Current;
             var swapIndexesLength = rnd.GetInt(1, parentOne.Length - 1);
-            var swapIndexes = rnd.GetUniqueInts(swapIndexesLength, 0, parentOne.Length);            
+            var swapIndexes = rnd.GetUniqueInts(swapIndexesLength, 0, parentOne.Length);
             var firstChild = CreateChild(parentOne, parentTwo, swapIndexes);
             var secondChild = CreateChild(parentTwo, parentOne, swapIndexes);
 
@@ -65,10 +60,8 @@ namespace GeneticSharp.Domain.Crossovers
         /// Validates the parents.
         /// </summary>
         /// <param name="parents">The parents.</param>
-        protected virtual void ValidateParents(IList<IChromosome> parents)
-        {
-            if (parents.AnyHasRepeatedGene())
-            {
+        protected virtual void ValidateParents(IList<IChromosome> parents) {
+            if (parents.AnyHasRepeatedGene()) {
                 throw new CrossoverException(this, "The Order-based Crossover (OX2) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
             }
         }
@@ -82,8 +75,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>
         /// The child.
         /// </returns>
-        protected virtual IChromosome CreateChild(IChromosome firstParent, IChromosome secondParent, int[] swapIndexes)
-        {
+        protected virtual IChromosome CreateChild(IChromosome firstParent, IChromosome secondParent, int[] swapIndexes) {
             // ...suppose that in the second parent in the second, third 
             // and sixth positions are selected. The elements in these positions are 4, 6 and 5 respectively...
             var secondParentSwapGenes = secondParent.GetGenes()
@@ -102,17 +94,13 @@ namespace GeneticSharp.Domain.Crossovers
             var child = firstParent.CreateNew();
             var secondParentSwapGensIndex = 0;
 
-            for (int i = 0; i < firstParent.Length; i++)
-            {
+            for (int i = 0; i < firstParent.Length; i++) {
                 // Now the offspring are equal to parent 1 except in the fourth, fifth and sixth positions.
                 // We add the missing elements to the offspring in the same order in which they appear in the second parent.                
-                if (firstParentSwapGenes.Any(f => f.Index == i))
-                {
+                if (firstParentSwapGenes.Any(f => f.Index == i)) {
                     child.ReplaceGene(i, secondParentSwapGenes[secondParentSwapGensIndex++].Gene);
-                }
-                else
-                {
-                    child.ReplaceGene(i, firstParentGenes[i]);                    
+                } else {
+                    child.ReplaceGene(i, firstParentGenes[i]);
                 }
             }
 

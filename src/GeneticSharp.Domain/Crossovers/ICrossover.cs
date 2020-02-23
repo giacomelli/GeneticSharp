@@ -1,8 +1,7 @@
-using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
+using System.Collections.Generic;
 
-namespace GeneticSharp.Domain.Crossovers
-{
+namespace GeneticSharp.Domain.Crossovers {
     /// <summary>
     /// Defines a interface for a crossover genetic operator.
     /// <remarks>
@@ -15,8 +14,7 @@ namespace GeneticSharp.Domain.Crossovers
     /// <see href="http://en.wikipedia.org/wiki/Crossover_(genetic_algorithm)">Crossover (Genetic Algorithm)</see>
     /// </remarks>
     /// </summary>
-    public interface ICrossover : IChromosomeOperator
-    {
+    public interface ICrossover : IChromosomeOperator {
         #region Properties
         /// <summary>
         /// Gets the number of parents need for cross.

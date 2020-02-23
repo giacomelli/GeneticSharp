@@ -1,24 +1,22 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using GeneticSharp.Domain.Chromosomes;
+﻿using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Infrastructure.Framework.Texts;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 
-namespace GeneticSharp.Domain.Selections
-{
-	/// <summary>
-	/// Tournament selection involves running several "tournaments" among a few individuals chosen at random from the population.
-	/// The winner of each tournament (the one with the best fitness) is selected for crossover. 
-	/// <remarks>    
-	/// Selection pressure is easily adjusted by changing the tournament size. 
-	/// If the tournament size is larger, weak individuals have a smaller chance to be selected.
-	/// </remarks>
-	/// </summary>
-	[DisplayName("Tournament")]
-    public class TournamentSelection : SelectionBase
-    {
+namespace GeneticSharp.Domain.Selections {
+    /// <summary>
+    /// Tournament selection involves running several "tournaments" among a few individuals chosen at random from the population.
+    /// The winner of each tournament (the one with the best fitness) is selected for crossover. 
+    /// <remarks>    
+    /// Selection pressure is easily adjusted by changing the tournament size. 
+    /// If the tournament size is larger, weak individuals have a smaller chance to be selected.
+    /// </remarks>
+    /// </summary>
+    [DisplayName("Tournament")]
+    public class TournamentSelection : SelectionBase {
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="TournamentSelection"/> class.
@@ -27,8 +25,7 @@ namespace GeneticSharp.Domain.Selections
         /// The default AllowWinnerCompeteNextTournament is true.
         /// </remarks>
         /// </summary>
-        public TournamentSelection() : this(2)
-        {
+        public TournamentSelection() : this(2) {
         }
 
         /// <summary>
@@ -38,8 +35,7 @@ namespace GeneticSharp.Domain.Selections
         /// </remarks>
         /// </summary>
         /// <param name="size">The size of the tournament, in other words, the number of chromosomes that will participate of each tournament until all need chromosomes be selected.</param>
-        public TournamentSelection(int size) : this(size, true)
-        {
+        public TournamentSelection(int size) : this(size, true) {
         }
 
         /// <summary>
@@ -47,8 +43,7 @@ namespace GeneticSharp.Domain.Selections
         /// </summary>
         /// <param name="size">The size of the tournament, in other words, the number of chromosomes that will participate of each tournament until all need chromosomes be selected.</param>      
         /// <param name="allowWinnerCompeteNextTournament">If allow any winner in a tournament participate in the next tournament, in other words, if you want to allow a chromosome be selected more the one time.</param>
-        public TournamentSelection(int size, bool allowWinnerCompeteNextTournament) : base(2)
-        {
+        public TournamentSelection(int size, bool allowWinnerCompeteNextTournament) : base(2) {
             Size = size;
             AllowWinnerCompeteNextTournament = allowWinnerCompeteNextTournament;
         }
@@ -81,10 +76,8 @@ namespace GeneticSharp.Domain.Selections
         /// <returns>
         /// The selected chromosomes.
         /// </returns>
-        protected override IList<IChromosome> PerformSelectChromosomes(int number, Generation generation)
-        {
-            if (Size > generation.Chromosomes.Count)
-            {
+        protected override IList<IChromosome> PerformSelectChromosomes(int number, Generation generation) {
+            if (Size > generation.Chromosomes.Count) {
                 throw new SelectionException(
                     this,
                     "The tournament size is greater than available chromosomes. Tournament size is {0} and generation {1} available chromosomes are {2}.".With(Size, generation.Number, generation.Chromosomes.Count));
@@ -93,15 +86,13 @@ namespace GeneticSharp.Domain.Selections
             var candidates = generation.Chromosomes.ToList();
             var selected = new List<IChromosome>();
 
-            while (selected.Count < number)
-            {
+            while (selected.Count < number) {
                 var randomIndexes = RandomizationProvider.Current.GetUniqueInts(Size, 0, candidates.Count);
                 var tournamentWinner = candidates.Where((c, i) => randomIndexes.Contains(i)).OrderByDescending(c => c.Fitness).First();
 
                 selected.Add(tournamentWinner);
 
-                if (!AllowWinnerCompeteNextTournament)
-                {
+                if (!AllowWinnerCompeteNextTournament) {
                     candidates.Remove(tournamentWinner);
                 }
             }

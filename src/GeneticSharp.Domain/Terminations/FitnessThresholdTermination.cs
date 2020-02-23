@@ -1,7 +1,6 @@
 using System.ComponentModel;
 
-namespace GeneticSharp.Domain.Terminations
-{
+namespace GeneticSharp.Domain.Terminations {
     /// <summary>
     /// Fitness Threshold Termination
     /// <remarks>
@@ -9,8 +8,7 @@ namespace GeneticSharp.Domain.Terminations
     /// </remarks>
     /// </summary>
     [DisplayName("Fitness Threshold")]
-    public class FitnessThresholdTermination : TerminationBase
-    {
+    public class FitnessThresholdTermination : TerminationBase {
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Terminations.FitnessThresholdTermination"/> class.
@@ -18,16 +16,14 @@ namespace GeneticSharp.Domain.Terminations
         /// <remarks>
         /// The default expected fitness is 1.00.
         /// </remarks>
-        public FitnessThresholdTermination() : this(1.00)
-        {
+        public FitnessThresholdTermination() : this(1.00) {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Terminations.FitnessThresholdTermination"/> class.
         /// </summary>
         /// <param name="expectedFitness">Expected fitness.</param>
-        public FitnessThresholdTermination(double expectedFitness)
-        {
+        public FitnessThresholdTermination(double expectedFitness) {
             ExpectedFitness = expectedFitness;
         }
         #endregion
@@ -45,8 +41,7 @@ namespace GeneticSharp.Domain.Terminations
         /// </summary>
         /// <returns>True if termination has been reached, otherwise false.</returns>
         /// <param name="geneticAlgorithm">The genetic algorithm.</param>
-        protected override bool PerformHasReached(IGeneticAlgorithm geneticAlgorithm)
-        {
+        protected override bool PerformHasReached(IGeneticAlgorithm geneticAlgorithm) {
             return geneticAlgorithm.BestChromosome.Fitness >= ExpectedFitness;
         }
         #endregion

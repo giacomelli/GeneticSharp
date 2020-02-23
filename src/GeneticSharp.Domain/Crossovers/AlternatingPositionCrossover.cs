@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using GeneticSharp.Domain.Chromosomes;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using GeneticSharp.Domain.Chromosomes;
 
-namespace GeneticSharp.Domain.Crossovers
-{
+namespace GeneticSharp.Domain.Crossovers {
     /// <summary>
     /// Alternating-position (AP).
     /// <remarks>
@@ -23,13 +22,11 @@ namespace GeneticSharp.Domain.Crossovers
     /// </remarks>
     /// </summary>
     [DisplayName("Alternating-position (AP)")]
-    public sealed class AlternatingPositionCrossover : CrossoverBase
-    {
+    public sealed class AlternatingPositionCrossover : CrossoverBase {
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.VotingRecombinationCrossover"/> class.
         /// </summary>
-        public AlternatingPositionCrossover() : base(2, 2)
-        {
+        public AlternatingPositionCrossover() : base(2, 2) {
             IsOrdered = true;
         }
 
@@ -38,10 +35,8 @@ namespace GeneticSharp.Domain.Crossovers
         /// </summary>
         /// <param name="parents">The parents chromosomes.</param>
         /// <returns>The offspring (children) of the parents.</returns>
-        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
-        {
-            if (parents.AnyHasRepeatedGene())
-            {
+        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents) {
+            if (parents.AnyHasRepeatedGene()) {
                 throw new CrossoverException(this, "The Alternating-position (AP) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
             }
 
@@ -53,14 +48,12 @@ namespace GeneticSharp.Domain.Crossovers
             return new List<IChromosome> { child1, child2 };
         }
 
-        private IChromosome CreateChild(IChromosome firstParent, IChromosome secondParent)
-        {
+        private IChromosome CreateChild(IChromosome firstParent, IChromosome secondParent) {
             var child = firstParent.CreateNew();
             var childGenes = new Gene[firstParent.Length];
             var childGenesIndex = 0;
 
-            for (int i = 0; i < firstParent.Length && childGenesIndex < firstParent.Length; i++)
-            {
+            for (int i = 0; i < firstParent.Length && childGenesIndex < firstParent.Length; i++) {
                 AddChildGene(childGenes, ref childGenesIndex, firstParent.GetGene(i));
 
                 // The childGenesIndes could be incremented by the previous AddChildGene call
@@ -73,10 +66,8 @@ namespace GeneticSharp.Domain.Crossovers
             return child;
         }
 
-        private void AddChildGene(Gene[] childGenes, ref int childGenesIndex, Gene parentGene)
-        {
-            if (!childGenes.Contains(parentGene))
-            {
+        private void AddChildGene(Gene[] childGenes, ref int childGenesIndex, Gene parentGene) {
+            if (!childGenes.Contains(parentGene)) {
                 childGenes[childGenesIndex] = parentGene;
                 childGenesIndex++;
             }

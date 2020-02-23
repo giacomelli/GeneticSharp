@@ -1,16 +1,13 @@
-namespace GeneticSharp.Domain.Randomizations
-{
+namespace GeneticSharp.Domain.Randomizations {
     /// <summary>
     /// The randomization provider use for all elements of current genetic algorithm execution.
     /// </summary>
-    public static class RandomizationProvider
-    {
+    public static class RandomizationProvider {
         #region Constructors               
         /// <summary>
         /// Initializes static members of the <see cref="RandomizationProvider"/> class.
         /// </summary>
-        static RandomizationProvider()
-        {
+        static RandomizationProvider() {
             Current = new FastRandomRandomization();
         }
         #endregion

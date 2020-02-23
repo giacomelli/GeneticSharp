@@ -1,36 +1,30 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Infrastructure.Framework.Texts;
-using GeneticSharp.Infrastructure.Framework.Commons;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
-namespace GeneticSharp.Domain.Populations
-{
+namespace GeneticSharp.Domain.Populations {
     /// <summary>
     /// Represents a generation of a population.
     /// </summary>
     [DebuggerDisplay("{Number} = {BestChromosome.Fitness}")]
-    public sealed class Generation
-    {
+    public sealed class Generation {
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Populations.Generation"/> class.
         /// </summary>
         /// <param name="number">The generation number.</param>
         /// <param name="chromosomes">The chromosomes of the generation..</param>
-        public Generation(int number, IList<IChromosome> chromosomes)
-        {
-            if (number < 1)
-            {
+        public Generation(int number, IList<IChromosome> chromosomes) {
+            if (number < 1) {
                 throw new ArgumentOutOfRangeException(
                     nameof(number),
                     "Generation number {0} is invalid. Generation number should be positive and start in 1.".With(number));
             }
 
-            if (chromosomes == null || chromosomes.Count < 2)
-            {
+            if (chromosomes == null || chromosomes.Count < 2) {
                 throw new ArgumentOutOfRangeException(nameof(chromosomes), "A generation should have at least 2 chromosomes.");
             }
 
@@ -70,15 +64,13 @@ namespace GeneticSharp.Domain.Populations
         /// Ends the generation.
         /// </summary>
         /// <param name="chromosomesNumber">Chromosomes number to keep on generation.</param>
-        public void End(int chromosomesNumber)
-        {
+        public void End(int chromosomesNumber) {
             Chromosomes = Chromosomes
                 .Where(ValidateChromosome)
                 .OrderByDescending(c => c.Fitness.Value)
                 .ToList();
 
-            if (Chromosomes.Count > chromosomesNumber)
-            {
+            if (Chromosomes.Count > chromosomesNumber) {
                 Chromosomes = Chromosomes.Take(chromosomesNumber).ToList();
             }
 
@@ -90,10 +82,8 @@ namespace GeneticSharp.Domain.Populations
         /// </summary>
         /// <param name="chromosome">The chromosome to validate.</param>
         /// <returns>True if a chromosome is valid.</returns>
-        private static bool ValidateChromosome(IChromosome chromosome)
-        {
-            if (!chromosome.Fitness.HasValue)
-            {
+        private static bool ValidateChromosome(IChromosome chromosome) {
+            if (!chromosome.Fitness.HasValue) {
                 throw new InvalidOperationException("There is unknown problem in current generation, because a chromosome has no fitness value.");
             }
 

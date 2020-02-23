@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace GeneticSharp.Domain.Mutations
-{
+namespace GeneticSharp.Domain.Mutations {
     /// <summary>
     /// Insertion Mutation.
     /// <remarks>
@@ -12,14 +11,12 @@ namespace GeneticSharp.Domain.Mutations
     /// </remarks>
     /// </summary>
     [DisplayName("Insertion")]
-    public class InsertionMutation : DisplacementMutation
-    {
+    public class InsertionMutation : DisplacementMutation {
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="InsertionMutation"/> class.
         /// </summary>
-        public InsertionMutation()
-        {
+        public InsertionMutation() {
             IsOrdered = true;
         }
         #endregion
@@ -30,8 +27,7 @@ namespace GeneticSharp.Domain.Mutations
         /// <returns>Count of genes to be shifted</returns>
         /// </summary>
         /// <param name="maxCount">max possible count of genes to shift.</param>
-        protected override int DetermineGeneToShift(int maxCount)
-        {
+        protected override int DetermineGeneToShift(int maxCount) {
             return 1;
         }
         #endregion

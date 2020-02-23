@@ -1,15 +1,13 @@
+using GeneticSharp.Infrastructure.Framework.Texts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using GeneticSharp.Infrastructure.Framework.Texts;
 
-namespace GeneticSharp.Domain.Chromosomes
-{
-	/// <summary>
-	/// Chromosome extensions.
-	/// </summary>
-	public static class ChromosomeExtensions
-    {
+namespace GeneticSharp.Domain.Chromosomes {
+    /// <summary>
+    /// Chromosome extensions.
+    /// </summary>
+    public static class ChromosomeExtensions {
         /// <summary>
         /// Checks if any of the chromosomes has repeated gene.
         /// </summary>
@@ -20,15 +18,12 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </remarks>
         /// <returns><c>true</c>, if chromosome has repeated gene, <c>false</c> otherwise.</returns>
         /// <param name="chromosomes">The chromosomes.</param>
-        public static bool AnyHasRepeatedGene(this IList<IChromosome> chromosomes)
-        {
-            for (int i = 0; i < chromosomes.Count; i++)
-            {
+        public static bool AnyHasRepeatedGene(this IList<IChromosome> chromosomes) {
+            for (int i = 0; i < chromosomes.Count; i++) {
                 var c = chromosomes[i];
                 var notRepeatedGenesLength = c.GetGenes().Distinct().Count();
 
-                if (notRepeatedGenesLength < c.Length)
-                {
+                if (notRepeatedGenesLength < c.Length) {
                     return true;
                 }
             }
@@ -40,10 +35,8 @@ namespace GeneticSharp.Domain.Chromosomes
         /// Validates the chromosomes.
         /// </summary>
         /// <param name="chromosomes">The chromosomes.</param>
-        public static void ValidateGenes(this IList<IChromosome> chromosomes)
-        {
-            if (chromosomes.Any(c => c.GetGenes().Any(g => g.Value == null)))
-            {
+        public static void ValidateGenes(this IList<IChromosome> chromosomes) {
+            if (chromosomes.Any(c => c.GetGenes().Any(g => g.Value == null))) {
                 throw new InvalidOperationException("The chromosome '{0}' is generating genes with null value.".With(chromosomes.First().GetType().Name));
             }
         }
@@ -52,10 +45,8 @@ namespace GeneticSharp.Domain.Chromosomes
         /// Validates the chromosome.
         /// </summary>
         /// <param name="chromosome">The chromosomes.</param>
-        public static void ValidateGenes(this IChromosome chromosome)
-        {
-            if (chromosome != null && chromosome.GetGenes().Any(g => g.Value == null))
-            {
+        public static void ValidateGenes(this IChromosome chromosome) {
+            if (chromosome != null && chromosome.GetGenes().Any(g => g.Value == null)) {
                 throw new InvalidOperationException("The chromosome '{0}' is generating genes with null value.".With(chromosome.GetType().Name));
             }
         }

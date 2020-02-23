@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using GeneticSharp.Domain.Chromosomes;
+﻿using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
+using System.Collections.Generic;
 
-namespace GeneticSharp.Domain.Reinsertions
-{
+namespace GeneticSharp.Domain.Reinsertions {
     /// <summary>
     /// Defines an interface for reinsertions.
     /// <remarks>
@@ -15,8 +14,7 @@ namespace GeneticSharp.Domain.Reinsertions
     /// <see href="http://usb-bg.org/Bg/Annual_Informatics/2011/SUB-Informatics-2011-4-29-35.pdf">Generalized Nets Model of offspring Reinsertion in Genetic Algorithm</see>
     /// </remarks>
     /// </summary>
-    public interface IReinsertion
-    {
+    public interface IReinsertion {
         #region Properties
         /// <summary>
         /// Gets a value indicating whether can collapse the number of selected chromosomes for reinsertion.

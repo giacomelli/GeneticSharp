@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using GeneticSharp.Domain.Randomizations;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using GeneticSharp.Domain.Randomizations;
 
-namespace GeneticSharp.Domain.Mutations
-{
+namespace GeneticSharp.Domain.Mutations {
     /// <summary>
 	/// Displacement Mutation.
 	/// <remarks>
@@ -15,14 +14,12 @@ namespace GeneticSharp.Domain.Mutations
 	/// </remarks>
 	/// </summary>
     [DisplayName("Displacement")]
-    public class DisplacementMutation : SequenceMutationBase
-    {
+    public class DisplacementMutation : SequenceMutationBase {
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="DisplacementMutation"/> class.
         /// </summary>
-        public DisplacementMutation()
-        {
+        public DisplacementMutation() {
             IsOrdered = true;
         }
         #endregion
@@ -33,16 +30,12 @@ namespace GeneticSharp.Domain.Mutations
         /// </summary>
         /// <returns>The resulted sequence after mutation operation.</returns>
         /// <param name="sequence">The sequence to be mutated.</param>
-        protected override IEnumerable<T> MutateOnSequence<T>(IEnumerable<T> sequence)
-        {
+        protected override IEnumerable<T> MutateOnSequence<T>(IEnumerable<T> sequence) {
             var geneToShift = DetermineGeneToShift(sequence.Count() - 1);
 
-            if (RandomizationProvider.Current.GetDouble() <= 0.5)
-            {
+            if (RandomizationProvider.Current.GetDouble() <= 0.5) {
                 return sequence.LeftShift(geneToShift);
-            }
-            else
-            {
+            } else {
                 return sequence.RightShift(geneToShift);
             }
         }
@@ -52,9 +45,8 @@ namespace GeneticSharp.Domain.Mutations
         /// <returns>Count of genes to be shifted</returns>
         /// </summary>
         /// <param name="maxCount">max possible count of genes to shift.</param>
-        protected virtual int DetermineGeneToShift(int maxCount)
-        {
-             return RandomizationProvider.Current.GetInt(0, maxCount) + 1;
+        protected virtual int DetermineGeneToShift(int maxCount) {
+            return RandomizationProvider.Current.GetInt(0, maxCount) + 1;
         }
         #endregion
     }

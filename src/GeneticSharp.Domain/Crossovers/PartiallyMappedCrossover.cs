@@ -1,12 +1,11 @@
+using GeneticSharp.Domain.Chromosomes;
+using GeneticSharp.Domain.Randomizations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Randomizations;
 
-namespace GeneticSharp.Domain.Crossovers
-{
+namespace GeneticSharp.Domain.Crossovers {
     /// <summary>
     /// Partially mapped crossover (PMX).
     /// <remarks>
@@ -17,14 +16,12 @@ namespace GeneticSharp.Domain.Crossovers
     /// </remarks>
     /// </summary>
     [DisplayName("Partially Mapped (PMX)")]
-    public class PartiallyMappedCrossover : CrossoverBase
-    {
+    public class PartiallyMappedCrossover : CrossoverBase {
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.PartiallyMappedCrossover"/> class.
         /// </summary>
-        public PartiallyMappedCrossover() : base(2, 2, 3)
-        {
+        public PartiallyMappedCrossover() : base(2, 2, 3) {
             IsOrdered = true;
         }
         #endregion
@@ -37,10 +34,8 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>
         /// The offspring (children) of the parents.
         /// </returns>
-        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
-        {
-            if (parents.AnyHasRepeatedGene())
-            {
+        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents) {
+            if (parents.AnyHasRepeatedGene()) {
                 throw new CrossoverException(this, "The Partially Mapped Crossover (PMX) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
             }
 
@@ -73,10 +68,8 @@ namespace GeneticSharp.Domain.Crossovers
 
             var length = parent1.Length;
 
-            for (int i = 0; i < length; i++)
-            {
-                if (i >= firstCutPointIndex && i <= secondCutPointIndex)
-                {
+            for (int i = 0; i < length; i++) {
+                if (i >= firstCutPointIndex && i <= secondCutPointIndex) {
                     continue;
                 }
 
@@ -90,14 +83,12 @@ namespace GeneticSharp.Domain.Crossovers
             return new List<IChromosome>() { offspring1, offspring2 };
         }
 
-        private Gene GetGeneNotInMappingSection(Gene candidateGene, Gene[] mappingSection, Gene[] otherParentMappingSection)
-        {
+        private Gene GetGeneNotInMappingSection(Gene candidateGene, Gene[] mappingSection, Gene[] otherParentMappingSection) {
             var indexOnMappingSection = mappingSection
                 .Select((item, index) => new { Gene = item, Index = index })
                 .FirstOrDefault(g => g.Gene.Equals(candidateGene));
 
-            if (indexOnMappingSection != null)
-            {
+            if (indexOnMappingSection != null) {
                 return GetGeneNotInMappingSection(otherParentMappingSection[indexOnMappingSection.Index], mappingSection, otherParentMappingSection);
             }
 

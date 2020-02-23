@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using GeneticSharp.Domain.Randomizations;
+using System.Collections.Generic;
 using System.ComponentModel;
-using GeneticSharp.Domain.Randomizations;
 using System.Linq;
 
-namespace GeneticSharp.Domain.Mutations
-{
+namespace GeneticSharp.Domain.Mutations {
     /// <summary>
 	/// Partial Shuffle Mutation (PSM).
 	/// <remarks>
@@ -15,14 +14,12 @@ namespace GeneticSharp.Domain.Mutations
 	/// </remarks>
 	/// </summary>
     [DisplayName("Partial Shuffle (PSM)")]
-    public class PartialShuffleMutation : SequenceMutationBase
-    {
+    public class PartialShuffleMutation : SequenceMutationBase {
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="PartialShuffleMutation"/> class.
         /// </summary>
-        public PartialShuffleMutation()
-        {
+        public PartialShuffleMutation() {
             IsOrdered = true;
         }
         #endregion
@@ -33,20 +30,17 @@ namespace GeneticSharp.Domain.Mutations
         /// </summary>
         /// <returns>The resulted sequence after mutation operation.</returns>
         /// <param name="sequence">The sequence to be mutated.</param>
-        protected override IEnumerable<T> MutateOnSequence<T>(IEnumerable<T> sequence)
-        {
+        protected override IEnumerable<T> MutateOnSequence<T>(IEnumerable<T> sequence) {
             // If there is at least two differente genes on source sequence,
             // Then is possible shuffle their in sequence.
-            if (sequence.Distinct().Count() > 1)
-            {
+            if (sequence.Distinct().Count() > 1) {
                 var result = sequence.Shuffle(RandomizationProvider.Current);
-              
-                while (sequence.SequenceEqual(result))
-                {
+
+                while (sequence.SequenceEqual(result)) {
                     result = sequence.Shuffle(RandomizationProvider.Current);
                 }
 
-                return result; 
+                return result;
             }
 
             // All genes on sequence are equal, then sequence cannot be shuffled.

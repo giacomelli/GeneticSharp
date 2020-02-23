@@ -1,23 +1,20 @@
-using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Infrastructure.Framework.Commons;
+using System.Collections.Generic;
 
-namespace GeneticSharp.Domain.Reinsertions
-{
+namespace GeneticSharp.Domain.Reinsertions {
     /// <summary>
     /// Base class for IReinsertion's implementations.
     /// </summary>
-    public abstract class ReinsertionBase : IReinsertion
-    {
+    public abstract class ReinsertionBase : IReinsertion {
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Reinsertions.ReinsertionBase"/> class.
         /// </summary>
         /// <param name="canCollapse">If set to <c>true</c> can collapse the number of selected chromosomes for reinsertion.</param>
         /// <param name="canExpand">If set to <c>true</c> can expand the number of selected chromosomes for reinsertion.</param>
-        protected ReinsertionBase(bool canCollapse, bool canExpand)
-        {
+        protected ReinsertionBase(bool canCollapse, bool canExpand) {
             CanCollapse = canCollapse;
             CanExpand = canExpand;
         }
@@ -43,19 +40,16 @@ namespace GeneticSharp.Domain.Reinsertions
         /// <param name="population">The population.</param>
         /// <param name="offspring">The offspring.</param>
         /// <param name="parents">The parents.</param>
-        public IList<IChromosome> SelectChromosomes(IPopulation population, IList<IChromosome> offspring, IList<IChromosome> parents)
-        {
+        public IList<IChromosome> SelectChromosomes(IPopulation population, IList<IChromosome> offspring, IList<IChromosome> parents) {
             ExceptionHelper.ThrowIfNull("population", population);
             ExceptionHelper.ThrowIfNull("offspring", offspring);
             ExceptionHelper.ThrowIfNull("parents", parents);
 
-            if (!CanExpand && offspring.Count < population.MinSize)
-            {
+            if (!CanExpand && offspring.Count < population.MinSize) {
                 throw new ReinsertionException(this, "Cannot expand the number of chromosome in population. Try another reinsertion!");
             }
 
-            if (!CanCollapse && offspring.Count > population.MaxSize)
-            {
+            if (!CanCollapse && offspring.Count > population.MaxSize) {
                 throw new ReinsertionException(this, "Cannot collapse the number of chromosome in population. Try another reinsertion!");
             }
 

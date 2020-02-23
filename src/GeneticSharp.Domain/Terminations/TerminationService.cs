@@ -1,23 +1,20 @@
+using GeneticSharp.Infrastructure.Framework.Reflection;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using GeneticSharp.Infrastructure.Framework.Reflection;
 
-namespace GeneticSharp.Domain.Terminations
-{
+namespace GeneticSharp.Domain.Terminations {
     /// <summary>
     /// Termination service.
     /// </summary>
-    public static class TerminationService
-    {
+    public static class TerminationService {
         #region Methods
         /// <summary>
         /// Gets available termination types.
         /// </summary>
         /// <returns>All available termination types.</returns>
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
-        public static IList<Type> GetTerminationTypes()
-        {
+        public static IList<Type> GetTerminationTypes() {
             return TypeHelper.GetTypesByInterface<ITermination>();
         }
 
@@ -26,8 +23,7 @@ namespace GeneticSharp.Domain.Terminations
         /// </summary>
         /// <returns>The termination names.</returns>
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
-        public static IList<string> GetTerminationNames()
-        {
+        public static IList<string> GetTerminationNames() {
             return TypeHelper.GetDisplayNamesByInterface<ITermination>();
         }
 
@@ -37,8 +33,7 @@ namespace GeneticSharp.Domain.Terminations
         /// <returns>The ITermination's implementation instance.</returns>
         /// <param name="name">The ITermination name.</param>
         /// <param name="constructorArgs">Constructor arguments.</param>
-        public static ITermination CreateTerminationByName(string name, params object[] constructorArgs)
-        {
+        public static ITermination CreateTerminationByName(string name, params object[] constructorArgs) {
             return TypeHelper.CreateInstanceByName<ITermination>(name, constructorArgs);
         }
 
@@ -47,8 +42,7 @@ namespace GeneticSharp.Domain.Terminations
         /// </summary>
         /// <returns>The termination type.</returns>
         /// <param name="name">The name of termination.</param>
-        public static Type GetTerminationTypeByName(string name)
-        {
+        public static Type GetTerminationTypeByName(string name) {
             return TypeHelper.GetTypeByName<ITermination>(name);
         }
         #endregion

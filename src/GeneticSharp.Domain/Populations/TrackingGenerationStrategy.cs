@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace GeneticSharp.Domain.Populations
-{
+namespace GeneticSharp.Domain.Populations {
     /// <summary>
     /// An IGenerationStrategy's implementation that keeps all generations to further evaluation.
     /// <remarks>
@@ -9,15 +8,13 @@ namespace GeneticSharp.Domain.Populations
     /// </remarks>
     /// </summary>
     [DisplayName("Tracking")]
-    public class TrackingGenerationStrategy : IGenerationStrategy
-    {
+    public class TrackingGenerationStrategy : IGenerationStrategy {
         #region Methods
         /// <summary>
         /// Register that a new generation has been created.
         /// </summary>
         /// <param name="population">The population where the new generation has been created.</param>
-        public void RegisterNewGeneration(IPopulation population)
-        {
+        public void RegisterNewGeneration(IPopulation population) {
             // Do nothing, because wants to keep all generations in the line.
         }
         #endregion

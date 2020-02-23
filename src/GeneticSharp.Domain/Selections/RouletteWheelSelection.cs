@@ -1,13 +1,12 @@
+using GeneticSharp.Domain.Chromosomes;
+using GeneticSharp.Domain.Populations;
+using GeneticSharp.Domain.Randomizations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Randomizations;
 
-namespace GeneticSharp.Domain.Selections
-{
+namespace GeneticSharp.Domain.Selections {
     /// <summary>
     /// Roulette Wheel Selection
     /// <remarks>
@@ -27,14 +26,12 @@ namespace GeneticSharp.Domain.Selections
     /// </remarks>
     /// </summary>
     [DisplayName("Roulette Wheel")]
-    public class RouletteWheelSelection : SelectionBase
-    {
+    public class RouletteWheelSelection : SelectionBase {
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Selections.RouletteWheelSelection"/> class.
         /// </summary>
-        public RouletteWheelSelection() : base(2)
-        {
+        public RouletteWheelSelection() : base(2) {
         }
         #endregion
 
@@ -47,12 +44,10 @@ namespace GeneticSharp.Domain.Selections
         /// <param name="rouletteWheel">The roulette wheel.</param>
         /// <param name="getPointer">The get pointer.</param>
         /// <returns>The selected chromosomes.</returns>
-        protected static IList<IChromosome> SelectFromWheel(int number, IList<IChromosome> chromosomes, IList<double> rouletteWheel, Func<double> getPointer)
-        {
+        protected static IList<IChromosome> SelectFromWheel(int number, IList<IChromosome> chromosomes, IList<double> rouletteWheel, Func<double> getPointer) {
             var selected = new List<IChromosome>();
 
-            for (int i = 0; i < number; i++)
-            {
+            for (int i = 0; i < number; i++) {
                 var pointer = getPointer();
 
                 var chromosome = rouletteWheel
@@ -71,14 +66,12 @@ namespace GeneticSharp.Domain.Selections
         /// </summary>
         /// <param name="chromosomes">The chromosomes.</param>
         /// <param name="rouletteWheel">The roulette wheel.</param>
-        protected static void CalculateCumulativePercentFitness(IList<IChromosome> chromosomes, IList<double> rouletteWheel)
-        {
+        protected static void CalculateCumulativePercentFitness(IList<IChromosome> chromosomes, IList<double> rouletteWheel) {
             var sumFitness = chromosomes.Sum(c => c.Fitness.Value);
 
             var cumulativePercent = 0.0;
 
-            for (int i = 0; i < chromosomes.Count; i++)
-            {
+            for (int i = 0; i < chromosomes.Count; i++) {
                 cumulativePercent += chromosomes[i].Fitness.Value / sumFitness;
                 rouletteWheel.Add(cumulativePercent);
             }
@@ -90,8 +83,7 @@ namespace GeneticSharp.Domain.Selections
         /// <param name="number">The number of chromosomes to select.</param>
         /// <param name="generation">The generation where the selection will be made.</param>
         /// <returns>The select chromosomes.</returns>
-        protected override IList<IChromosome> PerformSelectChromosomes(int number, Generation generation)
-        {
+        protected override IList<IChromosome> PerformSelectChromosomes(int number, Generation generation) {
             var chromosomes = generation.Chromosomes;
             var rouletteWheel = new List<double>();
             var rnd = RandomizationProvider.Current;

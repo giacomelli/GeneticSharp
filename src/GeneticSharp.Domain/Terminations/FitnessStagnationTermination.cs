@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace GeneticSharp.Domain.Terminations
-{
+namespace GeneticSharp.Domain.Terminations {
     /// <summary>
     /// Fitness Stagnation Termination.    
     /// <remarks>
@@ -9,8 +8,7 @@ namespace GeneticSharp.Domain.Terminations
     /// </remarks>
     /// </summary>
     [DisplayName("Fitness Stagnation")]
-    public class FitnessStagnationTermination : TerminationBase
-    {
+    public class FitnessStagnationTermination : TerminationBase {
         #region Fields
         private double m_lastFitness;
         private int m_stagnantGenerationsCount;
@@ -23,16 +21,14 @@ namespace GeneticSharp.Domain.Terminations
         /// <remarks>
         /// The ExpectedStagnantGenerationsNumber default value is 100.
         /// </remarks>
-        public FitnessStagnationTermination() : this(100)
-        {
+        public FitnessStagnationTermination() : this(100) {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FitnessStagnationTermination"/> class.
         /// </summary>
         /// <param name="expectedStagnantGenerationsNumber">The expected stagnant generations number to reach the termination.</param>
-        public FitnessStagnationTermination(int expectedStagnantGenerationsNumber)
-        {
+        public FitnessStagnationTermination(int expectedStagnantGenerationsNumber) {
             ExpectedStagnantGenerationsNumber = expectedStagnantGenerationsNumber;
         }
         #endregion
@@ -50,16 +46,12 @@ namespace GeneticSharp.Domain.Terminations
         /// </summary>
         /// <returns>True if termination has been reached, otherwise false.</returns>
         /// <param name="geneticAlgorithm">The genetic algorithm.</param>
-        protected override bool PerformHasReached(IGeneticAlgorithm geneticAlgorithm)
-        {
+        protected override bool PerformHasReached(IGeneticAlgorithm geneticAlgorithm) {
             var bestFitness = geneticAlgorithm.BestChromosome.Fitness.Value;
 
-            if (m_lastFitness == bestFitness)
-            {
+            if (m_lastFitness == bestFitness) {
                 m_stagnantGenerationsCount++;
-            }
-            else
-            {
+            } else {
                 m_stagnantGenerationsCount = 1;
             }
 

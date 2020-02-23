@@ -1,11 +1,10 @@
-using System.Collections.Generic;
-using System.ComponentModel;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Randomizations;
+using System.Collections.Generic;
+using System.ComponentModel;
 
-namespace GeneticSharp.Domain.Reinsertions
-{
+namespace GeneticSharp.Domain.Reinsertions {
     /// <summary>
     /// Uniform Reinsertion.
     /// <remarks>
@@ -14,14 +13,12 @@ namespace GeneticSharp.Domain.Reinsertions
     /// </remarks>
     /// </summary>
     [DisplayName("Uniform")]
-    public class UniformReinsertion : ReinsertionBase
-    {
+    public class UniformReinsertion : ReinsertionBase {
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Reinsertions.UniformReinsertion"/> class.
         /// </summary>
-        public UniformReinsertion() : base(false, true)
-        {
+        public UniformReinsertion() : base(false, true) {
         }
         #endregion
 
@@ -33,17 +30,14 @@ namespace GeneticSharp.Domain.Reinsertions
         /// <param name="population">The population.</param>
         /// <param name="offspring">The offspring.</param>
         /// <param name="parents">The parents.</param>
-        protected override IList<IChromosome> PerformSelectChromosomes(IPopulation population, IList<IChromosome> offspring, IList<IChromosome> parents)
-        {
-            if (offspring.Count == 0)
-            {
+        protected override IList<IChromosome> PerformSelectChromosomes(IPopulation population, IList<IChromosome> offspring, IList<IChromosome> parents) {
+            if (offspring.Count == 0) {
                 throw new ReinsertionException(this, "The minimum size of the offspring is 1.");
             }
 
             var rnd = RandomizationProvider.Current;
 
-            while (offspring.Count < population.MinSize)
-            {
+            while (offspring.Count < population.MinSize) {
                 offspring.Add(offspring[rnd.GetInt(0, offspring.Count)]);
             }
 

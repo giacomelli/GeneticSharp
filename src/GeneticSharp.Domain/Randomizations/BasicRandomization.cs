@@ -1,19 +1,17 @@
 using System;
 using System.Threading;
 
-namespace GeneticSharp.Domain.Randomizations
-{
+namespace GeneticSharp.Domain.Randomizations {
     /// <summary>
     /// An IRandomization implementation using System.Random has pseudo-number generator.
     /// </summary>
     /// <remarks>
     /// https://codeblog.jonskeet.uk/2009/11/04/revisiting-randomness/
     /// </remarks>
-    public class BasicRandomization : RandomizationBase
-    {
+    public class BasicRandomization : RandomizationBase {
         private static readonly Random _globalRandom = new Random();
         private static readonly object _globalLock = new object();
-       
+
         /// <summary> 
         /// Random number generator 
         /// </summary> 
@@ -24,10 +22,8 @@ namespace GeneticSharp.Domain.Randomizations
         /// from a global (static) instance of Random, rather 
         /// than time. 
         /// </summary> 
-        private static Random NewRandom()
-        {
-            lock (_globalLock)
-            {
+        private static Random NewRandom() {
+            lock (_globalLock) {
                 return new Random(_globalRandom.Next());
             }
         }
@@ -44,9 +40,8 @@ namespace GeneticSharp.Domain.Randomizations
         /// <returns>The integer.</returns>
         /// <param name="min">Minimum value (inclusive).</param>
         /// <param name="max">Maximum value (exclusive).</param>
-        public override int GetInt(int min, int max)
-        {
-            return Instance.Next(min, max);            
+        public override int GetInt(int min, int max) {
+            return Instance.Next(min, max);
         }
 
         /// <summary>
@@ -55,8 +50,7 @@ namespace GeneticSharp.Domain.Randomizations
         /// <returns>
         /// The float value.
         /// </returns>
-        public override float GetFloat()
-        {
+        public override float GetFloat() {
             return (float)Instance.NextDouble();
         }
 
@@ -64,9 +58,8 @@ namespace GeneticSharp.Domain.Randomizations
         /// Gets a double value between 0.0 and 1.0.
         /// </summary>
         /// <returns>The double value.</returns>
-        public override double GetDouble()
-        {
+        public override double GetDouble() {
             return Instance.NextDouble();
-        }       
+        }
     }
 }

@@ -1,11 +1,10 @@
+using GeneticSharp.Domain.Chromosomes;
+using GeneticSharp.Domain.Populations;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Populations;
 
-namespace GeneticSharp.Domain.Reinsertions
-{
+namespace GeneticSharp.Domain.Reinsertions {
     /// <summary>
     /// Elitist reinsertion.
     /// <remarks>
@@ -14,14 +13,12 @@ namespace GeneticSharp.Domain.Reinsertions
     /// </remarks>
     /// </summary>
     [DisplayName("Elitist")]
-    public class ElitistReinsertion : ReinsertionBase
-    {
+    public class ElitistReinsertion : ReinsertionBase {
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Reinsertions.ElitistReinsertion"/> class.
         /// </summary>
-        public ElitistReinsertion() : base(false, true)
-        {
+        public ElitistReinsertion() : base(false, true) {
         }
         #endregion
 
@@ -33,16 +30,13 @@ namespace GeneticSharp.Domain.Reinsertions
         /// <param name="population">The population.</param>
         /// <param name="offspring">The offspring.</param>
         /// <param name="parents">The parents.</param>
-        protected override IList<IChromosome> PerformSelectChromosomes(IPopulation population, IList<IChromosome> offspring, IList<IChromosome> parents)
-        {
+        protected override IList<IChromosome> PerformSelectChromosomes(IPopulation population, IList<IChromosome> offspring, IList<IChromosome> parents) {
             var diff = population.MinSize - offspring.Count;
 
-            if (diff > 0)
-            {
+            if (diff > 0) {
                 var bestParents = parents.OrderByDescending(p => p.Fitness).Take(diff).ToList();
 
-                for (int i = 0; i < bestParents.Count; i++)
-                {
+                for (int i = 0; i < bestParents.Count; i++) {
                     offspring.Add(bestParents[i]);
                 }
             }

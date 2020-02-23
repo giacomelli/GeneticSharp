@@ -1,8 +1,7 @@
-﻿using System.ComponentModel;
-using GeneticSharp.Infrastructure.Framework.Commons;
+﻿using GeneticSharp.Infrastructure.Framework.Commons;
+using System.ComponentModel;
 
-namespace GeneticSharp.Domain.Populations
-{
+namespace GeneticSharp.Domain.Populations {
     /// <summary>
     /// An IGenerationStrategy's implementation which takes into account the performance and just keep the last one generations in the population.
     /// <remarks>
@@ -11,14 +10,12 @@ namespace GeneticSharp.Domain.Populations
     /// </remarks>
     /// </summary>
     [DisplayName("Performance")]
-    public class PerformanceGenerationStrategy : IGenerationStrategy
-    {
+    public class PerformanceGenerationStrategy : IGenerationStrategy {
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="PerformanceGenerationStrategy"/> class.
         /// </summary>
-        public PerformanceGenerationStrategy()
-        {
+        public PerformanceGenerationStrategy() {
             GenerationsNumber = 1;
         }
 
@@ -26,8 +23,7 @@ namespace GeneticSharp.Domain.Populations
         /// Initializes a new instance of the <see cref="PerformanceGenerationStrategy"/> class.
         /// </summary>
         /// <param name="generationsNumber">The number of generations to keep in the population</param>
-        public PerformanceGenerationStrategy(int generationsNumber)
-        {
+        public PerformanceGenerationStrategy(int generationsNumber) {
             GenerationsNumber = generationsNumber;
         }
         #endregion
@@ -45,12 +41,10 @@ namespace GeneticSharp.Domain.Populations
         /// Register that a new generation has been created.
         /// </summary>
         /// <param name="population">The population where the new generation has been created.</param>
-        public void RegisterNewGeneration(IPopulation population)
-        {
+        public void RegisterNewGeneration(IPopulation population) {
             ExceptionHelper.ThrowIfNull("population", population);
 
-            if (population.Generations.Count > GenerationsNumber)
-            {
+            if (population.Generations.Count > GenerationsNumber) {
                 population.Generations.RemoveAt(0);
             }
         }

@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using GeneticSharp.Domain.Chromosomes;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using GeneticSharp.Domain.Chromosomes;
 
-namespace GeneticSharp.Domain.Crossovers
-{
+namespace GeneticSharp.Domain.Crossovers {
     /// <summary>
     /// Cycle Crossover (CX).
     /// <remarks>
@@ -19,15 +18,13 @@ namespace GeneticSharp.Domain.Crossovers
     /// </remarks>
     /// </summary>
     [DisplayName("Cycle (CX)")]
-    public class CycleCrossover : CrossoverBase
-    {
+    public class CycleCrossover : CrossoverBase {
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.CycleCrossover"/> class.
         /// </summary>
         public CycleCrossover()
-            : base(2, 2)
-        {
+            : base(2, 2) {
             IsOrdered = true;
         }
         #endregion
@@ -38,13 +35,11 @@ namespace GeneticSharp.Domain.Crossovers
         /// </summary>
         /// <param name="parents">The parents chromosomes.</param>
         /// <returns>The offspring (children) of the parents.</returns>
-        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
-        {
+        protected override IList<IChromosome> PerformCross(IList<IChromosome> parents) {
             var parent1 = parents[0];
             var parent2 = parents[1];
 
-            if (parents.AnyHasRepeatedGene())
-            {
+            if (parents.AnyHasRepeatedGene()) {
                 throw new CrossoverException(this, "The Cycle Crossover (CX) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
             }
 
@@ -56,10 +51,8 @@ namespace GeneticSharp.Domain.Crossovers
             var parent2Genes = parent2.GetGenes();
 
             // Search for the cycles.
-            for (int i = 0; i < parent1.Length; i++)
-            {
-                if (!cycles.SelectMany(p => p).Contains(i))
-                {
+            for (int i = 0; i < parent1.Length; i++) {
+                if (!cycles.SelectMany(p => p).Contains(i)) {
                     var cycle = new List<int>();
                     CreateCycle(parent1Genes, parent2Genes, i, cycle);
                     cycles.Add(cycle);
@@ -67,17 +60,13 @@ namespace GeneticSharp.Domain.Crossovers
             }
 
             // Copy the cycles to the offpring.
-            for (int i = 0; i < cycles.Count; i++)
-            {
+            for (int i = 0; i < cycles.Count; i++) {
                 var cycle = cycles[i];
 
-                if (i % 2 == 0)
-                {
+                if (i % 2 == 0) {
                     // Copy cycle index pair: values from Parent 1 and copied to Child 1, and values from Parent 2 will be copied to Child 2.
                     CopyCycleIndexPair(cycle, parent1Genes, offspring1, parent2Genes, offspring2);
-                }
-                else
-                {
+                } else {
                     // Copy cycle index odd: values from Parent 1 will be copied to Child 2, and values from Parent 1 will be copied to Child 1.
                     CopyCycleIndexPair(cycle, parent1Genes, offspring2, parent2Genes, offspring1);
                 }
@@ -94,12 +83,10 @@ namespace GeneticSharp.Domain.Crossovers
         /// <param name="toOffspring1">To offspring1.</param>
         /// <param name="fromParent2Genes">From parent2 genes.</param>
         /// <param name="toOffspring2">To offspring2.</param>
-        private static void CopyCycleIndexPair(IList<int> cycle, Gene[] fromParent1Genes, IChromosome toOffspring1, Gene[] fromParent2Genes, IChromosome toOffspring2)
-        {
+        private static void CopyCycleIndexPair(IList<int> cycle, Gene[] fromParent1Genes, IChromosome toOffspring1, Gene[] fromParent2Genes, IChromosome toOffspring2) {
             int geneCycleIndex = 0;
 
-            for (int j = 0; j < cycle.Count; j++)
-            {
+            for (int j = 0; j < cycle.Count; j++) {
                 geneCycleIndex = cycle[j];
                 toOffspring1.ReplaceGene(geneCycleIndex, fromParent1Genes[geneCycleIndex]);
                 toOffspring2.ReplaceGene(geneCycleIndex, fromParent2Genes[geneCycleIndex]);
@@ -113,16 +100,13 @@ namespace GeneticSharp.Domain.Crossovers
         /// <param name="parent2Genes">The parent two's genes.</param>
         /// <param name="geneIndex">The current gene index.</param>
         /// <param name="cycle">The cycle.</param>
-        private void CreateCycle(Gene[] parent1Genes, Gene[] parent2Genes, int geneIndex, List<int> cycle)
-        {
-            if (!cycle.Contains(geneIndex))
-            {
+        private void CreateCycle(Gene[] parent1Genes, Gene[] parent2Genes, int geneIndex, List<int> cycle) {
+            if (!cycle.Contains(geneIndex)) {
                 var parent2Gene = parent2Genes[geneIndex];
                 cycle.Add(geneIndex);
                 var newGeneIndex = parent1Genes.Select((g, i) => new { g.Value, Index = i }).First(g => g.Value.Equals(parent2Gene.Value));
 
-                if (geneIndex != newGeneIndex.Index)
-                {
+                if (geneIndex != newGeneIndex.Index) {
                     CreateCycle(parent1Genes, parent2Genes, newGeneIndex.Index, cycle);
                 }
             }
