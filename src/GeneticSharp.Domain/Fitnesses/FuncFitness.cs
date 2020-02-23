@@ -6,7 +6,7 @@ namespace GeneticSharp.Domain.Fitnesses {
     /// <summary>
     /// An IFitness implementation that defer the fitness evaluation to a Func.
     /// </summary>
-    public class FuncFitness : IFitness {
+    public class FuncFitness : FitnessBase {
         private readonly Func<IChromosome, double> m_func;
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace GeneticSharp.Domain.Fitnesses {
         /// Evaluate the specified chromosome.
         /// </summary>
         /// <param name="chromosome">Chromosome.</param>
-        public double Evaluate(IChromosome chromosome) {
+        public override double PerformEvaluation(IChromosome chromosome) {
             return m_func(chromosome);
         }
         #endregion
