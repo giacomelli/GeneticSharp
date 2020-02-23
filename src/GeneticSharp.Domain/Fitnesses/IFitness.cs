@@ -9,8 +9,12 @@ namespace GeneticSharp.Domain.Fitnesses
     /// <see href="http://en.wikipedia.org/wiki/Fitness_function">Wikipedia</see>
     /// </remarks>
     /// </summary>
-    public interface IFitness
-    {
+    public interface IFitness {
+        /// <summary>
+        /// Amount of evaluations of the fitness function
+        /// </summary>
+        int Evaluations { get; }
+
         /// <summary>
         /// Performs the evaluation against the specified chromosome.
         /// </summary>
