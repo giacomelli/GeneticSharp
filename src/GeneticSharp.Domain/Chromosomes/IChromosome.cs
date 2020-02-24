@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace GeneticSharp.Domain.Chromosomes {
     /// <summary>
@@ -24,6 +25,11 @@ namespace GeneticSharp.Domain.Chromosomes {
         /// </summary>
         /// <value>The length.</value>
         int Length { get; }
+        
+        /// <summary>
+        /// The parents of this chromosome.
+        /// </summary>
+        List<IChromosome> Parents { get; }
         #endregion
 
         #region Methods

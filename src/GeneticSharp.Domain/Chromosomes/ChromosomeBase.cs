@@ -1,6 +1,7 @@
 using GeneticSharp.Infrastructure.Framework.Commons;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace GeneticSharp.Domain.Chromosomes {
@@ -12,7 +13,6 @@ namespace GeneticSharp.Domain.Chromosomes {
     public abstract class ChromosomeBase : IChromosome {
         #region Fields
         private Gene[] m_genes;
-        private int m_length;
         #endregion
 
         #region Constructors        
@@ -23,7 +23,7 @@ namespace GeneticSharp.Domain.Chromosomes {
         protected ChromosomeBase(int length) {
             ValidateLength(length);
 
-            m_length = length;
+            Length = length;
             m_genes = new Gene[length];
         }
         #endregion
@@ -37,11 +37,12 @@ namespace GeneticSharp.Domain.Chromosomes {
         /// <summary>
         /// Gets the length, in genes, of the chromosome.
         /// </summary>
-        public int Length {
-            get {
-                return m_length;
-            }
-        }
+        public int Length { get; private set; }
+
+        /// <summary>
+        /// The parent of this chromosome.
+        /// </summary>
+        public List<IChromosome> Parents { get; } = new List<IChromosome>();
         #endregion
 
         #region Methods
@@ -54,11 +55,11 @@ namespace GeneticSharp.Domain.Chromosomes {
         /// The result of the operator.
         /// </returns>
         public static bool operator ==(ChromosomeBase first, ChromosomeBase second) {
-            if (Object.ReferenceEquals(first, second)) {
+            if (ReferenceEquals(first, second)) {
                 return true;
             }
 
-            if (((object)first == null) || ((object)second == null)) {
+            if ((first is null) || (second is null)) {
                 return false;
             }
 
@@ -86,15 +87,15 @@ namespace GeneticSharp.Domain.Chromosomes {
         /// The result of the operator.
         /// </returns>
         public static bool operator <(ChromosomeBase first, ChromosomeBase second) {
-            if (Object.ReferenceEquals(first, second)) {
+            if (ReferenceEquals(first, second)) {
                 return false;
             }
 
-            if ((object)first == null) {
+            if (first is null) {
                 return true;
             }
 
-            if ((object)second == null) {
+            if (second is null) {
                 return false;
             }
 
@@ -145,7 +146,7 @@ namespace GeneticSharp.Domain.Chromosomes {
         /// <param name="gene">The new gene.</param>
         /// <exception cref="System.ArgumentOutOfRangeException">index;There is no Gene on index {0} to be replaced..With(index)</exception>
         public void ReplaceGene(int index, Gene gene) {
-            if (index < 0 || index >= m_length) {
+            if (index < 0 || index >= Length) {
                 throw new ArgumentOutOfRangeException(nameof(index), "There is no Gene on index {0} to be replaced.".With(index));
             }
 
@@ -165,13 +166,13 @@ namespace GeneticSharp.Domain.Chromosomes {
             ExceptionHelper.ThrowIfNull("genes", genes);
 
             if (genes.Length > 0) {
-                if (startIndex < 0 || startIndex >= m_length) {
+                if (startIndex < 0 || startIndex >= Length) {
                     throw new ArgumentOutOfRangeException(nameof(startIndex), "There is no Gene on index {0} to be replaced.".With(startIndex));
                 }
 
                 var genesToBeReplacedLength = genes.Length;
 
-                var availableSpaceLength = m_length - startIndex;
+                var availableSpaceLength = Length - startIndex;
 
                 if (genesToBeReplacedLength > availableSpaceLength) {
                     throw new ArgumentException(
@@ -194,7 +195,7 @@ namespace GeneticSharp.Domain.Chromosomes {
             ValidateLength(newLength);
 
             Array.Resize(ref m_genes, newLength);
-            m_length = newLength;
+            Length = newLength;
         }
 
         /// <summary>
@@ -242,9 +243,7 @@ namespace GeneticSharp.Domain.Chromosomes {
         /// <returns><c>true</c> if the specified <see cref="System.Object"/> is equal to the current
         /// <see cref="GeneticSharp.Domain.Chromosomes.ChromosomeBase"/>; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj) {
-            var other = obj as IChromosome;
-
-            if (other == null) {
+            if (!(obj is IChromosome other)) {
                 return false;
             }
 

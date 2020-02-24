@@ -31,8 +31,10 @@ namespace GeneticSharp.Domain {
                 // have some rest chromosomes.
                 if (selectedParents.Count == crossover.ParentsNumber && RandomizationProvider.Current.GetDouble() <= crossoverProbability) {
                     var children = crossover.Cross(selectedParents);
-                    foreach (var item in children)
-                        offspring.Add(item);
+                    foreach (var child in children) {
+                        child.Parents.AddRange(selectedParents);
+                        offspring.Add(child);
+                    }
                 }
             });
 

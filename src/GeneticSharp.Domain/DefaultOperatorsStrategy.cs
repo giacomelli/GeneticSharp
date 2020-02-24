@@ -29,7 +29,9 @@ namespace GeneticSharp.Domain {
                 // Checks if the number of selected parents is equal which the crossover expect, because the in the end of the list we can
                 // have some rest chromosomes.
                 if (selectedParents.Count == crossover.ParentsNumber && RandomizationProvider.Current.GetDouble() <= crossoverProbability) {
-                    offspring.AddRange(crossover.Cross(selectedParents));
+                    var children = crossover.Cross(selectedParents);
+                    foreach (var child in children) child.Parents.AddRange(selectedParents);
+                    offspring.AddRange(children);
                 }
             }
 

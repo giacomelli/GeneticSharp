@@ -16,7 +16,7 @@ namespace GeneticSharp.Domain.Populations {
         /// Initializes a new instance of the <see cref="PerformanceGenerationStrategy"/> class.
         /// </summary>
         public PerformanceGenerationStrategy() {
-            GenerationsNumber = 1;
+            GenerationsNumber = int.MaxValue;
         }
 
         /// <summary>
