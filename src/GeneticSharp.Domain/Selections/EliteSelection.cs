@@ -17,8 +17,7 @@ namespace GeneticSharp.Domain.Selections {
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Selections.EliteSelection"/> class.
         /// </summary>
-        public EliteSelection() : base(2) {
-        }
+        public EliteSelection() : base(1) { }
         #endregion
 
         #region ISelection implementation

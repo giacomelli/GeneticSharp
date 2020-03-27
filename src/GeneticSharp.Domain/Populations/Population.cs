@@ -17,8 +17,8 @@ namespace GeneticSharp.Domain.Populations {
         /// <param name="maxSize">The maximum size (chromosomes).</param>
         /// <param name="adamChromosome">The original chromosome of all population ;).</param>
         public Population(int minSize, int maxSize, IChromosome adamChromosome) {
-            if (minSize < 2) {
-                throw new ArgumentOutOfRangeException("minSize", "The minimum size for a population is 2 chromosomes.");
+            if (minSize < 1) {
+                throw new ArgumentOutOfRangeException("minSize", "The minimum size for a population is 1 chromosome.");
             }
 
             if (maxSize < minSize) {

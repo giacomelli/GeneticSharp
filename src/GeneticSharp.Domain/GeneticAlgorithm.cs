@@ -419,9 +419,7 @@ namespace GeneticSharp.Domain {
         /// <param name="parents">The parents.</param>
         /// <returns>The result chromosomes.</returns>
         private IList<IChromosome> Cross(IList<IChromosome> parents) {
-            var offspring = OperatorsStrategy.Cross(Population, Crossover, CrossoverProbability, parents);
-            foreach (var chromosome in offspring) RunEvaluateFitness(chromosome);
-            return offspring;
+            return OperatorsStrategy.Cross(Population, Crossover, CrossoverProbability, parents);
         }
 
         /// <summary>
@@ -441,6 +439,7 @@ namespace GeneticSharp.Domain {
         /// The reinserted chromosomes.
         /// </returns>
         private IList<IChromosome> Reinsert(IList<IChromosome> offspring, IList<IChromosome> parents) {
+            foreach (var chromosome in offspring) RunEvaluateFitness(chromosome);
             return Reinsertion.SelectChromosomes(Population, offspring, parents);
         }
         #endregion

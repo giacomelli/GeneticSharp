@@ -24,8 +24,8 @@ namespace GeneticSharp.Domain.Populations {
                     "Generation number {0} is invalid. Generation number should be positive and start in 1.".With(number));
             }
 
-            if (chromosomes == null || chromosomes.Count < 2) {
-                throw new ArgumentOutOfRangeException(nameof(chromosomes), "A generation should have at least 2 chromosomes.");
+            if (chromosomes == null || chromosomes.Count < 1) {
+                throw new ArgumentOutOfRangeException(nameof(chromosomes), "A generation should have at least 1 chromosome.");
             }
 
             Number = number;
