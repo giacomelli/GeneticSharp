@@ -28,6 +28,7 @@ namespace GeneticSharp.Domain.Mutations {
         /// </summary>
         /// <param name="chromosome">The chromosome.</param>
         /// <param name="probability">The probability to mutate each chromosome.</param>
-        void Mutate(IChromosome chromosome, float probability);
+        /// <returns>How many mutations occurred.</returns>
+        int Mutate(IChromosome chromosome, float probability);
     }
 }

@@ -15,19 +15,22 @@ namespace GeneticSharp.Domain.Mutations {
         /// </summary>
         /// <param name="chromosome">The chromosome.</param>
         /// <param name="probability">The probability to mutate each chromosome.</param>
-        protected override void PerformMutate(IChromosome chromosome, float probability) {
+        /// <returns>How many mutations occurred.</returns>
+        protected override int PerformMutate(IChromosome chromosome, float probability) {
             ValidateLength(chromosome);
 
             if (RandomizationProvider.Current.GetDouble() <= probability) {
                 var indexes = RandomizationProvider.Current.GetUniqueInts(2, 0, chromosome.Length).OrderBy(i => i).ToArray();
                 var firstIndex = indexes[0];
                 var secondIndex = indexes[1];
-                var sequenceLength = (secondIndex - firstIndex) + 1;
+                var sequenceLength = secondIndex - firstIndex + 1;
 
                 var mutatedSequence = MutateOnSequence(chromosome.GetGenes().Skip(firstIndex).Take(sequenceLength)).ToArray();
 
                 chromosome.ReplaceGenes(firstIndex, mutatedSequence);
+                return 1;
             }
+            return 0;
         }
 
         /// <summary>

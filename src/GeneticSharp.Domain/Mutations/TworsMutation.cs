@@ -26,7 +26,8 @@ namespace GeneticSharp.Domain.Mutations {
         /// </summary>
         /// <param name="chromosome">The chromosome.</param>
         /// <param name="probability">The probability to mutate each chromosome.</param>
-        protected override void PerformMutate(IChromosome chromosome, float probability) {
+        /// <returns>How many mutations occurred.</returns>
+        protected override int PerformMutate(IChromosome chromosome, float probability) {
             if (RandomizationProvider.Current.GetDouble() <= probability) {
                 var indexes = RandomizationProvider.Current.GetUniqueInts(2, 0, chromosome.Length);
                 var firstIndex = indexes[0];
@@ -36,7 +37,9 @@ namespace GeneticSharp.Domain.Mutations {
 
                 chromosome.ReplaceGene(firstIndex, secondGene);
                 chromosome.ReplaceGene(secondIndex, firstGene);
+                return 1;
             }
+            return 0;
         }
         #endregion
     }

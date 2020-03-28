@@ -30,17 +30,18 @@ namespace GeneticSharp.Domain.Mutations {
         /// </summary>
         /// <param name="chromosome">The chromosome.</param>
         /// <param name="probability">The probability to mutate each chromosome.</param>
-        protected override void PerformMutate(IChromosome chromosome, float probability) {
-            var binaryChromosome = chromosome as IBinaryChromosome;
-
-            if (binaryChromosome == null) {
+        /// <returns>How many mutations occurred.</returns>
+        protected override int PerformMutate(IChromosome chromosome, float probability) {
+            if (!(chromosome is IBinaryChromosome binaryChromosome)) {
                 throw new MutationException(this, "Needs a binary chromosome that implements IBinaryChromosome.");
             }
 
             if (m_rnd.GetDouble() <= probability) {
                 var index = m_rnd.GetInt(0, chromosome.Length);
                 binaryChromosome.FlipGene(index);
+                return 1;
             }
+            return 0;
         }
         #endregion
     }
