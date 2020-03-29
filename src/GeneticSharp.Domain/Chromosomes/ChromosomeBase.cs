@@ -218,6 +218,23 @@ namespace GeneticSharp.Domain.Chromosomes {
         }
 
         /// <summary>
+        /// Analyzes the equivalence of two chromosomes.
+        /// </summary>
+        /// <param name="other">The other chromosome.</param>
+        /// <param name="equivalent">The indices of genes that are equivalent.</param>
+        /// <param name="different">The indices of genes that are different.</param>
+        /// <returns>The percentage of equivalent genes.</returns>
+        public float Equivalence(IChromosome other, out IList<int> equivalent, out IList<int> different) {
+            equivalent = new List<int>();
+            different = new List<int>();
+            for (int i = 0; i < Math.Min(Length, other.Length); i++) {
+                if (GetGene(i) == other.GetGene(i)) equivalent.Add(i);
+                else different.Add(i);
+            }
+            return (float)equivalent.Count / Length;
+        }
+
+        /// <summary>
         /// Compares the current object with another object of the same type.
         /// </summary>
         /// <returns>The to.</returns>

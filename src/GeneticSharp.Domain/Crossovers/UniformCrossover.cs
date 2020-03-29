@@ -53,23 +53,33 @@ namespace GeneticSharp.Domain.Crossovers {
             var offspring = new List<IChromosome>(ChildrenNumber);
 
             while (offspring.Count < ChildrenNumber) {
-                var firstChild = firstParent.CreateNew();
-                var secondChild = secondParent.CreateNew();
-                for (int i = 0; i < firstParent.Length; i++) {
-                    if (RandomizationProvider.Current.GetDouble() < MixProbability) {
-                        firstChild.ReplaceGene(i, firstParent.GetGene(i));
-                        secondChild.ReplaceGene(i, secondParent.GetGene(i));
-                    } else {
-                        firstChild.ReplaceGene(i, secondParent.GetGene(i));
-                        secondChild.ReplaceGene(i, firstParent.GetGene(i));
-                    }
-                }
-
-                offspring.Add(firstChild);
-                if (CounterChild && offspring.Count < ChildrenNumber) offspring.Add(secondChild);
+                (var child, var counterChild) = CreateChildren(firstParent, secondParent);
+                offspring.Add(child);
+                if (CounterChild && offspring.Count < ChildrenNumber) offspring.Add(counterChild);
             }
             
             return offspring;
+        }
+
+        /// <summary>
+        /// Creates the children.
+        /// </summary>
+        /// <param name="firstParent">The first parent.</param>
+        /// <param name="secondParent">The second parent.</param>
+        /// <returns>The children chromosomes.</returns>
+        protected virtual (IChromosome child, IChromosome counterChild) CreateChildren(IChromosome firstParent, IChromosome secondParent) {
+            var child = firstParent.CreateNew();
+            var counterChild = secondParent.CreateNew();
+            for (int i = 0; i < firstParent.Length; i++) {
+                if (RandomizationProvider.Current.GetDouble() < MixProbability) {
+                    child.ReplaceGene(i, firstParent.GetGene(i));
+                    counterChild.ReplaceGene(i, secondParent.GetGene(i));
+                } else {
+                    child.ReplaceGene(i, secondParent.GetGene(i));
+                    counterChild.ReplaceGene(i, firstParent.GetGene(i));
+                }
+            }
+            return (child, counterChild);
         }
         #endregion
     }

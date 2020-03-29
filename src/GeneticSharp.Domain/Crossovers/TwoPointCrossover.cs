@@ -18,7 +18,7 @@ namespace GeneticSharp.Domain.Crossovers {
     public class TwoPointCrossover : OnePointCrossover {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.TwoPointCrossover"/> class.
+        /// Initializes a new instance of the <see cref="TwoPointCrossover"/> class.
         /// </summary>
         /// <param name="swapPointOneGeneIndex">Swap point one gene index.</param>
         /// <param name="swapPointTwoGeneIndex">Swap point two gene index.</param>
@@ -33,10 +33,9 @@ namespace GeneticSharp.Domain.Crossovers {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.TwoPointCrossover"/> class.
+        /// Initializes a new instance of the <see cref="TwoPointCrossover"/> class.
         /// </summary>
-        public TwoPointCrossover() : this(0, 1) {
-        }
+        public TwoPointCrossover() : this(0, 1) { }
         #endregion
 
         #region Properties

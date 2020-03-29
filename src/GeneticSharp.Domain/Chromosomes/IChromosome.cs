@@ -77,6 +77,15 @@ namespace GeneticSharp.Domain.Chromosomes {
         Gene[] GetGenes();
 
         /// <summary>
+        /// Analyzes the equivalence of two chromosomes.
+        /// </summary>
+        /// <param name="other">The other chromosome.</param>
+        /// <param name="equivalent">The indices of genes that are equivalent.</param>
+        /// <param name="different">The indices of genes that are different.</param>
+        /// <returns>The percentage of equivalent genes.</returns>
+        float Equivalence(IChromosome other, out IList<int> equivalent, out IList<int> different);
+
+        /// <summary>
         /// Creates a new chromosome using the same structure of this.
         /// </summary>
         /// <returns>The new chromosome.</returns>
