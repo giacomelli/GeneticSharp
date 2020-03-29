@@ -24,6 +24,7 @@ namespace GeneticSharp.Domain {
         /// <param name="mutation">The mutation class.</param>
         /// <param name="mutationProbability">The mutation probability.</param>
         /// <param name="chromosomes">The chromosomes.</param>
-        void Mutate(IMutation mutation, float mutationProbability, IList<IChromosome> chromosomes);
+        /// <returns>The amount of mutations that occured</returns>
+        int Mutate(IMutation mutation, float mutationProbability, IList<IChromosome> chromosomes);
     }
 }

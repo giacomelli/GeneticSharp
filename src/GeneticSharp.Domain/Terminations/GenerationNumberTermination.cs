@@ -4,25 +4,24 @@ namespace GeneticSharp.Domain.Terminations {
     /// <summary>
     /// Generation number termination.
     /// <remarks>
-    /// The genetic algorithm will be terminate when reach the expected generation number.
+    /// The genetic algorithm will terminate when it reaches the expected generation number.
     /// </remarks>
     /// </summary>
     [DisplayName("Generation Number")]
     public class GenerationNumberTermination : TerminationBase {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Terminations.GenerationNumberTermination"/> class.
+        /// Initializes a new instance of the <see cref="GenerationNumberTermination"/> class.
         /// </summary>
         /// <remarks>
         /// The default expected generation number is 100.
         /// </remarks>
-        public GenerationNumberTermination() : this(100) {
-        }
+        public GenerationNumberTermination() : this(100) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Terminations.GenerationNumberTermination"/> class.
+        /// Initializes a new instance of the <see cref="GenerationNumberTermination"/> class.
         /// </summary>
-        /// <param name="expectedGenerationNumber">The generation number to consider the termination has been reached.</param>
+        /// <param name="expectedGenerationNumber">The generation number to consider whether the termination has been reached.</param>
         public GenerationNumberTermination(int expectedGenerationNumber) {
             ExpectedGenerationNumber = expectedGenerationNumber;
         }

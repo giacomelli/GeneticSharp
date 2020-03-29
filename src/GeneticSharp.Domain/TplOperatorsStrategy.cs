@@ -47,10 +47,13 @@ namespace GeneticSharp.Domain {
         /// <param name="mutation">The mutation class.</param>
         /// <param name="mutationProbability">The mutation probability.</param>
         /// <param name="chromosomes">The chromosomes.</param>
-        public void Mutate(IMutation mutation, float mutationProbability, IList<IChromosome> chromosomes) {
+        /// <returns>The amount of mutations that occured</returns>
+        public int Mutate(IMutation mutation, float mutationProbability, IList<IChromosome> chromosomes) {
+            int mutations = 0;
             Parallel.ForEach(chromosomes, c => {
-                mutation.Mutate(c, mutationProbability);
+                mutations += mutation.Mutate(c, mutationProbability);
             });
+            return mutations;
         }
     }
 }

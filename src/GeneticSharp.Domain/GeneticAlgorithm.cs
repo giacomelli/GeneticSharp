@@ -143,7 +143,6 @@ namespace GeneticSharp.Domain {
         /// <summary>
         /// Gets the population.
         /// </summary>
-        /// <value>The population.</value>
         public IPopulation Population { get; private set; }
 
         /// <summary>
@@ -159,7 +158,6 @@ namespace GeneticSharp.Domain {
         /// <summary>
         /// Gets or sets the crossover operator.
         /// </summary>
-        /// <value>The crossover.</value>
         public ICrossover Crossover { get; set; }
 
         /// <summary>
@@ -176,6 +174,11 @@ namespace GeneticSharp.Domain {
         /// Gets or sets the mutation probability.
         /// </summary>
         public float MutationProbability { get; set; }
+        
+        /// <summary>
+        /// Gets the mutation count.
+        /// </summary>
+        public int MutationCount { get; private set; }
 
         /// <summary>
         /// Gets or sets the reinsertion operator.
@@ -190,7 +193,6 @@ namespace GeneticSharp.Domain {
         /// <summary>
         /// Gets the generations number.
         /// </summary>
-        /// <value>The generations number.</value>
         public int GenerationsNumber {
             get {
                 return Population.GenerationsNumber;
@@ -200,7 +202,6 @@ namespace GeneticSharp.Domain {
         /// <summary>
         /// Gets the best chromosome.
         /// </summary>
-        /// <value>The best chromosome.</value>
         public IChromosome BestChromosome {
             get {
                 return Population.BestChromosome;
@@ -427,7 +428,7 @@ namespace GeneticSharp.Domain {
         /// </summary>
         /// <param name="chromosomes">The chromosomes.</param>
         private void Mutate(IList<IChromosome> chromosomes) {
-            OperatorsStrategy.Mutate(Mutation, MutationProbability, chromosomes);
+            MutationCount += OperatorsStrategy.Mutate(Mutation, MutationProbability, chromosomes);
         }
 
         /// <summary>

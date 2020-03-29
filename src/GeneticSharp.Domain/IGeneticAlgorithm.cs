@@ -24,6 +24,12 @@ namespace GeneticSharp.Domain {
         /// </summary>
         /// <value>The time evolving.</value>
         TimeSpan TimeEvolving { get; }
+
+        /// <summary>
+        /// Gets the mutation count.
+        /// </summary>
+        /// <value>The mutation count.</value>
+        int MutationCount { get; }
         #endregion
     }
 }
