@@ -1,5 +1,4 @@
 ﻿using GeneticSharp.Domain.Randomizations;
-using System;
 using System.Linq;
 
 namespace GeneticSharp.Domain.Chromosomes {
@@ -9,12 +8,10 @@ namespace GeneticSharp.Domain.Chromosomes {
     public abstract class BinaryChromosomeBase : ChromosomeBase, IBinaryChromosome {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Chromosomes.BinaryChromosomeBase"/> class.
+        /// Initializes a new instance of the <see cref="BinaryChromosomeBase"/> class.
         /// </summary>
         /// <param name="length">The length, in genes, of the chromosome.</param>
-        protected BinaryChromosomeBase(int length)
-            : base(length) {
-        }
+        protected BinaryChromosomeBase(int length) : base(length) { }
         #endregion
 
         #region Methods
@@ -26,8 +23,7 @@ namespace GeneticSharp.Domain.Chromosomes {
         /// <param name="index">The gene index.</param>
         public virtual void FlipGene(int index) {
             var value = (int)GetGene(index).Value;
-
-            ReplaceGene(index, new Gene(value == 0 ? 1 : 0));
+            ReplaceGene(index, new Gene(1 - value));
         }
 
         /// <summary>
@@ -40,11 +36,11 @@ namespace GeneticSharp.Domain.Chromosomes {
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Domain.Chromosomes.BinaryChromosomeBase"/>.
+        /// Returns a <see cref="string"/> that represents the current <see cref="BinaryChromosomeBase"/>.
         /// </summary>
-        /// <returns>A <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Domain.Chromosomes.BinaryChromosomeBase"/>.</returns>
+        /// <returns>A <see cref="string"/> that represents the current <see cref="BinaryChromosomeBase"/>.</returns>
         public override string ToString() {
-            return String.Join(string.Empty, GetGenes().Select(g => g.Value.ToString()).ToArray());
+            return string.Join(string.Empty, GetGenes().Select(g => g.Value.ToString()).ToArray());
         }
         #endregion
     }

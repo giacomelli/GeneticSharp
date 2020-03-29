@@ -249,7 +249,6 @@ namespace GeneticSharp.Domain {
         #endregion
 
         #region Methods
-
         /// <summary>
         /// Starts the genetic algorithm using population, fitness, selection, crossover, mutation and termination configured.
         /// </summary>

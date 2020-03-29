@@ -16,21 +16,14 @@ namespace GeneticSharp.Domain.Crossovers {
     public class UniformCrossover : CrossoverBase {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.UniformCrossover"/> class.
+        /// Initializes a new instance of the <see cref="UniformCrossover"/> class.
         /// </summary>
-        /// <param name="mixProbability">The mix probability. he default mix probability is 0.5.</param>
-        public UniformCrossover(float mixProbability)
-            : base(2, 2) {
+        /// <param name="mixProbability">The mix probability. The default mix probability is 0.5.</param>
+        /// <param name="childrenNumber">How many children to generate of two parents.</param>
+        /// <param name="counterChild">Whether to generate the counter children.</param>
+        public UniformCrossover(float mixProbability = 0.5f, int childrenNumber = 2, bool counterChild = true) : base(2, childrenNumber) {
             MixProbability = mixProbability;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.UniformCrossover"/> class.
-        /// <remarks>
-        /// The default mix probability is 0.5.
-        /// </remarks>
-        /// </summary>
-        public UniformCrossover() : this(0.5f) {
+            CounterChild = counterChild;
         }
         #endregion
 
@@ -40,6 +33,12 @@ namespace GeneticSharp.Domain.Crossovers {
         /// </summary>
         /// <value>The mix probability.</value>
         public float MixProbability { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether to generate the counter children.
+        /// </summary>
+        /// <value>Whether to generate the counter children</value>
+        public bool CounterChild { get; set; }
         #endregion
 
         #region Methods
@@ -51,20 +50,26 @@ namespace GeneticSharp.Domain.Crossovers {
         protected override IList<IChromosome> PerformCross(IList<IChromosome> parents) {
             var firstParent = parents[0];
             var secondParent = parents[1];
-            var firstChild = firstParent.CreateNew();
-            var secondChild = secondParent.CreateNew();
+            var offspring = new List<IChromosome>(ChildrenNumber);
 
-            for (int i = 0; i < firstParent.Length; i++) {
-                if (RandomizationProvider.Current.GetDouble() < MixProbability) {
-                    firstChild.ReplaceGene(i, firstParent.GetGene(i));
-                    secondChild.ReplaceGene(i, secondParent.GetGene(i));
-                } else {
-                    firstChild.ReplaceGene(i, secondParent.GetGene(i));
-                    secondChild.ReplaceGene(i, firstParent.GetGene(i));
+            while (offspring.Count < ChildrenNumber) {
+                var firstChild = firstParent.CreateNew();
+                var secondChild = secondParent.CreateNew();
+                for (int i = 0; i < firstParent.Length; i++) {
+                    if (RandomizationProvider.Current.GetDouble() < MixProbability) {
+                        firstChild.ReplaceGene(i, firstParent.GetGene(i));
+                        secondChild.ReplaceGene(i, secondParent.GetGene(i));
+                    } else {
+                        firstChild.ReplaceGene(i, secondParent.GetGene(i));
+                        secondChild.ReplaceGene(i, firstParent.GetGene(i));
+                    }
                 }
-            }
 
-            return new List<IChromosome> { firstChild, secondChild };
+                offspring.Add(firstChild);
+                if (CounterChild && offspring.Count < ChildrenNumber) offspring.Add(secondChild);
+            }
+            
+            return offspring;
         }
         #endregion
     }
