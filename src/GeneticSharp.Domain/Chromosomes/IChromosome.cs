@@ -77,6 +77,13 @@ namespace GeneticSharp.Domain.Chromosomes {
         Gene[] GetGenes();
 
         /// <summary>
+        /// Get genes on specified indices.
+        /// </summary>
+        /// <param name="indices">Indices of the genes.</param>
+        /// <returns>The genes at the specified indices.</returns>
+        IList<Gene> GetGenesOnIndices(IList<int> indices);
+
+        /// <summary>
         /// Analyzes the equivalence of two chromosomes.
         /// </summary>
         /// <param name="other">The other chromosome.</param>
