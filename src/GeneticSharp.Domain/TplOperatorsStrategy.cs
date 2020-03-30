@@ -6,6 +6,7 @@ using GeneticSharp.Domain.Randomizations;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GeneticSharp.Domain {
@@ -51,7 +52,8 @@ namespace GeneticSharp.Domain {
         public int Mutate(IMutation mutation, float mutationProbability, IList<IChromosome> chromosomes) {
             int mutations = 0;
             Parallel.ForEach(chromosomes, c => {
-                mutations += mutation.Mutate(c, mutationProbability);
+                int m = mutation.Mutate(c, mutationProbability);
+                Interlocked.Add(ref mutations, m);
             });
             return mutations;
         }

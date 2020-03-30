@@ -110,6 +110,7 @@ namespace GeneticSharp.Domain {
 
             CrossoverProbability = DefaultCrossoverProbability;
             MutationProbability = DefaultMutationProbability;
+            OffspringLimit = Population.MaxSize;
             TimeEvolving = TimeSpan.Zero;
             State = GeneticAlgorithmState.NotStarted;
             TaskExecutor = new LinearTaskExecutor();
@@ -166,6 +167,11 @@ namespace GeneticSharp.Domain {
         public float CrossoverProbability { get; set; }
 
         /// <summary>
+        /// The limit on the amount of offspring generated.
+        /// </summary>
+        public int OffspringLimit { get; set; }
+
+        /// <summary>
         /// Gets or sets the mutation operator.
         /// </summary>
         public IMutation Mutation { get; set; }
@@ -175,6 +181,11 @@ namespace GeneticSharp.Domain {
         /// </summary>
         public float MutationProbability { get; set; }
         
+        /// <summary>
+        /// Whether the first population is mutated or not.
+        /// </summary>
+        public bool MutateAdams { get; set; }
+
         /// <summary>
         /// Gets the mutation count.
         /// </summary>
@@ -257,6 +268,7 @@ namespace GeneticSharp.Domain {
                 State = GeneticAlgorithmState.Started;
                 m_stopwatch = Stopwatch.StartNew();
                 Population.CreateInitialGeneration();
+                if (MutateAdams) Mutate(Population.CurrentGeneration.Chromosomes);
                 m_stopwatch.Stop();
                 TimeEvolving = m_stopwatch.Elapsed;
             }
@@ -410,7 +422,7 @@ namespace GeneticSharp.Domain {
         /// </summary>
         /// <returns>The parents.</returns>
         private IList<IChromosome> SelectParents() {
-            return Selection.SelectChromosomes(Population.MinSize, Population.CurrentGeneration);
+            return Selection.SelectChromosomes(Math.Min(Population.MinSize, OffspringLimit * Crossover.ParentsNumber), Population.CurrentGeneration);
         }
 
         /// <summary>

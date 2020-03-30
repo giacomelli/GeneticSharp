@@ -15,7 +15,7 @@ namespace GeneticSharp.Domain.Selections {
     public sealed class EliteSelection : SelectionBase {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Selections.EliteSelection"/> class.
+        /// Initializes a new instance of the <see cref="EliteSelection"/> class.
         /// </summary>
         public EliteSelection() : base(1) { }
         #endregion
