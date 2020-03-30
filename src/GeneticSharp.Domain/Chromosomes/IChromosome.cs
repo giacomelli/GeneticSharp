@@ -90,7 +90,7 @@ namespace GeneticSharp.Domain.Chromosomes {
         /// <param name="equivalent">The indices of genes that are equivalent.</param>
         /// <param name="different">The indices of genes that are different.</param>
         /// <returns>The percentage of equivalent genes.</returns>
-        float Equivalence(IChromosome other, out IList<int> equivalent, out IList<int> different);
+        float GeneEquivalence(IChromosome other, out IList<int> equivalent, out IList<int> different);
 
         /// <summary>
         /// Creates a new chromosome using the same structure of this.

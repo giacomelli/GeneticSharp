@@ -172,6 +172,16 @@ namespace GeneticSharp.Domain {
         public int OffspringLimit { get; set; }
 
         /// <summary>
+        /// Whether duplicate chromosomes are allowed in the population.
+        /// </summary>
+        public bool AllowDuplicateChromosomes { get; set; } = true;
+
+        /// <summary>
+        /// How many duplicate chromosomes were found.
+        /// </summary>
+        public int DuplicateChromosomeCount { get; set; }
+
+        /// <summary>
         /// Gets or sets the mutation operator.
         /// </summary>
         public IMutation Mutation { get; set; }
@@ -180,11 +190,11 @@ namespace GeneticSharp.Domain {
         /// Gets or sets the mutation probability.
         /// </summary>
         public float MutationProbability { get; set; }
-        
+
         /// <summary>
         /// Whether the first population is mutated or not.
         /// </summary>
-        public bool MutateAdams { get; set; }
+        public bool MutateAdams { get; set; } = false;
 
         /// <summary>
         /// Gets the mutation count.
@@ -451,7 +461,20 @@ namespace GeneticSharp.Domain {
         /// The reinserted chromosomes.
         /// </returns>
         private IList<IChromosome> Reinsert(IList<IChromosome> offspring, IList<IChromosome> parents) {
-            foreach (var chromosome in offspring) RunEvaluateFitness(chromosome);
+            foreach (var child in offspring) RunEvaluateFitness(child);
+            if (!AllowDuplicateChromosomes) {
+                IList<IChromosome> duplicates = new List<IChromosome>();
+                foreach (var child in offspring) {
+                    foreach (var parent in parents) {
+                        if (child.GeneEquivalence(parent, out _, out _) == 1f) {
+                            duplicates.Add(child);
+                            break;
+                        }
+                    }
+                }
+                foreach (var duplicate in duplicates) offspring.Remove(duplicate);
+                DuplicateChromosomeCount += duplicates.Count;
+            }
             return Reinsertion.SelectChromosomes(Population, offspring, parents);
         }
         #endregion

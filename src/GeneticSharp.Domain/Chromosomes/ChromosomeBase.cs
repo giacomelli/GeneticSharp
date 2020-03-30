@@ -229,13 +229,13 @@ namespace GeneticSharp.Domain.Chromosomes {
         }
 
         /// <summary>
-        /// Analyzes the equivalence of two chromosomes.
+        /// Analyses the equivalence of the genes of two chromosomes.
         /// </summary>
         /// <param name="other">The other chromosome.</param>
         /// <param name="equivalent">The indices of genes that are equivalent.</param>
         /// <param name="different">The indices of genes that are different.</param>
         /// <returns>The percentage of equivalent genes.</returns>
-        public float Equivalence(IChromosome other, out IList<int> equivalent, out IList<int> different) {
+        public float GeneEquivalence(IChromosome other, out IList<int> equivalent, out IList<int> different) {
             equivalent = new List<int>();
             different = new List<int>();
             for (int i = 0; i < Math.Min(Length, other.Length); i++) {
