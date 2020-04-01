@@ -110,7 +110,6 @@ namespace GeneticSharp.Domain {
 
             CrossoverProbability = DefaultCrossoverProbability;
             MutationProbability = DefaultMutationProbability;
-            OffspringLimit = Population.MaxSize;
             TimeEvolving = TimeSpan.Zero;
             State = GeneticAlgorithmState.NotStarted;
             TaskExecutor = new LinearTaskExecutor();
@@ -167,9 +166,9 @@ namespace GeneticSharp.Domain {
         public float CrossoverProbability { get; set; }
 
         /// <summary>
-        /// The limit on the amount of offspring generated.
+        /// Whether a single crossover is done per generation or as many as possible.
         /// </summary>
-        public int OffspringLimit { get; set; }
+        public bool SteadyState { get; set; } = false;
 
         /// <summary>
         /// Whether duplicate chromosomes are allowed in the population.
@@ -432,7 +431,7 @@ namespace GeneticSharp.Domain {
         /// </summary>
         /// <returns>The parents.</returns>
         private IList<IChromosome> SelectParents() {
-            return Selection.SelectChromosomes(Math.Min(Population.MinSize, OffspringLimit * Crossover.ParentsNumber), Population.CurrentGeneration);
+            return Selection.SelectChromosomes(SteadyState ? Crossover.ParentsNumber : Population.MinSize, Population.CurrentGeneration);
         }
 
         /// <summary>
@@ -465,15 +464,15 @@ namespace GeneticSharp.Domain {
             if (!AllowDuplicateChromosomes) {
                 IList<IChromosome> duplicates = new List<IChromosome>();
                 foreach (var child in offspring) {
-                    foreach (var parent in parents) {
-                        if (child.GeneEquivalence(parent, out _, out _) == 1f) {
+                    foreach (var c in Population.CurrentGeneration.Chromosomes) {
+                        if (child.GeneEquivalence(c, out _, out _) == 1f) {
                             duplicates.Add(child);
                             break;
                         }
                     }
                 }
-                foreach (var duplicate in duplicates) offspring.Remove(duplicate);
                 DuplicateChromosomeCount += duplicates.Count;
+                foreach (var duplicate in duplicates) offspring.Remove(duplicate);
             }
             return Reinsertion.SelectChromosomes(Population, offspring, parents);
         }
