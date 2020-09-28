@@ -64,7 +64,7 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
 ### [Populations](src/GeneticSharp.Domain/Populations)
    - [Population](src/GeneticSharp.Domain/Populations/Population.cs)
    - [TplPopulation](src/GeneticSharp.Domain/Populations/TplPopulation.cs)
-   - Others populations can be added implementing [IPopulation](src/GeneticSharp.Domain/IPopulation) interface or extending [Population](src/GeneticSharp.Domain/Populations/Population.cs).
+   - Others populations can be added implementing [IPopulation](src/GeneticSharp.Domain/Populations/IPopulation.cs) interface or extending [Population](src/GeneticSharp.Domain/Populations/Population.cs).
 
 ### [Generations](src/GeneticSharp.Domain/Populations/Generation.cs)
    - [Generation](src/GeneticSharp.Domain/Populations/Generation.cs)
