@@ -20,10 +20,12 @@ Can be used in any kind of .NET Core and .NET Framework apps, like ASP .NET MVC,
 * [AeroVision: aircraft trajectories optimization and visualization (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/AeroVision-Aircraft-trajectories-optimization-and-visualization.pdf)
 * [Artificial Intelligence course in French engineering schools (course)](https://github.com/giacomelli/GeneticSharp/pull/43#issuecomment-433662175)
 * [Analysis and comparison between Black-Scholes and Merton and Corrado-Su for options pricing (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Analysis-and-comparison-between-Black-Scholes-and-Merton-and-Corrado-Su-for-options-pricing.pdf) ![](https://img.shields.io/badge/BR-green.svg)
+* [BlazorAI: Blazor Meets Artificial Intelligence (app)](https://www.blazor.ai/) [(Github)](https://github.com/lhalsey/BlazorAI)
 * [Context-Sensitive Code Completion: improving predictions with genetic algorithms (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Context-Sensitive-Code-Completion-improving-predictions-with-genetic-algorithms.pdf) [(Github)](https://github.com/godtopus/GeneCSCC)
 * [Deriving Functions for Pareto Optimal Fronts Using Genetic Programming (paper/book)](https://books.google.com.br/books?id=w_lcDwAAQBAJ&lpg=PA473&ots=Rv7O6FhCSM&dq=%22GeneticSharp%22&hl=pt-BR&pg=PA464#v=onepage&q=%22GeneticSharp%22&f=false)
 * [Designing and creating a self managing distributed file system (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Designing-and-creating-a-self-managing-distributed-file-system.pdf)
 * [Design of a warehouse order picking policy using genetic algorithm (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Design-of-a-warehouse-order-picking-policy-using-genetic-algorithm.pdf)
+* [Development of a Coupled Hydrological and Buildup/Washoff Watershed Model (paper)](https://ascelibrary.org/doi/abs/10.1061/9780784482957.014) ![](https://img.shields.io/badge/BR-green.svg)
 * [Developing trading strategies with genetic algorithms (forum)](https://www.quantconnect.com/forum/discussion/2396/developing-trading-strategies-with-genetic-algorithms) [(paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Developing-Trading-Strategies-with-Genetic-Algorithms.pdf)
 * [Fabrication of Adiabatic Quantum-Flux-Parametron Integrated Circuits Using an Automatic Placement Tool Based on Genetic Algorithms (paper)](https://ieeexplore.ieee.org/document/8643945)
 * [Frixel: 2D framing / pixel structural optimization (project)](https://github.com/EmilPoulsen/Frixel)
@@ -135,8 +137,18 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
    - Others task executors can be added implementing [ITaskExecutor](src/GeneticSharp.Infrastructure.Framework/Threading/ITaskExecutor.cs) interface.
    
 ##  Samples
+### [BlazorAI](https://www.blazor.ai/)
+- [TSP (Travelling Salesman Problem)](https://www.blazor.ai/travellingsalesman)
+- [Five Houses Problem / Einstein's Riddle/ Zebra Puzzle](https://www.blazor.ai/fivehouses)
+- [Eight Queens Problem](https://www.blazor.ai/eightqueens)
+- [Password Problem](https://www.blazor.ai/password)
+- [Genius Square Problem](https://www.blazor.ai/geniussquare)
+
+![](docs/gifs/GeneticSharp-BlazorAi-samples.gif)
+
 ### [Blazor samples](src/GeneticSharp.Runner.BlacorApp)
-- [TSP (Travelling Salesman Problem) [online]](http://diegogiacomelli.com.br/apps/geneticsharp-runner-blazorapp)
+- [TSP (Travelling Salesman Problem)](http://diegogiacomelli.com.br/apps/geneticsharp-runner-blazorapp)
+
 
 ### [Console samples](src/GeneticSharp.Runner.ConsoleApp)
 - AutoConfig
