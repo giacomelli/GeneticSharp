@@ -18,7 +18,6 @@ namespace GeneticSharp.Domain.Mutations
         /// Gets available mutation types.
         /// </summary>
         /// <returns>All available mutation types.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public static IList<Type> GetMutationTypes()
         {
             return TypeHelper.GetTypesByInterface<IMutation>();
@@ -28,7 +27,6 @@ namespace GeneticSharp.Domain.Mutations
         /// Gets the available mutation names.
         /// </summary>
         /// <returns>The mutation names.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public static IList<string> GetMutationNames()
         {
             return TypeHelper.GetDisplayNamesByInterface<IMutation>();

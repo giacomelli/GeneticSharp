@@ -6,7 +6,7 @@ using GeneticSharp.Infrastructure.Framework.Texts;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
 {
-	public class SampleContext
+    public class SampleContext
     {
         #region Fields
         private int m_lastTextY = 0;

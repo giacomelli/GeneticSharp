@@ -15,7 +15,6 @@ namespace GeneticSharp.Domain.Crossovers
         /// Gets available crossover types.
         /// </summary>
         /// <returns>All available crossover types.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public static IList<Type> GetCrossoverTypes()
         {
             return TypeHelper.GetTypesByInterface<ICrossover>();
@@ -25,7 +24,6 @@ namespace GeneticSharp.Domain.Crossovers
         /// Gets the available crossover names.
         /// </summary>
         /// <returns>The crossover names.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public static IList<string> GetCrossoverNames()
         {
             return TypeHelper.GetDisplayNamesByInterface<ICrossover>();

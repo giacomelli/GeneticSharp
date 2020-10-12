@@ -29,16 +29,16 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         {
             m_numberOfCities = numberOfCities;
         }
-		#endregion
+        #endregion
 
-		#region Methods
-		public override void ConfigGA(GeneticAlgorithm ga)
-		{
+        #region Methods
+        public override void ConfigGA(GeneticAlgorithm ga)
+        {
             ga.TaskExecutor = new LinearTaskExecutor();
             base.ConfigGA(ga);
-		}
+        }
 
-		public override ITermination CreateTermination()
+        public override ITermination CreateTermination()
         {
             return new OrTermination(new TimeEvolvingTermination(TimeSpan.FromMinutes(1)), new FitnessStagnationTermination(500));
         }       

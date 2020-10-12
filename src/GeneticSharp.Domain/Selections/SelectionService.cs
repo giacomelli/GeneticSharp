@@ -15,7 +15,6 @@ namespace GeneticSharp.Domain.Selections
         /// Gets available selection types.
         /// </summary>
         /// <returns>All available selection types.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public static IList<Type> GetSelectionTypes()
         {
             return TypeHelper.GetTypesByInterface<ISelection>();
@@ -25,7 +24,6 @@ namespace GeneticSharp.Domain.Selections
         /// Gets the available selection names.
         /// </summary>
         /// <returns>The selection names.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public static IList<string> GetSelectionNames()
         {
             return TypeHelper.GetDisplayNamesByInterface<ISelection>();

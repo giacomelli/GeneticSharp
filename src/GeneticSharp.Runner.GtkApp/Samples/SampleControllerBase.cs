@@ -84,13 +84,13 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             return new FitnessStagnationTermination(1000);
         }
 
-		/// <summary>
-		/// Configure the Genetic Algorithm.
-		/// </summary>
-		/// <param name="ga">The genetic algorithm.</param>
-		public virtual void ConfigGA(GeneticAlgorithm ga)
-		{
-		}
+        /// <summary>
+        /// Configure the Genetic Algorithm.
+        /// </summary>
+        /// <param name="ga">The genetic algorithm.</param>
+        public virtual void ConfigGA(GeneticAlgorithm ga)
+        {
+        }
 
         /// <summary>
         /// Resets the sample.

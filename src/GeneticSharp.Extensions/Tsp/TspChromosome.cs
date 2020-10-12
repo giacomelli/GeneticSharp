@@ -11,7 +11,7 @@ namespace GeneticSharp.Extensions.Tsp
     /// </remarks>
     /// </summary>
     [Serializable]
-	public class TspChromosome : ChromosomeBase
+    public class TspChromosome : ChromosomeBase
     {
         #region Fields
         private readonly int m_numberOfCities;
