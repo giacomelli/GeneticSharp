@@ -73,7 +73,6 @@ namespace GeneticSharp.Extensions.AutoConfig
         /// </summary>
         /// <param name="chromosome">The chromosome.</param>
         /// <returns>The chromosome fitness.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         public double Evaluate(IChromosome chromosome)
         {
             var autoConfigChromosome = chromosome as AutoConfigChromosome;

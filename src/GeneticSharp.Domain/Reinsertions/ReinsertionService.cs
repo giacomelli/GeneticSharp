@@ -15,7 +15,6 @@ namespace GeneticSharp.Domain.Reinsertions
         /// Gets available reinsertion types.
         /// </summary>
         /// <returns>All available reinsertion types.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public static IList<Type> GetReinsertionTypes()
         {
             return TypeHelper.GetTypesByInterface<IReinsertion>();
@@ -25,7 +24,6 @@ namespace GeneticSharp.Domain.Reinsertions
         /// Gets the available reinsertion names.
         /// </summary>
         /// <returns>The reinsertion names.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public static IList<string> GetReinsertionNames()
         {
             return TypeHelper.GetDisplayNamesByInterface<IReinsertion>();

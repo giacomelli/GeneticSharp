@@ -8,7 +8,7 @@ using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Populations
 {
-	[TestFixture()]
+    [TestFixture()]
     [Category("Populations")]
     public class PopulationTest
     {

@@ -126,3 +126,8 @@ Issue9Sample.sln.GhostDoc.xml
 *.opencover.xml
 .sonarqube
 BenchmarkDotNet.Artifacts
+/tools/*
+!/tools/buildLibrariesNuget.cmd
+!/tools/buildTemplatesNuget.cmd
+!/tools/runBenchmarks.cmd
+!/tools/runBenchmarks.sh

@@ -19,7 +19,6 @@ namespace GeneticSharp.Domain.Mutations
         #region Fields
         private int[] m_mutableGenesIndexes;
 
-        [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "mall")]
         private readonly bool m_allGenesMutable;
         #endregion
 

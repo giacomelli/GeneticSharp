@@ -5,10 +5,10 @@ using GeneticSharp.Infrastructure.Framework.Texts;
 
 namespace GeneticSharp.Domain.Crossovers
 {
-	/// <summary>
-	/// Exception throw when an error occurs during the execution of cross.
-	/// </summary>
-	[Serializable]
+    /// <summary>
+    /// Exception throw when an error occurs during the execution of cross.
+    /// </summary>
+    [Serializable]
     public sealed class CrossoverException : Exception
     {
         #region Constructors        

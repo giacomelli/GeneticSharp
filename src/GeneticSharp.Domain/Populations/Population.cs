@@ -61,7 +61,6 @@ namespace GeneticSharp.Domain.Populations
         /// </remarks>
         /// </summary>
         /// <value>The generations.</value>
-        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "Parent classes need to set it.")]
         public IList<Generation> Generations { get; protected set; }
 
         /// <summary>

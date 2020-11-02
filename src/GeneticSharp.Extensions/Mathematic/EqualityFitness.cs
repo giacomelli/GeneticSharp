@@ -17,7 +17,6 @@ namespace GeneticSharp.Extensions.Mathematic
         /// </summary>
         /// <param name="equalityChromosome">The chromosome.</param>
         /// <returns>The equation result.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "just a EquationChromosome can be used")]
         public static int GetEquationResult(EquationChromosome equalityChromosome)
         {
             var genes = equalityChromosome.GetGenes();

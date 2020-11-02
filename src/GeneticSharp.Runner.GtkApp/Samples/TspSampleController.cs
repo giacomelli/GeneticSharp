@@ -13,10 +13,10 @@ using Gtk;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
 {
-	/// <summary>
-	/// TSP (Travelling Salesman Problem) sample controller.
-	/// </summary>
-	[DisplayName("TSP")]
+    /// <summary>
+    /// TSP (Travelling Salesman Problem) sample controller.
+    /// </summary>
+    [DisplayName("TSP")]
     public class TspSampleController : SampleControllerBase
     {
         #region Fields
@@ -103,8 +103,8 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             return new EliteSelection();
         }
 
-		public override void ConfigGA(GeneticAlgorithm ga)
-		{
+        public override void ConfigGA(GeneticAlgorithm ga)
+        {
             ga.TaskExecutor = new ParallelTaskExecutor
             {
                 MinThreads = ga.Population.MinSize,
@@ -112,11 +112,11 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             };
 
             base.ConfigGA(ga);
-		}
-		/// <summary>
-		/// Resets the sample.
-		/// </summary>
-		public override void Reset()
+        }
+        /// <summary>
+        /// Resets the sample.
+        /// </summary>
+        public override void Reset()
         {
             m_bestChromosome = null;
         }

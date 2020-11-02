@@ -13,7 +13,6 @@ namespace GeneticSharp.Domain.UnitTests
         /// Asserts if at leas one execution flow run without exception..
         /// </summary>
         /// <param name="flows">The Execution flows.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         public static void IsAtLeastOneOk(params Action[] flows)
         {
             if (flows == null)
@@ -47,7 +46,6 @@ namespace GeneticSharp.Domain.UnitTests
         /// </summary>
         /// <param name="maxAttempts">The max attempts.</param>
         /// <param name="flow">The execution flow.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         public static void IsAtLeastOneAttemptOk(int maxAttempts, Action flow)
         {
             bool ok = false;

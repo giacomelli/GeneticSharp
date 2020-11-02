@@ -6,14 +6,14 @@ using System.Linq;
 namespace GeneticSharp.Domain.Mutations
 {
     /// <summary>
-	/// Partial Shuffle Mutation (PSM).
-	/// <remarks>
-	/// In the partial shuffle mutation operator, we take a sequence S limited by two 
-	/// positions i and j randomly chosen, such that i&lt;j. The gene order in this sequence 
-	/// will be shuffled. Sequence will be shuffled until it becomes different than the starting order
-	/// <see href="http://arxiv.org/ftp/arxiv/papers/1203/1203.3099.pdf">Analyzing the Performance of Mutation Operators to Solve the Travelling Salesman Problem</see>
-	/// </remarks>
-	/// </summary>
+    /// Partial Shuffle Mutation (PSM).
+    /// <remarks>
+    /// In the partial shuffle mutation operator, we take a sequence S limited by two 
+    /// positions i and j randomly chosen, such that i&lt;j. The gene order in this sequence 
+    /// will be shuffled. Sequence will be shuffled until it becomes different than the starting order
+    /// <see href="http://arxiv.org/ftp/arxiv/papers/1203/1203.3099.pdf">Analyzing the Performance of Mutation Operators to Solve the Travelling Salesman Problem</see>
+    /// </remarks>
+    /// </summary>
     [DisplayName("Partial Shuffle (PSM)")]
     public class PartialShuffleMutation : SequenceMutationBase
     {

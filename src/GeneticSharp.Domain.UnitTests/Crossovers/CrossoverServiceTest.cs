@@ -22,7 +22,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             Assert.AreEqual(typeof(OrderBasedCrossover), actual[++index]);
             Assert.AreEqual(typeof(OrderedCrossover), actual[++index]);
             Assert.AreEqual(typeof(PartiallyMappedCrossover), actual[++index]);
-			Assert.AreEqual(typeof(PositionBasedCrossover), actual[++index]);
+            Assert.AreEqual(typeof(PositionBasedCrossover), actual[++index]);
             Assert.AreEqual(typeof(ThreeParentCrossover), actual[++index]);
             Assert.AreEqual(typeof(TwoPointCrossover), actual[++index]);
             Assert.AreEqual(typeof(UniformCrossover), actual[++index]);
@@ -43,7 +43,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             Assert.AreEqual("Order-based (OX2)", actual[++index]);
             Assert.AreEqual("Ordered (OX1)", actual[++index]);
             Assert.AreEqual("Partially Mapped (PMX)", actual[++index]);
-			Assert.AreEqual("Position-based (POS)", actual[++index]);
+            Assert.AreEqual("Position-based (POS)", actual[++index]);
             Assert.AreEqual("Three Parent", actual[++index]);
             Assert.AreEqual("Two-Point", actual[++index]);
             Assert.AreEqual("Uniform", actual[++index]);

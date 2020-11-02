@@ -15,7 +15,6 @@ namespace GeneticSharp.Domain.Terminations
         /// Gets available termination types.
         /// </summary>
         /// <returns>All available termination types.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public static IList<Type> GetTerminationTypes()
         {
             return TypeHelper.GetTypesByInterface<ITermination>();
@@ -25,7 +24,6 @@ namespace GeneticSharp.Domain.Terminations
         /// Gets the available termination names.
         /// </summary>
         /// <returns>The termination names.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public static IList<string> GetTerminationNames()
         {
             return TypeHelper.GetDisplayNamesByInterface<ITermination>();

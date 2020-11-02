@@ -73,7 +73,7 @@ namespace GeneticSharp.Domain.Crossovers
             return child;
         }
 
-        private void AddChildGene(Gene[] childGenes, ref int childGenesIndex, Gene parentGene)
+        private static void AddChildGene(Gene[] childGenes, ref int childGenesIndex, Gene parentGene)
         {
             if (!childGenes.Contains(parentGene))
             {

@@ -55,12 +55,12 @@ namespace GeneticSharp.Extensions.UnitTests.AutoConfig
         }
 
         [Test()]
-		public void GenerateGene_InvalidIndex_Exception()
-		{
-			var target = new AutoConfigChromosome();
+        public void GenerateGene_InvalidIndex_Exception()
+        {
+            var target = new AutoConfigChromosome();
 
-			var actual = Assert.Catch(() => target.GenerateGene(9));
-			Assert.AreEqual("Invalid AutoConfigChromosome gene index.", actual.Message);
-		}
+            var actual = Assert.Catch(() => target.GenerateGene(9));
+            Assert.AreEqual("Invalid AutoConfigChromosome gene index.", actual.Message);
+        }
     }
 }

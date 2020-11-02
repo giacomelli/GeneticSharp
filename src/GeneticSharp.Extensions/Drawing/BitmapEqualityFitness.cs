@@ -22,7 +22,7 @@ namespace GeneticSharp.Extensions.Drawing
         /// </summary>
         /// <param name="targetBitmap">The target bitmap.</param>
         public BitmapEqualityFitness(Bitmap targetBitmap)
-			: this()
+            : this()
         {
             Initialize(targetBitmap);
         }

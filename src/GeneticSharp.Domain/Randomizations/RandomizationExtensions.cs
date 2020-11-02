@@ -18,7 +18,6 @@ namespace GeneticSharp.Domain.Randomizations
         /// <param name="randomization">The IRandomization implementation.</param>
         /// <param name="min">Minimum value (inclusive).</param>
         /// <param name="max">Maximum value (exclusive).</param>
-        [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "int")]
         public static int GetEvenInt(this IRandomization randomization, int min, int max)
         {
             checked
@@ -36,7 +35,6 @@ namespace GeneticSharp.Domain.Randomizations
         /// <param name="randomization">The IRandomization implementation.</param>
         /// <param name="min">Minimum value (inclusive).</param>
         /// <param name="max">Maximum value (exclusive).</param>
-        [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "int")]
         public static int GetOddInt(this IRandomization randomization, int min, int max)
         {
             checked
