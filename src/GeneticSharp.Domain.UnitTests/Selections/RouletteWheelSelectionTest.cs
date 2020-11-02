@@ -7,6 +7,7 @@ using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Selections;
 using NUnit.Framework;
 using NSubstitute;
+using GeneticSharp.Extensions.Tsp;
 
 namespace GeneticSharp.Domain.UnitTests.Selections
 {
@@ -129,6 +130,51 @@ namespace GeneticSharp.Domain.UnitTests.Selections
                 Assert.AreEqual(2, actual.Count);
                 Assert.IsTrue(actual.All(c => c.Fitness == 0.7));
             });
+        }
+
+        [Test]
+        public void SelectChromosomes_NullFitness_Exception()
+        {
+            var target = new RouletteWheelSelection();
+            var generation = new Generation(1, new List<IChromosome>
+            {
+                new TspChromosome(10),
+                new TspChromosome(10),
+                new TspChromosome(10),
+                new TspChromosome(10),
+                new TspChromosome(10)
+            });
+
+            var actual = Assert.Catch<SelectionException>(() =>
+            {
+                target.SelectChromosomes(2, generation);
+            });
+
+            Assert.AreEqual("RouletteWheelSelection: There are chromosomes with null fitness.", actual.Message);
+        }
+
+        [Test()]
+        public void SelectChromosomes_Generation_ChromosomesZeroFitness()
+        {
+            var target = new RouletteWheelSelection();
+            var c1 = Substitute.ForPartsOf<ChromosomeBase>(2);
+            c1.Fitness = 0;
+
+            var c2 = Substitute.ForPartsOf<ChromosomeBase>(2);
+            c2.Fitness = 0;
+
+            var c3 = Substitute.ForPartsOf<ChromosomeBase>(2);
+            c3.Fitness = 0;
+
+            var c4 = Substitute.ForPartsOf<ChromosomeBase>(2);
+            c4.Fitness = 0;
+
+            var generation = new Generation(1, new List<IChromosome>() {
+                c1, c2, c3, c4
+            });
+
+            var actual = target.SelectChromosomes(2, generation);
+            Assert.AreEqual(0, actual.Count);
         }
     }
 }

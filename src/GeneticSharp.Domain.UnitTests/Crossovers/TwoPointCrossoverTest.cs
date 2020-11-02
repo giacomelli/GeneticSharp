@@ -8,7 +8,7 @@ using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
-	[TestFixture]
+    [TestFixture]
     [Category("Crossovers")]
     public class TwoPointCrossoverTest
     {

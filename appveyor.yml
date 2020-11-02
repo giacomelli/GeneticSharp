@@ -1,10 +1,8 @@
-version: 2.0.{build}
+version: 2.6.{build}
 os: Visual Studio 2017
 configuration: Release
 environment:
   clone_folder: c:\gs
-  COVERALLS_REPO_TOKEN:
-    secure: O/w+gFTqDriJlktWz0p4xJbT0RnDfj8NZsVAShy54prPmxKEBDBGKwt8S4heGOcq
   GITHUB_REPO_TOKEN:
     secure: Jmpeow5aAcDhUHkwac/AC6MzQciGc9TLgrp5oz4U0gyAwCWGqqxJhmjz3AVrWp/V	
 assembly_info:
@@ -15,52 +13,28 @@ assembly_info:
   assembly_informational_version: '{version}'
   
 install:
-- cmd: choco install gtksharp    
-
-nuget:
-  account_feed: true
-  project_feed: true
+- cmd: choco install gtksharp
   
 before_build:
 - cmd: dotnet --version
-- cmd: dotnet restore src
 
 build_script:
-# The default build
-- cmd: dotnet build src -c release
-
-# All projects support net462 (GTK# only support net462)
-- cmd: dotnet build src -c release -f net462
-
-# Libraries support .netstandard2.0
-- cmd: dotnet build src/GeneticSharp.Domain -f netstandard2.0
-- cmd: dotnet build src/GeneticSharp.Extensions -f netstandard2.0
-- cmd: dotnet build src/GeneticSharp.Infrastructure.Framework -f netstandard2.0
-
-# Unit tests and ConsoleApp support .netcoreapp2.0
-- cmd: dotnet build src/GeneticSharp.Domain.UnitTests -f netcoreapp2.0
-- cmd: dotnet build src/GeneticSharp.Extensions.UnitTests -f netcoreapp2.0
-- cmd: dotnet build src/GeneticSharp.Infrastructure.Framework.UnitTests -f netcoreapp2.0
-- cmd: dotnet build src/GeneticSharp.Runner.ConsoleApp -f netcoreapp2.0
+# Cake.
+- ps: .\build.ps1
 
 after_build:
-- cmd: >-   
-    mkdir .\src\nuget
+# Build the GeneticSharp and GeneticSharp.Extensions NuGet packages.
+- cmd: buildLibrariesNuget.cmd
 
-    dotnet pack src/GeneticSharp.Domain/GeneticSharp.Domain.csproj -c release --no-build --output ../nuget /p:PackageVersion=2.0.0 
-    
-    dotnet pack src/GeneticSharp.Extensions/GeneticSharp.Extensions.csproj -c release --no-build --output ../nuget /p:PackageVersion=2.0.0
+# Build the GeneticSharp.Templates NuGet package.
+- cmd: buildTemplatesNuget.cmd
 
-test_script:
-- cmd: dotnet clean src/GeneticSharp.Domain.UnitTests
-- cmd: dotnet test src/GeneticSharp.Domain.UnitTests -f netcoreapp2.0
-
-- cmd: dotnet clean src/GeneticSharp.Extensions.UnitTests
-- cmd: dotnet test src/GeneticSharp.Extensions.UnitTests -f netcoreapp2.0
-
-- cmd: dotnet clean src/GeneticSharp.Infrastructure.Framework.UnitTests
-- cmd: dotnet test src/GeneticSharp.Infrastructure.Framework.UnitTests -f netcoreapp2.0
+# Tests are executed by Cake.
+test: off
 
 artifacts:
   - path: .\src\nuget\*.nupkg
-    name: NuGet packages
+    name: Libraries NuGet packages
+
+  - path: .\src\Templates\*.nupkg
+    name: Templates NuGet package

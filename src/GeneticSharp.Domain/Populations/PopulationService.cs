@@ -15,7 +15,6 @@ namespace GeneticSharp.Domain.Populations
         /// Gets available generation strategy types.
         /// </summary>
         /// <returns>All available generation strategy types.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public static IList<Type> GetGenerationStrategyTypes()
         {
             return TypeHelper.GetTypesByInterface<IGenerationStrategy>();
@@ -25,7 +24,6 @@ namespace GeneticSharp.Domain.Populations
         /// Gets the available generation strategy names.
         /// </summary>
         /// <returns>The generation strategy names.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public static IList<string> GetGenerationStrategyNames()
         {
             return TypeHelper.GetDisplayNamesByInterface<IGenerationStrategy>();

@@ -27,7 +27,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
             m_words = new List<string>();
 
             for (int i = 0; i < json.value.Count; i++)
-            {                
+            {
                 var quote = json.value[i].joke.Value as string;
                 m_quotes.Add(quote);
 

@@ -3,7 +3,6 @@
   <Import Project="..\msbuilds\GeneticSharp.common.targets" />
   
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
     <TargetFrameworks>netstandard2.0;net462</TargetFrameworks>
     <AssemblyName>GeneticSharp.Domain</AssemblyName>
    </PropertyGroup>
@@ -21,7 +20,7 @@
     <PackageProjectUrl>https://github.com/giacomelli/GeneticSharp</PackageProjectUrl>
     <PackageIconUrl>https://github.com/giacomelli/GeneticSharp/raw/master/docs/logo/icon-64x64-transparent.png</PackageIconUrl>
     <PackageReleaseNotes>See changes at https://github.com/giacomelli/GeneticSharp.</PackageReleaseNotes>
-    <PackageTags>genetic-algorithms geneticsharp genetic algotithms</PackageTags>
+    <PackageTags>genetic-algorithms geneticsharp genetic algorithms</PackageTags>
   </PropertyGroup>
 
 <!-- NuGet Package -->

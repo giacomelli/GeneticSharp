@@ -4,7 +4,6 @@
   <Import Project="..\msbuilds\GeneticSharp.unit-test.targets" />
   
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
     <TargetFrameworks>netcoreapp2.0;net462</TargetFrameworks>
   </PropertyGroup>
 
@@ -14,7 +13,10 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="coverlet.msbuild" Version="2.3.0" />
+    <PackageReference Include="coverlet.msbuild" Version="2.6.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="NSubstitute" Version="3.1.0" />
     <PackageReference Include="nunit" Version="3.9.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.9.0" />

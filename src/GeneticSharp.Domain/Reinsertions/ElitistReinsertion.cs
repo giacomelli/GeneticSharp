@@ -39,11 +39,11 @@ namespace GeneticSharp.Domain.Reinsertions
 
             if (diff > 0)
             {
-                var bestParents = parents.OrderByDescending(p => p.Fitness).Take(diff);
+                var bestParents = parents.OrderByDescending(p => p.Fitness).Take(diff).ToList();
 
-                foreach (var p in bestParents)
+                for (int i = 0; i < bestParents.Count; i++)
                 {
-                    offspring.Add(p);
+                    offspring.Add(bestParents[i]);
                 }
             }
 

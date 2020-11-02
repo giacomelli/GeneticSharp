@@ -5,10 +5,10 @@ using GeneticSharp.Infrastructure.Framework.Texts;
 
 namespace GeneticSharp.Domain.Chromosomes
 {
-	/// <summary>
-	/// Chromosome extensions.
-	/// </summary>
-	public static class ChromosomeExtensions
+    /// <summary>
+    /// Chromosome extensions.
+    /// </summary>
+    public static class ChromosomeExtensions
     {
         /// <summary>
         /// Checks if any of the chromosomes has repeated gene.
@@ -22,11 +22,12 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <param name="chromosomes">The chromosomes.</param>
         public static bool AnyHasRepeatedGene(this IList<IChromosome> chromosomes)
         {
-            foreach (var p in chromosomes)
+            for (int i = 0; i < chromosomes.Count; i++)
             {
-                var notRepeatedGenesLength = p.GetGenes().Distinct().Count();
+                var c = chromosomes[i];
+                var notRepeatedGenesLength = c.GetGenes().Distinct().Count();
 
-                if (notRepeatedGenesLength < p.Length)
+                if (notRepeatedGenesLength < c.Length)
                 {
                     return true;
                 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using GeneticSharp.Domain.Mutations;
+using GeneticSharp.Domain.Randomizations;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Mutations
@@ -89,6 +91,34 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
 
             actual = MutationService.GetMutationTypeByName("Uniform");
             Assert.AreEqual(typeof(UniformMutation), actual);
+        }
+
+        [Test()]
+        public void Shuffle_Source_Shuffled()
+        {
+            var rnd = Substitute.For<IRandomization>();
+            rnd.GetInt(0, 5).Returns(4);
+            rnd.GetInt(0, 4).Returns(2);
+            rnd.GetInt(0, 3).Returns(3);
+            rnd.GetInt(0, 2).Returns(0);
+            rnd.GetInt(0, 1).Returns(1);
+
+            var actual = new int[] { 1, 2, 3, 4, 5 }.Shuffle(rnd);
+            CollectionAssert.AreEqual(new int[] { 5, 3, 4, 1, 2 }, actual);
+        }
+
+        [Test()]
+        public void LeftShift_ValueToShift_Shifted()
+        {
+             var actual = new int[] { 1, 2, 3, 4, 5 }.LeftShift(2);
+            CollectionAssert.AreEqual(new int[] { 3, 4, 5, 1, 2 }, actual);
+        }
+
+        [Test()]
+        public void RightShift_ValueToShift_Shifted()
+        {
+            var actual = new int[] { 1, 2, 3, 4, 5 }.RightShift(2);
+            CollectionAssert.AreEqual(new int[] { 4, 5, 1, 2, 3 }, actual);
         }
     }
 }

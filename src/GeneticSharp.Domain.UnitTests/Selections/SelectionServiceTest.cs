@@ -13,11 +13,12 @@ namespace GeneticSharp.Domain.UnitTests.Selections
         {
             var actual = SelectionService.GetSelectionTypes();
 
-            Assert.AreEqual(4, actual.Count);
+            Assert.AreEqual(5, actual.Count);
             Assert.AreEqual(typeof(EliteSelection), actual[0]);
-            Assert.AreEqual(typeof(RouletteWheelSelection), actual[1]);
-            Assert.AreEqual(typeof(StochasticUniversalSamplingSelection), actual[2]);
-            Assert.AreEqual(typeof(TournamentSelection), actual[3]);
+            Assert.AreEqual(typeof(RankSelection), actual[1]);
+            Assert.AreEqual(typeof(RouletteWheelSelection), actual[2]);
+            Assert.AreEqual(typeof(StochasticUniversalSamplingSelection), actual[3]);
+            Assert.AreEqual(typeof(TournamentSelection), actual[4]);
 
         }
 
@@ -26,11 +27,12 @@ namespace GeneticSharp.Domain.UnitTests.Selections
         {
             var actual = SelectionService.GetSelectionNames();
 
-            Assert.AreEqual(4, actual.Count);
+            Assert.AreEqual(5, actual.Count);
             Assert.AreEqual("Elite", actual[0]);
-            Assert.AreEqual("Roulette Wheel", actual[1]);
-            Assert.AreEqual("Stochastic Universal Sampling", actual[2]);
-            Assert.AreEqual("Tournament", actual[3]);
+            Assert.AreEqual("Rank", actual[1]);
+            Assert.AreEqual("Roulette Wheel", actual[2]);
+            Assert.AreEqual("Stochastic Universal Sampling", actual[3]);
+            Assert.AreEqual("Tournament", actual[4]);
         }
 
         [Test()]
@@ -57,6 +59,9 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             ISelection actual = SelectionService.CreateSelectionByName("Elite") as EliteSelection;
             Assert.IsNotNull(actual);
 
+            actual = SelectionService.CreateSelectionByName("Rank") as RankSelection;
+            Assert.IsNotNull(actual);
+
             actual = SelectionService.CreateSelectionByName("Roulette Wheel") as RouletteWheelSelection;
             Assert.IsNotNull(actual);
 
@@ -81,6 +86,9 @@ namespace GeneticSharp.Domain.UnitTests.Selections
         {
             var actual = SelectionService.GetSelectionTypeByName("Elite");
             Assert.AreEqual(typeof(EliteSelection), actual);
+
+            actual = SelectionService.GetSelectionTypeByName("Rank");
+            Assert.AreEqual(typeof(RankSelection), actual);
 
             actual = SelectionService.GetSelectionTypeByName("Roulette Wheel");
             Assert.AreEqual(typeof(RouletteWheelSelection), actual);

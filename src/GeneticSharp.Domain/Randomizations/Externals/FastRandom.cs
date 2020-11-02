@@ -8,8 +8,8 @@ namespace SharpNeatLib.Maths
     /// Colin Green, January 2005
     /// 
     /// September 4th 2005
-    ///	 Added NextBytesUnsafe() - commented out by default.
-    ///	 Fixed bug in Reinitialise() - y,z and w variables were not being reset.
+    ///     Added NextBytesUnsafe() - commented out by default.
+    ///     Fixed bug in Reinitialise() - y,z and w variables were not being reset.
     /// 
     /// Key points:
     ///  1) Based on a simple and fast xor-shift pseudo random number generator (RNG) specified in: 
@@ -99,7 +99,7 @@ namespace SharpNeatLib.Maths
             int range = upperBound - lowerBound;
             if (range < 0)
             {   // If range is <0 then an overflow has occured and must resort to using long integer arithmetic instead (slower).
-                // We also must use all 32 bits of precision, instead of the normal 31, which again is slower.	
+                // We also must use all 32 bits of precision, instead of the normal 31, which again is slower.    
                 return lowerBound + (int)((REAL_UNIT_UINT * (double)(w = (w ^ (w >> 19)) ^ (t ^ (t >> 8)))) * (double)((long)upperBound - (long)lowerBound));
             }
 

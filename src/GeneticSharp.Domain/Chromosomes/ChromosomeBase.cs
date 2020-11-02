@@ -10,7 +10,7 @@ namespace GeneticSharp.Domain.Chromosomes
     /// </summary>
     [DebuggerDisplay("Fitness:{Fitness}, Genes:{Length}")]
     [Serializable]
-	public abstract class ChromosomeBase : IChromosome
+    public abstract class ChromosomeBase : IChromosome
     {
         #region Fields
         private Gene[] m_genes;

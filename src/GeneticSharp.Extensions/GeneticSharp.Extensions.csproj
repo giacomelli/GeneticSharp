@@ -3,9 +3,13 @@
   <Import Project="..\msbuilds\GeneticSharp.common.targets" />
   
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
     <TargetFrameworks>netstandard2.0;net462</TargetFrameworks>    
     <AssemblyName>GeneticSharp.Extensions</AssemblyName>    
+    <AssemblyCompany>Skahal Studios</AssemblyCompany>
+    <AssemblyProduct>GeneticSharp</AssemblyProduct>
+    <AssemblyCopyright>Diego Giacomelli, http://diegogiacomelli.com.br</AssemblyCopyright>
+    <AssemblyTrademark></AssemblyTrademark>
+    <AssemblyCulture></AssemblyCulture>
   </PropertyGroup>
 
   <!-- NuGet Package -->

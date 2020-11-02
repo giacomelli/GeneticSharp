@@ -1,0 +1,12 @@
+{
+	"author": "Diego Giacomelli",
+	"classifications": [ "GeneticSharp", "Unity3d" ],
+	"name": "GeneticSharp TSP Unity3d",
+	"identity": "GeneticSharp.DotNetNew.Templates.TspUnity3d",  
+	"shortName": "GeneticSharpTspUnity3d",                 
+	"tags": {
+		"language": "C#"                       					
+	},
+	"sourceName": "TspUnity3d",    
+	"preferNameDirectory" : "true"
+}

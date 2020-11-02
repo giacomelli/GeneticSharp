@@ -1,5 +1,7 @@
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
+// Defines the assembly title.
 [assembly: AssemblyTitle("GeneticSharp.Runner.GtkApp")]
-[assembly: AssemblyDescription("")]
+
+// Define the assemply descrition
+//[assembly: AssemblyDescription("GeneticSharp GTK# Sample")]

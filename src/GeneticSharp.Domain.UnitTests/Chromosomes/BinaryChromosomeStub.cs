@@ -3,21 +3,21 @@ using GeneticSharp.Domain.Chromosomes;
 
 namespace GeneticSharp.Domain.UnitTests
 {
-	public class BinaryChromosomeStub : BinaryChromosomeBase
-	{
-		public BinaryChromosomeStub(int length)
-			: base(length)
-		{
-		}
+    public class BinaryChromosomeStub : BinaryChromosomeBase
+    {
+        public BinaryChromosomeStub(int length)
+            : base(length)
+        {
+        }
 
-		#region implemented abstract members of ChromosomeBase
+        #region implemented abstract members of ChromosomeBase
 
-		public override IChromosome CreateNew ()
-		{
-			return new BinaryChromosomeStub (Length);
-		}
+        public override IChromosome CreateNew ()
+        {
+            return new BinaryChromosomeStub (Length);
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
 

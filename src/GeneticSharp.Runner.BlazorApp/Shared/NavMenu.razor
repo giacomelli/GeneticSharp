@@ -1,0 +1,37 @@
+﻿<div class="top-row pl-4 navbar navbar-dark">
+    <img src="https://raw.githubusercontent.com/giacomelli/GeneticSharp/master/docs/logo/logo-small.png" style="max-width: 200px" />
+    <button class="navbar-toggler" @onclick="@ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="@ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="tsp">
+                <span class="oi oi-plus" aria-hidden="true"></span> TSP
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="http://diegogiacomelli.com.br">
+                <span class="oi oi-arrow-thick-left" aria-hidden="true"></span> Back to blog
+            </NavLink>
+        </li>  
+    </ul>
+</div>
+
+@code {
+    bool collapseNavMenu = true;
+
+    string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

@@ -17,15 +17,20 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
             var startTime = DateTime.Now;
             base.Start();
 
-            foreach (var t in Tasks)
+            // For each Tasks passed to excutor, 
+            // run it one in linear way.
+            for (int i = 0; i < Tasks.Count; i++)
             {
+                // Check if a stop was requested.
                 if (StopRequested)
                 {
                     return true;
                 }
 
-                t();
+                Tasks[i]();
 
+                // If take more time expected on Timeout property,
+                // tehn stop thre running.
                 if ((DateTime.Now - startTime) > Timeout)
                 {
                     return false;

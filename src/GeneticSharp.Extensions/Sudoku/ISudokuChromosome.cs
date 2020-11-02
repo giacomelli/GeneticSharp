@@ -8,6 +8,6 @@ namespace GeneticSharp.Extensions.Sudoku
     /// </summary>
     public interface ISudokuChromosome
     {
-        List<Sudoku> GetSudokus();
+        IList<SudokuBoard> GetSudokus();
     }
 }

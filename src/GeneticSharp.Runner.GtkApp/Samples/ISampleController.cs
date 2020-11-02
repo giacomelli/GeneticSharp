@@ -73,11 +73,11 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         /// <returns>The termination.</returns>
         ITermination CreateTermination();
 
-		/// <summary>
-		/// Configure the Genetic Algorithm.
-		/// </summary>
-		/// <param name="ga">The genetic algorithm.</param>
-		void ConfigGA(GeneticAlgorithm ga);
+        /// <summary>
+        /// Configure the Genetic Algorithm.
+        /// </summary>
+        /// <param name="ga">The genetic algorithm.</param>
+        void ConfigGA(GeneticAlgorithm ga);
 
         /// <summary>
         /// Resets the sample.

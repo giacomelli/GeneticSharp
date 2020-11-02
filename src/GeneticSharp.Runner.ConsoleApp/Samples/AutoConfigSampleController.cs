@@ -36,12 +36,12 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
             return new UniformMutation();
         }
 
-		public override ITermination CreateTermination()
-		{
+        public override ITermination CreateTermination()
+        {
             return new FitnessStagnationTermination(200);
-		}
+        }
 
-		public override IFitness CreateFitness()
+        public override IFitness CreateFitness()
         {
             var targetChromosome = new TspChromosome(10);
             var targetFitness = new TspFitness(10, 0, 100, 0, 100);

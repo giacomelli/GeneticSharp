@@ -12,17 +12,45 @@ namespace GeneticSharp.Extensions.Sudoku
     public class SudokuRandomPermutationsChromosome : SudokuPermutationsChromosome
     {
 
+        /// <summary>
+        /// The number of permutation gene to keep for each row
+        /// </summary>
         private readonly int _nbPermutations = 10;
+
+        /// <summary>
+        /// The number of Sudokus to generate from the random permutations for evaluation
+        /// </summary>
         private readonly int _nbSudokus = 10;
 
 
-        public SudokuRandomPermutationsChromosome(Sudoku targetSudoku, int nbPermutations, int nbSudokus) : base(targetSudoku, 9 * nbPermutations, null)
+
+        /// <summary>
+        /// The empty constructor assumes no target mask and uses the member initializers as default.
+        /// </summary>
+        public SudokuRandomPermutationsChromosome()
+        {
+        }
+
+
+        /// <summary>
+        /// Constructor that takes the target Sudoku, the number of permutation genes per row, and the number of Sudokus to evaluate
+        /// </summary>
+        /// <param name="targetSudokuBoard">the target sudoku to solve</param>
+        /// <param name="nbPermutations">the number of permutation genes per row</param>
+        /// <param name="nbSudokus">the number of Sudokus generated for evaluation</param>
+        public SudokuRandomPermutationsChromosome(SudokuBoard targetSudokuBoard, int nbPermutations, int nbSudokus) : base(targetSudokuBoard, 9 * nbPermutations)
         {
             _nbPermutations = nbPermutations;
             _nbSudokus = nbSudokus;
 
         }
 
+        /// <summary>
+        /// Overriden from the original permutation chromosome, generates a random permutation for one of th 9 rows,
+        /// The row index is given by the rest of the gene index divided by 9  
+        /// </summary>
+        /// <param name="geneIndex">the gene index amongst all associated to random permutations</param>
+        /// <returns>the gene generated for the corresponding index</returns>
         public override Gene GenerateGene(int geneIndex)
         {
             var rnd = RandomizationProvider.Current;
@@ -33,9 +61,13 @@ namespace GeneticSharp.Extensions.Sudoku
             return new Gene(permIdx);
         }
 
-        public override List<Sudoku> GetSudokus()
+        /// <summary>
+        /// Creates the number of Sudokus defined in the corresponding field, from the random permutations, to be evaluated.
+        /// </summary>
+        /// <returns>a list of Sudokus for evaluation</returns>
+        public override IList<SudokuBoard> GetSudokus()
         {
-            var toReturn = new List<Sudoku>(_nbSudokus);
+            var toReturn = new List<SudokuBoard>(_nbSudokus);
             for (int i = 0; i < _nbSudokus; i++)
             {
                 toReturn.AddRange(base.GetSudokus());
@@ -44,7 +76,11 @@ namespace GeneticSharp.Extensions.Sudoku
             return toReturn;
         }
 
-
+        /// <summary>
+        /// Chooses a permutation for a given row, chosen randomly amongst the corresponding genes
+        /// </summary>
+        /// <param name="rowIndex">the index of the row to find a permutation for</param>
+        /// <returns>a permutation index for the corresponding row.</returns>
         protected override int GetPermutationIndex(int rowIndex)
         {
             var rnd = RandomizationProvider.Current;
@@ -55,7 +91,7 @@ namespace GeneticSharp.Extensions.Sudoku
 
         public override IChromosome CreateNew()
         {
-            return new SudokuRandomPermutationsChromosome(TargetSudoku, _nbPermutations, _nbSudokus);
+            return new SudokuRandomPermutationsChromosome(TargetSudokuBoard, _nbPermutations, _nbSudokus);
         }
     }
 }

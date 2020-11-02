@@ -106,13 +106,13 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             return new EliteSelection();
         }
 
-		public override void ConfigGA(GeneticAlgorithm ga)
-		{
+        public override void ConfigGA(GeneticAlgorithm ga)
+        {
             ga.TaskExecutor = new ParallelTaskExecutor();
-			base.ConfigGA(ga);
-		}
+            base.ConfigGA(ga);
+        }
 
-		public override void Draw()
+        public override void Draw()
         {
             var ga = Context.GA;
 
