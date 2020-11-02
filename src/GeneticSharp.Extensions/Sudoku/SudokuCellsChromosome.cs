@@ -1,64 +1,69 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
 
 namespace GeneticSharp.Extensions.Sudoku
 {
     /// <summary>
-    /// This simple chromosome simply represents each cell by a gene with value between 1 and 9, accounting for the target mask if given
-    /// </summary>
-    public class SudokuCellsChromosome : ChromosomeBase, ISudokuChromosome
+	/// This simple chromosome simply represents each cell by a gene with value between 1 and 9, accounting for the target mask if given
+	/// </summary>
+	public class SudokuCellsChromosome : SudokuChromosomeBase, ISudokuChromosome
     {
-        /// <summary>
-        /// The target sudoku board to solve
-        /// </summary>
-        private readonly SudokuBoard _targetSudokuBoard;
+       
 
         public SudokuCellsChromosome() : this(null)
         {
         }
 
         /// <summary>
-        /// Constructor that accepts a Sudoku to solve
+        /// Basic constructor with target sudoku to solve
         /// </summary>
         /// <param name="targetSudokuBoard">the target sudoku to solve</param>
-        public SudokuCellsChromosome(SudokuBoard targetSudokuBoard) : base(81)
+        public SudokuCellsChromosome(SudokuBoard targetSudokuBoard) : base( targetSudokuBoard, 81)
         {
-            _targetSudokuBoard = targetSudokuBoard;
-            for (int i = 0; i < Length; i++)
-            {
-                ReplaceGene(i, GenerateGene(i));
-            }
+          
         }
 
         /// <summary>
-        /// Generates genes with digits for each index within the 81 Sudoku cells
+        /// Constructor with additional precomputed domains for faster cloning
         /// </summary>
-        /// <param name="geneIndex"></param>
-        /// <returns>a gene with a digit for the corresponding cell index</returns>
-        public override Gene GenerateGene(int geneIndex)
+        /// <param name="targetSudokuBoard">the target sudoku to solve</param>
+        /// <param name="extendedMask">The cell domains after initial constraint propagation</param>
+        public SudokuCellsChromosome(SudokuBoard targetSudokuBoard, Dictionary<int, List<int>> extendedMask) : base(targetSudokuBoard, extendedMask, 81)
+	    {
+	    }
+
+
+	    public override Gene GenerateGene(int geneIndex)
         {
             //If a target mask exist and has a digit for the cell, we use it.
-            if (_targetSudokuBoard != null && _targetSudokuBoard.Cells[geneIndex] != 0)
+            if (TargetSudokuBoard != null && TargetSudokuBoard.Cells[geneIndex] != 0)
             {
-                return new Gene(_targetSudokuBoard.Cells[geneIndex]);
+                return new Gene(TargetSudokuBoard.Cells[geneIndex]);
             }
-            var rnd = RandomizationProvider.Current;
-            // otherwise we use a random digit.
-            return new Gene(rnd.GetInt(1, 10));
+            // otherwise we use a random digit amongts those permitted.
+			var rnd = RandomizationProvider.Current;
+	        var targetIdx = rnd.GetInt(0, ExtendedMask[geneIndex].Count);
+			return new Gene(ExtendedMask[geneIndex][targetIdx]);
         }
 
         public override IChromosome CreateNew()
         {
-            return new SudokuCellsChromosome(_targetSudokuBoard);
+            return new SudokuCellsChromosome(TargetSudokuBoard, ExtendedMask);
         }
 
         /// <summary>
         /// Builds a single Sudoku from the 81 genes
         /// </summary>
         /// <returns>A Sudoku board built from the 81 genes</returns>
-        public IList<SudokuBoard> GetSudokus()
+        public override IList<SudokuBoard> GetSudokus()
         {
             var sudoku = new SudokuBoard(GetGenes().Select(g => (int)g.Value));
             return new List<SudokuBoard>(new[] { sudoku });
