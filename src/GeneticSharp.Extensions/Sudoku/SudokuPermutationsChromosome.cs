@@ -141,8 +141,9 @@ namespace GeneticSharp.Extensions.Sudoku
                 var tempList = new List<IList<int>>();
                 foreach (var perm in AllPermutations)
                 {
-                    if (!Range9.Any(j => sudokuBoard.GetCell(i, j) > 0
-                                         && (perm[j] != sudokuBoard.GetCell(i, j))))
+                    // Permutation should match current mask row numbers, and have numbers different that other mask rows
+                    if (!Range9.Any(rowIdx=> Range9.Any(j => sudokuBoard.GetCell(rowIdx, j) > 0
+                                                             && ((rowIdx == i && perm[j] != sudokuBoard.GetCell(rowIdx, j))||(rowIdx!=i && perm[j] == sudokuBoard.GetCell(rowIdx, j))))))
                     {
                         tempList.Add(perm);
                     }
