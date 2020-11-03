@@ -19,15 +19,28 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
         }
 
         /// <summary>
-        /// The permutation chromosome should always solve the sudoku in a reasonable time with 1000 chromosomes
+        /// The permutation chromosome should always solve the very easy sudoku at first generation
         /// </summary>
         [Test]
-        public void Evolve_SimpleSudokuPermutationsChromosome_Solved()
+        public void Evolve_PermutationsChromosome_VeryEasySudoku_Solved()
         {
-            var sudoku = SudokuTestHelper.CreateBoard();
+            var sudoku = SudokuTestHelper.CreateBoard(SudokuTestDifficulty.VeryEasy);
 
             IChromosome chromosome = new SudokuPermutationsChromosome(sudoku);
-            var fitness = SudokuTestHelper.Eval(chromosome, sudoku, 1000, 0, 50);
+            var fitness = SudokuTestHelper.Eval(chromosome, sudoku, 10, 0, 1);
+            Assert.AreEqual(fitness, 0);
+        }
+
+        /// <summary>
+        /// The permutation chromosome should always solve the very easy sudoku at first generation
+        /// </summary>
+        [Test]
+        public void Evolve_PermutationsChromosome_EasySudoku_Solved()
+        {
+            var sudoku = SudokuTestHelper.CreateBoard(SudokuTestDifficulty.Easy);
+
+            IChromosome chromosome = new SudokuPermutationsChromosome(sudoku);
+            var fitness = SudokuTestHelper.Eval(chromosome, sudoku, 500, 0, 30);
             Assert.AreEqual(fitness, 0);
         }
     }
