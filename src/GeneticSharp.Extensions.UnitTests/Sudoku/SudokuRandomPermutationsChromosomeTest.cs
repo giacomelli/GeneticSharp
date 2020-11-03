@@ -1,4 +1,5 @@
-﻿using GeneticSharp.Extensions.Sudoku;
+﻿using System;
+using GeneticSharp.Extensions.Sudoku;
 using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Sudoku
@@ -29,8 +30,9 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
 
             var chromosome = new SudokuRandomPermutationsChromosome(sudoku, 2, 3);
             var fitness1 = new SudokuFitness(sudoku).Evaluate((ISudokuChromosome)chromosome);
-            var fitness2 = SudokuTestHelper.Eval(chromosome, sudoku, 5, fitness1 + 20, 3);
-            Assert.GreaterOrEqual(fitness2, fitness1 + 20);
+            var targetFitness = Math.Min(0, fitness1 + 10);
+            var fitness2 = SudokuTestHelper.Eval(chromosome, sudoku, 5, targetFitness, 3);
+            Assert.GreaterOrEqual(fitness2, targetFitness);
 
         }
     }
