@@ -58,7 +58,7 @@ namespace GeneticSharp.Extensions.Sudoku
         public double Evaluate(SudokuBoard testSudokuBoard)
         {
             // We use a large lambda expression to count duplicates in rows, columns and boxes
-            var cells = testSudokuBoard.Cells.Select((c, i) => new { index = i, cell = c });
+            var cells = testSudokuBoard.Cells.Select((c, i) => new { index = i, cell = c }).ToList();
             var toTest = cells.GroupBy(x => x.index / 9).Select(g => g.Select(c => c.cell)) // rows
               .Concat(cells.GroupBy(x => x.index % 9).Select(g => g.Select(c => c.cell))) //columns
               .Concat(cells.GroupBy(x => x.index / 27 * 27 + x.index % 9 / 3 * 3).Select(g => g.Select(c => c.cell))); //boxes
