@@ -19,7 +19,7 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
         }
 
         /// <summary>
-        /// The permutation chromosome should always solve the very easy sudoku at first generation
+        /// The permutation chromosome should always solve the very easy sudoku with small population in few generations
         /// </summary>
         [Test]
         public void Evolve_PermutationsChromosome_VeryEasySudoku_Solved()
@@ -27,12 +27,12 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
             var sudoku = SudokuTestHelper.CreateBoard(SudokuTestDifficulty.VeryEasy);
 
             IChromosome chromosome = new SudokuPermutationsChromosome(sudoku);
-            var fitness = SudokuTestHelper.Eval(chromosome, sudoku, 10, 0, 1);
-            Assert.AreEqual(fitness, 0);
+            var fitness = SudokuTestHelper.Eval(chromosome, sudoku, 50, 0, 10);
+            Assert.AreEqual(0, fitness);
         }
 
         /// <summary>
-        /// The permutation chromosome should always solve the very easy sudoku at first generation
+        /// The random permutation chromosome should always solve the easy sudoku with population 500
         /// </summary>
         [Test]
         public void Evolve_PermutationsChromosome_EasySudoku_Solved()
@@ -41,7 +41,7 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
 
             IChromosome chromosome = new SudokuPermutationsChromosome(sudoku);
             var fitness = SudokuTestHelper.Eval(chromosome, sudoku, 500, 0, 30);
-            Assert.AreEqual(fitness, 0);
+            Assert.AreEqual( 0, fitness);
         }
     }
 }
