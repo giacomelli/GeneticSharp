@@ -26,10 +26,7 @@ namespace GeneticSharp.Extensions.Sudoku
         /// Basic constructor with target sudoku to solve
         /// </summary>
         /// <param name="targetSudokuBoard">the target sudoku to solve</param>
-        public SudokuCellsChromosome(SudokuBoard targetSudokuBoard) : base( targetSudokuBoard, 81)
-        {
-          
-        }
+        public SudokuCellsChromosome(SudokuBoard targetSudokuBoard) : this( targetSudokuBoard, null) {}
 
         /// <summary>
         /// Constructor with additional precomputed domains for faster cloning

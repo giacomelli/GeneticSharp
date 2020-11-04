@@ -31,7 +31,7 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
         public void Parse_SampleString_ConsistantCells()
         {
 
-            var sudoku = SudokuTestHelper.CreateBoard();
+            var sudoku = SudokuTestHelper.CreateBoard(SudokuTestDifficulty.VeryEasy);
 
             Assert.AreEqual(sudoku.Cells[0], 9);
             Assert.AreEqual(sudoku.Cells[1], 0);

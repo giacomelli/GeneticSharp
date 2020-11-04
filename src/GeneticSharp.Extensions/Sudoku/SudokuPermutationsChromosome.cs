@@ -35,14 +35,14 @@ namespace GeneticSharp.Extensions.Sudoku
         /// </summary>
         /// <param name="targetSudokuBoard">the target sudoku to solve</param>
         /// <param name="length">the number of genes</param>
-        public SudokuPermutationsChromosome(SudokuBoard targetSudokuBoard, int length) : base(targetSudokuBoard, length) {}
+        public SudokuPermutationsChromosome(SudokuBoard targetSudokuBoard, int length) : this(targetSudokuBoard, null, length) {}
 
         /// <summary>
         /// /// Constructor with a mask and extended mask accounting for initial constraint propagation for faster cloning
         /// </summary>
         /// <param name="targetSudokuBoard">the target sudoku to solve</param>
         /// <param name="extendedMask">The cell domains after initial constraint propagation</param>
-        public SudokuPermutationsChromosome(SudokuBoard targetSudokuBoard, Dictionary<int, List<int>> extendedMask) : base(targetSudokuBoard, extendedMask, 9) {}
+        public SudokuPermutationsChromosome(SudokuBoard targetSudokuBoard, Dictionary<int, List<int>> extendedMask) : this(targetSudokuBoard, extendedMask, 9) {}
 
         /// <param name="targetSudokuBoard">the target sudoku to solve</param>
         /// <param name="extendedMask">The cell domains after initial constraint propagation</param>
