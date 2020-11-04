@@ -38,7 +38,15 @@ namespace GeneticSharp.Extensions.Sudoku
         /// <param name="targetSudokuBoard">the target sudoku to solve</param>
         /// <param name="nbPermutations">the number of permutation genes per row</param>
         /// <param name="nbSudokus">the number of Sudokus generated for evaluation</param>
-        public SudokuRandomPermutationsChromosome(SudokuBoard targetSudokuBoard, int nbPermutations, int nbSudokus) : base(targetSudokuBoard, 9 * nbPermutations)
+        public SudokuRandomPermutationsChromosome(SudokuBoard targetSudokuBoard, int nbPermutations, int nbSudokus) : this(targetSudokuBoard, null,  nbPermutations, nbSudokus) { }
+
+        /// <summary>
+        /// Constructor that takes the target Sudoku, the number of permutation genes per row, and the number of Sudokus to evaluate
+        /// </summary>
+        /// <param name="targetSudokuBoard">the target sudoku to solve</param>
+        /// <param name="nbPermutations">the number of permutation genes per row</param>
+        /// <param name="nbSudokus">the number of Sudokus generated for evaluation</param>
+        public SudokuRandomPermutationsChromosome(SudokuBoard targetSudokuBoard, Dictionary<int, List<int>> extendedMask, int nbPermutations, int nbSudokus) : base(targetSudokuBoard, extendedMask, 9 * nbPermutations)
         {
             _nbPermutations = nbPermutations;
             _nbSudokus = nbSudokus;
@@ -91,7 +99,7 @@ namespace GeneticSharp.Extensions.Sudoku
 
         public override IChromosome CreateNew()
         {
-            return new SudokuRandomPermutationsChromosome(TargetSudokuBoard, _nbPermutations, _nbSudokus);
+            return new SudokuRandomPermutationsChromosome(TargetSudokuBoard, ExtendedMask, _nbPermutations, _nbSudokus);
         }
     }
 }
