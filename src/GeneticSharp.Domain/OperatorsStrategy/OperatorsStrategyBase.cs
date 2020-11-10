@@ -39,12 +39,12 @@ namespace GeneticSharp.Domain
         /// <param name="crossover">The crossover class.</param>
         /// <param name="crossoverProbability">The crossover probability.</param>
         /// <param name="parents">The parents.</param>
-        /// <param name="crossoverIndex">the index of the crossover to perform</param>
+        /// <param name="firstParentIndex">the index of the first parent selected for a crossover</param>
         /// <returns>children for the current crossover if it was performed, null otherwise</returns>
         protected IList<IChromosome> SelectParentsAndCross(IPopulation population, ICrossover crossover,
-            float crossoverProbability, IList<IChromosome> parents, int crossoverIndex)
+            float crossoverProbability, IList<IChromosome> parents, int firstParentIndex)
         {
-            var selectedParents = parents.Skip(crossoverIndex).Take(crossover.ParentsNumber).ToList();
+            var selectedParents = parents.Skip(firstParentIndex).Take(crossover.ParentsNumber).ToList();
 
             // If match the probability cross is made, otherwise the offspring is an exact copy of the parents.
             // Checks if the number of selected parents is equal which the crossover expect, because the in the end of the list we can
