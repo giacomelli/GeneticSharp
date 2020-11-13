@@ -32,5 +32,7 @@ namespace GeneticSharp.Domain.UnitTests
             var clone = base.Clone() as OrderedChromosomeStub;
             return clone;
         }
+
+        public override void CreateGenes() {}
     }
 }

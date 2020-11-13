@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using GeneticSharp.Extensions.Checkers;
 using NUnit.Framework;
 
@@ -15,7 +16,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
 
             var actual = target.Clone() as CheckersChromosome;
             Assert.IsFalse(Object.ReferenceEquals(target, actual));
-            Assert.AreEqual(2, actual.Moves.Count);
+            Assert.AreEqual(2, actual.Moves.Count());
         }
     }
 }
