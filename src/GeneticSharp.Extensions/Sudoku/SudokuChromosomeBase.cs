@@ -44,7 +44,6 @@ namespace GeneticSharp.Extensions.Sudoku
         {
             _targetSudokuBoard = targetSudokuBoard;
             _extendedMask = extendedMask;
-            CreateGenes();
         }
 
 

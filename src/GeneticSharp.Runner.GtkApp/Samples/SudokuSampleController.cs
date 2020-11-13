@@ -90,7 +90,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
                     case nameof(SudokuChromosomeType.RowsWithoutMask):
                         return new SudokuPermutationsChromosome();
                     case nameof(SudokuChromosomeType.Cells):
-                        return new SudokuCellsChromosome(GetTargetSudoku());
+                        return new SudokuCellsChromosome(GetTargetSudoku(), true);
                     case nameof(SudokuChromosomeType.CellsWithoutMask):
                         return new SudokuCellsChromosome();
                 }
