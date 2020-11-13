@@ -25,10 +25,7 @@ namespace GeneticSharp.Extensions.Ghostwriter
         {
             m_words = words;
 
-            for (int i = 0; i < maxTextWordLength; i++)
-            {
-                ReplaceGene(i, GenerateGene(i));
-            }
+            
         }
         #endregion
 

@@ -15,6 +15,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
             RandomizationProvider.Current.GetInt (0, 3).Returns (2);
 
             var target = new IntegerChromosome (0, 3);
+            target.CreateGenes();
             Assert.AreEqual("00000000000000000000000000000010", target.ToString());
 
             var actual = target.ToInteger();
@@ -28,6 +29,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
             RandomizationProvider.Current.GetInt(0, 3).Returns(-2);
 
             var target = new IntegerChromosome(0, 3);
+            target.CreateGenes();
             Assert.AreEqual("11111111111111111111111111111110", target.ToString());
 
             var actual = target.ToInteger();
@@ -42,7 +44,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
 
             var old = new IntegerChromosome(0, 3);
             var target = old.CreateNew() as IntegerChromosome;
-
+            target.CreateGenes();
             Assert.AreNotSame(old, target);
             Assert.AreEqual("11111111111111111111111111111110", target.ToString());
 
@@ -57,6 +59,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
             RandomizationProvider.Current.GetInt(0, 3).Returns(-2);
 
             var target = new IntegerChromosome(0, 3);
+            target.CreateGenes();
             Assert.AreEqual("11111111111111111111111111111110", target.ToString());
 
             target.FlipGene(0);

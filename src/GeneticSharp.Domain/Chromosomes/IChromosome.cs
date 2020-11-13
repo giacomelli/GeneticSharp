@@ -73,10 +73,15 @@ namespace GeneticSharp.Domain.Chromosomes
         Gene[] GetGenes();
 
         /// <summary>
-        /// Creates a new chromosome using the same structure of this.
+        /// Creates a new empty chromosome using the same structure of this.
         /// </summary>
         /// <returns>The new chromosome.</returns>
         IChromosome CreateNew();
+
+        /// <summary>
+        /// Initializes a chromosome with new random genes
+        /// </summary>
+        void CreateGenes();
 
         /// <summary>
         /// Creates a clone.

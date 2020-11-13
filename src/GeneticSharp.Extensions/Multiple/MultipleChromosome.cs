@@ -35,12 +35,7 @@ namespace GeneticSharp.Extensions.Multiple
         public MultipleChromosome(IList<IChromosome> chromosomes) : base(chromosomes.Count * chromosomes[0].Length)
         {
             Chromosomes = chromosomes;
-            for (int i = 0; i < Length; i++)
-            {
-                ReplaceGene(i, GenerateGene(i));
-            }
-
-            UpdateSubGenes();
+           
         }
 
         /// <summary>
@@ -70,6 +65,13 @@ namespace GeneticSharp.Extensions.Multiple
                 Chromosomes[i / Chromosomes[0].Length].ReplaceGene(i - ((i / Chromosomes[0].Length) * Chromosomes[0].Length), GetGene(i));
             }
 
+        }
+
+
+        public override void CreateGenes()
+        {
+            base.CreateGenes();
+            UpdateSubGenes();
         }
     }
 }

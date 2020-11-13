@@ -28,7 +28,6 @@ namespace GeneticSharp.Extensions.Checkers
             for (int i = 0; i < movesAhead; i++)
             {
                 Moves.Add(null);
-                ReplaceGene(i, GenerateGene(i));
             }
         }
         #endregion

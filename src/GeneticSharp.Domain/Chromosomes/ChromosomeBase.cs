@@ -318,7 +318,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </code>
         /// </remarks>
         /// </summary>        
-        protected virtual void CreateGenes()
+        public virtual void CreateGenes()
         {
             for (int i = 0; i < Length; i++)
             {

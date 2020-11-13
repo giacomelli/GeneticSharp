@@ -24,10 +24,6 @@ namespace GeneticSharp.Extensions.Mathematic
 
             ResultRange = expectedResult * 2;
 
-            for (int i = 0; i < Length; i++)
-            {
-                ReplaceGene(i, GenerateGene(i));
-            }
         }
         #endregion
 

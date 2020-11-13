@@ -31,7 +31,9 @@ namespace GeneticSharp.Extensions.UnitTests.AutoConfig
             var crossover = new UniformCrossover();
             var mutation = new UniformMutation(true);
             var chromosome = new AutoConfigChromosome();
+            chromosome.CreateGenes();
             var targetChromosome = new TspChromosome(10);
+            targetChromosome.CreateGenes();
             var targetFitness = new TspFitness(10, 0, 100, 0, 100);            
             var fitness = new AutoConfigFitness(targetFitness, targetChromosome);
             fitness.PopulationMinSize = 20;
@@ -58,7 +60,7 @@ namespace GeneticSharp.Extensions.UnitTests.AutoConfig
         public void GenerateGene_InvalidIndex_Exception()
         {
             var target = new AutoConfigChromosome();
-
+            target.CreateGenes();
             var actual = Assert.Catch(() => target.GenerateGene(9));
             Assert.AreEqual("Invalid AutoConfigChromosome gene index.", actual.Message);
         }

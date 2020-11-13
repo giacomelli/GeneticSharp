@@ -25,12 +25,7 @@ namespace GeneticSharp.Extensions.Tsp
         public TspChromosome(int numberOfCities) : base(numberOfCities)
         {
             m_numberOfCities = numberOfCities;
-            var citiesIndexes = RandomizationProvider.Current.GetUniqueInts(numberOfCities, 0, numberOfCities);
-
-            for (int i = 0; i < numberOfCities; i++)
-            {
-                ReplaceGene(i, new Gene(citiesIndexes[i]));
-            }
+            
         }
         #endregion
 
@@ -73,6 +68,17 @@ namespace GeneticSharp.Extensions.Tsp
 
             return clone;
         }
+
+        public override void CreateGenes()
+        {
+            var citiesIndexes = RandomizationProvider.Current.GetUniqueInts(m_numberOfCities, 0, m_numberOfCities);
+
+            for (int i = 0; i < m_numberOfCities; i++)
+            {
+                ReplaceGene(i, new Gene(citiesIndexes[i]));
+            }
+        }
+
         #endregion
     }
 }

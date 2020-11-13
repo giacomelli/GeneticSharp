@@ -33,11 +33,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers.Issues
             public GuessNumberChromosome(Int32 numberDigits) : base(numberDigits)
             {
                 this.numberDigits = numberDigits;
-                var initGenes = RandomizationProvider.Current.GetUniqueInts(this.Length, MinGeneValue, MaxGeneValue);
-                for (int i = 0; i < this.Length; i++)
-                {
-                    this.ReplaceGene(i, new Gene(initGenes[i]));
-                }
+               
             }
 
             public override IChromosome CreateNew()
@@ -64,6 +60,16 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers.Issues
                     guessValue += ((Int32)genes[i].Value * powof10[i]);
                 }
                 return guessValue;
+            }
+
+
+            public override void CreateGenes()
+            {
+                var initGenes = RandomizationProvider.Current.GetUniqueInts(this.Length, MinGeneValue, MaxGeneValue);
+                for (int i = 0; i < this.Length; i++)
+                {
+                    this.ReplaceGene(i, new Gene(initGenes[i]));
+                }
             }
         }
 

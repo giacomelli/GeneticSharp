@@ -36,10 +36,6 @@ namespace GeneticSharp.Extensions.Mathematic
             m_availableOperations = availableOperations;
             m_maxOperations = maxOperations;
 
-            for (int i = 0; i < Length; i++)
-            {
-                ReplaceGene(i, GenerateGene(i));
-            }
         }
         #endregion
 
