@@ -8,6 +8,7 @@ using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Selections;
+using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Domain.Metaheuristics
 {
@@ -79,22 +80,26 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         public override IList<IChromosome> ScopedReinsert(IPopulation population, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
         {
-            //In order to use suboperator, we will temporarily concatenate offspring and parents
-            var offSpringCount = offspring.Count;
-            var offspringAndParents = offspring.Concat(parents);
-            IList<IList<IChromosome>> subOffspringAndParents = EukaryoteChromosome.GetSubPopulations(offspringAndParents, PhaseSizes);
+            ////In order to use suboperator, we will temporarily concatenate offspring and parents
+            //var offSpringCount = offspring.Count;
+            //var offspringAndParents = offspring.Concat(parents);
+            //IList<IList<IChromosome>> subOffspringAndParents = EukaryoteChromosome.GetSubPopulations(offspringAndParents, PhaseSizes);
             
 
-            var selectedParents = PerformSubOperator(subOffspringAndParents, (subHeuristic, subChromosomes) =>
-            {
-                var subOffsprings = subChromosomes.Take(offSpringCount).ToList();
-                var subParents = subChromosomes.Skip(offSpringCount).ToList();
-                var subPopulation = new EukaryotePopulation(population, subParents);
-                return subHeuristic.Reinsert(subPopulation, reinsertion, subOffsprings, subParents);
+            //var selectedParents = PerformSubOperator(subOffspringAndParents, (subHeuristic, subChromosomes) =>
+            //{
+            //    var subOffsprings = subChromosomes.Take(offSpringCount).ToList();
+            //    var subParents = subChromosomes.Skip(offSpringCount).ToList();
+            //    var subPopulation = new EukaryotePopulation(population, subParents);
+            //    return subHeuristic.Reinsert(subPopulation, reinsertion, subOffsprings, subParents);
 
-            });
+            //});
 
-            return selectedParents;
+            //return selectedParents;
+
+            throw new InvalidOperationException("Eukaryote doesn't support reinsertion");
+
+
         }
 
 

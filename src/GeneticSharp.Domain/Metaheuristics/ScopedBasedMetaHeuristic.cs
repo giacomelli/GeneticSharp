@@ -63,7 +63,7 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         public sealed override IList<IChromosome> Reinsert(IPopulation population, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
         {
-            if ((Scope & MetaHeuristicsScope.Mutation) == MetaHeuristicsScope.Mutation)
+            if ((Scope & MetaHeuristicsScope.Reinsertion) == MetaHeuristicsScope.Reinsertion)
             {
                return ScopedReinsert(population, reinsertion, offspring, parents);
             }
