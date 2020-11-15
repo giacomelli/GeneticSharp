@@ -111,7 +111,7 @@ namespace GeneticSharp.Domain
             Crossover = crossover;
             Mutation = mutation;
             Metaheuristic = new DefaultMetaHeuristic();
-            Reinsertion = new ElitistReinsertion();
+            Reinsertion = new FitnessBasedElitistReinsertion();
             Termination = new GenerationNumberTermination(1);
 
             CrossoverProbability = DefaultCrossoverProbability;
@@ -275,13 +275,22 @@ namespace GeneticSharp.Domain
         /// </summary>
         public void Start()
         {
-            lock (m_lock)
+            try
             {
-                State = GeneticAlgorithmState.Started;
-                m_stopwatch = Stopwatch.StartNew();
-                Population.CreateInitialGeneration();
-                m_stopwatch.Stop();
-                TimeEvolving = m_stopwatch.Elapsed;
+                lock (m_lock)
+                {
+                    State = GeneticAlgorithmState.Started;
+                    m_stopwatch = Stopwatch.StartNew();
+                    Population.CreateInitialGeneration();
+                    EvaluateFitness(Population.CurrentGeneration.Chromosomes);
+                    m_stopwatch.Stop();
+                    TimeEvolving = m_stopwatch.Elapsed;
+                }
+            }
+            catch
+            {
+                State = GeneticAlgorithmState.Stopped;
+                throw;
             }
 
             Resume();
@@ -370,6 +379,7 @@ namespace GeneticSharp.Domain
             var parents = SelectParents();
             var offspring = Cross(parents);
             Mutate(offspring);
+            EvaluateFitness(offspring);
             var newGenerationChromosomes = Reinsert(offspring, parents);
             Population.CreateNewGeneration(newGenerationChromosomes);
             return EndCurrentGeneration();
@@ -381,7 +391,7 @@ namespace GeneticSharp.Domain
         /// <returns><c>true</c>, if current generation was ended, <c>false</c> otherwise.</returns>
         private bool EndCurrentGeneration()
         {
-            EvaluateFitness();
+            
             Population.EndCurrentGeneration();
 
             var handler = GenerationRan;
@@ -409,19 +419,16 @@ namespace GeneticSharp.Domain
         /// <summary>
         /// Evaluates the fitness.
         /// </summary>
-        private void EvaluateFitness()
+        private void EvaluateFitness(IList<IChromosome> offspring)
         {
             try
             {
-                var chromosomesWithoutFitness = Population.CurrentGeneration.Chromosomes.Where(c => !c.Fitness.HasValue).ToList();
-
-                for (int i = 0; i < chromosomesWithoutFitness.Count; i++)
+                var offSpringWithoutFitness = offspring.Where(c => !c.Fitness.HasValue);
+                foreach (var chromosome in offSpringWithoutFitness)
                 {
-                    var c = chromosomesWithoutFitness[i];
-
                     TaskExecutor.Add(() =>
                     {
-                        RunEvaluateFitness(c);
+                        RunEvaluateFitness(chromosome);
                     });
                 }
 
@@ -436,7 +443,6 @@ namespace GeneticSharp.Domain
                 TaskExecutor.Clear();
             }
 
-            Population.CurrentGeneration.Chromosomes = Population.CurrentGeneration.Chromosomes.OrderByDescending(c => c.Fitness.Value).ToList();
         }
 
         /// <summary>

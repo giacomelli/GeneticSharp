@@ -7,6 +7,7 @@ using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 using Gtk;
 using GeneticSharp.Domain;
+using GeneticSharp.Domain.Reinsertions;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
 {
@@ -68,6 +69,12 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         ISelection CreateSelection();
 
         /// <summary>
+        /// Creates the <see cref="IReinsertion"/>
+        /// </summary>
+        /// <returns>the default sample reinsertion</returns>
+        IReinsertion CreateReinsertion();
+
+        /// <summary>
         /// Creates the termination.
         /// </summary>
         /// <returns>The termination.</returns>
@@ -93,6 +100,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         /// Draws the sample.
         /// </summary>
         void Draw();
+        
         #endregion
     }
 }

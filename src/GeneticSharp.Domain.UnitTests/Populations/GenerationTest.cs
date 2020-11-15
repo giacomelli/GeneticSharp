@@ -82,8 +82,8 @@ namespace GeneticSharp.Domain.UnitTests.Populations
 
             target.End(2);
             Assert.AreEqual(2, target.Chromosomes.Count);
-            Assert.AreEqual(0.3, target.Chromosomes[0].Fitness);
-            Assert.AreEqual(0.2, target.Chromosomes[1].Fitness);
+            Assert.AreEqual(0.2, target.Chromosomes[0].Fitness);
+            Assert.AreEqual(0.3, target.Chromosomes[1].Fitness);
         }
     }
 }

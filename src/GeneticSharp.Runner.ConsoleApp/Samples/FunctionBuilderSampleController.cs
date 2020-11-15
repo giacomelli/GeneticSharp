@@ -68,7 +68,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         {
             ga.CrossoverProbability = 0.1f;
             ga.MutationProbability = 0.4f;
-            ga.Reinsertion = new ElitistReinsertion();
+            ga.Reinsertion = new FitnessBasedElitistReinsertion();
         }
 
         /// <summary>

@@ -6,6 +6,7 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Framework.Commons;
 using System.Diagnostics;
+using GeneticSharp.Infrastructure.Framework.Collections;
 
 namespace GeneticSharp.Domain.Populations
 {
@@ -79,17 +80,25 @@ namespace GeneticSharp.Domain.Populations
         /// <param name="chromosomesNumber">Chromosomes number to keep on generation.</param>
         public void End(int chromosomesNumber)
         {
-            Chromosomes = Chromosomes
-                .Where(ValidateChromosome)
-                .OrderByDescending(c => c.Fitness.Value)
-                .ToList();
-
+            ValidateChromosomes();
             if (Chromosomes.Count > chromosomesNumber)
             {
                 Chromosomes = Chromosomes.Take(chromosomesNumber).ToList();
             }
-            BestChromosome = Chromosomes.First();
+            BestChromosome = Chromosomes.MaxBy(chromosome =>  chromosome.Fitness.Value);
         }
+
+
+        /// <summary>
+        /// Validates the chromosome.
+        /// </summary>
+        /// <param name="chromosome">The chromosome to validate.</param>
+        /// <returns>True if a chromosome is valid.</returns>
+        private bool ValidateChromosomes()
+        {
+            return Chromosomes.All(ValidateChromosome);
+        }
+
 
         /// <summary>
         /// Validates the chromosome.
