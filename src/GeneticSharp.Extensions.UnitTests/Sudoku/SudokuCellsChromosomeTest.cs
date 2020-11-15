@@ -1,4 +1,8 @@
-﻿using GeneticSharp.Extensions.Sudoku;
+﻿using System.Linq;
+using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Metaheuristics;
+using GeneticSharp.Domain.Mutations;
+using GeneticSharp.Extensions.Sudoku;
 using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Sudoku
@@ -25,11 +29,49 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
         {
             var sudoku = SudokuTestHelper.CreateBoard(SudokuTestDifficulty.VeryEasy);
 
-            //the cells chromosome should solve the sudoku in less than 30 generations with 500 chromosomes
-            var chromosome = new SudokuCellsChromosome(sudoku, true);
-            var fitness = SudokuTestHelper.Eval(chromosome, sudoku, 500, 0, 30);
-            Assert.GreaterOrEqual(0, fitness);
+            var chromosome = new SudokuCellsChromosome(sudoku, false);
+            var fitness = SudokuTestHelper.Eval(chromosome, sudoku, 500, 0, 30, out int genNb);
+            Assert.AreEqual(0, fitness);
 
         }
+
+        /// <summary>
+        /// The cells chromosome initialized with row permutations should always solve the easy Sudoku with a population of 500 chromosomes in less than 30 generations
+        /// </summary>
+        [Test]
+        public void Evolve_CellsChromosome_EasySudoku_Solved()
+        {
+            var sudoku = SudokuTestHelper.CreateBoard(SudokuTestDifficulty.Easy);
+
+            var chromosome = new SudokuCellsChromosome(sudoku, true);
+            var fitness = SudokuTestHelper.Eval(chromosome, sudoku, 2000, 0, 50, out int genNb);
+            Assert.AreEqual(0, fitness);
+
+        }
+
+
+        /// <summary>
+        /// The cells chromosome initialized with row permutations, used with a EurkaryoteMetaHeuristics and row subchromosomes together with ordered crossovers and mutations to keep yielding row permutations, should always solve the Medium Sudoku with a population of 5000 chromosomes in less than 50 generations
+        /// </summary>
+        [Test]
+        public void Evolve_CellsChromosome_Metaheuristics_EasySudoku_Solved()
+        {
+            var sudoku = SudokuTestHelper.CreateBoard(SudokuTestDifficulty.Easy);
+
+            var chromosome = new SudokuCellsChromosome(sudoku, true);
+
+            // We split the original 81 genes/cells chromosome into a 9x9genes chromosomes Karyotype
+            var metaHeuristics = new EukaryoteMetaHeuristic(9, 9, new DefaultMetaHeuristic()) { Scope = MetaHeuristicsScope.Crossover | MetaHeuristicsScope.Mutation };
+            //Since we used rows permutations at init and the solution is also a row permutation, we used ordered crossovers and mutations to keep yielding permutations
+            var crossover = new CycleCrossover();
+            var mutation = new TworsMutation();
+
+            var fitness = SudokuTestHelper.Eval(chromosome, sudoku, metaHeuristics, crossover, mutation, 1000, 0, 50, out int genNb);
+            Assert.AreEqual(0, fitness);
+
+        }
+
+
+
     }
 }

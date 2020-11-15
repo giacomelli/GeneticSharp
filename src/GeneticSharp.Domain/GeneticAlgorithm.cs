@@ -5,6 +5,7 @@ using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
+using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Reinsertions;
@@ -109,6 +110,7 @@ namespace GeneticSharp.Domain
             Selection = selection;
             Crossover = crossover;
             Mutation = mutation;
+            Metaheuristic = new DefaultMetaHeuristic();
             Reinsertion = new ElitistReinsertion();
             Termination = new GenerationNumberTermination(1);
 
@@ -180,6 +182,11 @@ namespace GeneticSharp.Domain
         /// Gets or sets the mutation probability.
         /// </summary>
         public float MutationProbability { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Metaheuristic operator.
+        /// </summary>
+        public IMetaHeuristic Metaheuristic { get; set; }
 
         /// <summary>
         /// Gets or sets the reinsertion operator.
@@ -456,7 +463,8 @@ namespace GeneticSharp.Domain
         /// <returns>The parents.</returns>
         private IList<IChromosome> SelectParents()
         {
-            return Selection.SelectChromosomes(Population.MinSize, Population.CurrentGeneration);
+            return Metaheuristic.SelectParentPopulation(Population, Selection);
+            
         }
 
         /// <summary>
@@ -466,7 +474,7 @@ namespace GeneticSharp.Domain
         /// <returns>The result chromosomes.</returns>
         private IList<IChromosome> Cross(IList<IChromosome> parents)
         {
-            return OperatorsStrategy.Cross(Population, Crossover, CrossoverProbability, parents);
+            return OperatorsStrategy.Cross(Metaheuristic, Population, Crossover, CrossoverProbability, parents);
         }
 
         /// <summary>
@@ -475,7 +483,7 @@ namespace GeneticSharp.Domain
         /// <param name="chromosomes">The chromosomes.</param>
         private void Mutate(IList<IChromosome> chromosomes)
         {
-            OperatorsStrategy.Mutate(Mutation, MutationProbability, chromosomes);
+            OperatorsStrategy.Mutate(Metaheuristic, Population, Mutation, MutationProbability, chromosomes);
         }
 
         /// <summary>
@@ -488,7 +496,7 @@ namespace GeneticSharp.Domain
         /// </returns>
         private IList<IChromosome> Reinsert(IList<IChromosome> offspring, IList<IChromosome> parents)
         {
-            return Reinsertion.SelectChromosomes(Population, offspring, parents);
+            return Metaheuristic.Reinsert(Population, Reinsertion, offspring, parents);
         }
         #endregion
     }

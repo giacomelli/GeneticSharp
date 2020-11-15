@@ -3,13 +3,15 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
+using GeneticSharp.Domain.Metaheuristics;
+
 
 namespace GeneticSharp.Domain
 {
     /// <summary>
     /// Defines an operators strategy which use a linear execution
     /// </summary>
-    public class DefaultOperatorsStrategy : OperatorsStrategyBase
+    public class DefaultOperatorsStrategy : IOperatorsStrategy
     {
         /// <summary>
         /// Crosses the specified parents.
@@ -19,14 +21,14 @@ namespace GeneticSharp.Domain
         /// <param name="crossoverProbability">The crossover probability.</param>
         /// <param name="parents">The parents.</param>
         /// <returns>The result chromosomes.</returns>
-        public override IList<IChromosome> Cross(IPopulation population, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
+        public  IList<IChromosome> Cross(IMetaHeuristic metaHeuristic, IPopulation population, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
             var minSize = population.MinSize;
             var offspring = new List<IChromosome>(minSize);
 
             for (int i = 0; i < minSize; i += crossover.ParentsNumber)
             {
-                var children = SelectParentsAndCross(population, crossover, crossoverProbability, parents, i);
+                var children = metaHeuristic.MatchParentsAndCross(population, crossover, crossoverProbability, parents, i);
                 if (children != null)
                 {
                     offspring.AddRange(children);
@@ -40,14 +42,15 @@ namespace GeneticSharp.Domain
         /// <summary>
         /// Mutate the specified chromosomes.
         /// </summary>
+        /// <param name="population">the population from which the offspring are mutated</param>
         /// <param name="mutation">The mutation class.</param>
         /// <param name="mutationProbability">The mutation probability.</param>
         /// <param name="chromosomes">The chromosomes.</param>
-        public override void Mutate(IMutation mutation, float mutationProbability, IList<IChromosome> chromosomes)
+        public  void Mutate(IMetaHeuristic metaHeuristic, IPopulation population, IMutation mutation, float mutationProbability, IList<IChromosome> chromosomes)
         {
             for (int i = 0; i < chromosomes.Count; i++)
             {
-                mutation.Mutate(chromosomes[i], mutationProbability);
+                metaHeuristic.MutateChromosome(population, mutation, mutationProbability, chromosomes, i);
             }
         }
     }

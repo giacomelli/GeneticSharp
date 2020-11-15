@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
@@ -63,6 +64,12 @@ namespace GeneticSharp.Domain.Populations
         /// </summary>
         /// <value>The best chromosome.</value>
         public IChromosome BestChromosome { get; internal set; }
+
+        /// <summary>
+        /// Allows storing and reusing objects during operators evaluation
+        /// </summary>
+        public ConcurrentDictionary<string, object> Context { get; set; } = new ConcurrentDictionary<string, object>();
+
         #endregion
 
         #region Methods
@@ -81,7 +88,6 @@ namespace GeneticSharp.Domain.Populations
             {
                 Chromosomes = Chromosomes.Take(chromosomesNumber).ToList();
             }
-
             BestChromosome = Chromosomes.First();
         }
 
@@ -96,9 +102,12 @@ namespace GeneticSharp.Domain.Populations
             {
                 throw new InvalidOperationException("There is unknown problem in current generation, because a chromosome has no fitness value.");
             }
-
             return true;
         }
+
+        
+
+
         #endregion
     }
 }

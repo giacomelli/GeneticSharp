@@ -3,6 +3,7 @@ using System.Linq;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Selections;
@@ -45,20 +46,26 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
             return SudokuBoard.Parse(sudokuToParse);
         }
 
-        public static double Eval(IChromosome sudokuChromosome, SudokuBoard sudokuBoard, int populationSize, double fitnessThreshold, int generationNb)
+        public static double Eval(IChromosome sudokuChromosome, SudokuBoard sudokuBoard, int populationSize, double fitnessThreshold, int maxGenerationNb, out int generationNb)
+        {
+            return Eval(sudokuChromosome, sudokuBoard, new DefaultMetaHeuristic(), new UniformCrossover(), new UniformMutation(), 
+                populationSize, fitnessThreshold, maxGenerationNb, out generationNb);
+        }
+
+
+        public static double Eval(IChromosome sudokuChromosome, SudokuBoard sudokuBoard, IMetaHeuristic metaHeuristic, ICrossover crossover, IMutation mutation,  int populationSize, double fitnessThreshold, int maxGenerationNb,  out int generationNb)
         {
             var fitness = new SudokuFitness(sudokuBoard);
             var selection = new EliteSelection();
-            var crossover = new UniformCrossover();
-            var mutation = new UniformMutation();
 
             var population = new Population(populationSize, populationSize, sudokuChromosome);
             var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation)
             {
+                Metaheuristic = metaHeuristic,
                 Termination = new OrTermination(new ITermination[]
                 {
                     new FitnessThresholdTermination(fitnessThreshold),
-                    new GenerationNumberTermination(generationNb)
+                    new GenerationNumberTermination(maxGenerationNb)
                 })
             };
 
@@ -66,6 +73,7 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
 
             var bestIndividual = ((ISudokuChromosome)ga.Population.BestChromosome);
             var solutions = bestIndividual.GetSudokus();
+            generationNb = ga.Population.GenerationsNumber;
             return solutions.Max(solutionSudoku => fitness.Evaluate(solutionSudoku));
         }
     }

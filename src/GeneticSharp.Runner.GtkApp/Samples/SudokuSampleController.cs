@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
+using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Extensions.Multiple;
@@ -19,6 +21,8 @@ namespace GeneticSharp.Runner.GtkApp.Samples
     public enum SudokuChromosomeType
     {
         Cells,
+        CellsInitWithRowsPermutations,
+        CellsWithEukaryoteMetaHeuristics,
         CellsWithoutMask,
         RowsPermutations,
         RandomRowsPermutations,
@@ -90,6 +94,10 @@ namespace GeneticSharp.Runner.GtkApp.Samples
                     case nameof(SudokuChromosomeType.RowsWithoutMask):
                         return new SudokuPermutationsChromosome();
                     case nameof(SudokuChromosomeType.Cells):
+                        return new SudokuCellsChromosome(GetTargetSudoku(), false);
+                    case nameof(SudokuChromosomeType.CellsInitWithRowsPermutations):
+                        return new SudokuCellsChromosome(GetTargetSudoku(), true);
+                    case nameof(SudokuChromosomeType.CellsWithEukaryoteMetaHeuristics):
                         return new SudokuCellsChromosome(GetTargetSudoku(), true);
                     case nameof(SudokuChromosomeType.CellsWithoutMask):
                         return new SudokuCellsChromosome();
@@ -179,9 +187,6 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 
 
 
-
-
-
             // Genetics selector.
 
             var geneticsHBox = new HBox();
@@ -194,17 +199,19 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             var chromosomeTypes = new string[] {
         nameof(SudokuChromosomeType.RowsPermutations)
         ,nameof(SudokuChromosomeType.Cells)
+        ,nameof(SudokuChromosomeType.CellsInitWithRowsPermutations)
+        ,nameof(SudokuChromosomeType.CellsWithEukaryoteMetaHeuristics)
         ,nameof(SudokuChromosomeType.RandomRowsPermutations)
         ,nameof(SudokuChromosomeType.RowsWithoutMask)
         ,nameof(SudokuChromosomeType.CellsWithoutMask)
       };
 
+            // Random Permutation chromosome: choosing Nb of permutations and Nb of Sudokus
             _nbPermsHBox = new HBox
             {
                 Visible = _ChromosomeType == nameof(SudokuChromosomeType.RandomRowsPermutations)
             };
-
-
+            
             var nbPermsLabel = new Label { Text = "Nb Permutations" };
             _nbPermsHBox.Add(nbPermsLabel);
 
@@ -232,7 +239,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             };
 
 
-
+            // Choosing Type of Sudoku Chromosome
             var selectorCombo = new ComboBox(chromosomeTypes) { Active = 0 };
             selectorCombo.Changed += delegate
             {
@@ -244,7 +251,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             container.Add(geneticsHBox);
             container.Add(_nbPermsHBox);
 
-            //Multi check
+            //Multi-chromosome checkbox
             var multiHBox = new HBox();
             var multiCheck = new CheckButton("Multi-Solutions") {Active = _multipleChromosome};
 
@@ -380,5 +387,12 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             //throw new NotImplementedException();
         }
 
+        public override void ConfigGA(GeneticAlgorithm ga)
+        {
+            if (_ChromosomeType == nameof(SudokuChromosomeType.CellsWithEukaryoteMetaHeuristics))
+            {
+                ga.Metaheuristic = new EukaryoteMetaHeuristic(9, 9, new DefaultMetaHeuristic()) { Scope = MetaHeuristicsScope.Crossover | MetaHeuristicsScope.Mutation };
+            }
+        }
     }
 }
