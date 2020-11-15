@@ -59,8 +59,9 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             };
 
             var rnd = Substitute.For<IRandomization>();
-            rnd.GetInt(0, 4).Returns(1);
-            rnd.GetInt(0, 5).Returns(3);
+            rnd.GetInts(2, 0, 4).Returns(new[] {1,3});
+            //rnd.GetInt(0, 4).Returns(1);
+            //rnd.GetInt(0, 5).Returns(3);
             RandomizationProvider.Current = rnd;
 
             var selected = target.SelectChromosomes(population, offspring, parents);
@@ -69,8 +70,8 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             Assert.AreEqual(2, selected[1].Length);
             Assert.AreEqual(3, selected[2].Length);
             Assert.AreEqual(4, selected[3].Length);
-            Assert.AreEqual(2, selected[4].Length);
-            Assert.AreEqual(4, selected[5].Length);
+            Assert.AreEqual(6, selected[4].Length);
+            Assert.AreEqual(8, selected[5].Length);
         }
     }
 }

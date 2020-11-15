@@ -10,7 +10,7 @@ namespace GeneticSharp.Domain.Reinsertions
     /// Uniform Reinsertion.
     /// <remarks>
     /// When there are less offspring than parents, select the offspring uniformly at random to be reinserted, the parents are discarded. 
-    /// <see href="http://usb-bg.org/Bg/Annual_Informatics/2011/SUB-Informatics-2011-4-29-35.pdf">Generalized Nets Model of offspring Reinsertion in Genetic Algorithm</see>
+    /// <see href="http://old.usb-bg.org/Bg/Annual_Informatics/2011/SUB-Informatics-2011-4-29-35.pdf">Generalized Nets Model of offspring Reinsertion in Genetic Algorithm</see>
     /// </remarks>
     /// </summary>
     [DisplayName("Uniform")]
@@ -20,7 +20,7 @@ namespace GeneticSharp.Domain.Reinsertions
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Reinsertions.UniformReinsertion"/> class.
         /// </summary>
-        public UniformReinsertion() : base(false, true)
+        public UniformReinsertion() : base(true, true)
         {
         }
         #endregion
@@ -41,13 +41,33 @@ namespace GeneticSharp.Domain.Reinsertions
             }
 
             var rnd = RandomizationProvider.Current;
+            // See the aforementioned publication: produce  less  offspring  than  parents,  and  replace  parents  uniformly at random
 
-            while (offspring.Count < population.MinSize)
+            var parentsToSelect =  population.MinSize - offspring.Count;
+            if (parentsToSelect > 0)
             {
-                offspring.Add(offspring[rnd.GetInt(0, offspring.Count)]);
+                var parentIds = rnd.GetInts(parentsToSelect, 0, parents.Count);
+                foreach (var parentId in parentIds)
+                {
+                    offspring.Add(parents[parentId]);
+                }
+
+                return offspring;
+            }
+            else
+            {
+                //In order to support population collapse, and to keep the original intent, that is keep some parents together with offsping, we'll replace parents uniformly at random by random offspring
+                var parentIds = rnd.GetInts(parents.Count, 0, parents.Count);
+                var childrenIds = rnd.GetInts(parents.Count, 0, offspring.Count);
+                for (int i = 0; i < parents.Count; i++)
+                {
+                    parents[parentIds[i]] = offspring[childrenIds[i]];
+                }
+
+                return parents;
+
             }
 
-            return offspring;
         }
         #endregion
     }
