@@ -14,6 +14,22 @@ namespace GeneticSharp.Extensions.Sudoku
     public class SudokuBoard
     {
 
+        public static readonly List<int> CellIndex = Enumerable.Range(0, 81).ToList();
+        public static readonly List<int> NeighborhoodIndex = Enumerable.Range(0, 9).ToList();
+
+        public static readonly List<List<int>> RowsNeighborhoods =
+            CellIndex.GroupBy(x => x / 9).Select(g => g.ToList()).ToList();
+
+        public static readonly List<List<int>> ColNeighborhoods =
+            CellIndex.GroupBy(x => x % 9).Select(g => g.ToList()).ToList();
+
+        public static readonly List<List<int>> BoxNeighborhoods =
+            CellIndex.GroupBy(x => x / 27 * 27 + x % 9 / 3 * 3).Select(g => g.ToList()).ToList();
+
+        public static readonly List<List<int>> AllNeighborhoods =
+            RowsNeighborhoods.Concat(ColNeighborhoods).Concat(BoxNeighborhoods).ToList();
+
+
         /// <summary>
         /// The empty constructor assumes no mask
         /// </summary>

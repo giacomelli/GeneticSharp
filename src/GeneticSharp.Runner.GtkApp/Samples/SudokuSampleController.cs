@@ -345,6 +345,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
                         {
                             Context.WriteText($"Next: [{string.Join(",", stats[1].First.Cells.Take(9).Select(i => i.ToString()).ToArray())}] [{string.Join(",", stats[1].Last.Cells.Take(9).Select(i => i.ToString()).ToArray())}]");
                         }
+                        
 
                     }
                     sudokuBoardToDraw = bestChromosome.GetSudokus().First();

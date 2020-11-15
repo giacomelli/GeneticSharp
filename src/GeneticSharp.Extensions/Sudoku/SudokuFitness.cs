@@ -49,6 +49,7 @@ namespace GeneticSharp.Extensions.Sudoku
             return scores.Sum();
         }
 
+
         /// <summary>
         /// Evaluates a single Sudoku board by counting the duplicates in rows, boxes
         /// and the digits differing from the target mask.
@@ -57,15 +58,32 @@ namespace GeneticSharp.Extensions.Sudoku
         /// <returns>the number of mistakes the Sudoku contains.</returns>
         public double Evaluate(SudokuBoard testSudokuBoard)
         {
-            // We use a large lambda expression to count duplicates in rows, columns and boxes
-            var cells = testSudokuBoard.Cells.Select((c, i) => new { index = i, cell = c }).ToList();
-            var toTest = cells.GroupBy(x => x.index / 9).Select(g => g.Select(c => c.cell)) // rows
-              .Concat(cells.GroupBy(x => x.index % 9).Select(g => g.Select(c => c.cell))) //columns
-              .Concat(cells.GroupBy(x => x.index / 27 * 27 + x.index % 9 / 3 * 3).Select(g => g.Select(c => c.cell))); //boxes
-            var toReturn = -toTest.Sum(test => test.GroupBy(x => x).Select(g => g.Count() - 1).Sum()); // Summing over duplicates
-            toReturn -= cells.Count(x => _targetSudokuBoard.Cells[x.index] > 0 && _targetSudokuBoard.Cells[x.index] != x.cell); // Mask
+            var nbErrors = GetNbErrors(testSudokuBoard);
+            return 1 - (nbErrors / (double)GetWorstCaseError(testSudokuBoard));
+        }
+
+        private int GetWorstCaseError(SudokuBoard testSudokuBoard)
+        {
+            //Nothing fancy for now
+            return 100;
+        }
+
+        /// <summary>
+        /// Evaluates a single Sudoku board by counting the duplicates in rows, boxes
+        /// and the digits differing from the target mask.
+        /// </summary>
+        /// <param name="testSudokuBoard">the board to evaluate</param>
+        /// <returns>the number of mistakes the Sudoku contains.</returns>
+        public int GetNbErrors(SudokuBoard testSudokuBoard)
+        {
+            //Summing other duplicates on each neighborhood
+            var toReturn = SudokuBoard.AllNeighborhoods.Select(n=>n.Select(nx=>testSudokuBoard.Cells[nx])).Sum(n => n.GroupBy(x => x).Select(g => g.Count() - 1).Sum());
+
+            toReturn += SudokuBoard.CellIndex.Count(c => _targetSudokuBoard.Cells[c] > 0 && _targetSudokuBoard.Cells[c] != testSudokuBoard.Cells[c]); // Mask
             return toReturn;
         }
+
+        
 
 
 
