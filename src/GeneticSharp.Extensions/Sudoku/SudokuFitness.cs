@@ -77,7 +77,7 @@ namespace GeneticSharp.Extensions.Sudoku
         public int GetNbErrors(SudokuBoard testSudokuBoard)
         {
             //Summing other duplicates on each neighborhood
-            var toReturn = SudokuBoard.AllNeighborhoods.Select(n=>n.Select(nx=>testSudokuBoard.Cells[nx])).Sum(n => n.GroupBy(x => x).Select(g => g.Count() - 1).Sum());
+            var toReturn = SudokuBoard.AllNeighborhoods.Select(n => n.Select(nx => testSudokuBoard.Cells[nx])).Sum(n => n.GroupBy(x => x).Select(g => g.Count() - 1).Sum());
 
             toReturn += SudokuBoard.CellIndex.Count(c => _targetSudokuBoard.Cells[c] > 0 && _targetSudokuBoard.Cells[c] != testSudokuBoard.Cells[c]); // Mask
             return toReturn;

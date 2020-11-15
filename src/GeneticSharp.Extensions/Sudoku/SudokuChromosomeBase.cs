@@ -134,12 +134,12 @@ namespace GeneticSharp.Extensions.Sudoku
         /// <param name="rowIndex">the row index for the permutation</param>
         /// <param name="permIDx">the permutation index to retrieve</param>
         /// <returns></returns>
-        protected virtual List<int> GetPermutation(int rowIndex, int permIDx)
+        protected virtual IList<int> GetPermutation(int rowIndex, int permIDx)
         {
 
             // we use a modulo operator in case the gene was swapped:
             // It may contain a number higher than the number of available permutations. 
-            var perm = TargetRowsPermutations[rowIndex][permIDx % TargetRowsPermutations[rowIndex].Count].ToList();
+            var perm = TargetRowsPermutations[rowIndex][permIDx % TargetRowsPermutations[rowIndex].Count];
             return perm;
         }
 

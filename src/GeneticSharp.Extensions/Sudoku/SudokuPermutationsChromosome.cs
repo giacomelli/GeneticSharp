@@ -92,7 +92,7 @@ namespace GeneticSharp.Extensions.Sudoku
         /// </summary>
         /// <param name="rowIndex">the index of the row to permute</param>
         /// <returns>the index of the permutation to apply</returns>
-        protected virtual List<int> GetPermutation(int rowIndex)
+        protected virtual IList<int> GetPermutation(int rowIndex)
         {
             int permIDx = GetPermutationIndex(rowIndex);
             return GetPermutation(rowIndex, permIDx);
