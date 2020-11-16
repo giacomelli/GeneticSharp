@@ -236,7 +236,7 @@ namespace GeneticSharp.Domain.UnitTests
             target.Start();
             
             Assert.AreEqual(100, target.Population.Generations.Count);
-            Assert.Greater(target.TimeEvolving.TotalMilliseconds, 1);
+            Assert.Greater(200, target.TimeEvolving.TotalMilliseconds);
         }
 
         [Test()]
@@ -255,7 +255,7 @@ namespace GeneticSharp.Domain.UnitTests
             target.Start();
 
             Assert.AreEqual(100, target.Population.Generations.Count);
-            Assert.Greater(target.TimeEvolving.TotalMilliseconds, 1);
+            Assert.Greater(1, target.TimeEvolving.TotalMinutes);
         }
 
         [Test()]
