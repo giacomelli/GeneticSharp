@@ -30,8 +30,8 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
             var sudoku = SudokuTestHelper.CreateBoard(SudokuTestDifficulty.VeryEasy);
 
             var chromosome = new SudokuCellsChromosome(sudoku, false);
-            var fitness = SudokuTestHelper.Eval(chromosome, sudoku, 500, 0, 30, out int genNb);
-            Assert.AreEqual(0, fitness);
+            var fitness = SudokuTestHelper.Eval(chromosome, sudoku, 500, 1, 30, out int genNb);
+            Assert.AreEqual(1, fitness);
 
         }
 
@@ -44,8 +44,8 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
             var sudoku = SudokuTestHelper.CreateBoard(SudokuTestDifficulty.Easy);
 
             var chromosome = new SudokuCellsChromosome(sudoku, true);
-            var fitness = SudokuTestHelper.Eval(chromosome, sudoku, 2000, 0, 50, out int genNb);
-            Assert.AreEqual(0, fitness);
+            var fitness = SudokuTestHelper.Eval(chromosome, sudoku, 2000, 1, 50, out int genNb);
+            Assert.AreEqual(1, fitness);
 
         }
 
@@ -66,8 +66,8 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
             var crossover = new CycleCrossover();
             var mutation = new TworsMutation();
 
-            var fitness = SudokuTestHelper.Eval(chromosome, sudoku, metaHeuristics, crossover, mutation, 1000, 0, 50, out int genNb);
-            Assert.AreEqual(0, fitness);
+            var fitness = SudokuTestHelper.Eval(chromosome, sudoku, metaHeuristics, crossover, mutation, 1000, 1, 50, out int genNb);
+            Assert.AreEqual(1, fitness);
 
         }
 

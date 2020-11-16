@@ -3,17 +3,17 @@
     /// <summary>
     /// The population based Metaheuristcs allows applying distinct Metaheuristics depending on the individual index. By default, it divides the individuals into distinct phase sets proportional to the phase sizes 
     /// </summary>
-    public class PopulationBasedMetaHeuristic : IndividualPhaseBasedMetaHeuristic
+    public class PopulationMetaHeuristic : SizeBasedMetaHeuristic
     {
 
-        public PopulationBasedMetaHeuristic() : base()
+        public PopulationMetaHeuristic() : base()
         {
             Init();
         }
 
 
 
-        public PopulationBasedMetaHeuristic(int groupSize, params IMetaHeuristic[] phaseHeuristics) : base(groupSize,
+        public PopulationMetaHeuristic(int groupSize, params IMetaHeuristic[] phaseHeuristics) : base(groupSize,
             phaseHeuristics)
         {
             Init();
@@ -21,7 +21,7 @@
 
         private void Init()
         {
-            PhaseGenerator = (population, individualCount, individualIndex) => (int)(individualIndex / (float)individualCount) * TotalPhaseSize;
+            PhaseGenerator = ctx => (int)(ctx.Index / (float)ctx.Count) * TotalPhaseSize;
         }
     }
 }

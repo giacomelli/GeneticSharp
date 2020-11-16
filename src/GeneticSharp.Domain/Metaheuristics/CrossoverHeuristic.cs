@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Populations;
@@ -11,8 +12,9 @@ namespace GeneticSharp.Domain.Metaheuristics
     public class CrossoverHeuristic : ContainerMetaHeuristic
     {
 
+        public Func<IMetaHeuristicContext, ICrossover> DynamicCrossover { get; set; }
 
-        public ICrossover Crossover { get; set; }
+        public  ICrossover Crossover { get; set; }
 
         public CrossoverHeuristic() : base() { }
 
@@ -22,11 +24,17 @@ namespace GeneticSharp.Domain.Metaheuristics
         }
 
 
-        public override IList<IChromosome> MatchParentsAndCross(IPopulation population, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents,
+        public override IList<IChromosome> MatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents,
             int firstParentIndex)
         {
-            return SubMetaHeuristic.MatchParentsAndCross(population, Crossover, crossoverProbability, parents,
+            if (Crossover!=null)
+            {
+                return SubMetaHeuristic.MatchParentsAndCross(ctx, Crossover, crossoverProbability, parents,
+                    firstParentIndex);
+            }
+            return SubMetaHeuristic.MatchParentsAndCross(ctx, DynamicCrossover(ctx), crossoverProbability, parents,
                 firstParentIndex);
+
         }
     }
 }

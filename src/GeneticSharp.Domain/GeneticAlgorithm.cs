@@ -376,11 +376,12 @@ namespace GeneticSharp.Domain
         /// <returns>True if termination has been reached, otherwise false.</returns>
         private bool EvolveOneGeneration()
         {
-            var parents = SelectParents();
-            var offspring = Cross(parents);
-            Mutate(offspring);
+            var ctx = CreateContext(Population);
+            var parents = SelectParents(ctx);
+            var offspring = Cross(ctx, parents);
+            Mutate(ctx, offspring);
             EvaluateFitness(offspring);
-            var newGenerationChromosomes = Reinsert(offspring, parents);
+            var newGenerationChromosomes = Reinsert(ctx, offspring, parents);
             Population.CreateNewGeneration(newGenerationChromosomes);
             return EndCurrentGeneration();
         }
@@ -463,13 +464,21 @@ namespace GeneticSharp.Domain
             }
         }
 
+        private IMetaHeuristicContext CreateContext(IPopulation population)
+        {
+            var toReturn = new MetaHeuristicContext()
+                {GA = this, Population = population};
+            return toReturn;
+        }
+
+
         /// <summary>
         /// Selects the parents.
         /// </summary>
         /// <returns>The parents.</returns>
-        private IList<IChromosome> SelectParents()
+        private IList<IChromosome> SelectParents(IMetaHeuristicContext ctx)
         {
-            return Metaheuristic.SelectParentPopulation(Population, Selection);
+            return Metaheuristic.SelectParentPopulation(ctx, Selection);
             
         }
 
@@ -478,18 +487,18 @@ namespace GeneticSharp.Domain
         /// </summary>
         /// <param name="parents">The parents.</param>
         /// <returns>The result chromosomes.</returns>
-        private IList<IChromosome> Cross(IList<IChromosome> parents)
+        private IList<IChromosome> Cross(IMetaHeuristicContext ctx, IList<IChromosome> parents)
         {
-            return OperatorsStrategy.Cross(Metaheuristic, Population, Crossover, CrossoverProbability, parents);
+            return OperatorsStrategy.Cross(Metaheuristic, ctx, Crossover, CrossoverProbability, parents);
         }
 
         /// <summary>
         /// Mutate the specified chromosomes.
         /// </summary>
         /// <param name="chromosomes">The chromosomes.</param>
-        private void Mutate(IList<IChromosome> chromosomes)
+        private void Mutate(IMetaHeuristicContext ctx, IList<IChromosome> chromosomes)
         {
-            OperatorsStrategy.Mutate(Metaheuristic, Population, Mutation, MutationProbability, chromosomes);
+            OperatorsStrategy.Mutate(Metaheuristic, ctx, Mutation, MutationProbability, chromosomes);
         }
 
         /// <summary>
@@ -500,9 +509,9 @@ namespace GeneticSharp.Domain
         /// <returns>
         /// The reinserted chromosomes.
         /// </returns>
-        private IList<IChromosome> Reinsert(IList<IChromosome> offspring, IList<IChromosome> parents)
+        private IList<IChromosome> Reinsert(IMetaHeuristicContext ctx, IList<IChromosome> offspring, IList<IChromosome> parents)
         {
-            return Metaheuristic.Reinsert(Population, Reinsertion, offspring, parents);
+            return Metaheuristic.Reinsert(ctx, Reinsertion, offspring, parents);
         }
         #endregion
     }

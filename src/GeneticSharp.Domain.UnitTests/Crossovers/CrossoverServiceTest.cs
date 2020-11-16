@@ -13,11 +13,12 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         {
             var actual = CrossoverService.GetCrossoverTypes();
 
-            Assert.AreEqual(12, actual.Count);
+            Assert.AreEqual(13, actual.Count);
             var index = -1;
             Assert.AreEqual(typeof(AlternatingPositionCrossover), actual[++index]);
             Assert.AreEqual(typeof(CutAndSpliceCrossover), actual[++index]);
             Assert.AreEqual(typeof(CycleCrossover), actual[++index]);
+            Assert.AreEqual(typeof(GeometricCrossover<>), actual[++index]);
             Assert.AreEqual(typeof(OnePointCrossover), actual[++index]);
             Assert.AreEqual(typeof(OrderBasedCrossover), actual[++index]);
             Assert.AreEqual(typeof(OrderedCrossover), actual[++index]);
@@ -34,11 +35,12 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         {
             var actual = CrossoverService.GetCrossoverNames();
 
-            Assert.AreEqual(12, actual.Count);
+            Assert.AreEqual(13, actual.Count);
             var index = -1;
             Assert.AreEqual("Alternating-position (AP)", actual[++index]);
             Assert.AreEqual("Cut and Splice", actual[++index]);
             Assert.AreEqual("Cycle (CX)", actual[++index]);
+            Assert.AreEqual("Geometric", actual[++index]);
             Assert.AreEqual("One-Point", actual[++index]);
             Assert.AreEqual("Order-based (OX2)", actual[++index]);
             Assert.AreEqual("Ordered (OX1)", actual[++index]);

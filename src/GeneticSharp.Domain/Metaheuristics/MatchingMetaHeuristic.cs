@@ -51,9 +51,9 @@ namespace GeneticSharp.Domain.Metaheuristics
         public MatchingMetaHeuristic(IMetaHeuristic subMetaHeuristic) : base(subMetaHeuristic) { }
 
 
-        public List<MatchingTechnique> MatchingProcesses { get; set; }
+        public List<MatchingTechnique> MatchingTechniques { get; set; }
 
-        public override IList<IChromosome> MatchParentsAndCross(IPopulation population, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents,
+        public override IList<IChromosome> MatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents,
             int firstParentIndex)
         {
 
@@ -66,7 +66,7 @@ namespace GeneticSharp.Domain.Metaheuristics
                 selectedParents.Add(firstParent);
                 for (int i = 0; i < crossover.ParentsNumber - 1; i++)
                 {
-                    var currentMatchingProcess = MatchingProcesses[i];
+                    var currentMatchingProcess = MatchingTechniques[i];
                     switch (currentMatchingProcess)
                     {
                         case MatchingTechnique.Neighbor:
@@ -81,7 +81,7 @@ namespace GeneticSharp.Domain.Metaheuristics
                             selectedParents.Add(parents[i]);
                             break;
                         case MatchingTechnique.RouletteWheel:
-                            var currentRoulette = this.GetOrAddContextItem<IList<double>>(false, population, "currentRouletteWheel",
+                            var currentRoulette = ctx.GetOrAdd<IList<double>>(ParameterScope.Generation, this, "currentRouletteWheel",
                                 () =>
                                 {
                                     var tempRoulette = new List<double>(parents.Count);
@@ -92,20 +92,20 @@ namespace GeneticSharp.Domain.Metaheuristics
                                 () => RandomizationProvider.Current.GetDouble())[0]);
                             break;
                         case MatchingTechnique.Best:
-                            selectedParents.Add(population.CurrentGeneration.BestChromosome);
+                            selectedParents.Add(ctx.Population.CurrentGeneration.BestChromosome);
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
                 }
 
-                // If match the probability cross is made, otherwise the offspring is an exact copy of the parents.
-                // Checks if the number of selected parents is equal which the crossover expect, because the in the end of the list we can
-                // have some rest chromosomes.
-                if (selectedParents.Count == crossover.ParentsNumber && RandomizationProvider.Current.GetDouble() <= crossoverProbability)
-                {
-                    return crossover.Cross(selectedParents);
-                }
+                return SubMetaHeuristic.MatchParentsAndCross(ctx, crossover, crossoverProbability, selectedParents, 0);
+
+               
+                //if (selectedParents.Count == crossover.ParentsNumber && RandomizationProvider.Current.GetDouble() <= crossoverProbability)
+                //{
+                //    return crossover.Cross(selectedParents);
+                //}
 
             }
 

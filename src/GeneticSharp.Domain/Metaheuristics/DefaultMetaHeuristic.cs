@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
@@ -18,36 +19,42 @@ namespace GeneticSharp.Domain.Metaheuristics
     public class DefaultMetaHeuristic : MetaHeuristicBase
     {
         
-        public override IList<IChromosome> SelectParentPopulation(IPopulation population, ISelection selection)
+        public override IList<IChromosome> SelectParentPopulation(IMetaHeuristicContext ctx, ISelection selection)
         {
-            return selection.SelectChromosomes(population.MinSize, population.CurrentGeneration);
+            return selection.SelectChromosomes(ctx.Population.MinSize, ctx.Population.CurrentGeneration);
         }
 
-        public override IList<IChromosome> MatchParentsAndCross(IPopulation population, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents,
+        public override IList<IChromosome> MatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents,
             int firstParentIndex)
         {
-            var selectedParents = parents.Skip(firstParentIndex).Take(crossover.ParentsNumber).ToList();
+            //var selectedParents = parents.Skip(firstParentIndex).Take(crossover.ParentsNumber).ToList();
 
             // If match the probability cross is made, otherwise the offspring is an exact copy of the parents.
             // Checks if the number of selected parents is equal which the crossover expect, because the in the end of the list we can
             // have some rest chromosomes.
-            if (selectedParents.Count == crossover.ParentsNumber && RandomizationProvider.Current.GetDouble() <= crossoverProbability)
+            if (parents.Count - firstParentIndex >= crossover.ParentsNumber && RandomizationProvider.Current.GetDouble() <= crossoverProbability)
             {
+                var selectedParents = new List<IChromosome>(crossover.ParentsNumber);
+                for (int i = 0; i < crossover.ParentsNumber; i++)
+                {
+                    selectedParents.Add(parents[firstParentIndex + i]);
+                }
                 return crossover.Cross(selectedParents);
+
             }
 
             return null;
         }
 
-        public override void MutateChromosome(IPopulation population, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings,
+        public override void MutateChromosome(IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings,
             int offspringIndex)
         {
             mutation.Mutate(offSprings[offspringIndex], mutationProbability);
         }
 
-        public override IList<IChromosome> Reinsert(IPopulation population, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
+        public override IList<IChromosome> Reinsert(IMetaHeuristicContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
         {
-            return reinsertion.SelectChromosomes(population, offspring, parents);
+            return reinsertion.SelectChromosomes(ctx.Population, offspring, parents);
         }
     }
 }

@@ -388,8 +388,14 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             //throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// We handle the special case of using a <see cref="EukaryoteMetaHeuristic"/>, which makes use of <see cref="EukaryoteChromosome"/> to split the <see cref="SudokuCellsChromosome"/> into 9 smaller rows chromosomes.
+        /// As demonstrated in <see href="https://www.researchgate.net/publication/224645744_Product_Geometric_Crossover_for_the_Sudoku_Puzzle">Product_Geometric_Crossover_for_the_Sudoku_Puzzle</see>, with rows permutations initialization this permits using ordered based crossovers and mutations preserving permutations, and in effect demonstrates better robustness together with those operators, in terms of preventing early collapse to a non solution, than simply using a cells based chromosome with same population size, initialization and non ordered based operators.     
+        /// </summary>
+        /// <param name="ga"></param>
         public override void ConfigGA(GeneticAlgorithm ga)
         {
+            
             if (_ChromosomeType == nameof(SudokuChromosomeType.CellsWithEukaryoteMetaHeuristics))
             {
                 ga.Metaheuristic = new EukaryoteMetaHeuristic(9, 9, new DefaultMetaHeuristic()) { Scope = MetaHeuristicsScope.Crossover | MetaHeuristicsScope.Mutation };

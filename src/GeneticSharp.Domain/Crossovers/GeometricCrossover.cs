@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Domain.Crossovers
 {
+
     /// <summary>
     /// The Geometric crossover yields new genes by applying geometric operators on the parent genes values. Default operator convert genes to doubles computes the middle and converts back to the target type
     /// </summary>
@@ -14,13 +17,26 @@ namespace GeneticSharp.Domain.Crossovers
     [DisplayName("Geometric")]
     public class GeometricCrossover<TValue> : CrossoverBase
     {
-        public GeometricCrossover() : base(2, 1)
+
+        private static readonly Func<IList<TValue>, TValue> _defaultGeometricOperator = geneValues => (geneValues.Sum(val => val.To<double>()) / 2).To<TValue>();
+
+        public GeometricCrossover() : this(2)
         {
-            GeometricOperator = (geneVal1, geneVal2) =>
-                ((geneVal1.To<double>() + geneVal2.To<double>()) / 2).To<TValue>();
+            
+                
         }
 
-        public Func<TValue, TValue, TValue> GeometricOperator { get; set; }
+        public GeometricCrossover(int parentNb) : base(parentNb, 1)
+        {
+            GeometricOperator = _defaultGeometricOperator;
+        }
+
+        public GeometricCrossover(int parentNb, Func<IList<TValue>, TValue> geometricOperator) : this(parentNb)
+        {
+            GeometricOperator = geometricOperator;
+        }
+
+        public Func<IList<TValue>, TValue> GeometricOperator { get; set; }
       
 
         protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
@@ -29,14 +45,13 @@ namespace GeneticSharp.Domain.Crossovers
         }
 
 
-        public IList<IChromosome> PerformCross(IList<IChromosome> parents, Func<TValue, TValue, TValue> geometricOperator)
+        public IList<IChromosome> PerformCross(IList<IChromosome> parents, Func<IList<TValue>, TValue> geometricOperator)
         {
-            var parent1 = parents[0];
-            var parent2 = parents[1];
-            var offspring = parent1.CreateNew();
-            for (int i = 0; i < parent1.Length; i++)
+           
+            var offspring = parents[0].CreateNew();
+            for (int i = 0; i < offspring.Length; i++)
             {
-                offspring.ReplaceGene(i, new Gene(geometricOperator((TValue)parent1.GetGene(i).Value, (TValue)parent2.GetGene(i).Value)));
+                offspring.ReplaceGene(i, new Gene(geometricOperator(parents.Select(p=> (TValue) p.GetGene(i).Value).ToList())));
             }
             return new[] { offspring };
         }

@@ -618,7 +618,7 @@ namespace GeneticSharp.Domain.UnitTests
                 new double[] { 1000, 1000, 1000, 1000 },
                 new int[] { 10, 10, 10, 10 },
                 new int[] { 0, 0, 0, 0 });
-
+            chromosome.CreateGenes();
             var population = new Population(25, 25, chromosome);
 
             var fitness = new FuncFitness((c) =>

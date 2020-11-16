@@ -28,41 +28,32 @@ namespace GeneticSharp.Domain.Metaheuristics
         public IMetaHeuristic SubMetaHeuristic { get; set; }
 
 
-        public override IList<IChromosome> SelectParentPopulation(IPopulation population, ISelection selection)
+        public override IList<IChromosome> SelectParentPopulation(IMetaHeuristicContext ctx, ISelection selection)
         {
-            return SubMetaHeuristic.SelectParentPopulation(population, selection);
+            return SubMetaHeuristic.SelectParentPopulation(ctx, selection);
         }
 
-        public override IList<IChromosome> MatchParentsAndCross(IPopulation population, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents,
+        public override IList<IChromosome> MatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents,
             int firstParentIndex)
         {
-            return SubMetaHeuristic.MatchParentsAndCross(population, crossover, crossoverProbability, parents,
+            return SubMetaHeuristic.MatchParentsAndCross(ctx, crossover, crossoverProbability, parents,
                 firstParentIndex);
         }
 
 
-        public override void MutateChromosome(IPopulation population, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings,
+        public override void MutateChromosome(IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings,
             int offspringIndex)
         {
-            SubMetaHeuristic.MutateChromosome(population, mutation, mutationProbability, offSprings, offspringIndex);
+            SubMetaHeuristic.MutateChromosome(ctx, mutation, mutationProbability, offSprings, offspringIndex);
         }
 
-        public override IList<IChromosome> Reinsert(IPopulation population, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
+        public override IList<IChromosome> Reinsert(IMetaHeuristicContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
         {
-            return SubMetaHeuristic.Reinsert(population, reinsertion, offspring, parents);
+            return SubMetaHeuristic.Reinsert(ctx, reinsertion, offspring, parents);
         }
 
 
-        /// <summary>
-        /// This fluent helper allows to define the sub metaheuristic after the container definition
-        /// </summary>
-        /// <param name="subMetaHeuristic">the sub metaheuristic for the current container</param>
-        /// <returns>the current container metaheuristic</returns>
-        public ContainerMetaHeuristic WithDefault(IMetaHeuristic subMetaHeuristic)
-        {
-            SubMetaHeuristic = subMetaHeuristic;
-            return this;
-        }
+        
 
     }
 }

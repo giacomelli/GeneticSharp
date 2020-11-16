@@ -21,14 +21,14 @@ namespace GeneticSharp.Domain
         /// <param name="crossoverProbability">The crossover probability.</param>
         /// <param name="parents">The parents.</param>
         /// <returns>The result chromosomes.</returns>
-        public  IList<IChromosome> Cross(IMetaHeuristic metaHeuristic, IPopulation population, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
+        public  IList<IChromosome> Cross(IMetaHeuristic metaHeuristic, IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
-            var minSize = population.MinSize;
+            var minSize = ctx.Population.MinSize;
             var offspring = new List<IChromosome>(minSize);
 
             for (int i = 0; i < minSize; i += crossover.ParentsNumber)
             {
-                var children = metaHeuristic.MatchParentsAndCross(population, crossover, crossoverProbability, parents, i);
+                var children = metaHeuristic.MatchParentsAndCross(ctx, crossover, crossoverProbability, parents, i);
                 if (children != null)
                 {
                     offspring.AddRange(children);
@@ -46,11 +46,11 @@ namespace GeneticSharp.Domain
         /// <param name="mutation">The mutation class.</param>
         /// <param name="mutationProbability">The mutation probability.</param>
         /// <param name="chromosomes">The chromosomes.</param>
-        public  void Mutate(IMetaHeuristic metaHeuristic, IPopulation population, IMutation mutation, float mutationProbability, IList<IChromosome> chromosomes)
+        public  void Mutate(IMetaHeuristic metaHeuristic, IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> chromosomes)
         {
             for (int i = 0; i < chromosomes.Count; i++)
             {
-                metaHeuristic.MutateChromosome(population, mutation, mutationProbability, chromosomes, i);
+                metaHeuristic.MutateChromosome(ctx, mutation, mutationProbability, chromosomes, i);
             }
         }
     }

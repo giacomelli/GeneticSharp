@@ -21,9 +21,9 @@ namespace GeneticSharp.Domain.Metaheuristics
         }
 
 
-        public override IList<IChromosome> SelectParentPopulation(IPopulation population, ISelection selection)
+        public override IList<IChromosome> SelectParentPopulation(IMetaHeuristicContext ctx, ISelection selection)
         {
-            return SubMetaHeuristic.SelectParentPopulation(population, Selection);
+            return SubMetaHeuristic.SelectParentPopulation(ctx, Selection);
         }
 
     }

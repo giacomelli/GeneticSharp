@@ -1,17 +1,15 @@
 ﻿using System;
 using GeneticSharp.Domain.Chromosomes;
+using GeneticSharp.Domain.Fitnesses;
+using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Extensions.Mathematic
 {
-    /// <summary>
-    /// Equation solver fitness.
-    /// </summary>
-    public class EquationSolverFitness : EquationBasedFitness<int>
+    public class EquationBasedFitness<TResult> : IFitness
     {
-        #region Fields
-        private readonly int m_expectedResult;
-        
-        #endregion
+
+        private readonly Func<Gene[], TResult> m_getEquationResult;
+
 
         #region Constructors
         /// <summary>
@@ -19,10 +17,10 @@ namespace GeneticSharp.Extensions.Mathematic
         /// </summary>
         /// <param name="expectedResult">Expected result.</param>
         /// <param name="getEquationResult">Get equation result.</param>
-        public EquationSolverFitness(int expectedResult, Func<Gene[], int> getEquationResult):base(getEquationResult)
+        public EquationBasedFitness(Func<Gene[], TResult> getEquationResult)
         {
-            m_expectedResult = expectedResult;
             
+            m_getEquationResult = getEquationResult;
         }
         #endregion
 
@@ -32,14 +30,15 @@ namespace GeneticSharp.Extensions.Mathematic
         /// </summary>
         /// <param name="chromosome">The chromosome to be evaluated.</param>
         /// <returns>The fitness of the chromosome.</returns>
-        public override double Evaluate(IChromosome chromosome)
+        public virtual double Evaluate(IChromosome chromosome)
         {
-            var equationResult = base.Evaluate(chromosome);
+            var equalityChromosome = chromosome as EquationChromosome;
 
-            var fitness = Math.Abs(equationResult - m_expectedResult);
+            var fitness = m_getEquationResult(chromosome.GetGenes()) ;
 
-            return fitness * -1;
+            return fitness.To<double>();
         }
         #endregion
+
     }
 }

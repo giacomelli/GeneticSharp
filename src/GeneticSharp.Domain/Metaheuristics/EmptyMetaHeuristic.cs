@@ -13,23 +13,23 @@ namespace GeneticSharp.Domain.Metaheuristics
     /// </summary>
     public class EmptyMetaHeuristic : MetaHeuristicBase
     {
-        public override IList<IChromosome> SelectParentPopulation(IPopulation population, ISelection selection)
+        public override IList<IChromosome> SelectParentPopulation(IMetaHeuristicContext ctx, ISelection selection)
         {
             return null;
         }
 
-        public override IList<IChromosome> MatchParentsAndCross(IPopulation population, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents,
+        public override IList<IChromosome> MatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents,
             int firstParentIndex)
         {
             return null;
         }
 
-        public override void MutateChromosome(IPopulation population, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings,
+        public override void MutateChromosome(IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings,
             int offspringIndex)
         {
         }
 
-        public override IList<IChromosome> Reinsert(IPopulation population, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
+        public override IList<IChromosome> Reinsert(IMetaHeuristicContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
         {
             return null;
         }

@@ -66,10 +66,7 @@ namespace GeneticSharp.Domain.Populations
         /// <value>The best chromosome.</value>
         public IChromosome BestChromosome { get; internal set; }
 
-        /// <summary>
-        /// Allows storing and reusing objects during operators evaluation
-        /// </summary>
-        public ConcurrentDictionary<string, object> Context { get; set; } = new ConcurrentDictionary<string, object>();
+        
 
         #endregion
 
