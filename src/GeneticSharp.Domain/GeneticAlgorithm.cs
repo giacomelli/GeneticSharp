@@ -376,11 +376,15 @@ namespace GeneticSharp.Domain
         /// <returns>True if termination has been reached, otherwise false.</returns>
         private bool EvolveOneGeneration()
         {
-            var ctx = CreateContext(Population);
+            var ctx = Metaheuristic.CreateContext(this, Population);
+            ctx.CurrentStage = MetaHeuristicsStage.Selection;
             var parents = SelectParents(ctx);
+            ctx.CurrentStage = MetaHeuristicsStage.Crossover;
             var offspring = Cross(ctx, parents);
+            ctx.CurrentStage = MetaHeuristicsStage.Mutation;
             Mutate(ctx, offspring);
             EvaluateFitness(offspring);
+            ctx.CurrentStage = MetaHeuristicsStage.Reinsertion;
             var newGenerationChromosomes = Reinsert(ctx, offspring, parents);
             Population.CreateNewGeneration(newGenerationChromosomes);
             return EndCurrentGeneration();
@@ -464,12 +468,7 @@ namespace GeneticSharp.Domain
             }
         }
 
-        private IMetaHeuristicContext CreateContext(IPopulation population)
-        {
-            var toReturn = new MetaHeuristicContext()
-                {GA = this, Population = population};
-            return toReturn;
-        }
+       
 
 
         /// <summary>

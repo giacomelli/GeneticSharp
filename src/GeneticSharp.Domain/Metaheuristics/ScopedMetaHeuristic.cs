@@ -21,11 +21,11 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <summary>
         /// The scope for the current MetaHeuristic behavior. Container fallback is used for other operators
         /// </summary>
-        public MetaHeuristicsScope Scope { get; set; } = MetaHeuristicsScope.All;
+        public MetaHeuristicsStage Stage { get; set; } = MetaHeuristicsStage.All;
 
         public sealed override  IList<IChromosome> SelectParentPopulation(IMetaHeuristicContext ctx, ISelection selection)
         {
-            if ((Scope & MetaHeuristicsScope.Selection) == MetaHeuristicsScope.Selection)
+            if ((Stage & MetaHeuristicsStage.Selection) == MetaHeuristicsStage.Selection)
             {
                 return ScopedSelectParentPopulation(ctx, selection);
             }
@@ -38,7 +38,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         public sealed override IList<IChromosome> MatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents,
             int firstParentIndex)
         {
-            if ((Scope & MetaHeuristicsScope.Crossover) == MetaHeuristicsScope.Crossover)
+            if ((Stage & MetaHeuristicsStage.Crossover) == MetaHeuristicsStage.Crossover)
             {
                 return ScopedMatchParentsAndCross(ctx, crossover, crossoverProbability, parents, firstParentIndex);
             }
@@ -51,7 +51,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         public sealed override void MutateChromosome(IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings,
             int offspringIndex)
         {
-            if ((Scope & MetaHeuristicsScope.Mutation) == MetaHeuristicsScope.Mutation)
+            if ((Stage & MetaHeuristicsStage.Mutation) == MetaHeuristicsStage.Mutation)
             {
                 ScopedMutateChromosome(ctx, mutation, mutationProbability, offSprings, offspringIndex);
             }
@@ -63,7 +63,7 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         public sealed override IList<IChromosome> Reinsert(IMetaHeuristicContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
         {
-            if ((Scope & MetaHeuristicsScope.Reinsertion) == MetaHeuristicsScope.Reinsertion)
+            if ((Stage & MetaHeuristicsStage.Reinsertion) == MetaHeuristicsStage.Reinsertion)
             {
                return ScopedReinsert(ctx, reinsertion, offspring, parents);
             }

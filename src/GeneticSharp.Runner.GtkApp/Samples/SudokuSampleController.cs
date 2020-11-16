@@ -398,7 +398,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             
             if (_ChromosomeType == nameof(SudokuChromosomeType.CellsWithEukaryoteMetaHeuristics))
             {
-                ga.Metaheuristic = new EukaryoteMetaHeuristic(9, 9, new DefaultMetaHeuristic()) { Scope = MetaHeuristicsScope.Crossover | MetaHeuristicsScope.Mutation };
+                ga.Metaheuristic = new EukaryoteMetaHeuristic(9, 9, new DefaultMetaHeuristic()) { Stage = MetaHeuristicsStage.Crossover | MetaHeuristicsStage.Mutation };
             }
         }
     }

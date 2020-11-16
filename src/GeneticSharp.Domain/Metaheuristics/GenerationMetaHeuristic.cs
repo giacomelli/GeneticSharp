@@ -19,7 +19,7 @@
 
         private void Init()
         {
-            PhaseGenerator = ctx => ctx.Population.GenerationsNumber % TotalPhaseSize;
+            IndexGenerator = (h, ctx) => ctx.Population.GenerationsNumber % TotalPhaseSize;
         }
     }
 }

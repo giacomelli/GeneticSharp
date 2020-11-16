@@ -59,14 +59,14 @@ namespace GeneticSharp.Extensions.Sudoku
         public double Evaluate(SudokuBoard testSudokuBoard)
         {
             var nbErrors = GetNbErrors(testSudokuBoard);
-            return 1 - (nbErrors / (double)GetWorstCaseError(testSudokuBoard));
+            return 1 - (nbErrors / 100);
         }
 
-        private int GetWorstCaseError(SudokuBoard testSudokuBoard)
-        {
-            //Nothing fancy for now
-            return 100;
-        }
+        //private int GetWorstCaseError(SudokuBoard testSudokuBoard)
+        //{
+        //    //Nothing fancy for now
+        //    return 100;
+        //}
 
         /// <summary>
         /// Evaluates a single Sudoku board by counting the duplicates in rows, boxes

@@ -11,13 +11,21 @@ using GeneticSharp.Infrastructure.Framework.Collections;
 
 namespace GeneticSharp.Domain.Metaheuristics
 {
+
     /// <summary>
     /// Provides a base class with mechanism to compute the current phase and corresponding phase Metaheuristic from population and current individuals
     /// </summary>
-    public class PhaseMetaHeuristic<TIndex> : PhaseMetaHeuristicBase<TIndex>
+    public class IfElseMetaHeuristic:SwitchMetaHeuristic<bool> {}
+
+
+
+    /// <summary>
+    /// Provides a base class with mechanism to compute the current phase and corresponding phase Metaheuristic from population and current individuals
+    /// </summary>
+    public class SwitchMetaHeuristic<TIndex> : PhaseMetaHeuristicBase<TIndex>
     {
         
-        public PhaseMetaHeuristic() : base(){}
+        public SwitchMetaHeuristic() : base(){}
 
         //public PhaseMetaHeuristic(ParameterGenerator<TIndex> phaseGenerator) : base()
         //{
@@ -26,11 +34,11 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         //public PhaseMetaHeuristic(int phaseSize, params IMetaHeuristic[] phaseHeuristics):base(phaseSize, phaseHeuristics) {}
 
-        public ParameterGenerator<TIndex> PhaseGenerator { get; set; } 
+        public ParameterGenerator<TIndex> IndexGenerator { get; set; } 
 
         public override IList<IChromosome> ScopedSelectParentPopulation(IMetaHeuristicContext ctx, ISelection selection)
         {
-            var phaseItemIdx = PhaseGenerator(ctx);
+            var phaseItemIdx = IndexGenerator(this, ctx);
             //var currentHeuristic = ctx.GetOrAdd<IMetaHeuristic>(ParameterScope.MetaHeuristic, this, phaseItemIdx.ToString(CultureInfo.InvariantCulture), () => GetCurrentHeuristic(phaseItemIdx));
             IMetaHeuristic currentHeuristic = GetCurrentHeuristic(phaseItemIdx);
             if (currentHeuristic != null)
@@ -53,7 +61,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             //var currentHeuristic = ctx.GetOrAdd<IMetaHeuristic>(ParameterScope.MetaHeuristic, this, phaseItemIdx.ToString(CultureInfo.InvariantCulture), () => GetCurrentHeuristic(phaseItemIdx));
             //return currentHeuristic.MatchParentsAndCross(ctx, crossover, crossoverProbability, parents,
             //    firstParentIndex);
-            var phaseItemIdx = PhaseGenerator(ctx);
+            var phaseItemIdx = IndexGenerator(this, ctx);
             IMetaHeuristic currentHeuristic = GetCurrentHeuristic(phaseItemIdx);
             if (currentHeuristic != null)
             {
@@ -73,7 +81,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             //var phaseItemIdx = PhaseGenerator(ctx);
             //var currentHeuristic = ctx.GetOrAdd<IMetaHeuristic>(ParameterScope.MetaHeuristic, this, phaseItemIdx.ToString(CultureInfo.InvariantCulture), () => GetCurrentHeuristic(phaseItemIdx));
             //currentHeuristic.MutateChromosome(ctx, mutation, mutationProbability, offSprings, offspringIndex);
-            var phaseItemIdx = PhaseGenerator(ctx);
+            var phaseItemIdx = IndexGenerator(this, ctx);
             IMetaHeuristic currentHeuristic = GetCurrentHeuristic(phaseItemIdx);
             if (currentHeuristic != null)
             {
@@ -91,7 +99,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             //var phaseItemIdx = PhaseGenerator(ctx);
             //var currentHeuristic = ctx.GetOrAdd<IMetaHeuristic>(ParameterScope.MetaHeuristic, this, phaseItemIdx.ToString(CultureInfo.InvariantCulture), () => GetCurrentHeuristic(phaseItemIdx));
             //return currentHeuristic.Reinsert(ctx, reinsertion, offspring, parents);
-            var phaseItemIdx = PhaseGenerator(ctx);
+            var phaseItemIdx = IndexGenerator(this, ctx);
             IMetaHeuristic currentHeuristic = GetCurrentHeuristic(phaseItemIdx);
             if (currentHeuristic != null)
             {
@@ -106,8 +114,7 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         protected virtual IMetaHeuristic GetCurrentHeuristic(TIndex phaseItemIndex)
         {
-            IMetaHeuristic currentHeuristic = null;
-            if (PhaseHeuristics.TryGetValue(phaseItemIndex, out currentHeuristic))
+            if (PhaseHeuristics.TryGetValue(phaseItemIndex, out var currentHeuristic))
             {
                 return currentHeuristic;
             }

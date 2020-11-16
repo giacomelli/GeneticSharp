@@ -6,7 +6,7 @@ namespace GeneticSharp.Domain.Metaheuristics
     /// <summary>
     /// Provides a base class with mechanism to compute the current phase and corresponding phase Metaheuristic from population and current individuals
     /// </summary>
-    public class SizeBasedMetaHeuristic : PhaseMetaHeuristic<int>
+    public class SizeBasedMetaHeuristic : SwitchMetaHeuristic<int>
     {
 
         public List<int> PhaseSizes { get; set; }

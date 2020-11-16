@@ -64,8 +64,17 @@ namespace GeneticSharp.Domain.Metaheuristics
         IList<IChromosome> Reinsert(IMetaHeuristicContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents);
 
 
+        /// <summary>
+        /// Creates an evolution context that will serve controlling the flow of dynamic operators and subheuristics with parameters passing to each other
+        /// </summary>
+        /// <param name="algorithm">the parent genetic algorithm (may be null in certain cases)</param>
+        /// <param name="population">the population to evolve (must not be null)</param>
+        /// <returns></returns>
+        IMetaHeuristicContext CreateContext(IGeneticAlgorithm algorithm, IPopulation population);
 
 
+
+        void RegisterParameters(IMetaHeuristicContext ctx);
 
     }
 }

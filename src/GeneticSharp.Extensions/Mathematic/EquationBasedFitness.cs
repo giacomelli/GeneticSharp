@@ -5,7 +5,7 @@ using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Extensions.Mathematic
 {
-    public class EquationBasedFitness<TResult> : IFitness
+    public class EquationFitness<TResult> : IFitness
     {
 
         private readonly Func<Gene[], TResult> m_getEquationResult;
@@ -17,7 +17,7 @@ namespace GeneticSharp.Extensions.Mathematic
         /// </summary>
         /// <param name="expectedResult">Expected result.</param>
         /// <param name="getEquationResult">Get equation result.</param>
-        public EquationBasedFitness(Func<Gene[], TResult> getEquationResult)
+        public EquationFitness(Func<Gene[], TResult> getEquationResult)
         {
             
             m_getEquationResult = getEquationResult;

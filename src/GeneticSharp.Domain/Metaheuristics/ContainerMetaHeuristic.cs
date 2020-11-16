@@ -53,7 +53,10 @@ namespace GeneticSharp.Domain.Metaheuristics
         }
 
 
-        
-
+        public override void RegisterParameters(IMetaHeuristicContext ctx)
+        {
+            base.RegisterParameters(ctx);
+            ((MetaHeuristicBase) SubMetaHeuristic).RegisterParameters(ctx);
+        }
     }
 }

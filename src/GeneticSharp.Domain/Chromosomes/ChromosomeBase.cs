@@ -65,7 +65,7 @@ namespace GeneticSharp.Domain.Chromosomes
                 return true;
             }
 
-            if (((object)first == null) || ((object)second == null))
+            if (first is null || second is null)
             {
                 return false;
             }
@@ -101,12 +101,12 @@ namespace GeneticSharp.Domain.Chromosomes
                 return false;
             }
 
-            if ((object)first == null)
+            if (first is null)
             {
                 return true;
             }
 
-            if ((object)second == null)
+            if (second is null)
             {
                 return false;
             }

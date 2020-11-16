@@ -21,7 +21,7 @@
 
         private void Init()
         {
-            PhaseGenerator = ctx => (int)(ctx.Index / (float)ctx.Count) * TotalPhaseSize;
+            IndexGenerator = (h,ctx)=> (int)(ctx.Index / (float)ctx.Count) * TotalPhaseSize;
         }
     }
 }

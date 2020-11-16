@@ -40,7 +40,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         public abstract IList<IChromosome> Reinsert(IMetaHeuristicContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents);
 
 
-        
+
 
         //public TItemType AddIfAbsentContextItem<TItemType>(bool isHeuristicsSpecific, IPopulation population, string key, Func<TItemType> factory)
         //{
@@ -51,9 +51,30 @@ namespace GeneticSharp.Domain.Metaheuristics
         //    return (TItemType)population.CurrentGeneration.Context.AddOrUpdate(key, s => (object)factory(), (s, o) => o);
         //}
 
-      
+        public IMetaHeuristicContext CreateContext(IGeneticAlgorithm ga, IPopulation population)
+        {
+            var toReturn = new MetaHeuristicContext()
+                { GA = ga, Population = population };
+            RegisterParameters(toReturn);
+            return toReturn;
+        }
+
+
+
+        public virtual void RegisterParameters(IMetaHeuristicContext ctx)
+        {
+            RegisterParameters(this.Parameters, ctx);
+        }
+
+        protected void RegisterParameters(IDictionary<string, MetaHeuristicParameter> parameters, IMetaHeuristicContext ctx)
+        {
+            foreach (var metaHeuristicParameter in parameters)
+            {
+              ctx. RegisterParameter(metaHeuristicParameter.Key, metaHeuristicParameter.Value);
+            }
+        }
+
         
-        
-       
+
     }
 }

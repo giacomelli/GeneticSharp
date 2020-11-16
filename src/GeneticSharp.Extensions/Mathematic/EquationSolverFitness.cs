@@ -6,7 +6,7 @@ namespace GeneticSharp.Extensions.Mathematic
     /// <summary>
     /// Equation solver fitness.
     /// </summary>
-    public class EquationSolverFitness : EquationBasedFitness<int>
+    public class EquationSolverFitness : EquationFitness<int>
     {
         #region Fields
         private readonly int m_expectedResult;

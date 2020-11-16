@@ -22,7 +22,7 @@ namespace GeneticSharp.Domain.Metaheuristics
     /// <summary>
     /// The matching MetaHeuristic offers various techniques to match specific parents for mating and applies the crossover operator to them
     /// </summary>
-    public class MatchingMetaHeuristic : ContainerMetaHeuristic
+    public class MatchMetaHeuristic : ContainerMetaHeuristic
     {
 
         /// <summary>
@@ -46,9 +46,9 @@ namespace GeneticSharp.Domain.Metaheuristics
         }
 
 
-        public MatchingMetaHeuristic() : this (new DefaultMetaHeuristic()) { }
+        public MatchMetaHeuristic() : this (new DefaultMetaHeuristic()) { }
 
-        public MatchingMetaHeuristic(IMetaHeuristic subMetaHeuristic) : base(subMetaHeuristic) { }
+        public MatchMetaHeuristic(IMetaHeuristic subMetaHeuristic) : base(subMetaHeuristic) { }
 
 
         public List<MatchingTechnique> MatchingTechniques { get; set; }
@@ -62,8 +62,7 @@ namespace GeneticSharp.Domain.Metaheuristics
 
                 var firstParent = parents[firstParentIndex];
 
-                var selectedParents = new List<IChromosome>(crossover.ParentsNumber);
-                selectedParents.Add(firstParent);
+                var selectedParents = new List<IChromosome>(crossover.ParentsNumber) {firstParent};
                 for (int i = 0; i < crossover.ParentsNumber - 1; i++)
                 {
                     var currentMatchingProcess = MatchingTechniques[i];

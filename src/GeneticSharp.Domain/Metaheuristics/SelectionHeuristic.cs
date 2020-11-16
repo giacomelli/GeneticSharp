@@ -8,22 +8,20 @@ namespace GeneticSharp.Domain.Metaheuristics
     /// <summary>
     /// Metaheuristic to provide a specific selection operator
     /// </summary>
-    public class SelectionHeuristic : ContainerMetaHeuristic
+    public class SelectionHeuristic : OperatorHeuristic<ISelection>
     {
 
-        public ISelection Selection { get; set; }
+        public SelectionHeuristic() {}
 
-        public SelectionHeuristic() : base() { }
+        public SelectionHeuristic(ISelection crossover) : base(crossover) { }
 
-        public SelectionHeuristic(ISelection selection) : base()
-        {
-            Selection = selection;
-        }
+        public SelectionHeuristic(ParameterGenerator<ISelection> crossover) : base(crossover) { }
 
 
         public override IList<IChromosome> SelectParentPopulation(IMetaHeuristicContext ctx, ISelection selection)
         {
-            return SubMetaHeuristic.SelectParentPopulation(ctx, Selection);
+
+            return base.SelectParentPopulation(ctx, GetOperator(ctx));
         }
 
     }

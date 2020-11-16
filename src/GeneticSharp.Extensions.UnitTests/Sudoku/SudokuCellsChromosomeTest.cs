@@ -31,6 +31,7 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
 
             var chromosome = new SudokuCellsChromosome(sudoku, false);
             var fitness = SudokuTestHelper.Eval(chromosome, sudoku, 500, 1, 30, out int genNb);
+            Assert.Less(genNb, 30);
             Assert.AreEqual(1, fitness);
 
         }
@@ -45,6 +46,7 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
 
             var chromosome = new SudokuCellsChromosome(sudoku, true);
             var fitness = SudokuTestHelper.Eval(chromosome, sudoku, 2000, 1, 50, out int genNb);
+            Assert.Less(genNb, 50);
             Assert.AreEqual(1, fitness);
 
         }
@@ -61,12 +63,13 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
             var chromosome = new SudokuCellsChromosome(sudoku, true);
 
             // We split the original 81 genes/cells chromosome into a 9x9genes chromosomes Karyotype
-            var metaHeuristics = new EukaryoteMetaHeuristic(9, 9, new DefaultMetaHeuristic()) { Scope = MetaHeuristicsScope.Crossover | MetaHeuristicsScope.Mutation };
+            var metaHeuristics = new EukaryoteMetaHeuristic(9, 9, new DefaultMetaHeuristic()) { Stage = MetaHeuristicsStage.Crossover | MetaHeuristicsStage.Mutation };
             //Since we used rows permutations at init and the solution is also a row permutation, we used ordered crossovers and mutations to keep yielding permutations
             var crossover = new CycleCrossover();
             var mutation = new TworsMutation();
 
             var fitness = SudokuTestHelper.Eval(chromosome, sudoku, metaHeuristics, crossover, mutation, 1000, 1, 50, out int genNb);
+            Assert.Less(genNb, 50);
             Assert.AreEqual(1, fitness);
 
         }
