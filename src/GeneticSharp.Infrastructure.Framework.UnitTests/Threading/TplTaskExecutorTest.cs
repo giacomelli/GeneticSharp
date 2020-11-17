@@ -131,7 +131,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
                 () => Assert.IsTrue(target.Start()),
                 () =>
                 {
-                    Thread.Sleep(100);
+                    Thread.Sleep(101);
                     target.Stop();
                 });
 
