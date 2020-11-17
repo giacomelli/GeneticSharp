@@ -371,6 +371,25 @@ namespace GeneticSharp.Domain
         }
 
         /// <summary>
+        /// Resets the genetic algorithm with new start population. May raise an Exception is the GA is running. It should be stopped or terminated first.
+        /// </summary>
+        /// <param name="newPopulation">the new population to initialize the GA</param>
+        public void Reset(IPopulation newPopulation)
+        {
+            if (m_state== GeneticAlgorithmState.Started || m_state == GeneticAlgorithmState.Resumed)
+            {
+                throw new InvalidOperationException($"Cannot reset a genetic algorithm with state {m_state}.");
+            }
+
+            lock (m_lock)
+            {
+                TimeEvolving = TimeSpan.Zero;
+                State = GeneticAlgorithmState.NotStarted;
+                Population = newPopulation;
+            }
+        }
+
+        /// <summary>
         /// Evolve one generation.
         /// </summary>
         /// <returns>True if termination has been reached, otherwise false.</returns>

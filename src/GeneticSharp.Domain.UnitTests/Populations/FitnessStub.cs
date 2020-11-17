@@ -7,14 +7,20 @@ namespace GeneticSharp.Domain.UnitTests
 {
     public class FitnessStub : IFitness
     {
-        public FitnessStub()
+        public FitnessStub() { }
+
+        public FitnessStub(int maxValue)
         {
-            ParallelSleep = 500;
+            MaxValue = maxValue;
+
         }
 
         #region IFitness implementation
         public bool SupportsParallel { get; set; }
-        public int ParallelSleep { get; set; }
+        public int ParallelSleep { get; set; } = 500;
+
+        public int MaxValue { get; set; } = 5;
+
         public double Evaluate(IChromosome chromosome)
         {
             if (SupportsParallel)
@@ -23,7 +29,7 @@ namespace GeneticSharp.Domain.UnitTests
             }
 
             var genes = chromosome.GetGenes();
-            double f = genes.Sum(g => (int)g.Value) / 20f;
+            var f = genes.Sum(g => (int)g.Value) / (double) (chromosome.Length*MaxValue);
 
             if (f > 1)
             {
@@ -34,4 +40,5 @@ namespace GeneticSharp.Domain.UnitTests
         }
         #endregion
     }
+    
 }

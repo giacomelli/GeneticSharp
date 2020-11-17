@@ -5,8 +5,6 @@ namespace GeneticSharp.Domain.UnitTests
 {
     public class ChromosomeStub : ChromosomeBase
     {
-        private int _maxValue = 5;
-
         public ChromosomeStub(double fitness)
             : base(2)
         {
@@ -17,23 +15,28 @@ namespace GeneticSharp.Domain.UnitTests
         {
         }
 
-        public ChromosomeStub(int maxValue) : base(4)
+        public ChromosomeStub(int maxValue):this(maxValue,4){}
+
+        public ChromosomeStub(int maxValue, int length) : base(length)
         {
-            _maxValue = maxValue;
-            CreateGene(0);
-            CreateGene(1);
-            CreateGene(2);
-            CreateGene(3);
+            MaxValue = maxValue;
+            for (int i = 0; i < Length; i++)
+            {
+                CreateGene(i);
+            }
+            
         }
+
+        public int MaxValue { get; } 
 
         public override Gene GenerateGene(int geneIndex)
         {
-            return new Gene(RandomizationProvider.Current.GetInt(0, _maxValue + 1));
+            return new Gene(RandomizationProvider.Current.GetInt(0, MaxValue + 1));
         }
 
         public override IChromosome CreateNew()
         {
-            return new ChromosomeStub();
+            return new ChromosomeStub(MaxValue, Length);
         }
     }
 }
