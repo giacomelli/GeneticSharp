@@ -28,7 +28,7 @@ namespace GeneticSharp.Domain
 
             for (int i = 0; i < minSize; i += crossover.ParentsNumber)
             {
-                var children = metaHeuristic.MatchParentsAndCross(ctx, crossover, crossoverProbability, parents, i);
+                var children = metaHeuristic.MatchParentsAndCross(ctx.GetIndividual(i), crossover, crossoverProbability, parents, i);
                 if (children != null)
                 {
                     offspring.AddRange(children);
@@ -50,7 +50,7 @@ namespace GeneticSharp.Domain
         {
             for (int i = 0; i < chromosomes.Count; i++)
             {
-                metaHeuristic.MutateChromosome(ctx, mutation, mutationProbability, chromosomes, i);
+                metaHeuristic.MutateChromosome(ctx.GetIndividual(i), mutation, mutationProbability, chromosomes, i);
             }
         }
     }

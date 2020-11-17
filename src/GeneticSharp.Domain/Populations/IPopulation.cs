@@ -67,6 +67,12 @@ namespace GeneticSharp.Domain.Populations
         /// Gets or sets the generation strategy.
         /// </summary>
         IGenerationStrategy GenerationStrategy { get; set; }
+
+        /// <summary>
+        /// An object store, used in MetaHeuristics
+        /// </summary>
+        IDictionary<string, object> Parameters { get; set; }
+
         #endregion
 
         #region Methods

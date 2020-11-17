@@ -70,7 +70,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <param name="algorithm">the parent genetic algorithm (may be null in certain cases)</param>
         /// <param name="population">the population to evolve (must not be null)</param>
         /// <returns></returns>
-        IMetaHeuristicContext CreateContext(IGeneticAlgorithm algorithm, IPopulation population);
+        IMetaHeuristicContext GetContext(IGeneticAlgorithm algorithm, IPopulation population);
 
 
 

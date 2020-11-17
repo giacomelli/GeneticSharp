@@ -31,7 +31,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             {
                 var subPopulation = new EukaryotePopulation(ctx.Population, subChromosomes) ;
                 //todo: deal with parameters (delegate?)
-                var newCtx = new MetaHeuristicContext(){GA = ctx.GA, Population = subPopulation, Count = ctx.Count, Index = ctx.Index };
+                var newCtx = new MetaHeuristicContext(){GA = ctx.GA, Population = subPopulation, Count = ctx.Count};
                 return subHeuristic.SelectParentPopulation(newCtx, selection);
 
             });

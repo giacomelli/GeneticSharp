@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using GeneticSharp.Domain.Chromosomes;
@@ -38,6 +39,7 @@ namespace GeneticSharp.Domain.Populations
             AdamChromosome = adamChromosome;
             Generations = new List<Generation>();
             GenerationStrategy = new PerformanceGenerationStrategy(10);
+            Parameters = new ConcurrentDictionary<string, object>();
         }
         #endregion
 
@@ -99,6 +101,8 @@ namespace GeneticSharp.Domain.Populations
         /// Gets or sets the generation strategy.
         /// </summary>
         public IGenerationStrategy GenerationStrategy { get; set; }
+
+        public IDictionary<string, object> Parameters { get; set; }
 
         /// <summary>
         /// Gets or sets the original chromosome of all population.

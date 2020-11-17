@@ -26,7 +26,9 @@ namespace GeneticSharp.Extensions.UnitTests.Mathematic
             var target = new EquationChromosome(10, 2);
             var newCreated = target.CreateNew() as EquationChromosome;
             Assert.AreEqual(target.Length, newCreated.Length);
-            Assert.AreEqual(target.ResultRange, newCreated.ResultRange);
+            Assert.AreEqual(target.MinValue, newCreated.MinValue);
+            Assert.AreEqual(target.MaxValue, newCreated.MaxValue);
+            Assert.AreEqual(target.ResultIsNegative, newCreated.ResultIsNegative);
         }
     }
 }

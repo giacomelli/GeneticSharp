@@ -27,9 +27,11 @@ namespace GeneticSharp.Domain
         {
             var offspring = new ConcurrentBag<IChromosome>();
 
+            ctx.Count = parents.Count;
+
             Parallel.ForEach(Enumerable.Range(0, ctx.Population.MinSize / crossover.ParentsNumber).Select(i => i * crossover.ParentsNumber), i =>
             {
-                var children = metaHeuristic.MatchParentsAndCross(ctx, crossover, crossoverProbability, parents, i);
+                var children = metaHeuristic.MatchParentsAndCross(ctx.GetIndividual(i), crossover, crossoverProbability, parents, i);
                 if (children != null)
                 {
                     foreach (var item in children)
@@ -51,7 +53,7 @@ namespace GeneticSharp.Domain
         {
             Parallel.ForEach(Enumerable.Range(0, chromosomes.Count), i =>
             {
-                metaHeuristic.MutateChromosome(ctx, mutation, mutationProbability, chromosomes, i);
+                metaHeuristic.MutateChromosome(ctx.GetIndividual(i), mutation, mutationProbability, chromosomes, i);
             });
         }
 

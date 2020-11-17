@@ -376,7 +376,7 @@ namespace GeneticSharp.Domain
         /// <returns>True if termination has been reached, otherwise false.</returns>
         private bool EvolveOneGeneration()
         {
-            var ctx = Metaheuristic.CreateContext(this, Population);
+            var ctx = Metaheuristic.GetContext(this, Population);
             ctx.CurrentStage = MetaHeuristicsStage.Selection;
             var parents = SelectParents(ctx);
             ctx.CurrentStage = MetaHeuristicsStage.Crossover;

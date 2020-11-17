@@ -51,12 +51,26 @@ namespace GeneticSharp.Domain.Metaheuristics
         //    return (TItemType)population.CurrentGeneration.Context.AddOrUpdate(key, s => (object)factory(), (s, o) => o);
         //}
 
-        public IMetaHeuristicContext CreateContext(IGeneticAlgorithm ga, IPopulation population)
+        public IMetaHeuristicContext GetContext(IGeneticAlgorithm ga, IPopulation population)
         {
-            var toReturn = new MetaHeuristicContext()
-                { GA = ga, Population = population };
-            RegisterParameters(toReturn);
-            return toReturn;
+            
+            if (population.Parameters.TryGetValue(nameof(IMetaHeuristicContext), out var cachedContext))
+            {
+                return (IMetaHeuristicContext) cachedContext;
+            }
+
+            lock (population)
+            {
+                if (population.Parameters.TryGetValue(nameof(IMetaHeuristicContext), out cachedContext))
+                {
+                    return (IMetaHeuristicContext)cachedContext;
+                }
+                var toReturn = new MetaHeuristicContext()
+                    { GA = ga, Population = population };
+                RegisterParameters(toReturn);
+                population.Parameters[nameof(IMetaHeuristicContext)] = toReturn;
+                return toReturn;
+            }
         }
 
 
