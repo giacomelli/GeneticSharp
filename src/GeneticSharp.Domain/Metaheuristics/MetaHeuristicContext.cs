@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Text;
 using GeneticSharp.Domain.Populations;
 
 namespace GeneticSharp.Domain.Metaheuristics
@@ -89,7 +91,6 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         private readonly Dictionary<string, MetaHeuristicParameter> _paramDefinitions = new Dictionary<string, MetaHeuristicParameter>();
 
-
         public IMetaHeuristicContext GetIndividual(int index)
         {
             return new IndividualContext(this, index);
@@ -104,10 +105,13 @@ namespace GeneticSharp.Domain.Metaheuristics
         public TValue GetWithIndex<TValue>(IMetaHeuristic h, string paramName, int index)
         {
             _paramDefinitions.TryGetValue(paramName, out var paramDef);
+
+
             if (paramDef != null)
             {
                 paramName = GetParamKeyWithIndex(paramDef.Scope, h, paramName, index);
             }
+
             if (Params.TryGetValue(paramName, out var dicValue))
             {
                 return (TValue)dicValue;
@@ -149,25 +153,34 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         public string GetParamKeyWithIndex(ParameterScope scope, IMetaHeuristic heuristic, string key, int index)
         {
-
-            if ((scope & ParameterScope.Individual) == ParameterScope.Individual)
+            var sb = new StringBuilder(key);
+            if ((scope & ParameterScope.Generation) == ParameterScope.Generation)
             {
-                key = $"Ind{index}-{key}";
-            }
-            if ((scope & ParameterScope.MetaHeuristic) == ParameterScope.MetaHeuristic)
-            {
-                key = $"Heur{heuristic.Guid}-{key}";
+                sb.Append("G");
+                sb.Append(Population.GenerationsNumber.ToString(CultureInfo.InvariantCulture));
             }
             if ((scope & ParameterScope.Stage) == ParameterScope.Stage)
             {
-                key = $"Stage{CurrentStage}-{key}";
+                sb.Append("S");
+                sb.Append(CurrentStage.ToString());
             }
-            if ((scope & ParameterScope.Generation) == ParameterScope.Generation)
+            if ((scope & ParameterScope.MetaHeuristic) == ParameterScope.MetaHeuristic)
             {
-                key = $"Gen{Population.GenerationsNumber}-{key}";
+                sb.Append("H");
+                sb.Append(heuristic.Guid);
+            }
+            if ((scope & ParameterScope.Individual) == ParameterScope.Individual)
+            {
+                sb.Append("I");
+                sb.Append(index.ToString(CultureInfo.InvariantCulture));
             }
 
-            return key;
+            sb.Append(key);
+
+            var toReturn = sb.ToString();
+
+            return toReturn;
+
         }
 
 
