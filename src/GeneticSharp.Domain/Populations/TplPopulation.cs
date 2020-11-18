@@ -43,7 +43,7 @@ namespace GeneticSharp.Domain.Populations
                     throw new InvalidOperationException("The Adam chromosome's 'CreateNew' method generated a null chromosome. This is a invalid behavior, please, check your chromosome code.");
                 }
 
-                c.CreateGenes();
+                c.InitializeGenes();
 
                 c.ValidateGenes();
 

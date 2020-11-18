@@ -68,7 +68,7 @@ namespace GeneticSharp.Extensions.Multiple
         }
 
 
-        public override void CreateGenes()
+        protected override void CreateGenes()
         {
             base.CreateGenes();
             UpdateSubGenes();

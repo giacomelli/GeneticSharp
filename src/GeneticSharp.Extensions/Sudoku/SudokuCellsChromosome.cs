@@ -78,7 +78,7 @@ namespace GeneticSharp.Extensions.Sudoku
         /// <summary>
         /// Creates the initial cell genes, either random accounting for the target Sudoku Mask, or according to row permutations with the same constraint
         /// </summary>
-        public override void CreateGenes()
+        protected override void CreateGenes()
         {
             if (InitWithPermutations)
             {

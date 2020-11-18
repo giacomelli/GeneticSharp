@@ -81,7 +81,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <summary>
         /// Initializes a chromosome with new random genes
         /// </summary>
-        void CreateGenes();
+        void InitializeGenes();
 
         /// <summary>
         /// Creates a clone.

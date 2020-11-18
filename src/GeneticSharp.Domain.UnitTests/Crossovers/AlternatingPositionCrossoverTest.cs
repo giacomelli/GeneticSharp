@@ -135,9 +135,9 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         {
             var target = new AlternatingPositionCrossover();
             var chromosome1 = new TspChromosome(100);
-            chromosome1.CreateGenes();
+            chromosome1.InitializeGenes();
             var chromosome2 = new TspChromosome(100);
-            chromosome2.CreateGenes();
+            chromosome2.InitializeGenes();
             var actual = target.Cross(new TspChromosome[] { chromosome1, chromosome2 });
 
             Assert.AreEqual(2, actual.Count);
@@ -177,7 +177,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         {
             const Int32 FinalAns = 4567213;
             var chromosome = new Issue61.GuessNumberChromosome(FinalAns.ToString().Length);
-            chromosome.CreateGenes();
+            chromosome.InitializeGenes();
             var population = new Population(1000, 5000, chromosome);
             var fitness = new Issue61.GuessNumberFitness(FinalAns);
             var selection = new EliteSelection();
