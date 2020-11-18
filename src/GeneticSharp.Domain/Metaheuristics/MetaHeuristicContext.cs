@@ -113,6 +113,13 @@ namespace GeneticSharp.Domain.Metaheuristics
                 return (TValue)dicValue;
             }
 
+            if (paramDef!=null)
+            {
+                var toReturn = paramDef.ComputeParameter(h, this);
+                Params[paramName] = toReturn;
+                return (TValue) toReturn;
+            }
+
             return default;
         }
 

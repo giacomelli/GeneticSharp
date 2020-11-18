@@ -7,7 +7,7 @@ namespace GeneticSharp.Domain.UnitTests
 {
     public class FitnessStub : IFitness
     {
-        public FitnessStub() { }
+        public FitnessStub():this(5) { }
 
         public FitnessStub(int maxValue)
         {
@@ -19,7 +19,7 @@ namespace GeneticSharp.Domain.UnitTests
         public bool SupportsParallel { get; set; }
         public int ParallelSleep { get; set; } = 500;
 
-        public int MaxValue { get; set; } = 5;
+        public int MaxValue { get; set; }
 
         public double Evaluate(IChromosome chromosome)
         {

@@ -35,6 +35,20 @@ namespace GeneticSharp.Domain.Metaheuristics
             return metaHeuristic;
         }
 
+        public static T WithCrossoverProbabilityStrategy<T>(this T metaHeuristic, ProbabilityStrategy strategy) where T : ContainerMetaHeuristic
+        {
+            metaHeuristic.CrossoverProbabilityStrategy = strategy;
+            return metaHeuristic;
+        }
+
+        public static T WithMutationProbabilityStrategy<T>(this T metaHeuristic, ProbabilityStrategy strategy) where T : ContainerMetaHeuristic
+        {
+            metaHeuristic.MutationProbabilityStrategy = strategy;
+            return metaHeuristic;
+        }
+
+
+
 
         /// <summary>
         /// A fluent extension allows to define phase heuristics in sequence

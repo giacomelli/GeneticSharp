@@ -31,7 +31,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             }
             else
             {
-                return SubMetaHeuristic.SelectParentPopulation(ctx, selection);
+                return base.SelectParentPopulation(ctx, selection);
             }
         }
 
@@ -44,7 +44,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             }
             else
             {
-                return SubMetaHeuristic.MatchParentsAndCross(ctx, crossover, crossoverProbability, parents, firstParentIndex);
+                return base.MatchParentsAndCross(ctx, crossover, crossoverProbability, parents, firstParentIndex);
             }
         }
 
@@ -57,7 +57,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             }
             else
             {
-                SubMetaHeuristic.MutateChromosome(ctx, mutation, mutationProbability, offSprings, offspringIndex);
+                base.MutateChromosome(ctx, mutation, mutationProbability, offSprings, offspringIndex);
             }
         }
 
@@ -69,7 +69,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             }
             else
             {
-                return SubMetaHeuristic.Reinsert(ctx, reinsertion, offspring, parents);
+                return base.Reinsert(ctx, reinsertion, offspring, parents);
             }
 
         }

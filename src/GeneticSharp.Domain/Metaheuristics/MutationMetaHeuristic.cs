@@ -24,7 +24,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         public override void MutateChromosome(IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings,
             int offspringIndex)
         {
-            SubMetaHeuristic.MutateChromosome(ctx, Mutation, mutationProbability, offSprings,
+            base.MutateChromosome(ctx, Mutation, mutationProbability, offSprings,
                 offspringIndex);
         }
     }

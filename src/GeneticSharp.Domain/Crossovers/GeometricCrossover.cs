@@ -20,18 +20,14 @@ namespace GeneticSharp.Domain.Crossovers
 
         private static readonly Func<IList<TValue>, TValue> _defaultGeometricOperator = geneValues => (geneValues.Sum(val => val.To<double>()) / 2).To<TValue>();
 
-        public GeometricCrossover() : this(2)
-        {
-            
-                
-        }
+        public GeometricCrossover() : this(2, false) { }
 
-        public GeometricCrossover(int parentNb) : base(parentNb, 1)
+        public GeometricCrossover(int parentNb, bool generateTwin) : base(parentNb, generateTwin ? 2 : 1)
         {
             GeometricOperator = _defaultGeometricOperator;
         }
 
-        public GeometricCrossover(int parentNb, Func<IList<TValue>, TValue> geometricOperator) : this(parentNb)
+        public GeometricCrossover(int parentNb, Func<IList<TValue>, TValue> geometricOperator, bool generateTwin = false) : this(parentNb, generateTwin)
         {
             GeometricOperator = geometricOperator;
         }
@@ -47,13 +43,29 @@ namespace GeneticSharp.Domain.Crossovers
 
         public IList<IChromosome> PerformCross(IList<IChromosome> parents, Func<IList<TValue>, TValue> geometricOperator)
         {
-           
+           var toReturn = new List<IChromosome>(ChildrenNumber);
+           var firstChild = CreateOffspring(parents, geometricOperator);
+           toReturn.Add(firstChild);
+           if (ChildrenNumber==2)
+           {
+               parents = parents.Reverse().ToList();
+               var twinChild = CreateOffspring(parents, geometricOperator);
+               toReturn.Add(twinChild);
+           }
+           return toReturn;
+
+        }
+
+        private IChromosome CreateOffspring(IList<IChromosome> parents, Func<IList<TValue>, TValue> geometricOperator)
+        {
             var offspring = parents[0].CreateNew();
             for (int i = 0; i < offspring.Length; i++)
             {
-                offspring.ReplaceGene(i, new Gene(geometricOperator(parents.Select(p=> (TValue) p.GetGene(i).Value).ToList())));
+                var newGeneValue = geometricOperator(parents.Select(p => (TValue)p.GetGene(i).Value).ToList());
+                offspring.ReplaceGene(i, new Gene(newGeneValue));
             }
-            return new[] { offspring };
+
+            return offspring;
         }
 
 
