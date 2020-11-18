@@ -32,7 +32,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
             for (int i = 1; i < 11; i++)
             {
-                var results = CompareEvolutions(4 * i, 4 * i, 100, 1, 5000, 100, TimeSpan.FromSeconds(2));
+                var results = CompareEvolutions(4 * i, 4 * i, 100, 1, 2000, 100, TimeSpan.FromSeconds(5));
 
                 // We ensure that both GAs optimize. What is expected to keep a good final fitness as the problem size grows, unlike regular GA
                 AssertEvolution(results[0],  Math.Max(0.6, 0.9 -(0.1*i)));
@@ -88,7 +88,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             target.Reset(new Population(initialPopulation.MinSize, initialPopulation.MaxSize, chromosome) { GenerationStrategy = generationStragegy });
             target.Metaheuristic =
-                MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(50,
+                MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(100,
                     i => i.To<double>(),
                     d => Math.Abs(d).To<int>() % maxValue + 1);
             target.Start();
