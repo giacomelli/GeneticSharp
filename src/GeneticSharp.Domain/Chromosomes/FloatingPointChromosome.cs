@@ -81,7 +81,7 @@ namespace GeneticSharp.Domain.Chromosomes
 
         }
 
-        public string MOriginalValueStringRepresentation
+        private string OriginalValueStringRepresentation
         {
             get
             {
@@ -121,7 +121,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <param name="geneIndex">Gene index.</param>
         public override Gene GenerateGene (int geneIndex)
         {
-            return new Gene (Convert.ToInt32(MOriginalValueStringRepresentation [geneIndex].ToString(), CultureInfo.InvariantCulture));
+            return new Gene (Convert.ToInt32(OriginalValueStringRepresentation [geneIndex].ToString(), CultureInfo.InvariantCulture));
         }
 
         /// <summary>
