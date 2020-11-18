@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Metaheuristics;
@@ -28,19 +29,21 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
 
         [Test()]
-        public void Evolve_WhaleOptimisation_StubChromosomeSeveralSizes_BetterThanRegularGA()
+        public void Evolve_WhaleOptimisation_StubChromosomeSeveralSizes_BetterThanOnePointCrossover()
         {
-            for (int i = 1; i < 11; i++)
+            var crossover = new OnePointCrossover(2);
+            var compoundResults = new List<IList<EvolutionResult>>();
+            for (int i = 1; i < 10; i++)
             {
-                var results = CompareEvolutions(4 * i, 4 * i, 100, 1, 2000, 100, TimeSpan.FromSeconds(5));
-
-                // We ensure that both GAs optimize. What is expected to keep a good final fitness as the problem size grows, unlike regular GA
-                AssertEvolution(results[0],  Math.Max(0.6, 0.9 -(0.1*i)));
-                AssertEvolution(results[1], Math.Max(0.7, 1 -(0.01*Math.Pow(i,2))));
-
-                //Whale metaheuristic better
-                Assert.LessOrEqual(results[0].Population.BestChromosome.Fitness, results[1].Population.BestChromosome.Fitness);
+                var results = CompareWhaleEvolutionsToCrossover(crossover, 4 * i, 4 * i, 50, 1, 2000, 100, TimeSpan.FromSeconds(2));
+                compoundResults.Add(results);
+                // We ensure that both GAs optimize. 
+                AssertEvolution(results[0],  0.6);
+                AssertEvolution(results[1], 0.7);
             }
+            //Whale metaheuristic better
+            compoundResults.Each(results=> Assert.LessOrEqual(results[0].Population.BestChromosome.Fitness, results[1].Population.BestChromosome.Fitness));
+            
         }
 
 
@@ -61,13 +64,12 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
 
 
-        private IList<EvolutionResult> CompareEvolutions(int maxValue, int chromosomeLength, int populationSize, int minFitness, int maxNbGenerations, int stagnationNb, TimeSpan maxTimeEvolving)
+        private IList<EvolutionResult> CompareWhaleEvolutionsToCrossover(ICrossover crossover, int maxValue, int chromosomeLength, int populationSize, int minFitness, int maxNbGenerations, int stagnationNb, TimeSpan maxTimeEvolving)
         {
 
             var toReturn = new List<EvolutionResult>(2);
 
             var selection = new EliteSelection();
-            var crossover = new OnePointCrossover(2);
             var mutation = new UniformMutation();
             var chromosome = new ChromosomeStub(maxValue, chromosomeLength);
             var generationStragegy = new TrackingGenerationStrategy();
