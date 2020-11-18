@@ -18,8 +18,9 @@ Can be used in any kind of .NET Core and .NET Framework apps, like ASP .NET MVC,
 ## Projects, papers, journals, books, tutorials, courses and apps using GeneticSharp
 * [A CPS-Based Simulation Platform for Long Production Factories (paper)](https://www.mdpi.com/2075-4701/9/10/1025/pdf)
 * [AeroVision: aircraft trajectories optimization and visualization (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/AeroVision-Aircraft-trajectories-optimization-and-visualization.pdf)
-* [Artificial Intelligence course in French engineering schools (course)](https://github.com/giacomelli/GeneticSharp/pull/43#issuecomment-433662175)
 * [Analysis and comparison between Black-Scholes and Merton and Corrado-Su for options pricing (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Analysis-and-comparison-between-Black-Scholes-and-Merton-and-Corrado-Su-for-options-pricing.pdf) ![](https://img.shields.io/badge/BR-green.svg)
+* [Application of genetic algorithms to optimize RFID antenna readings (paper)](https://github.com/gsalibi/artificial-intelligence-course/blob/master/Project%202/Relat%C3%B3rio.pdf) ![](https://img.shields.io/badge/BR-green.svg)
+* [Artificial Intelligence course in French engineering schools (course)](https://github.com/giacomelli/GeneticSharp/pull/43#issuecomment-433662175)
 * [BlazorAI: Blazor Meets Artificial Intelligence (app)](https://www.blazor.ai/) [(Github)](https://github.com/lhalsey/BlazorAI)
 * [Context-Sensitive Code Completion: improving predictions with genetic algorithms (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Context-Sensitive-Code-Completion-improving-predictions-with-genetic-algorithms.pdf) [(Github)](https://github.com/godtopus/GeneCSCC)
 * [Deriving Functions for Pareto Optimal Fronts Using Genetic Programming (paper/book)](https://books.google.com.br/books?id=w_lcDwAAQBAJ&lpg=PA473&ots=Rv7O6FhCSM&dq=%22GeneticSharp%22&hl=pt-BR&pg=PA464#v=onepage&q=%22GeneticSharp%22&f=false)
@@ -45,6 +46,7 @@ Can be used in any kind of .NET Core and .NET Framework apps, like ASP .NET MVC,
 * [Path Finding with Genetic Algorithms (project)](https://yoloprogramming.com/post/2017/01/11/path-finding-with-genetic-algorithms)
 * [SurvivorAI: some experiments of survival scenarios (project)](https://github.com/giacomelli/SurvivorAI)
 * [System for the decision-making support of the synthesis of physical topology of collection and data transfer network in energy management system (paper)](http://hi-tech.asu.edu.ru/files/1(45)/193-210.pdf) ![](https://img.shields.io/badge/RU-red.svg)
+* [The Method of Studying of Electromagnetic Characteristics and Synthesis of Metamaterial (paper)](https://cyberleninka.ru/article/n/metodika-issledovaniya-elektromagnitnyh-harakteristik-i-sinteza-metamateriala) ![](https://img.shields.io/badge/RU-red.svg)
 * [ThermalDesign (project)](https://github.com/simonjduff/ThermalDesign)
 * [TrussOptimization (project)](https://trussoptimizationweb.herokuapp.com)
 * [TSP with GeneticSharp and Unity3D (tutorial)](http://diegogiacomelli.com.br/tsp-with-GeneticSharp-and-Unity3d/)
@@ -64,7 +66,7 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
 ### [Populations](src/GeneticSharp.Domain/Populations)
    - [Population](src/GeneticSharp.Domain/Populations/Population.cs)
    - [TplPopulation](src/GeneticSharp.Domain/Populations/TplPopulation.cs)
-   - Others populations can be added implementing [IPopulation](src/GeneticSharp.Domain/IPopulation) interface or extending [Population](src/GeneticSharp.Domain/Populations/Population.cs).
+   - Others populations can be added implementing [IPopulation](src/GeneticSharp.Domain/Populations/IPopulation.cs) interface or extending [Population](src/GeneticSharp.Domain/Populations/Population.cs).
 
 ### [Generations](src/GeneticSharp.Domain/Populations/Generation.cs)
    - [Generation](src/GeneticSharp.Domain/Populations/Generation.cs)

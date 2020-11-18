@@ -18,17 +18,17 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
         }
 
         /// <summary>
-        /// The cells chromosome might need more individuals, so in order to keep execution time low, we only expect near completion
+        /// The cells chromosome should always solve the very easy Sudoku with a population of 500 chromosomes in less than 30 generations
         /// </summary>
         [Test]
-        public void Evolve_SimpleSudokuCellsChromosome_NearlySolved()
+        public void Evolve_CellsChromosome_VeryEasySudoku_Solved()
         {
-            var sudoku = SudokuTestHelper.CreateBoard();
+            var sudoku = SudokuTestHelper.CreateBoard(SudokuTestDifficulty.VeryEasy);
 
-            //the cells chromosome should solve the sudoku or nearly in less than 50 generations with 500 chromosomes
+            //the cells chromosome should solve the sudoku in less than 30 generations with 500 chromosomes
             var chromosome = new SudokuCellsChromosome(sudoku);
-            var fitness = SudokuTestHelper.Eval(chromosome, sudoku, 500, -20, 30);
-            Assert.GreaterOrEqual(fitness, -20);
+            var fitness = SudokuTestHelper.Eval(chromosome, sudoku, 500, 0, 30);
+            Assert.GreaterOrEqual(0, fitness);
 
         }
     }

@@ -236,7 +236,26 @@ namespace GeneticSharp.Domain.UnitTests
             target.Start();
             
             Assert.AreEqual(100, target.Population.Generations.Count);
-            Assert.Greater(target.TimeEvolving.TotalMilliseconds, 1);
+            Assert.Less(target.TimeEvolving.TotalMilliseconds, 200);
+        }
+
+        [Test()]
+        public void Start_ParallelManyGenerations_Fast()
+        {
+            var selection = new EliteSelection();
+            var crossover = new OnePointCrossover(2);
+            var mutation = new UniformMutation();
+            var chromosome = new ChromosomeStub();
+            var target = new GeneticAlgorithm(new Population(100, 100, chromosome),
+                    new FitnessStub() { SupportsParallel = true, ParallelSleep = 50}, selection, crossover, mutation);
+
+            target.Population.GenerationStrategy = new TrackingGenerationStrategy();
+            target.Termination = new GenerationNumberTermination(100);
+            target.TaskExecutor = new ParallelTaskExecutor();
+            target.Start();
+
+            Assert.AreEqual(100, target.Population.Generations.Count);
+            Assert.Less(target.TimeEvolving.TotalSeconds, 10);
         }
 
         [Test()]
@@ -246,16 +265,32 @@ namespace GeneticSharp.Domain.UnitTests
             var crossover = new OnePointCrossover(2);
             var mutation = new UniformMutation();
             var chromosome = new ChromosomeStub();
-            var target = new GeneticAlgorithm(new Population(100, 100, chromosome),
-                    new FitnessStub() { SupportsParallel = true }, selection, crossover, mutation);
-
-            target.Population.GenerationStrategy = new TrackingGenerationStrategy();
-            target.Termination = new GenerationNumberTermination(100);
-            target.TaskExecutor = new ParallelTaskExecutor();
+            var fitness = new FitnessStub() {SupportsParallel = true, ParallelSleep = 1};
+            var generationStrategy = new TrackingGenerationStrategy();
+            var termination = new GenerationNumberTermination(100);
+            // we test linear first
+            var target = new GeneticAlgorithm(new Population(10, 10, chromosome), fitness
+                , selection, crossover, mutation);
+            target.Population.GenerationStrategy = generationStrategy;
+            target.Termination = termination;
+            target.TaskExecutor = new LinearTaskExecutor();
             target.Start();
-
             Assert.AreEqual(100, target.Population.Generations.Count);
-            Assert.Greater(target.TimeEvolving.TotalMilliseconds, 1);
+            var linearTime = target.TimeEvolving.TotalMilliseconds;
+            //then parallel
+
+            target = new GeneticAlgorithm(new Population(10, 10, chromosome), fitness
+                , selection, crossover, mutation);
+            target.Population.GenerationStrategy = generationStrategy;
+            target.Termination = termination;
+            target.TaskExecutor = new TplTaskExecutor();
+            target.Start();
+            Assert.AreEqual(100, target.Population.Generations.Count);
+
+            var parallelTime = target.TimeEvolving.TotalMilliseconds;
+
+
+            Assert.Less(parallelTime, linearTime);
         }
 
         [Test()]
