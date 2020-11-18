@@ -23,9 +23,9 @@ namespace GeneticSharp.Extensions.UnitTests.AutoConfig
         public void Evaluate_StartOk_Fitness()
         {
             var chromosome = new AutoConfigChromosome();
-            chromosome.CreateGenes();
+            chromosome.InitializeGenes();
             var targetChromosome = new TspChromosome(10);
-            targetChromosome.CreateGenes();
+            targetChromosome.InitializeGenes();
             var targetFitness = new TspFitness(10, 0, 100, 0, 100);
             var target = new AutoConfigFitness(targetFitness, targetChromosome);
             target.PopulationMinSize = 20;
@@ -40,9 +40,9 @@ namespace GeneticSharp.Extensions.UnitTests.AutoConfig
         public void Evaluate_StartFailed_ZeroFitness()
         {
             var chromosome = new AutoConfigChromosome();
-            chromosome.CreateGenes();
+            chromosome.InitializeGenes();
             var targetChromosome = Substitute.For<IChromosome>();
-            targetChromosome.CreateGenes();
+            targetChromosome.InitializeGenes();
             targetChromosome.CreateNew().Returns(x => throw new Exception("TEST"));
 
             var targetFitness = new TspFitness(10, 0, 100, 0, 100);

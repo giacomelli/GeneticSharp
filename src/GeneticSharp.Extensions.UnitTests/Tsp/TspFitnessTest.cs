@@ -33,7 +33,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
         {
             var target = new TspFitness(10, 0, 10000000, 0, 10000000);
             var chromosome = new TspChromosome(10);
-            chromosome.CreateGenes();
+            chromosome.InitializeGenes();
             var actual = target.Evaluate(chromosome);
             Assert.AreEqual(0, actual);
         }

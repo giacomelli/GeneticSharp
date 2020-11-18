@@ -63,7 +63,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers.Issues
             }
 
 
-            public override void CreateGenes()
+            protected override void CreateGenes()
             {
                 var initGenes = RandomizationProvider.Current.GetUniqueInts(this.Length, MinGeneValue, MaxGeneValue);
                 for (int i = 0; i < this.Length; i++)

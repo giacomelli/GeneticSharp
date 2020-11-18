@@ -69,7 +69,7 @@ namespace GeneticSharp.Extensions.Tsp
             return clone;
         }
 
-        public override void CreateGenes()
+        protected override void CreateGenes()
         {
             var citiesIndexes = RandomizationProvider.Current.GetUniqueInts(m_numberOfCities, 0, m_numberOfCities);
 
