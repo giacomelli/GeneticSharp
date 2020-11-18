@@ -12,7 +12,7 @@ namespace GeneticSharp.Domain.Reinsertions
     /// into the old population. Similarly, if not all offspring are to be used at each 
     /// generation or if more offspring are generated than the max size of the  
     /// population then a reinsertion scheme must be used to determine which individuals are to exist in the new population
-    /// <see href="http://usb-bg.org/Bg/Annual_Informatics/2011/SUB-Informatics-2011-4-29-35.pdf">Generalized Nets Model of offspring Reinsertion in Genetic Algorithm</see>
+    /// <see href="http://old.usb-bg.org/Bg/Annual_Informatics/2011/SUB-Informatics-2011-4-29-35.pdf">Generalized Nets Model of offspring Reinsertion in Genetic Algorithm</see>
     /// </remarks>
     /// </summary>
     public interface IReinsertion

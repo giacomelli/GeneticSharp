@@ -7,20 +7,21 @@ using GeneticSharp.Domain.Populations;
 namespace GeneticSharp.Domain.Reinsertions
 {
     /// <summary>
-    /// Elitist reinsertion.
+    /// Fitness Based Elitist reinsertion.
     /// <remarks>
-    /// When there are less offspring than parents, select the best parents to be reinserted together with the offspring. 
+    /// Select the best parents to be reinserted together with the Best offspring. 
     /// <see href="http://old.usb-bg.org/Bg/Annual_Informatics/2011/SUB-Informatics-2011-4-29-35.pdf">Generalized Nets Model of offspring Reinsertion in Genetic Algorithm</see>
+    /// <see href="http://www.geatbx.de/docu/algindex-05.html">Evolutionary Algorithms: Principles, Methods and Algorithms</see>
     /// </remarks>
     /// </summary>
-    [DisplayName("Elitist")]
-    public class ElitistReinsertion : ReinsertionBase
+    [DisplayName("Fitness Based Elitist")]
+    public class FitnessBasedElitistReinsertion : ReinsertionBase
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Reinsertions.ElitistReinsertion"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Reinsertions.FitnessBasedElitistReinsertion"/> class.
         /// </summary>
-        public ElitistReinsertion() : base(false, true)
+        public FitnessBasedElitistReinsertion() : base(true, true)
         {
         }
         #endregion
@@ -35,19 +36,10 @@ namespace GeneticSharp.Domain.Reinsertions
         /// <param name="parents">The parents.</param>
         protected override IList<IChromosome> PerformSelectChromosomes(IPopulation population, IList<IChromosome> offspring, IList<IChromosome> parents)
         {
-            var diff = population.MinSize - offspring.Count;
+            // As per the aforementioned publication, The elitist combined with fitness-based reinsertion prevents this losing of information and is the recommended method. At each generation, a given number of the least fit parents is replaced by the same number of the most fit offspring (Fig. 1, [5]).
+            
+            return parents.Concat(offspring).OrderByDescending(p => p.Fitness).Take(population.MinSize).ToList();
 
-            if (diff > 0)
-            {
-                var bestParents = parents.OrderByDescending(p => p.Fitness).Take(diff).ToList();
-
-                for (int i = 0; i < bestParents.Count; i++)
-                {
-                    offspring.Add(bestParents[i]);
-                }
-            }
-
-            return offspring;
         }
         #endregion
     }

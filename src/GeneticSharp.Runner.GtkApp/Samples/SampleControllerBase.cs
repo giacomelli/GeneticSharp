@@ -7,6 +7,7 @@ using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 using Gtk;
 using GeneticSharp.Domain;
+using GeneticSharp.Domain.Reinsertions;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
 {
@@ -85,6 +86,15 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         }
 
         /// <summary>
+        /// Creates the <see cref="IReinsertion"/>
+        /// </summary>
+        /// <returns>the default sample reinsertion</returns>
+        public IReinsertion CreateReinsertion()
+        {
+            return  new FitnessBasedElitistReinsertion();
+        }
+
+        /// <summary>
         /// Configure the Genetic Algorithm.
         /// </summary>
         /// <param name="ga">The genetic algorithm.</param>
@@ -107,15 +117,14 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         /// </summary>
         public abstract void Draw();
 
+       
+
         /// <summary>
         /// Raises the reconfigured event.
         /// </summary>
         protected void OnReconfigured()
         {
-            if (Reconfigured != null)
-            {
-                Reconfigured(this, EventArgs.Empty);
-            }
+            Reconfigured?.Invoke(this, EventArgs.Empty);
         }
         #endregion
     }

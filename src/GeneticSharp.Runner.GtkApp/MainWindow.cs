@@ -260,6 +260,7 @@ public partial class MainWindow : Gtk.Window
         SetSampleOperatorToCombobox(MutationService.GetMutationTypes, m_sampleController.CreateMutation, (c) => m_mutation = c, cmbMutation);
         SetSampleOperatorToCombobox(SelectionService.GetSelectionTypes, m_sampleController.CreateSelection, (c) => m_selection = c, cmbSelection);
         SetSampleOperatorToCombobox(TerminationService.GetTerminationTypes, m_sampleController.CreateTermination, (c) => m_termination = c, cmbTermination);
+        SetSampleOperatorToCombobox(ReinsertionService.GetReinsertionTypes, m_sampleController.CreateReinsertion, (c) => m_reinsertion = c, cmbReinsertion);
     }
 
     private void SetSampleOperatorToCombobox<TOperator>(Func<IList<Type>> getOperatorTypes, Func<TOperator> getOperator, System.Action<TOperator> setOperator, ComboBox combobox)
@@ -388,7 +389,7 @@ public partial class MainWindow : Gtk.Window
             (i) => m_termination = i);
 
         PrepareEditComboBox(
-            cmbTermination1,
+            cmbReinsertion,
             btnEditReinsertion,
             ReinsertionService.GetReinsertionNames,
             ReinsertionService.GetReinsertionTypeByName,
