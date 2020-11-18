@@ -27,7 +27,7 @@ namespace GeneticSharp.Domain.Chromosomes
             
         }
 
-        public BitArray MOriginalValue
+        private BitArray OriginalValue
         {
             get
             {
@@ -47,7 +47,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <param name="geneIndex">Gene index.</param>
         public override Gene GenerateGene(int geneIndex)
         {
-            var value = MOriginalValue[geneIndex];
+            var value = OriginalValue[geneIndex];
 
             return new Gene(value);
         }
