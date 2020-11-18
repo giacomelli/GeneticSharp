@@ -306,6 +306,12 @@ namespace GeneticSharp.Domain.Chromosomes
             ReplaceGene(index, GenerateGene(index));
         }
 
+        public void InitializeGenes()
+        {
+            CreateGenes();
+        }
+
+
         /// <summary>
         /// Creates all genes
         /// <remarks>

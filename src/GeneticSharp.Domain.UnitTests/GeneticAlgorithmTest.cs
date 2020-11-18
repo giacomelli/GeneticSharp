@@ -503,7 +503,7 @@ namespace GeneticSharp.Domain.UnitTests
             var mutations = MutationService.GetMutationNames().Where(m => !m.Equals("Flip Bit"));
             var reinsertions = ReinsertionService.GetReinsertionNames();
             var chromosome = new OrderedChromosomeStub();
-
+            chromosome.InitializeGenes();
             foreach (var s in selections)
             {
                 foreach (var c in crossovers)

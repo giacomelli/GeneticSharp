@@ -28,7 +28,8 @@ namespace GeneticSharp.Extensions.AutoConfig
         /// </summary>
         public AutoConfigChromosome() : base(3)
         {
-            CreateGenes();
+            //We have to remove gene creation from constructors because crossovers don't need it
+            //CreateGenes();
         }
         #endregion
 
