@@ -84,7 +84,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         {
             foreach (var metaHeuristicParameter in parameters)
             {
-              ctx. RegisterParameter(metaHeuristicParameter.Key, metaHeuristicParameter.Value);
+              ctx.RegisterParameter(metaHeuristicParameter.Key, metaHeuristicParameter.Value);
             }
         }
 

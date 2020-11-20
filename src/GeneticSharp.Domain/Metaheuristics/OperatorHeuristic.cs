@@ -1,4 +1,6 @@
-﻿namespace GeneticSharp.Domain.Metaheuristics
+﻿using System.Linq.Expressions;
+
+namespace GeneticSharp.Domain.Metaheuristics
 {
     public abstract class OperatorHeuristic<TOperator> : ContainerMetaHeuristic
     {
@@ -18,10 +20,13 @@
             StaticOperator = staticOperator;
         }
 
+        public TOperator StaticOperator { get; set; }
 
         public ParameterGenerator<TOperator> DynamicOperator { get; set; }
 
-        public TOperator StaticOperator { get; set; }
+        public LambdaExpression DynamicOperatorWithArgs { get; set; }
+
+        
 
         protected TOperator GetOperator(IMetaHeuristicContext ctx)
         {
@@ -30,6 +35,10 @@
                 return StaticOperator;
             }
 
+            if (DynamicOperator == null)
+            {
+                DynamicOperator = ParameterReplacer.ReduceLambda<TOperator>(DynamicOperatorWithArgs, ctx).Compile();
+            }
             return DynamicOperator(this, ctx);
         }
 

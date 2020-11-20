@@ -86,7 +86,7 @@ namespace GeneticSharp.Domain.Metaheuristics
                                 break;
                             case MatchingTechnique.Randomize:
                                 var targetIdx = RandomizationProvider.Current.GetInt(0, parents.Count);
-                                selectedParents.Add(parents[i]);
+                                selectedParents.Add(parents[targetIdx]);
                                 break;
                             case MatchingTechnique.RouletteWheel:
                                 var currentRoulette = ctx.GetOrAdd<IList<double>>(ParameterScope.Generation, this, "currentRouletteWheel",

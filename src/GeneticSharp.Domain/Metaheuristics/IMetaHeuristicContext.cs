@@ -4,10 +4,10 @@ using GeneticSharp.Domain.Populations;
 namespace GeneticSharp.Domain.Metaheuristics
 {
 
-    public delegate TParamType ParameterGenerator<TParamType>(IMetaHeuristic h, IMetaHeuristicContext ctx);
-
-
    
+
+
+
     public interface IMetaHeuristicContext
     {
 
@@ -39,6 +39,7 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         void RegisterParameter(string key, MetaHeuristicParameter param);
 
+        MetaHeuristicParameter GetParameter(string key);
 
     }
 }
