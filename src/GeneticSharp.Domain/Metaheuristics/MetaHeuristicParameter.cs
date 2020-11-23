@@ -230,18 +230,12 @@ namespace GeneticSharp.Domain.Metaheuristics
             {
                 var unCached = GetDynamicGenerator(ctx);
 
-                try
-                {
-                    LambdaExpression cachedExpression = Expression.Lambda(Expression.Call(Expression.Constant(this), GetOrAddMethod, unCached.Parameters[0],
-                            unCached.Parameters[1], Expression.Constant(paramName)), unCached.Parameters[0],
-                        unCached.Parameters[1]);
-                    return cachedExpression;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
+
+                LambdaExpression cachedExpression = Expression.Lambda(Expression.Call(Expression.Constant(this), GetOrAddMethod, unCached.Parameters[0],
+                        unCached.Parameters[1], Expression.Constant(paramName)), unCached.Parameters[0],
+                    unCached.Parameters[1]);
+                return cachedExpression;
+
 
             }
 
