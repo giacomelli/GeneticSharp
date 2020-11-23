@@ -1,6 +1,4 @@
 ﻿using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Randomizations;
-using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Extensions.Mathematic
 {
@@ -54,32 +52,4 @@ namespace GeneticSharp.Extensions.Mathematic
 
         #endregion
     }
-
-
-
-    public class EquationChromosome<TValue> : EquationChromosomeBase<TValue>
-    {
-
-        private IRandomization _random = RandomizationProvider.Current;
-
-        public EquationChromosome(int variablesNumber) : base(variablesNumber)
-        {
-        }
-
-        public EquationChromosome(TValue minValue, TValue maxValue, int variablesNumber) : base(minValue, maxValue, variablesNumber)
-        {
-        }
-
-        public override IChromosome CreateNew()
-        {
-            return new EquationChromosome<TValue>(MinValue, MaxValue, Length);
-        }
-
-        public override TValue GetRandomGeneValue(TValue min, TValue max)
-        {
-            return (min.To<double>() + _random.GetDouble()* max.To<double>()).To<TValue>();
-        }
-    }
-
-
 }

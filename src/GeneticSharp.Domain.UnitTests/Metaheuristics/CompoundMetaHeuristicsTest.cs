@@ -28,95 +28,87 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             RandomizationProvider.Current = new BasicRandomization();
         }
 
+        private IEnumerable<int> DefaultStubSizes = Enumerable.Range(1, 10).Select(x => 4 * x);
+        private IEnumerable<int> VeryLargeSizes = Enumerable.Range(1, 3).Select(x =>  500 * x);
 
         [Test()]
-        public void Evolve_WhaleOptimisation_StubChromosomeSeveralSizes_Optmization()
+        public void Evolve_WhaleOptimisation_Small_StubChromosomes_Optmization()
         {
-            for (int i = 1; i < 20; i++)
-            {
-                var maxValue = 4 * i;
-                var metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(100,
-                    geneValue => (double)geneValue,
-                    ChromosomeStub.GeneFromDouble(maxValue));
-
-                var result = EvolveMetaHeuristicStubChromosome(metaHeuristic, maxValue, maxValue, 100, 1, 2000, 100, TimeSpan.FromSeconds(2));
-                // We ensure that both GAs optimize. 
-                AssertEvolution(result, 0.6);
-                
-            }
+            Func<int, IMetaHeuristic> metaHeuristic = maxValue => GetWhaleHeuristicForChromosomStub(false, 300, maxValue);
+            Evolve_MetaHeuristic_StubChromosomeSeveralSizes_Optmization(Enumerable.Range(1, 10).Select(x => 4 * x), metaHeuristic, 0.6);
         }
 
         [Test()]
-        public void Evolve_WhaleReducedOptimisation_StubChromosomeSeveralSizes_Optmization()
+        public void Evolve_WhaleOptimisationReduced_Small_StubChromosomes_Optmization()
         {
-            for (int i = 1; i < 20; i++)
-            {
-
-                var maxValue = 4 * i;
-                var metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithmReduced<int>(100,
-                    geneValue => (double)geneValue,
-                    ChromosomeStub.GeneFromDouble(maxValue));
-
-                var result = EvolveMetaHeuristicStubChromosome(metaHeuristic, maxValue, maxValue, 100, 1, 2000, 100, TimeSpan.FromSeconds(2));
-                // We ensure that both GAs optimize. 
-                AssertEvolution(result, 0.6);
-
-            }
+            Func<int, IMetaHeuristic> metaHeuristic = maxValue => GetWhaleHeuristicForChromosomStub(true, 300, maxValue);
+            Evolve_MetaHeuristic_StubChromosomeSeveralSizes_Optmization(DefaultStubSizes, metaHeuristic, 0.6);
         }
 
         [Test()]
-        public void Evolve_WhaleOptimisation_StubChromosomeSeveralSizes_CloseToUniformCrossover()
+        public void Compare_WhaleOptimisation_Large_ChromosomeStub_BetterThanUniformCrossover()
         {
            
             var crossover = new UniformCrossover();
-            Compare_WhaleOptimisation_StubChromosomeSeveralSizes_CloseToCrossover(crossover, 1.1);
+            CompareWhaleOptimisationToDefaultWithCrossover(VeryLargeSizes,crossover, 0.5,1, TimeSpan.FromSeconds(5));
 
         }
 
         [Test()]
-        public void Evolve_WhaleOptimisation_StubChromosomeSeveralSizes_BetterThanOnePointCrossover()
+        public void Compare_WhaleOptimisation_Small_ChromosomeStub_BetterThanOnePointCrossover()
         {
             var crossover = new OnePointCrossover(2);
-           Compare_WhaleOptimisation_StubChromosomeSeveralSizes_CloseToCrossover(crossover, 1);
+           CompareWhaleOptimisationToDefaultWithCrossover(DefaultStubSizes,crossover, 0.6,1, TimeSpan.FromSeconds(2));
             
         }
 
         [Test()]
-        public void Evolve_WhaleOptimisationReduced_StubChromosomeSeveralSizes_FasterThanWithoutReduction()
+        public void Compare_WhaleOptimisationReduced_StubChromosomeSeveralSizes_MoreGenerationsThanWithoutReduction()
+        {
+            Func<int,IMetaHeuristic> originalMetaHeuristic = maxValue => GetWhaleHeuristicForChromosomStub(false, 300, maxValue);
+            Func<int, IMetaHeuristic> reducedMetaHeuristic = maxValue => GetWhaleHeuristicForChromosomStub(true, 300, maxValue);
+            var crossover = new UniformCrossover();
+            CompareMetaHeuristics(result => Convert.ToDouble(-result.Population.GenerationsNumber), 1,  VeryLargeSizes, originalMetaHeuristic, reducedMetaHeuristic, crossover, 100, 1, 2000, 100, TimeSpan.FromSeconds(2));
+            
+        }
+
+
+        #region private methods
+
+        private IMetaHeuristic GetWhaleHeuristicForChromosomStub(bool reduced, int maxOperations, int maxValue)
+        {
+            if (!reduced)
+            {
+                return MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(maxOperations,
+                    geneValue => (double)geneValue,
+                    ChromosomeStub.GeneFromDouble(maxValue));
+            }
+            else
+            {
+                return MetaHeuristicsFactory.WhaleOptimisationAlgorithmReduced<int>(maxOperations,
+                    geneValue => (double)geneValue,
+                    ChromosomeStub.GeneFromDouble(maxValue));
+            }
+
+        }
+
+
+
+        private void Evolve_MetaHeuristic_StubChromosomeSeveralSizes_Optmization(IEnumerable<int> sizes, Func<int, IMetaHeuristic> metaHeuristic, double minFitness)
         {
 
             var compoundResults = new List<IList<EvolutionResult>>();
-            for (int i = 1; i < 20; i++)
+            foreach (var maxValue in sizes)
             {
-
-                var maxValue = 4 * i;
-                var originalMetaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(300,
-                    geneValue => (double)geneValue,
-                    ChromosomeStub.GeneFromDouble(maxValue));
-                var reducedMetaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithmReduced<int>(300,
-                    geneValue => (double)geneValue,
-                    ChromosomeStub.GeneFromDouble(maxValue));
-                //EvolveMetaHeuristicStubChromosome(reducedMetaHeuristic, maxValue, maxValue, 100, 1, 2000, 100,
-                //    TimeSpan.FromSeconds(2));
-
-                var results = CompareMetaHeuristics(originalMetaHeuristic, reducedMetaHeuristic, maxValue, maxValue, 100, 1, 2000, 100, TimeSpan.FromSeconds(2));
-                compoundResults.Add(results);
+                var result = EvolveMetaHeuristicChromosomeStub(metaHeuristic(maxValue), maxValue, maxValue, 100, 1, 2000, 100, TimeSpan.FromSeconds(2));
                 // We ensure that both GAs optimize. 
-                AssertEvolution(results[0], 0.6);
-                AssertEvolution(results[1], 0.6);
+                AssertEvolution(result, minFitness);
             }
-            //reduced heuristic faster
-            var sumNative = TimeSpan.FromTicks(compoundResults.Sum(c => c[0].TimeEvolving.Ticks));
-            var sumReduced = TimeSpan.FromTicks(compoundResults.Sum(c => c[1].TimeEvolving.Ticks));
 
-            Assert.GreaterOrEqual(TimeSpan.FromTicks(sumNative.Ticks * 110 / 100), sumReduced);
-
-            
         }
 
 
-
-        private EvolutionResult EvolveMetaHeuristicStubChromosome(IMetaHeuristic metaHeuristic, int maxValue, int chromosomeLength, int populationSize, int minFitness, int maxNbGenerations, int stagnationNb, TimeSpan maxTimeEvolving)
+        private EvolutionResult EvolveMetaHeuristicChromosomeStub(IMetaHeuristic metaHeuristic, int maxValue, int chromosomeLength, int populationSize, int minFitness, int maxNbGenerations, int stagnationNb, TimeSpan maxTimeEvolving)
         {
             var crossover = new OnePointCrossover(2);
             var chromosome = new ChromosomeStub(maxValue, chromosomeLength);
@@ -128,65 +120,52 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
         }
 
-        
 
-        private void Compare_WhaleOptimisation_StubChromosomeSeveralSizes_CloseToCrossover(ICrossover crossover, double percentDiff)
+
+        private void CompareWhaleOptimisationToDefaultWithCrossover(IEnumerable<int> sizes, ICrossover crossover, double minFitness, double percentDiff, TimeSpan maxTimeEvolving)
         {
 
             var compoundResults = new List<IList<EvolutionResult>>();
-            for (int i = 1; i < 10; i++)
+            foreach (var maxValue in sizes)
             {
-                var maxValue = 4 * i;
-                var metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(100,
-                    geneValue => (double) geneValue,
-                    ChromosomeStub.GeneFromDouble(maxValue));
-                var results = CompareMetaHeuristicToCrossover(metaHeuristic, crossover, maxValue, maxValue, 100, 1, 2000, 100, TimeSpan.FromSeconds(2));
+                var standardHeuristic = new DefaultMetaHeuristic();
+                var metaHeuristic = GetWhaleHeuristicForChromosomStub(true, 300, maxValue);
+                var results = CompareMetaHeuristics(standardHeuristic, metaHeuristic, crossover, maxValue, maxValue, 100, 1, 2000, 100, maxTimeEvolving);
                 compoundResults.Add(results);
                 // We ensure that both GAs optimize. 
-                AssertEvolution(results[0], 0.6);
-                AssertEvolution(results[1], 0.6);
+                AssertEvolution(results[0], minFitness);
+                AssertEvolution(results[1], minFitness);
             }
+
             //Whale metaheuristic better
             compoundResults.Each(results => Assert.LessOrEqual(results[0].Population.BestChromosome.Fitness, results[1].Population.BestChromosome.Fitness * percentDiff));
 
         }
 
-
-
-        private IList<EvolutionResult> CompareMetaHeuristicToCrossover(IMetaHeuristic metaHeuristic, ICrossover crossover, int maxValue, int chromosomeLength, int populationSize, int minFitness, int maxNbGenerations, int stagnationNb, TimeSpan maxTimeEvolving)
+        private void CompareMetaHeuristics(Func<EvolutionResult,double> scoreFunction, double ratio, IEnumerable<int> sizes, Func<int, IMetaHeuristic> metaHeuristic1, Func<int, IMetaHeuristic> metaHeuristic2, ICrossover crossover, int populationSize, int minFitness, int maxNbGenerations, int stagnationNb, TimeSpan maxTimeEvolving)
         {
 
-            var toReturn = new List<EvolutionResult>(2);
+            var compoundResults = new List<IList<EvolutionResult>>();
+            foreach (var maxValue in sizes)
+            {
+                var results = CompareMetaHeuristics(metaHeuristic1(maxValue), metaHeuristic2(maxValue), crossover, maxValue, maxValue, populationSize, minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
+                compoundResults.Add(results);
+            }
 
-            var chromosome = new ChromosomeStub(maxValue, chromosomeLength);
-            var target = InitGa(chromosome, crossover, maxValue, chromosomeLength, populationSize, minFitness, maxNbGenerations,
-                stagnationNb, maxTimeEvolving);
+            //reduced heuristic faster
+            var sumNative = compoundResults.Sum(c => scoreFunction(c[0]));
+            var sumReduced = compoundResults.Sum(c => scoreFunction(c[1]));
 
-            target.Start();
-            var firstResult = new EvolutionResult(){Population = target.Population, TimeEvolving = target.TimeEvolving};
-            toReturn.Add(firstResult);
-
-            target.Reset(new Population(target.Population.MinSize, target.Population.MaxSize, chromosome) { GenerationStrategy = target.Population.GenerationStrategy });
-            //target.Metaheuristic =
-            //    MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(100,
-            //        i => (double)i,
-            //        d => ((int)Math.Abs(d)) % maxValue + 1);
-            target.Metaheuristic = metaHeuristic;
-            target.Start();
-            var secondResult = new EvolutionResult() { Population = target.Population, TimeEvolving = target.TimeEvolving };
-            toReturn.Add(secondResult);
-
-            return toReturn;
+            Assert.GreaterOrEqual(sumNative * ratio, sumReduced);
 
         }
 
-        private IList<EvolutionResult> CompareMetaHeuristics(IMetaHeuristic metaHeuristic1, IMetaHeuristic metaHeuristic2, int maxValue, int chromosomeLength, int populationSize, int minFitness, int maxNbGenerations, int stagnationNb, TimeSpan maxTimeEvolving)
+        private IList<EvolutionResult> CompareMetaHeuristics(IMetaHeuristic metaHeuristic1, IMetaHeuristic metaHeuristic2, ICrossover crossover, int maxValue, int chromosomeLength, int populationSize, int minFitness, int maxNbGenerations, int stagnationNb, TimeSpan maxTimeEvolving)
         {
 
             var toReturn = new List<EvolutionResult>(2);
-            var crossover = new OnePointCrossover(2);
             var chromosome = new ChromosomeStub(maxValue, chromosomeLength);
-            var target = InitGa(chromosome,crossover, maxValue, chromosomeLength, populationSize, minFitness, maxNbGenerations,
+            var target = InitGa(chromosome, crossover, maxValue, chromosomeLength, populationSize, minFitness, maxNbGenerations,
                 stagnationNb, maxTimeEvolving);
             target.Metaheuristic = metaHeuristic1;
 
@@ -244,6 +223,11 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             public TimeSpan TimeEvolving { get; set; }
         }
+
+
+
+        #endregion
+
 
 
     }
