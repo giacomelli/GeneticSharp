@@ -50,7 +50,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
            
             var crossover = new UniformCrossover();
-            CompareWhaleOptimisationToDefaultWithCrossover(VeryLargeSizes,crossover, 0.5,1, TimeSpan.FromSeconds(5));
+            CompareWhaleOptimisationToDefaultWithCrossover(VeryLargeSizes,crossover, 0.5,1, TimeSpan.FromSeconds(10));
 
         }
 
