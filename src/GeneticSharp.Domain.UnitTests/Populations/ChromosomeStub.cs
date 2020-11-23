@@ -1,5 +1,8 @@
-﻿using GeneticSharp.Domain.Chromosomes;
+﻿using System;
+using System.Linq.Expressions;
+using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
+using NSubstitute.Routing.Handlers;
 
 namespace GeneticSharp.Domain.UnitTests
 {
@@ -20,11 +23,6 @@ namespace GeneticSharp.Domain.UnitTests
         public ChromosomeStub(int maxValue, int length) : base(length)
         {
             MaxValue = maxValue;
-            for (int i = 0; i < Length; i++)
-            {
-                CreateGene(i);
-            }
-            
         }
 
         public int MaxValue { get; } 
@@ -38,5 +36,13 @@ namespace GeneticSharp.Domain.UnitTests
         {
             return new ChromosomeStub(MaxValue, Length);
         }
+
+        static int mod(int k, int n) { return ((k %= n) < 0) ? k + n : k; }
+
+
+
+        public static Func<double, int> GeneFromDouble(int maxValue) =>d => mod((int) Math.Round(d), maxValue + 1);
+        
+
     }
 }

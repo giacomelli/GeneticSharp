@@ -19,7 +19,7 @@
 
         private void Init()
         {
-            IndexGenerator = (h, ctx) => ctx.Population.GenerationsNumber % TotalPhaseSize;
+            DynamicParameter = new ExpressionMetaHeuristicParameter<int>() {DynamicGenerator = (h, ctx) => ctx.Population.GenerationsNumber % TotalPhaseSize , Scope = ParameterScope.Generation};
         }
     }
 }

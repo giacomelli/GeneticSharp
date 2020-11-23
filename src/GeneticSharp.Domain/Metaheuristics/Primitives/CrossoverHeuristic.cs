@@ -12,13 +12,7 @@ namespace GeneticSharp.Domain.Metaheuristics
     public class CrossoverHeuristic : OperatorHeuristic<ICrossover>
     {
 
-        public CrossoverHeuristic() { }
-        
-        public CrossoverHeuristic(ICrossover crossover) : base(crossover) { }
-
-        public CrossoverHeuristic(ParameterGenerator<ICrossover> crossover) : base(crossover) { }
-
-
+      
         public override IList<IChromosome> MatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents,
             int firstParentIndex)
         {

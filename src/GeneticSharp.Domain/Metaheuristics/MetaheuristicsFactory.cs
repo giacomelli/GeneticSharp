@@ -38,19 +38,19 @@ namespace GeneticSharp.Domain.Metaheuristics
             var rnd = RandomizationProvider.Current;
 
             var updateTrackingCrossoverHeuristic = new CrossoverHeuristic()
-                .WithCrossover((h,ctx) => new GeometricCrossover<TGeneValue>(2, false) //geneValues[1] is from best or random chromosome, geneValues[0] is from current parent
-                    .WithGeometricOperator((IList<TGeneValue> geneValues) =>converterFromDouble(converterToDouble(geneValues[1]) - ctx.Get<double>(h, nameof(WOAParam.A)) * Math.Abs(ctx.Get<double>(h,nameof(WOAParam.C)) * converterToDouble(geneValues[1]) - converterToDouble(geneValues[0])))));
+                .WithCrossover(ParameterScope.None, (h,ctx) => new GeometricCrossover<TGeneValue>(2, false) //geneValues[1] is from best or random chromosome, geneValues[0] is from current parent
+                    .WithGeometricOperator((IList<TGeneValue> geneValues) =>converterFromDouble(converterToDouble(geneValues[1]) - ctx.GetParam<double>(h, nameof(WOAParam.A)) * Math.Abs(ctx.GetParam<double>(h,nameof(WOAParam.C)) * converterToDouble(geneValues[1]) - converterToDouble(geneValues[0])))));
 
             return new IfElseMetaHeuristic()
                 .WithScope(MetaHeuristicsStage.Crossover)
-                .WithParameter(nameof(WOAParam.a), ParameterScope.Generation, (h,ctx) => 2.0 - ctx.Population.GenerationsNumber * (2 / maxGenerations))
-                .WithParameter(nameof(WOAParam.a2), ParameterScope.Generation, (h, ctx) => 1.0 + ctx.Population.GenerationsNumber * (-1 / maxGenerations))
-                .WithParameter(nameof(WOAParam.A), ParameterScope.Individual, (h, ctx) => 2 * ctx.Get<double>(h,nameof(WOAParam.a)) * rnd.GetDouble() - ctx.Get<double>(h,nameof(WOAParam.a)))
-                .WithParameter(nameof(WOAParam.C), ParameterScope.Individual, (h, ctx) => 2 * rnd.GetDouble())
-                .WithParameter(nameof(WOAParam.l), ParameterScope.Individual, (h, ctx) => (ctx.Get<double>(h,nameof(WOAParam.a2)) - 1) * rnd.GetDouble() + 1)
-                .WithCaseGenerator((h, ctx) => rnd.GetDouble() < 0.5)
+                .WithParameter(nameof(WOAParam.a), "a decreases linearly from 2 to 0 in Eq. (2.3)", ParameterScope.Generation, (h,ctx) => 2.0 - ctx.Population.GenerationsNumber * (2 / maxGenerations))
+                .WithParameter(nameof(WOAParam.a2), "a2 linearly dicreases from -1 to -2 to calculate t in Eq. (3.12)", ParameterScope.Generation, (h, ctx) => 1.0 + ctx.Population.GenerationsNumber * (-1 / maxGenerations))
+                .WithParameter(nameof(WOAParam.A), "Eq. (2.3) in the paper", ParameterScope.Individual, (h, ctx) => 2 * ctx.GetParam<double>(h,nameof(WOAParam.a)) * rnd.GetDouble() - ctx.GetParam<double>(h,nameof(WOAParam.a)))
+                .WithParameter(nameof(WOAParam.C), "Eq. (2.4) in the paper", ParameterScope.Individual, (h, ctx) => 2 * rnd.GetDouble())
+                .WithParameter(nameof(WOAParam.l), "parameters in Eq. (2.5)", ParameterScope.Individual, (h, ctx) => (ctx.GetParam<double>(h,nameof(WOAParam.a2)) - 1) * rnd.GetDouble() + 1)
+                .WithCaseGenerator(ParameterScope.Individual,(h, ctx) => rnd.GetDouble() < 0.5)
                 .WithTrue(new IfElseMetaHeuristic()
-                    .WithCaseGenerator((h, ctx) => Math.Abs(ctx.Get<double>(h,nameof(WOAParam.a))) > 1)
+                    .WithCaseGenerator(ParameterScope.None, (h, ctx) => Math.Abs(ctx.GetParam<double>(h,nameof(WOAParam.a))) > 1)
                     .WithTrue(new MatchMetaHeuristic(2)
                         .WithMatches(MatchingTechnique.Randomize)    
                         .WithSubMetaHeuristic(updateTrackingCrossoverHeuristic))
@@ -60,34 +60,32 @@ namespace GeneticSharp.Domain.Metaheuristics
                 .WithFalse(new MatchMetaHeuristic(2)
                     .WithMatches(MatchingTechnique.Best)
                     .WithSubMetaHeuristic(new CrossoverHeuristic()
-                        .WithCrossover((h,ctx) => new GeometricCrossover<TGeneValue>(2, false)
+                        .WithCrossover(ParameterScope.Individual, (h,ctx) => new GeometricCrossover<TGeneValue>(2, false)
                             .WithGeometricOperator((IList<TGeneValue> geneValues) => converterFromDouble(Math.Abs(converterToDouble(geneValues[1]) - converterToDouble(geneValues[0])) 
-                                * Math.Exp(ctx.Get<double>(h,nameof(WOAParam.l))) *
-                                Math.Cos(ctx.Get<double>(h,nameof(WOAParam.l)) * 2 * Math.PI)
+                                * Math.Exp(ctx.GetParam<double>(h,nameof(WOAParam.l))) *
+                                Math.Cos(ctx.GetParam<double>(h,nameof(WOAParam.l)) * 2 * Math.PI)
                                 + converterToDouble(geneValues[1]))))));
         }
 
 
         public static IMetaHeuristic WhaleOptimisationAlgorithmReduced<TGeneValue>(int maxGenerations, Func<TGeneValue, double> converterToDouble, Func<double, TGeneValue> converterFromDouble)
         {
-
-
             var rnd = RandomizationProvider.Current;
 
             var updateTrackingCrossoverHeuristic = new CrossoverHeuristic()
-                .WithCrossover<CrossoverHeuristic, double, double>((h, ctx, A, C) => new GeometricCrossover<TGeneValue>(2, false) //geneValues[1] is from best or random chromosome, geneValues[0] is from current parent
-                    .WithGeometricOperatorDynamic((IList<TGeneValue> geneValues) => converterFromDouble(converterToDouble(geneValues[1]) - A * Math.Abs(C * converterToDouble(geneValues[1]) - converterToDouble(geneValues[0])))));
+                .WithCrossover<CrossoverHeuristic, double, double>(ParameterScope.None, (h, ctx, A, C) => new GeometricCrossover<TGeneValue>(2, false) //geneValues[1] is from best or random chromosome, geneValues[0] is from current parent
+                    .WithGeometricOperator((IList<TGeneValue> geneValues) => converterFromDouble(converterToDouble(geneValues[1]) - A * Math.Abs(C * converterToDouble(geneValues[1]) - converterToDouble(geneValues[0])))));
 
-            return new IfElseMetaHeuristic()
+            return new IfElseMetaHeuristic(){Name ="Whale Optimisation Alrorithm"}
                 .WithScope(MetaHeuristicsStage.Crossover)
-                .WithParam(nameof(WOAParam.a), ParameterScope.Generation, (h, ctx) => 2.0 - ctx.Population.GenerationsNumber * (2 / maxGenerations))
-                .WithParam(nameof(WOAParam.a2), ParameterScope.Generation, (h, ctx) => 1.0 + ctx.Population.GenerationsNumber * (-1 / maxGenerations))
-                .WithParam<IfElseMetaHeuristic, double, double>(nameof(WOAParam.A), ParameterScope.Individual, (h, ctx, a) => 2 * a * rnd.GetDouble() - a)
-                .WithParam(nameof(WOAParam.C), ParameterScope.Individual, (h, ctx) => 2 * rnd.GetDouble())
-                .WithParam<IfElseMetaHeuristic, double, double>(nameof(WOAParam.l), ParameterScope.Individual, (h, ctx, a2) => (a2 - 1) * rnd.GetDouble() + 1)
-                .WithCaseGenerator((h, ctx) => rnd.GetDouble() < 0.5)
+                .WithParam(nameof(WOAParam.a), "a decreases linearly from 2 to 0 in Eq. (2.3)", ParameterScope.None, (h, ctx) => 2.0 - ctx.Population.GenerationsNumber * (2 / maxGenerations))
+                .WithParam(nameof(WOAParam.a2), "a2 linearly dicreases from -1 to -2 to calculate t in Eq. (3.12)", ParameterScope.None, (h, ctx) => 1.0 + ctx.Population.GenerationsNumber * (-1 / maxGenerations))
+                .WithParam<IfElseMetaHeuristic, double, double>(nameof(WOAParam.A), "Eq. (2.3) in the paper", ParameterScope.Individual, (h, ctx, a) => 2 * a * rnd.GetDouble() - a)
+                .WithParam(nameof(WOAParam.C), "Eq. (2.4) in the paper", ParameterScope.Individual, (h, ctx) => 2 * rnd.GetDouble())
+                .WithParam<IfElseMetaHeuristic, double, double>(nameof(WOAParam.l), "parameters in Eq. (2.5)", ParameterScope.Individual, (h, ctx, a2) => (a2 - 1) * rnd.GetDouble() + 1)
+                .WithCaseGenerator(ParameterScope.Individual, (h, ctx) => rnd.GetDouble() < 0.5)
                 .WithTrue(new IfElseMetaHeuristic()
-                    .WithCaseGenerator((h, ctx) => Math.Abs(ctx.Get<double>(h, nameof(WOAParam.a))) > 1)
+                    .WithCaseGenerator<IfElseMetaHeuristic, bool, double>(ParameterScope.None, (h, ctx, a) => Math.Abs(a) > 1)
                     .WithTrue(new MatchMetaHeuristic(2)
                         .WithMatches(MatchingTechnique.Randomize)
                         .WithSubMetaHeuristic(updateTrackingCrossoverHeuristic))
@@ -97,8 +95,8 @@ namespace GeneticSharp.Domain.Metaheuristics
                 .WithFalse(new MatchMetaHeuristic(2)
                     .WithMatches(MatchingTechnique.Best)
                     .WithSubMetaHeuristic(new CrossoverHeuristic()
-                        .WithCrossover<CrossoverHeuristic, double>((h, ctx, l) => new GeometricCrossover<TGeneValue>(2, false)
-                            .WithGeometricOperatorDynamic((IList<TGeneValue> geneValues) => converterFromDouble(Math.Abs(converterToDouble(geneValues[1]) - converterToDouble(geneValues[0]))
+                        .WithCrossover<CrossoverHeuristic, double>(ParameterScope.None, (h, ctx, l) => new GeometricCrossover<TGeneValue>(2, false)
+                            .WithGeometricOperator((IList<TGeneValue> geneValues) => converterFromDouble(Math.Abs(converterToDouble(geneValues[1]) - converterToDouble(geneValues[0]))
                                 * Math.Exp(l) *
                                 Math.Cos(l) * 2 * Math.PI
                                 + converterToDouble(geneValues[1]))))));

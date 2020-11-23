@@ -29,20 +29,13 @@ namespace GeneticSharp.Domain.Metaheuristics
         public SwitchMetaHeuristic() : base(){}
 
 
-        protected ParameterGenerator<TIndex> GetIndexGenerator(IMetaHeuristicContext ctx)
-        {
-            return IndexGenerator ?? (IndexGenerator =
-                ParameterReplacer.ReduceLambda<TIndex>(IndexGeneratorWithArgs, ctx).Compile());
-        }
+        public IMetaHeuristicParameterGenerator<TIndex> DynamicParameter { get; set; }
 
 
-        public ParameterGenerator<TIndex> IndexGenerator { get; set; }
-
-        public LambdaExpression IndexGeneratorWithArgs { get; set; }
 
         public override IList<IChromosome> ScopedSelectParentPopulation(IMetaHeuristicContext ctx, ISelection selection)
         {
-            var phaseItemIdx = GetIndexGenerator(ctx)(this, ctx);
+            var phaseItemIdx = DynamicParameter.GetGenerator(ctx)(this, ctx);
             IMetaHeuristic currentHeuristic = GetCurrentHeuristic(phaseItemIdx);
             if (currentHeuristic != null)
             {
@@ -61,7 +54,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             int firstParentIndex)
         {
            
-            var phaseItemIdx = GetIndexGenerator(ctx)(this, ctx);
+            var phaseItemIdx = DynamicParameter.GetGenerator(ctx)(this, ctx);
             IMetaHeuristic currentHeuristic = GetCurrentHeuristic(phaseItemIdx);
             if (currentHeuristic != null)
             {
@@ -78,7 +71,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         public override void ScopedMutateChromosome(IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings,
             int offspringIndex)
         {
-            var phaseItemIdx = GetIndexGenerator(ctx)(this, ctx);
+            var phaseItemIdx = DynamicParameter.GetGenerator(ctx)(this, ctx);
             IMetaHeuristic currentHeuristic = GetCurrentHeuristic(phaseItemIdx);
             if (currentHeuristic != null)
             {
@@ -93,7 +86,7 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         public override IList<IChromosome> ScopedReinsert(IMetaHeuristicContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
         {
-            var phaseItemIdx = GetIndexGenerator(ctx)(this, ctx);
+            var phaseItemIdx = DynamicParameter.GetGenerator(ctx)(this, ctx);
             IMetaHeuristic currentHeuristic = GetCurrentHeuristic(phaseItemIdx);
             if (currentHeuristic != null)
             {

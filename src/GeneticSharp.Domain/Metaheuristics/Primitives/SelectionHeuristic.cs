@@ -11,12 +11,6 @@ namespace GeneticSharp.Domain.Metaheuristics
     public class SelectionHeuristic : OperatorHeuristic<ISelection>
     {
 
-        public SelectionHeuristic() {}
-
-        public SelectionHeuristic(ISelection crossover) : base(crossover) { }
-
-        public SelectionHeuristic(ParameterGenerator<ISelection> crossover) : base(crossover) { }
-
 
         public override IList<IChromosome> SelectParentPopulation(IMetaHeuristicContext ctx, ISelection selection)
         {

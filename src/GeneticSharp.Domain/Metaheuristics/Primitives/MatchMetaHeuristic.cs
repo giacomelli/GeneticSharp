@@ -56,6 +56,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             NumberOfMatches = numberOfMatches;
         }
 
+        public ParameterScope RouletteCachingScope { get; set; } = ParameterScope.Generation | ParameterScope.MetaHeuristic;
 
         public List<MatchingTechnique> MatchingTechniques { get; set; }
 
@@ -89,13 +90,16 @@ namespace GeneticSharp.Domain.Metaheuristics
                                 selectedParents.Add(parents[targetIdx]);
                                 break;
                             case MatchingTechnique.RouletteWheel:
-                                var currentRoulette = ctx.GetOrAdd<IList<double>>(ParameterScope.Generation, this, "currentRouletteWheel",
-                                    () =>
-                                    {
+                                var dynamicRouletteParameter = new MetaHeuristicParameter<IList<double>>()
+                                {
+                                    Scope = RouletteCachingScope,
+                                    Generator = (h, c) => {
                                         var tempRoulette = new List<double>(parents.Count);
                                         ReuseRouletteWheelSelection.CalculateCumulativePercentFitness(parents, tempRoulette);
                                         return tempRoulette;
-                                    });
+                                    }
+                                };
+                                var currentRoulette = dynamicRouletteParameter.GetOrAdd(this, ctx, "currentRouletteWheel");
                                 selectedParents.Add(ReuseRouletteWheelSelection.SelectFromWheel(1, parents, currentRoulette,
                                     () => RandomizationProvider.Current.GetDouble())[0]);
                                 break;

@@ -39,9 +39,20 @@ namespace GeneticSharp.Domain.Metaheuristics
             return selectedParents;
         }
 
+        public ParameterScope SubPopulationCachingScope { get; set; } = ParameterScope.Generation | ParameterScope.MetaHeuristic;
+
+
+
         public override IList<IChromosome> ScopedMatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents, int firstParentIndex)
         {
-            var subPopulations = ctx.GetOrAdd<IList<IList<IChromosome>>>(ParameterScope.Generation | ParameterScope.MetaHeuristic, this, "subPopulations", () => EukaryoteChromosome.GetSubPopulations(parents, PhaseSizes));
+
+            var dynamicSubPopulationParameter = new MetaHeuristicParameter<IList<IList<IChromosome>>>()
+            {
+                Scope = SubPopulationCachingScope,
+                Generator = (h, c) => EukaryoteChromosome.GetSubPopulations(parents, PhaseSizes)
+            };
+            var subPopulations = dynamicSubPopulationParameter.GetOrAdd(this, ctx, "subPopulations");
+
             if (RandomizationProvider.Current.GetDouble() <= crossoverProbability)
             {
                 var offsprings = PerformSubOperator(subPopulations, (subHeuristic, subPopulation) => subHeuristic.MatchParentsAndCross(ctx, crossover,

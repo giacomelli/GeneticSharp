@@ -40,29 +40,39 @@ namespace GeneticSharp.Domain.Metaheuristics
             set => _populationContext.CurrentStage = value;
         }
 
-        public TValue Get<TValue>(IMetaHeuristic h, string paramName)
-        {
-            return _populationContext.GetWithIndex<TValue>(h, paramName, Index);
-        }
+        //public TValue Get<TValue>(IMetaHeuristic h, string paramName)
+        //{
+        //    return _populationContext.GetWithIndex<TValue>(h, paramName, Index);
+        //}
 
         public IMetaHeuristicContext GetIndividual(int index)
         {
-            return _populationContext.GetIndividual(index);
+            return this;
         }
 
-        public TItemType GetOrAdd<TItemType>(ParameterScope scope, IMetaHeuristic heuristic, string key, Func<TItemType> factory)
+        public TItemType GetOrAdd<TItemType>((string key, int generation, MetaHeuristicsStage stage, IMetaHeuristic heuristic, int individual) contextKey, Func<TItemType> factory)
         {
-            return _populationContext.GetOrAddWithIndex(scope, heuristic, key, factory, Index);
+            return _populationContext.GetOrAdd<TItemType>(contextKey, factory);
         }
 
-        public void RegisterParameter(string key, MetaHeuristicParameter param)
+        public TItemType GetParam<TItemType>(IMetaHeuristic h, string paramName)
+        {
+            return _populationContext.GetParamWithContext<TItemType>(h, paramName, this);
+        }
+
+        //public TItemType GetOrAdd<TItemType>(ParameterScope scope, IMetaHeuristic heuristic, string key, Func<TItemType> factory)
+        //{
+        //    return _populationContext.GetOrAddWithIndex(scope, heuristic, key, factory, Index);
+        //}
+
+        public void RegisterParameter(string key, IMetaHeuristicParameter param)
         {
             _populationContext.RegisterParameter(key, param);
         }
 
-        public MetaHeuristicParameter GetParameter(string key)
+        public IMetaHeuristicParameter GetParameterDefinition(string key)
         {
-            return _populationContext.GetParameter(key);
+            return _populationContext.GetParameterDefinition(key);
         }
     }
 }

@@ -15,15 +15,11 @@ namespace GeneticSharp.Domain.Metaheuristics
     /// <summary>
     /// A base class for Metaheuristics. Provides an ID, and a helper to add and get items from generation cache.
     /// </summary>
-    public abstract class MetaHeuristicBase : IMetaHeuristic
+    public abstract class MetaHeuristicBase : NamedEntity, IMetaHeuristic
     {
-        /// <summary>
-        /// An ID to identify the current metaheuristic, useful for caching
-        /// </summary>
-        public Guid Guid { get; set; } = Guid.NewGuid();
+       
 
-
-        public Dictionary<string, MetaHeuristicParameter> Parameters { get; set; } = new Dictionary<string, MetaHeuristicParameter>();
+        public Dictionary<string, IMetaHeuristicParameter> Parameters { get; set; } = new Dictionary<string, IMetaHeuristicParameter>();
 
         /// <inheritdoc />
         public abstract IList<IChromosome> SelectParentPopulation(IMetaHeuristicContext ctx, ISelection selection);
@@ -80,7 +76,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             RegisterParameters(this.Parameters, ctx);
         }
 
-        protected void RegisterParameters(IDictionary<string, MetaHeuristicParameter> parameters, IMetaHeuristicContext ctx)
+        protected void RegisterParameters(IDictionary<string, IMetaHeuristicParameter> parameters, IMetaHeuristicContext ctx)
         {
             foreach (var metaHeuristicParameter in parameters)
             {

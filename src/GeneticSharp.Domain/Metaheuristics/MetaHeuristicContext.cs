@@ -15,9 +15,6 @@ namespace GeneticSharp.Domain.Metaheuristics
         public IPopulation Population { get; set; }
 
 
-        //public IMetaHeuristic MetaHeuristic { get; set; }
-
-
         public int Count { get; set; }
 
         public int Index { get; set; }
@@ -28,69 +25,74 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <summary>
         /// Allows storing and reusing objects during operators evaluation
         /// </summary>
-        public ConcurrentDictionary<string, object> Params { get; set; } = new ConcurrentDictionary<string, object>();
+        public ConcurrentDictionary<(string, int, MetaHeuristicsStage, IMetaHeuristic, int), object> Params { get; set; } = new ConcurrentDictionary<(string, int, MetaHeuristicsStage, IMetaHeuristic, int), object>();
 
-        private readonly Dictionary<string, MetaHeuristicParameter> _paramDefinitions = new Dictionary<string, MetaHeuristicParameter>();
+        private readonly Dictionary<string, IMetaHeuristicParameter> _paramDefinitions = new Dictionary<string, IMetaHeuristicParameter>();
 
         public IMetaHeuristicContext GetIndividual(int index)
         {
             return new IndividualContext(this, index);
         }
 
-
-        public TValue Get<TValue>(IMetaHeuristic h, string paramName)
+        public TItemType GetOrAdd<TItemType>((string key, int generation, MetaHeuristicsStage stage, IMetaHeuristic heuristic, int individual) contextKey, Func<TItemType> factory)
         {
-            return GetWithIndex<TValue>(h, paramName, Index);
+            return (TItemType)Params.GetOrAdd(contextKey, s => (object)factory());
         }
 
-        public TValue GetWithIndex<TValue>(IMetaHeuristic h, string paramName, int index)
+        public TItemType GetParam<TItemType>(IMetaHeuristic h, string paramName)
+        {
+            return GetParamWithContext<TItemType>(h, paramName, this);
+        }
+
+        public TItemType GetParamWithContext<TItemType>(IMetaHeuristic h, string paramName, IMetaHeuristicContext ctx)
         {
             _paramDefinitions.TryGetValue(paramName, out var paramDef);
-
-
-            if (paramDef != null)
+            if (paramDef == null)
             {
-                paramName = GetParamKeyWithIndex(paramDef.Scope, h, paramName, index);
+                throw new ArgumentException($"parameter {paramName} was not registered", nameof(paramName));
             }
-
-            if (Params.TryGetValue(paramName, out var dicValue))
-            {
-                return (TValue)dicValue;
-            }
-
-            if (paramDef!=null)
-            {
-                var toReturn = paramDef.ComputeParameter(h, this);
-                Params[paramName] = toReturn;
-                return (TValue) toReturn;
-            }
-
-            return default;
+            return paramDef.GetOrAdd<TItemType>(h, ctx, paramName);
         }
 
 
-        public TItemType GetOrAdd<TItemType>(ParameterScope scope, IMetaHeuristic heuristic, string key, Func<TItemType> factory)
-        {
-            return GetOrAddWithIndex(scope, heuristic, key, factory, Index);
-        }
+        //public TValue Get<TValue>(IMetaHeuristic h, string paramName)
+        //{
+        //    return GetWithIndex<TValue>(h, paramName, Index);
+        //}
+
+        //public TValue GetWithIndex<TValue>(IMetaHeuristic h, string paramName, int index)
+        //{
+        //    _paramDefinitions.TryGetValue(paramName, out var paramDef);
+
+        //    var key = paramName;
+        //    if (paramDef != null)
+        //    {
+        //        key = paramDef.GetKey(key, Population, CurrentStage, h, index);
+        //    }
+
+        //    if (Params.TryGetValue(key, out var dicValue))
+        //    {
+        //        return (TValue)dicValue;
+        //    }
+
+        //    if (paramDef!=null)
+        //    {
+        //        var toReturn = paramDef.ComputeParameter(h, this);
+        //        Params[key] = toReturn;
+        //        return (TValue) toReturn;
+        //    }
+
+        //    return default;
+        //}
 
 
-        public TItemType GetOrAddWithIndex<TItemType>(ParameterScope scope, IMetaHeuristic heuristic, string key, Func<TItemType> factory, int index)
-        {
-            if ((scope & ParameterScope.MetaHeuristic) == ParameterScope.MetaHeuristic)
-            {
-                key = GetParamKeyWithIndex(scope, heuristic, key, index);
-            }
-            return (TItemType)Params.GetOrAdd(key, s => (object)factory());
-        }
 
-
-        public void RegisterParameter(string key, MetaHeuristicParameter param)
+        public void RegisterParameter(string key, IMetaHeuristicParameter param)
         {
             _paramDefinitions.Add(key, param);
         }
 
-        public MetaHeuristicParameter GetParameter(string key)
+        public IMetaHeuristicParameter GetParameterDefinition(string key)
         {
             if (_paramDefinitions.TryGetValue(key, out var paramDef))
             {
@@ -100,37 +102,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         }
 
 
-        public string GetParamKeyWithIndex(ParameterScope scope, IMetaHeuristic heuristic, string key, int index)
-        {
-            var sb = new StringBuilder(key);
-            if ((scope & ParameterScope.Generation) == ParameterScope.Generation)
-            {
-                sb.Append("G");
-                sb.Append(Population.GenerationsNumber.ToString(CultureInfo.InvariantCulture));
-            }
-            if ((scope & ParameterScope.Stage) == ParameterScope.Stage)
-            {
-                sb.Append("S");
-                sb.Append(CurrentStage.ToString());
-            }
-            if ((scope & ParameterScope.MetaHeuristic) == ParameterScope.MetaHeuristic)
-            {
-                sb.Append("H");
-                sb.Append(heuristic.Guid);
-            }
-            if ((scope & ParameterScope.Individual) == ParameterScope.Individual)
-            {
-                sb.Append("I");
-                sb.Append(index.ToString(CultureInfo.InvariantCulture));
-            }
-
-            sb.Append(key);
-
-            var toReturn = sb.ToString();
-
-            return toReturn;
-
-        }
+       
 
 
     }
