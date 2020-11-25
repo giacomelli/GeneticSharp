@@ -84,7 +84,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         public void Compare_WOA_OnePoint_KnownFunctions_Small_LargerFitness_Bounded()
         {
             var crossover = new OnePointCrossover(2);
-            Compare_WOA_Crossover_KnownFunctions_LargerFitness(crossover, DefaultSizes, new[] { 1.5, 5});
+            Compare_WOA_Crossover_KnownFunctions_LargerFitness(crossover, DefaultSizes, new[] { 1.5, 10});
         }
 
 
@@ -93,7 +93,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         public void Compare_WOA_Uniform_KnownFunctions_Small_LargerFitness_Bounded()
         {
             var crossover = new UniformCrossover();
-            Compare_WOA_Crossover_KnownFunctions_LargerFitness(crossover, DefaultSizes, new[] { 1.05, 10.0});
+            Compare_WOA_Crossover_KnownFunctions_LargerFitness(crossover, DefaultSizes, new[] { 1.05, 5.0});
         }
 
 
