@@ -31,11 +31,11 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             RandomizationProvider.Current = new BasicRandomization();
         }
 
-        private IEnumerable<int> DefaultSizes = Enumerable.Range(1, 10).Select(x => 4 * x);
+        private IEnumerable<int> DefaultSizes = Enumerable.Range(1, 5).Select(x => 10 * x);
         private IEnumerable<int> VeryLargeSizes = Enumerable.Range(1, 3).Select(x =>  500 * x);
 
         [Test()]
-        public void Evolve_WhaleOptimisation_Small_StubChromosomes_Optmization()
+        public void Evolve_WOAParams_Stub_Small_Optmization()
         {
             Func<int, IMetaHeuristic> metaHeuristic = maxValue => GetWhaleHeuristicForChromosomStub(false, 300, maxValue);
             Evolve_MetaHeuristic_DifferentSizes_Optmization(
@@ -45,7 +45,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         }
 
         [Test()]
-        public void Evolve_WhaleOptimisationReduced_Small_StubChromosomes_Optmization()
+        public void Evolve_WOA_Stub_Small_Optmization()
         {
             Func<int, IMetaHeuristic> metaHeuristic = maxValue => GetWhaleHeuristicForChromosomStub(true, 300, maxValue);
             Evolve_MetaHeuristic_DifferentSizes_Optmization(
@@ -55,17 +55,17 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         }
 
         [Test()]
-        public void Evolve_WhaleOptimisationReduced_Small_KnownFunctions_Optmization()
+        public void Evolve_WOA_KnownFunctions_Small_Optmization()
         {
             var functionHalfRange = 5;
             Func<double, double> getGeneValueFunction =  d => d % functionHalfRange;
-            Func<int, IMetaHeuristic> metaHeuristic = maxValue => MetaHeuristicsFactory.WhaleOptimisationAlgorithmReduced<double>(300,
+            Func<int, IMetaHeuristic> metaHeuristic = maxValue => MetaHeuristicsFactory.WhaleOptimisationAlgorithm<double>(300,
                     geneValue => geneValue, getGeneValueFunction);
 
 
             Dictionary<Func<Gene[], double>, Func<int, double>> functionsToSolveWithTargets = new Dictionary<Func<Gene[], double>, Func<int, double>>();
             functionsToSolveWithTargets.Add(genes => KnownFunctionsFactory.Rastrigin(genes.Select(g => g.Value.To<double>()).ToArray()), i => 10 * i);
-            functionsToSolveWithTargets.Add(genes => KnownFunctionsFactory.ReverseAckley(genes.Select(g => g.Value.To<double>()).ToArray()), i => -3.0);
+            functionsToSolveWithTargets.Add(genes => Math.Exp(KnownFunctionsFactory.ReverseAckley(genes.Select(g => g.Value.To<double>()).ToArray())), i => -3.0);
 
             foreach (var functionToSolve in functionsToSolveWithTargets)
             {
@@ -79,88 +79,46 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             
         }
 
+
         [Test()]
-        public void Compare_WhaleOptimisation_Small_KnownFunctions_BetterThanUniformCrossover()
+        public void Compare_WOA_OnePoint_KnownFunctions_Small_LargerFitness_Bounded()
         {
-
-            var functionHalfRange = 5;
-            //Func<Gene[], double> functionToSolve = genes => KnownFunctionsFactory.Rastrigin(genes.Select(g => g.Value.To<double>()).ToArray());
-            Func<double, double> getGeneValueFunction = d => Math.Sign(d)*Math.Min(Math.Abs(d), functionHalfRange);
-
-            Func<int, IChromosome> adamChromosome = i => new EquationChromosome<double>(-functionHalfRange, functionHalfRange, i);
-
-            List<Func<Gene[], double>> functionsToSolve = new List<Func<Gene[], double>>();
-            functionsToSolve.Add(genes => KnownFunctionsFactory.Rastrigin(genes.Select(g => g.Value.To<double>()).ToArray()));
-            functionsToSolve.Add(genes => KnownFunctionsFactory.ReverseAckley(genes.Select(g => g.Value.To<double>()).ToArray()));
+            var crossover = new OnePointCrossover(2);
+            Compare_WOA_Crossover_KnownFunctions_LargerFitness(crossover, DefaultSizes, new[] { 1.5, 5});
+        }
 
 
+
+        [Test()]
+        public void Compare_WOA_Uniform_KnownFunctions_Small_LargerFitness_Bounded()
+        {
             var crossover = new UniformCrossover();
-            Func<int, IMetaHeuristic> standardHeuristic = i => new DefaultMetaHeuristic();
-            Func<int, IMetaHeuristic> metaHeuristic = maxValue => MetaHeuristicsFactory.WhaleOptimisationAlgorithmReduced<double>(300,
-                geneValue => geneValue, getGeneValueFunction);
-
-            foreach (var functionToSolve in functionsToSolve)
-            {
-                Func<int, IFitness> fitness = i => new FunctionFitness<double>(functionToSolve);
-                CompareMetaHeuristics_DifferentSizes(result => result.Population.BestChromosome.Fitness.Value,
-                    1,
-                    DefaultSizes,
-                    fitness,
-                    adamChromosome,
-                    standardHeuristic,
-                    metaHeuristic,
-                    crossover, 100, int.MaxValue, 2000, 100, TimeSpan.FromSeconds(2));
-            }
-
+            Compare_WOA_Crossover_KnownFunctions_LargerFitness(crossover, DefaultSizes, new[] { 1.05, 10.0});
         }
 
 
         [Test()]
-        public void Compare_WhaleOptimisation_Large_ChromosomeStub_BetterThanUniformCrossover()
+        public void Compare_WOA_Uniform_Stub_Large_LargerFitness()
         {
            
             var crossover = new UniformCrossover();
-            Func<int, IMetaHeuristic> standardHeuristic = i => new DefaultMetaHeuristic();
-            Func<int, IMetaHeuristic> metaHeuristic = i => GetWhaleHeuristicForChromosomStub(true, 300, i);
-
-            Func<int, IFitness> fitness = i => new FitnessStub(i) { SupportsParallel = false };
-            Func<int, IChromosome> adamChromosome = i => new ChromosomeStub(i, i);
-
-            CompareMetaHeuristics_DifferentSizes(result => result.Population.BestChromosome.Fitness.Value,
-                1,
-                VeryLargeSizes,
-                fitness,
-                adamChromosome,
-                standardHeuristic,
-                metaHeuristic,
-                crossover, 100, 1, 2000, 100, TimeSpan.FromSeconds(2));
+            Compare_WOAReduced_Crossover_Small_ChromosomeStub_LargerFitness(crossover, VeryLargeSizes);
 
         }
 
         [Test()]
-        public void Compare_WhaleOptimisation_Small_ChromosomeStub_BetterThanOnePointCrossover()
+        public void Compare_WOA_OnePoint_Stub_Small_LargerFitness()
         {
             var crossover = new OnePointCrossover(2);
-            Func<int, IMetaHeuristic> standardHeuristic = i => new DefaultMetaHeuristic();
-            Func<int, IMetaHeuristic> metaHeuristic = i => GetWhaleHeuristicForChromosomStub(true, 300, i);
-
-            Func<int, IFitness> fitness = i => new FitnessStub(i) { SupportsParallel = false };
-            Func<int, IChromosome> adamChromosome = i => new ChromosomeStub(i, i);
-
-            CompareMetaHeuristics_DifferentSizes(result => result.Population.BestChromosome.Fitness.Value,
-                1,
-                DefaultSizes,
-                fitness,
-                adamChromosome,
-                standardHeuristic,
-                metaHeuristic,
-                crossover, 100, 1, 2000, 100, TimeSpan.FromSeconds(2));
-
+            Compare_WOAReduced_Crossover_Small_ChromosomeStub_LargerFitness(crossover, DefaultSizes);
 
         }
 
+        
+      
+
         [Test()]
-        public void Compare_WhaleOptimisationReduced_StubChromosomeSeveralSizes_MoreGenerationsThanWithoutReduction()
+        public void Compare_WOA_WOAParams_Stub_Large_MoreGenerations()
         {
             Func<int,IMetaHeuristic> originalMetaHeuristic = maxValue => GetWhaleHeuristicForChromosomStub(false, 300, maxValue);
             Func<int, IMetaHeuristic> reducedMetaHeuristic = maxValue => GetWhaleHeuristicForChromosomStub(true, 300, maxValue);
@@ -194,8 +152,59 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
         }
 
+        public void Compare_WOAReduced_Crossover_Small_ChromosomeStub_LargerFitness(ICrossover crossover, IEnumerable<int> sizes)
+        {
+            Func<int, IMetaHeuristic> standardHeuristic = i => new DefaultMetaHeuristic();
+            Func<int, IMetaHeuristic> metaHeuristic = i => GetWhaleHeuristicForChromosomStub(true, 300, i);
 
-     
+            Func<int, IFitness> fitness = i => new FitnessStub(i) { SupportsParallel = false };
+            Func<int, IChromosome> adamChromosome = i => new ChromosomeStub(i, i);
+
+            CompareMetaHeuristics_DifferentSizes(result => result.Population.BestChromosome.Fitness.Value,
+                1,
+                sizes,
+                fitness,
+                adamChromosome,
+                standardHeuristic,
+                metaHeuristic,
+                crossover, 100, 1, 2000, 100, TimeSpan.FromSeconds(5));
+
+
+        }
+
+        private void Compare_WOA_Crossover_KnownFunctions_LargerFitness(ICrossover crossover, IEnumerable<int> sizes, IList<double> progressRatio)
+        {
+
+            var functionHalfRange = 5;
+            //Func<Gene[], double> functionToSolve = genes => KnownFunctionsFactory.Rastrigin(genes.Select(g => g.Value.To<double>()).ToArray());
+            Func<double, double> getGeneValueFunction = d => Math.Sign(d) * Math.Min(Math.Abs(d), functionHalfRange);
+
+            Func<int, IChromosome> adamChromosome = i => new EquationChromosome<double>(-functionHalfRange, functionHalfRange, i);
+
+            Dictionary<Func<Gene[], double>, double> functionsToSolveWithRatios = new Dictionary<Func<Gene[], double>,  double>();
+            functionsToSolveWithRatios.Add(genes => KnownFunctionsFactory.Rastrigin(genes.Select(g => g.Value.To<double>()).ToArray()), progressRatio[0]);
+            functionsToSolveWithRatios.Add(genes => Math.Exp(KnownFunctionsFactory.ReverseAckley(genes.Select(g => g.Value.To<double>()).ToArray())), progressRatio[1]);
+
+
+            Func<int, IMetaHeuristic> standardHeuristic = i => new DefaultMetaHeuristic();
+            Func<int, IMetaHeuristic> metaHeuristic = maxValue => MetaHeuristicsFactory.WhaleOptimisationAlgorithm<double>(300,
+                geneValue => geneValue, getGeneValueFunction);
+
+            foreach (var functionToSolve in functionsToSolveWithRatios)
+            {
+                Func<int, IFitness> fitness = i => new FunctionFitness<double>(functionToSolve.Key);
+                CompareMetaHeuristics_DifferentSizes(result => result.Population.BestChromosome.Fitness.Value,
+                    functionToSolve.Value,
+                    sizes,
+                    fitness,
+                    adamChromosome,
+                    standardHeuristic,
+                    metaHeuristic,
+                    crossover, 100, int.MaxValue, 2000, 100, TimeSpan.FromSeconds(2));
+            }
+
+        }
+
 
         private EvolutionResult EvolveMetaHeuristic(Func<int, IFitness> fitness, Func<int, IChromosome> adamChromosome, IMetaHeuristic metaHeuristic, int maxValue, int chromosomeLength, int populationSize, double minFitness, int maxNbGenerations, int stagnationNb, TimeSpan maxTimeEvolving)
         {
@@ -222,10 +231,10 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             }
 
             //reduced heuristic faster
-            var sumNative = compoundResults.Sum(c => scoreFunction(c[0]));
-            var sumReduced = compoundResults.Sum(c => scoreFunction(c[1]));
+            var meanRatio = compoundResults.Sum(c => scoreFunction(c[1])/ scoreFunction(c[0]))/ compoundResults.Count;
+            
 
-            Assert.LessOrEqual(sumNative * ratio, sumReduced);
+            Assert.GreaterOrEqual(meanRatio, ratio);
 
         }
 
@@ -278,11 +287,11 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             if (!reduced)
             {
-                return MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(maxOperations, fromGene, ToGene);
+                return MetaHeuristicsFactory.WhaleOptimisationAlgorithmWithParams<int>(maxOperations, fromGene, ToGene);
             }
             else
             {
-                return MetaHeuristicsFactory.WhaleOptimisationAlgorithmReduced<int>(maxOperations, fromGene, ToGene);
+                return MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(maxOperations, fromGene, ToGene);
             }
 
         }

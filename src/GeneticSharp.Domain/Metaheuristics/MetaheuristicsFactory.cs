@@ -31,7 +31,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <param name="fromGeneConverter"></param>
         /// <param name="toGeneConverter"></param>
         /// <returns>A MetaHeuristic applying the WOA</returns>
-        public static IMetaHeuristic WhaleOptimisationAlgorithm<TGeneValue>(int maxGenerations, Func<TGeneValue, double> fromGeneConverter, Func<double, TGeneValue> toGeneConverter)
+        public static IMetaHeuristic WhaleOptimisationAlgorithmWithParams<TGeneValue>(int maxGenerations, Func<TGeneValue, double> fromGeneConverter, Func<double, TGeneValue> toGeneConverter)
         {
             
             
@@ -68,7 +68,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         }
 
 
-        public static IMetaHeuristic WhaleOptimisationAlgorithmReduced<TGeneValue>(int maxGenerations, Func<TGeneValue, double> fromGeneConverter, Func<double, TGeneValue> toGeneConverter)
+        public static IMetaHeuristic WhaleOptimisationAlgorithm<TGeneValue>(int maxGenerations, Func<TGeneValue, double> fromGeneConverter, Func<double, TGeneValue> toGeneConverter)
         {
             var rnd = RandomizationProvider.Current;
 
