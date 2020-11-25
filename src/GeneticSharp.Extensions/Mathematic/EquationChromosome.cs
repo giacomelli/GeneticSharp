@@ -25,8 +25,12 @@ namespace GeneticSharp.Extensions.Mathematic
 
         public override TValue GetRandomGeneValue(TValue min, TValue max)
         {
-            return (min.To<double>() + _random.GetDouble()* max.To<double>()).To<TValue>();
+            return GetGeneValueFunction(min.To<double>() + _random.GetDouble()* max.To<double>());
         }
+
+
+        public Func<double, TValue> GetGeneValueFunction { get; set; } = geneValue => geneValue.To<TValue>();
+        
     }
 
     /// <summary>

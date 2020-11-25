@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Infrastructure.Framework.Commons;
@@ -10,6 +11,7 @@ namespace GeneticSharp.Domain.Populations
     /// <summary>
     /// Represents a population of candidate solutions (chromosomes).
     /// </summary>
+    [DebuggerDisplay("Generations:{GenerationsNumber}, BestChromosome:{BestChromosome}")]
     public class Population : IPopulation
     {
         #region Constructors
