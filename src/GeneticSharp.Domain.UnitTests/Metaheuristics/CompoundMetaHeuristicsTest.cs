@@ -79,7 +79,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             
             Dictionary<Func<Gene[], double>, Func<int, double>> functionsToSolveWithTargets = new Dictionary<Func<Gene[], double>, Func<int, double>>();
             functionsToSolveWithTargets.Add(genes => KnownFunctionsFactory.Rastrigin(genes.Select(g => g.Value.To<double>()).ToArray()), i => 10 * i);
-            functionsToSolveWithTargets.Add(genes => Math.Exp(KnownFunctionsFactory.ReverseAckley(genes.Select(g => g.Value.To<double>()).ToArray())), i => 0.9);
+            functionsToSolveWithTargets.Add(genes => 1 / (1 - KnownFunctionsFactory.ReverseAckley(genes.Select(g => g.Value.To<double>()).ToArray())), i => 0.1);
 
             foreach (var functionToSolve in functionsToSolveWithTargets)
             {
@@ -99,7 +99,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         public void Compare_WOA_OnePoint_KnownFunctions_Small_LargerFitness_Bounded()
         {
             var crossover = new OnePointCrossover(2);
-            Compare_WOA_Crossover_KnownFunctions_LargerFitness(crossover, DefaultSizes, new[] { 1.5, 10, 5});
+            Compare_WOA_Crossover_KnownFunctions_LargerFitness(crossover, DefaultSizes, new[] { 1.5, 5, 100});
         }
 
 
@@ -108,7 +108,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         public void Compare_WOA_Uniform_KnownFunctions_Small_LargerFitness_Bounded()
         {
             var crossover = new UniformCrossover();
-            Compare_WOA_Crossover_KnownFunctions_LargerFitness(crossover, DefaultSizes, new[] { 1.05, 5.0, 3.0});
+            Compare_WOA_Crossover_KnownFunctions_LargerFitness(crossover, DefaultSizes, new[] { 1.05, 3.0, 50.0});
         }
 
 
@@ -208,8 +208,9 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             Dictionary<Func<Gene[], double>, double> functionsToSolveWithRatios = new Dictionary<Func<Gene[], double>,  double>();
             functionsToSolveWithRatios.Add(genes => KnownFunctionsFactory.Rastrigin(genes.Select(g => g.Value.To<double>()).ToArray()), progressRatio[0]);
-            functionsToSolveWithRatios.Add(genes => Math.Exp(KnownFunctionsFactory.ReverseAckley(genes.Select(g => g.Value.To<double>()).ToArray())), progressRatio[1]);
-            functionsToSolveWithRatios.Add(genes => Math.Exp(-Math.Log10(-KnownFunctionsFactory.ReverseRosenbrock(genes.Select(g => g.Value.To<double>()).ToArray()))), progressRatio[2]);
+            functionsToSolveWithRatios.Add(genes => 1/(1-KnownFunctionsFactory.ReverseAckley(genes.Select(g => g.Value.To<double>()).ToArray())), progressRatio[1]);
+            //We normalize Rosenbrock to measure orders of magnitudes
+            functionsToSolveWithRatios.Add(genes => 1/(1-KnownFunctionsFactory.ReverseRosenbrock(genes.Select(g => g.Value.To<double>()).ToArray())), progressRatio[2]);
 
 
             Func<int, IMetaHeuristic> standardHeuristic = i => new DefaultMetaHeuristic();
@@ -252,11 +253,8 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             {
                 var results = CompareMetaHeuristics(fitness(size), adamChromosome(size), metaHeuristic1(size), metaHeuristic2(size), crossover, size, size, populationSize, minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
                 compoundResults.Add(results);
-                //AssertEvolution(results[0], minFitness);
-                //AssertEvolution(results[1], minFitness);
             }
 
-            //reduced heuristic faster
             var meanRatio = compoundResults.Sum(c => scoreFunction(c[1])/ scoreFunction(c[0]))/ compoundResults.Count;
             
 
