@@ -65,7 +65,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             Dictionary<Func<Gene[], double>, Func<int, double>> functionsToSolveWithTargets = new Dictionary<Func<Gene[], double>, Func<int, double>>();
             functionsToSolveWithTargets.Add(genes => KnownFunctionsFactory.Rastrigin(genes.Select(g => g.Value.To<double>()).ToArray()), i => 10 * i);
-            functionsToSolveWithTargets.Add(genes => Math.Exp(KnownFunctionsFactory.ReverseAckley(genes.Select(g => g.Value.To<double>()).ToArray())), i => -3.0);
+            functionsToSolveWithTargets.Add(genes => Math.Exp(KnownFunctionsFactory.ReverseAckley(genes.Select(g => g.Value.To<double>()).ToArray())), i => 0.9);
 
             foreach (var functionToSolve in functionsToSolveWithTargets)
             {

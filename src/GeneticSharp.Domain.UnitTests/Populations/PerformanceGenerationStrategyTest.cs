@@ -26,15 +26,15 @@ namespace GeneticSharp.Domain.UnitTests.Populations
             target.RegisterNewGeneration(population);
             Assert.AreEqual(1, population.Generations.Count);
 
-            population.CreateNewGeneration(new List<IChromosome>() { new ChromosomeStub(), new ChromosomeStub() });
+            population.CreateNewGeneration(new List<IChromosome>() { new ChromosomeStub().Initialized(), new ChromosomeStub().Initialized() });
             target.RegisterNewGeneration(population);
             Assert.AreEqual(2, population.Generations.Count);
 
-            population.CreateNewGeneration(new List<IChromosome>() { new ChromosomeStub(), new ChromosomeStub() });
+            population.CreateNewGeneration(new List<IChromosome>() { new ChromosomeStub().Initialized(), new ChromosomeStub().Initialized() });
             target.RegisterNewGeneration(population);
             Assert.AreEqual(3, population.Generations.Count);
 
-            population.CreateNewGeneration(new List<IChromosome>() { new ChromosomeStub(), new ChromosomeStub() });
+            population.CreateNewGeneration(new List<IChromosome>() { new ChromosomeStub().Initialized(), new ChromosomeStub().Initialized() });
             target.RegisterNewGeneration(population);
             Assert.AreEqual(4, population.Generations.Count);
         }
@@ -49,15 +49,15 @@ namespace GeneticSharp.Domain.UnitTests.Populations
             target.RegisterNewGeneration(population);
             Assert.AreEqual(1, population.Generations.Count);
 
-            population.CreateNewGeneration(new List<IChromosome>() { new ChromosomeStub(), new ChromosomeStub() });
+            population.CreateNewGeneration(new List<IChromosome>() { new ChromosomeStub().Initialized(), new ChromosomeStub().Initialized() });
             target.RegisterNewGeneration(population);
             Assert.AreEqual(1, population.Generations.Count);
 
-            population.CreateNewGeneration(new List<IChromosome>() { new ChromosomeStub(), new ChromosomeStub() });
+            population.CreateNewGeneration(new List<IChromosome>() { new ChromosomeStub().Initialized(), new ChromosomeStub().Initialized() });
             target.RegisterNewGeneration(population);
             Assert.AreEqual(1, population.Generations.Count);
 
-            population.CreateNewGeneration(new List<IChromosome>() { new ChromosomeStub(), new ChromosomeStub() });
+            population.CreateNewGeneration(new List<IChromosome>() { new ChromosomeStub().Initialized(), new ChromosomeStub().Initialized() });
             target.RegisterNewGeneration(population);
             Assert.AreEqual(1, population.Generations.Count);
         }

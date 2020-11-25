@@ -59,5 +59,18 @@ namespace GeneticSharp.Domain.Chromosomes
                 throw new InvalidOperationException("The chromosome '{0}' is generating genes with null value.".With(chromosome.GetType().Name));
             }
         }
+
+        /// <summary>
+        /// Initializes and returns a chromosome
+        /// </summary>
+        /// <typeparam name="TChromosome">the chromosome type</typeparam>
+        /// <param name="chromosome">the chromosome being initialized</param>
+        /// <returns></returns>
+        public static TChromosome Initialized<TChromosome>(this TChromosome chromosome)
+            where TChromosome : IChromosome
+        {
+            chromosome.InitializeGenes();
+            return chromosome;
+        }
     }
 }
