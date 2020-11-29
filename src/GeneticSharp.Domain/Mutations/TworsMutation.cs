@@ -36,11 +36,7 @@ namespace GeneticSharp.Domain.Mutations
                 var indexes = RandomizationProvider.Current.GetUniqueInts(2, 0, chromosome.Length);
                 var firstIndex = indexes[0];
                 var secondIndex = indexes[1];
-                var firstGene = chromosome.GetGene(firstIndex);
-                var secondGene = chromosome.GetGene(secondIndex);
-
-                chromosome.ReplaceGene(firstIndex, secondGene);
-                chromosome.ReplaceGene(secondIndex, firstGene);
+                chromosome.FlipGene(firstIndex, secondIndex);
             }
         }
         #endregion
