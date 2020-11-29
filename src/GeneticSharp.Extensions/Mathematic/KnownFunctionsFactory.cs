@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace GeneticSharp.Extensions.Mathematic
 {
@@ -38,8 +39,6 @@ namespace GeneticSharp.Extensions.Mathematic
         /// <summary>
         /// From <see href="https://en.wikipedia.org/wiki/Rosenbrock_function#Multidimensional_generalisations">Wikipedia Article</see>
         /// </summary>
-        /// <param name="coordinates"></param>
-        /// <returns></returns>
         public static double ReverseRosenbrock(double[] coordinates)
         {
             var sum1 = 0.0d;
@@ -51,6 +50,24 @@ namespace GeneticSharp.Extensions.Mathematic
             }
 
             return -sum1;
+        }
+
+
+        /// <summary>
+        /// Adapted from <see href="https://en.wikipedia.org/wiki/Rosenbrock_function#Multidimensional_generalisations">Wikipedia Article</see>
+        /// </summary>
+        public static double GeneralizedShekel(double[] coordinates)
+        {
+            var sum1 = 0.0d;
+
+            for (var i = 0; i < coordinates.Length - 1; i++)
+            {
+                var term = 1 / (0.1*i + coordinates.Select((c,j)=>  Math.Pow(c - ((i+j)% coordinates.Length), 2)).Sum());
+                sum1 += term;
+
+            }
+
+            return sum1;
         }
 
 
