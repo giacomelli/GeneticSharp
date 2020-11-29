@@ -10,6 +10,24 @@ namespace GeneticSharp.Infrastructure.Framework.Collections
     /// </summary>
     public static class EnumerableExtensions
     {
+
+        /// <summary>
+        /// Simple function to swap indexed items in a list
+        /// </summary>
+        /// <typeparam name="TValue">Type of items in the list</typeparam>
+        /// <param name="objList">list with items to swap</param>
+        /// <param name="index1">first index to swap</param>
+        /// <param name="index2">second index to swap</param>
+        public static void Swap<TValue>(this IList<TValue>  objList, int index1, int index2)
+        {
+            var temp = objList[index1];
+            objList[index1] = objList[index2];
+            objList[index2] = temp;
+        }
+
+        
+
+
         /// <summary>
         /// Iterates in the collection calling the action for each item.
         /// </summary>
@@ -168,8 +186,5 @@ namespace GeneticSharp.Infrastructure.Framework.Collections
             readonly int m_first;
             readonly int m_last;
         }
-
-
-
     }
 }
