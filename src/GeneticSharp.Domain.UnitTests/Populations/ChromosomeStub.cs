@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
+using GeneticSharp.Infrastructure.Framework.Commons;
 using NSubstitute.Routing.Handlers;
 
 namespace GeneticSharp.Domain.UnitTests
@@ -37,12 +38,8 @@ namespace GeneticSharp.Domain.UnitTests
             return new ChromosomeStub(MaxValue, Length);
         }
 
-        static int mod(int k, int n) { return ((k %= n) < 0) ? k + n : k; }
-
-
-
-        public static Func<double, int> GeneFromDouble(int maxValue) =>d => mod((int) Math.Round(d), maxValue + 1);
         
 
+        public static Func<double, int> GeneFromDouble(int maxValue) =>d => (int)Math.Round(d).PositiveMod( maxValue + 1);
     }
 }

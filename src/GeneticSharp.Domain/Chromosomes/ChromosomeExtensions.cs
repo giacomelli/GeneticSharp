@@ -72,5 +72,17 @@ namespace GeneticSharp.Domain.Chromosomes
             chromosome.InitializeGenes();
             return chromosome;
         }
+
+        public static TChromosome FlipGene<TChromosome>(this TChromosome chromosome,int firstIndex, int secondIndex)
+            where TChromosome : IChromosome
+        {
+            var firstGene = chromosome.GetGene(firstIndex);
+            var secondGene = chromosome.GetGene(secondIndex);
+
+            chromosome.ReplaceGene(firstIndex, secondGene);
+            chromosome.ReplaceGene(secondIndex, firstGene);
+            return chromosome;
+        }
+
     }
 }
