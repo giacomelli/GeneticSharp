@@ -23,7 +23,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             RandomizationProvider.Current = new BasicRandomization();
         }
 
-        private const double DefaultHelicoidScale = 0.2;
+        private const double DefaultHelicoidScale = 2;
         
 
         [Test()]
@@ -113,7 +113,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
             var crossover = new OnePointCrossover(2);
 
-            var resultsRatio = new[] {1.3, 5, 50, 1.5};
+            var resultsRatio = new[] {1, 5, 50, 1.5};
 
             var helicoidScale = DefaultHelicoidScale;
             var maxCoordinate = 5;
@@ -136,7 +136,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
            for (int i = 0; i < compoundResults.Count; i++)
            {
                var functionResults = compoundResults[i];
-               var meanRatio = functionResults.Sum(c => c.result1.Fitness / c.result2.Fitness) / functionResults.Count;
+               var meanRatio = functionResults.Sum(c => c.result2.Fitness / c.result1.Fitness) / functionResults.Count;
 
                Assert.GreaterOrEqual(meanRatio, resultsRatio[i]);
             }
@@ -172,7 +172,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             for (int i = 0; i < compoundResults.Count; i++)
             {
                 var functionResults = compoundResults[i];
-                var meanRatio = functionResults.Sum(c => c.result1.Fitness / c.result2.Fitness) / functionResults.Count;
+                var meanRatio = functionResults.Sum(c => c.result2.Fitness / c.result1.Fitness) / functionResults.Count;
 
                 Assert.GreaterOrEqual(meanRatio, resultsRatio[i]);
             }
@@ -187,7 +187,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var crossover = new UniformCrossover();
             var results = Compare_WOAReduced_Crossover_ChromosomeStub_LargerFitness(crossover, LargeSizes);
 
-            var meanRatio = results.Sum(c => c.result1.Fitness / c.result2.Fitness) / results.Count;
+            var meanRatio = results.Sum(c => c.result2.Fitness / c.result1.Fitness) / results.Count;
 
             Assert.GreaterOrEqual(meanRatio, 1);
 
@@ -199,7 +199,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var crossover = new OnePointCrossover(2);
             var results = Compare_WOAReduced_Crossover_ChromosomeStub_LargerFitness(crossover, SmallSizes);
 
-            var meanRatio = results.Sum(c => c.result1.Fitness / c.result2.Fitness) / results.Count;
+            var meanRatio = results.Sum(c => c.result2.Fitness / c.result1.Fitness) / results.Count;
 
             Assert.GreaterOrEqual(meanRatio, 1);
 
@@ -234,9 +234,9 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                populationSize, termination);
 
 
-            var meanRatio = results.Sum(c => c.result1.Population.GenerationsNumber / c.result2.Population.GenerationsNumber) / results.Count;
+            var meanRatio = results.Sum(c => c.result2.Population.GenerationsNumber / (double) c.result1.Population.GenerationsNumber) / results.Count;
 
-            Assert.GreaterOrEqual(meanRatio, 1);
+            Assert.Greater(meanRatio, 1.2);
 
         }
 

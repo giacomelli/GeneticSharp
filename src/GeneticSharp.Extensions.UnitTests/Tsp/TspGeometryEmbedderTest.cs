@@ -124,7 +124,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             int numberOfCities = 100;
             var nbGenerations = 1000;
             var termination = new GenerationNumberTermination(nbGenerations);
-            Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(nbGenerations, numberOfCities, termination, 0.95);
+            Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(nbGenerations, numberOfCities, termination, 1);
         }
 
        [Test()]
