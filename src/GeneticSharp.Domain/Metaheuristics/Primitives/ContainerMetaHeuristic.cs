@@ -10,10 +10,18 @@ using GeneticSharp.Domain.Selections;
 
 namespace GeneticSharp.Domain.Metaheuristics
 {
+    public interface IContainerMetaHeuristic: IMetaHeuristic
+    {
+        /// <summary>
+        /// This sub metaheuristic is used by for all operators, except for those overriden
+        /// </summary>
+        IMetaHeuristic SubMetaHeuristic { get; set; }
+    }
+
     /// <summary>
     /// The ContainerMetaHeuristic is a common base class to hijack certain operations while providing a default fallback for other operations
     /// </summary>
-    public class ContainerMetaHeuristic : MetaHeuristicBase
+    public class ContainerMetaHeuristic : MetaHeuristicBase, IContainerMetaHeuristic
     {
 
         public ContainerMetaHeuristic(): this( new DefaultMetaHeuristic()){}
@@ -44,13 +52,11 @@ namespace GeneticSharp.Domain.Metaheuristics
             return SubMetaHeuristic.SelectParentPopulation(ctx, selection);
         }
 
-        public override IList<IChromosome> MatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents,
-            int firstParentIndex)
+        public override IList<IChromosome> MatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
             if (ShouldRun(crossoverProbability, CrossoverProbabilityStrategy, StaticCrossoverProbability, out crossoverProbability))
             {
-                return SubMetaHeuristic.MatchParentsAndCross(ctx, crossover, crossoverProbability, parents,
-                    firstParentIndex);
+                return SubMetaHeuristic.MatchParentsAndCross(ctx, crossover, crossoverProbability, parents);
             }
 
             return null;
@@ -58,12 +64,11 @@ namespace GeneticSharp.Domain.Metaheuristics
         }
 
 
-        public override void MutateChromosome(IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings,
-            int offspringIndex)
+        public override void MutateChromosome(IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
         {
             if (ShouldRun(mutationProbability, MutationProbabilityStrategy, StaticMutationProbability, out mutationProbability))
             {
-                SubMetaHeuristic.MutateChromosome(ctx, mutation, mutationProbability, offSprings, offspringIndex);
+                SubMetaHeuristic.MutateChromosome(ctx, mutation, mutationProbability, offSprings);
             }
            
         }
@@ -83,9 +88,14 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         protected bool ShouldRun(float initialProbability, ProbabilityStrategy strategy, float staticProbability, out float subProbability )
         {
-            subProbability = (strategy & ProbabilityStrategy.ReplaceOriginal) == ProbabilityStrategy.ReplaceOriginal ? staticProbability : initialProbability;
+            subProbability = (strategy & ProbabilityStrategy.OverwriteProbability) == ProbabilityStrategy.OverwriteProbability ? staticProbability : initialProbability;
             if ((strategy & ProbabilityStrategy.TestProbability) != ProbabilityStrategy.TestProbability) return true;
-            return !(Math.Abs(initialProbability - 1) > float.Epsilon) || !(RandomizationProvider.Current.GetDouble() > 0.5);
+            if (!(Math.Abs(subProbability - 1) > float.Epsilon) || RandomizationProvider.Current.GetDouble() < subProbability)
+            {
+                subProbability = 1;
+                return true;
+            };
+            return false;
         }
 
     }

@@ -7,6 +7,6 @@ namespace GeneticSharp.Domain.Metaheuristics
     {
         PassToDescendents = 0,
         TestProbability = 1,
-        ReplaceOriginal = 2
+        OverwriteProbability = 2
     }
 }

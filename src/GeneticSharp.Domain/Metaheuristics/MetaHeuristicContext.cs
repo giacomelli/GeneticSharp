@@ -15,8 +15,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         public IPopulation Population { get; set; }
 
 
-        public int Count { get; set; }
-
+       
         public int Index { get; set; }
 
         public MetaHeuristicsStage CurrentStage { get; set; }
@@ -36,7 +35,8 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         public TItemType GetOrAdd<TItemType>((string key, int generation, MetaHeuristicsStage stage, IMetaHeuristic heuristic, int individual) contextKey, Func<TItemType> factory)
         {
-            return (TItemType)Params.GetOrAdd(contextKey, s => (object)factory());
+            var toReturn = (TItemType)Params.GetOrAdd(contextKey, s => (object)factory());
+            return toReturn;
         }
 
         public TItemType GetParam<TItemType>(IMetaHeuristic h, string paramName)

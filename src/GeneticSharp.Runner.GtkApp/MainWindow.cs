@@ -6,6 +6,7 @@ using Gdk;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
+using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Reinsertions;
@@ -22,7 +23,7 @@ using Gtk;
 public partial class MainWindow : Gtk.Window
 {
     #region Fields
-    private GeneticAlgorithm m_ga;
+    private MetaGeneticAlgorithm m_ga;
     private IFitness m_fitness;
     private ISelection m_selection;
     private ICrossover m_crossover;
@@ -111,7 +112,7 @@ public partial class MainWindow : Gtk.Window
                 m_sampleController.CreateChromosome()) {GenerationStrategy = m_generationStrategy};
 
 
-            m_ga = new GeneticAlgorithm(
+            m_ga = new MetaGeneticAlgorithm(
                 m_sampleContext.Population,
                 m_fitness,
                 m_selection,

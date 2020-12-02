@@ -30,6 +30,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         public Dictionary<TIndex,IMetaHeuristic> PhaseHeuristics { get; set; }
 
 
+
         public override void RegisterParameters(IMetaHeuristicContext ctx)
         {
             base.RegisterParameters(ctx);

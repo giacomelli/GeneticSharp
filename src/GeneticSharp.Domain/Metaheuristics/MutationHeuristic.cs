@@ -10,10 +10,9 @@ namespace GeneticSharp.Domain.Metaheuristics
     public class MutationHeuristic : OperatorHeuristic<IMutation>
     {
 
-        public override void MutateChromosome(IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings,
-            int offspringIndex)
+        public override void MutateChromosome(IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
         {
-            base.MutateChromosome(ctx, GetOperator(ctx), mutationProbability, offSprings, offspringIndex);
+            base.MutateChromosome(ctx, GetOperator(ctx), mutationProbability, offSprings);
         }
 
 

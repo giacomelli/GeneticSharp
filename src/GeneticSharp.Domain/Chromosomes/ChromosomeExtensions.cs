@@ -84,5 +84,11 @@ namespace GeneticSharp.Domain.Chromosomes
             return chromosome;
         }
 
+
+        public static EvolutionResult GetResult(this GeneticAlgorithm ga)
+        {
+            return new EvolutionResult() { Population = ga.Population, TimeEvolving = ga.TimeEvolving };
+        }
+
     }
 }

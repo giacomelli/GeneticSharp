@@ -12,6 +12,7 @@ using GeneticSharp.Infrastructure.Framework.Texts;
 using Gtk;
 using GeneticSharp.Infrastructure.Framework.Commons;
 using GeneticSharp.Domain;
+using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Infrastructure.Framework.Threading;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
@@ -106,7 +107,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             return new EliteSelection();
         }
 
-        public override void ConfigGA(GeneticAlgorithm ga)
+        public override void ConfigGA(MetaGeneticAlgorithm ga)
         {
             ga.TaskExecutor = new ParallelTaskExecutor();
             base.ConfigGA(ga);

@@ -50,16 +50,14 @@ namespace GeneticSharp.Domain.Metaheuristics
             
         }
 
-        public override IList<IChromosome> ScopedMatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents,
-            int firstParentIndex)
+        public override IList<IChromosome> ScopedMatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
            
             var phaseItemIdx = DynamicParameter.GetGenerator(ctx)(this, ctx);
             IMetaHeuristic currentHeuristic = GetCurrentHeuristic(phaseItemIdx);
             if (currentHeuristic != null)
             {
-                return currentHeuristic.MatchParentsAndCross(ctx, crossover, crossoverProbability, parents,
-                    firstParentIndex);
+                return currentHeuristic.MatchParentsAndCross(ctx, crossover, crossoverProbability, parents);
             }
             else
             {
@@ -68,14 +66,13 @@ namespace GeneticSharp.Domain.Metaheuristics
            
         }
 
-        public override void ScopedMutateChromosome(IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings,
-            int offspringIndex)
+        public override void ScopedMutateChromosome(IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
         {
             var phaseItemIdx = DynamicParameter.GetGenerator(ctx)(this, ctx);
             IMetaHeuristic currentHeuristic = GetCurrentHeuristic(phaseItemIdx);
             if (currentHeuristic != null)
             {
-                currentHeuristic.MutateChromosome(ctx, mutation, mutationProbability, offSprings, offspringIndex);
+                currentHeuristic.MutateChromosome(ctx, mutation, mutationProbability, offSprings);
             }
             else
             {

@@ -28,25 +28,20 @@ namespace GeneticSharp.Domain.Metaheuristics
             set => _populationContext.Population = value;
         }
 
-        public int Count
-        {
-            get => _populationContext.Count;
-            set => _populationContext.Count = value;
-        }
-
+    
         public MetaHeuristicsStage CurrentStage
         {
             get => _populationContext.CurrentStage;
             set => _populationContext.CurrentStage = value;
         }
 
-        //public TValue Get<TValue>(IMetaHeuristic h, string paramName)
-        //{
-        //    return _populationContext.GetWithIndex<TValue>(h, paramName, Index);
-        //}
-
+   
         public IMetaHeuristicContext GetIndividual(int index)
         {
+            if (index!=Index)
+            {
+                return _populationContext.GetIndividual(index);
+            }
             return this;
         }
 
@@ -60,11 +55,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             return _populationContext.GetParamWithContext<TItemType>(h, paramName, this);
         }
 
-        //public TItemType GetOrAdd<TItemType>(ParameterScope scope, IMetaHeuristic heuristic, string key, Func<TItemType> factory)
-        //{
-        //    return _populationContext.GetOrAddWithIndex(scope, heuristic, key, factory, Index);
-        //}
-
+     
         public void RegisterParameter(string key, IMetaHeuristicParameter param)
         {
             _populationContext.RegisterParameter(key, param);

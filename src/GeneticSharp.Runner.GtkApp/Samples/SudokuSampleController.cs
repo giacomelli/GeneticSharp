@@ -393,12 +393,12 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         /// As demonstrated in <see href="https://www.researchgate.net/publication/224645744_Product_Geometric_Crossover_for_the_Sudoku_Puzzle">Product_Geometric_Crossover_for_the_Sudoku_Puzzle</see>, with rows permutations initialization this permits using ordered based crossovers and mutations preserving permutations, and in effect demonstrates better robustness together with those operators, in terms of preventing early collapse to a non solution, than simply using a cells based chromosome with same population size, initialization and non ordered based operators.     
         /// </summary>
         /// <param name="ga"></param>
-        public override void ConfigGA(GeneticAlgorithm ga)
+        public override void ConfigGA(MetaGeneticAlgorithm ga)
         {
             
             if (_ChromosomeType == nameof(SudokuChromosomeType.CellsWithEukaryoteMetaHeuristics))
             {
-                ga.Metaheuristic = new EukaryoteMetaHeuristic(9, 9, new DefaultMetaHeuristic()) { Stage = MetaHeuristicsStage.Crossover | MetaHeuristicsStage.Mutation };
+                ga.Metaheuristic = new EukaryoteMetaHeuristic(9, 9, new DefaultMetaHeuristic()) { Scope = MetaHeuristicsStage.Crossover | MetaHeuristicsStage.Mutation };
             }
         }
     }

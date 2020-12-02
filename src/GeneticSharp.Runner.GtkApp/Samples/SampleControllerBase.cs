@@ -7,6 +7,7 @@ using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 using Gtk;
 using GeneticSharp.Domain;
+using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Domain.Reinsertions;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
@@ -98,7 +99,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         /// Configure the Genetic Algorithm.
         /// </summary>
         /// <param name="ga">The genetic algorithm.</param>
-        public virtual void ConfigGA(GeneticAlgorithm ga)
+        public virtual void ConfigGA(MetaGeneticAlgorithm ga)
         {
         }
 

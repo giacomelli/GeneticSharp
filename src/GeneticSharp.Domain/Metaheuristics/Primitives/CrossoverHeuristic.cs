@@ -13,10 +13,9 @@ namespace GeneticSharp.Domain.Metaheuristics
     {
 
       
-        public override IList<IChromosome> MatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents,
-            int firstParentIndex)
+        public override IList<IChromosome> MatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
-            return base.MatchParentsAndCross(ctx, GetOperator( ctx), crossoverProbability, parents, firstParentIndex);
+            return base.MatchParentsAndCross(ctx, GetOperator( ctx), crossoverProbability, parents);
 
         }
     }

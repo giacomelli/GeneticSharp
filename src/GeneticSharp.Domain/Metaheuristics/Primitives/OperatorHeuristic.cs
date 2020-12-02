@@ -20,7 +20,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             }
 
             var toReturn = DynamicParameter.GetGenerator(ctx)(this, ctx);
-            if (DynamicParameter.Scope == ParameterScope.Constant)
+            if (DynamicParameter.Scope == ParamScope.Constant)
             {
                 StaticOperator = toReturn;
             }

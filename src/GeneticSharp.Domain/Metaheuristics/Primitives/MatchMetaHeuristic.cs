@@ -56,12 +56,11 @@ namespace GeneticSharp.Domain.Metaheuristics
             NumberOfMatches = numberOfMatches;
         }
 
-        public ParameterScope RouletteCachingScope { get; set; } = ParameterScope.Generation | ParameterScope.MetaHeuristic;
+        public ParamScope RouletteCachingScope { get; set; } = ParamScope.Generation | ParamScope.MetaHeuristic;
 
         public List<MatchingTechnique> MatchingTechniques { get; set; }
 
-        public override IList<IChromosome> MatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents,
-            int firstParentIndex)
+        public override IList<IChromosome> MatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
 
             if (ShouldRun(crossoverProbability, CrossoverProbabilityStrategy,StaticCrossoverProbability, out var subProbability))
@@ -70,7 +69,7 @@ namespace GeneticSharp.Domain.Metaheuristics
 
                 for (int matchIndex = 0; matchIndex < NumberOfMatches; matchIndex++)
                 {
-                    var firstParent = parents[firstParentIndex + matchIndex];
+                    var firstParent = parents[ctx.Index + matchIndex];
 
                     var selectedParents = new List<IChromosome>(crossover.ParentsNumber) { firstParent };
                     for (int i = 0; i < crossover.ParentsNumber - 1; i++)
@@ -79,7 +78,7 @@ namespace GeneticSharp.Domain.Metaheuristics
                         switch (currentMatchingProcess)
                         {
                             case MatchingTechnique.Neighbor:
-                                var newParentIdx = firstParentIndex + i;
+                                var newParentIdx = ctx.Index + i;
                                 if (newParentIdx < parents.Count)
                                 {
                                     selectedParents.Add(parents[newParentIdx]);
@@ -110,7 +109,9 @@ namespace GeneticSharp.Domain.Metaheuristics
                                 throw new ArgumentOutOfRangeException();
                         }
                     }
-                    var matchResult = base.MatchParentsAndCross(ctx, crossover, subProbability, selectedParents, 0);
+
+                    var subContext = ctx.GetIndividual(0);
+                    var matchResult = base.MatchParentsAndCross(subContext, crossover, subProbability, selectedParents);
                     if (matchResult != null)
                     {
                         toReturn.AddRange(matchResult);

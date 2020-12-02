@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Domain.Metaheuristics
 {
@@ -29,12 +30,12 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         protected override IMetaHeuristic GetCurrentHeuristic(int phaseItemIndex)
         {
-
+            var regularizedIndex = phaseItemIndex.PositiveMod(TotalPhaseSize);
             var cumulativeGens = 0;
             for (int phaseIdx = 0; phaseIdx < PhaseSizes.Count; phaseIdx++)
             {
                 cumulativeGens += PhaseSizes[phaseIdx];
-                if (phaseItemIndex < cumulativeGens)
+                if (regularizedIndex < cumulativeGens)
                 {
                     return PhaseHeuristics[phaseIdx];
                 }

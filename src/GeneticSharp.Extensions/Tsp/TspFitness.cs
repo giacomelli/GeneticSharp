@@ -20,13 +20,20 @@ namespace GeneticSharp.Extensions.Tsp
     /// </summary>
     public class TspFitness : IFitness
     {
+
+        //This is the max nb of cities to enable caching
+        private const int MaxCityNbCachedDistances = 2001;
+
+
         #region Private fields
+
 
         private double? mMinDistanceApprox;
         private double? mMaxDistanceApprox;
         private (TspCity, TspCity)? mBoundingBox;
         private List<List<double>> _cityDistances;
         private object mLock = new object();
+        private bool _cached;
 
         #endregion
 
@@ -109,13 +116,15 @@ namespace GeneticSharp.Extensions.Tsp
                 {
                     lock (mLock)
                     {
-                        mMinDistanceApprox = 2 * CalcDistanceTwoCities(BoundingBox.Value.Item1, BoundingBox.Value.Item2);
+                        mMinDistanceApprox = GetMinDistanceApprox();
                     }
                 }
 
                 return mMinDistanceApprox.Value;
             }
         }
+
+       
 
         /// <summary>
         /// Corresponding to edge case with half cities in opposite corners of bounding box
@@ -159,7 +168,18 @@ namespace GeneticSharp.Extensions.Tsp
         /// <summary>
         /// Defines whether the fitness instance should keep city distances in a cached dictionary for easier retrieval
         /// </summary>
-        public bool Cached { get; set; } = true;
+        public bool Cached
+        {
+            get => _cached;
+            set
+            {
+                if (value && Cities.Count>MaxCityNbCachedDistances)
+                {
+                    throw new ApplicationException($"Cannot use distance caching above {MaxCityNbCachedDistances} cities");
+                }
+                _cached = value;
+            }
+        }
 
         /// <summary>
         /// The lazy-loaded dictionary of all city distances
@@ -201,7 +221,9 @@ namespace GeneticSharp.Extensions.Tsp
 
             var distanceSum = ComputeDistance(chromosome, out var citiesIndexes);
 
-            //Calibrated to yield about 0.5 for random path, and close to 1 when distanceSum closes on approx MinDistanceApprox, and 0 when closing on MaxDistanceApprox
+            //Calibrated to close to 1 when distanceSum closes on approx MinDistanceApprox, and 0 when closing on MaxDistanceApprox.
+            //With current Min and Max approximations, consistantly yields a mean fitness of 0.631 for a random chromosome with city nb > 50 (higher below, because with small city numbers, random case gets closer to Min case)
+            
             var fitness = 1 - (distanceSum - MinDistanceApprox) /((double) MaxDistanceApprox) ;   // 1.0 - distanceSum / MaxDistanceApprox;
 
             ((TspChromosome)chromosome).Distance = distanceSum;
@@ -217,7 +239,7 @@ namespace GeneticSharp.Extensions.Tsp
 
             if (diff > 0)
             {
-                fitness /= (diff+1);
+                fitness =  1.0/(diff+1);
             }
             
 
@@ -239,6 +261,8 @@ namespace GeneticSharp.Extensions.Tsp
             cityIndices = chromosome.GetGenes().Select(g=>(int?) g.Value ?? 0).ToList();
             return ComputeDistance(cityIndices);
         }
+
+       
 
         /// <summary>
         /// Computes the distance of tourning all input city indices in a closed circuit 
@@ -284,9 +308,29 @@ namespace GeneticSharp.Extensions.Tsp
             var xMin = Cities.Min(c => c.X);
             var xMax = Cities.Max(c => c.X);
             var yMin = Cities.Min(c => c.Y);
-            var yMax = Cities.Min(c => c.Y);
+            var yMax = Cities.Max(c => c.Y);
             return (new TspCity(xMin, yMin), new TspCity(xMax, yMax));
         }
+
+
+        
+        private double mMinDistanceScale = 2 * Math.Sqrt(2);
+
+        /// <summary>
+        /// We consider the worst case with cities aligned along a boundingbox diameter or in a diamond shape accross the bounding box
+        /// </summary>
+        /// <returns></returns>
+        private double GetMinDistanceApprox()
+        {
+            if (Cities.Count>20)
+                return mMinDistanceScale * CalcDistanceTwoCities(BoundingBox.Value.Item1, BoundingBox.Value.Item2);
+
+            return 2 *  CalcDistanceTwoCities(BoundingBox.Value.Item1, BoundingBox.Value.Item2);
+
+        }
+
+       
+
 
         /// <summary>
         /// Builds a double dictionary structure with all city distance pairs

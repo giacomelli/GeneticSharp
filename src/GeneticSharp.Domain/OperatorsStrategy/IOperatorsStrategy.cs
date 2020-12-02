@@ -12,6 +12,25 @@ namespace GeneticSharp.Domain
     /// </summary>
     public interface IOperatorsStrategy
     {
+
+        /// <summary>
+        /// Crosses the specified parents.
+        /// </summary>
+        /// <param name="crossover">The crossover class.</param>
+        /// <param name="crossoverProbability">The crossover probability.</param>
+        /// <param name="parents">The parents.</param>
+        /// <returns>The result chromosomes.</returns>
+        IList<IChromosome> Cross(IPopulation population, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents);
+
+        /// <summary>
+        /// Mutate the specified chromosomes.
+        /// </summary>
+        /// <param name="mutation">The mutation class.</param>
+        /// <param name="mutationProbability">The mutation probability.</param>
+        /// <param name="chromosomes">The chromosomes.</param>
+        void Mutate(IMutation mutation, float mutationProbability, IList<IChromosome> chromosomes);
+
+
         /// <summary>
         /// Crosses the specified parents.
         /// </summary>
@@ -20,7 +39,7 @@ namespace GeneticSharp.Domain
         /// <param name="crossoverProbability">The crossover probability.</param>
         /// <param name="parents">The parents.</param>
         /// <returns>The result chromosomes.</returns>
-        IList<IChromosome> Cross(IMetaHeuristic metaHeuristic, IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents);
+        IList<IChromosome> MetaCross(IMetaHeuristic metaHeuristic, IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents);
 
         /// <summary>
         /// Mutate the specified chromosomes.
@@ -29,6 +48,6 @@ namespace GeneticSharp.Domain
         /// <param name="mutation">The mutation class.</param>
         /// <param name="mutationProbability">The mutation probability.</param>
         /// <param name="chromosomes">The chromosomes.</param>
-        void Mutate(IMetaHeuristic metaHeuristic, IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> chromosomes);
+        void MetaMutate(IMetaHeuristic metaHeuristic, IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> chromosomes);
     }
 }

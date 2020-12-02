@@ -37,8 +37,9 @@ namespace GeneticSharp.Domain.Reinsertions
         protected override IList<IChromosome> PerformSelectChromosomes(IPopulation population, IList<IChromosome> offspring, IList<IChromosome> parents)
         {
             // As per the aforementioned publication, The elitist combined with fitness-based reinsertion prevents this losing of information and is the recommended method. At each generation, a given number of the least fit parents is replaced by the same number of the most fit offspring (Fig. 1, [5]).
-            
-            return parents.Concat(offspring).OrderByDescending(p => p.Fitness).Take(population.MinSize).ToList();
+
+            var concat = parents.Concat(offspring);
+            return concat.OrderByDescending(p => p.Fitness).Take(population.MinSize).ToList();
 
         }
         #endregion

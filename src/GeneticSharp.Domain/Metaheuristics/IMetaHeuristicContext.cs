@@ -14,13 +14,10 @@ namespace GeneticSharp.Domain.Metaheuristics
         
         IGeneticAlgorithm GA { get; set; }
         IPopulation Population { get; set; }
-        int Count { get; set; }
 
         int Index { get; set; }
 
         MetaHeuristicsStage CurrentStage { get; set; }
-
-        //TValue Get<TValue>(IMetaHeuristic h, string paramName);
 
         IMetaHeuristicContext GetIndividual(int index);
 

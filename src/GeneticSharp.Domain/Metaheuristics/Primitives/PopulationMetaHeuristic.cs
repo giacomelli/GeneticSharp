@@ -21,7 +21,13 @@
 
         private void Init()
         {
-            DynamicParameter = new ExpressionMetaHeuristicParameter<int>() {Scope  = ParameterScope.Generation, DynamicGenerator = (h, ctx) => (int)(ctx.Index / (float)ctx.Count) * TotalPhaseSize };
+            DynamicParameter = new ExpressionMetaHeuristicParameter<int>()
+            {
+                Scope = ParamScope.Generation,
+                DynamicGenerator = (h, ctx) => ctx.Index 
+            };
         }
+
+
     }
 }

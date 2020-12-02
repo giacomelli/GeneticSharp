@@ -12,6 +12,7 @@
             Init();
         }
 
+
         public GenerationMetaHeuristic(int phaseDuration, params IMetaHeuristic[] phaseHeuristics) : base(phaseDuration, phaseHeuristics)
         {
             Init();
@@ -19,7 +20,7 @@
 
         private void Init()
         {
-            DynamicParameter = new ExpressionMetaHeuristicParameter<int>() {DynamicGenerator = (h, ctx) => ctx.Population.GenerationsNumber % TotalPhaseSize , Scope = ParameterScope.Generation};
+            DynamicParameter = new ExpressionMetaHeuristicParameter<int>() {DynamicGenerator = (h, ctx) => ctx.Population.GenerationsNumber, Scope = ParamScope.Generation};
         }
     }
 }

@@ -11,7 +11,7 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         public static Expression<ParameterGenerator<TParamType>> ReduceLambdaParameterGenerator<TParamType>(LambdaExpression expression, IMetaHeuristicContext ctx)
         {
-            do
+            while (_ParameterGeneratorLength < expression.Parameters.Count) 
             {
                 var lastParam = expression.Parameters.Last();
                 var paramDef = ctx.GetParameterDefinition(lastParam.Name);
@@ -21,9 +21,8 @@ namespace GeneticSharp.Domain.Metaheuristics
                 }
                 if (paramDef is IExpressionGeneratorParameter existingDef)
                 {
+
                     var paramExpression = existingDef.GetExpression(ctx, lastParam.Name);
-
-
                     expression = Replace(expression, expression.Parameters.Last(), paramExpression.Body);
 
                 }
@@ -32,7 +31,7 @@ namespace GeneticSharp.Domain.Metaheuristics
                     throw new ArgumentException($"Expression {expression} can't be reduced because {lastParam.Name} wasn't defined as a lambda expression", nameof(expression));
                 }
 
-            } while (_ParameterGeneratorLength < expression.Parameters.Count);
+            }
 
             return  expression.CastDelegate<ParameterGenerator<TParamType>>();
         }

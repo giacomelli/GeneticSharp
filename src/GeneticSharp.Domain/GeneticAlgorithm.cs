@@ -17,39 +17,6 @@ using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Domain
 {
-    #region Enums
-    /// <summary>
-    /// The possible states for a genetic algorithm.
-    /// </summary>
-    public enum GeneticAlgorithmState
-    {
-        /// <summary>
-        /// The GA has not been started yet.
-        /// </summary>
-        NotStarted,
-
-        /// <summary>
-        /// The GA has been started and is running.
-        /// </summary>
-        Started,
-
-        /// <summary>
-        /// The GA has been stopped and is not running.
-        /// </summary>
-        Stopped,
-
-        /// <summary>
-        /// The GA has been resumed after a stop or termination reach and is running.
-        /// </summary>
-        Resumed,
-
-        /// <summary>
-        /// The GA has reach the termination condition and is not running.
-        /// </summary>
-        TerminationReached
-    }
-    #endregion
-
     /// <summary>
     /// A genetic algorithm (GA) is a search heuristic that mimics the process of natural selection. 
     /// This heuristic (also sometimes called a metaheuristic) is routinely used to generate useful solutions 
@@ -62,7 +29,7 @@ namespace GeneticSharp.Domain
     /// </para>
     /// <see href="http://http://en.wikipedia.org/wiki/Genetic_algorithm">Wikipedia</see>
     /// </summary>
-    public sealed class GeneticAlgorithm : IGeneticAlgorithm
+    public class GeneticAlgorithm : IGeneticAlgorithm
     {
         #region Constants
         /// <summary>
@@ -110,7 +77,7 @@ namespace GeneticSharp.Domain
             Selection = selection;
             Crossover = crossover;
             Mutation = mutation;
-            Metaheuristic = new DefaultMetaHeuristic();
+            
             Reinsertion = new FitnessBasedElitistReinsertion();
             Termination = new GenerationNumberTermination(1);
 
@@ -183,10 +150,7 @@ namespace GeneticSharp.Domain
         /// </summary>
         public float MutationProbability { get; set; }
 
-        /// <summary>
-        /// Gets or sets the Metaheuristic operator.
-        /// </summary>
-        public IMetaHeuristic Metaheuristic { get; set; }
+       
 
         /// <summary>
         /// Gets or sets the reinsertion operator.
@@ -341,7 +305,8 @@ namespace GeneticSharp.Domain
                     }
 
                     m_stopwatch.Restart();
-                    terminationConditionReached = EvolveOneGeneration();
+                    EvolveOneGeneration();
+                    terminationConditionReached = EndCurrentGeneration();
                     m_stopwatch.Stop();
                     TimeEvolving += m_stopwatch.Elapsed;
                 }
@@ -393,20 +358,14 @@ namespace GeneticSharp.Domain
         /// Evolve one generation.
         /// </summary>
         /// <returns>True if termination has been reached, otherwise false.</returns>
-        private bool EvolveOneGeneration()
+        protected virtual void EvolveOneGeneration()
         {
-            var ctx = Metaheuristic.GetContext(this, Population);
-            ctx.CurrentStage = MetaHeuristicsStage.Selection;
-            var parents = SelectParents(ctx);
-            ctx.CurrentStage = MetaHeuristicsStage.Crossover;
-            var offspring = Cross(ctx, parents);
-            ctx.CurrentStage = MetaHeuristicsStage.Mutation;
-            Mutate(ctx, offspring);
+            var parents = SelectParents();
+            var offspring = Cross(parents);
+            Mutate(offspring);
             EvaluateFitness(offspring);
-            ctx.CurrentStage = MetaHeuristicsStage.Reinsertion;
-            var newGenerationChromosomes = Reinsert(ctx, offspring, parents);
+            var newGenerationChromosomes = Reinsert(offspring, parents);
             Population.CreateNewGeneration(newGenerationChromosomes);
-            return EndCurrentGeneration();
         }
 
         /// <summary>
@@ -443,7 +402,7 @@ namespace GeneticSharp.Domain
         /// <summary>
         /// Evaluates the fitness.
         /// </summary>
-        private void EvaluateFitness(IList<IChromosome> offspring)
+        public void EvaluateFitness(IList<IChromosome> offspring)
         {
             try
             {
@@ -487,17 +446,16 @@ namespace GeneticSharp.Domain
             }
         }
 
-       
+
 
 
         /// <summary>
         /// Selects the parents.
         /// </summary>
         /// <returns>The parents.</returns>
-        private IList<IChromosome> SelectParents(IMetaHeuristicContext ctx)
+        private IList<IChromosome> SelectParents()
         {
-            return Metaheuristic.SelectParentPopulation(ctx, Selection);
-            
+            return Selection.SelectChromosomes(Population.MinSize, Population.CurrentGeneration);
         }
 
         /// <summary>
@@ -505,18 +463,18 @@ namespace GeneticSharp.Domain
         /// </summary>
         /// <param name="parents">The parents.</param>
         /// <returns>The result chromosomes.</returns>
-        private IList<IChromosome> Cross(IMetaHeuristicContext ctx, IList<IChromosome> parents)
+        private IList<IChromosome> Cross(IList<IChromosome> parents)
         {
-            return OperatorsStrategy.Cross(Metaheuristic, ctx, Crossover, CrossoverProbability, parents);
+            return OperatorsStrategy.Cross(Population, Crossover, CrossoverProbability, parents);
         }
 
         /// <summary>
         /// Mutate the specified chromosomes.
         /// </summary>
         /// <param name="chromosomes">The chromosomes.</param>
-        private void Mutate(IMetaHeuristicContext ctx, IList<IChromosome> chromosomes)
+        private void Mutate(IList<IChromosome> chromosomes)
         {
-            OperatorsStrategy.Mutate(Metaheuristic, ctx, Mutation, MutationProbability, chromosomes);
+            OperatorsStrategy.Mutate(Mutation, MutationProbability, chromosomes);
         }
 
         /// <summary>
@@ -527,10 +485,12 @@ namespace GeneticSharp.Domain
         /// <returns>
         /// The reinserted chromosomes.
         /// </returns>
-        private IList<IChromosome> Reinsert(IMetaHeuristicContext ctx, IList<IChromosome> offspring, IList<IChromosome> parents)
+        private IList<IChromosome> Reinsert(IList<IChromosome> offspring, IList<IChromosome> parents)
         {
-            return Metaheuristic.Reinsert(ctx, Reinsertion, offspring, parents);
+            return Reinsertion.SelectChromosomes(Population, offspring, parents);
         }
+
+       
         #endregion
     }
 }

@@ -25,12 +25,10 @@ namespace GeneticSharp.Domain.Metaheuristics
         public abstract IList<IChromosome> SelectParentPopulation(IMetaHeuristicContext ctx, ISelection selection);
 
         /// <inheritdoc />
-        public abstract IList<IChromosome> MatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents,
-            int firstParentIndex);
+        public abstract IList<IChromosome> MatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents);
 
         /// <inheritdoc />
-        public abstract void MutateChromosome(IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings,
-            int offspringIndex);
+        public abstract void MutateChromosome(IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings);
 
         /// <inheritdoc />
         public abstract IList<IChromosome> Reinsert(IMetaHeuristicContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents);

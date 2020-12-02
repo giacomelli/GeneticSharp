@@ -38,7 +38,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <param name="firstParentIndex">the index of the first parent selected for a crossover</param>
         /// <returns>children for the current crossover if it was performed, null otherwise</returns>
         IList<IChromosome> MatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover,
-            float crossoverProbability, IList<IChromosome> parents, int firstParentIndex);
+            float crossoverProbability, IList<IChromosome> parents);
 
         /// <summary>
         /// Apply mutation with given probability to target offspring chromosome with parents selected from given population 
@@ -48,7 +48,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <param name="mutationProbability">The mutation probability.</param>
         /// <param name="offSprings">The list of offspring chromosomes</param>
         /// <param name="offspringIndex">The target chromosome index to mutate</param>
-        void MutateChromosome(IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings, int offspringIndex);
+        void MutateChromosome(IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings);
 
 
         /// <summary>
