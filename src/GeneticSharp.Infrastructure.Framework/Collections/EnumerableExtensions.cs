@@ -62,19 +62,20 @@ namespace GeneticSharp.Infrastructure.Framework.Collections
             {
                 return default;
             }
-            TSource current = items[0];
+            TSource currentMax = items[0];
             TKey maxValue = keySelector(items[0]);
             for (var index = 1; index < items.Count; index++)
             {
-                var currentKey = keySelector(items[index]);
+                var currentItem = items[index];
+                var currentKey = keySelector(currentItem);
                 if (comparer.Compare(currentKey, maxValue) > 0)
                 {
                     maxValue = currentKey;
-                    current = items[index];
+                    currentMax = currentItem;
                 }
             }
 
-            return current;
+            return currentMax;
 
         }
 

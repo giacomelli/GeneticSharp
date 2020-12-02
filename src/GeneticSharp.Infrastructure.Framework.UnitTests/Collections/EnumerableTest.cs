@@ -72,7 +72,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Collections
 
            
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 20; i++)
             {
                stopWatches[0].Start();
                 foreach (var unsortedSet in unsortedSets)
@@ -84,7 +84,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Collections
                 stopWatches[0].Reset();
             }
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 20; i++)
             {
                 stopWatches[1].Start();
                 foreach (var unsortedSet in unsortedSets)
@@ -100,9 +100,9 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Collections
 
             executionTimes[0] = executionTimes[0].OrderBy(t => t.Ticks).ToList();
             executionTimes[1] = executionTimes[1].OrderBy(t => t.Ticks).ToList();
-            
-            var maxByOrderTime = executionTimes[0][5];
-            var classicalOrderTime = executionTimes[1][5];
+            //Taking median value
+            var maxByOrderTime = executionTimes[0][10];
+            var classicalOrderTime = executionTimes[1][10];
             var ratio = classicalOrderTime.Ticks / (double) maxByOrderTime.Ticks;
             Assert.Greater(ratio, minRatio);
         }
