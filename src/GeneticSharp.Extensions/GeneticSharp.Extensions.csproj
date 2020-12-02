@@ -37,4 +37,7 @@
     <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj" />
     <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj" PrivateAssets="all" />
   </ItemGroup>
+	<PropertyGroup>
+		<LangVersion>7.3</LangVersion>
+	</PropertyGroup>
 </Project>
