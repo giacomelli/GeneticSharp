@@ -6,4 +6,7 @@
     <AssemblyName>GeneticSharp.Infrastructure.Framework</AssemblyName>
     <PackageId>GeneticSharp.Infrastructure.Framework</PackageId>
   </PropertyGroup>
+	<PropertyGroup>
+		<LangVersion>7.3</LangVersion>
+	</PropertyGroup>
 </Project>
