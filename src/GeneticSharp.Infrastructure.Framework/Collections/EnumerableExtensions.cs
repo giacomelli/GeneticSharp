@@ -58,7 +58,21 @@ namespace GeneticSharp.Infrastructure.Framework.Collections
         /// <returns></returns>
         public static TSource MaxBy<TSource, TKey>(this IList<TSource> items, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
         {
-            if (items.Count==0)
+
+#if NETCOREAPP
+        // .NET core 2+ uses quicksort partition to return first items without doing the whole sort
+            return items.OrderByDescending(keySelector).First();
+#else
+            // .NET Framework 4.0 sorts all when descending
+            return MaxByLinear(items, keySelector, comparer);
+#endif
+
+        }
+
+        private static TSource MaxByLinear<TSource, TKey>(this IList<TSource> items, Func<TSource, TKey> keySelector,
+            IComparer<TKey> comparer)
+        {
+            if (items.Count == 0)
             {
                 return default;
             }
@@ -76,7 +90,6 @@ namespace GeneticSharp.Infrastructure.Framework.Collections
             }
 
             return currentMax;
-
         }
 
 

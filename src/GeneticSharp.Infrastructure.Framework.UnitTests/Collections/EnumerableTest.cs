@@ -28,31 +28,45 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Collections
             
         }
 
-        
 
-       
+#if NETCOREAPP
+        // .NET core 2+ uses quicksort partition to return first items without doing the whole sort
+        private double ratioMax = 0.95;
+
+#else
+            // .NET Framework 4.0 sorts all when descending
+            private double ratioMax = 4;
+#endif
+
 
         [Test()]
         public void MaxBy_CompareWithOrderByDescendingAndFirst_50_Faster()
         {
-            MaxBy_CompareWithOrderByDescendingAndFirst_Faster(50, 10000,1);
+
+
+
+
+            MaxBy_CompareWithOrderByDescendingAndFirst_Faster(50, 10000, ratioMax);
         }
 
         [Test()]
         public void MaxBy_CompareWithOrderByDescendingAndFirst_500_Faster()
         {
 
-            MaxBy_CompareWithOrderByDescendingAndFirst_Faster(500, 1000, 1);
+
+
+
+            MaxBy_CompareWithOrderByDescendingAndFirst_Faster(500, 1000, ratioMax);
         }
 
         [Test()]
         public void MaxBy_CompareWithOrderByDescendingAndFirst_5000_Faster()
         {
 
-            MaxBy_CompareWithOrderByDescendingAndFirst_Faster(5000, 100, 1);
+            MaxBy_CompareWithOrderByDescendingAndFirst_Faster(5000, 100, ratioMax);
         }
 
-        private void MaxBy_CompareWithOrderByDescendingAndFirst_Faster(int maxValue, int nbTests, int minRatio)
+        private void MaxBy_CompareWithOrderByDescendingAndFirst_Faster(int maxValue, int nbTests, double minRatio)
         {
             RandomizationProvider.Current = new FastRandomRandomization();
             
