@@ -35,7 +35,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Collections
 
 #else
             // .NET Framework 4.0 sorts all when descending
-            private double ratioMax = 4;
+            private double ratioMax = 1.4;
 #endif
 
 
