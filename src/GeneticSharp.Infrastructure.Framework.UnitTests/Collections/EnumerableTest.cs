@@ -31,8 +31,8 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Collections
 
 #if NETCOREAPP
         // .NET core 2+ uses quicksort partition to return first items without doing the whole sort
-        //The .Net core version of MaxBy uses OrderBy
-        private double ratioMax = 0.8;
+        //The .Net core version of MaxBy uses OrderBy, setting the bound low for what should be close to 1
+        private double ratioMax = 0.75;
 
 #else
             // .NET Framework 4.0 sorts all when descending
@@ -113,9 +113,9 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Collections
 
             maxValuesSorts.Each(maxValues => maxValues.Each(i => Assert.AreEqual((double)maxValue, i)));
 
-            //executionTimes[0] = executionTimes[0].OrderBy(t => t.Ticks).ToList();
-            //executionTimes[1] = executionTimes[1].OrderBy(t => t.Ticks).ToList();
-            //Taking median value
+            //removing extrema
+            executionTimes[0] = executionTimes[0].OrderBy(t => t.Ticks).Skip(10).Take(20).ToList();
+            executionTimes[1] = executionTimes[1].OrderBy(t => t.Ticks).Skip(10).Take(20).ToList();
 
             // Using Mean Value
             var maxByOrderTime = TimeSpan.FromTicks(executionTimes[0].Select(span => span.Ticks).Sum()/executionTimes[0].Count);
