@@ -29,23 +29,26 @@ namespace GeneticSharp.Extensions.UnitTests.Multiple
             int numberOfCities = 30;
             var selection = new EliteSelection();
             var crossover = new UniformCrossover();
-            var mutation = new TworsMutation();
+            var mutation = new UniformMutation(true);
 
 
             // Given enough generations, the Multiple Chromosome should start exhibiting convergence
             // we compare TSP /25 gen with 3*TSP / 500 gen
 
             TspChromosome simpleChromosome = new TspChromosome(numberOfCities).Initialized();
-            IFitness fitness = new TspFitness(numberOfCities, 0, 1000, 0, 1000);
-            fitness.Evaluate(simpleChromosome);
+            // Removing default initial permutation to get random cities
+            mutation.Mutate(simpleChromosome, 1.0f);
 
+
+            IFitness simplefitness = new TspFitness(numberOfCities, 0, 1000, 0, 1000);
+            simpleChromosome.Fitness = simplefitness.Evaluate(simpleChromosome);
 
 
             var multiChromosome = new MultipleChromosome((i) => new TspChromosome(numberOfCities), 3);
             //MultiChromosome should create 3 TSP chromosomes and store them in the corresponding property
             Assert.AreEqual(((MultipleChromosome)multiChromosome).Chromosomes.Count, 3);
-            var tempMultiFitness = ((MultipleChromosome)multiChromosome).Chromosomes.Sum(c => fitness.Evaluate(c));
-            fitness = new MultipleFitness(fitness);
+            var tempMultiFitness = ((MultipleChromosome)multiChromosome).Chromosomes.Sum(c => simplefitness.Evaluate(c));
+            var fitness = new MultipleFitness(simplefitness);
             //Multi fitness should sum over the fitnesses of individual chromosomes
             Assert.AreEqual(tempMultiFitness, fitness.Evaluate(multiChromosome));
             var population = new Population(30, 30, multiChromosome);
@@ -56,9 +59,8 @@ namespace GeneticSharp.Extensions.UnitTests.Multiple
             ga.Start();
             var bestTSPChromosome = (TspChromosome)((MultipleChromosome)ga.Population.BestChromosome).Chromosomes
               .OrderByDescending(c => c.Fitness).First();
-            var multiChromosomesDistance = bestTSPChromosome.Distance;
 
-            Assert.Less(multiChromosomesDistance, simpleChromosome.Distance);
+            Assert.Greater(bestTSPChromosome.Fitness, simpleChromosome.Fitness);
         }
 
 

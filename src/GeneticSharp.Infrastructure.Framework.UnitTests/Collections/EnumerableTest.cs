@@ -32,11 +32,11 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Collections
 #if NETCOREAPP
         // .NET core 2+ uses quicksort partition to return first items without doing the whole sort
         //The .Net core version of MaxBy uses OrderBy, setting the bound low for what should be close to 1
-        private double ratioMax = 0.75;
+        private double ratioMax = 0.8;
 
 #else
             // .NET Framework 4.0 sorts all when descending
-            private double ratioMax = 1.4;
+            private double ratioMax = 2;
 #endif
 
 
