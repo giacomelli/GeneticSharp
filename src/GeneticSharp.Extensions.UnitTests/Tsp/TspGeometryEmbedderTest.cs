@@ -124,7 +124,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             int numberOfCities = 100;
             var nbGenerations = 1000;
             var termination = new GenerationNumberTermination(nbGenerations);
-            Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(nbGenerations, numberOfCities, termination, 1);
+            Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(nbGenerations, numberOfCities, termination, 1.1);
         }
 
        [Test()]
@@ -133,7 +133,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             int nbGenerationsWOA = 200;
             int numberOfCities = 200;
             var termination = new TimeEvolvingTermination(TimeSpan.FromSeconds(10));
-            Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(nbGenerationsWOA, numberOfCities, termination, 0.9);
+            Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(nbGenerationsWOA, numberOfCities, termination, 0.95);
         }
 
         [Test()]
@@ -142,7 +142,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             int nbGenerationsWOA = 100;
             int numberOfCities = 1000;
             var termination = new TimeEvolvingTermination(TimeSpan.FromSeconds(10));
-            Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(nbGenerationsWOA, numberOfCities, termination, 0.8);
+            Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(nbGenerationsWOA, numberOfCities, termination, 0.9);
         }
 
 
