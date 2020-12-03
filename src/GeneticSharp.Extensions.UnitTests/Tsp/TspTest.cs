@@ -73,8 +73,8 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             var resultWOA = Evolve_NbCities_Fast(fitness, adamChromosome, populationSize, metaHeuristic, crossover, mutation, termination);
 
             //Generally
-            Assert.LessOrEqual(resultWOA.Fitness, resultOriginal.Fitness * 1.2);
-            Assert.GreaterOrEqual(resultWOA.Fitness, resultOriginal.Fitness * 0.8);
+            Assert.LessOrEqual(resultWOA.Fitness, resultOriginal.Fitness * 1.3);
+            Assert.GreaterOrEqual(resultWOA.Fitness, resultOriginal.Fitness * 0.7);
 
         }
 
