@@ -60,7 +60,7 @@ namespace GeneticSharp.Infrastructure.Framework.Collections
         {
 
 #if NETCOREAPP
-        // .NET core 2+ uses quicksort partition to return first items without doing the whole sort
+            // .NET core 2+ uses quicksort partition to return first items without doing the whole sort
             return items.OrderByDescending(keySelector).First();
 #else
             // .NET Framework 4.0 sorts all when descending
