@@ -28,20 +28,25 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
         public void Evaluate_Manychromosomes_Cached_Faster()
         {
 
-            var repeatNb = 20;
+            var repeatNb = 40;
 
             // Note that with higher numbers the situation eventually reverses and the memory impediment must be detrimental
             var cityNbsAndRatios = new (int cityNb, double ratio)[] { (5, 0.9), (100, 0.9), (500, 0.9), (2000, 1.5)};
 
-            var repeatResults = new List<List<(TimeSpan durationUncached, TimeSpan durationCached, double ratio)>> ();
 
-            for (int i = 0; i < repeatNb; i++)
+            var testResults = new List<(TimeSpan durationUncached, TimeSpan durationCached, double ratio)>();
+
+            foreach (var cityNbAndRatio in cityNbsAndRatios)
             {
-                var results = new List<(TimeSpan durationUncached, TimeSpan durationCached, double ratio)>();
-                foreach (var cityNbAndRatio in cityNbsAndRatios)
+
+               
+
+                var repeatCityResults = new List<(TimeSpan durationUncached, TimeSpan durationCached, double ratio)>();
+
+                for (int i = 0; i < repeatNb; i++)
                 {
 
-                    var chromosomes = Enumerable.Range(0, 50000/ cityNbAndRatio.cityNb).Select(_ => new TspChromosome(cityNbAndRatio.cityNb).Initialized()).ToList();
+                    var chromosomes = Enumerable.Range(0, 5000 / cityNbAndRatio.cityNb).Select(_ => new TspChromosome(cityNbAndRatio.cityNb).Initialized()).ToList();
 
                     var fitness = new TspFitness(cityNbAndRatio.cityNb, -cityNbAndRatio.cityNb, cityNbAndRatio.cityNb, -cityNbAndRatio.cityNb, cityNbAndRatio.cityNb);
                     fitness.Cached = false;
@@ -56,7 +61,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                     var fitnessesCached = chromosomes.Select(tspChromosome => fitness.Evaluate(tspChromosome)).ToList();
                     var durationOptimised = sw.Elapsed;
 
-                    results.Add((durationNonOptimised, durationOptimised, cityNbAndRatio.ratio));
+                    repeatCityResults.Add((durationNonOptimised, durationOptimised, cityNbAndRatio.ratio));
 
                     for (int j = 0; j < fitnesses.Count; j++)
                     {
@@ -64,19 +69,19 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                     }
 
                 }
-                repeatResults.Add(results);
+
+                var resultsWithoutExtrema = repeatCityResults.OrderByDescending(r => r.durationUncached).Skip(5).Take(30).ToList();
+                resultsWithoutExtrema = resultsWithoutExtrema.OrderByDescending(r => r.durationCached).Skip(5).Take(20).ToList();
+                var meanResult = (
+                    TimeSpan.FromTicks(resultsWithoutExtrema.Sum(r => r.durationUncached.Ticks / resultsWithoutExtrema.Count)),
+                    TimeSpan.FromTicks(resultsWithoutExtrema.Sum(r => r.durationCached.Ticks/ resultsWithoutExtrema.Count)),
+                    cityNbAndRatio.ratio);
+
+                testResults.Add(meanResult);
             }
 
-            var tempResult = repeatResults[0];
-            for (int i = 0; i < tempResult.Count; i++)
-            {
-                tempResult[i]= (TimeSpan.FromTicks((repeatResults.Sum(r=> r[i].durationUncached.Ticks))/repeatResults.Count),
-                        TimeSpan.FromTicks((repeatResults.Sum(r => r[i].durationCached.Ticks)) / repeatResults.Count),
-                        tempResult[i].ratio);
-            }
 
-
-            tempResult.Each(r=> Assert.LessOrEqual(r.durationCached.Ticks / (double) (r.durationUncached.Ticks ), r.ratio));
+            testResults.Each(r=> Assert.LessOrEqual(r.durationCached.Ticks / (double) (r.durationUncached.Ticks ), r.ratio));
 
         }
 
