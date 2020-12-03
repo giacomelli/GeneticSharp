@@ -32,7 +32,7 @@ namespace GeneticSharp.Extensions.Tsp
         private double? mMaxDistanceApprox;
         private (TspCity, TspCity)? mBoundingBox;
         private List<List<double>> _cityDistances;
-        private object mLock = new object();
+        private readonly object mLock = new object();
         private bool _cached;
 
         #endregion
@@ -314,7 +314,7 @@ namespace GeneticSharp.Extensions.Tsp
 
 
         
-        private double mMinDistanceScale = 2 * Math.Sqrt(2);
+        private readonly double mMinDistanceScale = 2 * Math.Sqrt(2);
 
         /// <summary>
         /// We consider the worst case with cities aligned along a boundingbox diameter or in a diamond shape accross the bounding box

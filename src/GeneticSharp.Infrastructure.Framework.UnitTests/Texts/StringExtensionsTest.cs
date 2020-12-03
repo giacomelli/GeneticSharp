@@ -28,11 +28,13 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Texts
         {
             Assert.Catch(() => "abc".HammingDistance("ab"));
 
-            var tests = new List<(string s1, string s2, int distance)>();
-            tests.Add(("karolin", "kathrin", 3));
-            tests.Add(("kathrin", "kerstin", 4));
-            tests.Add(("1011101", "1001001", 2));
-            tests.Add(("2173896", "2233796", 3));
+            var tests = new List<(string s1, string s2, int distance)>
+            {
+                ("karolin", "kathrin", 3),
+                ("kathrin", "kerstin", 4),
+                ("1011101", "1001001", 2),
+                ("2173896", "2233796", 3)
+            };
 
             tests.Each(tuple => Assert.AreEqual(tuple.distance, tuple.s1.LevenshteinDistance(tuple.s2)));
 
@@ -43,10 +45,10 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Texts
         [Test()]
         public void LevenshteinDistance_CorrectValue()
         {
-            var tests = new List<(string s1, string s2, int distance)>();
-            tests.Add(("niche", "chien", 4));
-            tests.Add(("GeneticSharp", "SharpGenetic", 10));
-            tests.Add(("vladimir", "levenshtein", 9));
+            var tests = new List<(string s1, string s2, int distance)>
+            {
+                ("niche", "chien", 4), ("GeneticSharp", "SharpGenetic", 10), ("vladimir", "levenshtein", 9)
+            };
 
             tests.Each(tuple => Assert.AreEqual(tuple.distance, tuple.s1.LevenshteinDistance(tuple.s2)));
 
@@ -57,10 +59,12 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Texts
         public void DamerauLevenshteinDistance_CorrectValue()
         {
 
-            var tests = new List<(string s1, string s2, int distance)>();
-            tests.Add(("climax", "volmax", 3));//value where true DamerauLevenshtein should be 2
-            tests.Add(("Ram", "Rom", 1));
-            tests.Add(("jellyifhs", "jellyfish", 3));//value where true DamerauLevenshtein should be 2
+            var tests = new List<(string s1, string s2, int distance)>
+            {
+                ("climax", "volmax", 3), ("Ram", "Rom", 1), ("jellyifhs", "jellyfish", 3)
+            };
+            //value where true DamerauLevenshtein should be 2
+            //value where true DamerauLevenshtein should be 2
 
             tests.Each(tuple => Assert.AreEqual(tuple.distance, tuple.s1.LevenshteinDistance(tuple.s2)));
 

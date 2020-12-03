@@ -64,10 +64,10 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             var resultOriginal = Evolve_NbCities_Fast(fitness, adamChromosome, populationSize, null, crossover, mutation, termination);
 
             // WOA parameters
-            Func<double, int> getGeneValueFunction = d => Math.Round(d).PositiveMod(numberOfCities);
+            int GetGeneValueFunction(double d) => Math.Round(d).PositiveMod(numberOfCities);
 
             var helicoidScale = 2;
-            var metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(true, nbGenerationsWOA, helicoidScale, geneValue => geneValue, getGeneValueFunction);
+            var metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(true, nbGenerationsWOA, helicoidScale, geneValue => geneValue, GetGeneValueFunction);
 
             // WOA evolution
             var resultWOA = Evolve_NbCities_Fast(fitness, adamChromosome, populationSize, metaHeuristic, crossover, mutation, termination);
@@ -82,9 +82,11 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
         private static TspEvolutionResult Evolve_NbCities_Fast(TspFitness fitness, TspChromosome adamChromosome,  int populationSize, IMetaHeuristic metaHeuristic, ICrossover crossover, IMutation mutation, ITermination termination, Action<IGeneticAlgorithm> generationUpdate = null)
         {
             var selection = new EliteSelection();
-            var population = new Population(populationSize, populationSize, adamChromosome);
-            population.GenerationStrategy = new TrackingGenerationStrategy();
-            
+            var population = new Population(populationSize, populationSize, adamChromosome)
+            {
+                GenerationStrategy = new TrackingGenerationStrategy()
+            };
+
             var ga = new MetaGeneticAlgorithm(population, fitness, selection, crossover, mutation);
             if (metaHeuristic!= null)
             {

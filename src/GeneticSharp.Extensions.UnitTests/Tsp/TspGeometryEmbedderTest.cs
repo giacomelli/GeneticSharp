@@ -109,11 +109,11 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                 (100, 0.85, 0.9), (200, 0.75, 0.8), (400, 0.75, 0.8)
             };
 
-            foreach (var testParam in testParams)
+            foreach (var (nbCities, threshold, ratio) in testParams)
             {
                 int nbGenerationsWOA = 200;
-                var termination = new FitnessThresholdTermination(testParam.threshold);
-                Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(nbGenerationsWOA, testParam.nbCities, termination, testParam.ratio);
+                var termination = new FitnessThresholdTermination(threshold);
+                Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(nbGenerationsWOA, nbCities, termination, ratio);
             }
         }
 
@@ -162,23 +162,23 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
 
             var resultDEtail = new List<List<(TspEvolutionResult native, TspEvolutionResult woa, TspEvolutionResult woaGeom, TspEvolutionResult
                 woaSwap)>>();
-            foreach (var testParam in testParams)
+            foreach (var (nbCities, seconds, helicoidScale, nbGenerationsWoa, _) in testParams)
             {
 
                 var results = new List<(TspEvolutionResult native, TspEvolutionResult woa, TspEvolutionResult woaGeom, TspEvolutionResult
                     woaSwap)>();
-                var termination = new TimeEvolvingTermination(TimeSpan.FromSeconds(testParam.seconds));
+                var termination = new TimeEvolvingTermination(TimeSpan.FromSeconds(seconds));
                 // population parameters
                 int populationSize = 100;
 
                 for (int i = 0; i < repeatNb; i++)
                 {
                     // Fitness and chromosomes 
-                    var fitness = new TspFitness(testParam.nbCities, 0, 1000, 0, 1000);
+                    var fitness = new TspFitness(nbCities, 0, 1000, 0, 1000);
 
 
                     // Native evolution
-                    results.Add(EvolveAlgorithms_Termination(fitness, testParam.helicoidScale, termination, populationSize, testParam.nbGenerationsWOA));
+                    results.Add(EvolveAlgorithms_Termination(fitness, helicoidScale, termination, populationSize, nbGenerationsWoa));
 
                 }
                 resultDEtail.Add(results);
@@ -220,12 +220,12 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                 
                 // WOA parameters
 
-                Func<double, int> getGeneValueFunction = d => Math.Round(d).PositiveMod(fitness.Cities.Count);
+                int GetGeneValueFunction(double d) => Math.Round(d).PositiveMod(fitness.Cities.Count);
 
                 //Simple WOA
                 var defaultEmbedding = new OrderedEmbedding<int>(){GeneSelectionMode = GeneSelectionMode.RandomOrder | GeneSelectionMode.SingleFirstAllowed};
                 
-                metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(true, nbGenerationsWOA, helicoidScale, geneValue => geneValue, getGeneValueFunction);
+                metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(true, nbGenerationsWOA, helicoidScale, geneValue => geneValue, GetGeneValueFunction);
                 var resultWOA = Evolve_NbCities_Fast(fitness, adamChromosome, populationSize, metaHeuristic, crossover, mutation, termination);
                 toReturn.woa = resultWOA;
 
@@ -254,7 +254,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                 //WOA with Embedding  
                 metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(true, nbGenerationsWOA, helicoidScale,
                     geneValue => geneValue,
-                    getGeneValueFunction, tspGeometryEmbedding);
+                    GetGeneValueFunction, tspGeometryEmbedding);
 
                 //Embedding metric update routing: the best chromosome takes over target metric space
                 var evolvedfitnessMetric = 0.0;
@@ -279,7 +279,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
 
                 metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(true, nbGenerationsWOA, helicoidScale,
                     geneValue => geneValue,
-                    getGeneValueFunction, simpleGeometryEmbedding);
+                    GetGeneValueFunction, simpleGeometryEmbedding);
                 var resultWOAwithSwap = Evolve_NbCities_Fast(fitness, adamChromosome, populationSize, metaHeuristic, crossover, mutation, termination);
 
 
@@ -322,7 +322,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
 
 
                 // WOA parameters
-                Func<double, int> getGeneValueFunction = d => Math.Round(d).PositiveMod(numberOfCities);
+                int GetGeneValueFunction(double d) => Math.Round(d).PositiveMod(numberOfCities);
                 var helicoidScale = 2;
 
                 //Default OrderedEmbedding with cold start
@@ -332,7 +332,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                 //WOA with Embedding  
                 var metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(true, nbGenerationsWOA, helicoidScale,
                     geneValue => geneValue,
-                    getGeneValueFunction, tspGeometryEmbedding, true);
+                    GetGeneValueFunction, tspGeometryEmbedding, true);
 
                 //Embedding metric update routing: the best chromosome takes over target metric space
                 var evolvedfitnessMetric = 0.0;

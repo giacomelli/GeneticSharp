@@ -13,7 +13,7 @@ namespace GeneticSharp.Extensions.Tsp
     public class TspOrderedEmbedding : OrderedEmbedding<int>
     {
 
-        private TspFitness _fitness;
+        private readonly TspFitness _fitness;
 
         public TspOrderedEmbedding(TspFitness fitness)
         {
@@ -70,37 +70,31 @@ namespace GeneticSharp.Extensions.Tsp
             double initDistance, targetDistance;
             var indicesModDifference = (swapIndex1 - swapIndex2).PositiveMod(_fitness.Cities.Count);
             var notContigous = indicesModDifference > 1 && indicesModDifference < _fitness.Cities.Count - 1;
-            try
+
+            if (notContigous)
             {
-                if (notContigous)
-                {
-                    initDistance =
-                        _fitness.CityDistances[firstTriple[0]][firstTriple[1]]
-                        + _fitness.CityDistances[firstTriple[1]][firstTriple[2]]
-                        + _fitness.CityDistances[secondTriple[0]][secondTriple[1]]
-                        + _fitness.CityDistances[secondTriple[1]][secondTriple[1]];
+                initDistance =
+                    _fitness.CityDistances[firstTriple[0]][firstTriple[1]]
+                    + _fitness.CityDistances[firstTriple[1]][firstTriple[2]]
+                    + _fitness.CityDistances[secondTriple[0]][secondTriple[1]]
+                    + _fitness.CityDistances[secondTriple[1]][secondTriple[1]];
 
 
-                    targetDistance = _fitness.CityDistances[firstTriple[0]][secondTriple[1]]
-                                     + _fitness.CityDistances[secondTriple[1]][firstTriple[2]]
-                                     + _fitness.CityDistances[secondTriple[0]][firstTriple[1]]
-                                     + _fitness.CityDistances[firstTriple[1]][secondTriple[2]];
-                }
-                else
-                {
-                    initDistance = _fitness.CityDistances[firstTriple[0]][firstTriple[1]]
-                                   + _fitness.CityDistances[firstTriple[1]][firstTriple[2]]
-                                   + _fitness.CityDistances[secondTriple[1]][secondTriple[2]];
-                    targetDistance = _fitness.CityDistances[firstTriple[0]][secondTriple[1]]
-                                     + _fitness.CityDistances[secondTriple[1]][firstTriple[1]]
-                                     + _fitness.CityDistances[firstTriple[1]][secondTriple[2]];
-                }
+                targetDistance = _fitness.CityDistances[firstTriple[0]][secondTriple[1]]
+                                 + _fitness.CityDistances[secondTriple[1]][firstTriple[2]]
+                                 + _fitness.CityDistances[secondTriple[0]][firstTriple[1]]
+                                 + _fitness.CityDistances[firstTriple[1]][secondTriple[2]];
             }
-            catch (Exception e)
+            else
             {
-                Debugger.Break();
-                throw;
+                initDistance = _fitness.CityDistances[firstTriple[0]][firstTriple[1]]
+                               + _fitness.CityDistances[firstTriple[1]][firstTriple[2]]
+                               + _fitness.CityDistances[secondTriple[1]][secondTriple[2]];
+                targetDistance = _fitness.CityDistances[firstTriple[0]][secondTriple[1]]
+                                 + _fitness.CityDistances[secondTriple[1]][firstTriple[1]]
+                                 + _fitness.CityDistances[firstTriple[1]][secondTriple[2]];
             }
+
 
             var toReturn = initDistance - targetDistance;
 

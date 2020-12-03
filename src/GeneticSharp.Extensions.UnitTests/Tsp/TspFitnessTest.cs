@@ -36,7 +36,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
 
             var testResults = new List<(TimeSpan durationUncached, TimeSpan durationCached, double ratio)>();
 
-            foreach (var cityNbAndRatio in cityNbsAndRatios)
+            foreach (var (cityNb, ratio) in cityNbsAndRatios)
             {
 
                
@@ -46,10 +46,9 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                 for (int i = 0; i < repeatNb; i++)
                 {
 
-                    var chromosomes = Enumerable.Range(0, 5000 / cityNbAndRatio.cityNb).Select(_ => new TspChromosome(cityNbAndRatio.cityNb).Initialized()).ToList();
+                    var chromosomes = Enumerable.Range(0, 5000 / cityNb).Select(_ => new TspChromosome(cityNb).Initialized()).ToList();
 
-                    var fitness = new TspFitness(cityNbAndRatio.cityNb, -cityNbAndRatio.cityNb, cityNbAndRatio.cityNb, -cityNbAndRatio.cityNb, cityNbAndRatio.cityNb);
-                    fitness.Cached = false;
+                    var fitness = new TspFitness(cityNb, -cityNb, cityNb, -cityNb, cityNb) {Cached = false};
                     fitness.Evaluate(chromosomes.First());
                     var sw = Stopwatch.StartNew();
                     var fitnesses = chromosomes.Select(tspChromosome => fitness.Evaluate(tspChromosome)).ToList();
@@ -61,7 +60,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                     var fitnessesCached = chromosomes.Select(tspChromosome => fitness.Evaluate(tspChromosome)).ToList();
                     var durationOptimised = sw.Elapsed;
 
-                    repeatCityResults.Add((durationNonOptimised, durationOptimised, cityNbAndRatio.ratio));
+                    repeatCityResults.Add((durationNonOptimised, durationOptimised, ratio));
 
                     for (int j = 0; j < fitnesses.Count; j++)
                     {
@@ -75,7 +74,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                 var meanResult = (
                     TimeSpan.FromTicks(resultsWithoutExtrema.Sum(r => r.durationUncached.Ticks / resultsWithoutExtrema.Count)),
                     TimeSpan.FromTicks(resultsWithoutExtrema.Sum(r => r.durationCached.Ticks/ resultsWithoutExtrema.Count)),
-                    cityNbAndRatio.ratio);
+                    ratio);
 
                 testResults.Add(meanResult);
             }
