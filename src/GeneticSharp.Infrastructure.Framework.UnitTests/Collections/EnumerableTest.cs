@@ -31,7 +31,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Collections
 
 #if NETCOREAPP
         // .NET core 2+ uses quicksort partition to return first items without doing the whole sort
-        private double ratioMax = 0.95;
+        private double ratioMax = 0.9;
 
 #else
             // .NET Framework 4.0 sorts all when descending
