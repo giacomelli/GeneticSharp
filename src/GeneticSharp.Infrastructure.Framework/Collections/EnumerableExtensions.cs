@@ -69,7 +69,7 @@ namespace GeneticSharp.Infrastructure.Framework.Collections
 
         }
 
-        private static TSource MaxByLinear<TSource, TKey>(this IList<TSource> items, Func<TSource, TKey> keySelector,
+        public static TSource MaxByLinear<TSource, TKey>(this IList<TSource> items, Func<TSource, TKey> keySelector,
             IComparer<TKey> comparer)
         {
             if (items.Count == 0)

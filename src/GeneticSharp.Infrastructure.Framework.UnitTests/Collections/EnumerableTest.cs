@@ -115,6 +115,60 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Collections
             Assert.Greater(ratio, minRatio);
         }
 
+        [Test()]
+        public void Compare_LazyOrderBy_SequentialMaxByLinear_AtEquilibriumPoint()
+        {
+
+            var minRatio = 0.5;
+            var maxRatio = 2;
+
+            var takeNb = 75;
+
+            var maxValue = 1000;
+
+
+            var nbTests = 5;
+            
+
+            var unsortedSets = new List<int[]>(nbTests);
+            for (int i = 0; i < nbTests; i++)
+            {
+                var unsorted = RandomizationProvider.Current.GetUniqueInts(maxValue, 1, maxValue + 1);
+                unsortedSets.Add(unsorted);
+            }
+
+            var sw = Stopwatch.StartNew();
+            var lazyBys = new List<IList<int>>();
+            foreach (var unsortedSet in unsortedSets)
+            {
+                 lazyBys.Add(unsortedSet.LazyOrderBy(i => -i).Take(takeNb).ToList());
+            }
+            var lazyOrderTime = sw.Elapsed;
+            var maxBys = new List<IList<int>>();
+            sw.Restart();
+            foreach (var unsortedSet in unsortedSets)
+            {
+                var takeItems = new List<int>(takeNb);
+                var currentUnsorted = new List<int>( unsortedSet); 
+                for (int i = 0; i < takeNb; i++)
+                {
+                    var maxBy = currentUnsorted.MaxBy(j => j);
+                    takeItems.Add(maxBy);
+                    currentUnsorted.Remove(maxBy);
+                }
+                maxBys.Add(takeItems);
+            }
+            var maxByOrderTime = sw.Elapsed;
+
+            Enumerable.Range(0, lazyBys.Count).Each(i => Enumerable.Range(0, takeNb).Each(j =>  Assert.AreEqual(lazyBys[i][j], maxBys[i][j])));
+            
+            var ratio = maxByOrderTime.Ticks / (double)lazyOrderTime.Ticks;
+            Assert.Greater(ratio, minRatio);
+            Assert.Less(ratio, maxRatio);
+
+
+        }
+
 
         // The following tests seem to pass or not depending on the .Net Framework version. The latest .Net code version probably includes the same kind of improvement
 
@@ -170,34 +224,34 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Collections
         //  Assert.Throws<AssertionException>(() => LazyOrderBy_CompareWithOrderBy_Faster(500, 90, 200, 1));
         //}
 
-        //private void LazyOrderBy_CompareWithOrderBy_Faster(int maxValue, int takePercent,  int nbTests, double minRatio)
-        //{
-        //    var unsortedSets = new List<int[]>(nbTests);
-        //    for (int i = 0; i < nbTests; i++)
-        //    {
-        //        var unsorted = RandomizationProvider.Current.GetUniqueInts(maxValue, 1, maxValue + 1);
-        //        unsortedSets.Add(unsorted);
-        //    }
+        private void LazyOrderBy_CompareWithOrderBy_Faster(int maxValue, int takePercent, int nbTests, double minRatio)
+        {
+            var unsortedSets = new List<int[]>(nbTests);
+            for (int i = 0; i < nbTests; i++)
+            {
+                var unsorted = RandomizationProvider.Current.GetUniqueInts(maxValue, 1, maxValue + 1);
+                unsortedSets.Add(unsorted);
+            }
 
-        //    var takeNb = maxValue * takePercent / 100;
-        //    var sw = Stopwatch.StartNew();
-        //    foreach (var unsortedSet in unsortedSets)
-        //    {
-        //        unsortedSet.LazyOrderBy(i => i).Take(takeNb).ToList();
-        //    }
-        //    sw.Stop();
-        //    var lazyOrderTime = sw.Elapsed;
-        //    sw.Reset();
-        //    sw.Start();
-        //    foreach (var unsortedSet in unsortedSets)
-        //    {
-        //        unsortedSet.OrderBy(i => i).Take(takeNb).ToList();
-        //    }
-        //    sw.Stop();
-        //    var classicalOrderTime = sw.Elapsed;
-        //    var ratio = classicalOrderTime.Ticks /(double) lazyOrderTime.Ticks;
-        //    Assert.Greater(ratio, minRatio);
-        //}
+            var takeNb = maxValue * takePercent / 100;
+            var sw = Stopwatch.StartNew();
+            foreach (var unsortedSet in unsortedSets)
+            {
+                unsortedSet.LazyOrderBy(i => i).Take(takeNb).ToList();
+            }
+            sw.Stop();
+            var lazyOrderTime = sw.Elapsed;
+            sw.Reset();
+            sw.Start();
+            foreach (var unsortedSet in unsortedSets)
+            {
+                unsortedSet.OrderBy(i => i).Take(takeNb).ToList();
+            }
+            sw.Stop();
+            var classicalOrderTime = sw.Elapsed;
+            var ratio = classicalOrderTime.Ticks / (double)lazyOrderTime.Ticks;
+            Assert.Greater(ratio, minRatio);
+        }
 
 
     }
