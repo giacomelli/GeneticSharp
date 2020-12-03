@@ -21,7 +21,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
             });
             target.Add(() =>
             {
-                Thread.Sleep(100);
+                Thread.Sleep(200);
                 pipeline += "2";
             });
             target.Add(() =>
@@ -35,30 +35,30 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
             Assert.AreEqual("132", pipeline);
         }
 
-        [Test]
-        public void Start_ManyTasksWithGreaterNumberOfThreads_ParallelExecuted()
-        {
-            var pipeline = "";
-            var target = new TplTaskExecutor();
-            target.Add(() =>
-            {
-                pipeline += "1";
-            });
-            target.Add(() =>
-            {
-                Thread.Sleep(100);
-                pipeline += "2";
-            });
-            target.Add(() =>
-            {
-                Thread.Sleep(10);
-                pipeline += "3";
-            });
+        //[Test]
+        //public void Start_ManyTasksWithGreaterNumberOfThreads_ParallelExecuted()
+        //{
+        //    var pipeline = "";
+        //    var target = new TplTaskExecutor();
+        //    target.Add(() =>
+        //    {
+        //        pipeline += "1";
+        //    });
+        //    target.Add(() =>
+        //    {
+        //        Thread.Sleep(100);
+        //        pipeline += "2";
+        //    });
+        //    target.Add(() =>
+        //    {
+        //        Thread.Sleep(10);
+        //        pipeline += "3";
+        //    });
 
-            var actual = target.Start();
-            Assert.IsTrue(actual);
-            Assert.AreEqual("132", pipeline);
-        }
+        //    var actual = target.Start();
+        //    Assert.IsTrue(actual);
+        //    Assert.AreEqual("132", pipeline);
+        //}
 
         [Test]
         public void Start_Timeout_False()
