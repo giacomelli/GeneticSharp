@@ -121,7 +121,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Collections
         {
 
             var minRatio = 0.5;
-            var maxRatio = 2;
+            var maxRatio = 3;
 
             var takeNb = 75;
 
