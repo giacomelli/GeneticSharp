@@ -5,7 +5,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 {
     [TestFixture()]
     [Category("MetaHeuristics")]
-    class MetaGeneticContextTest : MetaHeuristicTestBase
+    class MetaHeuristicContextTest : MetaHeuristicTestBase
     {
 
         [Test()]

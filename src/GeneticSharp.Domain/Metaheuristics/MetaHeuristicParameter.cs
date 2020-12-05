@@ -146,7 +146,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         {
 
             //var newKey = this.GetKey(h, ctx, key);
-            var maskedTuple = GetScopeMask((key, ctx.Population.GenerationsNumber, ctx.CurrentStage, h, ctx.Index));
+            var maskedTuple = GetScopeMask((key, ctx.Population?.GenerationsNumber ?? 0, ctx.CurrentStage, h, ctx.Index));
 
             var toReturn = (TItemType)ctx.GetOrAdd(maskedTuple, () => (object)ComputeParameter(h, ctx));
             return toReturn;
