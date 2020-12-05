@@ -38,8 +38,6 @@ namespace GeneticSharp.Domain.Metaheuristics
     public interface IExpressionGeneratorParameter: IMetaHeuristicParameter
     {
 
-        //string GetFormatKey();
-
         LambdaExpression GetExpression(IMetaHeuristicContext ctx, string paramName);
 
     }
@@ -47,77 +45,10 @@ namespace GeneticSharp.Domain.Metaheuristics
 
     public class MetaHeuristicParameter<TParamType> : NamedEntity, IMetaHeuristicParameterGenerator<TParamType>
     {
-
        
 
         public ParamScope Scope { get; set; }
 
-        //private static readonly Dictionary<ParameterScope, string> _formatKeys = new Dictionary<ParameterScope, string>();
-
-
-        //public static string GetFormatKey(ParameterScope mScope)
-        //{
-        //        var sb = new StringBuilder("{0}");
-        //        if ((mScope & ParameterScope.Generation) == ParameterScope.Generation)
-        //        {
-        //            sb.Append("G{1}");
-
-        //        }
-        //        if ((mScope & ParameterScope.Stage) == ParameterScope.Stage)
-        //        {
-        //            sb.Append("S{2}");
-        //        }
-        //        if ((mScope & ParameterScope.MetaHeuristic) == ParameterScope.MetaHeuristic)
-        //        {
-        //            sb.Append("H{3}");
-        //        }
-        //        if ((mScope & ParameterScope.Individual) == ParameterScope.Individual)
-        //        {
-        //            sb.Append("I{4}");
-        //        }
-
-        //        return sb.ToString();
-        //}
-
-
-        //public string GetFormatKey()
-        //{
-           
-        //    _formatKeys.TryGetValue(Scope, out var toReturn);
-        //    if (string.IsNullOrEmpty(toReturn))
-        //    {
-        //        toReturn = GetFormatKey(Scope);
-        //        lock (_formatKeys)
-        //        {
-        //            _formatKeys[Scope] = toReturn;
-        //        }
-        //    }
-
-        //    return toReturn;
-        //}
-
-        //private string _formatKey;
-
-        //public string GetKey(IMetaHeuristic h, IMetaHeuristicContext ctx, string key)
-        //{
-        //    if (_formatKey == null)
-        //    {
-        //        _formatKey = GetFormatKey();
-        //    }
-
-        //    return GetKey(h, ctx, _formatKey, key);
-
-        //}
-
-        //public static string GetKey(IMetaHeuristic h, IMetaHeuristicContext ctx, string formatKey, string key)
-        //{
-        //    return string.Format(formatKey,
-        //        key,
-        //        ctx.Population.GenerationsNumber.ToStringLookup(),
-        //       ((int) ctx.CurrentStage).ToStringLookup(),
-        //        h.Guid,
-        //        ctx.Index.ToStringLookup());
-        //}
 
         private (string key, int generation, MetaHeuristicsStage stage, IMetaHeuristic heuristic, int individual) GetScopeMask((string key, int generation, MetaHeuristicsStage stage, IMetaHeuristic heuristic, int individual) input)
         {
@@ -181,7 +112,7 @@ namespace GeneticSharp.Domain.Metaheuristics
     public class ExpressionMetaHeuristicParameter<TParamType> : MetaHeuristicParameter<TParamType>, IExpressionGeneratorParameter
     {
 
-        private static Dictionary<Type, MethodInfo> _getOrAddMethods = new Dictionary<Type, MethodInfo>();
+        private static readonly Dictionary<Type, MethodInfo> _getOrAddMethods = new Dictionary<Type, MethodInfo>();
 
         public override ParameterGenerator<TParamType> GetGenerator(IMetaHeuristicContext ctx)
         {
@@ -295,30 +226,6 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         public Expression<ParameterGenerator<TParamType, TArg1, TArg2, TArg3>> DynamicGeneratorWithArgs { get; set; }
 
-    }
-
-    static class ToStringExtensions
-    {
-        // Lookup table.
-        private static string[] _cache = Enumerable.Range(0, 1000).Select(i => i.ToString(CultureInfo.InvariantCulture))
-            .ToArray();
-        
-
-        // Lookup table last index.
-        private static int _top = _cache.Length;
-
-        public static string ToStringLookup(this int value)
-        {
-            // See if the integer is in range of the lookup table.
-            // ... If it is present, return the string literal element.
-            if (value >= 0 &&
-                value < _top)
-            {
-                return _cache[value];
-            }
-            // Fall back to ToString method.
-            return value.ToString(CultureInfo.InvariantCulture);
-        }
     }
 
 

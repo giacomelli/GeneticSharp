@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Domain.Metaheuristics
 {
     public static class ParameterReplacer
     {
 
-        private static int _ParameterGeneratorLength = typeof(ParameterGenerator<>).GetMethod("Invoke").GetParameters().Length;
+        private static readonly int _ParameterGeneratorLength = typeof(ParameterGenerator<>).GetMethod("Invoke").GetParameters().Length;
 
         public static Expression<ParameterGenerator<TParamType>> ReduceLambdaParameterGenerator<TParamType>(LambdaExpression expression, IMetaHeuristicContext ctx)
         {
@@ -41,7 +42,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         public static LambdaExpression Replace(LambdaExpression expression, ParameterExpression source, Expression target)
         {
 
-            return expression.ReplacePar(source.Name, target);
+            return expression.ReplaceParameter(source.Name, target);
 
         }
 

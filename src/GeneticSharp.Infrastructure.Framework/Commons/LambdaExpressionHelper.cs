@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace GeneticSharp.Domain.Metaheuristics
+namespace GeneticSharp.Infrastructure.Framework.Commons
 {
     /// <summary>
-    /// Imported from <see href="https://github.com/jarekczek/LinqExprHelper">Github LinqExprHelper library</see>
+    /// Imported from <see href="https://github.com/jarekczek/LambdaExpressionHelper">Github LambdaExpressionHelper library</see>
     /// </summary>
-    public static class LinqExprHelper
+    public static class LambdaExpressionHelper
     {
-        private class ReplVisitor : ExpressionVisitor
+        private class ReplaceParameterVisitor : ExpressionVisitor
         {
             protected Expression searchedExpr;
             protected Expression replaceExpr;
@@ -30,7 +30,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             }
         }
 
-        private class ParNameUnifyingVisitor : ExpressionVisitor
+        private class ParameterNameUnifyingVisitor : ExpressionVisitor
         {
             private Dictionary<string, ParameterExpression> dict;
 
@@ -44,8 +44,8 @@ namespace GeneticSharp.Domain.Metaheuristics
 
             protected override Expression VisitParameter(ParameterExpression node)
             {
-                ParameterExpression replPar; ;
-                if (dict.TryGetValue(node.Name, out replPar))
+                ;
+                if (dict.TryGetValue(node.Name, out var replPar))
                     return replPar;
                 else
                 {
@@ -62,27 +62,6 @@ namespace GeneticSharp.Domain.Metaheuristics
             }
         }
 
-        #region NewExpr methods
-        /** Helper methods to force type resolution by C# compiler,
-         *  enables use of syntax: var e = NewExpr((int x) => x + 1)
-         */
-        public static Expression<Func<T, R>> NewExpr<T, R>(Expression<Func<T, R>> expr)
-        {
-            return expr;
-        }
-#pragma warning disable CS1591
-        public static Expression<Func<T1, T2, R>> NewExpr<T1, T2, R>(Expression<Func<T1, T2, R>> expr)
-        {
-            return expr;
-        }
-        public static Expression<Func<T1, T2, T3, R>>
-            NewExpr<T1, T2, T3, R>
-            (Expression<Func<T1, T2, T3, R>> expr)
-        {
-            return expr;
-        }
-#pragma warning disable CS1591
-        #endregion
 
         /** Processes the expression to make parameters identical if they
          *  have the same name, even if they come from different scopes.
@@ -98,7 +77,7 @@ namespace GeneticSharp.Domain.Metaheuristics
          */
         public static LambdaExpression UnifyParametersByName(this LambdaExpression expr)
         {
-            var vis = new ParNameUnifyingVisitor();
+            var vis = new ParameterNameUnifyingVisitor();
             return (LambdaExpression)vis.Process(expr);
         }
 
@@ -107,12 +86,12 @@ namespace GeneticSharp.Domain.Metaheuristics
          *  expressions from reusable inline lambdas.
          *  See <seealso cref="LinqExprHelperTests.CombineExprByName" /> for sample usage.
          */
-        public static LambdaExpression ReplacePar(this LambdaExpression expr,
+        public static LambdaExpression ReplaceParameter(this LambdaExpression expr,
             string parName, Expression replacementExpr)
         {
             var parToRepl = expr.Parameters.Where(p => p.Name.Equals(parName)).First();
             var newPars = expr.Parameters.Where(p => !p.Name.Equals(parName)).ToArray();
-            var vis = new ReplVisitor();
+            var vis = new ReplaceParameterVisitor();
             vis.PrepareReplace(parToRepl, replacementExpr);
             var newExprBody = vis.Visit(expr.Body);
             return Expression.Lambda(newExprBody, newPars).UnifyParametersByName();

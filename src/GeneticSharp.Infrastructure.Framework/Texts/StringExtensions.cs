@@ -350,6 +350,32 @@ namespace GeneticSharp.Infrastructure.Framework.Texts
             return (current <= maxDistance) ? current : -1;
         }
 
+
+
+
+       
+
+        public static string ToStringLookup(this int value)
+        {
+            // See if the integer is in range of the lookup table.
+            // ... If it is present, return the string literal element.
+            if (value >= 0 &&
+                value < _top)
+            {
+                return _cache[value];
+            }
+            // Fall back to ToString method.
+            return value.ToString(CultureInfo.InvariantCulture);
+        }
+
+        // Lookup table.
+        private static readonly string[] _cache = Enumerable.Range(0, 10000).Select(i => i.ToString(CultureInfo.InvariantCulture))
+            .ToArray();
+
+
+        // Lookup table last index.
+        private static readonly int _top = _cache.Length;
+
     }
 
   

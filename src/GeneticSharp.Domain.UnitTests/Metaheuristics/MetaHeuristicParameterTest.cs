@@ -12,10 +12,12 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         public void GetOrAddMethod_RespectsScope()
         {
 
-            
-            var param = new MetaHeuristicParameter<int>();
-            param.Generator = (heuristic, ctx) => ctx.Index + 1;
-            param.Scope = ParamScope.Generation;
+
+            var param = new MetaHeuristicParameter<int>
+            {
+                Generator = (heuristic, ctx) => ctx.Index + 1, 
+                Scope = ParamScope.Generation
+            };
 
 
             var generationContext = new MetaHeuristicContext();
