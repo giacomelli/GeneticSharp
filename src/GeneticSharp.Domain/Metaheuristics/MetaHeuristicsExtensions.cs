@@ -14,7 +14,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <summary>
         /// This fluent helper allows to add names and description to building blocks for more clarity/maintainability
         /// </summary>
-        public static T WithName<T, TParamType>(this T metaHeuristic, string paramName, string paramDescription = "") where T : NamedEntity
+        public static T WithName<T>(this T metaHeuristic, string paramName, string paramDescription = "") where T : NamedEntity
         {
             metaHeuristic.Name = paramName;
             metaHeuristic.Description = paramDescription;
@@ -124,7 +124,7 @@ namespace GeneticSharp.Domain.Metaheuristics
 
 
         /// <summary>
-        /// A fluent extension allows to define phase generator
+        /// This fluent extension allows to define phase generator, that is, the function that will define which phase heuristic to run according to the context
         /// </summary>
         /// <param name="metaHeuristic">the MetaHeuristic to which to apply the fluent operator</param>
         /// <param name="phaseGenerator">the phase generator for the heuristic</param>
@@ -140,6 +140,17 @@ namespace GeneticSharp.Domain.Metaheuristics
             return metaHeuristic;
         }
 
+
+        /// <summary>
+        /// This fluent extension allows to define phase generator, that is, the function that will define which phase heuristic to run according to the context.
+        /// This overload takes a typed Lambda expression with an extra parameter. That parameter must be registered to the context before the dynamic generator is invoked.
+        /// The expression will be upgraded into a parameter-less expression leveraging the context cache or replacing the parameter by the upstream expression definition if available.
+        /// </summary>
+        /// <param name="metaHeuristic">the MetaHeuristic to which to apply the fluent operator</param>
+        /// <param name="scope">The scope for the phase index evaluation. Accordingly, the result will be stored in context for further invocation with the same scope.</param>
+        /// <param name="dynamicPhaseGenerator">An expression with an additional parameter, the name of which must corresponding to an existing context parameter defined
+        /// earlier in the computational tree</param>
+        /// <returns>the current phase based MetaHeuristic with the phased generator defined</returns>
         public static T WithCaseGenerator<T, TIndex, TArg1>(this T metaHeuristic, ParamScope scope, Expression<ParameterGenerator<TIndex, TArg1>> dynamicPhaseGenerator) where T : SwitchMetaHeuristic<TIndex>
         {
             metaHeuristic.DynamicParameter = new ExpressionMetaHeuristicParameter<TIndex, TArg1>()
@@ -151,11 +162,19 @@ namespace GeneticSharp.Domain.Metaheuristics
         }
 
 
+        /// <summary>
+        /// Fluent helper to defined a static selection to apply within a SelectionHeuristic
+        /// </summary>
+        /// <typeparam name="T">The type of the heuristic, that is inferred implicitly, without a need to type it</typeparam>
+        /// <param name="metaHeuristic">the MetaHeuristic to which to apply the fluent operator</param>
+        /// <param name="selection">The static selection to define</param>
+        /// <returns>the currrent selection metaheuristic with a static selection defined</returns>
         public static T WithSelection<T>(this T metaHeuristic, ISelection selection) where T : SelectionHeuristic
         {
             metaHeuristic.StaticOperator = selection;
             return metaHeuristic;
         }
+
 
         public static T WithSelection<T>(this T metaHeuristic, ParameterGenerator<ISelection> dynamicOperator, ParamScope scope) where T : SelectionHeuristic
         {
