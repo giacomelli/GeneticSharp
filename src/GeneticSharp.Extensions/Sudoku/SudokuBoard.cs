@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,20 +15,20 @@ namespace GeneticSharp.Extensions.Sudoku
     public class SudokuBoard
     {
 
-        public static readonly List<int> CellIndex = Enumerable.Range(0, 81).ToList();
-        public static readonly List<int> NeighborhoodIndex = Enumerable.Range(0, 9).ToList();
+        public static readonly ReadOnlyCollection<int> CellIndex = new ReadOnlyCollection<int>(Enumerable.Range(0, 81).ToList());
+        public static readonly ReadOnlyCollection<int> NeighborhoodIndex = new ReadOnlyCollection<int>(Enumerable.Range(0, 9).ToList());
 
-        public static readonly List<List<int>> RowsNeighborhoods =
+        private static readonly List<List<int>> _rowsNeighborhoods =
             CellIndex.GroupBy(x => x / 9).Select(g => g.ToList()).ToList();
 
-        public static readonly List<List<int>> ColNeighborhoods =
+        private static readonly List<List<int>> _colNeighborhoods =
             CellIndex.GroupBy(x => x % 9).Select(g => g.ToList()).ToList();
 
-        public static readonly List<List<int>> BoxNeighborhoods =
+        private static readonly List<List<int>> _boxNeighborhoods =
             CellIndex.GroupBy(x => x / 27 * 27 + x % 9 / 3 * 3).Select(g => g.ToList()).ToList();
 
         public static readonly List<List<int>> AllNeighborhoods =
-            RowsNeighborhoods.Concat(ColNeighborhoods).Concat(BoxNeighborhoods).ToList();
+            _rowsNeighborhoods.Concat(_colNeighborhoods).Concat(_boxNeighborhoods).ToList();
 
 
         /// <summary>
@@ -91,27 +92,26 @@ namespace GeneticSharp.Extensions.Sudoku
             var output = new StringBuilder();
             output.Append(lineSep);
             output.AppendLine();
-
-            for (int row = 1; row <= 9; row++)
+            foreach (var row in NeighborhoodIndex)
             {
                 // we start each line with |
                 output.Append("| ");
-                for (int column = 1; column <= 9; column++)
+                foreach (var column in NeighborhoodIndex)
                 {
                     // we obtain the 81-cell index from the 9x9 row/column index
-                    var value = Cells[(row - 1) * 9 + (column - 1)];
+                    var value = Cells[(row) * 9 + (column)];
                     output.Append(value);
                     //we identify boxes with | within lines
-                    output.Append(column % 3 == 0 ? " | " : "  ");
+                    output.Append((column + 1 ) % 3 == 0 ? " | " : "  ");
                 }
 
                 output.AppendLine();
                 //we identify boxes with - within columns
-                if (row % 3 == 0)
+                if ((row+1) % 3 == 0)
                 {
                     output.Append(lineSep);
                 }
-               
+
                 output.AppendLine();
             }
 

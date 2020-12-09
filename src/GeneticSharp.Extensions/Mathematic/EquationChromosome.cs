@@ -8,7 +8,7 @@ namespace GeneticSharp.Extensions.Mathematic
     public class EquationChromosome<TValue> : EquationChromosomeBase<TValue>
     {
 
-        private IRandomization _random = RandomizationProvider.Current;
+        private readonly IRandomization _random = RandomizationProvider.Current;
 
         public EquationChromosome(int variablesNumber) : base(variablesNumber)
         {

@@ -61,12 +61,6 @@ namespace GeneticSharp.Extensions.Sudoku
             return 1 - (nbErrors / 100);
         }
 
-        //private int GetWorstCaseError(SudokuBoard testSudokuBoard)
-        //{
-        //    //Nothing fancy for now
-        //    return 100;
-        //}
-
         /// <summary>
         /// Evaluates a single Sudoku board by counting the duplicates in rows, boxes
         /// and the digits differing from the target mask.

@@ -12,7 +12,7 @@ namespace GeneticSharp.Extensions.Tsp
     /// </summary>
     public class TspPermutationEmbedding : TspOrderedEmbedding
     {
-        private object mLock = new object();
+        private readonly object mLock = new object();
        
        
         private IList<int> _TargetPermutation;
@@ -55,7 +55,6 @@ namespace GeneticSharp.Extensions.Tsp
             if (_TargetPermutation==null)
             {
                 throw new InvalidOperationException("Cannot generate metric chromosome because Embedding permutation was not assigned yet");
-                //RegisterDefaultEmbedding();
             }
             var toReturn = new TspChromosome(TargetPermutation.Count);
             return (TspChromosome)IdentityMapFromGeometry(new []{toReturn}, TargetPermutation);
