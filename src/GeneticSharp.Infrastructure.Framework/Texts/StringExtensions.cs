@@ -45,7 +45,7 @@ namespace GeneticSharp.Infrastructure.Framework.Texts
         {
             if (s.Length != t.Length)
             {
-                throw new Exception("Strings must be equal length");
+                throw new ArgumentOutOfRangeException(nameof(t), "Strings must be equal length");
             }
 
             int distance =
