@@ -30,7 +30,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         {
             var target = new FitnessException("1", new Exception("2"));
             Assert.AreEqual("1", target.Message);
-            Assert.AreEqual("2", target.InnerException.Message);
+            Assert.AreEqual("2", target.InnerException?.Message);
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
             var target = new FitnessException(Substitute.For<IFitness>(), "1", new Exception("2"));
             Assert.IsNotNull(target.Fitness);
             Assert.AreEqual(target.Fitness.GetType().Name + ": 1", target.Message);
-            Assert.AreEqual("2", target.InnerException.Message);
+            Assert.AreEqual("2", target.InnerException?.Message);
         }
 
         [Test]
