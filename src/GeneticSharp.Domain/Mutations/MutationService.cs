@@ -76,7 +76,7 @@ namespace GeneticSharp.Domain.Mutations
         /// <returns>The sequence shifted to left.</returns>
         /// <param name="source">source of sequence</param>
         /// <param name="valueToShift">count of units to be shifted</param>
-        public static IEnumerable<T> LeftShift<T>(this IEnumerable<T> source, int valueToShift)
+        public static IEnumerable<T> LeftShift<T>(this IList<T> source, int valueToShift)
         {
             // all elements except for the first one... and at the end, the first one.
             return source
@@ -90,7 +90,7 @@ namespace GeneticSharp.Domain.Mutations
         /// <returns>The sequence shifted to right.</returns>
         /// <param name="source">source of sequence</param>
         /// <param name="valueToShift">count of units to be shifted</param>
-        public static IEnumerable<T> RightShift<T>(this IEnumerable<T> source, int valueToShift)
+        public static IEnumerable<T> RightShift<T>(this IList<T> source, int valueToShift)
         {
             // the last element (because we're skipping all but one)... then all but the last one.
             var skipCount = source.Count() - valueToShift;
