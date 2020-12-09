@@ -130,44 +130,46 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var crossover = new OnePointCrossover(2);
 
             var resultsRatio = new[] {1.5, 5, 50, 1.5};
+            int maxNbGenerations = 200;
 
-            Compare_WOA_Crossover_KnownFunctions_Small_LargerFitness_Bounded(crossover, resultsRatio);
+            Compare_WOA_Crossover_KnownFunctions_Size_LargerFitness_Bounded(crossover, SmallSizes, maxNbGenerations, resultsRatio);
 
         }
 
 
 
         [Test]
-        public void Compare_WOA_Uniform_KnownFunctions_Small_LargerFitness_Bounded()
+        public void Compare_WOA_Uniform_KnownFunctions_Large_LargerFitness_Bounded()
         {
             var crossover = new UniformCrossover();
 
-            var resultsRatio = new[] { 1, 3.0, 20, 1 };
+            var resultsRatio = new[] { 1, 3.0, 20, 1};
+            int maxNbGenerations = 50;
 
-          Compare_WOA_Crossover_KnownFunctions_Small_LargerFitness_Bounded(crossover, resultsRatio);
+            Compare_WOA_Crossover_KnownFunctions_Size_LargerFitness_Bounded(crossover, LargeSizes, maxNbGenerations, resultsRatio);
             
 
         }
 
 
-        private void Compare_WOA_Crossover_KnownFunctions_Small_LargerFitness_Bounded(ICrossover crossover,double[] resultsRatio)
+        private void Compare_WOA_Crossover_KnownFunctions_Size_LargerFitness_Bounded(ICrossover crossover, IEnumerable<int> sizes, int maxNbGenerations, double[] resultsRatio)
         {
 
             var maxCoordinate = 5;
             double GetGeneValueFunction(double d) => Math.Sign(d) * Math.Min(Math.Abs(d), maxCoordinate);
 
             IMetaHeuristic StandardHeuristic(int i) => new DefaultMetaHeuristic();
-            IMetaHeuristic MetaHeuristic(int maxValue) => MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false, 100,  geneValue => geneValue, GetGeneValueFunction);
+            IMetaHeuristic MetaHeuristic(int maxValue) => MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false, maxNbGenerations,  geneValue => geneValue, GetGeneValueFunction);
 
             //Termination
             var minFitness = double.MaxValue;
-            int maxNbGenerations = 100;
+            
             int stagnationNb = 100;
             TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(5);
             var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
             var reinsertion = new FitnessBasedElitistReinsertion();
 
-            var compoundResults = CompareMetaHeuristicsKnownFunctionsDifferentSizes(maxCoordinate, StandardHeuristic, MetaHeuristic, crossover, SmallSizes, termination, reinsertion);
+            var compoundResults = CompareMetaHeuristicsKnownFunctionsDifferentSizes(maxCoordinate, StandardHeuristic, MetaHeuristic, crossover, sizes, termination, reinsertion);
 
             for (int i = 0; i < compoundResults.Count; i++)
             {
