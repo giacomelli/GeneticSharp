@@ -7,7 +7,10 @@ using System.Reflection;
 namespace GeneticSharp.Domain.Metaheuristics.Parameters
 {
     
-
+    /// <summary>
+    /// The Expression Metaheuristic parameter extends the default delegate-based default parameter class with supporting Lambda Expression. 
+    /// </summary>
+    /// <typeparam name="TParamType"></typeparam>
     public class ExpressionMetaHeuristicParameter<TParamType> : MetaHeuristicParameter<TParamType>,
         IExpressionGeneratorParameter
     {
@@ -32,7 +35,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Parameters
 
         public Expression<ParameterGenerator<TParamType>> DynamicGenerator { get; set; }
 
-        public static MethodInfo GetOrAddMethod
+        public static MethodInfo GetMethod
         {
             get
             {
@@ -41,7 +44,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Parameters
                     var methods =
                         typeof(MetaHeuristicParameter<TParamType>).GetMethods();
 
-                    toReturn = methods.First(m => m.Name == nameof(GetOrAdd) && !m.IsGenericMethod);
+                    toReturn = methods.First(m => m.Name == nameof(Get) && !m.IsGenericMethod);
                     lock (_getOrAddMethods)
                     {
                         _getOrAddMethods[typeof(TParamType)] = toReturn;
@@ -63,7 +66,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Parameters
 
 
             LambdaExpression cachedExpression = Expression.Lambda(Expression.Call(Expression.Constant(this),
-                    GetOrAddMethod, unCached.Parameters[0],
+                    GetMethod, unCached.Parameters[0],
                     unCached.Parameters[1], Expression.Constant(paramName)), unCached.Parameters[0],
                 unCached.Parameters[1]);
             return cachedExpression;

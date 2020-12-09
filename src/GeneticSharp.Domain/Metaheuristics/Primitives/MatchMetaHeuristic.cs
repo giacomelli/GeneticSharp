@@ -121,7 +121,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
                             return tempRoulette;
                         }
                     };
-                    var currentRoulette = dynamicRouletteParameter.GetOrAdd(this, ctx, "currentRouletteWheel");
+                    var currentRoulette = dynamicRouletteParameter.Get(this, ctx, "currentRouletteWheel");
                     selectedParents.Add(ReuseRouletteWheelSelection.SelectFromWheel(1, parents, currentRoulette,
                         () => RandomizationProvider.Current.GetDouble())[0]);
                     break;

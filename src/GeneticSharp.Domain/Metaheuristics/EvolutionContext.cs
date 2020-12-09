@@ -99,7 +99,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             {
                 throw new ArgumentException($"parameter {paramName} was not registered", nameof(paramName));
             }
-            return paramDef.GetOrAdd<TItemType>(h, ctx, paramName);
+            return paramDef.Get<TItemType>(h, ctx, paramName);
         }
 
 

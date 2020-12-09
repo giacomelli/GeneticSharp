@@ -51,7 +51,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
                 Scope = SubPopulationCachingScope,
                 Generator = (h, c) => EukaryoteChromosome.GetSubPopulations(parents, PhaseSizes)
             };
-            var subPopulations = dynamicSubPopulationParameter.GetOrAdd(this, ctx, "subPopulations");
+            var subPopulations = dynamicSubPopulationParameter.Get(this, ctx, "subPopulations");
 
             if (RandomizationProvider.Current.GetDouble() <= crossoverProbability)
             {

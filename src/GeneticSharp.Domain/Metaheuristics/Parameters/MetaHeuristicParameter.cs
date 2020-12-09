@@ -8,13 +8,56 @@ namespace GeneticSharp.Domain.Metaheuristics.Parameters
     public delegate TParamType ParameterGenerator<out TParamType, in TArg1, in TArg2>(IMetaHeuristic h, IEvolutionContext ctx, TArg1 arg1, TArg2 arg2);
     public delegate TParamType ParameterGenerator<out TParamType, in TArg1, in TArg2, in TArg3>(IMetaHeuristic h, IEvolutionContext ctx, TArg1 arg1, TArg2 arg2, TArg3 arg3);
 
-
+    /// <summary>
+    /// The default MetaHeuristic implementation has parameter type defined with generics, has a delegate based generator, and relies on key masking according to the scope defined to cache the parameter value withing the evolution context
+    /// </summary>
+    /// <typeparam name="TParamType">The type for the parameter value</typeparam>
     public class MetaHeuristicParameter<TParamType> : NamedEntity, IMetaHeuristicParameterGenerator<TParamType>
     {
-       
-
+        /// <inheritdoc />
         public ParamScope Scope { get; set; }
 
+        /// <summary>
+        /// A function that generates the parameter value from the context
+        /// </summary>
+        public ParameterGenerator<TParamType> Generator { get; set; }
+
+        /// <summary>
+        /// A non generic version of the Get method that uses the actual parameter type
+        /// </summary>
+        /// <param name="h">the calling metaheuristic</param>
+        /// <param name="ctx">the current evolution context</param>
+        /// <param name="paramName">the name of the parameter</param>
+        /// <returns>the value of the parameter, according to the context, and parameter scope</returns>
+        public TParamType Get(IMetaHeuristic h, IEvolutionContext ctx, string paramName)
+        {
+            var toReturn = Get<TParamType>(h, ctx, paramName);
+            return toReturn;
+        }
+
+
+        /// <inheritdoc />
+        public TItemType Get<TItemType>(IMetaHeuristic h, IEvolutionContext ctx, string paramName)
+        {
+
+            var maskedTuple = GetScopeMask((paramName, ctx.Population?.GenerationsNumber ?? 0, ctx.CurrentStage, h, ctx.Index));
+
+            var toReturn = (TItemType)ctx.GetOrAdd(maskedTuple, () => ComputeParameter(h, ctx));
+            return toReturn;
+        }
+
+
+
+       private  object ComputeParameter(IMetaHeuristic h, IEvolutionContext ctx)
+        {
+            var toReturn = GetGenerator(ctx)(h, ctx);
+            return toReturn;
+        }
+
+        public virtual ParameterGenerator<TParamType> GetGenerator(IEvolutionContext ctx)
+        {
+            return Generator;
+        }
 
         private (string key, int generation, EvolutionStage stage, IMetaHeuristic heuristic, int individual) GetScopeMask((string key, int generation, EvolutionStage stage, IMetaHeuristic heuristic, int individual) input)
         {
@@ -39,35 +82,6 @@ namespace GeneticSharp.Domain.Metaheuristics.Parameters
             return input;
         }
 
-        public TItemType GetOrAdd<TItemType>(IMetaHeuristic h, IEvolutionContext ctx, string key)
-        {
-
-            var maskedTuple = GetScopeMask((key, ctx.Population?.GenerationsNumber ?? 0, ctx.CurrentStage, h, ctx.Index));
-
-            var toReturn = (TItemType)ctx.GetOrAdd(maskedTuple, () => ComputeParameter(h, ctx));
-            return toReturn;
-        }
-
-
-
-       public  object ComputeParameter(IMetaHeuristic h, IEvolutionContext ctx)
-        {
-            var toReturn = GetGenerator(ctx)(h, ctx);
-            return toReturn;
-        }
-
-        public virtual ParameterGenerator<TParamType> GetGenerator(IEvolutionContext ctx)
-        {
-            return Generator;
-        }
-
-
-        public ParameterGenerator<TParamType> Generator { get; set; }
-
-        public TParamType GetOrAdd(IMetaHeuristic h, IEvolutionContext ctx, string key)
-        {
-          var toReturn =  GetOrAdd<TParamType>(h, ctx, key);
-          return toReturn;
-        }
+      
     }
 }

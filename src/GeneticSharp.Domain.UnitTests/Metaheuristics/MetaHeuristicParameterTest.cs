@@ -24,11 +24,11 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var generationContext = new EvolutionContext();
             generationContext.GetIndividual(0);
 
-            var int1 = param.GetOrAdd(null, generationContext, "test");
+            var int1 = param.Get(null, generationContext, "test");
             Assert.AreEqual(1, int1);
 
             generationContext.Index = 2;
-            var int2 = param.GetOrAdd(null, generationContext, "test");
+            var int2 = param.Get(null, generationContext, "test");
             //scope is generation, the result should be cached and unchanged
             Assert.AreEqual(int1, int2);
 
