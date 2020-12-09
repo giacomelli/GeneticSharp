@@ -130,6 +130,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
                 () => Assert.IsTrue(target.Start()),
                 () =>
                 {
+                    //The tasks should be completed when stop is invoked.
                     Thread.Sleep(100);
                     target.Stop();
                 });

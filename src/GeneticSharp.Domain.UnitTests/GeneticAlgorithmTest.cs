@@ -244,28 +244,43 @@ namespace GeneticSharp.Domain.UnitTests
             target.Start();
             
             Assert.AreEqual(100, target.Population.Generations.Count);
-            Assert.Greater(200, target.TimeEvolving.TotalMilliseconds);
+            Assert.Less(target.TimeEvolving.TotalMilliseconds, 200);
         }
 
-        [Test]
+
+        [Test()]
         public void Start_ParallelManyGenerations_Faster()
         {
             var selection = new EliteSelection();
             var crossover = new OnePointCrossover(2);
             var mutation = new UniformMutation();
             var chromosome = new ChromosomeStub();
-            var target = new GeneticAlgorithm(new Population(100, 100, chromosome),
-                new FitnessStub {SupportsParallel = true}, selection, crossover, mutation)
-            {
-                Population = {GenerationStrategy = new TrackingGenerationStrategy()},
-                Termination = new GenerationNumberTermination(100),
-                TaskExecutor = new ParallelTaskExecutor()
-            };
-
+            var fitness = new FitnessStub() {SupportsParallel = true, ParallelSleep = 1};
+            var generationStrategy = new TrackingGenerationStrategy();
+            var termination = new GenerationNumberTermination(100);
+            // we test linear first
+            var target = new GeneticAlgorithm(new Population(10, 10, chromosome), fitness
+                , selection, crossover, mutation);
+            target.Population.GenerationStrategy = generationStrategy;
+            target.Termination = termination;
+            target.TaskExecutor = new LinearTaskExecutor();
             target.Start();
-
             Assert.AreEqual(100, target.Population.Generations.Count);
-            Assert.Greater(1, target.TimeEvolving.TotalMinutes);
+            var linearTime = target.TimeEvolving.TotalMilliseconds;
+            //then parallel
+
+            target = new GeneticAlgorithm(new Population(10, 10, chromosome), fitness
+                , selection, crossover, mutation);
+            target.Population.GenerationStrategy = generationStrategy;
+            target.Termination = termination;
+            target.TaskExecutor = new TplTaskExecutor();
+            target.Start();
+            Assert.AreEqual(100, target.Population.Generations.Count);
+
+            var parallelTime = target.TimeEvolving.TotalMilliseconds;
+
+
+            Assert.Less(parallelTime, linearTime);
         }
 
         [Test]

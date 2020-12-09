@@ -195,6 +195,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
 
 
             int otherThreadCount = 0;
+
             var otherThread = new Timer(50)
             {
                 AutoReset = true
