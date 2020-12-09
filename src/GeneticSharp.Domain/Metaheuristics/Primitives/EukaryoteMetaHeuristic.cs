@@ -30,7 +30,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
             {
                 var subPopulation = new EukaryotePopulation(ctx.Population, subChromosomes) ;
                 //todo: deal with parameters (delegate?)
-                var newCtx = new EvolutionContext {GA = ctx.GA, Population = subPopulation};
+                var newCtx = new EvolutionContext {GeneticAlgorithm = ctx.GeneticAlgorithm, Population = subPopulation};
                 return subHeuristic.SelectParentPopulation(newCtx, selection);
 
             });

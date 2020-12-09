@@ -17,10 +17,10 @@ namespace GeneticSharp.Domain.Metaheuristics
         public int Index { get; set; }
 
         private readonly EvolutionContext _populationContext;
-        public IGeneticAlgorithm GA
+        public IGeneticAlgorithm GeneticAlgorithm
         {
-            get => _populationContext.GA;
-            set => _populationContext.GA = value;
+            get => _populationContext.GeneticAlgorithm;
+            set => _populationContext.GeneticAlgorithm = value;
         }
 
         public IPopulation Population

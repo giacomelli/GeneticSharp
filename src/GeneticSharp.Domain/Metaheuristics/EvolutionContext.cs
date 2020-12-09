@@ -9,7 +9,7 @@ namespace GeneticSharp.Domain.Metaheuristics
     public class EvolutionContext : IEvolutionContext
     {
 
-        public IGeneticAlgorithm GA { get; set; }
+        public IGeneticAlgorithm GeneticAlgorithm { get; set; }
 
         public IPopulation Population { get; set; }
 

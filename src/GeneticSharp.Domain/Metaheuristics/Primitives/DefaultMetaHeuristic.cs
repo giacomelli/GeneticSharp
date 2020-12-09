@@ -9,7 +9,7 @@ using GeneticSharp.Domain.Selections;
 namespace GeneticSharp.Domain.Metaheuristics.Primitives
 {
     /// <summary>
-    /// This meta heuristic does not do any extra steps from the baseline GA. For crossover it pick parents in the original selection order and applies the crossover operator depending on the given probabiliy.
+    /// This meta heuristic does not do any extra steps from the baseline GeneticAlgorithm. For crossover it pick parents in the original selection order and applies the crossover operator depending on the given probabiliy.
     /// For mutation it applies the input mutator with given probability to the target chromosome, and for reinsertion, the reinsertion operator is also simply applied.
     /// </summary>
     public class DefaultMetaHeuristic : ScopedMetaHeuristic

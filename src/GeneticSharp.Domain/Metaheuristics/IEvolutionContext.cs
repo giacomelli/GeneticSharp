@@ -13,7 +13,7 @@ namespace GeneticSharp.Domain.Metaheuristics
     {
 
         
-        IGeneticAlgorithm GA { get; set; }
+        IGeneticAlgorithm GeneticAlgorithm { get; set; }
         IPopulation Population { get; set; }
 
         int Index { get; set; }

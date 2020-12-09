@@ -32,7 +32,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
         /// <inheritdoc />
         public abstract IList<IChromosome> Reinsert(IEvolutionContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents);
 
-        public IEvolutionContext GetContext(IGeneticAlgorithm ga, IPopulation population)
+        public IEvolutionContext GetContext(IGeneticAlgorithm geneticAlgorithm, IPopulation population)
         {
             
             if (population.Parameters.TryGetValue(nameof(IEvolutionContext), out var cachedContext))
@@ -46,7 +46,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
                 {
                     return (IEvolutionContext)cachedContext;
                 }
-                var toReturn = new EvolutionContext { GA = ga, Population = population };
+                var toReturn = new EvolutionContext { GeneticAlgorithm = geneticAlgorithm, Population = population };
                 RegisterParameters(toReturn);
                 population.Parameters[nameof(IEvolutionContext)] = toReturn;
                 return toReturn;

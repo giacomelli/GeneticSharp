@@ -18,7 +18,7 @@ using NUnit.Framework;
 namespace GeneticSharp.Domain.UnitTests
 {
     [TestFixture]
-    [Category("GA")]
+    [Category("GeneticAlgorithm")]
     public class GeneticAlgorithmTest
     {
         [SetUp]
@@ -286,7 +286,7 @@ namespace GeneticSharp.Domain.UnitTests
         [Test]
         public void Start_ParallelGAs_Fast()
         {
-            // GA 1     
+            // GeneticAlgorithm 1     
             var selection1 = new EliteSelection();
             var crossover1 = new OnePointCrossover(2);
             var mutation1 = new UniformMutation();
@@ -299,7 +299,7 @@ namespace GeneticSharp.Domain.UnitTests
             };
 
 
-            // GA 2     
+            // GeneticAlgorithm 2     
             var selection2 = new EliteSelection();
             var crossover2 = new OnePointCrossover(2);
             var mutation2 = new UniformMutation();
@@ -417,7 +417,7 @@ namespace GeneticSharp.Domain.UnitTests
         [Test]
         public void Start_TplGAs_Fast()
         {
-            // GA 1     
+            // GeneticAlgorithm 1     
             var selection1 = new EliteSelection();
             var crossover1 = new OnePointCrossover(2);
             var mutation1 = new UniformMutation();
@@ -431,7 +431,7 @@ namespace GeneticSharp.Domain.UnitTests
             };
 
 
-            // GA 2     
+            // GeneticAlgorithm 2     
             var selection2 = new EliteSelection();
             var crossover2 = new OnePointCrossover(2);
             var mutation2 = new UniformMutation();

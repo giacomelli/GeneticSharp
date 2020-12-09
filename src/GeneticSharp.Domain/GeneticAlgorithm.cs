@@ -335,9 +335,9 @@ namespace GeneticSharp.Domain
         }
 
         /// <summary>
-        /// Resets the genetic algorithm with new start population. May raise an Exception is the GA is running. It should be stopped or terminated first.
+        /// Resets the genetic algorithm with new start population. May raise an Exception is the Genetic Algorithm is running. It should be stopped or terminated first.
         /// </summary>
-        /// <param name="newPopulation">the new population to initialize the GA</param>
+        /// <param name="newPopulation">the new population to initialize the Genetic Algorithm</param>
         public void Reset(IPopulation newPopulation)
         {
             if (m_state== GeneticAlgorithmState.Started || m_state == GeneticAlgorithmState.Resumed)
