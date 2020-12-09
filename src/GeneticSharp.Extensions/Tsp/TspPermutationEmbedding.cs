@@ -185,7 +185,7 @@ namespace GeneticSharp.Extensions.Tsp
         public IList<int> ComputeSimpleEmbedding()
         {
             var targetChromosome = new TspChromosome(Enumerable.Range(0, Fitness.Cities.Count).ToList());
-            double bestDistance = Fitness.ComputeDistance(targetChromosome, out var targetPermutation);
+            Fitness.ComputeDistance(targetChromosome, out var targetPermutation);
 
             for (int rank = 2; rank < Fitness.Cities.Count - 2; rank++)
             {
@@ -213,7 +213,6 @@ namespace GeneticSharp.Extensions.Tsp
                             {
                                 targetPermutation.Swap(next, swapIndex);
                                 targetChromosome = new TspChromosome(targetPermutation);
-                                bestDistance = Fitness.ComputeDistance(targetPermutation);
                             }
                         }
                     }
