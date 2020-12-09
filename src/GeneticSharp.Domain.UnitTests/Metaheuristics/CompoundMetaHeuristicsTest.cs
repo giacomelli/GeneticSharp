@@ -129,7 +129,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
             var crossover = new OnePointCrossover(2);
 
-            var resultsRatio = new[] {0.95, 5, 50, 1};
+            var resultsRatio = new[] {1.5, 5, 50, 1.5};
 
             Compare_WOA_Crossover_KnownFunctions_Small_LargerFitness_Bounded(crossover, resultsRatio);
 
@@ -142,7 +142,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
             var crossover = new UniformCrossover();
 
-            var resultsRatio = new[] { 0.95, 3.0, 30, 0.9 };
+            var resultsRatio = new[] { 1, 3.0, 30, 1 };
 
           Compare_WOA_Crossover_KnownFunctions_Small_LargerFitness_Bounded(crossover, resultsRatio);
             
@@ -160,8 +160,8 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             IMetaHeuristic MetaHeuristic(int maxValue) => MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false, 100,  geneValue => geneValue, GetGeneValueFunction);
 
             //Termination
-            var minFitness = 1;
-            int maxNbGenerations = int.MaxValue;
+            var minFitness = double.MaxValue;
+            int maxNbGenerations = 100;
             int stagnationNb = 100;
             TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(5);
             var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
@@ -190,7 +190,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             var meanRatio = results.Sum(c => c.result2.Fitness / c.result1.Fitness) / results.Count;
 
-            Assert.GreaterOrEqual(meanRatio, 0.95);
+            Assert.GreaterOrEqual(meanRatio, 1);
 
         }
 
@@ -206,6 +206,39 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
         }
 
+        private IList<(EvolutionResult result1, EvolutionResult result2)> Compare_WOAReduced_Crossover_ChromosomeStub(ICrossover crossover, IEnumerable<int> sizes)
+        {
+            IMetaHeuristic StandardHeuristic(int i) => new DefaultMetaHeuristic();
+            IMetaHeuristic MetaHeuristic(int i) => GetDefaultWhaleHeuristicForChromosomStub(true, 50, i);
+
+            IFitness Fitness(int i) => new FitnessStub(i) { SupportsParallel = false };
+            IChromosome AdamChromosome(int i) => new ChromosomeStub(i, i);
+
+
+            //Population Size
+            var populationSize = 100;
+
+            //Termination
+            var minFitness = double.MaxValue;
+            int maxNbGenerations = 50;
+            int stagnationNb = 100;
+            TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(5);
+            var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
+            var reinsertion = new FitnessBasedElitistReinsertion();
+
+            var results = CompareMetaHeuristicsDifferentSizes(
+                sizes,
+                Fitness,
+                AdamChromosome,
+                StandardHeuristic,
+                MetaHeuristic,
+                crossover, populationSize, termination, reinsertion);
+
+            return results;
+
+        }
+
+
 
         [Test]
         public void Compare_WOA_WOAParams_Stub_Large_MoreGenerations()
@@ -219,7 +252,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var populationSize = 100;
 
             //Termination
-            var minFitness = 1.0;
+            var minFitness = double.MaxValue;
             int maxNbGenerations = 2000;
             int stagnationNb = 100;
             TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(2);
@@ -346,38 +379,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
 
 
-        private IList<(EvolutionResult result1, EvolutionResult result2)> Compare_WOAReduced_Crossover_ChromosomeStub(ICrossover crossover, IEnumerable<int> sizes)
-        {
-            IMetaHeuristic StandardHeuristic(int i) => new DefaultMetaHeuristic();
-            IMetaHeuristic MetaHeuristic(int i) => GetDefaultWhaleHeuristicForChromosomStub(true, 50, i);
-
-            IFitness Fitness(int i) => new FitnessStub(i) {SupportsParallel = false};
-            IChromosome AdamChromosome(int i) => new ChromosomeStub(i, i);
-
-
-            //Population Size
-            var populationSize = 100;
-
-            //Termination
-            var minFitness = 1;
-            int maxNbGenerations = int.MaxValue;
-            int stagnationNb = 100;
-            TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(5);
-            var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
-            var reinsertion = new FitnessBasedElitistReinsertion();
-
-            var results = CompareMetaHeuristicsDifferentSizes(
-                sizes,
-                Fitness,
-                AdamChromosome,
-                StandardHeuristic,
-                MetaHeuristic,
-                crossover, populationSize, termination, reinsertion);
-
-            return results;
-
-        }
-
+     
        
 
         private IMetaHeuristic GetDefaultWhaleHeuristicForChromosomStub(bool reduced, int maxOperations, int maxValue)
