@@ -16,8 +16,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
     public class TspSampleController : SampleControllerBase
     {
         #region Fields
-        private int m_numberOfCities;
-        private TspFitness m_fitness;
+        private readonly int m_numberOfCities;
         #endregion
 
         #region Constructors
@@ -45,9 +44,8 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
 
         public override IFitness CreateFitness()
         {
-            m_fitness = new TspFitness(m_numberOfCities, 0, 1000, 0, 1000);
+            return new TspFitness(m_numberOfCities, 0, 1000, 0, 1000);
 
-            return m_fitness;
         }
 
         public override IChromosome CreateChromosome()
@@ -72,11 +70,11 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         public override void Draw(IChromosome bestChromosome)
         {
             var c = bestChromosome as TspChromosome;
-            Console.WriteLine("Cities: {0:n0}", c.Length);
-            Console.WriteLine("Distance: {0:n2}", c.Distance);
+            Console.WriteLine($@"Cities: {c.Length:n0}");
+            Console.WriteLine($@"Distance: {c.Distance:n2}");
 
             var cities = bestChromosome.GetGenes().Select(g => g.Value.ToString()).ToArray();
-            Console.WriteLine("City tour: {0}", string.Join(", ", cities));
+            Console.WriteLine($@"City tour: {string.Join(", ", cities)}");
         }
         #endregion
     }
