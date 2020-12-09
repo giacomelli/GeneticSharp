@@ -130,7 +130,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Collections
         {
 
             var minRatio = 0.5;
-            var maxRatio = 3;
+            var maxRatio = 8;
 
             var takeNb = 75;
 
@@ -147,8 +147,8 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Collections
                 unsortedSets.Add(unsorted);
             }
 
-            var sw = Stopwatch.StartNew();
             var lazyBys = new List<IList<int>>();
+            var sw = Stopwatch.StartNew();
             foreach (var unsortedSet in unsortedSets)
             {
                  lazyBys.Add(unsortedSet.LazyOrderBy(i => -i).Take(takeNb).ToList());
