@@ -6,7 +6,6 @@ using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 using Gtk;
-using GeneticSharp.Domain;
 using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Domain.Reinsertions;
 

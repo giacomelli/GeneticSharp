@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Linq.Expressions;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Infrastructure.Framework.Commons;
-using NSubstitute.Routing.Handlers;
 
 namespace GeneticSharp.Domain.UnitTests
 {

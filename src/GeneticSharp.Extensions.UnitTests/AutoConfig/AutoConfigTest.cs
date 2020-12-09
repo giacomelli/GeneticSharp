@@ -9,7 +9,6 @@ using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.AutoConfig;
 using GeneticSharp.Extensions.Tsp;
 using GeneticSharp.Infrastructure.Framework.Threading;
-using NSubstitute;
 using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.AutoConfig

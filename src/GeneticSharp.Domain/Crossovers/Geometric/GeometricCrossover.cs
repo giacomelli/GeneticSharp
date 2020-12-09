@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Domain.Crossovers

@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using GeneticSharp.Domain.Populations;
 
 namespace GeneticSharp.Domain.Metaheuristics
 {

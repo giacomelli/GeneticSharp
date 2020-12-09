@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing.Text;
-using System.Globalization;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Fitnesses;

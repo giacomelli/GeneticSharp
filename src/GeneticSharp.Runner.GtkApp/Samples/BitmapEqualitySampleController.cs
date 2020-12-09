@@ -10,8 +10,6 @@ using GeneticSharp.Domain.Selections;
 using GeneticSharp.Extensions.Drawing;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using Gtk;
-using GeneticSharp.Infrastructure.Framework.Commons;
-using GeneticSharp.Domain;
 using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Infrastructure.Framework.Threading;
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using GeneticSharp.Infrastructure.Framework.Collections;
 using GeneticSharp.Infrastructure.Framework.Texts;

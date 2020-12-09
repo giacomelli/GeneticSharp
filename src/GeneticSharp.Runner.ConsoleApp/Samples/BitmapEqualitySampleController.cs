@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
@@ -12,7 +11,6 @@ using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.Drawing;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Runner.ConsoleApp.Samples;
-using GeneticSharp.Infrastructure.Framework.Commons;
 using ImageMagick;
 
 namespace GeneticSharp.Runner.ConsoleApp

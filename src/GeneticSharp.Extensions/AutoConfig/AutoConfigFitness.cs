@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Fitnesses;
@@ -81,9 +80,10 @@ namespace GeneticSharp.Extensions.AutoConfig
             var mutation = autoConfigChromosome.Mutation;
             var population = new Population(PopulationMinSize, PopulationMaxSize, m_targetChromosome);
 
-            var ga = new GeneticAlgorithm(population, m_targetFitness, selection, crossover, mutation);
-            ga.Termination = Termination;
-            ga.TaskExecutor = TaskExecutor;
+            var ga = new GeneticAlgorithm(population, m_targetFitness, selection, crossover, mutation)
+            {
+                Termination = Termination, TaskExecutor = TaskExecutor
+            };
 
             try
             {

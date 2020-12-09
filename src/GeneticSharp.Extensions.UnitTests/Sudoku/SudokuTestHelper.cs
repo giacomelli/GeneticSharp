@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Metaheuristics;

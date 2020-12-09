@@ -1,5 +1,4 @@
-﻿using System;
-using GeneticSharp.Domain.Chromosomes;
+﻿using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Extensions.Sudoku;
 using NUnit.Framework;
 

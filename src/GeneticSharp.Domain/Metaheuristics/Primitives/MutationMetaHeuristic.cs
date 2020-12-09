@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Domain.Populations;
 
 namespace GeneticSharp.Domain.Metaheuristics
 {

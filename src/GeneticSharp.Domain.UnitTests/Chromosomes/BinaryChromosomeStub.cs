@@ -1,5 +1,4 @@
-﻿using System;
-using GeneticSharp.Domain.Chromosomes;
+﻿using GeneticSharp.Domain.Chromosomes;
 
 namespace GeneticSharp.Domain.UnitTests
 {

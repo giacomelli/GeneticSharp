@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using GeneticSharp.Domain.Crossovers;
+﻿using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Extensions.Sudoku;

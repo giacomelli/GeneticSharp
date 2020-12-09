@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Selections;
 
 namespace GeneticSharp.Domain.Metaheuristics

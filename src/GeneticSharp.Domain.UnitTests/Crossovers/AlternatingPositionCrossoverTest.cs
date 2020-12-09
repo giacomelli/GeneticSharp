@@ -6,12 +6,10 @@ using NUnit.Framework;
 using NSubstitute;
 using System;
 using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Fitnesses;
 using System.Linq;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Terminations;
-using System.Diagnostics;
 using GeneticSharp.Extensions.Tsp;
 using GeneticSharp.Domain.UnitTests.Crossovers.Issues;
 
@@ -176,9 +174,9 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         public void GA_Issue61_Solved()
         {
             const Int32 FinalAns = 4567213;
-            var chromosome = new Issue61.GuessNumberChromosome(FinalAns.ToString().Length);
-            chromosome.InitializeGenes();
-            var population = new Population(1000, 5000, chromosome);
+            var adamChromosome = new Issue61.GuessNumberChromosome(FinalAns.ToString().Length);
+            adamChromosome.InitializeGenes();
+            var population = new Population(1000, 5000, adamChromosome);
             var fitness = new Issue61.GuessNumberFitness(FinalAns);
             var selection = new EliteSelection();
             var crossover = new AlternatingPositionCrossover();
@@ -195,7 +193,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             foreach(var gen in ga.Population.Generations)
             {
-                foreach(var chromossome in gen.Chromosomes)
+                foreach(var chromosome in gen.Chromosomes)
                 {
                     // Asserts if AlternatingPositionCrossover generated only ordered chromossomes.
                     Assert.AreEqual(chromosome.Length, chromosome.GetGenes().Distinct().Count());
