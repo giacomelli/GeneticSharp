@@ -33,23 +33,24 @@ namespace GeneticSharp.Extensions.UnitTests.AutoConfig
             chromosome.InitializeGenes();
             var targetChromosome = new TspChromosome(10);
             targetChromosome.InitializeGenes();
-            var targetFitness = new TspFitness(10, 0, 100, 0, 100);            
-            var fitness = new AutoConfigFitness(targetFitness, targetChromosome);
-            fitness.PopulationMinSize = 20;
-            fitness.PopulationMaxSize = 20;
-            fitness.Termination = new TimeEvolvingTermination(TimeSpan.FromSeconds(5));
-            
+            var targetFitness = new TspFitness(10, 0, 100, 0, 100);
+            var fitness = new AutoConfigFitness(targetFitness, targetChromosome)
+            {
+                PopulationMinSize = 20,
+                PopulationMaxSize = 20,
+                Termination = new TimeEvolvingTermination(TimeSpan.FromSeconds(5))
+            };
+
             var population = new Population(10, 10, chromosome);
 
-            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
-            
-            ga.TaskExecutor = new ParallelTaskExecutor()
+            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation)
             {
-                MinThreads = 10,
-                MaxThreads = 20
-            };        
+                TaskExecutor = new ParallelTaskExecutor() {MinThreads = 10, MaxThreads = 20},
+                Termination = new GenerationNumberTermination(10)
+            };
 
-            ga.Termination = new GenerationNumberTermination(10);
+
+
             ga.Start();
 
             Assert.NotNull(ga.BestChromosome);            

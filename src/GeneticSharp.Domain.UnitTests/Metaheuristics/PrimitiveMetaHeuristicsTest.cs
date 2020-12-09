@@ -20,8 +20,10 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             var stubParents = GetStubs(10);
 
-            var testContainer = new ContainerMetaHeuristic();
-            testContainer.CrossoverProbabilityStrategy = ProbabilityStrategy.TestProbability;
+            var testContainer = new ContainerMetaHeuristic
+            {
+                CrossoverProbabilityStrategy = ProbabilityStrategy.TestProbability
+            };
 
 
             var geomCrossover = new GeometricCrossover<int>().WithGeometricOperator<int>(geneValues => geneValues[0]);
@@ -104,8 +106,10 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             var phaseDuration = 10;
 
-            var testHeuristic = new GenerationMetaHeuristic(phaseDuration, geometricHeuristics.ToArray());
-            testHeuristic.CrossoverProbabilityStrategy = ProbabilityStrategy.TestProbability;
+            var testHeuristic = new GenerationMetaHeuristic(phaseDuration, geometricHeuristics.ToArray())
+            {
+                CrossoverProbabilityStrategy = ProbabilityStrategy.TestProbability
+            };
 
             var ctx = new EvolutionContext();
 
@@ -143,10 +147,12 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             
             var geometricHeuristics = GetGeometricCrossoverStubs(nbPhases);
 
-            
 
-            var testHeuristic = new PopulationMetaHeuristic(groupSize , geometricHeuristics.ToArray());
-            testHeuristic.CrossoverProbabilityStrategy = ProbabilityStrategy.TestProbability;
+
+            var testHeuristic = new PopulationMetaHeuristic(groupSize, geometricHeuristics.ToArray())
+            {
+                CrossoverProbabilityStrategy = ProbabilityStrategy.TestProbability
+            };
 
             var ctx = new EvolutionContext();
 

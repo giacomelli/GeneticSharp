@@ -19,7 +19,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
     public class BitmapEqualitySampleController : SampleControllerBase
     {
         #region Fields
-        private BitmapEqualityFitness m_fitness = new BitmapEqualityFitness();
+        private readonly BitmapEqualityFitness m_fitness = new BitmapEqualityFitness();
         //// private IChromosome m_lastBest;
         private string m_destFolder;
         private double m_resolution = 1;
@@ -36,8 +36,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         public override Widget CreateConfigWidget()
         {
             var container = new VBox();
-            var selectImageButton = new Button();
-            selectImageButton.Label = "Select the image";
+            var selectImageButton = new Button {Label = "Select the image"};
             selectImageButton.Clicked += delegate
             {
                 Gtk.FileChooserDialog filechooser =
@@ -67,12 +66,10 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             container.Add(selectImageButton);
 
             // Resolution.
-            m_resolutionLabel = new Label();
-            m_resolutionLabel.Text = "Resolution";
+            m_resolutionLabel = new Label {Text = "Resolution"};
             container.Add(m_resolutionLabel);
 
-            var resolutionButton = new SpinButton(0.01, 1, 0.01);
-            resolutionButton.Value = 100;
+            var resolutionButton = new SpinButton(0.01, 1, 0.01) {Value = 100};
             resolutionButton.ValueChanged += delegate
             {
                 m_resolution = resolutionButton.Value;
@@ -117,7 +114,6 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 
             if (ga != null)
             {
-                var generationsNumber = ga.GenerationsNumber;
                 var bestChromosome = ga.BestChromosome as BitmapChromosome;
 
                 //// if (generationsNumber == 1 || (generationsNumber % 200 == 0 && m_lastBest.Fitness != bestChromosome.Fitness))
@@ -125,7 +121,6 @@ namespace GeneticSharp.Runner.GtkApp.Samples
                 {
                     var buffer = Context.Buffer;
                     var gc = Context.GC;
-                    var layout = Context.Layout;
 
                     using (var bitmap = bestChromosome.BuildBitmap())
                     {

@@ -16,8 +16,8 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
     [DisplayName("Ghostwriter")]
     public class GhostwriterSampleController : SampleControllerBase
     {
-        private List<string> m_quotes;
-        private List<string> m_words;
+        private readonly List<string> m_quotes;
+        private readonly List<string> m_words;
 
         public GhostwriterSampleController()
         {

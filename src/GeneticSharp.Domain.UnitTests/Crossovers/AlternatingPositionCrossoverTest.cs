@@ -181,14 +181,16 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             var selection = new EliteSelection();
             var crossover = new AlternatingPositionCrossover();
             var mutation = new ReverseSequenceMutation();
-            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
-            ga.MutationProbability = 0.2f;
-            ga.CrossoverProbability = 0.75f;
-            ga.Termination = new OrTermination(
-                new FitnessThresholdTermination(1.0),
-                new FitnessStagnationTermination(200),
-                new GenerationNumberTermination(1000));
-            ga.Population.GenerationStrategy = new TrackingGenerationStrategy();
+            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation)
+            {
+                MutationProbability = 0.2f,
+                CrossoverProbability = 0.75f,
+                Termination = new OrTermination(
+                    new FitnessThresholdTermination(1.0),
+                    new FitnessStagnationTermination(200),
+                    new GenerationNumberTermination(1000)),
+                Population = {GenerationStrategy = new TrackingGenerationStrategy()}
+            };
             ga.Start();
 
             foreach(var gen in ga.Population.Generations)

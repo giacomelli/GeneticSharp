@@ -89,8 +89,7 @@ namespace GeneticSharp.Runner.ConsoleApp
                         collection[0].AnimationDelay = 100;
                     }
 
-                    var settings = new QuantizeSettings();
-                    settings.Colors = 256;
+                    var settings = new QuantizeSettings {Colors = 256};
                     collection.Quantize(settings);
 
                     collection.Optimize();

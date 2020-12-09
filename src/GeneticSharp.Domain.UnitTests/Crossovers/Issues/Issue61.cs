@@ -73,8 +73,8 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers.Issues
 
         public class GuessNumberFitness : IFitness
         {
-            private Int32 finalAns;
-            private Int32 maxDiffValue;
+            private readonly Int32 finalAns;
+            private readonly Int32 maxDiffValue;
 
             public GuessNumberFitness(Int32 finalAns)
             {

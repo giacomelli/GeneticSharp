@@ -34,9 +34,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         public override Gtk.Widget CreateConfigWidget()
         {
             var container = new VBox();
-            var citiesNumber = new SpinButton(2, 10000, 2);
-            citiesNumber.Text = "Number of cities";
-            citiesNumber.Value = m_numberOfCities;
+            var citiesNumber = new SpinButton(2, 10000, 2) {Text = "Number of cities", Value = m_numberOfCities};
             citiesNumber.ValueChanged += delegate
             {
                 m_numberOfCities = citiesNumber.ValueAsInt - (citiesNumber.ValueAsInt % 2);
@@ -45,8 +43,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             };
             container.Add(citiesNumber);
 
-            var generateButton = new Button();
-            generateButton.Label = "Generate cities";
+            var generateButton = new Button {Label = "Generate cities"};
             generateButton.Clicked += delegate
             {
                 m_numberOfCities = citiesNumber.ValueAsInt;
@@ -54,9 +51,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             };
             container.Add(generateButton);
 
-            var showIndexes = new CheckButton();
-            showIndexes.Active = m_showIndexes;
-            showIndexes.Label = "Show indexes";
+            var showIndexes = new CheckButton {Active = m_showIndexes, Label = "Show indexes"};
             showIndexes.Toggled += delegate
             {
                 m_showIndexes = showIndexes.Active;
