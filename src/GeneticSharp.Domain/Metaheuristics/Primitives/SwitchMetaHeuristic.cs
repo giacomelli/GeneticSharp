@@ -34,7 +34,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
                 return currentHeuristic.SelectParentPopulation(ctx, selection);
             }
 
-            throw new ApplicationException($"No phase heuristic for MetaHeuristic {Guid} and phase index {phaseItemIdx}");
+            throw new InvalidOperationException($"No phase heuristic for MetaHeuristic {Guid} and phase index {phaseItemIdx}");
 
 
 
@@ -50,7 +50,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
                 return currentHeuristic.MatchParentsAndCross(ctx, crossover, crossoverProbability, parents);
             }
 
-            throw new ApplicationException($"No phase heuristic for MetaHeuristic {Guid} and phase index {phaseItemIdx}");
+            throw new InvalidOperationException($"No phase heuristic for MetaHeuristic {Guid} and phase index {phaseItemIdx}");
 
         }
 
@@ -64,7 +64,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
             }
             else
             {
-                throw new ApplicationException($"No phase heuristic for MetaHeuristic {Guid} and phase index {phaseItemIdx}");
+                throw new InvalidOperationException($"No phase heuristic for MetaHeuristic {Guid} and phase index {phaseItemIdx}");
             }
            
         }
@@ -78,7 +78,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
                 return currentHeuristic.Reinsert(ctx, reinsertion, offspring, parents);
             }
 
-            throw new ApplicationException($"No phase heuristic for MetaHeuristic {Guid} and phase index {phaseItemIdx}");
+            throw new InvalidOperationException($"No phase heuristic for MetaHeuristic {Guid} and phase index {phaseItemIdx}");
         }
 
 
