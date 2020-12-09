@@ -33,7 +33,7 @@ namespace GeneticSharp.Extensions.Multiple
         /// <param name="chromosomes"></param>
         public MultipleChromosome(IList<IChromosome> chromosomes) : base(chromosomes.Count * chromosomes[0].Length)
         {
-            if (chromosomes == null | chromosomes.Count == 0)
+            if (chromosomes == null || chromosomes.Count == 0)
             {
                 throw new ArgumentException("chromosomes argument must have at least one element", nameof(chromosomes));
             }

@@ -173,7 +173,7 @@ namespace GeneticSharp.Extensions.Tsp
             {
                 if (value && Cities.Count>MaxCityNbCachedDistances)
                 {
-                    throw new ApplicationException($"Cannot use distance caching above {MaxCityNbCachedDistances} cities");
+                    throw new InvalidOperationException($"Cannot use distance caching above {MaxCityNbCachedDistances} cities");
                 }
                 _cached = value;
             }

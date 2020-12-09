@@ -11,7 +11,7 @@ namespace GeneticSharp.Extensions.Mathematic
         #region Constructors        
 
 
-        public EquationChromosomeBase(int variablesNumber) : base(variablesNumber) {}
+        protected EquationChromosomeBase(int variablesNumber) : base(variablesNumber) {}
 
 
         /// <summary>
@@ -19,7 +19,7 @@ namespace GeneticSharp.Extensions.Mathematic
         /// </summary>
         /// <param name="expectedResult">The equation expected result.</param>
         /// <param name="variablesNumber">The equation variables number.</param>
-        public EquationChromosomeBase(TValue minValue, TValue maxValue, int variablesNumber) : base(variablesNumber)
+        protected EquationChromosomeBase(TValue minValue, TValue maxValue, int variablesNumber) : base(variablesNumber)
         {
 
             MinValue = minValue;

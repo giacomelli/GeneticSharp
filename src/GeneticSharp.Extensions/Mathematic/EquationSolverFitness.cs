@@ -69,9 +69,9 @@ namespace GeneticSharp.Extensions.Mathematic
     public class EquationSolverFitness : EquationSolverFitness<int>
     {
         public EquationSolverFitness(int expectedResult, Func<Gene[], int> getEquationResult) : base(expectedResult, getEquationResult){}
-        protected override double CompareValues(int expectedResult, int equationResult)
+        protected override double CompareValues(int expected, int equationResult)
         {
-            var fitness = Math.Abs(expectedResult - equationResult);
+            var fitness = Math.Abs(expected - equationResult);
 
             return fitness * -1;
         }
