@@ -23,7 +23,7 @@ namespace GeneticSharp.Domain.Metaheuristics
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.GeneticAlgorithm"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Metaheuristics.MetaGeneticAlgorithm"/> class.
         /// </summary>
         /// <param name="population">The chromosomes population.</param>
         /// <param name="fitness">The fitness evaluation function.</param>
@@ -38,6 +38,26 @@ namespace GeneticSharp.Domain.Metaheuristics
             IMutation mutation):base(population,fitness,selection, crossover, mutation)
         {
             Metaheuristic = new DefaultMetaHeuristic();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Metaheuristics.MetaGeneticAlgorithm"/> class.
+        /// </summary>
+        /// <param name="population">The chromosomes population.</param>
+        /// <param name="fitness">The fitness evaluation function.</param>
+        /// <param name="selection">The selection operator.</param>
+        /// <param name="crossover">The crossover operator.</param>
+        /// <param name="mutation">The mutation operator.</param>
+        /// <param name="metaHeuristic">the Metaheuristic</param>
+        public MetaGeneticAlgorithm(
+            IPopulation population,
+            IFitness fitness,
+            ISelection selection,
+            ICrossover crossover,
+            IMutation mutation,
+            IMetaHeuristic metaHeuristic) : base(population, fitness, selection, crossover, mutation)
+        {
+            Metaheuristic = metaHeuristic;
         }
 
         protected override void EvolveOneGeneration()

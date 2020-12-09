@@ -111,7 +111,8 @@ public partial class MainWindow : Gtk.Window
                 Convert.ToInt32(sbtPopulationMaxSize.Value),
                 m_sampleController.CreateChromosome()) {GenerationStrategy = m_generationStrategy};
 
-
+            // According to MetaGeneticAlgorithmTest comparison, there is less than 10% overhead with using a MetaGeneticAlgorithm with DefaultMetaHeuristic.
+            // This allows having sample controllers making use of the new feature.
             m_ga = new MetaGeneticAlgorithm(
                 m_sampleContext.Population,
                 m_fitness,

@@ -59,9 +59,8 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
             var selection = new EliteSelection();
 
             var population = new Population(populationSize, populationSize, sudokuChromosome);
-            var ga = new MetaGeneticAlgorithm(population, fitness, selection, crossover, mutation)
+            var ga = new MetaGeneticAlgorithm(population, fitness, selection, crossover, mutation, metaHeuristic)
             {
-                Metaheuristic = metaHeuristic,
                 Termination = new OrTermination(new ITermination[]
                 {
                     new FitnessThresholdTermination(fitnessThreshold),

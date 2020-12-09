@@ -147,7 +147,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
 
 
 
-        //[Test()]
+        [Test()]
         public void GridSearch_WOA()
         {
             var repeatNb = 3;

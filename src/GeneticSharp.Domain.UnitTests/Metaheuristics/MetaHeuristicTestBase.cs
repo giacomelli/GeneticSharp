@@ -239,10 +239,8 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             GeneticAlgorithm target = null;
             if (metaHeuristic != null)
             {
-                var metaTarget = new MetaGeneticAlgorithm(initialPopulation, fitness, selection, crossover, mutation)
-                {
-                    Metaheuristic = metaHeuristic
-                };
+                var metaTarget = new MetaGeneticAlgorithm(initialPopulation, fitness, selection, crossover, mutation,
+                    metaHeuristic);
                 target = metaTarget;
             }
             else
