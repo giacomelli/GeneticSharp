@@ -87,8 +87,8 @@ namespace GeneticSharp.Extensions.Checkers
                             PlayerOnePieces.Add(piece);
                             square.PutPiece(piece);
                         }
-                        /// fi the actual line index is bigger than max lines index -3, 
-                        /// then it is a square for player two.
+                        // fi the actual line index is bigger than max lines index -3, 
+                        // then it is a square for player two.
                         else if (r >= Size - 3)
                         {
                             var piece = new CheckersPiece(CheckersPlayer.PlayerTwo);
