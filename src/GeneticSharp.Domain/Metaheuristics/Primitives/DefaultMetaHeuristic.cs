@@ -41,7 +41,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
 
             }
 
-            return null;
+            return new List<IChromosome>();
         }
 
         public override void ScopedMutateChromosome(IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)

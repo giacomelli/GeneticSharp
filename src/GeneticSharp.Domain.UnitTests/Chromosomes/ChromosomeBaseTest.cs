@@ -20,6 +20,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
                 }
                 catch (Exception ex)
                 {
+                    Assert.IsNotNull(ex.InnerException);
                     throw ex.InnerException;
                 }
             }, "The minimum length for a chromosome is 2 genes.");

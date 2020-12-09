@@ -58,7 +58,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
                 return SubMetaHeuristic.MatchParentsAndCross(ctx, crossover, crossoverProbability, parents);
             }
 
-            return null;
+            return new List<IChromosome>();
 
         }
 

@@ -40,7 +40,7 @@ namespace GeneticSharp.Domain.Chromosomes
         {
             if (geneIndex>=Length)
             {
-                throw new ApplicationException("Eukaryote chromosme size overflow");
+                throw new ArgumentOutOfRangeException(nameof(geneIndex), $"Eukaryote chromosome size overflow: gene index {geneIndex} with Length {Length}");
             }
             return ParentIndividual.GenerateGene(StartGeneIndex + geneIndex);
         }

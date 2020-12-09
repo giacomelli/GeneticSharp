@@ -60,7 +60,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
                 return offsprings;
             }
 
-            return null;
+            return new List<IChromosome>();
         }
 
 

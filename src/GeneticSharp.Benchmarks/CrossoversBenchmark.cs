@@ -97,7 +97,7 @@ namespace GeneticSharp.Benchmarks
 
         private IList<IChromosome> CreateTwoParents()
         {
-            return new[]
+            return new IChromosome[]
             {
                 new TspChromosome(NumberOfCities),
                 new TspChromosome(NumberOfCities)
@@ -106,7 +106,7 @@ namespace GeneticSharp.Benchmarks
 
         private IList<IChromosome> CreateThreeParents()
         {
-            return new[]
+            return new IChromosome[]
             {
                 new TspChromosome(NumberOfCities),
                 new TspChromosome(NumberOfCities),
