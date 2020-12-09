@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.Serialization;
 using GeneticSharp.Domain.Crossovers;
@@ -30,6 +31,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         {
             var target = new CrossoverException("1", new Exception("2"));
             Assert.AreEqual("1", target.Message);
+            Assert.IsNotNull(target.InnerException);
             Assert.AreEqual("2", target.InnerException.Message);
         }
 
@@ -39,6 +41,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
             var target = new CrossoverException(Substitute.For<ICrossover>(), "1", new Exception("2"));
             Assert.IsNotNull(target.Crossover);
             Assert.AreEqual(target.Crossover.GetType().Name + ": 1", target.Message);
+            Assert.IsNotNull(target.InnerException);
             Assert.AreEqual("2", target.InnerException.Message);
         }
 

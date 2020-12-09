@@ -21,13 +21,6 @@ namespace GeneticSharp.Domain.Crossovers
     {
         #region Constructors
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.PositionBasedCrossover"/> class.
-        /// </summary>
-        public PositionBasedCrossover()
-        {
-        }
-
         #endregion
 
         #region Methods

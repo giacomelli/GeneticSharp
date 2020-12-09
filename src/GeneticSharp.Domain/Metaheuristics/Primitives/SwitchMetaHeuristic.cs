@@ -21,10 +21,6 @@ namespace GeneticSharp.Domain.Metaheuristics
     /// </summary>
     public class SwitchMetaHeuristic<TIndex> : PhaseMetaHeuristicBase<TIndex>
     {
-        
-        public SwitchMetaHeuristic() : base(){}
-
-
         public IMetaHeuristicParameterGenerator<TIndex> DynamicParameter { get; set; }
 
 

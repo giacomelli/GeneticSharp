@@ -44,6 +44,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
 
             var old = new IntegerChromosome(0, 3);
             var target = old.CreateNew() as IntegerChromosome;
+            Assert.IsNotNull(target);
             target.InitializeGenes();
             Assert.AreNotSame(old, target);
             Assert.AreEqual("11111111111111111111111111111110", target.ToString());

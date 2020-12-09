@@ -28,13 +28,7 @@ namespace GeneticSharp.Domain.Selections
     public class StochasticUniversalSamplingSelection : RouletteWheelSelection
     {
         #region Constructors
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="GeneticSharp.Domain.Selections.StochasticUniversalSamplingSelection"/> class.
-        /// </summary>
-        public StochasticUniversalSamplingSelection()
-        {
-        }
+
         #endregion
 
         #region Methods

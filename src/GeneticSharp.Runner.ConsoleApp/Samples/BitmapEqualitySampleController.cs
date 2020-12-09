@@ -23,10 +23,6 @@ namespace GeneticSharp.Runner.ConsoleApp
         private string m_destFolder;
         private int m_minutesToEvolve;
 
-        public BitmapEqualitySampleController()
-        {
-        }
-
         #region implemented abstract members of SampleControllerBase
 
         public override IChromosome CreateChromosome()
