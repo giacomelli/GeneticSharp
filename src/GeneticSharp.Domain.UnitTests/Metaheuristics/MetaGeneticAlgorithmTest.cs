@@ -19,7 +19,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
             var testParams = new List<(int size, double ratio)>
             {
-                (10, 1.1), (100, 1.1), (500, 1.1)
+                (10, 1.2), (100, 1.2), (500, 1.2)
             };
 
             IFitness Fitness(int i) => new FitnessStub(i) {SupportsParallel = false};
@@ -28,7 +28,6 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var crossover = new UniformCrossover();
             var termination = new GenerationNumberTermination(1000);
             var reinsertion = new FitnessBasedElitistReinsertion();
-
 
             foreach (var (size, ratio) in testParams)
             {
