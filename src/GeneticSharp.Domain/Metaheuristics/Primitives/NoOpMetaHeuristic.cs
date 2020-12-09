@@ -20,7 +20,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
 
         public override IList<IChromosome> MatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
-            return null;
+            return new List<IChromosome>();
         }
 
         public override void MutateChromosome(IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)

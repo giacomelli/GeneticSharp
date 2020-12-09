@@ -8,15 +8,14 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
     /// </summary>
     public abstract class PhaseMetaHeuristicBase<TIndex> : ScopedMetaHeuristic
     {
-
-        public PhaseMetaHeuristicBase()
+        protected PhaseMetaHeuristicBase()
         {
            
             PhaseHeuristics = new Dictionary<TIndex, IMetaHeuristic>();
         }
 
 
-        public Dictionary<TIndex,IMetaHeuristic> PhaseHeuristics { get; set; }
+        public Dictionary<TIndex,IMetaHeuristic> PhaseHeuristics { get; }
 
 
 

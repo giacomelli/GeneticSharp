@@ -12,11 +12,10 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
     /// </summary>
     public abstract class ScopedMetaHeuristic : ContainerMetaHeuristic
     {
-
-        public ScopedMetaHeuristic()
+        protected ScopedMetaHeuristic()
         { }
 
-        public ScopedMetaHeuristic(IMetaHeuristic subMetaHeuristic):base(subMetaHeuristic) {}
+        protected ScopedMetaHeuristic(IMetaHeuristic subMetaHeuristic):base(subMetaHeuristic) {}
 
         /// <summary>
         /// The scope for the current MetaHeuristic behavior. Container fallback is used for other operators
