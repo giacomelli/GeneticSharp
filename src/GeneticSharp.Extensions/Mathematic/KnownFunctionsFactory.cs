@@ -53,21 +53,96 @@ namespace GeneticSharp.Extensions.Mathematic
         }
 
 
-        /// <summary>
-        /// Adapted from <see href="https://en.wikipedia.org/wiki/Rosenbrock_function#Multidimensional_generalisations">Wikipedia Article</see>
-        /// </summary>
-        public static double GeneralizedShekel(double[] coordinates)
+        
+
+        public static double Hyperellipsoid(double[] x)
+            /*
+            -n = 30
+            -Domain: |x| <= 1.0
+            */
         {
-            var sum1 = 0.0d;
-
-            for (var i = 0; i < coordinates.Length - 1; i++)
+            int n = x.Length;
+            int i;
+            double s = 0.0;
+            for (i = 0; i < n; i++)
             {
-                var term = 1 / (0.1*i + coordinates.Select((c,j)=>  Math.Pow(c - ((i+j)% coordinates.Length), 2)).Sum());
-                sum1 += term;
-
+                s += i * i + x[i] * x[i];
             }
+            return s;
+        }
 
-            return sum1;
+
+        public static double ReverseLevy( double[] x)
+            /*
+            - Global minimum
+            - for n=4, fmin = -21.502356 at (1,1,1,-9.752356 )
+            - for n=5,6,7, fmin = -11.504403 at (1,\dots,1,-4.754402 )
+            */
+        {
+            int n = x.Length;
+            int i;
+            double sum = 0.0;
+            for (i = 0; i <= n - 2; i++)
+            {
+                sum += Math.Pow(x[i] - 1, 2.0) * (1 + Math.Pow(Math.Sin(3 * Math.PI * x[i + 1]), 2.0));
+            }
+            return - Math.Pow(Math.Sin(3 * Math.PI * x[0]), 2.0) + sum + (x[n - 1] - 1) * (1 + Math.Pow(Math.Sin(2 * Math.PI * x[n - 1]), 2.0));
+        }
+
+        public static double ReverseMaxmod( double[] x)
+            /*Domain: |x[i] <= 10
+            Global minimum: 0 at x[i] = 0
+            */
+        {
+            int n = x.Length;
+            int i;
+            double t = x[0];
+            double u = 0;
+            for (i = 1; i < n; i++)
+            {
+                u = Math.Abs(x[i]);
+                if (u < t)
+                {
+                    t = u;
+                }
+            }
+            return -u;
+        }
+
+
+
+        /// <summary>
+        /// The Katsuura function is a fractal with an appearance similar to a lightning bolt and is defined through an iterative process. <see href="https://andrescaicedo.files.wordpress.com/2012/01/katsuura.pdf"/>
+        /// </summary>
+        /// <param name="n">the dimension</param>
+        /// <param name="x">the input double vector</param>
+        /// <returns></returns>
+        public static double ReverseKatsuuras( double[] x)
+            /*
+            = Dimension: n (10)
+            - Domain: | x[i] | <= 1000
+            - Global minimum 1.0 at 0 vector.
+            */
+        {
+            int n = x.Length;
+            int i;
+            int k;
+            int d = 32;
+            double prod;
+            double s;
+            double pow2;
+            prod = 1.0;
+            for (i = 0; i < n; i++)
+            {
+                s = 0.0;
+                for (k = 1; k <= d; k++)
+                {
+                    pow2 = Math.Pow(2, k);
+                    s += Math.Round(pow2 * x[i]) / pow2;
+                }
+                prod *= 1.0 + (i + 1) * s;
+            }
+            return -prod;
         }
 
 

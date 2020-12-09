@@ -4,6 +4,7 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Metaheuristics;
+using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Terminations;
 using NUnit.Framework;
 
@@ -21,22 +22,22 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                 (10, 1.1), (100, 1.1), (500, 1.1)
             };
 
-            Func<int, IFitness> fitness = i => new FitnessStub(i) { SupportsParallel = false };
-            Func<int, IChromosome> adamChromosome = i => new ChromosomeStub(i, i);
+            IFitness Fitness(int i) => new FitnessStub(i) {SupportsParallel = false};
+            IChromosome AdamChromosome(int i) => new ChromosomeStub(i, i);
 
             var crossover = new UniformCrossover();
             var termination = new GenerationNumberTermination(1000);
+            var reinsertion = new FitnessBasedElitistReinsertion();
 
-            foreach (var testParam in testParams)
+
+            foreach (var (size, ratio) in testParams)
             {
 
-                var heuristics = new List<IMetaHeuristic>();
-                heuristics.Add(null);
-                heuristics.Add(new DefaultMetaHeuristic());
+                var heuristics = new List<IMetaHeuristic> {null, new DefaultMetaHeuristic()};
 
-                var results = CompareMetaHeuristics(fitness(testParam.size), adamChromosome(testParam.size),
-                    heuristics, crossover,  100, termination);
-                this.AssertIsPerformingLessByRatio(termination, testParam.ratio, results[0], results[1]);
+                var results = CompareMetaHeuristics(Fitness(size), AdamChromosome(size),
+                    heuristics, crossover,  100, termination, reinsertion);
+                this.AssertIsPerformingLessByRatio(termination, ratio, results[0], results[1]);
 
             }
 

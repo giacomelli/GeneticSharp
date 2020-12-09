@@ -23,6 +23,7 @@ namespace GeneticSharp.Domain
     [DebuggerDisplay("Fitness:{Fitness}, TimeEvolving:{TimeEvolving}, Population:{Population}")]
     public class MeanEvolutionResult
     {
+
         public List<EvolutionResult> Results { get; set; } = new List<EvolutionResult>();
 
         public double Fitness => Results.Count > 0 ? Results.Sum(r => r.Fitness.Value) / Results.Count : 0;

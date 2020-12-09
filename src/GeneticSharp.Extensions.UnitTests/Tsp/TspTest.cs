@@ -66,8 +66,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             // WOA parameters
             int GetGeneValueFunction(double d) => Math.Round(d).PositiveMod(numberOfCities);
 
-            var helicoidScale = 2;
-            var metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(true, nbGenerationsWOA, helicoidScale, geneValue => geneValue, GetGeneValueFunction);
+            var metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(true, nbGenerationsWOA,  geneValue => geneValue, GetGeneValueFunction);
 
             // WOA evolution
             var resultWOA = Evolve_NbCities_Fast(fitness, adamChromosome, populationSize, metaHeuristic, crossover, mutation, termination);

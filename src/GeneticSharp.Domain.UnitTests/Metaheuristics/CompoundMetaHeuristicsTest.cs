@@ -6,6 +6,7 @@ using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Domain.Randomizations;
+using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.Mathematic;
 using GeneticSharp.Infrastructure.Framework.Commons;
@@ -23,7 +24,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             RandomizationProvider.Current = new BasicRandomization();
         }
 
-        private const double DefaultHelicoidScale = 2;
+        
         
 
         [Test()]
@@ -33,13 +34,15 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             IChromosome AdamChromosome(int maxValue) => new ChromosomeStub(maxValue, maxValue);
             IFitness Fitness(int maxValue) => new FitnessStub(maxValue) {SupportsParallel = false};
 
+            var reinsertion = new FitnessBasedElitistReinsertion();
 
             var compoundResults=  EvolveMetaHeuristicDifferentSizes(
                 Fitness,
                 AdamChromosome,
                 SmallSizes,
                 MetaHeuristic, 
-                i => 0.6);
+                i => 0.6,
+                reinsertion);
 
 
             for (int i = 0; i < compoundResults.Count; i++)
@@ -56,12 +59,15 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             IChromosome AdamChromosome(int maxValue) => new ChromosomeStub(maxValue, maxValue);
             IFitness Fitness(int maxValue) => new FitnessStub(maxValue) {SupportsParallel = false};
 
+            var reinsertion = new FitnessBasedElitistReinsertion();
+
             var compoundResults =  EvolveMetaHeuristicDifferentSizes(
                 Fitness,
                 AdamChromosome,
                 SmallSizes, 
                 MetaHeuristic, 
-                i => 0.6);
+                i => 0.6,
+                reinsertion);
 
             for (int i = 0; i < compoundResults.Count; i++)
             {
@@ -73,12 +79,13 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         public void Evolve_WOA_KnownFunctions_Small_Optmization()
         {
 
-            var helicoidScale = DefaultHelicoidScale;
             var functionHalfRange = 5;
 
             double GetGeneValueFunction(double d) => d % functionHalfRange;
-            IMetaHeuristic MetaHeuristic(int maxValue) => MetaHeuristicsFactory.WhaleOptimisationAlgorithm<double>(false, 300, helicoidScale, geneValue => geneValue, GetGeneValueFunction);
+            IMetaHeuristic MetaHeuristic(int maxValue) => MetaHeuristicsFactory.WhaleOptimisationAlgorithm<double>(false, 300,  geneValue => geneValue, GetGeneValueFunction);
             IChromosome AdamChromosome(int i) => new EquationChromosome<double>(-functionHalfRange, functionHalfRange, i) {GetGeneValueFunction = GetGeneValueFunction};
+
+            var reinsertion = new FitnessBasedElitistReinsertion();
 
             Dictionary<Func<Gene[], double>, Func<int, double>> functionsToSolveWithTargets =
                 new Dictionary<Func<Gene[], double>, Func<int, double>>
@@ -104,7 +111,8 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                     AdamChromosome,
                     SmallSizes, 
                     MetaHeuristic, 
-                    functionToSolve.Value);
+                    functionToSolve.Value,
+                    reinsertion);
 
                 for (int i = 0; i < compoundResults.Count; i++)
                 {
@@ -121,32 +129,9 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
             var crossover = new OnePointCrossover(2);
 
-            var resultsRatio = new[] {0.95, 5, 50, 1.5};
+            var resultsRatio = new[] {0.95, 5, 50, 1};
 
-            var helicoidScale = DefaultHelicoidScale;
-            var maxCoordinate = 5;
-            double GetGeneValueFunction(double d) => Math.Sign(d) * Math.Min(Math.Abs(d), maxCoordinate);
-
-            IMetaHeuristic StandardHeuristic(int i) => new DefaultMetaHeuristic();
-            IMetaHeuristic MetaHeuristic(int maxValue) => MetaHeuristicsFactory.WhaleOptimisationAlgorithm<double>(false, 300, helicoidScale, geneValue => geneValue, GetGeneValueFunction);
-
-            //Termination
-            var minFitness = 1;
-            int maxNbGenerations = int.MaxValue;
-            int stagnationNb = 100;
-            TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(2);
-            var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
-
-
-            var compoundResults = CompareMetaHeuristicsKnownFunctionsDifferentSizes(maxCoordinate, StandardHeuristic, MetaHeuristic, crossover, SmallSizes, termination);
-
-           for (int i = 0; i < compoundResults.Count; i++)
-           {
-               var functionResults = compoundResults[i];
-               var meanRatio = functionResults.Sum(c => c.result2.Fitness / c.result1.Fitness) / functionResults.Count;
-
-               Assert.GreaterOrEqual(meanRatio, resultsRatio[i]);
-            }
+            Compare_WOA_Crossover_KnownFunctions_Small_LargerFitness_Bounded(crossover, resultsRatio);
 
         }
 
@@ -157,14 +142,22 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
             var crossover = new UniformCrossover();
 
-            var resultsRatio = new[] { 1, 3.0, 30, 1.3 };
+            var resultsRatio = new[] { 0.95, 3.0, 30, 0.9 };
 
-            var helicoidScale = DefaultHelicoidScale;
+          Compare_WOA_Crossover_KnownFunctions_Small_LargerFitness_Bounded(crossover, resultsRatio);
+            
+
+        }
+
+
+        private void Compare_WOA_Crossover_KnownFunctions_Small_LargerFitness_Bounded(ICrossover crossover,double[] resultsRatio)
+        {
+
             var maxCoordinate = 5;
             double GetGeneValueFunction(double d) => Math.Sign(d) * Math.Min(Math.Abs(d), maxCoordinate);
 
             IMetaHeuristic StandardHeuristic(int i) => new DefaultMetaHeuristic();
-            IMetaHeuristic MetaHeuristic(int maxValue) => MetaHeuristicsFactory.WhaleOptimisationAlgorithm<double>(false, 300, helicoidScale, geneValue => geneValue, GetGeneValueFunction);
+            IMetaHeuristic MetaHeuristic(int maxValue) => MetaHeuristicsFactory.WhaleOptimisationAlgorithm<double>(false, 300,  geneValue => geneValue, GetGeneValueFunction);
 
             //Termination
             var minFitness = 1;
@@ -172,8 +165,9 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             int stagnationNb = 100;
             TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(2);
             var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
+            var reinsertion = new FitnessBasedElitistReinsertion();
 
-            var compoundResults = CompareMetaHeuristicsKnownFunctionsDifferentSizes(maxCoordinate, StandardHeuristic, MetaHeuristic, crossover, SmallSizes, termination);
+            var compoundResults = CompareMetaHeuristicsKnownFunctionsDifferentSizes(maxCoordinate, StandardHeuristic, MetaHeuristic, crossover, SmallSizes, termination, reinsertion);
 
             for (int i = 0; i < compoundResults.Count; i++)
             {
@@ -184,6 +178,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             }
 
         }
+
 
 
         [Test()]
@@ -229,7 +224,8 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             int stagnationNb = 100;
             TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(2);
             var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
-            
+            var reinsertion = new FitnessBasedElitistReinsertion();
+
             var results = CompareMetaHeuristicsDifferentSizes(
                LargeSizes, 
                 maxValue =>new FitnessStub(maxValue) { SupportsParallel = false }, 
@@ -237,7 +233,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                 OriginalMetaHeuristic, 
                 ReducedMetaHeuristic, 
                 crossover,
-               populationSize, termination);
+               populationSize, termination, reinsertion);
 
 
             var meanRatio = results.Sum(c => c.result2.Population.GenerationsNumber / (double) c.result1.Population.GenerationsNumber) / results.Count;
@@ -254,19 +250,17 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
 
 
-        //[Test()]
+        [Test()]
         public void GridSearch_WOA()
         {
-            var repeatNb = 3;
+            var repeatNb = 5;
             var testParams = new List<(KnownMetaheuristics kind,  double seconds, double helicoidScale, int nbGenerationsWOA, bool noMutation)>
             {
-                //(KnownMetaheuristics.Default,  1, 1, 200, 1.2),
-                //(KnownMetaheuristics.WhaleOptmizerAlgorithm,  1, 100, 200, 1.2),
-                (KnownMetaheuristics.WhaleOptmizerAlgorithm,  1.0, 50.0, 200, false),
-                (KnownMetaheuristics.WhaleOptmizerAlgorithm,  1.0, 5.0, 200, true),
-                (KnownMetaheuristics.WhaleOptmizerAlgorithm,  1.0, 2.0, 200,  true),
-                (KnownMetaheuristics.WhaleOptmizerAlgorithm,  1.0, 0.5, 200,  true),
-                //(KnownMetaheuristics.WhaleOptmizerAlgorithm,  1, 2, 200, 1.2),
+                (KnownMetaheuristics.Default,  1, 1, 200, true),
+                (KnownMetaheuristics.WhaleOptmizerAlgorithm,  1.0, 1.0, 500,  true),
+               (KnownMetaheuristics.WhaleOptmizerAlgorithm,  1.0, 1.0, 200,  true),
+                (KnownMetaheuristics.WhaleOptmizerAlgorithm,  1.0, 1.0, 100,  true),
+                (KnownMetaheuristics.WhaleOptmizerAlgorithm,  1.0, 1.0, 50,  true),
             };
 
             var sizes = new[] {/*50,*/ 100/*, 200 */}.ToList();
@@ -279,15 +273,18 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             int maxNbGenerations = 100000;
             int stagnationNb = 100000;
 
+            //var reinsertion = new FitnessBasedElitistReinsertion();
+            var reinsertion = new PureReinsertion();
+
             var crossover = new UniformCrossover();
             
 
-            var maxCoordinate = 5;
+            var maxCoordinate = 10;
 
             double GetGeneValueFunction(double d) => Math.Sign(d) * Math.Min(Math.Abs(d), maxCoordinate);
             IChromosome AdamChromosome(int i) => new EquationChromosome<double>(-maxCoordinate, maxCoordinate, i) {GetGeneValueFunction = GetGeneValueFunction};
 
-            var knownFunctions = GetKnownFunctions().Take(1);
+            var knownFunctions = GetKnownFunctions();//.Skip(2).Take(1);
 
             var functionResults = new List<List<List<MeanEvolutionResult>>>();
             foreach (var functionToSolve in knownFunctions)
@@ -310,7 +307,11 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                         IMetaHeuristic metaHeuristic;
                         if (kind == KnownMetaheuristics.WhaleOptmizerAlgorithm)
                         {
-                           var woaMetaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm<double>(false, nbGenerationsWoa, helicoidScale, geneValue => geneValue, GetGeneValueFunction, noMutation:noMutation);
+                           var woaMetaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm<double>(false,
+                               nbGenerationsWoa,
+                               geneValue => geneValue, 
+                               GetGeneValueFunction, 
+                               noMutation:noMutation);
                             metaHeuristic = woaMetaHeuristic;
 
                         }
@@ -322,7 +323,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                         var meanResult = new MeanEvolutionResult();
                         for (int i = 0; i < repeatNb; i++)
                         {
-                            var target = InitGa(metaHeuristic, Fitness(size), AdamChromosome(size), crossover, populationSize, termination);
+                            var target = InitGa(metaHeuristic, Fitness(size), AdamChromosome(size), crossover, populationSize, termination, reinsertion);
                             target.Start();
                             var result = target.GetResult();
                             meanResult.Results.Add(result);
@@ -365,6 +366,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             int stagnationNb = 100;
             TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(2);
             var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
+            var reinsertion = new FitnessBasedElitistReinsertion();
 
             var results = CompareMetaHeuristicsDifferentSizes(
                 sizes,
@@ -372,7 +374,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                 AdamChromosome,
                 StandardHeuristic,
                 MetaHeuristic,
-                crossover, populationSize, termination);
+                crossover, populationSize, termination, reinsertion);
 
             return results;
 
@@ -391,7 +393,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             }
             else
             {
-                return MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(false, maxOperations, DefaultHelicoidScale, FromGene, ToGene);
+                return MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(false, maxOperations,  FromGene, ToGene);
             }
 
         }

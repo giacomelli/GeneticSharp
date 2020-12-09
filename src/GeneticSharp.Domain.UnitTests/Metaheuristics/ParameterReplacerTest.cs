@@ -21,8 +21,10 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             ctx = ctx.GetIndividual(idx);
             ctx.RegisterParameter(paramNameAsString, ctxParam);
 
-            var childParameter = new ExpressionMetaHeuristicParameter<int, int>();
-            childParameter.DynamicGeneratorWithArg = (heuristic, context, paramName) => (paramName - 1);
+            var childParameter = new ExpressionMetaHeuristicParameter<int, int>
+            {
+                DynamicGeneratorWithArg = (heuristic, context, paramName) => (paramName - 1)
+            };
 
             var reducedExpression =
                 ParameterReplacer.ReduceLambdaParameterGenerator<int>(childParameter.DynamicGeneratorWithArg, ctx);

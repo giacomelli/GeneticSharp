@@ -178,7 +178,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
 
 
                     // Native evolution
-                    results.Add(EvolveAlgorithms_Termination(fitness, helicoidScale, termination, populationSize, nbGenerationsWoa));
+                    results.Add(EvolveAlgorithms_Termination(fitness,  termination, populationSize, nbGenerationsWoa));
 
                 }
                 resultDEtail.Add(results);
@@ -201,7 +201,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
       
         
         public (TspEvolutionResult native, TspEvolutionResult woa, TspEvolutionResult woaGeom, TspEvolutionResult
-            woaSwap) EvolveAlgorithms_Termination(TspFitness fitness, double helicoidScale, ITermination termination,
+            woaSwap) EvolveAlgorithms_Termination(TspFitness fitness, ITermination termination,
                 int populationSize, int nbGenerationsWOA)
         {
             try
@@ -225,7 +225,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                 //Simple WOA
                 var defaultEmbedding = new OrderedEmbedding<int>(){GeneSelectionMode = GeneSelectionMode.RandomOrder | GeneSelectionMode.SingleFirstAllowed};
                 
-                metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(true, nbGenerationsWOA, helicoidScale, geneValue => geneValue, GetGeneValueFunction);
+                metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(true, nbGenerationsWOA, geneValue => geneValue, GetGeneValueFunction);
                 var resultWOA = Evolve_NbCities_Fast(fitness, adamChromosome, populationSize, metaHeuristic, crossover, mutation, termination);
                 toReturn.woa = resultWOA;
 
@@ -252,7 +252,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                 var updateEveryGenerationNb = 20;
 
                 //WOA with Embedding  
-                metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(true, nbGenerationsWOA, helicoidScale,
+                metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(true, nbGenerationsWOA, 
                     geneValue => geneValue,
                     GetGeneValueFunction, tspGeometryEmbedding);
 
@@ -277,7 +277,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                 //simpleGeometryEmbedding.ValidateSwapFunction = tspGeometryEmbedding.ValidateSwapFunction;
 
 
-                metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(true, nbGenerationsWOA, helicoidScale,
+                metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(true, nbGenerationsWOA, 
                     geneValue => geneValue,
                     GetGeneValueFunction, simpleGeometryEmbedding);
                 var resultWOAwithSwap = Evolve_NbCities_Fast(fitness, adamChromosome, populationSize, metaHeuristic, crossover, mutation, termination);
@@ -323,16 +323,14 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
 
                 // WOA parameters
                 int GetGeneValueFunction(double d) => Math.Round(d).PositiveMod(numberOfCities);
-                var helicoidScale = 2;
-
-                //Default OrderedEmbedding with cold start
+                 //Default OrderedEmbedding with cold start
                 var tspGeometryEmbedding = new TspPermutationEmbedding(fitness) { GeneSelectionMode = GeneSelectionMode.RandomOrder  };
                 var updateEveryGenerationNb = 20;
 
                 //WOA with Embedding  
-                var metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(true, nbGenerationsWOA, helicoidScale,
+                var metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(true, nbGenerationsWOA, 
                     geneValue => geneValue,
-                    GetGeneValueFunction, tspGeometryEmbedding, true);
+                    GetGeneValueFunction, tspGeometryEmbedding, noMutation: true);
 
                 //Embedding metric update routing: the best chromosome takes over target metric space
                 var evolvedfitnessMetric = 0.0;

@@ -33,6 +33,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Collections
         // .NET core 2+ uses quicksort partition to return first items without doing the whole sort
         //The latest .Net core version of MaxBy uses OrderByDescending then First, so it is a pass-through concerning those tests,
         //setting the bound low here for appveyor to pass but should really be close to 1 as local tests seem to yield.
+        // 
         //todo: figure out what is wrong with the AppVeyor Build
         private readonly double ratioMax = 0.5;
 #else
@@ -60,6 +61,15 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Collections
             MaxBy_CompareWithOrderByDescendingAndFirst_Faster(5000, 100, ratioMax);
         }
 
+
+        /// <summary>
+        ///   .NET core 2+ uses quicksort partition to return first items without doing the whole sort
+        /// The latest .Net core version of MaxBy uses OrderByDescending then First, so it is a pass-through concerning those tests,
+        /// setting the bound low here for appveyor to pass but should really be close to 1 as local tests seem to yield.
+        /// <see cref="https://docs.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/5.0/orderby-firstordefault-complexity-increase">latest change in .core</see>
+        /// <see cref="https://github.com/dotnet/runtime/issues/31554">earlier discussion</see>
+        /// <see cref="https://github.com/dotnet/runtime/issues/14867">initial discussion</see>
+        /// </summary>
         private void MaxBy_CompareWithOrderByDescendingAndFirst_Faster(int maxValue, int nbTests, double minRatio)
         {
             RandomizationProvider.Current = new FastRandomRandomization();

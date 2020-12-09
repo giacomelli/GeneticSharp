@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using GeneticSharp.Domain.Crossovers;
@@ -22,7 +23,10 @@ namespace GeneticSharp.Domain.Metaheuristics
             C, 
             l
         }
-        
+
+        public const double DefaultHelicoidScale = 1;
+
+
         /// <summary>
         /// As detailed in <see href="https://en.wikiversity.org/wiki/Whale_Optimization_Algorithm">Whale Optimization Algorithm</see>
         /// Implemented directly from <see href="https://fr.mathworks.com/matlabcentral/fileexchange/55667-the-whale-optimization-algorithm?s_tid=srchtitle">The Whale Optimization Algorithm</see>
@@ -35,8 +39,8 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <param name="doubleToGeneConverter">Converter from double to typed gene value</param>
         /// <param name="geometryEmbedding">an optional domain specific geometrisation operator to process gene values before being converted and processed by the geometric operator and back after conversion </param>
         /// <returns>A MetaHeuristic applying the WOA</returns>
-        public static IContainerMetaHeuristic WhaleOptimisationAlgorithm<TGeneValue>(bool ordered, int maxGenerations, double helicoidScale, 
-            Func<TGeneValue, double> geneToDoubleConverter, Func<double, TGeneValue> doubleToGeneConverter, IGeometryEmbedding<TGeneValue> geometryEmbedding = null, bool noMutation = true)
+        public static IContainerMetaHeuristic WhaleOptimisationAlgorithm<TGeneValue>(bool ordered, int maxGenerations, 
+            Func<TGeneValue, double> geneToDoubleConverter, Func<double, TGeneValue> doubleToGeneConverter, IGeometryEmbedding<TGeneValue> geometryEmbedding = null, double helicoidScale = DefaultHelicoidScale, bool noMutation = true)
         {
             var rnd = RandomizationProvider.Current;
 
@@ -49,7 +53,8 @@ namespace GeneticSharp.Domain.Metaheuristics
                         .WithGeometryEmbedding(geometryEmbedding));
 
             //Defining the main compound Metaheuristic with sub-parts.
-            var woaHeuristic = new IfElseMetaHeuristic() { Name = "Whale Optimisation Alrorithm" }
+            var woaHeuristic = new IfElseMetaHeuristic() 
+                .WithName("Whale Optimisation Alrorithm", "Optimization algorithm mimicking the hunting mechanism of humpback whales in nature. Mirjalili, S., & Lewis, A. (2016)")
                 .WithScope(MetaHeuristicsStage.Crossover)
                 .WithParam(nameof(WOAParam.a), "a decreases linearly from 2 to 0 in Eq. (2.3)", 
                     ParamScope.Generation, (h, ctx) => 2.0 - ctx.Population.GenerationsNumber * (2.0 / maxGenerations))
