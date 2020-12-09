@@ -6,7 +6,7 @@ using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Selections;
 
-namespace GeneticSharp.Domain.Metaheuristics
+namespace GeneticSharp.Domain.Metaheuristics.Primitives
 {
     /// <summary>
     /// This meta heuristic does not do any extra steps from the baseline GA. For crossover it pick parents in the original selection order and applies the crossover operator depending on the given probabiliy.

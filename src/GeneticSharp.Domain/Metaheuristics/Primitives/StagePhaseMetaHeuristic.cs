@@ -1,4 +1,4 @@
-﻿namespace GeneticSharp.Domain.Metaheuristics
+﻿namespace GeneticSharp.Domain.Metaheuristics.Primitives
 {
     /// <summary>
     /// Allows to define distinct MetaHeuristic for different scopes

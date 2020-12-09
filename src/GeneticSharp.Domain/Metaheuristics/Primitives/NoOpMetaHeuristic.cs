@@ -6,7 +6,7 @@ using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Selections;
 
-namespace GeneticSharp.Domain.Metaheuristics
+namespace GeneticSharp.Domain.Metaheuristics.Primitives
 {
     /// <summary>
     /// This MetaHeuristic doesn't perform any operation and can be used together with other Metaheuristics to Cancel certain operators

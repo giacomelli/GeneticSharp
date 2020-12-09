@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using GeneticSharp.Domain.Metaheuristics.Primitives;
 using GeneticSharp.Domain.Populations;
 
 namespace GeneticSharp.Domain.Metaheuristics

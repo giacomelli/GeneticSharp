@@ -1,4 +1,4 @@
-﻿namespace GeneticSharp.Domain.Metaheuristics
+﻿namespace GeneticSharp.Domain.Metaheuristics.Primitives
 {
     /// <summary>
     /// The generation based Metaheuristcs allows applying distinct Metaheuristics depending on the generation number. By default, it cycles alternating between phases during generation periods corresponding to the phase sizes

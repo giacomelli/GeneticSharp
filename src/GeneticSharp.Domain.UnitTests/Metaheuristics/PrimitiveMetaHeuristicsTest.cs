@@ -1,5 +1,6 @@
 ﻿using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Metaheuristics;
+using GeneticSharp.Domain.Metaheuristics.Primitives;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Infrastructure.Framework.Collections;
 using NUnit.Framework;

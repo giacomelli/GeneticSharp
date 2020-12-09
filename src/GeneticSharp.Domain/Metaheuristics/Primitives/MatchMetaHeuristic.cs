@@ -5,7 +5,7 @@ using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Selections;
 
-namespace GeneticSharp.Domain.Metaheuristics
+namespace GeneticSharp.Domain.Metaheuristics.Primitives
 {
 
 
@@ -44,7 +44,7 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         }
 
-        public int NumberOfMatches { get; set; } = 1;
+        public int NumberOfMatches { get; set; }
 
         public MatchMetaHeuristic() : this (1) { }
 

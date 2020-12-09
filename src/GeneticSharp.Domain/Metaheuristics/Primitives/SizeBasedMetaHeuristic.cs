@@ -2,7 +2,7 @@
 using System.Linq;
 using GeneticSharp.Infrastructure.Framework.Commons;
 
-namespace GeneticSharp.Domain.Metaheuristics
+namespace GeneticSharp.Domain.Metaheuristics.Primitives
 {
     /// <summary>
     /// Provides a base class with mechanism to compute the current phase and corresponding phase Metaheuristic from population and current individuals

@@ -7,7 +7,7 @@ using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Selections;
 
-namespace GeneticSharp.Domain.Metaheuristics
+namespace GeneticSharp.Domain.Metaheuristics.Primitives
 {
     /// <summary>
     /// Defines an interface for parent matching and crossover application metaheuristics
@@ -35,7 +35,6 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <param name="crossover">The crossover class.</param>
         /// <param name="crossoverProbability">The crossover probability.</param>
         /// <param name="parents">The parents.</param>
-        /// <param name="firstParentIndex">the index of the first parent selected for a crossover</param>
         /// <returns>children for the current crossover if it was performed, null otherwise</returns>
         IList<IChromosome> MatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover,
             float crossoverProbability, IList<IChromosome> parents);
@@ -47,7 +46,6 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <param name="mutation">The mutation class.</param>
         /// <param name="mutationProbability">The mutation probability.</param>
         /// <param name="offSprings">The list of offspring chromosomes</param>
-        /// <param name="offspringIndex">The target chromosome index to mutate</param>
         void MutateChromosome(IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings);
 
 

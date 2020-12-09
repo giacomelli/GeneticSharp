@@ -1,4 +1,4 @@
-﻿namespace GeneticSharp.Domain.Metaheuristics
+﻿namespace GeneticSharp.Domain.Metaheuristics.Primitives
 {
     /// <summary>
     /// The population based Metaheuristcs allows applying distinct Metaheuristics depending on the individual index. By default, it divides the individuals into distinct phase sets proportional to the phase sizes 

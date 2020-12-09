@@ -8,11 +8,11 @@ namespace GeneticSharp.Domain.Metaheuristics
     public static class ParameterReplacer
     {
 
-        private static readonly int _ParameterGeneratorLength = typeof(ParameterGenerator<>).GetMethod("Invoke").GetParameters().Length;
+        private static readonly int _parameterGeneratorLength = typeof(ParameterGenerator<>).GetMethod("Invoke").GetParameters().Length;
 
         public static Expression<ParameterGenerator<TParamType>> ReduceLambdaParameterGenerator<TParamType>(LambdaExpression expression, IEvolutionContext ctx)
         {
-            while (_ParameterGeneratorLength < expression.Parameters.Count) 
+            while (_parameterGeneratorLength < expression.Parameters.Count) 
             {
                 var lastParam = expression.Parameters.Last();
                 var paramDef = ctx.GetParameterDefinition(lastParam.Name);

@@ -28,7 +28,7 @@ namespace GeneticSharp.Domain.Mutations
                 var secondIndex = indexes[1];
                 var sequenceLength = (secondIndex - firstIndex) + 1;
 
-                var mutatedSequence = MutateOnSequence(chromosome.GetGenes().Skip(firstIndex).Take(sequenceLength)).ToArray();
+                var mutatedSequence = MutateOnSequence(chromosome.GetGenes().Skip(firstIndex).Take(sequenceLength).ToList()).ToArray();
                 
                 chromosome.ReplaceGenes(firstIndex, mutatedSequence);
             }
@@ -51,7 +51,7 @@ namespace GeneticSharp.Domain.Mutations
         /// </summary>
         /// <returns>The resulted sequence after mutation operation.</returns>
         /// <param name="sequence">The sequence to be mutated.</param>
-        protected abstract IEnumerable<T> MutateOnSequence<T>(IEnumerable<T> sequence);
+        protected abstract IEnumerable<T> MutateOnSequence<T>(IList<T> sequence);
         #endregion
     }
 }

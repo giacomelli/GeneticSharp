@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GeneticSharp.Domain.Metaheuristics
+namespace GeneticSharp.Domain.Metaheuristics.Primitives
 {
     /// <summary>
     /// Abstract Metaheuristic to provide a base class for distinct subheuristics depending on a phase state

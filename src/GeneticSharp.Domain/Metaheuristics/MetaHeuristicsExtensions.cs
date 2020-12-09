@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Metaheuristics.Primitives;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Selections;
@@ -122,11 +123,11 @@ namespace GeneticSharp.Domain.Metaheuristics
         }
 
 
-
         /// <summary>
         /// This fluent extension allows to define phase generator, that is, the function that will define which phase heuristic to run according to the context
         /// </summary>
         /// <param name="metaHeuristic">the MetaHeuristic to which to apply the fluent operator</param>
+        /// <param name="scope">the scope for the case generator caching</param>
         /// <param name="phaseGenerator">the phase generator for the heuristic</param>
         /// <returns>the current phase based MetaHeuristic</returns>
         public static T WithCaseGenerator<T, TIndex>(this T metaHeuristic, ParamScope scope, ParameterGenerator<TIndex> phaseGenerator) where T : SwitchMetaHeuristic<TIndex>

@@ -7,7 +7,7 @@ using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Selections;
 
-namespace GeneticSharp.Domain.Metaheuristics
+namespace GeneticSharp.Domain.Metaheuristics.Primitives
 {
     public interface IContainerMetaHeuristic: IMetaHeuristic
     {
@@ -93,7 +93,8 @@ namespace GeneticSharp.Domain.Metaheuristics
             {
                 subProbability = 1;
                 return true;
-            };
+            }
+
             return false;
         }
 

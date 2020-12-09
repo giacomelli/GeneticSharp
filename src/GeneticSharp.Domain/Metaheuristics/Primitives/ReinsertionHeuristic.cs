@@ -2,7 +2,7 @@
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Reinsertions;
 
-namespace GeneticSharp.Domain.Metaheuristics
+namespace GeneticSharp.Domain.Metaheuristics.Primitives
 {
     /// <summary>
     /// Metaheuristic to provide a specific Reinsertion operator

@@ -1,4 +1,5 @@
 ﻿using System;
+using GeneticSharp.Domain.Metaheuristics.Primitives;
 using GeneticSharp.Domain.Populations;
 
 namespace GeneticSharp.Domain.Metaheuristics
