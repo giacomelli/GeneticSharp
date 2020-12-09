@@ -32,18 +32,6 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
         /// <inheritdoc />
         public abstract IList<IChromosome> Reinsert(IEvolutionContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents);
 
-
-
-
-        //public TItemType AddIfAbsentContextItem<TItemType>(bool isHeuristicsSpecific, IPopulation population, string key, Func<TItemType> factory)
-        //{
-        //    if (isHeuristicsSpecific)
-        //    {
-        //        key = GetHeuristcSpecificKey(key);
-        //    }
-        //    return (TItemType)population.CurrentGeneration.Context.AddOrUpdate(key, s => (object)factory(), (s, o) => o);
-        //}
-
         public IEvolutionContext GetContext(IGeneticAlgorithm ga, IPopulation population)
         {
             

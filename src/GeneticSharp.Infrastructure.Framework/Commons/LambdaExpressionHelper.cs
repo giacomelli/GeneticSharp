@@ -43,7 +43,6 @@ namespace GeneticSharp.Infrastructure.Framework.Commons
 
             protected override Expression VisitParameter(ParameterExpression node)
             {
-                ;
                 if (dict.TryGetValue(node.Name, out var replPar))
                     return replPar;
                 dict[node.Name] = node;
@@ -85,7 +84,7 @@ namespace GeneticSharp.Infrastructure.Framework.Commons
         public static LambdaExpression ReplaceParameter(this LambdaExpression expr,
             string parName, Expression replacementExpr)
         {
-            var parToRepl = expr.Parameters.Where(p => p.Name.Equals(parName)).First();
+            var parToRepl = expr.Parameters.First(p => p.Name.Equals(parName));
             var newPars = expr.Parameters.Where(p => !p.Name.Equals(parName)).ToArray();
             var vis = new ReplaceParameterVisitor();
             vis.PrepareReplace(parToRepl, replacementExpr);

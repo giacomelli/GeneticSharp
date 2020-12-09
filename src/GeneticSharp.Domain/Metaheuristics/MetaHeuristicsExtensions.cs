@@ -296,15 +296,5 @@ namespace GeneticSharp.Domain.Metaheuristics
         }
 
 
-
-        //public static T WithGeometricOperatorDynamic<T, TValue>(this T geometricCrossover, Expression<Func<IList<TValue>, TValue>> geometricOperator) where T : GeometricCrossover<TValue>
-        //{
-        //    geometricCrossover.GeometricOperator = geometricOperator.Compile();
-        //    return geometricCrossover;
-        //}
-
-
-
-
     }
 }

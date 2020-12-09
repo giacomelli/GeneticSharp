@@ -15,16 +15,6 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
             PhaseHeuristics = new Dictionary<TIndex, IMetaHeuristic>();
         }
 
-        //public PhaseMetaHeuristicBase(int phaseSize, params IMetaHeuristic[] phaseHeuristics)
-        //{
-        //    PhaseSizes = Enumerable.Repeat(phaseSize, phaseHeuristics.Length).ToList();
-        //    PhaseHeuristics = phaseHeuristics.ToList();
-        //}
-
-
-        //public PhaseMetaHeuristicBase( int phaseSize, int repeatNb, params IMetaHeuristic[] phaseHeuristics): this(phaseSize, Enumerable.Repeat(phaseHeuristics, repeatNb/phaseHeuristics.Length).SelectMany(x=>x).ToArray()) { }
-
-
 
         public Dictionary<TIndex,IMetaHeuristic> PhaseHeuristics { get; set; }
 

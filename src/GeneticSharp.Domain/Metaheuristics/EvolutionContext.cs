@@ -54,38 +54,6 @@ namespace GeneticSharp.Domain.Metaheuristics
         }
 
 
-        //public TValue Get<TValue>(IMetaHeuristic h, string paramName)
-        //{
-        //    return GetWithIndex<TValue>(h, paramName, Index);
-        //}
-
-        //public TValue GetWithIndex<TValue>(IMetaHeuristic h, string paramName, int index)
-        //{
-        //    _paramDefinitions.TryGetValue(paramName, out var paramDef);
-
-        //    var key = paramName;
-        //    if (paramDef != null)
-        //    {
-        //        key = paramDef.GetKey(key, Population, CurrentStage, h, index);
-        //    }
-
-        //    if (Params.TryGetValue(key, out var dicValue))
-        //    {
-        //        return (TValue)dicValue;
-        //    }
-
-        //    if (paramDef!=null)
-        //    {
-        //        var toReturn = paramDef.ComputeParameter(h, this);
-        //        Params[key] = toReturn;
-        //        return (TValue) toReturn;
-        //    }
-
-        //    return default;
-        //}
-
-
-
         public void RegisterParameter(string key, IMetaHeuristicParameter param)
         {
             _paramDefinitions.Add(key, param);

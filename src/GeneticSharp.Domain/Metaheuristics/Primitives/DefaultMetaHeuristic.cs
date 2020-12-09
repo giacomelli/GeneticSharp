@@ -26,7 +26,6 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
         public override IList<IChromosome> ScopedMatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability,
             IList<IChromosome> parents)
         {
-            //var selectedParents = parents.Skip(firstParentIndex).Take(crossover.ParentsNumber).ToList();
 
             // If match the probability cross is made, otherwise the offspring is an exact copy of the parents.
             // Checks if the number of selected parents is equal which the crossover expect, because the in the end of the list we can

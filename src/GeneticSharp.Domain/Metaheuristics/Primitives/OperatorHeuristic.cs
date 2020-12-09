@@ -25,21 +25,6 @@
 
             return toReturn;
 
-            //if (DynamicOperator == null)
-            //{
-            //    DynamicOperator = ParameterReplacer.ReduceLambdaParameterGenerator<TOperator>(DynamicOperatorWithArgs, ctx).Compile();
-            //}
-
-            //if (DynamicParameter.Scope != ParameterScope.None)
-            //{
-            //    var toReturn =  DynamicParameter.GetOrAdd<TOperator>(this, ctx, "DynamicOperator");
-            //    if (DynamicParameter.Scope == ParameterScope.Constant )
-            //    {
-            //        StaticOperator = toReturn;
-            //    }
-            //}
-
-            //return DynamicOperator(this, ctx);
         }
 
     }
