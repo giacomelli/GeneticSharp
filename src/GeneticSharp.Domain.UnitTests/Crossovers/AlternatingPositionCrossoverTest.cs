@@ -31,7 +31,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             var target = new AlternatingPositionCrossover();
 
             var chromosome1 = Substitute.For<ChromosomeBase>(8);
-            chromosome1.ReplaceGenes(0, new Gene[] {
+            chromosome1.ReplaceGenes(0, new[] {
                 new Gene(8),
                 new Gene(2),
                 new Gene(3),
@@ -44,7 +44,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             // 3 7 5 1 6 8 2 4
             var chromosome2 = Substitute.For<ChromosomeBase>(8);
-            chromosome2.ReplaceGenes(0, new Gene[] {
+            chromosome2.ReplaceGenes(0, new[] {
                 new Gene(1),
                 new Gene(2),
                 new Gene(3),
@@ -68,7 +68,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             // 1 2 3 4 5 6 7 8
             var chromosome1 = Substitute.For<ChromosomeBase>(8);
-            chromosome1.ReplaceGenes(0, new Gene[] {
+            chromosome1.ReplaceGenes(0, new[] {
                 new Gene(1),
                 new Gene(2),
                 new Gene(3),
@@ -84,7 +84,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             // 3 7 5 1 6 8 2 4
             var chromosome2 = Substitute.For<ChromosomeBase>(8);
-            chromosome2.ReplaceGenes(0, new Gene[] {
+            chromosome2.ReplaceGenes(0, new[] {
                 new Gene(3),
                 new Gene(7),
                 new Gene(5),
@@ -136,7 +136,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             chromosome1.InitializeGenes();
             var chromosome2 = new TspChromosome(100);
             chromosome2.InitializeGenes();
-            var actual = target.Cross(new TspChromosome[] { chromosome1, chromosome2 });
+            var actual = target.Cross(new[] { chromosome1, chromosome2 });
 
             Assert.AreEqual(2, actual.Count);
 

@@ -279,12 +279,12 @@ namespace GeneticSharp.Extensions.Sudoku
         /// <returns>a list of all permutations for given size as lists of elements.</returns>
         static IList<IList<T>> GetPermutations<T>(IEnumerable<T> list, int length)
         {
-            if (length == 1) return list.Select(t => (IList<T>)(new T[] { t }.ToList())).ToList();
+            if (length == 1) return list.Select(t => (IList<T>)(new[] { t }.ToList())).ToList();
 
             var enumeratedList = list.ToList();
             return (IList<IList<T>>)GetPermutations(enumeratedList, length - 1)
               .SelectMany(t => enumeratedList.Where(e => !t.Contains(e)),
-                (t1, t2) => (IList<T>)t1.Concat(new T[] { t2 }).ToList()).ToList();
+                (t1, t2) => (IList<T>)t1.Concat(new[] { t2 }).ToList()).ToList();
         }
 
 

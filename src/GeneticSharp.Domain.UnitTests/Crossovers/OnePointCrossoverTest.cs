@@ -32,7 +32,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         {
             var target = new OnePointCrossover(0);
             var chromosome1 = Substitute.For<ChromosomeBase>(2);
-            chromosome1.ReplaceGenes(0, new Gene[]
+            chromosome1.ReplaceGenes(0, new[]
             {
                 new Gene(1),
                 new Gene(2)
@@ -40,7 +40,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             chromosome1.CreateNew().Returns(Substitute.For<ChromosomeBase>(2));
 
             var chromosome2 = Substitute.For<ChromosomeBase>(2);
-            chromosome2.ReplaceGenes(0, new Gene[]
+            chromosome2.ReplaceGenes(0, new[]
             {
                 new Gene(3),
                 new Gene(4)

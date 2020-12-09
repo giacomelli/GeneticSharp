@@ -85,8 +85,11 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             //start fitness should be random path, which is typically better than worst cases
             Assert.GreaterOrEqual(startFitness, 0.1);
 
-            tspGeometryEmbedding = new TspPermutationEmbedding(fitness) { DefaultNbScans = 1 };
-            tspGeometryEmbedding.SwapSkipsPicker = (rank, repeatIndex) => 4 + (fitness.Cities.Count - 1 - rank) / 5;
+            tspGeometryEmbedding = new TspPermutationEmbedding(fitness)
+            {
+                DefaultNbScans = 1,
+                SwapSkipsPicker = (rank, repeatIndex) => 4 + (fitness.Cities.Count - 1 - rank) / 5
+            };
             sw.Restart();
             tspGeometryEmbedding.RegisterDefaultEmbedding();
             var skipsToChromosome = sw.Elapsed;

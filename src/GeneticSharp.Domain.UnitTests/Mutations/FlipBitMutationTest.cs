@@ -21,7 +21,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         {
             var target = new FlipBitMutation();
             var chromosome =  Substitute.For<ChromosomeBase>(3);
-            chromosome.ReplaceGenes(0, new Gene[]
+            chromosome.ReplaceGenes(0, new[]
                 {
                     new Gene(0),
                     new Gene(0),
@@ -42,7 +42,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
 
             var target = new FlipBitMutation();
             var chromosome = new BinaryChromosomeStub(3);
-            chromosome.ReplaceGenes(0, new Gene[]
+            chromosome.ReplaceGenes(0, new[]
                 {
                     new Gene(0),
                     new Gene(0),

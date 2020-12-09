@@ -34,7 +34,7 @@ namespace GeneticSharp.Domain.Chromosomes
                 if (m_originalValue == null)
                 {
                     var intValue = RandomizationProvider.Current.GetInt(m_minValue, m_maxValue);
-                    m_originalValue = new BitArray(new int[] { intValue });
+                    m_originalValue = new BitArray(new[] { intValue });
                 }
                 return m_originalValue;
             }

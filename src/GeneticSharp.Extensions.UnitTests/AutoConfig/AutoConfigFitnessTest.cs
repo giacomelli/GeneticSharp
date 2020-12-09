@@ -27,10 +27,10 @@ namespace GeneticSharp.Extensions.UnitTests.AutoConfig
             var targetChromosome = new TspChromosome(10);
             targetChromosome.InitializeGenes();
             var targetFitness = new TspFitness(10, 0, 100, 0, 100);
-            var target = new AutoConfigFitness(targetFitness, targetChromosome);
-            target.PopulationMinSize = 20;
-            target.PopulationMaxSize = 20;
-            target.Termination = new FitnessThresholdTermination(0.1f);
+            var target = new AutoConfigFitness(targetFitness, targetChromosome)
+            {
+                PopulationMinSize = 20, PopulationMaxSize = 20, Termination = new FitnessThresholdTermination(0.1f)
+            };
 
             var actual = target.Evaluate(chromosome);
             Assert.AreNotEqual(0, actual);

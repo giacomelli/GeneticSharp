@@ -15,7 +15,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         public void AnyChromosomeHasRepeatedGene_NonRepeatedGene_False()
         {
             var chromosome1 = Substitute.For<ChromosomeBase>(3);
-            chromosome1.ReplaceGenes(0, new Gene[]
+            chromosome1.ReplaceGenes(0, new[]
                                      {
                 new Gene(1),
                 new Gene(2),
@@ -26,7 +26,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
             Assert.IsFalse(chromosomes.AnyHasRepeatedGene());
 
             var chromosome2 = Substitute.For<ChromosomeBase>(3);
-            chromosome2.ReplaceGenes(0, new Gene[]
+            chromosome2.ReplaceGenes(0, new[]
                                      {
                 new Gene(1),
                 new Gene(2),
@@ -41,7 +41,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         public void AnyChromosomeHasRepeatedGene_RepeatedGene_True()
         {
             var chromosome1 = Substitute.For<ChromosomeBase>(3);
-            chromosome1.ReplaceGenes(0, new Gene[]
+            chromosome1.ReplaceGenes(0, new[]
                                      {
                 new Gene(1),
                 new Gene(2),
@@ -49,7 +49,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
             });
 
             var chromosome2 = Substitute.For<ChromosomeBase>(3);
-            chromosome1.ReplaceGenes(0, new Gene[]
+            chromosome1.ReplaceGenes(0, new[]
             {
                 new Gene(4),
                 new Gene(5),
@@ -76,7 +76,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         public void ValidateGenes_AllGenesWithValue_NoException()
         {
             var chromosome1 = Substitute.For<ChromosomeBase>(3);
-            chromosome1.ReplaceGenes (0, new Gene[] { new Gene (1), new Gene (2), new Gene (3) });
+            chromosome1.ReplaceGenes (0, new[] { new Gene (1), new Gene (2), new Gene (3) });
 
             chromosome1.ValidateGenes();
         }
@@ -85,7 +85,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         public void ValidateGenes_ChromosomesWithGenesWithNullValue_Exception()
         {
             var chromosome1 = Substitute.For<ChromosomeBase>(3);
-            chromosome1.ReplaceGenes (0, new Gene[] { new Gene (1), new Gene (2), new Gene (3) });
+            chromosome1.ReplaceGenes (0, new[] { new Gene (1), new Gene (2), new Gene (3) });
             var chromosome2 = Substitute.For<ChromosomeBase>(3);
 
             Assert.Catch<InvalidOperationException>(
@@ -98,9 +98,9 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         public void ValidateGenes_ChromosomesWithAllGenesWithValue_NoException()
         {
             var chromosome1 = Substitute.For<ChromosomeBase>(3);
-            chromosome1.ReplaceGenes (0, new Gene[] { new Gene (1), new Gene (2), new Gene (3) });
+            chromosome1.ReplaceGenes (0, new[] { new Gene (1), new Gene (2), new Gene (3) });
             var chromosome2 = Substitute.For<ChromosomeBase>(3);
-            chromosome2.ReplaceGenes (0, new Gene[] { new Gene (1), new Gene (2), new Gene (3) });
+            chromosome2.ReplaceGenes (0, new[] { new Gene (1), new Gene (2), new Gene (3) });
 
             (new List<IChromosome>() { chromosome1, chromosome2 }).ValidateGenes();
         }

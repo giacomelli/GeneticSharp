@@ -54,8 +54,8 @@ namespace GeneticSharp.Runner.GtkApp
             return new FloatingPointChromosome(
                 new double[] { 0, 0, 0, 0 },
                 new double[] { w, h, w, h },
-                new int[] { 16, 16, 16, 16 },
-                new int[] { 0, 0, 0, 0 });
+                new[] { 16, 16, 16, 16 },
+                new[] { 0, 0, 0, 0 });
         }
 
         public override ICrossover CreateCrossover()

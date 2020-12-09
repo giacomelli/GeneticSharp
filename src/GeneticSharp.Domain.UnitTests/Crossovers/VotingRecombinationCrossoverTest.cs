@@ -36,7 +36,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             // 1 4 3 5 2 6
             var chromosome1 = Substitute.For<ChromosomeBase>(6);
-            chromosome1.ReplaceGenes(0, new Gene[] {
+            chromosome1.ReplaceGenes(0, new[] {
                 new Gene(1),
                 new Gene(4),
                 new Gene(3),
@@ -53,7 +53,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             // 1 2 4 3 5 6
             var chromosome2 = Substitute.For<ChromosomeBase>(6);
-            chromosome2.ReplaceGenes(0, new Gene[]
+            chromosome2.ReplaceGenes(0, new[]
             {
                 new Gene(1),
                 new Gene(2),
@@ -65,7 +65,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             // 3 2 1 5 4 6
             var chromosome3 = Substitute.For<ChromosomeBase>(6);
-            chromosome3.ReplaceGenes(0, new Gene[]
+            chromosome3.ReplaceGenes(0, new[]
             {
                 new Gene(3),
                 new Gene(2),
@@ -77,7 +77,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
       
             // 1 2 3 4 5 6
             var chromosome4 = Substitute.For<ChromosomeBase>(6);
-            chromosome4.ReplaceGenes(0, new Gene[]
+            chromosome4.ReplaceGenes(0, new[]
             {
                 new Gene(1),
                 new Gene(2),

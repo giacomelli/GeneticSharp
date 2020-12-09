@@ -21,7 +21,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         {
             var target = new TworsMutation();
             var chromosome = Substitute.For<ChromosomeBase>(4);
-            chromosome.ReplaceGenes(0, new Gene[]
+            chromosome.ReplaceGenes(0, new[]
             {
                 new Gene(1),
                 new Gene(2),
@@ -47,7 +47,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         {
             var target = new TworsMutation();
             var chromosome = Substitute.For<ChromosomeBase>(4);
-            chromosome.ReplaceGenes(0, new Gene[]
+            chromosome.ReplaceGenes(0, new[]
                                                      {
                 new Gene(1),
                 new Gene(2),
@@ -56,7 +56,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             });
 
             var rnd = Substitute.For<IRandomization>();
-            rnd.GetUniqueInts(2, 0, 4).Returns(new int[] { 0, 2 });
+            rnd.GetUniqueInts(2, 0, 4).Returns(new[] { 0, 2 });
             RandomizationProvider.Current = rnd;
 
             target.Mutate(chromosome, 1);

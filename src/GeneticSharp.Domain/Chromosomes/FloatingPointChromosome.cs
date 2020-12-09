@@ -24,7 +24,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <param name="maxValue">Max value.</param>
         /// <param name="fractionDigits">Decimals.</param>
         public FloatingPointChromosome (double minValue, double maxValue, int fractionDigits) 
-            : this(new double[] { minValue }, new double[] { maxValue }, new int[] { 32 }, new int[] { fractionDigits })
+            : this(new[] { minValue }, new[] { maxValue }, new[] { 32 }, new[] { fractionDigits })
         {
         }
 
@@ -36,7 +36,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <param name="totalBits">Total bits.</param>
         /// <param name="fractionDigits">Decimals.</param>
         public FloatingPointChromosome(double minValue, double maxValue, int totalBits, int fractionDigits)
-            : this(new double[] { minValue }, new double[] { maxValue }, new int[] { totalBits }, new int[] { fractionDigits })
+            : this(new[] { minValue }, new[] { maxValue }, new[] { totalBits }, new[] { fractionDigits })
         {
         }
 

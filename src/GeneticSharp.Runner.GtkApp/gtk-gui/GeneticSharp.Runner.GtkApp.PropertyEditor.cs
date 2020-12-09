@@ -29,23 +29,24 @@ namespace GeneticSharp.Runner.GtkApp
             w2.BorderWidth = ((uint)(5));
             w2.LayoutStyle = ((global::Gtk.ButtonBoxStyle)(4));
             // Container child dialog1_ActionArea.Gtk.ButtonBox+ButtonBoxChild
-            this.buttonCancel = new global::Gtk.Button();
-            this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.UseStock = true;
-            this.buttonCancel.UseUnderline = true;
-            this.buttonCancel.Label = "gtk-cancel";
+            this.buttonCancel = new global::Gtk.Button
+            {
+                Name = "buttonCancel", UseStock = true, UseUnderline = true, Label = "gtk-cancel"
+            };
             this.AddActionWidget(this.buttonCancel, -6);
             global::Gtk.ButtonBox.ButtonBoxChild w3 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w2[this.buttonCancel]));
             w3.Expand = false;
             w3.Fill = false;
             // Container child dialog1_ActionArea.Gtk.ButtonBox+ButtonBoxChild
-            this.buttonOk = new global::Gtk.Button();
-            this.buttonOk.CanDefault = true;
-            this.buttonOk.CanFocus = true;
-            this.buttonOk.Name = "buttonOk";
-            this.buttonOk.UseStock = true;
-            this.buttonOk.UseUnderline = true;
-            this.buttonOk.Label = "gtk-ok";
+            this.buttonOk = new global::Gtk.Button
+            {
+                CanDefault = true,
+                CanFocus = true,
+                Name = "buttonOk",
+                UseStock = true,
+                UseUnderline = true,
+                Label = "gtk-ok"
+            };
             this.AddActionWidget(this.buttonOk, -5);
             global::Gtk.ButtonBox.ButtonBoxChild w4 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w2[this.buttonOk]));
             w4.Position = 1;

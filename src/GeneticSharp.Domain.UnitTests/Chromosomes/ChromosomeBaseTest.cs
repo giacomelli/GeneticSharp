@@ -57,7 +57,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
             Assert.IsFalse(target.Fitness.HasValue);
 
             target.Fitness = 0.5;
-            target.ReplaceGenes(0, new Gene[] { new Gene(0) });
+            target.ReplaceGenes(0, new[] { new Gene(0) });
             Assert.IsFalse(target.Fitness.HasValue);
 
             target.Fitness = 0.5;
@@ -106,12 +106,12 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
 
             Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
-                target.ReplaceGenes(2, new Gene[] { new Gene() });
+                target.ReplaceGenes(2, new[] { new Gene() });
             }, "There is no Gene on index 2 to be replaced.");
 
             Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
-                target.ReplaceGenes(3, new Gene[] { new Gene() });
+                target.ReplaceGenes(3, new[] { new Gene() });
             }, "There is no Gene on index 3 to be replaced.");
         }
 
@@ -133,12 +133,12 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
 
             Assert.Catch<ArgumentException>(() =>
             {
-                target.ReplaceGenes(0, new Gene[] { new Gene(1), new Gene(2), new Gene(3), new Gene(4) });
+                target.ReplaceGenes(0, new[] { new Gene(1), new Gene(2), new Gene(3), new Gene(4) });
             }, "The number of genes to be replaced is greater than available space, there is 3 genes between the index 0 and the end of chromosome, but there is 4 genes to be replaced.");
 
             Assert.Catch<ArgumentException>(() =>
             {
-                target.ReplaceGenes(1, new Gene[] { new Gene(1), new Gene(2), new Gene(3) });
+                target.ReplaceGenes(1, new[] { new Gene(1), new Gene(2), new Gene(3) });
             }, "The number of genes to be replaced is greater than available space, there is 2 genes between the index 1 and the end of chromosome, but there is 3 genes to be replaced.");
         }
 
@@ -147,14 +147,14 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         {
             var target = Substitute.For<ChromosomeBase>(4);
 
-            target.ReplaceGenes(0, new Gene[] { new Gene(1), new Gene(2) });
+            target.ReplaceGenes(0, new[] { new Gene(1), new Gene(2) });
 
             var actual = target.GetGenes();
             Assert.AreEqual(4, actual.Length);
             Assert.AreEqual(1, actual[0].Value);
             Assert.AreEqual(2, actual[1].Value);
 
-            target.ReplaceGenes(2, new Gene[] { new Gene(3), new Gene(4) });
+            target.ReplaceGenes(2, new[] { new Gene(3), new Gene(4) });
 
             actual = target.GetGenes();
             Assert.AreEqual(4, actual.Length);
@@ -163,7 +163,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
             Assert.AreEqual(3, actual[2].Value);
             Assert.AreEqual(4, actual[3].Value);
 
-            target.ReplaceGenes(3, new Gene[] { new Gene(5) });
+            target.ReplaceGenes(3, new[] { new Gene(5) });
 
             actual = target.GetGenes();
             Assert.AreEqual(4, actual.Length);
@@ -188,7 +188,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         public void Resize_ToLowerLength_TruncateGenes()
         {
             var target = Substitute.For<ChromosomeBase>(4);
-            target.ReplaceGenes(0, new Gene[]
+            target.ReplaceGenes(0, new[]
             {
                 new Gene(1),
                 new Gene(2),
@@ -206,7 +206,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         public void Resize_ToGreaterLength_KeepOldGenesAndNullValueNewOnes()
         {
             var target = Substitute.For<ChromosomeBase>(2);
-            target.ReplaceGenes(0, new Gene[]
+            target.ReplaceGenes(0, new[]
             {
                 new Gene(1),
                 new Gene(2)
@@ -230,16 +230,14 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         [Test]
         public void GetHashCode_NoFitness_Zero()
         {
-            var target = new ChromosomeStub();
-            target.Fitness = null;
+            var target = new ChromosomeStub {Fitness = null};
             Assert.AreEqual(0, target.GetHashCode());
         }
 
         [Test]
         public void GetHashCode_Fitness_EqualsFitnessHashCode()
         {
-            var target = new ChromosomeStub();
-            target.Fitness = 123;
+            var target = new ChromosomeStub {Fitness = 123};
             Assert.AreEqual(target.Fitness.GetHashCode(), target.GetHashCode());
         }
 

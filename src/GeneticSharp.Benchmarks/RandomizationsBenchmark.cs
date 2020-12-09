@@ -6,8 +6,8 @@ namespace GeneticSharp.Benchmarks
     [Config(typeof(DefaultConfig))]
     public class RandomizationsBenchmark
     {
-        private BasicRandomization _basic = new BasicRandomization();
-        private FastRandomRandomization _fastRandom = new FastRandomRandomization();
+        private readonly BasicRandomization _basic = new BasicRandomization();
+        private readonly FastRandomRandomization _fastRandom = new FastRandomRandomization();
         private const int Min = -100;
         private const int Max = 100;
         private const int ArrayLength = 10;

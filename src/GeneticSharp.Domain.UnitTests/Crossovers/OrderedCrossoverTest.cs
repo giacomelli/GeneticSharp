@@ -24,7 +24,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             var target = new OrderedCrossover();
 
             var chromosome1 = Substitute.For<ChromosomeBase>(10);
-            chromosome1.ReplaceGenes(0, new Gene[] {
+            chromosome1.ReplaceGenes(0, new[] {
                 new Gene(8),
                 new Gene(4),
                 new Gene(7),
@@ -39,7 +39,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             chromosome1.CreateNew().Returns(Substitute.For<ChromosomeBase>(10));
 
             var chromosome2 = Substitute.For<ChromosomeBase>(10);
-            chromosome2.ReplaceGenes(0, new Gene[]
+            chromosome2.ReplaceGenes(0, new[]
             {
                 new Gene(0),
                 new Gene(1),
@@ -67,7 +67,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             // 8 4 7 3 6 2 5 1 9 0
             var chromosome1 = Substitute.For<ChromosomeBase>(10);
-            chromosome1.ReplaceGenes(0, new Gene[] {
+            chromosome1.ReplaceGenes(0, new[] {
                 new Gene(8),
                 new Gene(4),
                 new Gene(7),
@@ -83,7 +83,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             // 0 1 2 3 4 5 6 7 8 9
             var chromosome2 = Substitute.For<ChromosomeBase>(10);
-            chromosome2.ReplaceGenes(0, new Gene[]
+            chromosome2.ReplaceGenes(0, new[]
             {
                 new Gene(0),
                 new Gene(1),
@@ -101,7 +101,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             // Child one: 0 4 7 3 6 2 5 1 8 9 
             // Child two: 8 2 1 3 4 5 6 7 9 0
             var rnd = Substitute.For<IRandomization>();
-            rnd.GetUniqueInts(2, 0, 10).Returns(new int[] { 7, 3 });
+            rnd.GetUniqueInts(2, 0, 10).Returns(new[] { 7, 3 });
             RandomizationProvider.Current = rnd;
 
             var actual = target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });

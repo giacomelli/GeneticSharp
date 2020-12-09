@@ -195,7 +195,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             var geneticsLabel = new Label { Text = "Genetics" };
             geneticsHBox.Add(geneticsLabel);
 
-            var chromosomeTypes = new string[] {
+            var chromosomeTypes = new[] {
         nameof(SudokuChromosomeType.RowsPermutations)
         ,nameof(SudokuChromosomeType.Cells)
         ,nameof(SudokuChromosomeType.CellsInitWithRowsPermutations)

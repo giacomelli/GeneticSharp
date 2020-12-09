@@ -34,15 +34,13 @@ namespace GeneticSharp.Extensions.UnitTests.Drawing
 
             var population = new Population(10, 10, chromosome);
 
-            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
-
-            ga.TaskExecutor = new ParallelTaskExecutor()
+            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation)
             {
-                MinThreads = 10,
-                MaxThreads = 20
+                TaskExecutor = new ParallelTaskExecutor() {MinThreads = 10, MaxThreads = 20},
+                Termination = new GenerationNumberTermination(5)
             };
 
-            ga.Termination = new GenerationNumberTermination(5);
+
             ga.Start();
 
             var c = ga.BestChromosome as BitmapChromosome;

@@ -34,8 +34,11 @@ namespace GeneticSharp.Extensions.UnitTests.Mathematic
 
             var population = new Population(100, 200, chromosome);
 
-            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
-            ga.Termination = new OrTermination(new FitnessThresholdTermination(0), new TimeEvolvingTermination(TimeSpan.FromSeconds(15)));
+            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation)
+            {
+                Termination = new OrTermination(new FitnessThresholdTermination(0),
+                    new TimeEvolvingTermination(TimeSpan.FromSeconds(15)))
+            };
             ga.Start();
             var bestChromosome = ga.BestChromosome as FunctionBuilderChromosome;
             Assert.AreEqual(0.0, bestChromosome.Fitness.Value);

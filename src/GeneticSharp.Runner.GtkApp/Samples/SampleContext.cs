@@ -48,10 +48,12 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 
         public Gdk.GC CreateGC(Gdk.Color foregroundColor)
         {
-            var gc = new Gdk.GC(GdkWindow);
-            gc.RgbFgColor = foregroundColor;
-            gc.RgbBgColor = new Gdk.Color(255, 255, 255);
-            gc.Background = new Gdk.Color(255, 255, 255);
+            var gc = new Gdk.GC(GdkWindow)
+            {
+                RgbFgColor = foregroundColor,
+                RgbBgColor = new Gdk.Color(255, 255, 255),
+                Background = new Gdk.Color(255, 255, 255)
+            };
             gc.SetLineAttributes(1, LineStyle.OnOffDash, CapStyle.Projecting, JoinStyle.Round);
 
             return gc;

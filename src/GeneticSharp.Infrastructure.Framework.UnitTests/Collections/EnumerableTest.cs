@@ -16,7 +16,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Collections
         [Test()]
         public void Each_AddOne_ValuesExpected()
         {
-            var initArray = new int[] {0,1,2} ;
+            var initArray = new[] {0,1,2} ;
             var targetList = new List<int>(initArray.Length);
             initArray.Each(i=>targetList.Add(i+1));
 

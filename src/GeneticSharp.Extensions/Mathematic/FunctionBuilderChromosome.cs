@@ -46,7 +46,7 @@ namespace GeneticSharp.Extensions.Mathematic
         /// <param name="parametersCount">Parameters count.</param>
         public static ReadOnlyCollection<string> BuildAvailableOperations(int parametersCount)
         {
-            var availableOperations = new List<string>(new string[] { string.Empty, "+", "-", "/", "*", "__INT__" });
+            var availableOperations = new List<string>(new[] { string.Empty, "+", "-", "/", "*", "__INT__" });
             availableOperations.AddRange(GetParameterNames(parametersCount));
 
             return availableOperations.AsReadOnly();

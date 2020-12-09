@@ -103,22 +103,22 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             rnd.GetInt(0, 2).Returns(0);
             rnd.GetInt(0, 1).Returns(1);
 
-            var actual = new int[] { 1, 2, 3, 4, 5 }.Shuffle(rnd);
-            CollectionAssert.AreEqual(new int[] { 5, 3, 4, 1, 2 }, actual);
+            var actual = new[] { 1, 2, 3, 4, 5 }.Shuffle(rnd);
+            CollectionAssert.AreEqual(new[] { 5, 3, 4, 1, 2 }, actual);
         }
 
         [Test()]
         public void LeftShift_ValueToShift_Shifted()
         {
-             var actual = new int[] { 1, 2, 3, 4, 5 }.LeftShift(2);
-            CollectionAssert.AreEqual(new int[] { 3, 4, 5, 1, 2 }, actual);
+             var actual = new[] { 1, 2, 3, 4, 5 }.LeftShift(2);
+            CollectionAssert.AreEqual(new[] { 3, 4, 5, 1, 2 }, actual);
         }
 
         [Test()]
         public void RightShift_ValueToShift_Shifted()
         {
-            var actual = new int[] { 1, 2, 3, 4, 5 }.RightShift(2);
-            CollectionAssert.AreEqual(new int[] { 4, 5, 1, 2, 3 }, actual);
+            var actual = new[] { 1, 2, 3, 4, 5 }.RightShift(2);
+            CollectionAssert.AreEqual(new[] { 4, 5, 1, 2, 3 }, actual);
         }
     }
 }

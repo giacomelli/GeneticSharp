@@ -43,7 +43,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
             RandomizationProvider.Current.GetDouble(0, 10).Returns(1);
             RandomizationProvider.Current.GetDouble(1, 11).Returns(2);
             RandomizationProvider.Current.GetDouble(2, 12).Returns(3);
-            var target = new FloatingPointChromosome(new double[] { 0, 1, 2 }, new double[] { 10, 11, 12 }, new int[] { 8, 8, 8 }, new int[] { 0, 0, 0 });
+            var target = new FloatingPointChromosome(new double[] { 0, 1, 2 }, new double[] { 10, 11, 12 }, new[] { 8, 8, 8 }, new[] { 0, 0, 0 });
             target.InitializeGenes();
             var actual = target.ToFloatingPoints();
 

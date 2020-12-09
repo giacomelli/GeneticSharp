@@ -22,7 +22,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         {
             var target = new PartialShuffleMutation();
             var chromosome = Substitute.For<ChromosomeBase>(2);
-            chromosome.ReplaceGenes(0, new Gene[]
+            chromosome.ReplaceGenes(0, new[]
                                     {
                 new Gene(1),
             });
@@ -38,7 +38,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         {
             var target = new PartialShuffleMutation();
             var chromosome = Substitute.For<ChromosomeBase>(4);
-            chromosome.ReplaceGenes(0, new Gene[]
+            chromosome.ReplaceGenes(0, new[]
                                     {
                 new Gene(1),
                 new Gene(2),
@@ -64,7 +64,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         {
             var target = new PartialShuffleMutation();
             var chromosome = Substitute.For<ChromosomeBase>(6);
-            chromosome.ReplaceGenes(0, new Gene[]
+            chromosome.ReplaceGenes(0, new[]
                                     {
                 new Gene(1),
                 new Gene(2),
@@ -75,7 +75,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             });
 
             var rnd = Substitute.For<IRandomization>();
-            rnd.GetUniqueInts(2, 0, 6).Returns(new int[] { 1, 4 });
+            rnd.GetUniqueInts(2, 0, 6).Returns(new[] { 1, 4 });
             rnd.GetInt(0, 4).Returns(2);
             rnd.GetInt(0, 3).Returns(1);
             rnd.GetInt(0, 2).Returns(1);
@@ -98,7 +98,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         {
             var target = new PartialShuffleMutation();
             var chromosome = Substitute.For<ChromosomeBase>(6);
-            chromosome.ReplaceGenes(0, new Gene[]
+            chromosome.ReplaceGenes(0, new[]
             {
                 new Gene(1),
                 new Gene(1),
@@ -109,7 +109,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             });
 
             var rnd = Substitute.For<IRandomization>();
-            rnd.GetUniqueInts(2, 0, 6).Returns(new int[] { 1, 4 });
+            rnd.GetUniqueInts(2, 0, 6).Returns(new[] { 1, 4 });
             rnd.GetInt(0, 4).Returns(2);
             rnd.GetInt(0, 3).Returns(1);
             rnd.GetInt(0, 2).Returns(1);

@@ -104,10 +104,10 @@ namespace GeneticSharp.Domain.UnitTests.Selections
 
             var rnd = Substitute.For<IRandomization>();
             rnd.GetUniqueInts(3, 0, 6).Returns(
-                new int[] { 0, 1, 2 },
-                new int[] { 3, 4, 5 },
-                new int[] { 0, 2, 4 },
-                new int[] { 1, 3, 5 });
+                new[] { 0, 1, 2 },
+                new[] { 3, 4, 5 },
+                new[] { 0, 2, 4 },
+                new[] { 1, 3, 5 });
 
             RandomizationProvider.Current = rnd;
       
@@ -147,10 +147,10 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             });
 
             var rnd = Substitute.For<IRandomization>();
-            rnd.GetUniqueInts(3, 0, 6).Returns(new int[] { 0, 1, 2 });
-            rnd.GetUniqueInts(3, 0, 5).Returns(new int[] { 2, 3, 4 });
-            rnd.GetUniqueInts(3, 0, 4).Returns(new int[] { 0, 1, 2 });
-            rnd.GetUniqueInts(3, 0, 3).Returns(new int[] { 0, 1, 2 });
+            rnd.GetUniqueInts(3, 0, 6).Returns(new[] { 0, 1, 2 });
+            rnd.GetUniqueInts(3, 0, 5).Returns(new[] { 2, 3, 4 });
+            rnd.GetUniqueInts(3, 0, 4).Returns(new[] { 0, 1, 2 });
+            rnd.GetUniqueInts(3, 0, 3).Returns(new[] { 0, 1, 2 });
 
             RandomizationProvider.Current = rnd;
 

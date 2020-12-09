@@ -54,11 +54,15 @@ namespace GeneticSharp.Runner.ConsoleApp
             var crossover = sampleController.CreateCrossover();
             var mutation = sampleController.CreateMutation();
             var fitness = sampleController.CreateFitness();
-            var population = new Population(100, 200, sampleController.CreateChromosome());
-            population.GenerationStrategy = new PerformanceGenerationStrategy();
+            var population = new Population(100, 200, sampleController.CreateChromosome())
+            {
+                GenerationStrategy = new PerformanceGenerationStrategy()
+            };
 
-            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
-            ga.Termination = sampleController.CreateTermination();
+            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation)
+            {
+                Termination = sampleController.CreateTermination()
+            };
 
             var terminationName = ga.Termination.GetType().Name;
 

@@ -21,7 +21,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         {
             var target = new UniformMutation();
             var chromosome = Substitute.For<ChromosomeBase>(3);
-            chromosome.ReplaceGenes(0, new Gene[]
+            chromosome.ReplaceGenes(0, new[]
             {
                 new Gene(1),
                 new Gene(1),
@@ -30,7 +30,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
 
             chromosome.GenerateGene(1).Returns(new Gene(0));
             RandomizationProvider.Current = Substitute.For<IRandomization>();
-            RandomizationProvider.Current.GetInts(1, 0, 3).Returns(new int[] { 1 });
+            RandomizationProvider.Current.GetInts(1, 0, 3).Returns(new[] { 1 });
 
             target.Mutate(chromosome, 1);
             Assert.AreEqual(1, chromosome.GetGene(0).Value);
@@ -43,7 +43,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         {
             var target = new UniformMutation(0, 3);
             var chromosome = Substitute.For<ChromosomeBase>(3);
-            chromosome.ReplaceGenes(0, new Gene[]
+            chromosome.ReplaceGenes(0, new[]
             {
                 new Gene(1),
                 new Gene(1),
@@ -65,7 +65,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         {
             var target = new UniformMutation(0, 2);
             var chromosome = Substitute.For<ChromosomeBase>(3);
-            chromosome.ReplaceGenes(0, new Gene[]
+            chromosome.ReplaceGenes(0, new[]
                                                      {
                 new Gene(1),
                 new Gene(1),
@@ -88,7 +88,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         {
             var target = new UniformMutation(true);
             var chromosome = Substitute.For<ChromosomeBase>(3);
-            chromosome.ReplaceGenes(0, new Gene[]
+            chromosome.ReplaceGenes(0, new[]
                                  {
                 new Gene(1),
                 new Gene(1),

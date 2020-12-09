@@ -57,17 +57,13 @@ namespace GeneticSharp.Domain.UnitTests.Selections
         {
 
             var target = new StochasticUniversalSamplingSelection();
-            var c1 = new ChromosomeStub();
-            c1.Fitness = 0.1;
+            var c1 = new ChromosomeStub {Fitness = 0.1};
 
-            var c2 = new ChromosomeStub();
-            c2.Fitness = 0.5;
+            var c2 = new ChromosomeStub {Fitness = 0.5};
 
-            var c3 = new ChromosomeStub();
-            c3.Fitness = 0;
+            var c3 = new ChromosomeStub {Fitness = 0};
 
-            var c4 = new ChromosomeStub();
-            c4.Fitness = 0.7;
+            var c4 = new ChromosomeStub {Fitness = 0.7};
 
             var generation = new Generation(1, new List<IChromosome>() {
                 c1, c2, c3, c4
