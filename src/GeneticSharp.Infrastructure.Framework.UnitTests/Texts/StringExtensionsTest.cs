@@ -93,7 +93,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Texts
             Assert.AreEqual(d1,d2);
 
             
-            Assert.Greater(firstDuration.Ticks, fasterVersionDuration.Ticks * 2);
+            Assert.Greater(firstDuration.Ticks, fasterVersionDuration.Ticks * 1.5);
 
         }
 
