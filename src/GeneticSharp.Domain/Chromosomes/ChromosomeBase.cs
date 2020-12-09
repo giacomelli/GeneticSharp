@@ -270,9 +270,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <see cref="GeneticSharp.Domain.Chromosomes.ChromosomeBase"/>; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
-            var other = obj as IChromosome;
-
-            if (other == null)
+            if (!(obj is IChromosome other))
             {
                 return false;
             }

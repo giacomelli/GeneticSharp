@@ -130,7 +130,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var crossover = new OnePointCrossover(2);
 
             var resultsRatio = new[] {1.5, 5, 50, 1.5};
-            int maxNbGenerations = 200;
+            int maxNbGenerations = 100;
 
             Compare_WOA_Crossover_KnownFunctions_Size_LargerFitness_Bounded(crossover, SmallSizes, maxNbGenerations, resultsRatio);
 

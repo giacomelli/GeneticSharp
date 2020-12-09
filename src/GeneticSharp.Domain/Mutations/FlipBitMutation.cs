@@ -35,9 +35,8 @@ namespace GeneticSharp.Domain.Mutations
         /// <param name="probability">The probability to mutate each chromosome.</param>
         protected override void PerformMutate (IChromosome chromosome, float probability)
         {
-            var binaryChromosome = chromosome as IBinaryChromosome;
 
-            if (binaryChromosome == null) 
+            if (!(chromosome is IBinaryChromosome binaryChromosome))
             {
                 throw new MutationException (this, "Needs a binary chromosome that implements IBinaryChromosome.");    
             }
