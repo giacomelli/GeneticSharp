@@ -147,15 +147,15 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
 
 
 
-        [Test()]
+        //[Test()]
         public void GridSearch_WOA()
         {
             var repeatNb = 3;
             var testParams = new List<(int nbCities, double seconds, double helicoidScale, int nbGenerationsWOA, double ratio)>
             {
                 (80, 1, 1, 200, 1.2),
-                (80, 1, 0, 200, 1.2),
-                (80, 1,-1, 200, 1.2),
+                (80, 1, 1, 200, 1.2),
+                (80, 1, 1, 200, 1.2),
             };
 
             var meansByParam = new List<(double meanNative, double meanWoa, double meanWoaGeom, double meanWoaSwap)>();
