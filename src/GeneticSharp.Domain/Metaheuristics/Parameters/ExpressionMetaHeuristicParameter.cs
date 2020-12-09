@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace GeneticSharp.Domain.Metaheuristics
+namespace GeneticSharp.Domain.Metaheuristics.Parameters
 {
     
 

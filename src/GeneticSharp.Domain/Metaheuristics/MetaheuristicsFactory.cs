@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GeneticSharp.Domain.Crossovers.Geometric;
+using GeneticSharp.Domain.Metaheuristics.Parameters;
 using GeneticSharp.Domain.Metaheuristics.Primitives;
 using GeneticSharp.Domain.Randomizations;
 

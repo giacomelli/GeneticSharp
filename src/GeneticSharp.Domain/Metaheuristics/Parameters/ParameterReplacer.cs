@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using GeneticSharp.Infrastructure.Framework.Commons;
 
-namespace GeneticSharp.Domain.Metaheuristics
+namespace GeneticSharp.Domain.Metaheuristics.Parameters
 {
     public static class ParameterReplacer
     {

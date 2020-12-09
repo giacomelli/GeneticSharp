@@ -1,6 +1,6 @@
 ﻿using GeneticSharp.Domain.Metaheuristics.Primitives;
 
-namespace GeneticSharp.Domain.Metaheuristics
+namespace GeneticSharp.Domain.Metaheuristics.Parameters
 {
 
     public delegate TParamType ParameterGenerator<out TParamType>(IMetaHeuristic h, IEvolutionContext ctx);

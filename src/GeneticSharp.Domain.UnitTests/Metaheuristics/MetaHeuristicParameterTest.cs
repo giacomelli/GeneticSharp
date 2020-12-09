@@ -1,4 +1,5 @@
 ﻿using GeneticSharp.Domain.Metaheuristics;
+using GeneticSharp.Domain.Metaheuristics.Parameters;
 using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.MetaHeuristics

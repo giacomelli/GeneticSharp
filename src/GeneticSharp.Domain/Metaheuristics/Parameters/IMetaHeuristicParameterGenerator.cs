@@ -1,4 +1,4 @@
-﻿namespace GeneticSharp.Domain.Metaheuristics
+﻿namespace GeneticSharp.Domain.Metaheuristics.Parameters
 {
     public interface IMetaHeuristicParameterGenerator<out TParamType>: IMetaHeuristicParameter
     {

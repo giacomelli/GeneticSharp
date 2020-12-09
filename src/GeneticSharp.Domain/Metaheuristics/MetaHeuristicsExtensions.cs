@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Crossovers.Geometric;
+using GeneticSharp.Domain.Metaheuristics.Parameters;
 using GeneticSharp.Domain.Metaheuristics.Primitives;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Reinsertions;

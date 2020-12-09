@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace GeneticSharp.Domain.Metaheuristics
+namespace GeneticSharp.Domain.Metaheuristics.Parameters
 {
     public interface IExpressionGeneratorParameter: IMetaHeuristicParameter
     {

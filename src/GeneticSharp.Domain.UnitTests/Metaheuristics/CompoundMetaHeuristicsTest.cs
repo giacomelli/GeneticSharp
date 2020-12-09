@@ -142,7 +142,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
             var crossover = new UniformCrossover();
 
-            var resultsRatio = new[] { 1, 3.0, 30, 1 };
+            var resultsRatio = new[] { 1, 3.0, 20, 1 };
 
           Compare_WOA_Crossover_KnownFunctions_Small_LargerFitness_Bounded(crossover, resultsRatio);
             

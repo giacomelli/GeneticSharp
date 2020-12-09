@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Metaheuristics.Parameters;
 using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Selections;
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GeneticSharp.Domain.Metaheuristics
+namespace GeneticSharp.Domain.Metaheuristics.Parameters
 {
     [Flags]
     public enum ParamScope

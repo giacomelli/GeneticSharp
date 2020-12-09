@@ -1,7 +1,8 @@
 ﻿using GeneticSharp.Domain.Metaheuristics.Primitives;
 
-namespace GeneticSharp.Domain.Metaheuristics
+namespace GeneticSharp.Domain.Metaheuristics.Parameters
 {
+
     public interface IMetaHeuristicParameter
     {
         ParamScope Scope { get; set; }
