@@ -157,13 +157,13 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             double GetGeneValueFunction(double d) => Math.Sign(d) * Math.Min(Math.Abs(d), maxCoordinate);
 
             IMetaHeuristic StandardHeuristic(int i) => new DefaultMetaHeuristic();
-            IMetaHeuristic MetaHeuristic(int maxValue) => MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false, 300,  geneValue => geneValue, GetGeneValueFunction);
+            IMetaHeuristic MetaHeuristic(int maxValue) => MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false, 100,  geneValue => geneValue, GetGeneValueFunction);
 
             //Termination
             var minFitness = 1;
             int maxNbGenerations = int.MaxValue;
             int stagnationNb = 100;
-            TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(2);
+            TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(5);
             var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
             var reinsertion = new FitnessBasedElitistReinsertion();
 
