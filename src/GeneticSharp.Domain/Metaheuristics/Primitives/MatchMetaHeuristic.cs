@@ -73,40 +73,8 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
                     var selectedParents = new List<IChromosome>(crossover.ParentsNumber) { firstParent };
                     for (int i = 0; i < crossover.ParentsNumber - 1; i++)
                     {
-                        var currentMatchingProcess = MatchingTechniques[i];
-                        switch (currentMatchingProcess)
-                        {
-                            case MatchingTechnique.Neighbor:
-                                var newParentIdx = ctx.Index + i;
-                                if (newParentIdx < parents.Count)
-                                {
-                                    selectedParents.Add(parents[newParentIdx]);
-                                }
-                                break;
-                            case MatchingTechnique.Randomize:
-                                var targetIdx = RandomizationProvider.Current.GetInt(0, parents.Count);
-                                selectedParents.Add(parents[targetIdx]);
-                                break;
-                            case MatchingTechnique.RouletteWheel:
-                                var dynamicRouletteParameter = new MetaHeuristicParameter<IList<double>>
-                                {
-                                    Scope = RouletteCachingScope,
-                                    Generator = (h, c) => {
-                                        var tempRoulette = new List<double>(parents.Count);
-                                        ReuseRouletteWheelSelection.CalculateCumulativePercentFitness(parents, tempRoulette);
-                                        return tempRoulette;
-                                    }
-                                };
-                                var currentRoulette = dynamicRouletteParameter.GetOrAdd(this, ctx, "currentRouletteWheel");
-                                selectedParents.Add(ReuseRouletteWheelSelection.SelectFromWheel(1, parents, currentRoulette,
-                                    () => RandomizationProvider.Current.GetDouble())[0]);
-                                break;
-                            case MatchingTechnique.Best:
-                                selectedParents.Add(ctx.Population.CurrentGeneration.BestChromosome);
-                                break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
+                        var currentMatchingTechnique = MatchingTechniques[i];
+                       AddOneMatch(selectedParents, i, ctx, currentMatchingTechnique, parents);
                     }
 
                     var subContext = ctx.GetIndividual(0);
@@ -122,7 +90,47 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
 
             }
 
-            return null;
+            return new List<IChromosome>();
+
+        }
+
+
+        private void AddOneMatch(IList<IChromosome> selectedParents, int matchIndex, IEvolutionContext ctx, MatchingTechnique currentMatchingTechnique, IList<IChromosome> parents)
+        {
+            switch (currentMatchingTechnique)
+            {
+                case MatchingTechnique.Neighbor:
+                    var newParentIdx = ctx.Index + matchIndex;
+                    if (newParentIdx < parents.Count)
+                    {
+                        selectedParents.Add(parents[newParentIdx]);
+                    }
+                    break;
+                case MatchingTechnique.Randomize:
+                    var targetIdx = RandomizationProvider.Current.GetInt(0, parents.Count);
+                    selectedParents.Add(parents[targetIdx]);
+                    break;
+                case MatchingTechnique.RouletteWheel:
+                    var dynamicRouletteParameter = new MetaHeuristicParameter<IList<double>>
+                    {
+                        Scope = RouletteCachingScope,
+                        Generator = (h, c) => {
+                            var tempRoulette = new List<double>(parents.Count);
+                            ReuseRouletteWheelSelection.CalculateCumulativePercentFitness(parents, tempRoulette);
+                            return tempRoulette;
+                        }
+                    };
+                    var currentRoulette = dynamicRouletteParameter.GetOrAdd(this, ctx, "currentRouletteWheel");
+                    selectedParents.Add(ReuseRouletteWheelSelection.SelectFromWheel(1, parents, currentRoulette,
+                        () => RandomizationProvider.Current.GetDouble())[0]);
+                    break;
+                case MatchingTechnique.Best:
+                    selectedParents.Add(ctx.Population.CurrentGeneration.BestChromosome);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(currentMatchingTechnique), $"Unsupported matching process: {currentMatchingTechnique}");
+            }
+
 
         }
       
