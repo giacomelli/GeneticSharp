@@ -45,7 +45,7 @@ namespace GeneticSharp.Extensions.Mathematic
         /// <returns>The fitness of the chromosome.</returns>
         public override double Evaluate(IChromosome chromosome)
         {
-            var equationResult = this.TypedEvaluate(chromosome);
+            var equationResult = TypedEvaluate(chromosome);
 
             return CompareValues(m_expectedResultFunction(chromosome.GetGenes()), equationResult);
 

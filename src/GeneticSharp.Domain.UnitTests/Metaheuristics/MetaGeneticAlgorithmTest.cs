@@ -36,7 +36,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
                 var results = CompareMetaHeuristics(Fitness(size), AdamChromosome(size),
                     heuristics, crossover,  100, termination, reinsertion);
-                this.AssertIsPerformingLessByRatio(termination, ratio, results[0], results[1]);
+                AssertIsPerformingLessByRatio(termination, ratio, results[0], results[1]);
 
             }
 

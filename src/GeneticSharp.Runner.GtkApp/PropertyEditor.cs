@@ -9,17 +9,17 @@ namespace GeneticSharp.Runner.GtkApp
     /// <summary>
     /// A property editor to genetic algorithm operators.
     /// </summary>
-    public partial class PropertyEditor : Gtk.Dialog
+    public partial class PropertyEditor : Dialog
     {
         #region Fields
-        private Type m_objectType;
-        private Dictionary<PropertyInfo, Widget> m_widgetMap;
+        private readonly Type m_objectType;
+        private readonly Dictionary<PropertyInfo, Widget> m_widgetMap;
         #endregion
 
         #region Constructors
         public PropertyEditor(Type objectType, object objectInstance)
         {
-            this.Build();
+            Build();
             buttonOk.Clicked += delegate
             {
                 BindToObject();

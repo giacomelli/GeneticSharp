@@ -36,7 +36,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers.Issues
 
             public override IChromosome CreateNew()
             {
-                return new GuessNumberChromosome(this.numberDigits);
+                return new GuessNumberChromosome(numberDigits);
             }
 
             public override Gene GenerateGene(int geneIndex)
@@ -46,7 +46,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers.Issues
 
             public Int32 ToGuessValue()
             {
-                var genes = this.GetGenes();
+                var genes = GetGenes();
                 return ToGuessValue(genes);
             }
 
@@ -63,10 +63,10 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers.Issues
 
             protected override void CreateGenes()
             {
-                var initGenes = RandomizationProvider.Current.GetUniqueInts(this.Length, MinGeneValue, MaxGeneValue);
-                for (int i = 0; i < this.Length; i++)
+                var initGenes = RandomizationProvider.Current.GetUniqueInts(Length, MinGeneValue, MaxGeneValue);
+                for (int i = 0; i < Length; i++)
                 {
-                    this.ReplaceGene(i, new Gene(initGenes[i]));
+                    ReplaceGene(i, new Gene(initGenes[i]));
                 }
             }
         }
@@ -80,14 +80,14 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers.Issues
             {
                 this.finalAns = finalAns;
                 Int32 digits = this.finalAns.ToString().Length;
-                this.maxDiffValue = Math.Max(Math.Abs(this.finalAns - Int32.Parse(new string('9', digits))), this.finalAns);
+                maxDiffValue = Math.Max(Math.Abs(this.finalAns - Int32.Parse(new string('9', digits))), this.finalAns);
             }
 
             public double Evaluate(IChromosome chromosome)
             {
                 var genes = chromosome.GetGenes();
                 int guessValue = GuessNumberChromosome.ToGuessValue(genes);
-                double fitness = 1.0 - (Math.Abs(this.finalAns - guessValue) / (double)this.maxDiffValue);
+                double fitness = 1.0 - (Math.Abs(finalAns - guessValue) / (double)maxDiffValue);
                 return fitness;
             }
         }

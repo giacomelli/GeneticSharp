@@ -31,7 +31,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             var target = new TspChromosome(10);
          
             var actual = target.Clone() as TspChromosome;
-            Assert.IsFalse(Object.ReferenceEquals(target, actual));
+            Assert.IsFalse(ReferenceEquals(target, actual));
         }
     }
 }

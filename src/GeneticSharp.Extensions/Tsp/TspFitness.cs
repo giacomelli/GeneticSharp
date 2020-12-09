@@ -348,7 +348,7 @@ namespace GeneticSharp.Extensions.Tsp
                     }
                     else
                     {
-                        distFromI.Add(TspFitness.CalcDistanceTwoCities(Cities[i], Cities[j]));
+                        distFromI.Add(CalcDistanceTwoCities(Cities[i], Cities[j]));
                     }
 
                 }

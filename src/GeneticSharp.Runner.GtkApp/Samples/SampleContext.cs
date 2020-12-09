@@ -12,7 +12,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         private int m_lastTextY = 0;
         #endregion
 
-        public SampleContext(Gdk.Window gdkWindow, Gtk.Window gtkWindow)
+        public SampleContext(Window gdkWindow, Gtk.Window gtkWindow)
         {
             GdkWindow = gdkWindow;
             GtkWindow = gtkWindow;
@@ -20,11 +20,11 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 
         public GeneticAlgorithm GA { get; set; }
 
-        public Gdk.Window GdkWindow { get; private set; }
+        public Window GdkWindow { get; private set; }
 
         public Gtk.Window GtkWindow { get; private set; }
 
-        public Gdk.GC GC { get; set; }
+        public GC GC { get; set; }
 
         public Pixmap Buffer { get; set; }
 
@@ -46,13 +46,13 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             m_lastTextY += 20;
         }
 
-        public Gdk.GC CreateGC(Gdk.Color foregroundColor)
+        public GC CreateGC(Color foregroundColor)
         {
-            var gc = new Gdk.GC(GdkWindow)
+            var gc = new GC(GdkWindow)
             {
                 RgbFgColor = foregroundColor,
-                RgbBgColor = new Gdk.Color(255, 255, 255),
-                Background = new Gdk.Color(255, 255, 255)
+                RgbBgColor = new Color(255, 255, 255),
+                Background = new Color(255, 255, 255)
             };
             gc.SetLineAttributes(1, LineStyle.OnOffDash, CapStyle.Projecting, JoinStyle.Round);
 

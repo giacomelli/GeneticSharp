@@ -60,7 +60,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </returns>
         public static bool operator ==(ChromosomeBase first, ChromosomeBase second)
         {
-            if (Object.ReferenceEquals(first, second))
+            if (ReferenceEquals(first, second))
             {
                 return true;
             }
@@ -96,7 +96,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </returns>
         public static bool operator <(ChromosomeBase first, ChromosomeBase second)
         {
-            if (Object.ReferenceEquals(first, second))
+            if (ReferenceEquals(first, second))
             {
                 return false;
             }

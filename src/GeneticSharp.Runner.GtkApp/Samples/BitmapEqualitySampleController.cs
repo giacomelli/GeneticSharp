@@ -12,6 +12,7 @@ using GeneticSharp.Infrastructure.Framework.Texts;
 using Gtk;
 using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Infrastructure.Framework.Threading;
+using Image = System.Drawing.Image;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
 {
@@ -39,8 +40,8 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             var selectImageButton = new Button {Label = "Select the image"};
             selectImageButton.Clicked += delegate
             {
-                Gtk.FileChooserDialog filechooser =
-                new Gtk.FileChooserDialog(
+                FileChooserDialog filechooser =
+                new FileChooserDialog(
                     "Select the image to use",
                 Context.GtkWindow,
                 FileChooserAction.Open,
@@ -51,7 +52,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 
                 if (filechooser.Run() == (int)ResponseType.Accept)
                 {
-                    m_targetBitmap = Bitmap.FromFile(filechooser.Filename) as Bitmap;
+                    m_targetBitmap = Image.FromFile(filechooser.Filename) as Bitmap;
                     InitializeFitness();
 
                     var folder = Path.Combine(Path.GetDirectoryName(filechooser.Filename), "results");

@@ -25,9 +25,9 @@ namespace GeneticSharp.Domain.Chromosomes
         {
             ParentIndividual = parent;
             StartGeneIndex = startGeneIdx;
-            var parentGenes = new System.ArraySegment<Gene>(ParentIndividual.GetGenes(), startGeneIdx, length) ;
+            var parentGenes = new ArraySegment<Gene>(ParentIndividual.GetGenes(), startGeneIdx, length) ;
            
-            this.ReplaceGenes(0, parentGenes.ToArray());
+            ReplaceGenes(0, parentGenes.ToArray());
            
             if (parent.Fitness.HasValue)
             {
@@ -80,7 +80,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <returns></returns>
         public static IList<IList<IChromosome>> GetSubPopulations(IEnumerable<IChromosome> parents, IList<int> subChromosomeLengths)
         {
-            var karyotypes = parents.Select(parent => EukaryoteChromosome.GetKaryotype(parent, subChromosomeLengths));
+            var karyotypes = parents.Select(parent => GetKaryotype(parent, subChromosomeLengths));
             var subPopulations = Enumerable.Range(0, subChromosomeLengths.Count)
                 .Select(i => (IList<IChromosome>)karyotypes.Select(p => p[i]).ToList()).ToList();
             return subPopulations;
@@ -91,7 +91,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </summary>
         public void UpdateParent()
         {
-            this.ParentIndividual.ReplaceGenes(StartGeneIndex, GetGenes());
+            ParentIndividual.ReplaceGenes(StartGeneIndex, GetGenes());
         }
 
         /// <summary>

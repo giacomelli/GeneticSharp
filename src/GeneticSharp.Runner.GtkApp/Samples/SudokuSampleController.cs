@@ -145,8 +145,8 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             var selectImageButton = new Button { Label = "Load sudoku(s) file" };
             selectImageButton.Clicked += delegate
             {
-                Gtk.FileChooserDialog filechooser =
-            new Gtk.FileChooserDialog(
+                FileChooserDialog filechooser =
+            new FileChooserDialog(
               "Select the sudoku to use",
               Context.GtkWindow,
               FileChooserAction.Open,

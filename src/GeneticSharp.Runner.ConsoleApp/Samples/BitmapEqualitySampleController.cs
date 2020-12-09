@@ -49,7 +49,7 @@ namespace GeneticSharp.Runner.ConsoleApp
             return new TworsMutation();
         }
 
-        public override GeneticSharp.Domain.Crossovers.ICrossover CreateCrossover()
+        public override ICrossover CreateCrossover()
         {            
             return new UniformCrossover();
         }
@@ -61,7 +61,7 @@ namespace GeneticSharp.Runner.ConsoleApp
             Console.WriteLine("Input image file:");
             var inputImageFile = Console.ReadLine();
 
-            var targetBitmap = Bitmap.FromFile(inputImageFile) as Bitmap;
+            var targetBitmap = Image.FromFile(inputImageFile) as Bitmap;
             m_fitness = new BitmapEqualityFitness(targetBitmap);
 
             var folder = Path.Combine(Path.GetDirectoryName(inputImageFile), "results");

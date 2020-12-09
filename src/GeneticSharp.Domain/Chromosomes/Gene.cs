@@ -100,7 +100,7 @@ namespace GeneticSharp.Domain.Chromosomes
         {
             if (obj is Gene other)
             {
-                return this.Equals(other);
+                return Equals(other);
             }
 
             return false;

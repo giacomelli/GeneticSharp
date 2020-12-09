@@ -138,7 +138,7 @@ namespace GeneticSharp.Domain.Metaheuristics
                     var methods =
                         typeof(MetaHeuristicParameter<TParamType>).GetMethods();
 
-                    toReturn = methods.First(m => m.Name == nameof(MetaHeuristicParameter<TParamType>.GetOrAdd) && !m.IsGenericMethod);
+                    toReturn = methods.First(m => m.Name == nameof(GetOrAdd) && !m.IsGenericMethod);
                     lock (_getOrAddMethods)
                     {
                         _getOrAddMethods[typeof(TParamType)] = toReturn;

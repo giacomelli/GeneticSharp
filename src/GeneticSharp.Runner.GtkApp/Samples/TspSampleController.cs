@@ -31,7 +31,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         /// Creates the config widget.
         /// </summary>
         /// <returns>The config widget.</returns>
-        public override Gtk.Widget CreateConfigWidget()
+        public override Widget CreateConfigWidget()
         {
             var container = new VBox();
             var citiesNumber = new SpinButton(2, 10000, 2) {Text = "Number of cities", Value = m_numberOfCities};

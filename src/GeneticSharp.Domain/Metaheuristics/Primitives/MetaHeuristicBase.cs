@@ -70,7 +70,7 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         public virtual void RegisterParameters(IEvolutionContext ctx)
         {
-            RegisterParameters(this.Parameters, ctx);
+            RegisterParameters(Parameters, ctx);
         }
 
         protected void RegisterParameters(IDictionary<string, IMetaHeuristicParameter> parameters, IEvolutionContext ctx)

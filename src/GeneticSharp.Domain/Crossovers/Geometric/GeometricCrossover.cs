@@ -77,7 +77,7 @@ namespace GeneticSharp.Domain.Crossovers
         {
             if (GeometryEmbedding == null)
             {
-                GeometryEmbedding = new OrderedEmbedding<TValue>() { IsOrdered = this.IsOrdered };
+                GeometryEmbedding = new OrderedEmbedding<TValue>() { IsOrdered = IsOrdered };
             }
             var geometricParents = parents.Select(p => GeometryEmbedding.MapToGeometry(p)).ToList();
             IList<TValue> geometricChild;

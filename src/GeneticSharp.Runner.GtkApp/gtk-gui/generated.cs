@@ -8,9 +8,9 @@ namespace Stetic
 
         internal static void Initialize(Gtk.Widget iconRenderer)
         {
-            if ((Stetic.Gui.initialized == false))
+            if ((initialized == false))
             {
-                Stetic.Gui.initialized = true;
+                initialized = true;
             }
         }
     }
@@ -19,7 +19,7 @@ namespace Stetic
     {
         public static Gtk.ActionGroup GetActionGroup(System.Type type)
         {
-            return Stetic.ActionGroups.GetActionGroup(type.FullName);
+            return GetActionGroup(type.FullName);
         }
 
         public static Gtk.ActionGroup GetActionGroup(string name)

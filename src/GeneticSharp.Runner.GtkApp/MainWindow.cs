@@ -210,7 +210,7 @@ public partial class MainWindow : Gtk.Window
         m_sampleController = TypeHelper.CreateInstanceByName<ISampleController>(cmbSample.ActiveText);
 
         // Sample context.
-        var layout = new Pango.Layout(this.PangoContext)
+        var layout = new Pango.Layout(PangoContext)
         {
             Alignment = Pango.Alignment.Center, FontDescription = Pango.FontDescription.FromString("Arial 16")
         };
@@ -220,7 +220,7 @@ public partial class MainWindow : Gtk.Window
             Layout = layout
         };
 
-        m_sampleContext.GC = m_sampleContext.CreateGC(new Gdk.Color(255, 50, 50));
+        m_sampleContext.GC = m_sampleContext.CreateGC(new Color(255, 50, 50));
 
         m_sampleController.Context = m_sampleContext;
         m_sampleController.Reconfigured += delegate
@@ -265,7 +265,7 @@ public partial class MainWindow : Gtk.Window
         SetSampleOperatorToCombobox(ReinsertionService.GetReinsertionTypes, m_sampleController.CreateReinsertion, (c) => m_reinsertion = c, cmbReinsertion);
     }
 
-    private void SetSampleOperatorToCombobox<TOperator>(Func<IList<Type>> getOperatorTypes, Func<TOperator> getOperator, System.Action<TOperator> setOperator, ComboBox combobox)
+    private void SetSampleOperatorToCombobox<TOperator>(Func<IList<Type>> getOperatorTypes, Func<TOperator> getOperator, Action<TOperator> setOperator, ComboBox combobox)
     {
         var @operator = getOperator();
         var operatorType = @operator.GetType();
@@ -282,7 +282,7 @@ public partial class MainWindow : Gtk.Window
 
     private void ResetSample()
     {
-        m_sampleContext.GC = m_sampleContext.CreateGC(new Gdk.Color(255, 50, 50));
+        m_sampleContext.GC = m_sampleContext.CreateGC(new Color(255, 50, 50));
         m_sampleContext.Population = null;
         var r = drawingArea.Allocation;
         m_sampleContext.DrawingArea = new Rectangle(0, 100, r.Width, r.Height - 100);

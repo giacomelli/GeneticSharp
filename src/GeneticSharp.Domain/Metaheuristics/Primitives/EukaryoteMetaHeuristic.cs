@@ -125,7 +125,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             public EukaryotePopulation(IPopulation parentPopulation, IList<IChromosome> subPopulation) : base(parentPopulation.MinSize, parentPopulation.MaxSize, subPopulation[0])
             {
                 ParentPopulation = parentPopulation;
-                this.CreateNewGeneration(subPopulation);
+                CreateNewGeneration(subPopulation);
                 GenerationsNumber = parentPopulation.GenerationsNumber;
             }
         }
