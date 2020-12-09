@@ -57,7 +57,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             for (int i = 0; i < nbPhases; i++)
             {
                 var iClosure = i;
-                var geomCrossover = new GeometricCrossover<int>().WithGeometricOperator<int>(geneValues => iClosure);
+                var geomCrossover = new GeometricCrossover<int>().WithGeometricOperator(geneValues => iClosure);
                 var geomHeuristic = new CrossoverHeuristic().WithCrossover(geomCrossover);
 
                 geometricHeuristics.Add(geomHeuristic);

@@ -26,7 +26,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             };
 
 
-            var geomCrossover = new GeometricCrossover<int>().WithGeometricOperator<int>(geneValues => geneValues[0]);
+            var geomCrossover = new GeometricCrossover<int>().WithGeometricOperator(geneValues => geneValues[0]);
             testContainer.SubMetaHeuristic = new CrossoverHeuristic().WithCrossover(geomCrossover);
             var ctx = new EvolutionContext();
             

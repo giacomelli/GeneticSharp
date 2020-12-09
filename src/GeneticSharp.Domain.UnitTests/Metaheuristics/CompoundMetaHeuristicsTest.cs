@@ -81,7 +81,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var functionHalfRange = 5;
 
             double GetGeneValueFunction(double d) => d % functionHalfRange;
-            IMetaHeuristic MetaHeuristic(int maxValue) => MetaHeuristicsFactory.WhaleOptimisationAlgorithm<double>(false, 300,  geneValue => geneValue, GetGeneValueFunction);
+            IMetaHeuristic MetaHeuristic(int maxValue) => MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false, 300,  geneValue => geneValue, GetGeneValueFunction);
             IChromosome AdamChromosome(int i) => new EquationChromosome<double>(-functionHalfRange, functionHalfRange, i) {GetGeneValueFunction = GetGeneValueFunction};
 
             var reinsertion = new FitnessBasedElitistReinsertion();
@@ -156,7 +156,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             double GetGeneValueFunction(double d) => Math.Sign(d) * Math.Min(Math.Abs(d), maxCoordinate);
 
             IMetaHeuristic StandardHeuristic(int i) => new DefaultMetaHeuristic();
-            IMetaHeuristic MetaHeuristic(int maxValue) => MetaHeuristicsFactory.WhaleOptimisationAlgorithm<double>(false, 300,  geneValue => geneValue, GetGeneValueFunction);
+            IMetaHeuristic MetaHeuristic(int maxValue) => MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false, 300,  geneValue => geneValue, GetGeneValueFunction);
 
             //Termination
             var minFitness = 1;
@@ -304,7 +304,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                         IMetaHeuristic metaHeuristic;
                         if (kind == KnownMetaheuristics.WhaleOptmizerAlgorithm)
                         {
-                           var woaMetaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm<double>(false,
+                           var woaMetaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false,
                                nbGenerationsWoa,
                                geneValue => geneValue, 
                                GetGeneValueFunction, helicoidScale: helicoidScale,
@@ -386,11 +386,11 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             if (!reduced)
             {
-                return MetaHeuristicsFactory.WhaleOptimisationAlgorithmWithParams<int>(false, maxOperations, FromGene, ToGene);
+                return MetaHeuristicsFactory.WhaleOptimisationAlgorithmWithParams(false, maxOperations, FromGene, ToGene);
             }
             else
             {
-                return MetaHeuristicsFactory.WhaleOptimisationAlgorithm<int>(false, maxOperations,  FromGene, ToGene);
+                return MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false, maxOperations,  FromGene, ToGene);
             }
 
         }

@@ -25,7 +25,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// Allows storing and retrieving objects in a generation based cache, specific to the heuristics or to be used in any heuristics for the current generation
         /// </summary>
         /// <typeparam name="TItemType">The type of object to store</typeparam>
-        /// <param name="key">the key for the object storage and retrieval</param>
+        /// <param name="contextKey">the key for the object storage and retrieval</param>
         /// <param name="factory">the factory to build the object if not found in the cache</param>
         /// <returns></returns>
         TItemType GetOrAdd<TItemType>((string key, int generation, EvolutionStage stage, IMetaHeuristic heuristic, int individual) contextKey, Func<TItemType> factory);

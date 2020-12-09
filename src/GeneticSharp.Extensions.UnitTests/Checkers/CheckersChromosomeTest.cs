@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using GeneticSharp.Extensions.Checkers;
 using NUnit.Framework;

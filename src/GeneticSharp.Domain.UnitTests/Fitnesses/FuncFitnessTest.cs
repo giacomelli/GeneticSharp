@@ -9,10 +9,7 @@ namespace GeneticSharp.Domain.UnitTests.Fitnesses
         [Test]
         public void Evaluate_Func_CallFunc()
         {
-            var target = new FuncFitness((c) =>
-            {
-                return c.Fitness.Value + 1;
-            });
+            var target = new FuncFitness((c) => c.Fitness.Value + 1);
 
             Assert.AreEqual(3, target.Evaluate(new ChromosomeStub(2d)));
         }

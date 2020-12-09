@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.Serialization;
 using GeneticSharp.Domain.Crossovers;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
-namespace GeneticSharp.Domain.UnitTests.Chromosomes
+namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
     [Category("Crossovers")]
     [TestFixture]
@@ -65,7 +64,8 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
             var target = constructor.Invoke(new object[] {
                 serializationInfo,
                 new StreamingContext() }) as CrossoverException;
-
+            Assert.IsNotNull(target);
+            Assert.IsNotNull(target.InnerException);
             Assert.AreEqual("2", target.InnerException.Message);
         }
 

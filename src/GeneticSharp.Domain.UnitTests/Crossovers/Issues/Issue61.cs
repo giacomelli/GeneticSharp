@@ -13,7 +13,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers.Issues
             private const Int32 MaxGeneValue = 10;
             private const Int32 MinGeneValue = 0;
 
-            public static int[] powof10 = new int[10] {
+            public static readonly int[] powof10 = new int[10] {
             1,
             10,
             100,

@@ -96,11 +96,9 @@ namespace GeneticSharp.Domain.Crossovers
         /// <param name="toOffspring2">To offspring2.</param>
         private static void CopyCycleIndexPair(IList<int> cycle, Gene[] fromParent1Genes, IChromosome toOffspring1, Gene[] fromParent2Genes, IChromosome toOffspring2)
         {
-            int geneCycleIndex = 0;
-
             for (int j = 0; j < cycle.Count; j++)
             {
-                geneCycleIndex = cycle[j];
+                var geneCycleIndex = cycle[j];
                 toOffspring1.ReplaceGene(geneCycleIndex, fromParent1Genes[geneCycleIndex]);
                 toOffspring2.ReplaceGene(geneCycleIndex, fromParent2Genes[geneCycleIndex]);
             }

@@ -11,7 +11,7 @@ namespace GeneticSharp.Domain.Chromosomes
     public struct Gene : IEquatable<Gene>
     {
         #region Fields
-        private object m_value;
+        private readonly object m_value;
         #endregion
 
         #region Constructors

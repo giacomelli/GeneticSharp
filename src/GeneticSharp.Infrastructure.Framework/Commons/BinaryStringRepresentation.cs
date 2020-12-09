@@ -47,7 +47,7 @@ namespace GeneticSharp.Infrastructure.Framework.Commons
         /// <param name="totalBits">Total bits.</param>
         public static string[] ToRepresentation(long[] values, int[] totalBits)
         {
-            return ToRepresentation<long>(values, totalBits, totalBits, (v, t, f) => ToRepresentation(v, t));
+            return ToRepresentation(values, totalBits, totalBits, (v, t, f) => ToRepresentation(v, t));
         }
 
        
@@ -82,7 +82,7 @@ namespace GeneticSharp.Infrastructure.Framework.Commons
         /// <param name="fractionDigits">The fraction (scale) digits.</param>
         public static string[] ToRepresentation(double[] values, int[] totalBits, int[] fractionDigits)
         {
-            return ToRepresentation<double>(values, totalBits, fractionDigits, (v, t, f) => ToRepresentation(v, t, f));
+            return ToRepresentation(values, totalBits, fractionDigits, (v, t, f) => ToRepresentation(v, t, f));
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace GeneticSharp.Infrastructure.Framework.Commons
         /// <param name="fractionDigits">Fraction (scale) digits.</param>
         public static double[] ToDouble(string representation, int[] totalBits, int[] fractionDigits)
         {
-            return ToValue<double>(
+            return ToValue(
                 representation,
                 totalBits,
                 fractionDigits,

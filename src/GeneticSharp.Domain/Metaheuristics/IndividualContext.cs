@@ -47,7 +47,7 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         public TItemType GetOrAdd<TItemType>((string key, int generation, EvolutionStage stage, IMetaHeuristic heuristic, int individual) contextKey, Func<TItemType> factory)
         {
-            return _populationContext.GetOrAdd<TItemType>(contextKey, factory);
+            return _populationContext.GetOrAdd(contextKey, factory);
         }
 
         public TItemType GetParam<TItemType>(IMetaHeuristic h, string paramName)

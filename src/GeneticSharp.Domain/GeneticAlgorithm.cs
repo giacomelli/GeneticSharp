@@ -294,7 +294,7 @@ namespace GeneticSharp.Domain
                     return;
                 }
 
-                bool terminationConditionReached = false;
+                bool terminationConditionReached;
 
                 do
                 {
