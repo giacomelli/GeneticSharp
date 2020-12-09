@@ -62,12 +62,13 @@ namespace GeneticSharp.Domain
         /// <summary>
         /// Crosses the specified parents.
         /// </summary>
-        /// <param name="population">the population from which parents are selected</param>
+        /// <param name="metaHeuristic">the current metaHeuristic being run</param>
+        /// <param name="ctx">the current evolution context</param>
         /// <param name="crossover">The crossover class.</param>
         /// <param name="crossoverProbability">The crossover probability.</param>
         /// <param name="parents">The parents.</param>
         /// <returns>The result chromosomes.</returns>
-        public  IList<IChromosome> MetaCross(IMetaHeuristic metaHeuristic, IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
+        public IList<IChromosome> MetaCross(IMetaHeuristic metaHeuristic, IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
             var minSize = ctx.Population.MinSize;
             var offspring = new List<IChromosome>(minSize);
@@ -88,11 +89,12 @@ namespace GeneticSharp.Domain
         /// <summary>
         /// Mutate the specified chromosomes.
         /// </summary>
-        /// <param name="population">the population from which the offspring are mutated</param>
+        /// <param name="metaHeuristic">the current metaHeuristic being run</param>
+        /// <param name="ctx">the current evolution context</param>
         /// <param name="mutation">The mutation class.</param>
         /// <param name="mutationProbability">The mutation probability.</param>
         /// <param name="chromosomes">The chromosomes.</param>
-        public  void MetaMutate(IMetaHeuristic metaHeuristic, IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> chromosomes)
+        public void MetaMutate(IMetaHeuristic metaHeuristic, IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> chromosomes)
         {
             for (int i = 0; i < chromosomes.Count; i++)
             {

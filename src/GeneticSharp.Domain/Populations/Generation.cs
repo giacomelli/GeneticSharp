@@ -87,11 +87,10 @@ namespace GeneticSharp.Domain.Populations
         /// <summary>
         /// Validates the chromosome.
         /// </summary>
-        /// <param name="chromosome">The chromosome to validate.</param>
-        /// <returns>True if a chromosome is valid.</returns>
-        private bool ValidateChromosomes()
+        /// <returns>True if all chromosomes are valid.</returns>
+        private void ValidateChromosomes()
         {
-            return Chromosomes.All(ValidateChromosome);
+            Chromosomes.Each(ValidateChromosome);
         }
 
 
@@ -100,13 +99,12 @@ namespace GeneticSharp.Domain.Populations
         /// </summary>
         /// <param name="chromosome">The chromosome to validate.</param>
         /// <returns>True if a chromosome is valid.</returns>
-        private static bool ValidateChromosome(IChromosome chromosome)
+        private static void ValidateChromosome(IChromosome chromosome)
         {
             if (!chromosome.Fitness.HasValue)
             {
                 throw new InvalidOperationException("There is unknown problem in current generation, because a chromosome has no fitness value.");
             }
-            return true;
         }
 
         

@@ -13,10 +13,10 @@ namespace GeneticSharp.Domain
     /// </summary>
     public interface IOperatorsStrategy
     {
-
         /// <summary>
         /// Crosses the specified parents.
         /// </summary>
+        /// <param name="population">the current population to cross</param>
         /// <param name="crossover">The crossover class.</param>
         /// <param name="crossoverProbability">The crossover probability.</param>
         /// <param name="parents">The parents.</param>
@@ -35,7 +35,8 @@ namespace GeneticSharp.Domain
         /// <summary>
         /// Crosses the specified parents.
         /// </summary>
-        /// <param name="population">the population from which the offspring are mutated</param>
+        /// <param name="metaHeuristic">the current metaHeuristic being run</param>
+        /// <param name="ctx">the current evolution context</param>
         /// <param name="crossover">The crossover class.</param>
         /// <param name="crossoverProbability">The crossover probability.</param>
         /// <param name="parents">The parents.</param>
@@ -45,7 +46,8 @@ namespace GeneticSharp.Domain
         /// <summary>
         /// Mutate the specified chromosomes.
         /// </summary>
-        /// <param name="population">the population from which the offspring are mutated</param>
+        /// <param name="metaHeuristic">the current metaHeuristic being run</param>
+        /// <param name="ctx">the current evolution context</param>
         /// <param name="mutation">The mutation class.</param>
         /// <param name="mutationProbability">The mutation probability.</param>
         /// <param name="chromosomes">The chromosomes.</param>
