@@ -13,11 +13,11 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Tsp
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Extensions")]
     public class TspTest
     {
-        [Test()]
+        [Test]
         public void Evolve_ManyGenerations_Fast()
         {
             int numberOfCities = 40;
@@ -35,7 +35,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
         }
 
 
-        [Test()]
+        [Test]
         public void Compare_Simple_Ordered_TwoOr_WOA_ManyGenerations_FitnessesBounded()
         {
             // population parameters
@@ -104,7 +104,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
 
             Assert.Less(lastDistance, firstDistance);
 
-            return new TspEvolutionResult(){Population = ga.Population, TimeEvolving = ga.TimeEvolving, Distance =  lastDistance};
+            return new TspEvolutionResult {Population = ga.Population, TimeEvolving = ga.TimeEvolving, Distance =  lastDistance};
         }
 
       

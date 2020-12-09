@@ -2,12 +2,12 @@
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Randomizations;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Crossovers")]
     public class PartiallyMappedCrossoverTest
     {
@@ -51,7 +51,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             Assert.Catch <CrossoverException>(() =>
             {
-                target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
+                target.Cross(new List<IChromosome> { chromosome1, chromosome2 });
             }, "The Partially Mapped Crossover (PMX) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
         }
 
@@ -93,7 +93,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             rnd.GetUniqueInts(2, 0, 8).Returns(new[] { 5, 3 });
             RandomizationProvider.Current = rnd;
 
-            var actual = target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
+            var actual = target.Cross(new List<IChromosome> { chromosome1, chromosome2 });
 
             Assert.AreEqual(2, actual.Count);
             Assert.AreEqual(8, actual[0].Length);

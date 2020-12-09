@@ -20,7 +20,7 @@ namespace GeneticSharp.Extensions.UnitTests.Ghostwriter
             RandomizationProvider.Current = new BasicRandomization();
         }
 
-        [Test()]
+        [Test]
         public void Evolve_ManyGenerations_Fast()
         {
             var selection = new EliteSelection();
@@ -28,7 +28,7 @@ namespace GeneticSharp.Extensions.UnitTests.Ghostwriter
             var mutation = new UniformMutation(true);
             var chromosome = new GhostwriterChromosome(4, new[] { "The", "C#", "Genetic", "Algorithm", "library" });
             chromosome.InitializeGenes();
-            var fitness = new GhostwriterFitness((t) => t.Length);
+            var fitness = new GhostwriterFitness(t => t.Length);
             
             var population = new Population(10, 10, chromosome);
             var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation)

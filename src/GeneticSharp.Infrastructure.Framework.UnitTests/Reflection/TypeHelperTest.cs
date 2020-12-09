@@ -5,11 +5,11 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Infrastructure.Framework.UnitTests.Reflection
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Infrastructure")]
     public class TypeHelperTest
     {
-        [Test()]
+        [Test]
         public void GetDisplayNamesByInterface_ThereIsTypeWithoutDisplayNameAttribute_Exception()
         {
             Assert.Catch<InvalidOperationException>(() =>

@@ -12,9 +12,10 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         public IMutation Mutation { get; set; }
 
-        public MutationMetaHeuristic() : base() { }
+        public MutationMetaHeuristic()
+        { }
 
-        public MutationMetaHeuristic(IMutation mutation):base()
+        public MutationMetaHeuristic(IMutation mutation)
         {
             Mutation = mutation;
            

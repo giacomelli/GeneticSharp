@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Populations
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Populations")]
     public class GenerationTest
     {
-        [Test()]
+        [Test]
         public void Constructor_ZeroOrNegativeNumber_Exception()
         {
             Assert.Catch<ArgumentOutOfRangeException>(() =>
@@ -25,7 +25,7 @@ namespace GeneticSharp.Domain.UnitTests.Populations
             }, "Generation number 0 is invalid. Generation number should be positive and start in 1.");
         }
 
-        [Test()]
+        [Test]
         public void Constructor_InvalidChromosomesQuantity_Exception()
         {
             Assert.Catch<ArgumentOutOfRangeException>(() =>
@@ -40,14 +40,15 @@ namespace GeneticSharp.Domain.UnitTests.Populations
 
             Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
-                new Generation(1, new List<IChromosome>() { Substitute.For<IChromosome>() });
+                new Generation(1, new List<IChromosome> { Substitute.For<IChromosome>() });
             }, "A generation should have at least 2 chromosomes.");
         }
 
-        [Test()]
+        [Test]
         public void Constructor_OkArguments_Instanced()
         {
-            var target = new Generation(1, new List<IChromosome>() {
+            var target = new Generation(1, new List<IChromosome>
+            {
                 Substitute.For<IChromosome>(),
                 Substitute.For<IChromosome>()
             });
@@ -59,10 +60,11 @@ namespace GeneticSharp.Domain.UnitTests.Populations
         [Test]
         public void End_AnyChromosomeWithoutFitness_Exception()
         {
-            var target = new Generation(1, new List<IChromosome>() {
-                new ChromosomeStub() { Fitness = 0.2 },
-                new ChromosomeStub() { Fitness = null},
-                new ChromosomeStub() { Fitness = 0.1 }
+            var target = new Generation(1, new List<IChromosome>
+            {
+                new ChromosomeStub { Fitness = 0.2 },
+                new ChromosomeStub { Fitness = null},
+                new ChromosomeStub { Fitness = 0.1 }
             });
 
             Assert.Catch<InvalidOperationException>(() =>
@@ -74,10 +76,11 @@ namespace GeneticSharp.Domain.UnitTests.Populations
         [Test]
         public void End_ChromosomeNumberGreaterThan_Take()
         {
-            var target = new Generation(1, new List<IChromosome>() {
-                new ChromosomeStub() { Fitness = 0.2 },
-                new ChromosomeStub() { Fitness = 0.3 },
-                new ChromosomeStub() { Fitness = 0.1 }
+            var target = new Generation(1, new List<IChromosome>
+            {
+                new ChromosomeStub { Fitness = 0.2 },
+                new ChromosomeStub { Fitness = 0.3 },
+                new ChromosomeStub { Fitness = 0.1 }
             });
 
             target.End(2);

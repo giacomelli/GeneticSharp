@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Randomizations;
-using NUnit.Framework;
 using NSubstitute;
-using System;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
@@ -87,7 +87,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
                 new Gene(6)
             });
        
-            var actual = target.Cross(new List<IChromosome>() { chromosome1, chromosome2, chromosome3, chromosome4 });
+            var actual = target.Cross(new List<IChromosome> { chromosome1, chromosome2, chromosome3, chromosome4 });
 
             Assert.AreEqual(1, actual.Count);
             var actualChild = actual[0];

@@ -320,8 +320,9 @@ namespace GeneticSharp.Extensions.Checkers
                 {
                     return true;
                 }
-                else if (to.ColumnIndex == from.ColumnIndex - (2 * indexModifier)
-                && GetSquare(from.ColumnIndex - (1 * indexModifier), from.RowIndex + (1 * indexModifier)).State == opponentState)
+
+                if (to.ColumnIndex == @from.ColumnIndex - (2 * indexModifier)
+                    && GetSquare(@from.ColumnIndex - (1 * indexModifier), @from.RowIndex + (1 * indexModifier)).State == opponentState)
                 {
                     return true;
                 }

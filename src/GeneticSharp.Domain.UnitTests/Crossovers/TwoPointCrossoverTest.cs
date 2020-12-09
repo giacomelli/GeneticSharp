@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Infrastructure.Framework.Texts;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
@@ -34,7 +34,8 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             Assert.Catch<CrossoverException>(() =>
             {
-                target.Cross(new List<IChromosome>() {
+                target.Cross(new List<IChromosome>
+                {
                     chromosome1,
                     chromosome1
                 });
@@ -49,7 +50,8 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
-                target.Cross(new List<IChromosome>() {
+                target.Cross(new List<IChromosome>
+                {
                     chromosome1,
                     chromosome1
                 });
@@ -59,7 +61,8 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
-                target.Cross(new List<IChromosome>() {
+                target.Cross(new List<IChromosome>
+                {
                     chromosome2,
                     chromosome2
                 });
@@ -90,7 +93,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             });
             chromosome2.CreateNew().Returns(Substitute.For<ChromosomeBase>(4));
 
-            var actual = target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
+            var actual = target.Cross(new List<IChromosome> { chromosome1, chromosome2 });
 
             Assert.AreEqual(2, actual.Count);
             Assert.AreEqual(4, actual[0].Length);

@@ -8,7 +8,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
     [Category("Extensions")]
     public class CheckersChromosomeTest
     {
-        [Test()]
+        [Test]
         public void Clone_NoArgs_Cloned()
         {
             var target = new CheckersChromosome(2, 10);

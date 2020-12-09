@@ -4,11 +4,11 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Mathematic
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Extensions")]
     public class EqualtionChromosomeTest
     {
-        [Test()]
+        [Test]
         public void Constructor_ExpectedResult_Exception()
         {
             var actual = Assert.Catch<ArgumentOutOfRangeException>(() =>
@@ -20,7 +20,7 @@ namespace GeneticSharp.Extensions.UnitTests.Mathematic
             Assert.AreEqual(actual.ActualValue, int.MaxValue);
         }
 
-        [Test()]
+        [Test]
         public void CreateNew_ExpectedResultAndLenth_Created()
         {
             var target = new EquationChromosome(10, 2);

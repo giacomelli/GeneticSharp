@@ -1,8 +1,8 @@
 ﻿using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Randomizations;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Mutations
 {
@@ -16,7 +16,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             RandomizationProvider.Current = new BasicRandomization();
         }
 
-        [Test()]
+        [Test]
         public void Mutate_NoProbality_NoExchangeGenes()
         {
             var target = new TworsMutation();
@@ -42,7 +42,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             Assert.AreEqual(4, chromosome.GetGene(3).Value);
         }
 
-        [Test()]
+        [Test]
         public void Mutate_ValidChromosome_ExchangeGenes()
         {
             var target = new TworsMutation();

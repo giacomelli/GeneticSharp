@@ -1,9 +1,9 @@
-﻿using NUnit.Framework;
-using GeneticSharp.Domain.Randomizations;
+﻿using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Mutations;
-using NSubstitute;
-using GeneticSharp.Domain.Chromosomes;
+using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.UnitTests.Chromosomes;
+using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Mutations
 {
@@ -16,7 +16,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             RandomizationProvider.Current = new BasicRandomization();
         }
 
-        [Test()]
+        [Test]
         public void Mutate_NotBinaryChromosome_Exception()
         {
             var target = new FlipBitMutation();
@@ -34,7 +34,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             }, "Needs a binary chromosome that implements IBinaryChromosome.");
         }
 
-        [Test()]
+        [Test]
         public void Mutate_NoArgs_BitMutated()
         {
             RandomizationProvider.Current = Substitute.For<IRandomization>();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using Gdk;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
@@ -31,7 +32,7 @@ namespace GeneticSharp.Runner.GtkApp
 
         public override IFitness CreateFitness()
         {
-            return new FuncFitness((chromosome) =>
+            return new FuncFitness(chromosome =>
             {
                 var c = chromosome as FloatingPointChromosome;
 
@@ -82,7 +83,7 @@ namespace GeneticSharp.Runner.GtkApp
         {
             var latestFitness = 0.0;
 
-            Context.GA.GenerationRan += (object sender, EventArgs e) =>
+            Context.GA.GenerationRan += (sender, e) =>
             {
                 m_bestChromosome = Context.GA.BestChromosome as FloatingPointChromosome;
 
@@ -158,7 +159,7 @@ namespace GeneticSharp.Runner.GtkApp
                 return;
             }
 
-            var points = new List<Gdk.Point>();
+            var points = new List<Point>();
             var maxX1 = positions.Max(p => p.Value[0]);
             var maxY1 = positions.Max(p => p.Value[1]);
             var maxX2 = positions.Max(p => p.Value[2]);
@@ -170,25 +171,25 @@ namespace GeneticSharp.Runner.GtkApp
 
                 var x1 = plotMinX + Convert.ToInt32((plotWidth * p.Value[0]) / maxX1);
                 var y1 = plotMinY + Convert.ToInt32((plotHeight * p.Value[1]) / maxY1);
-                var point = new Gdk.Point(x1, y1);
+                var point = new Point(x1, y1);
                 buffer.DrawRectangle(gc, true, point.X, point.Y, 1, 1);
                 points.Add(point);
 
                 var x2 = plotMinX + Convert.ToInt32((plotWidth * p.Value[2]) / maxX2);
                 var y2 = plotMinY + Convert.ToInt32((plotHeight * p.Value[3]) / maxY2);
-                point = new Gdk.Point(x2, y2);
+                point = new Point(x2, y2);
                 buffer.DrawRectangle(gc, true, point.X, point.Y, 1, 1);
                 points.Add(point);
             }
 
             // Draw all lines (black).
-            gc.RgbFgColor = new Gdk.Color(0, 0, 0);
-            gc.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
+            gc.RgbFgColor = new Color(0, 0, 0);
+            gc.SetLineAttributes(1, LineStyle.OnOffDash, CapStyle.Butt, JoinStyle.Round);
             buffer.DrawLines(gc, points.ToArray());
 
             // Draw the latest best chromossome line in highlight (red).
-            gc.RgbFgColor = new Gdk.Color(255, 0, 0);
-            gc.SetLineAttributes(2, Gdk.LineStyle.Solid, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
+            gc.RgbFgColor = new Color(255, 0, 0);
+            gc.SetLineAttributes(2, LineStyle.Solid, CapStyle.Butt, JoinStyle.Round);
             buffer.DrawLines(gc, points.Skip(points.Count - 2).ToArray());
         }
 

@@ -75,7 +75,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             //var newKey = this.GetKey(h, ctx, key);
             var maskedTuple = GetScopeMask((key, ctx.Population?.GenerationsNumber ?? 0, ctx.CurrentStage, h, ctx.Index));
 
-            var toReturn = (TItemType)ctx.GetOrAdd(maskedTuple, () => (object)ComputeParameter(h, ctx));
+            var toReturn = (TItemType)ctx.GetOrAdd(maskedTuple, () => ComputeParameter(h, ctx));
             return toReturn;
         }
 
@@ -156,18 +156,14 @@ namespace GeneticSharp.Domain.Metaheuristics
                 return GetDynamicGenerator(ctx);
 
             }
-            else
-            {
-                var unCached = GetDynamicGenerator(ctx);
+
+            var unCached = GetDynamicGenerator(ctx);
 
 
-                LambdaExpression cachedExpression = Expression.Lambda(Expression.Call(Expression.Constant(this), GetOrAddMethod, unCached.Parameters[0],
-                        unCached.Parameters[1], Expression.Constant(paramName)), unCached.Parameters[0],
-                    unCached.Parameters[1]);
-                return cachedExpression;
-
-
-            }
+            LambdaExpression cachedExpression = Expression.Lambda(Expression.Call(Expression.Constant(this), GetOrAddMethod, unCached.Parameters[0],
+                    unCached.Parameters[1], Expression.Constant(paramName)), unCached.Parameters[0],
+                unCached.Parameters[1]);
+            return cachedExpression;
 
         }
     }

@@ -87,7 +87,7 @@ namespace GeneticSharp.Domain.Chromosomes
 
         public static EvolutionResult GetResult(this GeneticAlgorithm ga)
         {
-            return new EvolutionResult() { Population = ga.Population, TimeEvolving = ga.TimeEvolving };
+            return new EvolutionResult { Population = ga.Population, TimeEvolving = ga.TimeEvolving };
         }
 
     }

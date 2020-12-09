@@ -24,7 +24,7 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
 
                 try
                 {
-                    result = Parallel.For(0, Tasks.Count, new ParallelOptions() { CancellationToken = CancellationTokenSource.Token }, (i, state) =>
+                    result = Parallel.For(0, Tasks.Count, new ParallelOptions { CancellationToken = CancellationTokenSource.Token }, (i, state) =>
                     {
                         // Check if any has called Break().
                         if (state.ShouldExitCurrentIteration && state.LowestBreakIteration < i)

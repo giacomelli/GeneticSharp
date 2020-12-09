@@ -3,13 +3,16 @@ using Gdk;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Infrastructure.Framework.Texts;
+using Pango;
+using Color = Gdk.Color;
+using Rectangle = Gdk.Rectangle;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
 {
     public class SampleContext
     {
         #region Fields
-        private int m_lastTextY = 0;
+        private int m_lastTextY;
         #endregion
 
         public SampleContext(Window gdkWindow, Gtk.Window gtkWindow)
@@ -28,7 +31,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 
         public Pixmap Buffer { get; set; }
 
-        public Pango.Layout Layout { get; set; }
+        public Layout Layout { get; set; }
 
         public Population Population { get; set; }
 

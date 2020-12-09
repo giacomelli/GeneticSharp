@@ -144,7 +144,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             
             var target = InitGa(metaHeuristic, fitness(maxValue), adamChromosome(maxValue), crossover,  populationSize, termination, reinsertion);
             target.Start();
-            return new EvolutionResult() { Population = target.Population, TimeEvolving = target.TimeEvolving };
+            return new EvolutionResult { Population = target.Population, TimeEvolving = target.TimeEvolving };
 
         }
 

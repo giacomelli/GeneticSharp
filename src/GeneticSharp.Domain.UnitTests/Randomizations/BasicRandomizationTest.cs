@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Randomizations
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Randomizations")]
     public class BasicRandomizationTest
     {
@@ -76,7 +76,7 @@ namespace GeneticSharp.Domain.UnitTests.Randomizations
             var target = new BasicRandomization();
             var actual = new BlockingCollection<int>();
 
-            Parallel.For(0, 1000, (i) =>
+            Parallel.For(0, 1000, i =>
             {
                 actual.Add(target.GetInt(0, int.MaxValue));
             });

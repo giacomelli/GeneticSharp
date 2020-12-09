@@ -1,14 +1,14 @@
 ﻿using GeneticSharp.Domain.Terminations;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Terminations
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Terminations")]
     public class GenerationNumberTerminationTest
     {
-        [Test()]
+        [Test]
         public void HasReached_GenerationNumberLowerThanCondition_False()
         {
             var ga = Substitute.For<IGeneticAlgorithm>();
@@ -25,7 +25,7 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
 
         }
 
-        [Test()]
+        [Test]
         public void HasReached_GenerationNumberGreaterOrEqualThanCondition_True()
         {
             var ga = Substitute.For<IGeneticAlgorithm>();

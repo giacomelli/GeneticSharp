@@ -3,12 +3,12 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Infrastructure.Framework.Collections;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Populations
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Populations")]
     public class PopulationTest
     {

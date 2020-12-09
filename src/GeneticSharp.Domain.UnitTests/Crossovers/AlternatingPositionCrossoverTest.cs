@@ -1,17 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Randomizations;
-using NUnit.Framework;
-using NSubstitute;
-using System;
-using GeneticSharp.Domain.Populations;
-using System.Linq;
-using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Mutations;
+using GeneticSharp.Domain.Populations;
+using GeneticSharp.Domain.Randomizations;
+using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
-using GeneticSharp.Extensions.Tsp;
 using GeneticSharp.Domain.UnitTests.Crossovers.Issues;
+using GeneticSharp.Extensions.Tsp;
+using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
@@ -57,7 +57,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             Assert.Catch<CrossoverException>(() =>
             {
-                target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
+                target.Cross(new List<IChromosome> { chromosome1, chromosome2 });
             }, "The Alternating-position (AP) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
         }
 
@@ -97,7 +97,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             var child2 = Substitute.For<ChromosomeBase>(8);
             chromosome2.CreateNew().Returns(child2);
 
-            var actual = target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
+            var actual = target.Cross(new List<IChromosome> { chromosome1, chromosome2 });
 
             Assert.AreEqual(2, actual.Count);
 

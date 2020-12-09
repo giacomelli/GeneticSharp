@@ -83,7 +83,7 @@ namespace GeneticSharp.Domain.Crossovers
                 }
             }
 
-            return new List<IChromosome>() { offspring1, offspring2 };
+            return new List<IChromosome> { offspring1, offspring2 };
         }
 
         /// <summary>

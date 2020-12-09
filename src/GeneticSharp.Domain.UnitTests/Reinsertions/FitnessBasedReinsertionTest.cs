@@ -2,23 +2,24 @@
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Reinsertions;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Reinsertions
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Reinsertions")]
     public class FitnessBasedReinsertionTest
     {
 
-        [Test()]
+        [Test]
         public void SelectChromosomes_offspringSizeGreaterThanMaxSize_Selectoffspring()
         {
             var target = new FitnessBasedReinsertion();
 
             var population = new Population(2, 3, Substitute.For<ChromosomeBase>(2));
-            var offspring = new List<IChromosome>() {
+            var offspring = new List<IChromosome>
+            {
                 Substitute.For<ChromosomeBase> (2),
                 Substitute.For<ChromosomeBase> (2),
                 Substitute.For<ChromosomeBase> (3),
@@ -30,7 +31,8 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             offspring[2].Fitness = 0.5;
             offspring[3].Fitness = 0.7;
 
-            var parents = new List<IChromosome>() {
+            var parents = new List<IChromosome>
+            {
                 Substitute.For<ChromosomeBase> (5),
                 Substitute.For<ChromosomeBase> (6),
                 Substitute.For<ChromosomeBase> (7),

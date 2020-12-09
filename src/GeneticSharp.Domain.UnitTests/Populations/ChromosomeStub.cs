@@ -38,6 +38,6 @@ namespace GeneticSharp.Domain.UnitTests
 
         
 
-        public static Func<double, int> GeneFromDouble(int maxValue) =>d => (int)Math.Round(d).PositiveMod( maxValue + 1);
+        public static Func<double, int> GeneFromDouble(int maxValue) =>d => Math.Round(d).PositiveMod( maxValue + 1);
     }
 }

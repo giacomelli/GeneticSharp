@@ -90,6 +90,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <summary>
         /// Crosses the specified parents.
         /// </summary>
+        /// <param name="ctx">the current evolution context</param>
         /// <param name="parents">The parents.</param>
         /// <returns>The result chromosomes.</returns>
         private IList<IChromosome> Cross(IEvolutionContext ctx, IList<IChromosome> parents)
@@ -100,6 +101,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <summary>
         /// Mutate the specified chromosomes.
         /// </summary>
+        /// <param name="ctx">the current evolution context</param>
         /// <param name="chromosomes">The chromosomes.</param>
         private void Mutate(IEvolutionContext ctx, IList<IChromosome> chromosomes)
         {
@@ -109,6 +111,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <summary>
         /// Reinsert the specified offspring and parents.
         /// </summary>
+        /// <param name="ctx">the current evolution context</param>
         /// <param name="offspring">The offspring chromosomes.</param>
         /// <param name="parents">The parents chromosomes.</param>
         /// <returns>

@@ -60,11 +60,7 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
             var population = new Population(populationSize, populationSize, sudokuChromosome);
             var ga = new MetaGeneticAlgorithm(population, fitness, selection, crossover, mutation, metaHeuristic)
             {
-                Termination = new OrTermination(new ITermination[]
-                {
-                    new FitnessThresholdTermination(fitnessThreshold),
-                    new GenerationNumberTermination(maxGenerationNb)
-                })
+                Termination = new OrTermination(new FitnessThresholdTermination(fitnessThreshold), new GenerationNumberTermination(maxGenerationNb))
             };
 
             ga.Start();

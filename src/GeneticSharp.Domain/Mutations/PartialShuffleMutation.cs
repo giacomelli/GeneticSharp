@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using GeneticSharp.Domain.Randomizations;
 using System.Linq;
+using GeneticSharp.Domain.Randomizations;
 
 namespace GeneticSharp.Domain.Mutations
 {

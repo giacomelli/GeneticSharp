@@ -9,11 +9,11 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Tsp
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Extensions")]
     public class TspFitnessTest
     {
-        [Test()]
+        [Test]
         public void Constructor_MaxEqualsIntEdges_Exception()
         {
             var actual = Assert.Catch<ArgumentOutOfRangeException>(() => new TspFitness(10, 0, int.MaxValue, 0, 10000000));
@@ -24,7 +24,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
         }
 
 
-        [Test()]
+        [Test]
         public void Evaluate_Manychromosomes_Cached_Faster()
         {
 
@@ -85,7 +85,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
         }
 
 
-        [Test()]
+        [Test]
         public void Evaluate_DefaultChromosome_FitnessDividedByMissingCities()
         {
 
@@ -125,7 +125,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
 
         }
 
-        [Test()]
+        [Test]
         public void Evaluate_RandomChromosome_TightBounds()
         {
             var repeatNb = 100;
@@ -152,7 +152,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                    
                     cityFitnesses.Add(fitness);
                 }
-                fitnesses.Add(cityFitnesses.Sum()/ (double) cityFitnesses.Count);
+                fitnesses.Add(cityFitnesses.Sum()/ cityFitnesses.Count);
             }
 
             
@@ -164,7 +164,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
 
         }
 
-        [Test()]
+        [Test]
         public void Evaluate_FitnessGreaterThanZero()
         {
             var target = new TspFitness(10, 0, 10000000, 0, 10000000);

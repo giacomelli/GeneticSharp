@@ -10,11 +10,11 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Mathematic
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Extensions")]
     public class FunctionBuilderTest
     {
-        [Test()]
+        [Test]
         public void Evolve_ManyGenerations_Fast()
         {
             var selection = new EliteSelection();

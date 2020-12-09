@@ -222,7 +222,7 @@ namespace GeneticSharp.Extensions.Tsp
             //Calibrated to close to 1 when distanceSum closes on approx MinDistanceApprox, and 0 when closing on MaxDistanceApprox.
             //With current Min and Max approximations, consistantly yields a mean fitness of 0.631 for a random chromosome with city nb > 50 (higher below, because with small city numbers, random case gets closer to Min case)
             
-            var fitness = 1 - (distanceSum - MinDistanceApprox) /((double) MaxDistanceApprox) ;   // 1.0 - distanceSum / MaxDistanceApprox;
+            var fitness = 1 - (distanceSum - MinDistanceApprox) /MaxDistanceApprox ;   // 1.0 - distanceSum / MaxDistanceApprox;
 
             ((TspChromosome)chromosome).Distance = distanceSum;
 

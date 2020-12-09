@@ -267,8 +267,8 @@ namespace GeneticSharp.Extensions.Sudoku
         /// <summary>
         /// The complete list of unfiltered permutations is stored for quicker access
         /// </summary>
-        private static IList<IList<int>> _allPermutations = (IList<IList<int>>)new List<IList<int>>();
-        private static IList<IList<IList<int>>> _unfilteredPermutations = (IList<IList<IList<int>>>)new List<IList<IList<int>>>();
+        private static IList<IList<int>> _allPermutations = new List<IList<int>>();
+        private static IList<IList<IList<int>>> _unfilteredPermutations = new List<IList<IList<int>>>();
 
         /// <summary>
         /// Computes all possible permutation for a given set
@@ -282,9 +282,9 @@ namespace GeneticSharp.Extensions.Sudoku
             if (length == 1) return list.Select(t => (IList<T>)(new[] { t }.ToList())).ToList();
 
             var enumeratedList = list.ToList();
-            return (IList<IList<T>>)GetPermutations(enumeratedList, length - 1)
-              .SelectMany(t => enumeratedList.Where(e => !t.Contains(e)),
-                (t1, t2) => (IList<T>)t1.Concat(new[] { t2 }).ToList()).ToList();
+            return GetPermutations(enumeratedList, length - 1)
+                .SelectMany(t => enumeratedList.Where(e => !t.Contains(e)),
+                    (t1, t2) => (IList<T>)t1.Concat(new[] { t2 }).ToList()).ToList();
         }
 
 

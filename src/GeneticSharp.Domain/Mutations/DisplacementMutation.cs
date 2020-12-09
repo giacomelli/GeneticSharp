@@ -41,10 +41,8 @@ namespace GeneticSharp.Domain.Mutations
             {
                 return sequence.LeftShift(geneToShift);
             }
-            else
-            {
-                return sequence.RightShift(geneToShift);
-            }
+
+            return sequence.RightShift(geneToShift);
         }
 
         /// <summary>

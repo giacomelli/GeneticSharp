@@ -1,7 +1,7 @@
 ﻿using System;
 using GeneticSharp.Domain.Terminations;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Terminations
 {
@@ -9,7 +9,7 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
     [Category("Terminations")]
     public class OrTerminationTest
     {
-        [Test()]
+        [Test]
         public void AddTermination_Null_Exception()
         {
             var target = new OrTermination();
@@ -21,7 +21,7 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
             Assert.AreEqual("termination", actual.ParamName);
         }
 
-        [Test()]
+        [Test]
         public void HasReached_LessThan2Terminations_Exception()
         {
             var target = new OrTermination();
@@ -33,7 +33,7 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
             }, "The OrTermination needs at least 2 terminations to perform. Please, add the missing terminations.");
         }
 
-        [Test()]
+        [Test]
         public void HasReached_AllTerminationsHasNotReached_False()
         {
             var target = new OrTermination();
@@ -54,7 +54,7 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
             Assert.IsFalse(target.HasReached(ga));
         }
 
-        [Test()]
+        [Test]
         public void HasReached_OnlyOneTerminationsHasReached_True()
         {
             var target = new OrTermination();

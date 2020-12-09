@@ -13,7 +13,7 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("MetaHeuristics")]
     class CompoundMetaHeuristicsTest: MetaHeuristicTestBase
     {
@@ -26,7 +26,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         
         
 
-        [Test()]
+        [Test]
         public void Evolve_WOAParams_Stub_Small_Optmization()
         {
             IMetaHeuristic MetaHeuristic(int maxValue) => GetDefaultWhaleHeuristicForChromosomStub(false, 300, maxValue);
@@ -51,7 +51,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
         }
 
-        [Test()]
+        [Test]
         public void Evolve_WOA_Stub_Small_Optmization()
         {
             IMetaHeuristic MetaHeuristic(int maxValue) => GetDefaultWhaleHeuristicForChromosomStub(true, 300, maxValue);
@@ -74,7 +74,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             }
         }
 
-        [Test()]
+        [Test]
         public void Evolve_WOA_KnownFunctions_Small_Optmization()
         {
 
@@ -123,7 +123,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         }
 
 
-        [Test()]
+        [Test]
         public void Compare_WOA_OnePoint_KnownFunctions_Small_LargerFitness_Bounded()
         {
             var crossover = new OnePointCrossover(2);
@@ -136,7 +136,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
 
 
-        [Test()]
+        [Test]
         public void Compare_WOA_Uniform_KnownFunctions_Small_LargerFitness_Bounded()
         {
             var crossover = new UniformCrossover();
@@ -180,7 +180,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
 
 
-        [Test()]
+        [Test]
         public void Compare_WOA_Uniform_Stub_Large_LargerFitness()
         {
            
@@ -193,7 +193,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
         }
 
-        [Test()]
+        [Test]
         public void Compare_WOA_OnePoint_Stub_Small_LargerFitness()
         {
             var crossover = new OnePointCrossover(2);
@@ -206,7 +206,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         }
 
 
-        [Test()]
+        [Test]
         public void Compare_WOA_WOAParams_Stub_Large_MoreGenerations()
         {
             IMetaHeuristic OriginalMetaHeuristic(int maxValue) => GetDefaultWhaleHeuristicForChromosomStub(false, 300, maxValue);
@@ -381,17 +381,15 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
         private IMetaHeuristic GetDefaultWhaleHeuristicForChromosomStub(bool reduced, int maxOperations, int maxValue)
         {
-            double FromGene(int geneValue) => (double) geneValue;
+            double FromGene(int geneValue) => geneValue;
             Func<Double, int> ToGene =  ChromosomeStub.GeneFromDouble(maxValue);
 
             if (!reduced)
             {
                 return MetaHeuristicsFactory.WhaleOptimisationAlgorithmWithParams(false, maxOperations, FromGene, ToGene);
             }
-            else
-            {
-                return MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false, maxOperations,  FromGene, ToGene);
-            }
+
+            return MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false, maxOperations,  FromGene, ToGene);
 
         }
 

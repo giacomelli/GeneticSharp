@@ -6,14 +6,14 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("MetaHeuristics")]
     class PrimitiveMetaHeuristicsTest: MetaHeuristicTestBase
     {
 
        
 
-        [Test()]
+        [Test]
         public void ContainerMetaHeuristic_SubMetaheuristic_IsRun()
         {
 
@@ -50,7 +50,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
         }
 
-        [Test()]
+        [Test]
         public void SwitchMetaHeuristic_Phases_AreRun()
         {
 
@@ -93,7 +93,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
 
 
-        [Test()]
+        [Test]
         public void GenerationMetaHeuristic_Phases_AreRun()
         {
 
@@ -135,7 +135,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         }
 
 
-        [Test()]
+        [Test]
         public void PopulationMetaHeuristic_Phases_AreRun()
         {
             var groupSize = 10;

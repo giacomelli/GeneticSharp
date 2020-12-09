@@ -4,11 +4,11 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Tsp
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Extensions")]
     public class TspChromosomeTest
     {
-        [Test()]
+        [Test]
         public void Constructor_OneCity_Exception()
         {
             Assert.Catch<ArgumentException>(() =>
@@ -17,7 +17,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             }, "The minimum length for a chromosome is 2 genes.");
         }
 
-        [Test()]
+        [Test]
         public void GenerateGene_FitnessLowerThanZero_Zero()
         {
             var target = new TspChromosome(10);
@@ -25,7 +25,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             Assert.IsTrue(cityIndex >= 0 && cityIndex < 10);
         }
 
-        [Test()]
+        [Test]
         public void Clone_NoArgs_Cloned()
         {
             var target = new TspChromosome(10);

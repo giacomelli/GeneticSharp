@@ -2,8 +2,8 @@
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Randomizations;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
@@ -50,7 +50,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             });
             chromosome3.CreateNew().Returns(Substitute.For<ChromosomeBase>(4));
 
-            var parents = new List<IChromosome>() { chromosome1, chromosome2, chromosome3 };
+            var parents = new List<IChromosome> { chromosome1, chromosome2, chromosome3 };
 
             var target = new ThreeParentCrossover();
 

@@ -13,7 +13,8 @@ namespace GeneticSharp.Domain.Metaheuristics
     public abstract class ScopedMetaHeuristic : ContainerMetaHeuristic
     {
 
-        public ScopedMetaHeuristic():base() { }
+        public ScopedMetaHeuristic()
+        { }
 
         public ScopedMetaHeuristic(IMetaHeuristic subMetaHeuristic):base(subMetaHeuristic) {}
 
@@ -28,10 +29,8 @@ namespace GeneticSharp.Domain.Metaheuristics
             {
                 return ScopedSelectParentPopulation(ctx, selection);
             }
-            else
-            {
-                return base.SelectParentPopulation(ctx, selection);
-            }
+
+            return base.SelectParentPopulation(ctx, selection);
         }
 
         public sealed override IList<IChromosome> MatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
@@ -40,10 +39,8 @@ namespace GeneticSharp.Domain.Metaheuristics
             {
                 return ScopedMatchParentsAndCross(ctx, crossover, crossoverProbability, parents);
             }
-            else
-            {
-                return base.MatchParentsAndCross(ctx, crossover, crossoverProbability, parents);
-            }
+
+            return base.MatchParentsAndCross(ctx, crossover, crossoverProbability, parents);
         }
 
         public sealed override void MutateChromosome(IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
@@ -64,10 +61,8 @@ namespace GeneticSharp.Domain.Metaheuristics
             {
                return ScopedReinsert(ctx, reinsertion, offspring, parents);
             }
-            else
-            {
-                return base.Reinsert(ctx, reinsertion, offspring, parents);
-            }
+
+            return base.Reinsert(ctx, reinsertion, offspring, parents);
 
         }
 

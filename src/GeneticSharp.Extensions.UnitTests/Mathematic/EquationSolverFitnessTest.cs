@@ -5,17 +5,17 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Mathematic
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Extensions")]
     public class EquationSolverFitnessTest
     {
-        [Test()]
+        [Test]
         public void Evaluate_DiffChromosomes_DiffFitness()
         {
             // Equation A + B = 3.
             var target = new EquationSolverFitness(
                              3,
-                             (genes) =>
+                             genes =>
                              {
                                  return genes.Select(g => (int)g.Value).Sum();
                              });

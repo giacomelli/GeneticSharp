@@ -3,12 +3,12 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("MetaHeuristics")]
     class MetaHeuristicParameterTest : MetaHeuristicTestBase
     {
 
-        [Test()]
+        [Test]
         public void GetOrAddMethod_RespectsScope()
         {
 

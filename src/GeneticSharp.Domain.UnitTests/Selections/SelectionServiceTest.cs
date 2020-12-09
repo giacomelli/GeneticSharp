@@ -4,11 +4,11 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Selections
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Selections")]
     public class SelectionServiceTest
     {
-        [Test()]
+        [Test]
         public void GetSelectionTypes_NoArgs_AllAvailableSelections()
         {
             var actual = SelectionService.GetSelectionTypes();
@@ -22,7 +22,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
 
         }
 
-        [Test()]
+        [Test]
         public void GetSelectionNames_NoArgs_AllAvailableSelectionsNames()
         {
             var actual = SelectionService.GetSelectionNames();
@@ -35,7 +35,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             Assert.AreEqual("Tournament", actual[4]);
         }
 
-        [Test()]
+        [Test]
         public void CreateSelectionByName_InvalidName_Exception()
         {
             Assert.Catch<ArgumentException>(() =>
@@ -44,7 +44,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             }, "There is no ISelection implementation with name 'Test'.");
         }
 
-        [Test()]
+        [Test]
         public void CreateSelectionByName_ValidNameButInvalidConstructorArgs_Exception()
         {
             Assert.Catch<ArgumentException>(() =>
@@ -53,7 +53,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             }, "A ISelection's implementation with name 'Elite' was found, but seems the constructor args were invalid.");
         }
 
-        [Test()]
+        [Test]
         public void CreateSelectionByName_ValidName_SelectionCreated()
         {
             ISelection actual = SelectionService.CreateSelectionByName("Elite") as EliteSelection;
@@ -72,7 +72,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             Assert.IsNotNull(actual);
         }
 
-        [Test()]
+        [Test]
         public void GetSelectionTypeByName_InvalidName_Exception()
         {
             Assert.Catch<ArgumentException>(() =>
@@ -81,7 +81,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             }, "There is no ISelection implementation with name 'Test'.");
         }
 
-        [Test()]
+        [Test]
         public void GetSelectionTypeByName_ValidName_SelectionTpe()
         {
             var actual = SelectionService.GetSelectionTypeByName("Elite");

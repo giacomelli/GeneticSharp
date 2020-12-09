@@ -3,12 +3,12 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("MetaHeuristics")]
     class ParameterReplacerTest : MetaHeuristicTestBase
     {
 
-        [Test()]
+        [Test]
         public void ExpressionWithSubExpresssionParameter_WithPropertContext_IsProperlyReducedToSingleExpression()
         {
             var paramNameAsString = "paramName";

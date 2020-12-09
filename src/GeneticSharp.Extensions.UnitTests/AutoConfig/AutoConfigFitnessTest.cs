@@ -19,7 +19,7 @@ namespace GeneticSharp.Extensions.UnitTests.AutoConfig
             RandomizationProvider.Current = new BasicRandomization();
         }
 
-        [Test()]
+        [Test]
         public void Evaluate_StartOk_Fitness()
         {
             var chromosome = new AutoConfigChromosome();
@@ -36,7 +36,7 @@ namespace GeneticSharp.Extensions.UnitTests.AutoConfig
             Assert.AreNotEqual(0, actual);
         }
 
-        [Test()]
+        [Test]
         public void Evaluate_StartFailed_ZeroFitness()
         {
             var chromosome = new AutoConfigChromosome();

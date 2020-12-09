@@ -6,7 +6,7 @@
     public class PopulationMetaHeuristic : SizeBasedMetaHeuristic
     {
 
-        public PopulationMetaHeuristic() : base()
+        public PopulationMetaHeuristic()
         {
             Init();
         }
@@ -21,7 +21,7 @@
 
         private void Init()
         {
-            DynamicParameter = new ExpressionMetaHeuristicParameter<int>()
+            DynamicParameter = new ExpressionMetaHeuristicParameter<int>
             {
                 Scope = ParamScope.Generation,
                 DynamicGenerator = (h, ctx) => ctx.Index 

@@ -5,13 +5,13 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Selections;
-using NUnit.Framework;
-using NSubstitute;
 using GeneticSharp.Extensions.Tsp;
+using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Selections
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Selections")]
     public class RouletteWheelSelectionTest
     {
@@ -21,7 +21,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             RandomizationProvider.Current = new BasicRandomization();
         }
 
-        [Test()]
+        [Test]
         public void SelectChromosomes_InvalidNumber_Exception()
         {
             var target = new RouletteWheelSelection();
@@ -42,7 +42,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             }, "The number of selected chromosomes should be at least 2.");
         }
 
-        [Test()]
+        [Test]
         public void SelectChromosomes_NullGeneration_Exception()
         {
             var target = new RouletteWheelSelection();
@@ -55,7 +55,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             Assert.AreEqual("generation", actual.ParamName);
         }
 
-        [Test()]
+        [Test]
         public void SelectChromosomes_Generation_ChromosomesSelected()
         {
             var target = new RouletteWheelSelection();
@@ -71,7 +71,8 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             var c4 = Substitute.ForPartsOf<ChromosomeBase>(2);
             c4.Fitness = 0.7;
 
-            var generation = new Generation(1, new List<IChromosome>() {
+            var generation = new Generation(1, new List<IChromosome>
+            {
                 c1, c2, c3, c4
             });
 
@@ -153,7 +154,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             Assert.AreEqual("RouletteWheelSelection: There are chromosomes with null fitness.", actual.Message);
         }
 
-        [Test()]
+        [Test]
         public void SelectChromosomes_Generation_ChromosomesZeroFitness()
         {
             var target = new RouletteWheelSelection();
@@ -169,7 +170,8 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             var c4 = Substitute.ForPartsOf<ChromosomeBase>(2);
             c4.Fitness = 0;
 
-            var generation = new Generation(1, new List<IChromosome>() {
+            var generation = new Generation(1, new List<IChromosome>
+            {
                 c1, c2, c3, c4
             });
 

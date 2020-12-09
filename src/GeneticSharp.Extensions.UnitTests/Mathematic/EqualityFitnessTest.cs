@@ -4,11 +4,11 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Mathematic
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Extensions")]
     public class EqualityFitnessTest
     {
-        [Test()]
+        [Test]
         public void Evaluate_DiffChromosomes_DiffFitness()
         {
             var target = new EqualityFitness();

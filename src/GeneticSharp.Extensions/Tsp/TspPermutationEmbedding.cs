@@ -5,7 +5,6 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Infrastructure.Framework.Collections;
 using GeneticSharp.Infrastructure.Framework.Commons;
 
-
 namespace GeneticSharp.Extensions.Tsp
 {
     /// <summary>
@@ -246,10 +245,9 @@ namespace GeneticSharp.Extensions.Tsp
 
                     if (dist == 0)
                         return dist;
-                    else if (dist < 0)
+                    if (dist < 0)
                         return -1;
-                    else
-                        return 1;
+                    return 1;
                 });
                 var pairDictionary = pairDistance.Select((d, j) => (d, j))
                     .ToDictionary(tuple => tuple.j, tuple => tuple.d);

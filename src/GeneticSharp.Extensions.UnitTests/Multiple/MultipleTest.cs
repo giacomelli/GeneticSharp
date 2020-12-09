@@ -20,7 +20,7 @@ namespace GeneticSharp.Extensions.UnitTests.Multiple
     class MultipleTest
     {
 
-        [Test()]
+        [Test]
         public void Evolve_CompareToSingleChromosome_Evolved()
         {
             int numberOfCities = 30;
@@ -41,10 +41,10 @@ namespace GeneticSharp.Extensions.UnitTests.Multiple
             simpleChromosome.Fitness = simplefitness.Evaluate(simpleChromosome);
 
 
-            var multiChromosome = new MultipleChromosome((i) => new TspChromosome(numberOfCities), 3);
+            var multiChromosome = new MultipleChromosome(i => new TspChromosome(numberOfCities), 3);
             //MultiChromosome should create 3 TSP chromosomes and store them in the corresponding property
-            Assert.AreEqual(((MultipleChromosome)multiChromosome).Chromosomes.Count, 3);
-            var tempMultiFitness = ((MultipleChromosome)multiChromosome).Chromosomes.Sum(c => simplefitness.Evaluate(c));
+            Assert.AreEqual(multiChromosome.Chromosomes.Count, 3);
+            var tempMultiFitness = multiChromosome.Chromosomes.Sum(c => simplefitness.Evaluate(c));
             var fitness = new MultipleFitness(simplefitness);
             //Multi fitness should sum over the fitnesses of individual chromosomes
             Assert.AreEqual(tempMultiFitness, fitness.Evaluate(multiChromosome));

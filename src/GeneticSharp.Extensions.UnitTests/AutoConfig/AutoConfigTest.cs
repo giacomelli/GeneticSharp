@@ -23,7 +23,7 @@ namespace GeneticSharp.Extensions.UnitTests.AutoConfig
             RandomizationProvider.Current = new BasicRandomization();
         }
 
-        [Test()]
+        [Test]
         public void Evolve_ManyGenerations_Fast()
         {
             var selection = new EliteSelection();
@@ -45,7 +45,7 @@ namespace GeneticSharp.Extensions.UnitTests.AutoConfig
 
             var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation)
             {
-                TaskExecutor = new ParallelTaskExecutor() {MinThreads = 10, MaxThreads = 20},
+                TaskExecutor = new ParallelTaskExecutor {MinThreads = 10, MaxThreads = 20},
                 Termination = new GenerationNumberTermination(10)
             };
 
@@ -56,7 +56,7 @@ namespace GeneticSharp.Extensions.UnitTests.AutoConfig
             Assert.NotNull(ga.BestChromosome);            
         }
 
-        [Test()]
+        [Test]
         public void GenerateGene_InvalidIndex_Exception()
         {
             var target = new AutoConfigChromosome();

@@ -4,8 +4,8 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Selections;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Selections
 {
@@ -19,7 +19,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             RandomizationProvider.Current = new BasicRandomization();
         }
 
-        [Test()]
+        [Test]
         public void SelectChromosomes_InvalidNumber_Exception()
         {
             var target = new TournamentSelection();
@@ -41,7 +41,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             }, "The number of selected chromosomes should be at least 2.");
         }
 
-        [Test()]
+        [Test]
         public void SelectChromosomes_NullGeneration_Exception()
         {
             var target = new TournamentSelection();
@@ -53,7 +53,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             Assert.AreEqual("generation", actual.ParamName);
         }
 
-        [Test()]
+        [Test]
         public void SelectChromosomes_TournamentSizeGreaterThanAvailableChromosomes_Exception()
         {
             var target = new TournamentSelection(3, true);
@@ -65,7 +65,8 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             c1.Fitness = 0.5;
 
 
-            var generation = new Generation(1, new List<IChromosome>() {
+            var generation = new Generation(1, new List<IChromosome>
+            {
                 c0, c1
             });
 
@@ -75,7 +76,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             }, "The tournament size is greater than available chromosomes. Tournament size is 3 and generation 1 available chromosomes are 2.");
         }
 
-        [Test()]
+        [Test]
         public void SelectChromosomes_TournamentSize3AllowWinnerCompeteNextTournamentTrue_ChromosomesSelected()
         {
             var target = new TournamentSelection(3, true);
@@ -98,7 +99,8 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             var c5 = Substitute.ForPartsOf<ChromosomeBase>(2);
             c5.Fitness = 0.2;
 
-            var generation = new Generation(1, new List<IChromosome>() {
+            var generation = new Generation(1, new List<IChromosome>
+            {
                 c0, c1, c2, c3, c4, c5
             });
 
@@ -119,7 +121,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             Assert.AreEqual(c3, actual[3]);
         }
 
-        [Test()]
+        [Test]
         public void SelectChromosomes_TournamentSize3AllowWinnerCompeteNextTournamentFalse_ChromosomesSelected()
         {
             var target = new TournamentSelection(3, false);
@@ -142,7 +144,8 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             var c5 = Substitute.ForPartsOf<ChromosomeBase>(2);
             c5.Fitness = 0.2;
 
-            var generation = new Generation(1, new List<IChromosome>() {
+            var generation = new Generation(1, new List<IChromosome>
+            {
                 c0, c1, c2, c3, c4, c5
             });
 

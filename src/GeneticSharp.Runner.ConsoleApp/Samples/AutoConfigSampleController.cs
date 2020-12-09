@@ -57,7 +57,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         public override void ConfigGA(GeneticAlgorithm ga)
         {
             base.ConfigGA(ga);
-            ga.TaskExecutor = new ParallelTaskExecutor()
+            ga.TaskExecutor = new ParallelTaskExecutor
             {
                 MinThreads = 250,
                 MaxThreads = 500

@@ -25,8 +25,7 @@ namespace GeneticSharp.Infrastructure.Framework.Commons
             {
                 if (node == searchedExpr)
                     return replaceExpr;
-                else
-                    return base.VisitParameter(node);
+                return base.VisitParameter(node);
             }
         }
 
@@ -47,11 +46,8 @@ namespace GeneticSharp.Infrastructure.Framework.Commons
                 ;
                 if (dict.TryGetValue(node.Name, out var replPar))
                     return replPar;
-                else
-                {
-                    dict[node.Name] = node;
-                    return base.VisitParameter(node);
-                }
+                dict[node.Name] = node;
+                return base.VisitParameter(node);
             }
 
             public override Expression Visit(Expression node)

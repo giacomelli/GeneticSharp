@@ -33,13 +33,11 @@ namespace GeneticSharp.Domain.Metaheuristics
             {
                 return currentHeuristic.SelectParentPopulation(ctx, selection);
             }
-            else
-            {
-                throw new ApplicationException($"No phase heuristic for MetaHeuristic {Guid} and phase index {phaseItemIdx}");
-            }
 
-            
-            
+            throw new ApplicationException($"No phase heuristic for MetaHeuristic {Guid} and phase index {phaseItemIdx}");
+
+
+
         }
 
         public override IList<IChromosome> ScopedMatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
@@ -51,11 +49,9 @@ namespace GeneticSharp.Domain.Metaheuristics
             {
                 return currentHeuristic.MatchParentsAndCross(ctx, crossover, crossoverProbability, parents);
             }
-            else
-            {
-                throw new ApplicationException($"No phase heuristic for MetaHeuristic {Guid} and phase index {phaseItemIdx}");
-            }
-           
+
+            throw new ApplicationException($"No phase heuristic for MetaHeuristic {Guid} and phase index {phaseItemIdx}");
+
         }
 
         public override void ScopedMutateChromosome(IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
@@ -81,10 +77,8 @@ namespace GeneticSharp.Domain.Metaheuristics
             {
                 return currentHeuristic.Reinsert(ctx, reinsertion, offspring, parents);
             }
-            else
-            {
-                throw new ApplicationException($"No phase heuristic for MetaHeuristic {Guid} and phase index {phaseItemIdx}");
-            }
+
+            throw new ApplicationException($"No phase heuristic for MetaHeuristic {Guid} and phase index {phaseItemIdx}");
         }
 
 

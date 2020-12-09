@@ -2,12 +2,12 @@
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Infrastructure.Framework.Texts;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Mutations
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Mutations")]
     class DisplacementMutationTest
     {
@@ -17,7 +17,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             RandomizationProvider.Current = new BasicRandomization();
         }
 
-        [Test()]
+        [Test]
         public void Mutate_LessThanThreeGenes_Exception()
         {
             var target = new DisplacementMutation();
@@ -33,7 +33,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             }, "A chromosome should have, at least, 3 genes. {0} has only 2 gene.".With(chromosome.GetType().Name));
         }
 
-        [Test()]
+        [Test]
         public void Mutate_NoProbality_NoDisplacement()
         {
             var target = new DisplacementMutation();
@@ -59,7 +59,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             Assert.AreEqual(4, chromosome.GetGene(3).Value);
         }
 
-        [Test()]
+        [Test]
         public void Mutate_ValidChromosome_Displacement_To_Left()
         {
             var target = new DisplacementMutation();
@@ -94,7 +94,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             Assert.AreEqual(8, chromosome.GetGene(7).Value);
         }
 
-        [Test()]
+        [Test]
         public void Mutate_ValidChromosome_Displacement_To_Right()
         {
             var target = new DisplacementMutation();

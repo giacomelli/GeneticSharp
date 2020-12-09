@@ -1,7 +1,7 @@
-﻿using GeneticSharp.Domain.Randomizations;
-using System;
+﻿using System;
 using System.Collections;
 using System.Linq;
+using GeneticSharp.Domain.Randomizations;
 
 namespace GeneticSharp.Domain.Chromosomes
 {

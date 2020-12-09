@@ -7,7 +7,7 @@
     {
 
 
-        public GenerationMetaHeuristic() : base()
+        public GenerationMetaHeuristic()
         {
             Init();
         }
@@ -20,7 +20,7 @@
 
         private void Init()
         {
-            DynamicParameter = new ExpressionMetaHeuristicParameter<int>() {DynamicGenerator = (h, ctx) => ctx.Population.GenerationsNumber, Scope = ParamScope.Generation};
+            DynamicParameter = new ExpressionMetaHeuristicParameter<int> {DynamicGenerator = (h, ctx) => ctx.Population.GenerationsNumber, Scope = ParamScope.Generation};
         }
     }
 }

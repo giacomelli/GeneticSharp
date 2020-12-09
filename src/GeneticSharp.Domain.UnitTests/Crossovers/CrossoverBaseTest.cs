@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
@@ -34,7 +34,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             Assert.Catch <ArgumentOutOfRangeException>(() =>
             {
-                target.Cross(new List<IChromosome>() { Substitute.For<IChromosome>() });
+                target.Cross(new List<IChromosome> { Substitute.For<IChromosome>() });
             }, "The number of parents should be the same of ParentsNumber.");
         }
     }

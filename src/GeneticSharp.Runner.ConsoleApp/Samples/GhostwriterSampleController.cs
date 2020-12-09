@@ -39,7 +39,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         public override void ConfigGA(GeneticAlgorithm ga)
         {
             base.ConfigGA(ga);
-            ga.TaskExecutor = new ParallelTaskExecutor()
+            ga.TaskExecutor = new ParallelTaskExecutor
             {
                 MinThreads = 25,
                 MaxThreads = 50
@@ -48,7 +48,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
 
         public override IFitness CreateFitness()
         {
-            return new GhostwriterFitness((text) =>
+            return new GhostwriterFitness(text =>
             {
                 var minDistance = m_quotes.Min(q => LevenshteinDistance(q, text));
 

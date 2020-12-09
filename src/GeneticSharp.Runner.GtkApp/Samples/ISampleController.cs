@@ -2,12 +2,12 @@
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
+using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Domain.Mutations;
+using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 using Gtk;
-using GeneticSharp.Domain.Metaheuristics;
-using GeneticSharp.Domain.Reinsertions;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
 {

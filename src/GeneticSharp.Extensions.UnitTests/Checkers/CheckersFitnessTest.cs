@@ -3,11 +3,11 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Checkers
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Extensions")]
     public class CheckersFitnessTest
     {
-        [Test()]
+        [Test]
         public void Evaluate_ChromosomeInvalidMove_Fitness0()
         {
             var target = new CheckersFitness(new CheckersBoard(8));
@@ -16,7 +16,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             Assert.AreEqual(0, target.Evaluate(chromosome));
         }
 
-        [Test()]
+        [Test]
         public void Evaluate_ChromosomeForwardMove_Fitness05()
         {
             var target = new CheckersFitness(new CheckersBoard(8));
@@ -25,7 +25,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             Assert.AreEqual(0.5, target.Evaluate(chromosome));
         }
 
-        [Test()]
+        [Test]
         public void Evaluate_ChromosomeForwardMoveAndCanCaptureAnotherOne_Fitness2()
         {
             var board = new CheckersBoard(8);

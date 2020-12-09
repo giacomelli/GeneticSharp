@@ -46,7 +46,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             var encirclingHeuristic = new CrossoverHeuristic()
                 .WithCrossover(ParamScope.None, 
                     (IMetaHeuristic h, IEvolutionContext ctx, double A, double C) => new GeometricCrossover<TGeneValue>(ordered, 2, false) 
-                        .WithGeometricOperator((IList<TGeneValue> geneValues) => EncirclingPreyOperator(geneValues, geneToDoubleConverter, doubleToGeneConverter, A, C))
+                        .WithGeometricOperator(geneValues => EncirclingPreyOperator(geneValues, geneToDoubleConverter, doubleToGeneConverter, A, C))
                         .WithGeometryEmbedding(geometryEmbedding));
 
             //Defining the main compound Metaheuristic with sub-parts.
@@ -63,7 +63,7 @@ namespace GeneticSharp.Domain.Metaheuristics
                     ParamScope.Generation | ParamScope.Individual, (h, ctx) => 2 * rnd.GetDouble())
                 .WithParam(nameof(WOAParam.l), "parameters in Eq. (2.5)", 
                     ParamScope.Generation | ParamScope.Individual, (IMetaHeuristic h, IEvolutionContext ctx, double a2) => (a2 - 1) * rnd.GetDouble() + 1.0)
-                .WithCaseGenerator(ParamScope.None, (h, ctx) => (bool)(rnd.GetDouble() < 0.5))
+                .WithCaseGenerator(ParamScope.None, (h, ctx) => rnd.GetDouble() < 0.5)
                 .WithTrue(new IfElseMetaHeuristic()
                     .WithName("Update Tracking heuristic", "Exploration phase, towards Random or Best individual")
                     .WithCaseGenerator(ParamScope.None, (IMetaHeuristic h, IEvolutionContext ctx, double a) => Math.Abs(a) > 1)
@@ -103,7 +103,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         private static GeometricCrossover<TGeneValue> GetBubbleNetCrossover<TGeneValue>(double l, double b, bool ordered, Func<TGeneValue, double> geneToDoubleConverter, Func<double, TGeneValue> doubleToGeneConverter, IGeometryEmbedding<TGeneValue> geometryEmbedding = null)
         {
             return new GeometricCrossover<TGeneValue>(ordered, 2, false)
-                .WithGeometricOperator((IList<TGeneValue> geneValues) => BubbleNetOperator(geneValues, geneToDoubleConverter, doubleToGeneConverter, l, b))
+                .WithGeometricOperator(geneValues => BubbleNetOperator(geneValues, geneToDoubleConverter, doubleToGeneConverter, l, b))
                 .WithGeometryEmbedding(geometryEmbedding);
         }
 
@@ -127,7 +127,7 @@ namespace GeneticSharp.Domain.Metaheuristics
 
             var updateTrackingCrossoverHeuristic = new CrossoverHeuristic()
                 .WithCrossover(ParamScope.None, (h,ctx) => new GeometricCrossover<TGeneValue>(ordered, 2, false) //geneValues[1] is from best or random chromosome, geneValues[0] is from current parent
-                    .WithGeometricOperator((IList<TGeneValue> geneValues) =>toGeneConverter(fromGeneConverter(geneValues[1]) - ctx.GetParam<double>(h, nameof(WOAParam.A)) * Math.Abs(ctx.GetParam<double>(h,nameof(WOAParam.C)) * fromGeneConverter(geneValues[1]) - fromGeneConverter(geneValues[0])))));
+                    .WithGeometricOperator(geneValues =>toGeneConverter(fromGeneConverter(geneValues[1]) - ctx.GetParam<double>(h, nameof(WOAParam.A)) * Math.Abs(ctx.GetParam<double>(h,nameof(WOAParam.C)) * fromGeneConverter(geneValues[1]) - fromGeneConverter(geneValues[0])))));
 
             return new IfElseMetaHeuristic()
                 .WithScope(EvolutionStage.Crossover)
@@ -149,10 +149,10 @@ namespace GeneticSharp.Domain.Metaheuristics
                     .WithMatches(MatchingTechnique.Best)
                     .WithSubMetaHeuristic(new CrossoverHeuristic()
                         .WithCrossover(ParamScope.None, (h,ctx) => new GeometricCrossover<TGeneValue>(ordered,2, false)
-                            .WithGeometricOperator((IList<TGeneValue> geneValues) => toGeneConverter(Math.Abs(fromGeneConverter(geneValues[1]) - fromGeneConverter(geneValues[0])) 
-                                * Math.Exp(ctx.GetParam<double>(h,nameof(WOAParam.l))) *
-                                Math.Cos(ctx.GetParam<double>(h,nameof(WOAParam.l)) * 2 * Math.PI)
-                                + fromGeneConverter(geneValues[1]))))));
+                            .WithGeometricOperator(geneValues => toGeneConverter(Math.Abs(fromGeneConverter(geneValues[1]) - fromGeneConverter(geneValues[0])) 
+                                                                                   * Math.Exp(ctx.GetParam<double>(h,nameof(WOAParam.l))) *
+                                                                                   Math.Cos(ctx.GetParam<double>(h,nameof(WOAParam.l)) * 2 * Math.PI)
+                                                                                   + fromGeneConverter(geneValues[1]))))));
         }
 
 

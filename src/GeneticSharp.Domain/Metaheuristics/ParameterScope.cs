@@ -2,7 +2,7 @@
 
 namespace GeneticSharp.Domain.Metaheuristics
 {
-    [Flags()]
+    [Flags]
     public enum ParamScope
     {
         None = 0,

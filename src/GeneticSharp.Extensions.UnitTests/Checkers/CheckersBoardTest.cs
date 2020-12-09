@@ -4,11 +4,11 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Checkers
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Extensions")]
     public class CheckersBoardTest
     {
-        [Test()]
+        [Test]
         public void Constructos_InvalidSize_Exception()
         {
             Assert.Catch<ArgumentException>(() =>
@@ -22,7 +22,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             }, "The minimum valid size is 8.");
         }
 
-        [Test()]
+        [Test]
         public void Contructor_ValidSize_PlayerOnePiecedPlaced()
         {
             var target = new CheckersBoard(8);
@@ -47,7 +47,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             Assert.AreEqual(CheckersSquareState.OccupiedByPlayerOne, target.GetSquare(7, 2).State);
         }
 
-        [Test()]
+        [Test]
         public void Contructor_ValidSize_PlayerTwoPiecedPlaced()
         {
             var target = new CheckersBoard(8);
@@ -72,7 +72,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             Assert.AreEqual(CheckersSquareState.OccupiedByPlayerTwo, target.GetSquare(6, 5).State);
         }
 
-        [Test()]
+        [Test]
         public void Contructor_ValidSize_FreeAndNotPlayableSquaresOk()
         {
             var target = new CheckersBoard(8);
@@ -109,7 +109,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             Assert.IsFalse(CheckersSquare.IsNotPlayableSquare(1, 2));
         }
 
-        [Test()]
+        [Test]
         public void GetSize_InvalidIndexes_Exception()
         {
             var target = new CheckersBoard(10);
@@ -139,7 +139,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             Assert.AreEqual("rowIndex", actual.ParamName);
         }
 
-        [Test()]
+        [Test]
         public void MovePiece_NullMove_Exception()
         {
             var target = new CheckersBoard(10);
@@ -151,7 +151,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             Assert.AreEqual("move", actual.ParamName);
         }
 
-        [Test()]
+        [Test]
         public void MovePiece_InvalidMove_False()
         {
             var target = new CheckersBoard(8);
@@ -189,7 +189,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             Assert.IsFalse(target.MovePiece(move));
         }
 
-        [Test()]
+        [Test]
         public void MovePiece_ValidMove_True()
         {
             var target = new CheckersBoard(8);
@@ -209,7 +209,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
         }
 
 
-        [Test()]
+        [Test]
         public void CountCatchableByPiece_Null_Exception()
         {
             var target = new CheckersBoard(8);
@@ -222,7 +222,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             Assert.AreEqual("piece", actual.ParamName);
         }
 
-        [Test()]
+        [Test]
         public void CountCatchableByPiece_ThereIsNoEnemyPieceAround_Zero()
         {
             var target = new CheckersBoard(8);
@@ -238,7 +238,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             }
         }
 
-        [Test()]
+        [Test]
         public void CountCatchableByPiece_ThereIsEnemyPieceAroundButCannotBeCaptured_Zero()
         {
             var target = new CheckersBoard(8);
@@ -253,7 +253,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             Assert.AreEqual(0, target.CountCatchableByPiece(piece));
         }
 
-        [Test()]
+        [Test]
         public void CountCatchableByPiece_ThereIsEnemyPieceAround_CatchableCount()
         {
             var target = new CheckersBoard(8);
@@ -277,7 +277,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             Assert.AreEqual(0, target.CountCatchableByPiece(enemyPiece));
         }
 
-        [Test()]
+        [Test]
         public void CountCatchableByPiece_ThereIsTwoEnemyPieceAround_CatchableCountTwo()
         {
             var target = new CheckersBoard(8);
@@ -306,7 +306,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             Assert.AreEqual(0, target.CountCatchableByPiece(enemyPiece1));
         }
 
-        [Test()]
+        [Test]
         public void CountPieceChancesToBeCaptured_Null_Exception()
         {
             var target = new CheckersBoard(8);
@@ -319,7 +319,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             Assert.AreEqual("piece", actual.ParamName);
         }
 
-        [Test()]
+        [Test]
         public void CountPieceChancesToBeCaptured_ThereIsNoEnemyPieceAround_Zero()
         {
             var target = new CheckersBoard(8);
@@ -335,7 +335,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             }
         }
 
-        [Test()]
+        [Test]
         public void CountPieceChancesToBeCaptured_CanAndCannotCapture_CapturedCount()
         {
             var target = new CheckersBoard(8);

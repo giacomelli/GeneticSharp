@@ -10,10 +10,10 @@ using NUnit.Framework;
 namespace GeneticSharp.Infrastructure.Framework.UnitTests.Collections
 {
 
-    [TestFixture()]
+    [TestFixture]
     public class EnumerablerTest
     {
-        [Test()]
+        [Test]
         public void Each_AddOne_ValuesExpected()
         {
             var initArray = new[] {0,1,2} ;
@@ -42,19 +42,19 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Collections
 #endif
 
 
-        [Test()]
+        [Test]
         public void MaxBy_CompareWithOrderByDescendingAndFirst_50_Faster()
         {
             MaxBy_CompareWithOrderByDescendingAndFirst_Faster(50, 10000, ratioMax);
         }
 
-        [Test()]
+        [Test]
         public void MaxBy_CompareWithOrderByDescendingAndFirst_500_Faster()
         {
             MaxBy_CompareWithOrderByDescendingAndFirst_Faster(500, 1000, ratioMax);
         }
 
-        [Test()]
+        [Test]
         public void MaxBy_CompareWithOrderByDescendingAndFirst_5000_Faster()
         {
             MaxBy_CompareWithOrderByDescendingAndFirst_Faster(5000, 100, ratioMax);
@@ -125,7 +125,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Collections
             Assert.Greater(ratio, minRatio);
         }
 
-        [Test()]
+        [Test]
         public void Compare_LazyOrderBy_SequentialMaxByLinear_AtEquilibriumPoint()
         {
 

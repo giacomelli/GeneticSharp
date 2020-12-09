@@ -9,20 +9,20 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Texts
     [TestFixture]
     public class StringExtensionsTest
     {
-        [Test()]
+        [Test]
         public void RemovePunctuations_Punctuations_CleanString()
         {
             Assert.AreEqual("`1234567890-=qwertyuiop\\asdfghjklzxcvbnm/", "`1234567890-=q!wer?tyuiop,[]\\asdfghjkl;\'zxcvbnm,./".RemovePunctuations());
         }
 
-        [Test()]
+        [Test]
         public void With_SourceAndArgs_Formatted()
         {
             Assert.AreEqual("A1b2", "A{0}b{1}".With(1, 2));
         }
 
 
-        [Test()]
+        [Test]
         public void HammingDistance_EqualLength_CorrectValue()
         {
             Assert.Catch(() => "abc".HammingDistance("ab"));
@@ -41,7 +41,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Texts
 
 
 
-        [Test()]
+        [Test]
         public void LevenshteinDistance_CorrectValue()
         {
             var tests = new List<(string s1, string s2, int distance)>
@@ -54,7 +54,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Texts
           
         }
 
-        [Test()]
+        [Test]
         public void DamerauLevenshteinDistance_CorrectValue()
         {
 
@@ -70,7 +70,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Texts
         }
 
 
-        [Test()]
+        [Test]
         public void DamerauLevenshteinDistanceBoundedVersion_Faster()
         {
             

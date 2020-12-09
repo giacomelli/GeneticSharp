@@ -22,7 +22,7 @@ namespace GeneticSharp.Extensions.UnitTests.Drawing
             RandomizationProvider.Current = new BasicRandomization();
         }
 
-        [Test()]
+        [Test]
         public void Evolve_ManyGenerations_Fast()
         {
             var selection = new EliteSelection();
@@ -36,7 +36,7 @@ namespace GeneticSharp.Extensions.UnitTests.Drawing
 
             var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation)
             {
-                TaskExecutor = new ParallelTaskExecutor() {MinThreads = 10, MaxThreads = 20},
+                TaskExecutor = new ParallelTaskExecutor {MinThreads = 10, MaxThreads = 20},
                 Termination = new GenerationNumberTermination(5)
             };
 

@@ -2,17 +2,19 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using Gdk;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
+using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Extensions.Drawing;
 using GeneticSharp.Infrastructure.Framework.Texts;
-using Gtk;
-using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Infrastructure.Framework.Threading;
+using Gtk;
 using Image = System.Drawing.Image;
+using Size = System.Drawing.Size;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
 {
@@ -132,12 +134,12 @@ namespace GeneticSharp.Runner.GtkApp.Samples
                             var converter = new ImageConverter();
 
                             var imageBytes = (byte[])converter.ConvertTo(bitmap, typeof(byte[]));
-                            var pb = new Gdk.Pixbuf(imageBytes);
+                            var pb = new Pixbuf(imageBytes);
                             var width = Context.DrawingArea.Width;
                             var height = Context.DrawingArea.Height;
 
-                            pb = pb.ScaleSimple(width, height, Gdk.InterpType.Nearest);
-                            buffer.DrawPixbuf(gc, pb, 0, 0, 0, 100, width, height, Gdk.RgbDither.None, 0, 0);
+                            pb = pb.ScaleSimple(width, height, InterpType.Nearest);
+                            buffer.DrawPixbuf(gc, pb, 0, 0, 0, 100, width, height, RgbDither.None, 0, 0);
                         }
                     }
 

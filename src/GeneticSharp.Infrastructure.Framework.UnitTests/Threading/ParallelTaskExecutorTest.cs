@@ -3,10 +3,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using GeneticSharp.Infrastructure.Framework.Threading;
 using NUnit.Framework;
+using Timer = System.Timers.Timer;
 
 namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Infrastructure")]
     public class ParallelTaskExecutorTest
     {
@@ -194,7 +195,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
 
 
             int otherThreadCount = 0;
-            var otherThread = new System.Timers.Timer(50)
+            var otherThread = new Timer(50)
             {
                 AutoReset = true
             };

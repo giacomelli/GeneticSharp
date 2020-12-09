@@ -170,7 +170,7 @@ namespace GeneticSharp.Extensions.Sudoku
                     // when 81 cells are entered, we create a sudoku and start collecting cells again.
                     if (cells.Count == 81)
                     {
-                        toReturn.Add(new SudokuBoard() { Cells = new List<int>(cells) });
+                        toReturn.Add(new SudokuBoard { Cells = new List<int>(cells) });
                         // we empty the current cell collector to start building a new Sudoku
                         cells.Clear();
                     }

@@ -3,8 +3,8 @@ using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Randomizations;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
@@ -56,7 +56,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             Assert.Catch<CrossoverException>(() =>
             {
-                target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
+                target.Cross(new List<IChromosome> { chromosome1, chromosome2 });
             }, "The Order-based Crossover (OX2) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
         }
 
@@ -100,7 +100,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             rnd.GetUniqueInts(3, 0, 8).Returns(new[] { 1, 2, 5 });
             RandomizationProvider.Current = rnd;
 
-            var actual = target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
+            var actual = target.Cross(new List<IChromosome> { chromosome1, chromosome2 });
 
             Assert.AreEqual(2, actual.Count);
             var childOne = actual [0];

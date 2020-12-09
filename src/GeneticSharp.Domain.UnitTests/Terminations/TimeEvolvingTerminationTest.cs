@@ -1,15 +1,15 @@
 ﻿using System;
 using GeneticSharp.Domain.Terminations;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Terminations
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Terminations")]
     public class TimeEvolvingTerminationTest
     {
-        [Test()]
+        [Test]
         public void HasReached_TimeLowerThanMaxTime_False()
         {
             var ga = Substitute.For<IGeneticAlgorithm>();
@@ -22,7 +22,7 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
             Assert.IsFalse(target.HasReached(ga));
         }
 
-        [Test()]
+        [Test]
         public void HasReached_TimeGreaterOrEqualMaxTime_True()
         {
             var ga = Substitute.For<IGeneticAlgorithm>();

@@ -2,12 +2,12 @@
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Infrastructure.Framework.Texts;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Mutations
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Mutations")]
     public class PartialShuffleMutationTest
     {
@@ -17,7 +17,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             RandomizationProvider.Current = new BasicRandomization();
         }
 
-        [Test()]
+        [Test]
         public void Mutate_LessThanThreeGenes_Exception()
         {
             var target = new PartialShuffleMutation();
@@ -33,7 +33,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             }, "A chromosome should have, at least, 3 genes. {0} has only 2 gene.".With(chromosome.GetType().Name));
         }
 
-        [Test()]
+        [Test]
         public void Mutate_NoProbality_NoPartialShuffle()
         {
             var target = new PartialShuffleMutation();
@@ -59,7 +59,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             Assert.AreEqual(4, chromosome.GetGene(3).Value);
         }
 
-        [Test()]
+        [Test]
         public void Mutate_ValidChromosome_PartialShuffle()
         {
             var target = new PartialShuffleMutation();
@@ -93,7 +93,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             Assert.AreEqual(6, chromosome.GetGene(5).Value);
         }
 
-        [Test()]
+        [Test]
         public void Mutate_AllGenesAreEqual_NoShuffle()
         {
             var target = new PartialShuffleMutation();

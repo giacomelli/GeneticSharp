@@ -1,7 +1,7 @@
 ﻿using System;
 using GeneticSharp.Domain.Terminations;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Terminations
 {

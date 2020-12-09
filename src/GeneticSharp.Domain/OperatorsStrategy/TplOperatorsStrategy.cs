@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Domain.Randomizations;
 
 namespace GeneticSharp.Domain

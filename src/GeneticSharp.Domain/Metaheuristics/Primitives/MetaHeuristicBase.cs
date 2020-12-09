@@ -58,8 +58,7 @@ namespace GeneticSharp.Domain.Metaheuristics
                 {
                     return (IEvolutionContext)cachedContext;
                 }
-                var toReturn = new EvolutionContext()
-                    { GA = ga, Population = population };
+                var toReturn = new EvolutionContext { GA = ga, Population = population };
                 RegisterParameters(toReturn);
                 population.Parameters[nameof(IEvolutionContext)] = toReturn;
                 return toReturn;

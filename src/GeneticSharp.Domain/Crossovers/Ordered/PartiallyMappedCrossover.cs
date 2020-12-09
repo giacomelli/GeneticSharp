@@ -87,7 +87,7 @@ namespace GeneticSharp.Domain.Crossovers
                 offspring2.ReplaceGene(i, geneForOffspring2);
             }
 
-            return new List<IChromosome>() { offspring1, offspring2 };
+            return new List<IChromosome> { offspring1, offspring2 };
         }
 
         private Gene GetGeneNotInMappingSection(Gene candidateGene, Gene[] mappingSection, Gene[] otherParentMappingSection)

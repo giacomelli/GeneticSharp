@@ -50,7 +50,7 @@ namespace GeneticSharp.Domain.Crossovers
         {
             var secondParentSwapGenes = secondParent.GetGenes()
                  .Select((g, i) => new { Gene = g, Index = i })
-                 .Where((g) => swapIndexes.Contains(g.Index))
+                 .Where(g => swapIndexes.Contains(g.Index))
                  .ToArray();
 
             using (var firstParentRemainingGenes = firstParent.GetGenes()

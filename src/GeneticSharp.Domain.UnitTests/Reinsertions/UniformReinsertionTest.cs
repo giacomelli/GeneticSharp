@@ -3,12 +3,12 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Reinsertions;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Reinsertions
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Reinsertions")]
     public class UniformReinsertionTest
     {
@@ -18,14 +18,15 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             RandomizationProvider.Current = new BasicRandomization();
         }
 
-        [Test()]
+        [Test]
         public void SelectChromosomes_OffspringSizeEqualsZero_Exception()
         {
             var target = new UniformReinsertion();
             var population = new Population(6, 8, Substitute.For<ChromosomeBase>(2));
             var offspring = new List<IChromosome>();
 
-            var parents = new List<IChromosome>() {
+            var parents = new List<IChromosome>
+            {
                 Substitute.For<ChromosomeBase> (5),
                 Substitute.For<ChromosomeBase> (6),
                 Substitute.For<ChromosomeBase> (7),
@@ -38,20 +39,22 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             }, "The minimum size of the offspring is 1.");
         }
 
-        [Test()]
+        [Test]
         public void SelectChromosomes_offspringSizeLowerThanMinSize_Selectoffspring()
         {
             var target = new UniformReinsertion();
 
             var population = new Population(6, 8, Substitute.For<ChromosomeBase>(2));
-            var offspring = new List<IChromosome>() {
+            var offspring = new List<IChromosome>
+            {
                 Substitute.For<ChromosomeBase> (2),
                 Substitute.For<ChromosomeBase> (2),
                 Substitute.For<ChromosomeBase> (3),
                 Substitute.For<ChromosomeBase> (4)
             };
 
-            var parents = new List<IChromosome>() {
+            var parents = new List<IChromosome>
+            {
                 Substitute.For<ChromosomeBase> (5),
                 Substitute.For<ChromosomeBase> (6),
                 Substitute.For<ChromosomeBase> (7),

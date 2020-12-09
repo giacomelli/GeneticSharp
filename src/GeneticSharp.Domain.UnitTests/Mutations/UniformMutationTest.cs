@@ -1,12 +1,12 @@
 ﻿using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Randomizations;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Mutations
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Mutations")]
     public class UniformMutationTest
     {
@@ -16,7 +16,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             RandomizationProvider.Current = new BasicRandomization();
         }
 
-        [Test()]
+        [Test]
         public void Mutate_NoIndexes_RandomOneIndex()
         {
             var target = new UniformMutation();
@@ -38,7 +38,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             Assert.AreEqual(1, chromosome.GetGene(2).Value);
         }
 
-        [Test()]
+        [Test]
         public void Mutate_InvalidIndexes_Exception()
         {
             var target = new UniformMutation(0, 3);
@@ -60,7 +60,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             }, "The chromosome has no gene on index 3. The chromosome genes length is 3.");
         }
 
-        [Test()]
+        [Test]
         public void Mutate_Indexes_RandomIndexes()
         {
             var target = new UniformMutation(0, 2);
@@ -83,7 +83,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
 
         }
 
-        [Test()]
+        [Test]
         public void Mutate_AllGenesMutablesTrue_AllGenesMutaed()
         {
             var target = new UniformMutation(true);

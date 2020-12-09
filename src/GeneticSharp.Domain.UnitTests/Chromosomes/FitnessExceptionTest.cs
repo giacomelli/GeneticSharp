@@ -2,8 +2,8 @@
 using System.Reflection;
 using System.Runtime.Serialization;
 using GeneticSharp.Domain.Fitnesses;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Chromosomes
 {

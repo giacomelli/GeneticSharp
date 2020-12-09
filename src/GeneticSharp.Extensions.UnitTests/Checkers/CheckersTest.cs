@@ -20,7 +20,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             RandomizationProvider.Current = new BasicRandomization();
         }
 
-        [Test()]
+        [Test]
         [MaxTime(100000)]
         public void Evolve_ManyGenerations_Fast()
         {

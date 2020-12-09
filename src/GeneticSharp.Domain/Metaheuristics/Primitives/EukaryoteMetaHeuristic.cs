@@ -16,7 +16,8 @@ namespace GeneticSharp.Domain.Metaheuristics
     public class EukaryoteMetaHeuristic : SizeBasedMetaHeuristic
     {
        
-        public EukaryoteMetaHeuristic() : base() { }
+        public EukaryoteMetaHeuristic()
+        { }
 
         public EukaryoteMetaHeuristic(int subChromosomeSize, params IMetaHeuristic[] phaseHeuristics) : base(subChromosomeSize, phaseHeuristics) { }
 
@@ -29,7 +30,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             {
                 var subPopulation = new EukaryotePopulation(ctx.Population, subChromosomes) ;
                 //todo: deal with parameters (delegate?)
-                var newCtx = new EvolutionContext(){GA = ctx.GA, Population = subPopulation};
+                var newCtx = new EvolutionContext {GA = ctx.GA, Population = subPopulation};
                 return subHeuristic.SelectParentPopulation(newCtx, selection);
 
             });
@@ -44,7 +45,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         public override IList<IChromosome> ScopedMatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
 
-            var dynamicSubPopulationParameter = new MetaHeuristicParameter<IList<IList<IChromosome>>>()
+            var dynamicSubPopulationParameter = new MetaHeuristicParameter<IList<IList<IChromosome>>>
             {
                 Scope = SubPopulationCachingScope,
                 Generator = (h, c) => EukaryoteChromosome.GetSubPopulations(parents, PhaseSizes)

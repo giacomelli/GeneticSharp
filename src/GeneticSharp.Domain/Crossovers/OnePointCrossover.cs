@@ -97,7 +97,7 @@ namespace GeneticSharp.Domain.Crossovers
             var firstChild = CreateChild(firstParent, secondParent);
             var secondChild = CreateChild(secondParent, firstParent);
 
-            return new List<IChromosome>() { firstChild, secondChild };
+            return new List<IChromosome> { firstChild, secondChild };
         }
 
         /// <summary>

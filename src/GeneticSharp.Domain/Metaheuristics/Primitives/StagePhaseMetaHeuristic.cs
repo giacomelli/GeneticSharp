@@ -7,7 +7,7 @@
     {
         public StageSwitchMetaHeuristic()
         {
-            DynamicParameter = new ExpressionMetaHeuristicParameter<EvolutionStage>() { Scope = ParamScope.Generation, DynamicGenerator = (h, ctx) => ctx.CurrentStage };
+            DynamicParameter = new ExpressionMetaHeuristicParameter<EvolutionStage> { Scope = ParamScope.Generation, DynamicGenerator = (h, ctx) => ctx.CurrentStage };
         }
     }
 }

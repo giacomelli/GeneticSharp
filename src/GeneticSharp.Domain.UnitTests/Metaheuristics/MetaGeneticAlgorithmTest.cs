@@ -9,11 +9,11 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("MetaHeuristics")]
     class MetaGeneticAlgorithmTest: MetaHeuristicTestBase
     {
-        [Test()]
+        [Test]
         public void Compare_RegularGA_ChromosomeStub_DifferentSizes_ManyGenerations_DurationBounds()
         {
             var testParams = new List<(int size, double ratio)>

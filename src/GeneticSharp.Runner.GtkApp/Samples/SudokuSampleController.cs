@@ -56,7 +56,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         private int _nbPermutations = 2; //The number of genes per permutation for random permutations
         private int _nbSudokus = 5; //The number of Sudokus to generate from random permutations
         private HBox _nbPermsHBox;
-        private bool _multipleChromosome = false; // Do we evolve several sudokus/sub-chromosomes per individual solution
+        private bool _multipleChromosome; // Do we evolve several sudokus/sub-chromosomes per individual solution
         private int _nbChromosomes = 2; //Nb of sudokus per individual if multiple
         private HBox _nbChromosomesHBox;
 

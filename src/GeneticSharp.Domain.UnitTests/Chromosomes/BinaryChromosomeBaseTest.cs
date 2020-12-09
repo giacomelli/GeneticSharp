@@ -1,7 +1,7 @@
-﻿using NUnit.Framework;
-using GeneticSharp.Domain.Chromosomes;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using GeneticSharp.Domain.Chromosomes;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Chromosomes
 {

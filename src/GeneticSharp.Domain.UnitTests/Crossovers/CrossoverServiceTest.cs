@@ -4,11 +4,11 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Crossovers")]
     public class CrossoverServiceTest
     {
-        [Test()]
+        [Test]
         public void GetCrossoverTypes_NoArgs_AllAvailableCrossovers()
         {
             var actual = CrossoverService.GetCrossoverTypes();
@@ -30,7 +30,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             Assert.AreEqual(typeof(VotingRecombinationCrossover), actual[++index]);
         }
 
-        [Test()]
+        [Test]
         public void GetCrossoverNames_NoArgs_AllAvailableCrossoversNames()
         {
             var actual = CrossoverService.GetCrossoverNames();
@@ -52,7 +52,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             Assert.AreEqual("Voting Recombination (VR)", actual[++index]);
         }
 
-        [Test()]
+        [Test]
         public void CreateCrossoverByName_InvalidName_Exception()
         {
             Assert.Catch<ArgumentException>(() =>
@@ -61,7 +61,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             }, "There is no ICrossover implementation with name 'Test'.");
         }
 
-        [Test()]
+        [Test]
         public void CreateCrossoverByName_ValidNameButInvalidConstructorArgs_Exception()
         {
             Assert.Catch<ArgumentException>(() =>
@@ -70,7 +70,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             }, "A ICrossover's implementation with name 'One-Point' was found, but seems the constructor args were invalid");
         }
 
-        [Test()]
+        [Test]
         public void CreateCrossoverByName_ValidName_CrossoverCreated()
         {
             ICrossover actual = CrossoverService.CreateCrossoverByName("One-Point", 1) as OnePointCrossover;
@@ -95,7 +95,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             Assert.IsNotNull(actual);
         }
 
-        [Test()]
+        [Test]
         public void GetCrossoverTypeByName_InvalidName_Exception()
         {
             Assert.Catch<ArgumentException>(() =>
@@ -104,7 +104,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             }, "There is no ICrossover implementation with name 'Test'.");
         }
 
-        [Test()]
+        [Test]
         public void GetCrossoverTypeByName_ValidName_CrossoverTpe()
         {
             var actual = CrossoverService.GetCrossoverTypeByName("One-Point");

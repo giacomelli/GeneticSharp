@@ -4,11 +4,11 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Reinsertions
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Reinsertions")]
     public class ReinsertionServiceTest
     {
-        [Test()]
+        [Test]
         public void GetReinsertionTypes_NoArgs_AllAvailableReinsertions()
         {
             var actual = ReinsertionService.GetReinsertionTypes();
@@ -21,7 +21,7 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             Assert.AreEqual(typeof(UniformReinsertion), actual[4]);
         }
 
-        [Test()]
+        [Test]
         public void GetReinsertionNames_NoArgs_AllAvailableReinsertionsNames()
         {
             var actual = ReinsertionService.GetReinsertionNames();
@@ -34,7 +34,7 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             Assert.AreEqual("Uniform", actual[4]);
         }
 
-        [Test()]
+        [Test]
         public void CreateReinsertionByName_InvalidName_Exception()
         {
             Assert.Catch<ArgumentException>(() =>
@@ -43,7 +43,7 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             }, "There is no IReinsertion implementation with name 'Test'.");
         }
 
-        [Test()]
+        [Test]
         public void CreateReinsertionByName_ValidNameButInvalidConstructorArgs_Exception()
         {
             Assert.Catch<ArgumentException>(() =>
@@ -52,7 +52,7 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             }, "A IReinsertion's implementation with name 'Elitist' was found, but seems the constructor args were invalid.");
         }
 
-        [Test()]
+        [Test]
         public void CreateReinsertionByName_ValidName_ReinsertionCreated()
         {
             IReinsertion actual = ReinsertionService.CreateReinsertionByName("Elitist") as ElitistReinsertion;
@@ -73,7 +73,7 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             Assert.IsNotNull(actual);
         }
 
-        [Test()]
+        [Test]
         public void GetReinsertionTypeByName_InvalidName_Exception()
         {
             Assert.Catch<ArgumentException>(() =>
@@ -82,7 +82,7 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             }, "There is no IReinsertion implementation with name 'Test'.");
         }
 
-        [Test()]
+        [Test]
         public void GetReinsertionTypeByName_ValidName_ReinsertionTpe()
         {
             var actual = ReinsertionService.GetReinsertionTypeByName("Elitist");

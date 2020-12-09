@@ -77,7 +77,7 @@ namespace GeneticSharp.Domain.Crossovers
         {
             if (GeometryEmbedding == null)
             {
-                GeometryEmbedding = new OrderedEmbedding<TValue>() { IsOrdered = IsOrdered };
+                GeometryEmbedding = new OrderedEmbedding<TValue> { IsOrdered = IsOrdered };
             }
             var geometricParents = parents.Select(p => GeometryEmbedding.MapToGeometry(p)).ToList();
             IList<TValue> geometricChild;
@@ -87,23 +87,21 @@ namespace GeneticSharp.Domain.Crossovers
                 geometricChild = GeneralGeometricOperator(geometricParents);
                 return GeometryEmbedding.MapFromGeometry(parents, geometricChild);
             }
-            else
-            {
-                if (LinearGeometricOperator==null)
-                {
-                    throw new InvalidOperationException("GeometricCrossover has not geometric operator defined");
-                }
 
-                var nbGenes = parents[0].Length;
-                geometricChild = new List<TValue>(nbGenes);
-                for (int i = 0; i < nbGenes; i++)
-                {
-                    var inputs = geometricParents.Select(p => p[i]).ToList();
-                    var newGeneValue = LinearGeometricOperator(inputs);
-                    geometricChild.Add(newGeneValue);
-                }
+            if (LinearGeometricOperator==null)
+            {
+                throw new InvalidOperationException("GeometricCrossover has not geometric operator defined");
             }
-           
+
+            var nbGenes = parents[0].Length;
+            geometricChild = new List<TValue>(nbGenes);
+            for (int i = 0; i < nbGenes; i++)
+            {
+                var inputs = geometricParents.Select(p => p[i]).ToList();
+                var newGeneValue = LinearGeometricOperator(inputs);
+                geometricChild.Add(newGeneValue);
+            }
+
             return GeometryEmbedding.MapFromGeometry(parents, geometricChild);
            
         }

@@ -16,11 +16,20 @@ using GeneticSharp.Infrastructure.Framework.Reflection;
 using GeneticSharp.Runner.GtkApp;
 using GeneticSharp.Runner.GtkApp.Samples;
 using Gtk;
+using Pango;
+using Action = System.Action;
+using Alignment = Pango.Alignment;
+using Color = Gdk.Color;
+using Layout = Pango.Layout;
+using Rectangle = Gdk.Rectangle;
+using Timeout = GLib.Timeout;
+using Window = Gtk.Window;
+using WindowType = Gtk.WindowType;
 
 /// <summary>
 /// Main window.
 /// </summary>
-public partial class MainWindow : Gtk.Window
+public partial class MainWindow : Window
 {
     #region Fields
     private MetaGeneticAlgorithm m_ga;
@@ -38,7 +47,7 @@ public partial class MainWindow : Gtk.Window
     #endregion
 
     #region Constructors
-    public MainWindow() : base(Gtk.WindowType.Toplevel)
+    public MainWindow() : base(WindowType.Toplevel)
     {
         Build();
         HeightRequest = 200;
@@ -74,13 +83,13 @@ public partial class MainWindow : Gtk.Window
         ResetBuffer();
         ResetSample();
 
-        GLib.Timeout.Add(
+        Timeout.Add(
             100,
-            new GLib.TimeoutHandler(delegate
-        {
-            UpdateSample();
-            return true;
-        }));
+            delegate
+            {
+                UpdateSample();
+                return true;
+            });
     }
     #endregion
 
@@ -158,7 +167,7 @@ public partial class MainWindow : Gtk.Window
         });
     }
 
-    private void RunGA(System.Action runAction)
+    private void RunGA(Action runAction)
     {
         try
         {
@@ -210,9 +219,9 @@ public partial class MainWindow : Gtk.Window
         m_sampleController = TypeHelper.CreateInstanceByName<ISampleController>(cmbSample.ActiveText);
 
         // Sample context.
-        var layout = new Pango.Layout(PangoContext)
+        var layout = new Layout(PangoContext)
         {
-            Alignment = Pango.Alignment.Center, FontDescription = Pango.FontDescription.FromString("Arial 16")
+            Alignment = Alignment.Center, FontDescription = FontDescription.FromString("Arial 16")
         };
 
         m_sampleContext = new SampleContext(drawingArea.GdkWindow, this)
@@ -258,11 +267,11 @@ public partial class MainWindow : Gtk.Window
 
     private void SetSampleOperatorsToComboxes()
     {
-        SetSampleOperatorToCombobox(CrossoverService.GetCrossoverTypes, m_sampleController.CreateCrossover, (c) => m_crossover = c, cmbCrossover);
-        SetSampleOperatorToCombobox(MutationService.GetMutationTypes, m_sampleController.CreateMutation, (c) => m_mutation = c, cmbMutation);
-        SetSampleOperatorToCombobox(SelectionService.GetSelectionTypes, m_sampleController.CreateSelection, (c) => m_selection = c, cmbSelection);
-        SetSampleOperatorToCombobox(TerminationService.GetTerminationTypes, m_sampleController.CreateTermination, (c) => m_termination = c, cmbTermination);
-        SetSampleOperatorToCombobox(ReinsertionService.GetReinsertionTypes, m_sampleController.CreateReinsertion, (c) => m_reinsertion = c, cmbReinsertion);
+        SetSampleOperatorToCombobox(CrossoverService.GetCrossoverTypes, m_sampleController.CreateCrossover, c => m_crossover = c, cmbCrossover);
+        SetSampleOperatorToCombobox(MutationService.GetMutationTypes, m_sampleController.CreateMutation, c => m_mutation = c, cmbMutation);
+        SetSampleOperatorToCombobox(SelectionService.GetSelectionTypes, m_sampleController.CreateSelection, c => m_selection = c, cmbSelection);
+        SetSampleOperatorToCombobox(TerminationService.GetTerminationTypes, m_sampleController.CreateTermination, c => m_termination = c, cmbTermination);
+        SetSampleOperatorToCombobox(ReinsertionService.GetReinsertionTypes, m_sampleController.CreateReinsertion, c => m_reinsertion = c, cmbReinsertion);
     }
 
     private void SetSampleOperatorToCombobox<TOperator>(Func<IList<Type>> getOperatorTypes, Func<TOperator> getOperator, Action<TOperator> setOperator, ComboBox combobox)
@@ -358,7 +367,7 @@ public partial class MainWindow : Gtk.Window
            SelectionService.GetSelectionTypeByName,
            SelectionService.CreateSelectionByName,
            () => m_selection,
-           (i) => m_selection = i);
+           i => m_selection = i);
 
         PrepareEditComboBox(
             cmbCrossover,
@@ -367,7 +376,7 @@ public partial class MainWindow : Gtk.Window
             CrossoverService.GetCrossoverTypeByName,
             CrossoverService.CreateCrossoverByName,
             () => m_crossover,
-            (i) => m_crossover = i);
+            i => m_crossover = i);
 
         PrepareEditComboBox(
             cmbMutation,
@@ -376,7 +385,7 @@ public partial class MainWindow : Gtk.Window
             MutationService.GetMutationTypeByName,
             MutationService.CreateMutationByName,
             () => m_mutation,
-            (i) => m_mutation = i);
+            i => m_mutation = i);
 
         PrepareEditComboBox(
             cmbTermination,
@@ -388,7 +397,7 @@ public partial class MainWindow : Gtk.Window
             TerminationService.GetTerminationTypeByName,
             TerminationService.CreateTerminationByName,
             () => m_termination,
-            (i) => m_termination = i);
+            i => m_termination = i);
 
         PrepareEditComboBox(
             cmbReinsertion,
@@ -397,7 +406,7 @@ public partial class MainWindow : Gtk.Window
             ReinsertionService.GetReinsertionTypeByName,
             ReinsertionService.CreateReinsertionByName,
             () => m_reinsertion,
-            (i) => m_reinsertion = i);
+            i => m_reinsertion = i);
 
         PrepareEditComboBox(
             cmbGenerationStrategy,
@@ -406,7 +415,7 @@ public partial class MainWindow : Gtk.Window
             PopulationService.GetGenerationStrategyTypeByName,
             PopulationService.CreateGenerationStrategyByName,
             () => m_generationStrategy,
-            (i) => m_generationStrategy = i);
+            i => m_generationStrategy = i);
     }
 
     private void PrepareEditComboBox<TItem>(ComboBox comboBox, Button editButton, Func<IList<string>> getNames, Func<string, Type> getTypeByName, Func<string, object[], TItem> createItem, Func<TItem> getItem, Action<TItem> setItem)

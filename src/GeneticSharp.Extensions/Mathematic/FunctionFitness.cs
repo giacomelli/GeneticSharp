@@ -13,9 +13,8 @@ namespace GeneticSharp.Extensions.Mathematic
 
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="FunctionSolverFitness"/> class.
+        /// Initializes a new instance of the <see cref="FunctionFitness{TResult}"/> class.
         /// </summary>
-        /// <param name="expectedResult">Expected result.</param>
         /// <param name="getEquationResult">Get equation result.</param>
         public FunctionFitness(Func<Gene[], TResult> getEquationResult)
         {

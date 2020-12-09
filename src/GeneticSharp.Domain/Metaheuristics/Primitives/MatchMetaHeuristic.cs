@@ -88,7 +88,7 @@ namespace GeneticSharp.Domain.Metaheuristics
                                 selectedParents.Add(parents[targetIdx]);
                                 break;
                             case MatchingTechnique.RouletteWheel:
-                                var dynamicRouletteParameter = new MetaHeuristicParameter<IList<double>>()
+                                var dynamicRouletteParameter = new MetaHeuristicParameter<IList<double>>
                                 {
                                     Scope = RouletteCachingScope,
                                     Generator = (h, c) => {

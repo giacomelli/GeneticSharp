@@ -3,11 +3,11 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Mathematic
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Extensions")]
     public class FunctionBuilderChromosomeTest
     {
-        [Test()]
+        [Test]
         public void BuildAvailableOperations_ParametersCount_AvailableOperations()
         {
             var actual = FunctionBuilderChromosome.BuildAvailableOperations(4);

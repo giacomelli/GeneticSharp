@@ -3,25 +3,27 @@ using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Reinsertions;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Reinsertions
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Reinsertions")]
     public class ReinsertionBaseTest
     {
-        [Test()]
+        [Test]
         public void SelectChromosomes_PopulationNull_Exception()
         {
             var target = Substitute.ForPartsOf<ReinsertionBase>(false, false);
             var chromosome = Substitute.For<ChromosomeBase>(2);
-            var offspring = new List<IChromosome>() {
+            var offspring = new List<IChromosome>
+            {
                 chromosome, chromosome, chromosome, chromosome
             };
 
-            var parents = new List<IChromosome>() {
+            var parents = new List<IChromosome>
+            {
                 Substitute.For<ChromosomeBase> (2),
                 Substitute.For<ChromosomeBase> (2),
                 Substitute.For<ChromosomeBase> (2),
@@ -37,14 +39,15 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             Assert.AreEqual(actual.ParamName, "population");
         }
 
-        [Test()]
+        [Test]
         public void SelectChromosomes_offspringNull_Exception()
         {
             var target = Substitute.ForPartsOf<ReinsertionBase>(false, false);
             var chromosome = Substitute.For<ChromosomeBase>(2);
             var population = new Population(5, 6, chromosome);
 
-            var parents = new List<IChromosome>() {
+            var parents = new List<IChromosome>
+            {
                 Substitute.For<ChromosomeBase> (2),
                 Substitute.For<ChromosomeBase> (2),
                 Substitute.For<ChromosomeBase> (2),
@@ -60,13 +63,14 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             Assert.AreEqual(actual.ParamName, "offspring");
         }
 
-        [Test()]
+        [Test]
         public void SelectChromosomes_ParentsNull_Exception()
         {
             var target = Substitute.ForPartsOf<ReinsertionBase>(false, false);
             var chromosome = Substitute.For<ChromosomeBase>(2);
             var population = new Population(5, 6, chromosome);
-            var offspring = new List<IChromosome>() {
+            var offspring = new List<IChromosome>
+            {
                 chromosome, chromosome, chromosome, chromosome
             };
 
@@ -78,17 +82,19 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             Assert.AreEqual(actual.ParamName, "parents");
         }
 
-        [Test()]
+        [Test]
         public void SelectChromosomes_CanExpandFalseWithoffspringSizeLowerThanMinSize_Exception()
         {
             var target = Substitute.ForPartsOf<ReinsertionBase>(false, false);
             var chromosome = Substitute.For<ChromosomeBase>(2);
             var population = new Population(5, 6, chromosome);
-            var offspring = new List<IChromosome>() {
+            var offspring = new List<IChromosome>
+            {
                 chromosome, chromosome, chromosome, chromosome
             };
 
-            var parents = new List<IChromosome>() {
+            var parents = new List<IChromosome>
+            {
                 Substitute.For<ChromosomeBase> (2),
                 Substitute.For<ChromosomeBase> (2),
                 Substitute.For<ChromosomeBase> (2),
@@ -102,17 +108,19 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             }, "Cannot expand the number of chromosome in population. Try another reinsertion!");
         }
 
-        [Test()]
+        [Test]
         public void SelectChromosomes_CanCollapseFalseWithoffspringSizeGreaterThanMaxSize_Exception()
         {
             var target = Substitute.ForPartsOf<ReinsertionBase>(false, false);
             var chromosome = Substitute.For<ChromosomeBase>(2);
             var population = new Population(2, 3, chromosome);
-            var offspring = new List<IChromosome>() {
+            var offspring = new List<IChromosome>
+            {
                 chromosome, chromosome, chromosome, chromosome
             };
 
-            var parents = new List<IChromosome>() {
+            var parents = new List<IChromosome>
+            {
                 Substitute.For<ChromosomeBase> (2),
                 Substitute.For<ChromosomeBase> (2),
                 Substitute.For<ChromosomeBase> (2),
@@ -126,18 +134,20 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             }, "Cannot collapse the number of chromosome in population. Try another reinsertion!");
         }
 
-        [Test()]
+        [Test]
         public void SelectChromosomes_CanCollapseAndExpandFalseWithoffspringSizeBetweenMinOrMaxSize_ChromosomesSelected()
         {
             var target = Substitute.ForPartsOf<ReinsertionBase>(false, false);
 
             var chromosome = Substitute.For<ChromosomeBase>(2);
             var population = new Population(2, 5, chromosome);
-            var offspring = new List<IChromosome>() {
+            var offspring = new List<IChromosome>
+            {
                 chromosome, chromosome, chromosome, chromosome
             };
 
-            var parents = new List<IChromosome>() {
+            var parents = new List<IChromosome>
+            {
                 Substitute.For<ChromosomeBase> (2),
                 Substitute.For<ChromosomeBase> (2),
                 Substitute.For<ChromosomeBase> (2),

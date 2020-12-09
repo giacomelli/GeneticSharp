@@ -17,12 +17,12 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Tsp
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Extensions")]
     public class TspGeometryEmbeddingTest
     {
 
-        [Test()]
+        [Test]
         public void GeometryEmbedding_DefaultGeometryEmbedding_DecentFitness()
         {
 
@@ -104,7 +104,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
         }
 
        
-        [Test()]
+        [Test]
         public void Compare_WOA_GeometryEmbedding_OrderedTwors_ManyGenerations_Faster()
         {
             var testParams = new List<(int nbCities, double threshold, double ratio)>
@@ -123,7 +123,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
         }
 
 
-        [Test()]
+        [Test]
         public void Compare_WOA_GeometryEmbedding_ManyGenerations_SmallerDistance()
         {
             int numberOfCities = 100;
@@ -133,7 +133,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(nbGenerations, numberOfCities, termination, reinsertion, 1.1);
         }
 
-       [Test()]
+       [Test]
         public void Compare_WOA_GeometryEmbedding_TimeConstraint_SmallerDistance()
         {
             int nbGenerationsWOA = 200;
@@ -143,7 +143,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(nbGenerationsWOA, numberOfCities, termination, reinsertion, 0.95);
         }
 
-        [Test()]
+        [Test]
         public void Compare_WOA_GeometryEmbedding_VeryLargeProblem_TimeConstraint_SmallerDistance()
         {
             int nbGenerationsWOA = 100;
@@ -233,7 +233,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                 int GetGeneValueFunction(double d) => Math.Round(d).PositiveMod(fitness.Cities.Count);
 
                 //Simple WOA
-                var defaultEmbedding = new OrderedEmbedding<int>(){GeneSelectionMode = GeneSelectionMode.RandomOrder | GeneSelectionMode.SingleFirstAllowed};
+                var defaultEmbedding = new OrderedEmbedding<int> {GeneSelectionMode = GeneSelectionMode.RandomOrder | GeneSelectionMode.SingleFirstAllowed};
                 
                 metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(true, nbGenerationsWOA, geneValue => geneValue, GetGeneValueFunction,noMutation:noMutation);
                 var resultWOA = Evolve_NbCities_Fast(fitness, adamChromosome, populationSize, metaHeuristic, crossover, mutation, termination, reinsertion);
@@ -413,7 +413,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
 
             Assert.Less(lastDistance, firstDistance);
 
-            return new TspEvolutionResult() { Population = ga.Population, TimeEvolving = ga.TimeEvolving, Distance = lastDistance };
+            return new TspEvolutionResult { Population = ga.Population, TimeEvolving = ga.TimeEvolving, Distance = lastDistance };
         }
 
     }
