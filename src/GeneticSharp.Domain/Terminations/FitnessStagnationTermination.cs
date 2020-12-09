@@ -49,7 +49,7 @@ namespace GeneticSharp.Domain.Terminations
         /// <summary>
         /// max ratio between last fitness and stagnant fitness
         /// </summary>
-        public double StagnationRatio { get; set; }
+        public double StagnationRatio { get; set; } = 1.0;
 
 
         #endregion
