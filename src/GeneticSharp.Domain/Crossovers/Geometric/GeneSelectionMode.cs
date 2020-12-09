@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GeneticSharp.Domain.Crossovers
+namespace GeneticSharp.Domain.Crossovers.Geometric
 {
     [Flags]
     public enum GeneSelectionMode

@@ -2,7 +2,7 @@
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 
-namespace GeneticSharp.Domain.Crossovers
+namespace GeneticSharp.Domain.Crossovers.Geometric
 {
     /// <summary>
     /// The default geometry embedding provides a pass-through for gene values and  geometric values

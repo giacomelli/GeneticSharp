@@ -4,7 +4,7 @@ using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
 
-namespace GeneticSharp.Domain.Crossovers
+namespace GeneticSharp.Domain.Crossovers.Geometric
 {
     /// <summary>
     /// The default geometry embedding provides a pass-through for gene values and  

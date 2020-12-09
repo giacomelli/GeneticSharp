@@ -1,4 +1,5 @@
 ﻿using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Crossovers.Geometric;
 using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Domain.Metaheuristics.Primitives;
 using GeneticSharp.Domain.Populations;

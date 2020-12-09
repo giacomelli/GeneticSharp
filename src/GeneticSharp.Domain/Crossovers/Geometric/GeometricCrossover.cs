@@ -5,7 +5,7 @@ using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Infrastructure.Framework.Commons;
 
-namespace GeneticSharp.Domain.Crossovers
+namespace GeneticSharp.Domain.Crossovers.Geometric
 {
     /// <summary>
     /// The Geometric crossover yields new genes by applying geometric operators on the parent genes values. Default operator convert genes to doubles computes the middle between gene values and converts back to the target type.
