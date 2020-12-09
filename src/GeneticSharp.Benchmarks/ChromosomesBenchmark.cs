@@ -21,7 +21,7 @@ namespace GeneticSharp.Benchmarks
             target.GetHashCode();
             var y = target.Length;
             target.ReplaceGene(0, new Gene(1d));
-            target.ReplaceGenes(0, new Gene[] { new Gene(1), new Gene(0) });
+            target.ReplaceGenes(0, new[] { new Gene(1), new Gene(0) });
             target.Resize(20);
             target.ToFloatingPoint();
             target.ToString();
@@ -42,7 +42,7 @@ namespace GeneticSharp.Benchmarks
             target.GetHashCode();
             var y = target.Length;
             target.ReplaceGene(0, new Gene(false));
-            target.ReplaceGenes(0, new Gene[] { new Gene(false), new Gene(true) });
+            target.ReplaceGenes(0, new[] { new Gene(false), new Gene(true) });
             target.Resize(20);
             target.ToInteger();
             target.ToString();

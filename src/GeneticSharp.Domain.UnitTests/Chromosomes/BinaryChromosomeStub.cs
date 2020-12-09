@@ -1,6 +1,6 @@
 ﻿using GeneticSharp.Domain.Chromosomes;
 
-namespace GeneticSharp.Domain.UnitTests
+namespace GeneticSharp.Domain.UnitTests.Chromosomes
 {
     public class BinaryChromosomeStub : BinaryChromosomeBase
     {

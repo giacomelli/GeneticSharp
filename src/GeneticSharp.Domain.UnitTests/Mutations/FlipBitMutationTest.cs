@@ -3,6 +3,7 @@ using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Mutations;
 using NSubstitute;
 using GeneticSharp.Domain.Chromosomes;
+using GeneticSharp.Domain.UnitTests.Chromosomes;
 
 namespace GeneticSharp.Domain.UnitTests.Mutations
 {

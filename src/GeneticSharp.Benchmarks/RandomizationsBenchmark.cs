@@ -8,9 +8,9 @@ namespace GeneticSharp.Benchmarks
     {
         private BasicRandomization _basic = new BasicRandomization();
         private FastRandomRandomization _fastRandom = new FastRandomRandomization();
-        private const int _min = -100;
-        private const int _max = 100;
-        private const int _arrayLength = 10;
+        private const int Min = -100;
+        private const int Max = 100;
+        private const int ArrayLength = 10;
 
         #region Basic
         [Benchmark]
@@ -22,7 +22,7 @@ namespace GeneticSharp.Benchmarks
         [Benchmark]
         public void Basic_GetEvenInt()
         {
-            _basic.GetEvenInt(_min, _max);
+            _basic.GetEvenInt(Min, Max);
         }
 
         [Benchmark]
@@ -34,25 +34,25 @@ namespace GeneticSharp.Benchmarks
         [Benchmark]
         public void Basic_GetInt()
         {
-            _basic.GetInt(_min, _max);
+            _basic.GetInt(Min, Max);
         }
 
         [Benchmark]
         public void Basic_GetInts()
         {
-            _basic.GetInts(_arrayLength, _min, _max);
+            _basic.GetInts(ArrayLength, Min, Max);
         }
 
         [Benchmark]
         public void Basic_GetOddInt()
         {
-            _basic.GetOddInt(_min, _max);
+            _basic.GetOddInt(Min, Max);
         }
 
         [Benchmark]
         public void Basic_GetUniqueInts()
         {
-            _basic.GetUniqueInts(_arrayLength, _min, _max);
+            _basic.GetUniqueInts(ArrayLength, Min, Max);
         }
         #endregion 
 
@@ -66,7 +66,7 @@ namespace GeneticSharp.Benchmarks
         [Benchmark]
         public void FastRandom_GetEvenInt()
         {
-            _fastRandom.GetEvenInt(_min, _max);
+            _fastRandom.GetEvenInt(Min, Max);
         }
 
         [Benchmark]
@@ -78,25 +78,25 @@ namespace GeneticSharp.Benchmarks
         [Benchmark]
         public void FastRandom_GetInt()
         {
-            _fastRandom.GetInt(_min, _max);
+            _fastRandom.GetInt(Min, Max);
         }
 
         [Benchmark]
         public void FastRandom_GetInts()
         {
-            _fastRandom.GetInts(_arrayLength, _min, _max);
+            _fastRandom.GetInts(ArrayLength, Min, Max);
         }
 
         [Benchmark]
         public void FastRandom_GetOddInt()
         {
-            _basic.GetOddInt(_min, _max);
+            _basic.GetOddInt(Min, Max);
         }
 
         [Benchmark]
         public void FastRandom_GetUniqueInts()
         {
-            _fastRandom.GetUniqueInts(_arrayLength, _min, _max);
+            _fastRandom.GetUniqueInts(ArrayLength, Min, Max);
         }
         #endregion 
     }

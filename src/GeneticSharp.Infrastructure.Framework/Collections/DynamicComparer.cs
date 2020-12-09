@@ -5,7 +5,7 @@ namespace GeneticSharp.Infrastructure.Framework.Collections
 {
     public class DynamicComparer<TValue> : IComparer<TValue>
     {
-        private Func<TValue, TValue, double> mComparer;
+        private readonly Func<TValue, TValue, double> mComparer;
 
         public DynamicComparer(Func<TValue, TValue, double> comparerMethod)
         {
