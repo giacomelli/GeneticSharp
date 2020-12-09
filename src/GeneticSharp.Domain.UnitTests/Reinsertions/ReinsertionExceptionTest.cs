@@ -5,7 +5,7 @@ using GeneticSharp.Domain.Reinsertions;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace GeneticSharp.Domain.UnitTests.Chromosomes
+namespace GeneticSharp.Domain.UnitTests.Reinsertions
 {
     [TestFixture]
     [Category("Reinsertions")]

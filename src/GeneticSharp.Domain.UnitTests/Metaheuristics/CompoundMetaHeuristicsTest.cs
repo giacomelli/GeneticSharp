@@ -238,7 +238,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             var meanRatio = results.Sum(c => c.result2.Population.GenerationsNumber / (double) c.result1.Population.GenerationsNumber) / results.Count;
 
-            Assert.Greater(meanRatio, 1.2);
+            Assert.Greater(meanRatio, 1.1);
 
         }
 
@@ -349,7 +349,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         private IList<(EvolutionResult result1, EvolutionResult result2)> Compare_WOAReduced_Crossover_ChromosomeStub_LargerFitness(ICrossover crossover, IEnumerable<int> sizes)
         {
             IMetaHeuristic StandardHeuristic(int i) => new DefaultMetaHeuristic();
-            IMetaHeuristic MetaHeuristic(int i) => GetDefaultWhaleHeuristicForChromosomStub(true, 300, i);
+            IMetaHeuristic MetaHeuristic(int i) => GetDefaultWhaleHeuristicForChromosomStub(true, 50, i);
 
             IFitness Fitness(int i) => new FitnessStub(i) {SupportsParallel = false};
             IChromosome AdamChromosome(int i) => new ChromosomeStub(i, i);
@@ -362,7 +362,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var minFitness = 1;
             int maxNbGenerations = int.MaxValue;
             int stagnationNb = 100;
-            TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(2);
+            TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(4);
             var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
             var reinsertion = new FitnessBasedElitistReinsertion();
 
