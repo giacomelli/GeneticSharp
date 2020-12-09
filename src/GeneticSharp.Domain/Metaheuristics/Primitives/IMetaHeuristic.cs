@@ -25,7 +25,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <param name="ctx">the generation context</param>
         /// <param name="selection">the selection operator to apply</param>
         /// <returns></returns>
-        IList<IChromosome> SelectParentPopulation(IMetaHeuristicContext ctx, ISelection selection);
+        IList<IChromosome> SelectParentPopulation(IEvolutionContext ctx, ISelection selection);
 
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <param name="parents">The parents.</param>
         /// <param name="firstParentIndex">the index of the first parent selected for a crossover</param>
         /// <returns>children for the current crossover if it was performed, null otherwise</returns>
-        IList<IChromosome> MatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover,
+        IList<IChromosome> MatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover,
             float crossoverProbability, IList<IChromosome> parents);
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <param name="mutationProbability">The mutation probability.</param>
         /// <param name="offSprings">The list of offspring chromosomes</param>
         /// <param name="offspringIndex">The target chromosome index to mutate</param>
-        void MutateChromosome(IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings);
+        void MutateChromosome(IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings);
 
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <returns>
         /// The reinserted chromosomes.
         /// </returns>
-        IList<IChromosome> Reinsert(IMetaHeuristicContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents);
+        IList<IChromosome> Reinsert(IEvolutionContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents);
 
 
         /// <summary>
@@ -70,11 +70,11 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <param name="algorithm">the parent genetic algorithm (may be null in certain cases)</param>
         /// <param name="population">the population to evolve (must not be null)</param>
         /// <returns></returns>
-        IMetaHeuristicContext GetContext(IGeneticAlgorithm algorithm, IPopulation population);
+        IEvolutionContext GetContext(IGeneticAlgorithm algorithm, IPopulation population);
 
 
 
-        void RegisterParameters(IMetaHeuristicContext ctx);
+        void RegisterParameters(IEvolutionContext ctx);
 
     }
 }

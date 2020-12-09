@@ -46,45 +46,48 @@ namespace GeneticSharp.Domain.Metaheuristics
 
             //Defining the cross operator to be applied with a random or best target, with the EncirclingPreyOperator
             var encirclingHeuristic = new CrossoverHeuristic()
-                .WithCrossover<CrossoverHeuristic, double, double>(
-                    ParamScope.None,
-                    (h, ctx, A, C) => new GeometricCrossover<TGeneValue>(ordered, 2, false) 
+                .WithCrossover(ParamScope.None, 
+                    (IMetaHeuristic h, IEvolutionContext ctx, double A, double C) => new GeometricCrossover<TGeneValue>(ordered, 2, false) 
                         .WithGeometricOperator((IList<TGeneValue> geneValues) => EncirclingPreyOperator(geneValues, geneToDoubleConverter, doubleToGeneConverter, A, C))
                         .WithGeometryEmbedding(geometryEmbedding));
 
             //Defining the main compound Metaheuristic with sub-parts.
             var woaHeuristic = new IfElseMetaHeuristic() 
-                .WithName("Whale Optimisation Alrorithm", "Optimization algorithm mimicking the hunting mechanism of humpback whales in nature. Mirjalili, S., & Lewis, A. (2016)")
-                .WithScope(MetaHeuristicsStage.Crossover)
+                .WithName("Whale Optimisation Algorithm", "Optimization algorithm mimicking the hunting mechanism of humpback whales in nature. Mirjalili, S., & Lewis, A. (2016)")
+                .WithScope(EvolutionStage.Crossover)
                 .WithParam(nameof(WOAParam.a), "a decreases linearly from 2 to 0 in Eq. (2.3)", 
                     ParamScope.Generation, (h, ctx) => 2.0 - ctx.Population.GenerationsNumber * (2.0 / maxGenerations))
                 .WithParam(nameof(WOAParam.a2), "a2 linearly dicreases from -1 to -2 to calculate t in Eq. (3.12)", 
                     ParamScope.Generation, (h, ctx) => 1.0 + ctx.Population.GenerationsNumber * (-1.0 / maxGenerations))
-                .WithParam<IfElseMetaHeuristic, double, double>(nameof(WOAParam.A), "Eq. (2.3) in the paper",
-                    ParamScope.Generation | ParamScope.Individual, (h, ctx, a) => 2.0 * a * rnd.GetDouble() - a)
+                .WithParam(nameof(WOAParam.A), "Eq. (2.3) in the paper",
+                    ParamScope.Generation | ParamScope.Individual, (IMetaHeuristic h, IEvolutionContext ctx, double a) => 2.0 * a * rnd.GetDouble() - a)
                 .WithParam(nameof(WOAParam.C), "Eq. (2.4) in the paper",
                     ParamScope.Generation | ParamScope.Individual, (h, ctx) => 2 * rnd.GetDouble())
-                .WithParam<IfElseMetaHeuristic, double, double>(nameof(WOAParam.l), "parameters in Eq. (2.5)", 
-                    ParamScope.Generation | ParamScope.Individual, (h, ctx, a2) => (a2 - 1) * rnd.GetDouble() + 1.0)
+                .WithParam(nameof(WOAParam.l), "parameters in Eq. (2.5)", 
+                    ParamScope.Generation | ParamScope.Individual, (IMetaHeuristic h, IEvolutionContext ctx, double a2) => (a2 - 1) * rnd.GetDouble() + 1.0)
                 .WithCaseGenerator(ParamScope.None, (h, ctx) => (bool)(rnd.GetDouble() < 0.5))
                 .WithTrue(new IfElseMetaHeuristic()
-                    .WithCaseGenerator<IfElseMetaHeuristic, bool, double>(ParamScope.None, (h, ctx, a) => Math.Abs(a) > 1)
+                    .WithName("Update Tracking heuristic", "Exploration phase, towards Random or Best individual")
+                    .WithCaseGenerator(ParamScope.None, (IMetaHeuristic h, IEvolutionContext ctx, double a) => Math.Abs(a) > 1)
                     .WithTrue(new MatchMetaHeuristic(2)
+                        .WithName("Random tracking")
                         .WithMatches(MatchingTechnique.Randomize)
                         .WithSubMetaHeuristic(encirclingHeuristic))
                     .WithFalse(new MatchMetaHeuristic(2)
+                        .WithName("Best individual encircling")
                         .WithMatches(MatchingTechnique.Best)
                         .WithSubMetaHeuristic(encirclingHeuristic)))
                 .WithFalse(new MatchMetaHeuristic(2)
+                    .WithName("Bubble Net heuristic", "Exploitation phase, helicoidal approach")
                     .WithMatches(MatchingTechnique.Best)
                     .WithSubMetaHeuristic(new CrossoverHeuristic()
-                        .WithCrossover<CrossoverHeuristic, double>(ParamScope.None,
-                            (h, ctx, l) => GetBubbleNetCrossover(l, helicoidScale, ordered, geneToDoubleConverter, doubleToGeneConverter, geometryEmbedding))));
+                        .WithCrossover(ParamScope.None,
+                            (IMetaHeuristic h, IEvolutionContext ctx, double l) => GetBubbleNetCrossover(l, helicoidScale, ordered, geneToDoubleConverter, doubleToGeneConverter, geometryEmbedding))));
 
             //Removing default mutation operator 
             if (noMutation)
             {
-                woaHeuristic.SubMetaHeuristic = new DefaultMetaHeuristic().WithScope(MetaHeuristicsStage.Selection | MetaHeuristicsStage.Reinsertion);
+                woaHeuristic.SubMetaHeuristic = new DefaultMetaHeuristic().WithScope(EvolutionStage.Selection | EvolutionStage.Reinsertion);
             }
 
             return woaHeuristic;
@@ -129,7 +132,7 @@ namespace GeneticSharp.Domain.Metaheuristics
                     .WithGeometricOperator((IList<TGeneValue> geneValues) =>toGeneConverter(fromGeneConverter(geneValues[1]) - ctx.GetParam<double>(h, nameof(WOAParam.A)) * Math.Abs(ctx.GetParam<double>(h,nameof(WOAParam.C)) * fromGeneConverter(geneValues[1]) - fromGeneConverter(geneValues[0])))));
 
             return new IfElseMetaHeuristic()
-                .WithScope(MetaHeuristicsStage.Crossover)
+                .WithScope(EvolutionStage.Crossover)
                 .WithParameter(nameof(WOAParam.a), "a decreases linearly from 2 to 0 in Eq. (2.3)", ParamScope.Generation, (h,ctx) => 2.0 - ctx.Population.GenerationsNumber * (2.0 / maxGenerations))
                 .WithParameter(nameof(WOAParam.a2), "a2 linearly dicreases from -1 to -2 to calculate t in Eq. (3.12)", ParamScope.Generation, (h, ctx) => 1.0 + ctx.Population.GenerationsNumber * (-1.0 / maxGenerations))
                 .WithParameter(nameof(WOAParam.A), "Eq. (2.3) in the paper", ParamScope.Generation | ParamScope.Individual, (h, ctx) => 2.0 * ctx.GetParam<double>(h,nameof(WOAParam.a)) * rnd.GetDouble() - ctx.GetParam<double>(h,nameof(WOAParam.a)))

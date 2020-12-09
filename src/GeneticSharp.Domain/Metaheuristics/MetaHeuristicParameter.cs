@@ -11,18 +11,18 @@ using GeneticSharp.Domain.Populations;
 namespace GeneticSharp.Domain.Metaheuristics
 {
 
-    public delegate TParamType ParameterGenerator<out TParamType>(IMetaHeuristic h, IMetaHeuristicContext ctx);
-    public delegate TParamType ParameterGenerator<out TParamType, in TArg1>(IMetaHeuristic h, IMetaHeuristicContext ctx, TArg1 arg1);
-    public delegate TParamType ParameterGenerator<out TParamType, in TArg1, in TArg2>(IMetaHeuristic h, IMetaHeuristicContext ctx, TArg1 arg1, TArg2 arg2);
-    public delegate TParamType ParameterGenerator<out TParamType, in TArg1, in TArg2, in TArg3>(IMetaHeuristic h, IMetaHeuristicContext ctx, TArg1 arg1, TArg2 arg2, TArg3 arg3);
+    public delegate TParamType ParameterGenerator<out TParamType>(IMetaHeuristic h, IEvolutionContext ctx);
+    public delegate TParamType ParameterGenerator<out TParamType, in TArg1>(IMetaHeuristic h, IEvolutionContext ctx, TArg1 arg1);
+    public delegate TParamType ParameterGenerator<out TParamType, in TArg1, in TArg2>(IMetaHeuristic h, IEvolutionContext ctx, TArg1 arg1, TArg2 arg2);
+    public delegate TParamType ParameterGenerator<out TParamType, in TArg1, in TArg2, in TArg3>(IMetaHeuristic h, IEvolutionContext ctx, TArg1 arg1, TArg2 arg2, TArg3 arg3);
 
     public interface IMetaHeuristicParameter
     {
          ParamScope Scope { get; set; }
 
-        TItemType GetOrAdd<TItemType>(IMetaHeuristic h, IMetaHeuristicContext ctx, string key);
+        TItemType GetOrAdd<TItemType>(IMetaHeuristic h, IEvolutionContext ctx, string key);
         
-        object ComputeParameter(IMetaHeuristic h, IMetaHeuristicContext ctx);
+        object ComputeParameter(IMetaHeuristic h, IEvolutionContext ctx);
 
 
     }
@@ -30,7 +30,7 @@ namespace GeneticSharp.Domain.Metaheuristics
     public interface IMetaHeuristicParameterGenerator<TParamType>: IMetaHeuristicParameter
     {
 
-        ParameterGenerator<TParamType> GetGenerator(IMetaHeuristicContext ctx);
+        ParameterGenerator<TParamType> GetGenerator(IEvolutionContext ctx);
 
     }
 
@@ -38,7 +38,7 @@ namespace GeneticSharp.Domain.Metaheuristics
     public interface IExpressionGeneratorParameter: IMetaHeuristicParameter
     {
 
-        LambdaExpression GetExpression(IMetaHeuristicContext ctx, string paramName);
+        LambdaExpression GetExpression(IEvolutionContext ctx, string paramName);
 
     }
 
@@ -50,7 +50,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         public ParamScope Scope { get; set; }
 
 
-        private (string key, int generation, MetaHeuristicsStage stage, IMetaHeuristic heuristic, int individual) GetScopeMask((string key, int generation, MetaHeuristicsStage stage, IMetaHeuristic heuristic, int individual) input)
+        private (string key, int generation, EvolutionStage stage, IMetaHeuristic heuristic, int individual) GetScopeMask((string key, int generation, EvolutionStage stage, IMetaHeuristic heuristic, int individual) input)
         {
             if ((Scope & ParamScope.Generation) != ParamScope.Generation)
             {
@@ -59,7 +59,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             }
             if ((Scope & ParamScope.Stage) != ParamScope.Stage)
             {
-                input.stage = MetaHeuristicsStage.All;
+                input.stage = EvolutionStage.All;
             }
             if ((Scope & ParamScope.MetaHeuristic) != ParamScope.MetaHeuristic)
             {
@@ -73,7 +73,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             return input;
         }
 
-        public TItemType GetOrAdd<TItemType>(IMetaHeuristic h, IMetaHeuristicContext ctx, string key)
+        public TItemType GetOrAdd<TItemType>(IMetaHeuristic h, IEvolutionContext ctx, string key)
         {
 
             //var newKey = this.GetKey(h, ctx, key);
@@ -85,13 +85,13 @@ namespace GeneticSharp.Domain.Metaheuristics
 
 
 
-       public  object ComputeParameter(IMetaHeuristic h, IMetaHeuristicContext ctx)
+       public  object ComputeParameter(IMetaHeuristic h, IEvolutionContext ctx)
         {
             var toReturn = GetGenerator(ctx)(h, ctx);
             return toReturn;
         }
 
-        public virtual ParameterGenerator<TParamType> GetGenerator(IMetaHeuristicContext ctx)
+        public virtual ParameterGenerator<TParamType> GetGenerator(IEvolutionContext ctx)
         {
             return Generator;
         }
@@ -99,7 +99,7 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         public ParameterGenerator<TParamType> Generator { get; set; }
 
-        public TParamType GetOrAdd(IMetaHeuristic h, IMetaHeuristicContext ctx, string key)
+        public TParamType GetOrAdd(IMetaHeuristic h, IEvolutionContext ctx, string key)
         {
           var toReturn =  GetOrAdd<TParamType>(h, ctx, key);
           return toReturn;
@@ -114,7 +114,7 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         private static readonly Dictionary<Type, MethodInfo> _getOrAddMethods = new Dictionary<Type, MethodInfo>();
 
-        public override ParameterGenerator<TParamType> GetGenerator(IMetaHeuristicContext ctx)
+        public override ParameterGenerator<TParamType> GetGenerator(IEvolutionContext ctx)
         {
             if (Generator == null)
             {
@@ -125,7 +125,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         }
 
 
-        public virtual Expression<ParameterGenerator<TParamType>> GetDynamicGenerator(IMetaHeuristicContext ctx)
+        public virtual Expression<ParameterGenerator<TParamType>> GetDynamicGenerator(IEvolutionContext ctx)
         {
             return DynamicGenerator;
         }
@@ -152,7 +152,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             }
         }
 
-        public LambdaExpression GetExpression(IMetaHeuristicContext ctx, string paramName)
+        public LambdaExpression GetExpression(IEvolutionContext ctx, string paramName)
         {
 
             if (Scope == ParamScope.None)
@@ -179,7 +179,7 @@ namespace GeneticSharp.Domain.Metaheuristics
     public abstract class ExpressionMetaHeuristicParameterWithArgs<TParamType> : ExpressionMetaHeuristicParameter<TParamType>
     {
 
-        public override Expression<ParameterGenerator<TParamType>> GetDynamicGenerator(IMetaHeuristicContext ctx)
+        public override Expression<ParameterGenerator<TParamType>> GetDynamicGenerator(IEvolutionContext ctx)
         {
             if (DynamicGenerator == null)
             {

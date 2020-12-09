@@ -47,12 +47,12 @@ namespace GeneticSharp.Domain.Metaheuristics
         public float StaticMutationProbability { get; set; } = 1;
 
 
-        public override IList<IChromosome> SelectParentPopulation(IMetaHeuristicContext ctx, ISelection selection)
+        public override IList<IChromosome> SelectParentPopulation(IEvolutionContext ctx, ISelection selection)
         {
             return SubMetaHeuristic.SelectParentPopulation(ctx, selection);
         }
 
-        public override IList<IChromosome> MatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
+        public override IList<IChromosome> MatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
             if (ShouldRun(crossoverProbability, CrossoverProbabilityStrategy, StaticCrossoverProbability, out crossoverProbability))
             {
@@ -64,7 +64,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         }
 
 
-        public override void MutateChromosome(IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
+        public override void MutateChromosome(IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
         {
             if (ShouldRun(mutationProbability, MutationProbabilityStrategy, StaticMutationProbability, out mutationProbability))
             {
@@ -73,13 +73,13 @@ namespace GeneticSharp.Domain.Metaheuristics
            
         }
 
-        public override IList<IChromosome> Reinsert(IMetaHeuristicContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
+        public override IList<IChromosome> Reinsert(IEvolutionContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
         {
             return SubMetaHeuristic.Reinsert(ctx, reinsertion, offspring, parents);
         }
 
 
-        public override void RegisterParameters(IMetaHeuristicContext ctx)
+        public override void RegisterParameters(IEvolutionContext ctx)
         {
             base.RegisterParameters(ctx);
             ((MetaHeuristicBase) SubMetaHeuristic).RegisterParameters(ctx);

@@ -20,7 +20,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             };
 
 
-            var generationContext = new MetaHeuristicContext();
+            var generationContext = new EvolutionContext();
             generationContext.GetIndividual(0);
 
             var int1 = param.GetOrAdd(null, generationContext, "test");

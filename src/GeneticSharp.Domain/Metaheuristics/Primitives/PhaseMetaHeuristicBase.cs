@@ -31,7 +31,7 @@ namespace GeneticSharp.Domain.Metaheuristics
 
 
 
-        public override void RegisterParameters(IMetaHeuristicContext ctx)
+        public override void RegisterParameters(IEvolutionContext ctx)
         {
             base.RegisterParameters(ctx);
             foreach (var keyValuePair in PhaseHeuristics)

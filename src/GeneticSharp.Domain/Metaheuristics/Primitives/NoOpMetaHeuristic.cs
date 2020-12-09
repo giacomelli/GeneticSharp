@@ -13,21 +13,21 @@ namespace GeneticSharp.Domain.Metaheuristics
     /// </summary>
     public class NoOpMetaHeuristic : MetaHeuristicBase
     {
-        public override IList<IChromosome> SelectParentPopulation(IMetaHeuristicContext ctx, ISelection selection)
+        public override IList<IChromosome> SelectParentPopulation(IEvolutionContext ctx, ISelection selection)
         {
             return ctx.Population.CurrentGeneration.Chromosomes.Take(ctx.Population.MinSize).ToList();
         }
 
-        public override IList<IChromosome> MatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
+        public override IList<IChromosome> MatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
             return null;
         }
 
-        public override void MutateChromosome(IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
+        public override void MutateChromosome(IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
         {
         }
 
-        public override IList<IChromosome> Reinsert(IMetaHeuristicContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
+        public override IList<IChromosome> Reinsert(IEvolutionContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
         {
             return parents;
         }

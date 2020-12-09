@@ -234,7 +234,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
             var selection = new EliteSelection();
             var mutation = new UniformMutation();
-            var generationStragegy = new TrackingGenerationStrategy();
+            var generationStragegy = new PerformanceGenerationStrategy();
             var initialPopulation = new Population(populationSize, populationSize, adamChromosome) { GenerationStrategy = generationStragegy };
             GeneticAlgorithm target = null;
             if (metaHeuristic != null)

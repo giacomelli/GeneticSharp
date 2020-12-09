@@ -7,7 +7,7 @@ using GeneticSharp.Domain.Populations;
 
 namespace GeneticSharp.Domain.Metaheuristics
 {
-    public class MetaHeuristicContext : IMetaHeuristicContext
+    public class EvolutionContext : IEvolutionContext
     {
 
         public IGeneticAlgorithm GA { get; set; }
@@ -18,22 +18,22 @@ namespace GeneticSharp.Domain.Metaheuristics
        
         public int Index { get; set; }
 
-        public MetaHeuristicsStage CurrentStage { get; set; }
+        public EvolutionStage CurrentStage { get; set; }
 
 
         /// <summary>
         /// Allows storing and reusing objects during operators evaluation
         /// </summary>
-        public ConcurrentDictionary<(string, int, MetaHeuristicsStage, IMetaHeuristic, int), object> Params { get; set; } = new ConcurrentDictionary<(string, int, MetaHeuristicsStage, IMetaHeuristic, int), object>();
+        public ConcurrentDictionary<(string, int, EvolutionStage, IMetaHeuristic, int), object> Params { get; set; } = new ConcurrentDictionary<(string, int, EvolutionStage, IMetaHeuristic, int), object>();
 
         private readonly Dictionary<string, IMetaHeuristicParameter> _paramDefinitions = new Dictionary<string, IMetaHeuristicParameter>();
 
-        public IMetaHeuristicContext GetIndividual(int index)
+        public IEvolutionContext GetIndividual(int index)
         {
             return new IndividualContext(this, index);
         }
 
-        public TItemType GetOrAdd<TItemType>((string key, int generation, MetaHeuristicsStage stage, IMetaHeuristic heuristic, int individual) contextKey, Func<TItemType> factory)
+        public TItemType GetOrAdd<TItemType>((string key, int generation, EvolutionStage stage, IMetaHeuristic heuristic, int individual) contextKey, Func<TItemType> factory)
         {
             var toReturn = (TItemType)Params.GetOrAdd(contextKey, s => (object)factory());
             return toReturn;
@@ -44,7 +44,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             return GetParamWithContext<TItemType>(h, paramName, this);
         }
 
-        public TItemType GetParamWithContext<TItemType>(IMetaHeuristic h, string paramName, IMetaHeuristicContext ctx)
+        public TItemType GetParamWithContext<TItemType>(IMetaHeuristic h, string paramName, IEvolutionContext ctx)
         {
             _paramDefinitions.TryGetValue(paramName, out var paramDef);
             if (paramDef == null)

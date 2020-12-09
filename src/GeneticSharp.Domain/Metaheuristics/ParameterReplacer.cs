@@ -10,7 +10,7 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         private static readonly int _ParameterGeneratorLength = typeof(ParameterGenerator<>).GetMethod("Invoke").GetParameters().Length;
 
-        public static Expression<ParameterGenerator<TParamType>> ReduceLambdaParameterGenerator<TParamType>(LambdaExpression expression, IMetaHeuristicContext ctx)
+        public static Expression<ParameterGenerator<TParamType>> ReduceLambdaParameterGenerator<TParamType>(LambdaExpression expression, IEvolutionContext ctx)
         {
             while (_ParameterGeneratorLength < expression.Parameters.Count) 
             {

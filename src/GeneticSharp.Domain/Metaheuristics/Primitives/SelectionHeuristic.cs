@@ -12,7 +12,7 @@ namespace GeneticSharp.Domain.Metaheuristics
     {
 
 
-        public override IList<IChromosome> SelectParentPopulation(IMetaHeuristicContext ctx, ISelection selection)
+        public override IList<IChromosome> SelectParentPopulation(IEvolutionContext ctx, ISelection selection)
         {
 
             return base.SelectParentPopulation(ctx, GetOperator(ctx));

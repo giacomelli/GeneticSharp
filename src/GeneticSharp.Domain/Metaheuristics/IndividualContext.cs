@@ -3,11 +3,11 @@ using GeneticSharp.Domain.Populations;
 
 namespace GeneticSharp.Domain.Metaheuristics
 {
-    public struct IndividualContext : IMetaHeuristicContext
+    public struct IndividualContext : IEvolutionContext
     {
 
 
-        public IndividualContext(MetaHeuristicContext populationContext, int index)
+        public IndividualContext(EvolutionContext populationContext, int index)
         {
             _populationContext = populationContext;
             Index = index;
@@ -15,7 +15,7 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         public int Index { get; set; }
 
-        private MetaHeuristicContext _populationContext;
+        private EvolutionContext _populationContext;
         public IGeneticAlgorithm GA
         {
             get => _populationContext.GA;
@@ -29,14 +29,14 @@ namespace GeneticSharp.Domain.Metaheuristics
         }
 
     
-        public MetaHeuristicsStage CurrentStage
+        public EvolutionStage CurrentStage
         {
             get => _populationContext.CurrentStage;
             set => _populationContext.CurrentStage = value;
         }
 
    
-        public IMetaHeuristicContext GetIndividual(int index)
+        public IEvolutionContext GetIndividual(int index)
         {
             if (index!=Index)
             {
@@ -45,7 +45,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             return this;
         }
 
-        public TItemType GetOrAdd<TItemType>((string key, int generation, MetaHeuristicsStage stage, IMetaHeuristic heuristic, int individual) contextKey, Func<TItemType> factory)
+        public TItemType GetOrAdd<TItemType>((string key, int generation, EvolutionStage stage, IMetaHeuristic heuristic, int individual) contextKey, Func<TItemType> factory)
         {
             return _populationContext.GetOrAdd<TItemType>(contextKey, factory);
         }

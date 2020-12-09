@@ -21,11 +21,11 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <summary>
         /// The scope for the current MetaHeuristic behavior. Container fallback is used for other operators
         /// </summary>
-        public MetaHeuristicsStage Scope { get; set; } = MetaHeuristicsStage.All;
+        public EvolutionStage Scope { get; set; } = EvolutionStage.All;
 
-        public sealed override  IList<IChromosome> SelectParentPopulation(IMetaHeuristicContext ctx, ISelection selection)
+        public sealed override  IList<IChromosome> SelectParentPopulation(IEvolutionContext ctx, ISelection selection)
         {
-            if ((Scope & MetaHeuristicsStage.Selection) == MetaHeuristicsStage.Selection)
+            if ((Scope & EvolutionStage.Selection) == EvolutionStage.Selection)
             {
                 return ScopedSelectParentPopulation(ctx, selection);
             }
@@ -35,9 +35,9 @@ namespace GeneticSharp.Domain.Metaheuristics
             }
         }
 
-        public sealed override IList<IChromosome> MatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
+        public sealed override IList<IChromosome> MatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
-            if ((Scope & MetaHeuristicsStage.Crossover) == MetaHeuristicsStage.Crossover)
+            if ((Scope & EvolutionStage.Crossover) == EvolutionStage.Crossover)
             {
                 return ScopedMatchParentsAndCross(ctx, crossover, crossoverProbability, parents);
             }
@@ -47,9 +47,9 @@ namespace GeneticSharp.Domain.Metaheuristics
             }
         }
 
-        public sealed override void MutateChromosome(IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
+        public sealed override void MutateChromosome(IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
         {
-            if ((Scope & MetaHeuristicsStage.Mutation) == MetaHeuristicsStage.Mutation)
+            if ((Scope & EvolutionStage.Mutation) == EvolutionStage.Mutation)
             {
                 ScopedMutateChromosome(ctx, mutation, mutationProbability, offSprings);
             }
@@ -59,9 +59,9 @@ namespace GeneticSharp.Domain.Metaheuristics
             }
         }
 
-        public sealed override IList<IChromosome> Reinsert(IMetaHeuristicContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
+        public sealed override IList<IChromosome> Reinsert(IEvolutionContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
         {
-            if ((Scope & MetaHeuristicsStage.Reinsertion) == MetaHeuristicsStage.Reinsertion)
+            if ((Scope & EvolutionStage.Reinsertion) == EvolutionStage.Reinsertion)
             {
                return ScopedReinsert(ctx, reinsertion, offspring, parents);
             }
@@ -72,15 +72,15 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         }
 
-        public abstract IList<IChromosome> ScopedSelectParentPopulation(IMetaHeuristicContext ctx, ISelection selection);
+        public abstract IList<IChromosome> ScopedSelectParentPopulation(IEvolutionContext ctx, ISelection selection);
 
-        public abstract IList<IChromosome> ScopedMatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover,
+        public abstract IList<IChromosome> ScopedMatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover,
             float crossoverProbability, IList<IChromosome> parents);
 
-        public abstract  void ScopedMutateChromosome(IMetaHeuristicContext ctx, IMutation mutation,
+        public abstract  void ScopedMutateChromosome(IEvolutionContext ctx, IMutation mutation,
             float mutationProbability, IList<IChromosome> offSprings);
 
-        public abstract IList<IChromosome> ScopedReinsert(IMetaHeuristicContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents);
+        public abstract IList<IChromosome> ScopedReinsert(IEvolutionContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents);
 
     }
 }

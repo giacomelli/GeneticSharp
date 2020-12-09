@@ -33,7 +33,7 @@ namespace GeneticSharp.Domain.Metaheuristics
 
 
 
-        public override IList<IChromosome> ScopedSelectParentPopulation(IMetaHeuristicContext ctx, ISelection selection)
+        public override IList<IChromosome> ScopedSelectParentPopulation(IEvolutionContext ctx, ISelection selection)
         {
             var phaseItemIdx = DynamicParameter.GetGenerator(ctx)(this, ctx);
             IMetaHeuristic currentHeuristic = GetCurrentHeuristic(phaseItemIdx);
@@ -50,7 +50,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             
         }
 
-        public override IList<IChromosome> ScopedMatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
+        public override IList<IChromosome> ScopedMatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
            
             var phaseItemIdx = DynamicParameter.GetGenerator(ctx)(this, ctx);
@@ -66,7 +66,7 @@ namespace GeneticSharp.Domain.Metaheuristics
            
         }
 
-        public override void ScopedMutateChromosome(IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
+        public override void ScopedMutateChromosome(IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
         {
             var phaseItemIdx = DynamicParameter.GetGenerator(ctx)(this, ctx);
             IMetaHeuristic currentHeuristic = GetCurrentHeuristic(phaseItemIdx);
@@ -81,7 +81,7 @@ namespace GeneticSharp.Domain.Metaheuristics
            
         }
 
-        public override IList<IChromosome> ScopedReinsert(IMetaHeuristicContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
+        public override IList<IChromosome> ScopedReinsert(IEvolutionContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
         {
             var phaseItemIdx = DynamicParameter.GetGenerator(ctx)(this, ctx);
             IMetaHeuristic currentHeuristic = GetCurrentHeuristic(phaseItemIdx);

@@ -22,16 +22,16 @@ namespace GeneticSharp.Domain.Metaheuristics
         public Dictionary<string, IMetaHeuristicParameter> Parameters { get; set; } = new Dictionary<string, IMetaHeuristicParameter>();
 
         /// <inheritdoc />
-        public abstract IList<IChromosome> SelectParentPopulation(IMetaHeuristicContext ctx, ISelection selection);
+        public abstract IList<IChromosome> SelectParentPopulation(IEvolutionContext ctx, ISelection selection);
 
         /// <inheritdoc />
-        public abstract IList<IChromosome> MatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents);
+        public abstract IList<IChromosome> MatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents);
 
         /// <inheritdoc />
-        public abstract void MutateChromosome(IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings);
+        public abstract void MutateChromosome(IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings);
 
         /// <inheritdoc />
-        public abstract IList<IChromosome> Reinsert(IMetaHeuristicContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents);
+        public abstract IList<IChromosome> Reinsert(IEvolutionContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents);
 
 
 
@@ -45,36 +45,36 @@ namespace GeneticSharp.Domain.Metaheuristics
         //    return (TItemType)population.CurrentGeneration.Context.AddOrUpdate(key, s => (object)factory(), (s, o) => o);
         //}
 
-        public IMetaHeuristicContext GetContext(IGeneticAlgorithm ga, IPopulation population)
+        public IEvolutionContext GetContext(IGeneticAlgorithm ga, IPopulation population)
         {
             
-            if (population.Parameters.TryGetValue(nameof(IMetaHeuristicContext), out var cachedContext))
+            if (population.Parameters.TryGetValue(nameof(IEvolutionContext), out var cachedContext))
             {
-                return (IMetaHeuristicContext) cachedContext;
+                return (IEvolutionContext) cachedContext;
             }
 
             lock (population)
             {
-                if (population.Parameters.TryGetValue(nameof(IMetaHeuristicContext), out cachedContext))
+                if (population.Parameters.TryGetValue(nameof(IEvolutionContext), out cachedContext))
                 {
-                    return (IMetaHeuristicContext)cachedContext;
+                    return (IEvolutionContext)cachedContext;
                 }
-                var toReturn = new MetaHeuristicContext()
+                var toReturn = new EvolutionContext()
                     { GA = ga, Population = population };
                 RegisterParameters(toReturn);
-                population.Parameters[nameof(IMetaHeuristicContext)] = toReturn;
+                population.Parameters[nameof(IEvolutionContext)] = toReturn;
                 return toReturn;
             }
         }
 
 
 
-        public virtual void RegisterParameters(IMetaHeuristicContext ctx)
+        public virtual void RegisterParameters(IEvolutionContext ctx)
         {
             RegisterParameters(this.Parameters, ctx);
         }
 
-        protected void RegisterParameters(IDictionary<string, IMetaHeuristicParameter> parameters, IMetaHeuristicContext ctx)
+        protected void RegisterParameters(IDictionary<string, IMetaHeuristicParameter> parameters, IEvolutionContext ctx)
         {
             foreach (var metaHeuristicParameter in parameters)
             {

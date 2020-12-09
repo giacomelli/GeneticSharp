@@ -11,7 +11,7 @@ namespace GeneticSharp.Domain.Metaheuristics
     {
 
        
-        public override IList<IChromosome> Reinsert(IMetaHeuristicContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
+        public override IList<IChromosome> Reinsert(IEvolutionContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
         {
             return base.Reinsert(ctx, GetOperator(ctx), offspring, parents);
         }

@@ -67,7 +67,7 @@ namespace GeneticSharp.Domain
         /// <param name="crossoverProbability">The crossover probability.</param>
         /// <param name="parents">The parents.</param>
         /// <returns>The result chromosomes.</returns>
-        public  IList<IChromosome> MetaCross(IMetaHeuristic metaHeuristic, IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
+        public  IList<IChromosome> MetaCross(IMetaHeuristic metaHeuristic, IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
             var minSize = ctx.Population.MinSize;
             var offspring = new List<IChromosome>(minSize);
@@ -92,7 +92,7 @@ namespace GeneticSharp.Domain
         /// <param name="mutation">The mutation class.</param>
         /// <param name="mutationProbability">The mutation probability.</param>
         /// <param name="chromosomes">The chromosomes.</param>
-        public  void MetaMutate(IMetaHeuristic metaHeuristic, IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> chromosomes)
+        public  void MetaMutate(IMetaHeuristic metaHeuristic, IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> chromosomes)
         {
             for (int i = 0; i < chromosomes.Count; i++)
             {

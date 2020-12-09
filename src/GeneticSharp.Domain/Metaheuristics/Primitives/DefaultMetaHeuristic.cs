@@ -21,12 +21,12 @@ namespace GeneticSharp.Domain.Metaheuristics
         public DefaultMetaHeuristic(): base(new NoOpMetaHeuristic()){}
         
 
-        public override IList<IChromosome> ScopedSelectParentPopulation(IMetaHeuristicContext ctx, ISelection selection)
+        public override IList<IChromosome> ScopedSelectParentPopulation(IEvolutionContext ctx, ISelection selection)
         {
             return selection.SelectChromosomes(ctx.Population.MinSize, ctx.Population.CurrentGeneration);
         }
 
-        public override IList<IChromosome> ScopedMatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability,
+        public override IList<IChromosome> ScopedMatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability,
             IList<IChromosome> parents)
         {
             //var selectedParents = parents.Skip(firstParentIndex).Take(crossover.ParentsNumber).ToList();
@@ -48,12 +48,12 @@ namespace GeneticSharp.Domain.Metaheuristics
             return null;
         }
 
-        public override void ScopedMutateChromosome(IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
+        public override void ScopedMutateChromosome(IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
         {
             mutation.Mutate(offSprings[ctx.Index], mutationProbability);
         }
 
-        public override IList<IChromosome> ScopedReinsert(IMetaHeuristicContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
+        public override IList<IChromosome> ScopedReinsert(IEvolutionContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
         {
             return reinsertion.SelectChromosomes(ctx.Population, offspring, parents);
         }

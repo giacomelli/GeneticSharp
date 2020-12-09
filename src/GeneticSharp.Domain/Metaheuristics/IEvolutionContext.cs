@@ -8,7 +8,7 @@ namespace GeneticSharp.Domain.Metaheuristics
 
 
 
-    public interface IMetaHeuristicContext
+    public interface IEvolutionContext
     {
 
         
@@ -17,9 +17,9 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         int Index { get; set; }
 
-        MetaHeuristicsStage CurrentStage { get; set; }
+        EvolutionStage CurrentStage { get; set; }
 
-        IMetaHeuristicContext GetIndividual(int index);
+        IEvolutionContext GetIndividual(int index);
 
         /// <summary>
         /// Allows storing and retrieving objects in a generation based cache, specific to the heuristics or to be used in any heuristics for the current generation
@@ -28,7 +28,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <param name="key">the key for the object storage and retrieval</param>
         /// <param name="factory">the factory to build the object if not found in the cache</param>
         /// <returns></returns>
-        TItemType GetOrAdd<TItemType>((string key, int generation, MetaHeuristicsStage stage, IMetaHeuristic heuristic, int individual) contextKey, Func<TItemType> factory);
+        TItemType GetOrAdd<TItemType>((string key, int generation, EvolutionStage stage, IMetaHeuristic heuristic, int individual) contextKey, Func<TItemType> factory);
 
         TItemType GetParam<TItemType>(IMetaHeuristic h, string paramName);
 

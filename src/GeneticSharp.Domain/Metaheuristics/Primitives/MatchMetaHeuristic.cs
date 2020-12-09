@@ -60,7 +60,7 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         public List<MatchingTechnique> MatchingTechniques { get; set; }
 
-        public override IList<IChromosome> MatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
+        public override IList<IChromosome> MatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
 
             if (ShouldRun(crossoverProbability, CrossoverProbabilityStrategy,StaticCrossoverProbability, out var subProbability))

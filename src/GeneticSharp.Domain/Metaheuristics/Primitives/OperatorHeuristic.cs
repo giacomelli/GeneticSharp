@@ -12,7 +12,7 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         
 
-        protected TOperator GetOperator(IMetaHeuristicContext ctx)
+        protected TOperator GetOperator(IEvolutionContext ctx)
         {
             if (StaticOperator != null)
             {

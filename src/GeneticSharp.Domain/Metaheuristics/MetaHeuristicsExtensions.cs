@@ -52,7 +52,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <summary>
         /// You can define the evolution stages to apply that Metaheuristic
         /// </summary>
-        public static T WithScope<T>(this T metaHeuristic, MetaHeuristicsStage stage) where T : ScopedMetaHeuristic
+        public static T WithScope<T>(this T metaHeuristic, EvolutionStage stage) where T : ScopedMetaHeuristic
         {
             metaHeuristic.Scope = stage;
             return metaHeuristic;

@@ -24,14 +24,14 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         public EukaryoteMetaHeuristic(int phaseSize, int repeatNb, params IMetaHeuristic[] phaseHeuristics) : base(phaseSize, repeatNb, phaseHeuristics) { }
 
-        public override IList<IChromosome> ScopedSelectParentPopulation(IMetaHeuristicContext ctx, ISelection selection)
+        public override IList<IChromosome> ScopedSelectParentPopulation(IEvolutionContext ctx, ISelection selection)
         {
             IList<IList<IChromosome>> subPopulations = EukaryoteChromosome.GetSubPopulations(ctx.Population.CurrentGeneration.Chromosomes, PhaseSizes);
             var selectedParents = PerformSubOperator(subPopulations, (subHeuristic, subChromosomes) =>
             {
                 var subPopulation = new EukaryotePopulation(ctx.Population, subChromosomes) ;
                 //todo: deal with parameters (delegate?)
-                var newCtx = new MetaHeuristicContext(){GA = ctx.GA, Population = subPopulation};
+                var newCtx = new EvolutionContext(){GA = ctx.GA, Population = subPopulation};
                 return subHeuristic.SelectParentPopulation(newCtx, selection);
 
             });
@@ -43,7 +43,7 @@ namespace GeneticSharp.Domain.Metaheuristics
 
 
 
-        public override IList<IChromosome> ScopedMatchParentsAndCross(IMetaHeuristicContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
+        public override IList<IChromosome> ScopedMatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
 
             var dynamicSubPopulationParameter = new MetaHeuristicParameter<IList<IList<IChromosome>>>()
@@ -65,7 +65,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         }
 
 
-        public override void ScopedMutateChromosome(IMetaHeuristicContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
+        public override void ScopedMutateChromosome(IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
         {
             var karyotype = EukaryoteChromosome.GetKaryotype(offSprings[ctx.Index], PhaseSizes);
             for (var subChromosomeIdx = 0; subChromosomeIdx < karyotype.Count; subChromosomeIdx++)
@@ -77,7 +77,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             EukaryoteChromosome.UpdateParent(karyotype);
         }
 
-        public override IList<IChromosome> ScopedReinsert(IMetaHeuristicContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
+        public override IList<IChromosome> ScopedReinsert(IEvolutionContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
         {
             ////In order to use suboperator, we will temporarily concatenate offspring and parents
             //var offSpringCount = offspring.Count;

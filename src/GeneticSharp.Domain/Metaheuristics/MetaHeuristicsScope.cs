@@ -6,7 +6,7 @@ namespace GeneticSharp.Domain.Metaheuristics
     /// Defines one or several operators available to Metaheuristics
     /// </summary>
     [Flags]
-    public enum MetaHeuristicsStage
+    public enum EvolutionStage
     {
         None = 0,
         Selection = 1,

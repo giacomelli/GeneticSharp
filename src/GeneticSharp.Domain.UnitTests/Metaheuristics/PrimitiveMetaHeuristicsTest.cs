@@ -29,7 +29,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             var geomCrossover = new GeometricCrossover<int>().WithGeometricOperator<int>(geneValues => geneValues[0]);
             testContainer.SubMetaHeuristic = new CrossoverHeuristic().WithCrossover(geomCrossover);
-            var ctx = new MetaHeuristicContext();
+            var ctx = new EvolutionContext();
             
 
             //Testing subheuristic, returning first parent genes
@@ -73,7 +73,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             }
             
-            var ctx = new MetaHeuristicContext();
+            var ctx = new EvolutionContext();
 
             //Testing subheuristic, trigger switch with constant crossover based on Index
             var phaseIndex = 4;
@@ -110,7 +110,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var testHeuristic = new GenerationMetaHeuristic(phaseDuration, geometricHeuristics.ToArray());
             testHeuristic.CrossoverProbabilityStrategy = ProbabilityStrategy.TestProbability;
 
-            var ctx = new MetaHeuristicContext();
+            var ctx = new EvolutionContext();
 
             //Testing subheuristic, trigger switch with constant crossover based on Index
             var phaseIndex = 4;
@@ -151,7 +151,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var testHeuristic = new PopulationMetaHeuristic(groupSize , geometricHeuristics.ToArray());
             testHeuristic.CrossoverProbabilityStrategy = ProbabilityStrategy.TestProbability;
 
-            var ctx = new MetaHeuristicContext();
+            var ctx = new EvolutionContext();
 
             //Testing subheuristic, trigger switch with constant crossover based on Index
             var phaseIndex = 4;
