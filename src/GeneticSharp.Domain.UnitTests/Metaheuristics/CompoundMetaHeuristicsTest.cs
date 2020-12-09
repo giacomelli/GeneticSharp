@@ -250,15 +250,13 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
 
 
-        [Test()]
+        //[Test()]
         public void GridSearch_WOA()
         {
             var repeatNb = 5;
             var testParams = new List<(KnownMetaheuristics kind,  double seconds, double helicoidScale, int nbGenerationsWOA, bool noMutation)>
             {
                 (KnownMetaheuristics.Default,  1, 1, 200, true),
-                (KnownMetaheuristics.WhaleOptmizerAlgorithm,  1.0, 1.0, 500,  true),
-               (KnownMetaheuristics.WhaleOptmizerAlgorithm,  1.0, 1.0, 200,  true),
                 (KnownMetaheuristics.WhaleOptmizerAlgorithm,  1.0, 1.0, 100,  true),
                 (KnownMetaheuristics.WhaleOptmizerAlgorithm,  1.0, 1.0, 50,  true),
             };
@@ -310,7 +308,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                            var woaMetaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm<double>(false,
                                nbGenerationsWoa,
                                geneValue => geneValue, 
-                               GetGeneValueFunction, 
+                               GetGeneValueFunction, helicoidScale: helicoidScale,
                                noMutation:noMutation);
                             metaHeuristic = woaMetaHeuristic;
 
