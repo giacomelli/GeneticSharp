@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
@@ -163,6 +164,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             var repeatNb = 3;
             var testParams = new List<(int nbCities, double seconds, double helicoidScale, int nbGenerationsWOA, bool noMutation, IReinsertion reinsertion)>
             {
+                (80, 1, 1, 50, false, new FitnessBasedElitistReinsertion()),
                 (80, 1, 1, 50, true, new FitnessBasedElitistReinsertion()),
                 (80, 1, 1, 50, false, new PureReinsertion()),
                 (80, 1, 1, 50, true, new PureReinsertion()),
@@ -386,19 +388,33 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             }
         }
 
-        private static TspEvolutionResult Evolve_NbCities_Fast(TspFitness fitness, TspChromosome adamChromosome, int populationSize, IMetaHeuristic metaHeuristic, ICrossover crossover, IMutation mutation, ITermination terminationCriterium, IReinsertion reinsertion,  Action<IGeneticAlgorithm> generationUpdate = null)
+        private TspEvolutionResult Evolve_NbCities_Fast(TspFitness fitness, TspChromosome adamChromosome, int populationSize, IMetaHeuristic metaHeuristic, ICrossover crossover, IMutation mutation, ITermination termination, IReinsertion reinsertion,  Action<IGeneticAlgorithm> generationUpdate = null)
         {
             var selection = new EliteSelection();
-            var population = new Population(populationSize, populationSize, adamChromosome)
+            var initialPopulation = new Population(populationSize, populationSize, adamChromosome)
             {
                 GenerationStrategy = new TrackingGenerationStrategy()
             };
 
-            var ga = new MetaGeneticAlgorithm(population, fitness, selection, crossover, mutation);
+            GeneticAlgorithm ga;
+
             if (metaHeuristic != null)
             {
-                ga.Metaheuristic = metaHeuristic;
+                var metaTarget = new MetaGeneticAlgorithm(initialPopulation, fitness, selection, crossover, mutation, metaHeuristic);
+                ga = metaTarget;
             }
+            else
+            {
+                ga = new GeneticAlgorithm(initialPopulation, fitness, selection, crossover, mutation);
+            }
+
+
+            if (reinsertion is PureReinsertion)
+            {
+                ga.CrossoverProbability = 1;
+            }
+
+
             if (generationUpdate != null)
             {
                 ga.GenerationRan += (sender, args) => generationUpdate(ga);
@@ -408,7 +424,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             var firstValue = fitness.Evaluate(adamChromosome);
             var firstDistance = adamChromosome.Distance;
 
-            ga.Termination = terminationCriterium;
+            ga.Termination = termination;
             ga.Start();
             var lastDistance = ((TspChromosome)ga.Population.BestChromosome).Distance;
 
