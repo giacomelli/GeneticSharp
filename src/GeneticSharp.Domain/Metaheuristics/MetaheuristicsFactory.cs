@@ -83,14 +83,15 @@ namespace GeneticSharp.Domain.Metaheuristics
                     .WithMatches(MatchingTechnique.Best)
                     .WithSubMetaHeuristic(new CrossoverHeuristic()
                         .WithCrossover(ParamScope.None,
-                            (IMetaHeuristic h, IEvolutionContext ctx, double l) => GetBubbleNetCrossover(l, helicoidScale, ordered, geneToDoubleConverter, doubleToGeneConverter, geometryEmbedding))));
+                            (IMetaHeuristic h, IEvolutionContext ctx, double l) => new GeometricCrossover<TGeneValue>(ordered, 2, false)
+                                .WithGeometricOperator(geneValues => BubbleNetOperator(geneValues, geneToDoubleConverter, doubleToGeneConverter, l, helicoidScale))
+                                .WithGeometryEmbedding(geometryEmbedding))));
 
             //Removing default mutation operator 
             if (noMutation)
             {
                 woaHeuristic.SubMetaHeuristic = new DefaultMetaHeuristic().WithScope(EvolutionStage.Selection | EvolutionStage.Reinsertion);
             }
-
             return woaHeuristic;
         }
 
@@ -101,13 +102,6 @@ namespace GeneticSharp.Domain.Metaheuristics
             var geometricValue = metricValues[1] - A * Math.Abs(C * metricValues[1] - metricValues[0]);
             var toReturn = doubleToGeneConverter(geometricValue);
             return toReturn;
-        }
-
-        private static GeometricCrossover<TGeneValue> GetBubbleNetCrossover<TGeneValue>(double l, double b, bool ordered, Func<TGeneValue, double> geneToDoubleConverter, Func<double, TGeneValue> doubleToGeneConverter, IGeometryEmbedding<TGeneValue> geometryEmbedding = null)
-        {
-            return new GeometricCrossover<TGeneValue>(ordered, 2, false)
-                .WithGeometricOperator(geneValues => BubbleNetOperator(geneValues, geneToDoubleConverter, doubleToGeneConverter, l, b))
-                .WithGeometryEmbedding(geometryEmbedding);
         }
 
         private static TGeneValue BubbleNetOperator<TGeneValue>(IList<TGeneValue> geneValues, Func<TGeneValue, double> geneToDoubleConverter, Func<double, TGeneValue> doubleToGeneConverter, double l, double b)
@@ -124,8 +118,6 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// </summary>
         public static IMetaHeuristic WhaleOptimisationAlgorithmWithParams<TGeneValue>(bool ordered, int maxGenerations, Func<TGeneValue, double> fromGeneConverter, Func<double, TGeneValue> toGeneConverter)
         {
-            
-            
             var rnd = RandomizationProvider.Current;
 
             var updateTrackingCrossoverHeuristic = new CrossoverHeuristic()
@@ -135,7 +127,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             return new IfElseMetaHeuristic()
                 .WithScope(EvolutionStage.Crossover)
                 .WithParameter(nameof(WoaParam.a), "a decreases linearly from 2 to 0 in Eq. (2.3)", ParamScope.Generation, (h,ctx) => 2.0 - ctx.Population.GenerationsNumber * (2.0 / maxGenerations))
-                .WithParameter(nameof(WoaParam.a2), "a2 linearly dicreases from -1 to -2 to calculate t in Eq. (3.12)", ParamScope.Generation, (h, ctx) => 1.0 + ctx.Population.GenerationsNumber * (-1.0 / maxGenerations))
+                .WithParameter(nameof(WoaParam.a2), "a2 linearly decreases from -1 to -2 to calculate t in Eq. (3.12)", ParamScope.Generation, (h, ctx) => 1.0 + ctx.Population.GenerationsNumber * (-1.0 / maxGenerations))
                 .WithParameter(nameof(WoaParam.A), "Eq. (2.3) in the paper", ParamScope.Generation | ParamScope.Individual, (h, ctx) => 2.0 * ctx.GetParam<double>(h,nameof(WoaParam.a)) * rnd.GetDouble() - ctx.GetParam<double>(h,nameof(WoaParam.a)))
                 .WithParameter(nameof(WoaParam.C), "Eq. (2.4) in the paper", ParamScope.Generation | ParamScope.Individual, (h, ctx) => 2.0 * rnd.GetDouble())
                 .WithParameter(nameof(WoaParam.l), "parameters in Eq. (2.5)", ParamScope.Generation | ParamScope.Individual, (h, ctx) => (ctx.GetParam<double>(h,nameof(WoaParam.a2)) - 1.0) * rnd.GetDouble() + 1.0)
