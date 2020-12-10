@@ -62,6 +62,12 @@ namespace GeneticSharp.Domain.Terminations
         /// <param name="geneticAlgorithm">The genetic algorithm.</param>
         protected override bool PerformHasReached(IGeneticAlgorithm geneticAlgorithm)
         {
+            //Allowing reuse: reset upon first generation
+            if (geneticAlgorithm.GenerationsNumber==1)
+            {
+                m_stagnantGenerationsCount = 0;
+                m_targetFitness = double.MinValue;
+            }
             var bestFitness = geneticAlgorithm.BestChromosome.Fitness.Value;
 
             

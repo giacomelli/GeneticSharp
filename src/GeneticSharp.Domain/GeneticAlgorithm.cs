@@ -305,9 +305,10 @@ namespace GeneticSharp.Domain
 
                     m_stopwatch.Restart();
                     EvolveOneGeneration();
-                    terminationConditionReached = EndCurrentGeneration();
                     m_stopwatch.Stop();
                     TimeEvolving += m_stopwatch.Elapsed;
+                    terminationConditionReached = EndCurrentGeneration();
+                    
                 }
                 while (!terminationConditionReached);
             }

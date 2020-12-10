@@ -20,7 +20,7 @@ namespace GeneticSharp.Domain.Terminations
         /// <param name="geneticAlgorithm">The genetic algorithm.</param>
         public bool HasReached(IGeneticAlgorithm geneticAlgorithm)
         {
-            ExceptionHelper.ThrowIfNull("geneticAlgorithm", geneticAlgorithm);
+            ExceptionHelper.ThrowIfNull(nameof(geneticAlgorithm), geneticAlgorithm);
 
             m_hasReached = PerformHasReached(geneticAlgorithm);
 
