@@ -26,6 +26,11 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         public const double DefaultHelicoidScale = 1;
 
+        public delegate TGeneValue EncirclingPreyOperator<TGeneValue>(IList<TGeneValue> geneValues, Func<TGeneValue, double> geneToDoubleConverter, 
+            Func<double, TGeneValue> doubleToGeneConverter, double A, double C);
+
+        public delegate TGeneValue BubbleNetOperator<TGeneValue>(IList<TGeneValue> geneValues, Func<TGeneValue, double> geneToDoubleConverter, 
+            Func<double, TGeneValue> doubleToGeneConverter, double l, double b);
 
         /// <summary>
         /// As detailed in <see href="https://en.wikiversity.org/wiki/Whale_Optimization_Algorithm">Whale Optimization Algorithm</see>
@@ -39,17 +44,28 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <param name="doubleToGeneConverter">Converter from double to typed gene value</param>
         /// <param name="geometryEmbedding">an optional domain specific geometrisation operator to process gene values before being converted and processed by the geometric operator and back after conversion </param>
         /// <param name="noMutation">optionally toggle mutation operator (default true switches off mutation operator)</param>
+        /// <param name="encirclingOperator">You can optionally replace the default exploration operator with your own function.</param>
+        /// <param name="bubbleNetOperator">You can optionally replace the default exploitation operator with your own function.</param>
         /// <returns>A MetaHeuristic applying the WOA</returns>
         public static IContainerMetaHeuristic WhaleOptimisationAlgorithm<TGeneValue>(bool ordered, int maxGenerations, 
-            Func<TGeneValue, double> geneToDoubleConverter, Func<double, TGeneValue> doubleToGeneConverter, IGeometryEmbedding<TGeneValue> geometryEmbedding = null, double helicoidScale = DefaultHelicoidScale, bool noMutation = true)
+            Func<TGeneValue, double> geneToDoubleConverter, Func<double, TGeneValue> doubleToGeneConverter, IGeometryEmbedding<TGeneValue> geometryEmbedding = null, double helicoidScale = DefaultHelicoidScale, bool noMutation = true, EncirclingPreyOperator<TGeneValue> encirclingOperator = null, BubbleNetOperator<TGeneValue> bubbleNetOperator = null)
         {
             var rnd = RandomizationProvider.Current;
+            if (encirclingOperator == null)
+            {
+                encirclingOperator = DefaultEncirclingPreyOperator;
+            }
 
-            //Defining the cross operator to be applied with a random or best target, with the EncirclingPreyOperator
+            if (bubbleNetOperator == null)
+            {
+                bubbleNetOperator = DefaultBubbleNetOperator;
+            }
+
+            //Defining the cross operator to be applied with a random or best target, with the Encircling Prey Operator
             var encirclingHeuristic = new CrossoverHeuristic()
                 .WithCrossover(ParamScope.None, 
                     (IMetaHeuristic h, IEvolutionContext ctx, double A, double C) => new GeometricCrossover<TGeneValue>(ordered, 2, false) 
-                        .WithGeometricOperator(geneValues => EncirclingPreyOperator(geneValues, geneToDoubleConverter, doubleToGeneConverter, A, C))
+                        .WithGeometricOperator(geneValues => encirclingOperator(geneValues, geneToDoubleConverter, doubleToGeneConverter, A, C))
                         .WithGeometryEmbedding(geometryEmbedding));
 
             //Defining the main compound Metaheuristic with sub-parts.
@@ -59,7 +75,7 @@ namespace GeneticSharp.Domain.Metaheuristics
                 .WithParam(nameof(WoaParam.a), "a decreases linearly from 2 to 0 in Eq. (2.3)", 
                     ParamScope.Generation, (h, ctx) => 2.0 - ctx.Population.GenerationsNumber * (2.0 / maxGenerations))
                 .WithParam(nameof(WoaParam.a2), "a2 linearly dicreases from -1 to -2 to calculate t in Eq. (3.12)", 
-                    ParamScope.Generation, (h, ctx) => 1.0 + ctx.Population.GenerationsNumber * (-1.0 / maxGenerations))
+                    ParamScope.Generation, (h, ctx) => -1.0 + ctx.Population.GenerationsNumber * (-1.0 / maxGenerations))
                 .WithParam(nameof(WoaParam.A), "Eq. (2.3) in the paper",
                     ParamScope.Generation | ParamScope.Individual, (IMetaHeuristic h, IEvolutionContext ctx, double a) => 2.0 * a * rnd.GetDouble() - a)
                 .WithParam(nameof(WoaParam.C), "Eq. (2.4) in the paper",
@@ -84,7 +100,7 @@ namespace GeneticSharp.Domain.Metaheuristics
                     .WithSubMetaHeuristic(new CrossoverHeuristic()
                         .WithCrossover(ParamScope.None,
                             (IMetaHeuristic h, IEvolutionContext ctx, double l) => new GeometricCrossover<TGeneValue>(ordered, 2, false)
-                                .WithGeometricOperator(geneValues => BubbleNetOperator(geneValues, geneToDoubleConverter, doubleToGeneConverter, l, helicoidScale))
+                                .WithGeometricOperator(geneValues => bubbleNetOperator(geneValues, geneToDoubleConverter, doubleToGeneConverter, l, helicoidScale))
                                 .WithGeometryEmbedding(geometryEmbedding))));
 
             //Removing default mutation operator 
@@ -95,7 +111,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             return woaHeuristic;
         }
 
-        private static TGeneValue EncirclingPreyOperator<TGeneValue>(IList<TGeneValue> geneValues, Func<TGeneValue, double> geneToDoubleConverter, Func<double, TGeneValue> doubleToGeneConverter,
+        private static TGeneValue DefaultEncirclingPreyOperator<TGeneValue>(IList<TGeneValue> geneValues, Func<TGeneValue, double> geneToDoubleConverter, Func<double, TGeneValue> doubleToGeneConverter,
             double A, double C)
         {
             var metricValues = geneValues.Select(geneToDoubleConverter).ToList();
@@ -104,13 +120,15 @@ namespace GeneticSharp.Domain.Metaheuristics
             return toReturn;
         }
 
-        private static TGeneValue BubbleNetOperator<TGeneValue>(IList<TGeneValue> geneValues, Func<TGeneValue, double> geneToDoubleConverter, Func<double, TGeneValue> doubleToGeneConverter, double l, double b)
+        private static TGeneValue DefaultBubbleNetOperator<TGeneValue>(IList<TGeneValue> geneValues, Func<TGeneValue, double> geneToDoubleConverter, Func<double, TGeneValue> doubleToGeneConverter, double l, double b)
         {
             var metricValues = geneValues.Select(geneToDoubleConverter).ToList();
             var geometricValue = Math.Abs(metricValues[1] - metricValues[0]) * Math.Exp(b * l) * Math.Cos(l * 2.0 * Math.PI) + metricValues[1];
             var toReturn = doubleToGeneConverter(geometricValue);
             return toReturn;
         }
+
+
 
 
         /// <summary>
@@ -127,7 +145,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             return new IfElseMetaHeuristic()
                 .WithScope(EvolutionStage.Crossover)
                 .WithParameter(nameof(WoaParam.a), "a decreases linearly from 2 to 0 in Eq. (2.3)", ParamScope.Generation, (h,ctx) => 2.0 - ctx.Population.GenerationsNumber * (2.0 / maxGenerations))
-                .WithParameter(nameof(WoaParam.a2), "a2 linearly decreases from -1 to -2 to calculate t in Eq. (3.12)", ParamScope.Generation, (h, ctx) => 1.0 + ctx.Population.GenerationsNumber * (-1.0 / maxGenerations))
+                .WithParameter(nameof(WoaParam.a2), "a2 linearly decreases from -1 to -2 to calculate t in Eq. (3.12)", ParamScope.Generation, (h, ctx) => -1.0 + ctx.Population.GenerationsNumber * (-1.0 / maxGenerations))
                 .WithParameter(nameof(WoaParam.A), "Eq. (2.3) in the paper", ParamScope.Generation | ParamScope.Individual, (h, ctx) => 2.0 * ctx.GetParam<double>(h,nameof(WoaParam.a)) * rnd.GetDouble() - ctx.GetParam<double>(h,nameof(WoaParam.a)))
                 .WithParameter(nameof(WoaParam.C), "Eq. (2.4) in the paper", ParamScope.Generation | ParamScope.Individual, (h, ctx) => 2.0 * rnd.GetDouble())
                 .WithParameter(nameof(WoaParam.l), "parameters in Eq. (2.5)", ParamScope.Generation | ParamScope.Individual, (h, ctx) => (ctx.GetParam<double>(h,nameof(WoaParam.a2)) - 1.0) * rnd.GetDouble() + 1.0)
