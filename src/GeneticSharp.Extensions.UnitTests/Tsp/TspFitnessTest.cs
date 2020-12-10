@@ -31,7 +31,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             var repeatNb = 40;
 
             // Note that with higher numbers the situation eventually reverses and the memory impediment must be detrimental
-            var cityNbsAndRatios = new (int cityNb, double ratio)[] { (5, 0.9), (100, 0.9), (500, 0.9), (2000, 1.5)};
+            var cityNbsAndRatios = new (int cityNb, double ratio)[] { (5, 0.95), (100, 0.95), (500, 0.95), (2000, 1.7)};
 
 
             var testResults = new List<(TimeSpan durationUncached, TimeSpan durationCached, double ratio)>();
