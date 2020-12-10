@@ -129,7 +129,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
             var crossover = new OnePointCrossover(2);
 
-            var resultsRatio = new[] {1.5, 5, 50, 1.5};
+            var resultsRatio = new[] {1.4, 5, 50, 1.4};
             int maxNbGenerations = 100;
 
             Compare_WOA_Crossover_KnownFunctions_Size_LargerFitness_Bounded(crossover, SmallSizes, maxNbGenerations, resultsRatio);
@@ -289,7 +289,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         //[Test()]
         public void GridSearch_WOA()
         {
-            var repeatNb = 5;
+            var repeatNb = 4;
             var testParams = new List<(KnownMetaheuristics kind,  double seconds, double helicoidScale, int nbGenerationsWOA, bool noMutation)>
             {
                 (KnownMetaheuristics.WOAWithNaiveBubbleNet,  1.0, 1.0, 100,  true),

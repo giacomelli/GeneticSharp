@@ -130,7 +130,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
         public void Compare_WOA_GeometryEmbedding_ManyGenerations_SmallerDistance()
         {
             int numberOfCities = 100;
-            var nbGenerations = 1000;
+            var nbGenerations = 200;
             var termination = new GenerationNumberTermination(nbGenerations);
             var reinsertion = new FitnessBasedElitistReinsertion();
             Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(nbGenerations, numberOfCities, termination, reinsertion, 1.1);
