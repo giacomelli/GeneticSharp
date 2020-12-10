@@ -237,7 +237,12 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
             var selection = new EliteSelection();
             var mutation = new UniformMutation();
+#if DEBUG
+            var generationStragegy = new TrackingGenerationStrategy();
+#else
             var generationStragegy = new PerformanceGenerationStrategy();
+#endif
+
             var initialPopulation = new Population(populationSize, populationSize, adamChromosome) { GenerationStrategy = generationStragegy };
             GeneticAlgorithm target;
             if (metaHeuristic != null)
