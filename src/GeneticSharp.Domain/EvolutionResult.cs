@@ -15,12 +15,15 @@ namespace GeneticSharp.Domain
         double Fitness { get; }
         IPopulation Population { get; }
         TimeSpan TimeEvolving { get;  }
+
+        int GenerationsNumber { get; }
+
     }
 
     /// <summary>
     /// The EvolutionResult class represent the result of a genetic algorithm evolution. It aggregates the evolution time and the resulting population.
     /// </summary>
-    [DebuggerDisplay("Fitness:{Fitness}, TimeEvolving:{TimeEvolving}, Population:{Population}")]
+    [DebuggerDisplay("Fit:{Fitness}, Time:{TimeEvolving}, GenNb: {GenerationsNumber}")]
     public class EvolutionResult : IEvolutionResult
     {
 
@@ -29,15 +32,13 @@ namespace GeneticSharp.Domain
         public IPopulation Population { get; set; }
 
         public TimeSpan TimeEvolving { get; set; }
-
-       
-
+        public int GenerationsNumber => Population.GenerationsNumber;
     }
 
     /// <summary>
     /// The MeanEvolutionResult class allows collecting repeated evolution results and computing mean statistical values, while skipping a percentage of extrema when Results are sorted according to a custom comparer.
     /// </summary>
-    [DebuggerDisplay("Fitness:{Fitness}, TimeEvolving:{TimeEvolving}, Population:{Population}")]
+    [DebuggerDisplay("Fit:{Fitness}, Time:{TimeEvolving}, GenNb: {GenerationsNumber}")]
     public class MeanEvolutionResult : IEvolutionResult
     {
         private SortedSet<IEvolutionResult> _results;
@@ -64,6 +65,7 @@ namespace GeneticSharp.Domain
         public IPopulation Population => Results.Count > 0 ? GetScopedResults().First().Population : null;
 
         public TimeSpan TimeEvolving => Results.Count > 0 ? TimeSpan.FromTicks(GetScopedResults().Sum(r => r.TimeEvolving.Ticks) / GetScopedResults().Count()) : TimeSpan.Zero;
+        public int GenerationsNumber => Results.Count > 0 ? GetScopedResults().Sum(r => r.Population.GenerationsNumber) / GetScopedResults().Count() : 0;
 
 
         private IEnumerable<IEvolutionResult> GetScopedResults()

@@ -28,7 +28,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
 
         public override IList<IChromosome> ScopedSelectParentPopulation(IEvolutionContext ctx, ISelection selection)
         {
-            var phaseItemIdx = DynamicParameter.GetGenerator(ctx)(this, ctx);
+            var phaseItemIdx = DynamicParameter.Get<TIndex>(this, ctx, $"{this.Guid}_CaseGenerator");
             IMetaHeuristic currentHeuristic = GetCurrentHeuristic(phaseItemIdx);
             if (currentHeuristic != null)
             {

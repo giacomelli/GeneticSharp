@@ -241,39 +241,77 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         }
 
 
-
-        [Test]
-        public void Compare_WOA_WOAParams_Stub_Large_MoreGenerations()
+        /// <summary>
+        /// The version with parameter calls should start faster with less preprocessing but then pay an additional cost for parameter lookup
+        /// </summary>
+        //[Test]
+        public void Compare_WOAReduced_WOAParamCalls_Stub_Small_Bounds()
         {
-            IMetaHeuristic OriginalMetaHeuristic(int maxValue) => GetDefaultWhaleHeuristicForChromosomStub(false, 300, maxValue);
-            IMetaHeuristic ReducedMetaHeuristic(int maxValue) => GetDefaultWhaleHeuristicForChromosomStub(true, 300, maxValue);
+            var repeatNb = 5;
+            IMetaHeuristic WoaWithParamCalls(int maxValue) => GetDefaultWhaleHeuristicForChromosomStub(false, 300, maxValue);
+            IMetaHeuristic WoaWithReducedArgs(int maxValue) => GetDefaultWhaleHeuristicForChromosomStub(true, 300, maxValue);
             var crossover = new UniformCrossover();
 
+            var problemSizes = SmallSizes;
 
             //Population Size
-            var populationSize = 100;
+            var populationSize = 400;
 
             //Termination
             var minFitness = double.MaxValue;
-            int maxNbGenerations = 2000;
-            int stagnationNb = 100;
-            TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(2);
+            int maxNbGenerations = int.MaxValue;
+            int stagnationNb = int.MaxValue;
+            TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(2.0);
             var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
             var reinsertion = new FitnessBasedElitistReinsertion();
 
-            var results = CompareMetaHeuristicsDifferentSizes(
-               LargeSizes, 
-                maxValue =>new FitnessStub(maxValue) { SupportsParallel = false }, 
-                maxValue => new ChromosomeStub(maxValue, maxValue) , 
-                OriginalMetaHeuristic, 
-                ReducedMetaHeuristic, 
-                crossover,
-               populationSize, termination, reinsertion);
+            var meanResultsBySize = new List<(MeanEvolutionResult woaWithParams, MeanEvolutionResult woaReduced)>();
+
+            int ResultComparer(IEvolutionResult result1, IEvolutionResult result2)
+            {
+                var toReturn = Math.Sign(result1.Population.GenerationsNumber - result2.Population.GenerationsNumber);
+                if (toReturn != 0)
+                {
+                    return toReturn;
+                }
+
+                return result1.Fitness > result2.Fitness ? 1 : -1;
+            }
 
 
-            var meanRatio = results.Sum(c => c.result2.Population.GenerationsNumber / (double) c.result1.Population.GenerationsNumber) / results.Count;
+            for (int i = 0; i < repeatNb; i++)
+            {
+                var results = CompareMetaHeuristicsDifferentSizes(
+                    problemSizes,
+                    maxValue => new FitnessStub(maxValue) { SupportsParallel = false },
+                    maxValue => new ChromosomeStub(maxValue, maxValue),
+                    WoaWithParamCalls,
+                    WoaWithReducedArgs,
+                    crossover,
+                    populationSize, termination, reinsertion);
 
-            Assert.Greater(meanRatio, 1.05);
+
+
+                for (int sizeIndex = 0; sizeIndex < results.Count; sizeIndex++)
+                {
+                    if (meanResultsBySize.Count<sizeIndex+1)
+                    {
+                        meanResultsBySize.Add((new MeanEvolutionResult{ResultComparer = ResultComparer, SkipExtremaPercentage = 0.2} , new MeanEvolutionResult { ResultComparer = ResultComparer, SkipExtremaPercentage = 0.2 }));
+                    }
+                    meanResultsBySize[sizeIndex].woaWithParams.Results.Add(results[sizeIndex].result1);
+                    meanResultsBySize[sizeIndex].woaReduced.Results.Add(results[sizeIndex].result2);
+                }
+
+            }
+
+            foreach (var meanResults in meanResultsBySize)
+            {
+                Assert.Greater(meanResults.woaReduced.GenerationsNumber / (double) meanResults.woaWithParams.GenerationsNumber, 0.8);
+                Assert.Less(meanResults.woaReduced.GenerationsNumber / (double)meanResults.woaWithParams.GenerationsNumber, 1.3);
+            }
+
+          
+            
 
         }
 

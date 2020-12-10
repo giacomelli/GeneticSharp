@@ -42,23 +42,23 @@ namespace GeneticSharp.Extensions.Mathematic
         {
             var sum1 = 0.0d;
 
-            for (var i = 0; i < coordinates.Length-1; i++)
+            for (var i = 0; i < coordinates.Length - 1; i++)
             {
-                sum1 += 100 * Math.Pow(coordinates[i+1] - Math.Pow(coordinates[i], 2), 2)
-                    + Math.Pow(1-coordinates[i], 2);
+                sum1 += 100 * Math.Pow(coordinates[i + 1] - Math.Pow(coordinates[i], 2), 2)
+                    + Math.Pow(1 - coordinates[i], 2);
             }
 
             return -sum1;
         }
 
 
-        
+
 
         public static double Hyperellipsoid(double[] x)
-            /*
-            -n = 30
-            -Domain: |x| <= 1.0
-            */
+        /*
+        -n = 30
+        -Domain: |x| <= 1.0
+        */
         {
             int n = x.Length;
             int i;
@@ -70,13 +70,34 @@ namespace GeneticSharp.Extensions.Mathematic
             return s;
         }
 
+        /// <summary>
+        /// <see href="https://www.researchgate.net/publication/337947149_Hybridization_of_interval_methods_and_evolutionary_algorithms_for_solving_difficult_optimization_problems"/>
+        /// </summary>
+        public static double ReverseEggholder(double[] x)
+        /*
+        - Dimension: n
+        - Domain: | x_i | < 512
+        -
+        */
+        {
+            int n = x.Length;
+            int i;
+            var sum = 0.0;
+            for (i = 0; i < n - 1; i++)
+            {
+                sum += -(x[i + 1] + 47.0) * Math.Sin(Math.Sqrt(Math.Abs(x[i + 1] + x[i] * 0.5 + 47.0))) + Math.Sin(Math.Sqrt(Math.Abs(x[i] - (x[i + 1] + 47.0)))) * (-x[i]);
+            }
+            return -sum;
+        }
 
-        public static double ReverseLevy( double[] x)
-            /*
-            - Global minimum
-            - for n=4, fmin = -21.502356 at (1,1,1,-9.752356 )
-            - for n=5,6,7, fmin = -11.504403 at (1,\dots,1,-4.754402 )
-            */
+
+
+        public static double ReverseLevy(double[] x)
+        /*
+        - Global minimum
+        - for n=4, fmin = -21.502356 at (1,1,1,-9.752356 )
+        - for n=5,6,7, fmin = -11.504403 at (1,\dots,1,-4.754402 )
+        */
         {
             int n = x.Length;
             int i;
@@ -85,13 +106,13 @@ namespace GeneticSharp.Extensions.Mathematic
             {
                 sum += Math.Pow(x[i] - 1, 2.0) * (1 + Math.Pow(Math.Sin(3 * Math.PI * x[i + 1]), 2.0));
             }
-            return - Math.Pow(Math.Sin(3 * Math.PI * x[0]), 2.0) + sum + (x[n - 1] - 1) * (1 + Math.Pow(Math.Sin(2 * Math.PI * x[n - 1]), 2.0));
+            return -Math.Pow(Math.Sin(3 * Math.PI * x[0]), 2.0) + sum + (x[n - 1] - 1) * (1 + Math.Pow(Math.Sin(2 * Math.PI * x[n - 1]), 2.0));
         }
 
-        public static double ReverseMaxmod( double[] x)
-            /*Domain: |x[i] <= 10
-            Global minimum: 0 at x[i] = 0
-            */
+        public static double ReverseMaxmod(double[] x)
+        /*Domain: |x[i] <= 10
+        Global minimum: 0 at x[i] = 0
+        */
         {
             int n = x.Length;
             int i;
@@ -116,12 +137,12 @@ namespace GeneticSharp.Extensions.Mathematic
         /// <param name="n">the dimension</param>
         /// <param name="x">the input double vector</param>
         /// <returns></returns>
-        public static double ReverseKatsuuras( double[] x)
-            /*
-            = Dimension: n (10)
-            - Domain: | x[i] | <= 1000
-            - Global minimum 1.0 at 0 vector.
-            */
+        public static double ReverseKatsuuras(double[] x)
+        /*
+        = Dimension: n (10)
+        - Domain: | x[i] | <= 1000
+        - Global minimum 1.0 at 0 vector.
+        */
         {
             int n = x.Length;
             int i;

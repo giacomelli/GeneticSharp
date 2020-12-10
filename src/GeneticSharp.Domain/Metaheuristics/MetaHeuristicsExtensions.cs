@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Crossovers.Geometric;
 using GeneticSharp.Domain.Metaheuristics.Parameters;
@@ -136,6 +137,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         {
             metaHeuristic.DynamicParameter = new MetaHeuristicParameter<TIndex>
             {
+                Name = $"{metaHeuristic.Guid}_CaseGenerator",
                 Generator = phaseGenerator,
                 Scope = scope
             };
