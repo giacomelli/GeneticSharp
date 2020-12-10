@@ -273,7 +273,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             var meanRatio = results.Sum(c => c.result2.Population.GenerationsNumber / (double) c.result1.Population.GenerationsNumber) / results.Count;
 
-            Assert.Greater(meanRatio, 1.1);
+            Assert.Greater(meanRatio, 1.05);
 
         }
 
