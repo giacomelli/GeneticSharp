@@ -242,7 +242,7 @@ namespace GeneticSharp.Extensions.Tsp
                     }
 
                     if (dist == 0)
-                        return dist;
+                        return 0;
                     if (dist < 0)
                         return -1;
                     return 1;

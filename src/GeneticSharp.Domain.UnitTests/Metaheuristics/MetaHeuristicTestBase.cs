@@ -84,7 +84,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             return toReturn;
         }
 
-        protected void AssertIsPerformingLessByRatio(ITermination termination, double ratio, EvolutionResult result1, EvolutionResult result2)
+        protected void AssertIsPerformingLessByRatio(ITermination termination, double ratio, IEvolutionResult result1, IEvolutionResult result2)
         {
             switch (termination.GetType().Name)
             {
@@ -94,7 +94,8 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                     break;
                 case nameof(FitnessThresholdTermination):
                 case nameof(GenerationNumberTermination):
-                    Assert.GreaterOrEqual(TimeSpan.FromTicks(Convert.ToInt64(result1.TimeEvolving.Ticks * ratio)), result2.TimeEvolving);
+                    var duration1WithRatio = TimeSpan.FromTicks(Convert.ToInt64(result1.TimeEvolving.Ticks * ratio));
+                    Assert.GreaterOrEqual(duration1WithRatio, result2.TimeEvolving);
                     break;
                 default: throw new InvalidOperationException("Termination not supported");
             }
