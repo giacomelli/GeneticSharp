@@ -324,19 +324,20 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
 
 
-        //[Test()]
+        //[Test]
         public void GridSearch_WOA()
         {
-            var repeatNb = 4;
+            var repeatNb = 5;
             var testParams = new List<(KnownMetaheuristics kind,  double seconds, double helicoidScale, int nbGenerationsWOA, bool noMutation)>
             {
-                (KnownMetaheuristics.WOAWithNaiveBubbleNet,  1.0, 1.0, 100,  true),
-                (KnownMetaheuristics.Default,  1.0, 1.0, 100, true),
-                (KnownMetaheuristics.WOA,  1.0, 1.0, 100,  true),
                 
+                (KnownMetaheuristics.Default,  5.0, 1.0, 100, true),
+                (KnownMetaheuristics.WOA,  5.0, 1.0, 100,  true),
+                (KnownMetaheuristics.WOAWithNaiveBubbleNet,  5.0, 1.0, 100,  true),
+
             };
 
-            var sizes = new[] {/*50,*/ 100/*, 200 */}.ToList();
+            var sizes = new[] { 50, 100, 200 }.ToList();
 
             // population parameters
             int populationSize = 100;
@@ -396,7 +397,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                                     nbGenerationsWoa,
                                     geneValue => geneValue,
                                     GetGeneValueFunction, helicoidScale: helicoidScale,
-                                    noMutation: noMutation, bubbleNetOperator: NaiveBubbleNetOperator);
+                                    noMutation: noMutation, bubbleNetOperator: MetaHeuristicsFactory.GetSimpleBubbleNetOperator<double>());
                                 metaHeuristic = woaNaiveMetaHeuristic;
                                 break;
                             default:
@@ -428,13 +429,13 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         #region private methods
 
 
-        private static TGeneValue NaiveBubbleNetOperator<TGeneValue>(IList<TGeneValue> geneValues, Func<TGeneValue, double> geneToDoubleConverter, Func<double, TGeneValue> doubleToGeneConverter, double l, double b)
-        {
-            var metricValues = geneValues.Select(geneToDoubleConverter).ToList();
-            var geometricValue = (metricValues[1] + metricValues[0]) / 2;
-            var toReturn = doubleToGeneConverter(geometricValue);
-            return toReturn;
-        }
+        //private static TGeneValue NaiveBubbleNetOperator<TGeneValue>(IList<TGeneValue> geneValues, Func<TGeneValue, double> geneToDoubleConverter, Func<double, TGeneValue> doubleToGeneConverter, double l, double b)
+        //{
+        //    var metricValues = geneValues.Select(geneToDoubleConverter).ToList();
+        //    var geometricValue = (metricValues[1] + metricValues[0]) / 2;
+        //    var toReturn = doubleToGeneConverter(geometricValue);
+        //    return toReturn;
+        //}
 
 
 

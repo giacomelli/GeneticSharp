@@ -234,9 +234,9 @@ namespace GeneticSharp.Domain
         #region Methods
 
         /// <summary>
-        /// Starts the genetic algorithm using population, fitness, selection, crossover, mutation and termination configured.
+        /// Initialise the genetic algorithm using population, fitness, selection, crossover, mutation and termination configured.
         /// </summary>
-        public void Start()
+        public void Initialise()
         {
             try
             {
@@ -255,6 +255,16 @@ namespace GeneticSharp.Domain
                 State = GeneticAlgorithmState.Stopped;
                 throw;
             }
+
+        }
+
+
+        /// <summary>
+        /// Starts the genetic algorithm using population, fitness, selection, crossover, mutation and termination configured.
+        /// </summary>
+        public void Start()
+        {
+            Initialise();
 
             Resume();
         }
@@ -303,12 +313,9 @@ namespace GeneticSharp.Domain
                         break;
                     }
 
-                    m_stopwatch.Restart();
-                    EvolveOneGeneration();
-                    m_stopwatch.Stop();
-                    TimeEvolving += m_stopwatch.Elapsed;
-                    terminationConditionReached = EndCurrentGeneration();
-                    
+                    terminationConditionReached = Step();
+
+
                 }
                 while (!terminationConditionReached);
             }
@@ -317,6 +324,19 @@ namespace GeneticSharp.Domain
                 State = GeneticAlgorithmState.Stopped;
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Evolves a single generation
+        /// </summary>
+        /// <returns>true if termination was reached, false otherwise</returns>
+        public bool Step()
+        {
+            m_stopwatch.Restart();
+            EvolveOneGeneration();
+            m_stopwatch.Stop();
+            TimeEvolving += m_stopwatch.Elapsed;
+            return EndCurrentGeneration();
         }
 
         /// <summary>

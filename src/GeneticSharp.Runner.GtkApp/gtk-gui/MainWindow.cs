@@ -111,7 +111,11 @@ public partial class MainWindow
 
     private HSeparator hseparator6;
 
+    private HBox hboxRunStep;
+
     private Button btnStart;
+
+    private Button btnStep;
 
     private Button btnNew;
 
@@ -589,19 +593,7 @@ public partial class MainWindow
         vbxConfig.Add(vbxGA);
         Box.BoxChild w49 = ((Box.BoxChild)(vbxConfig[vbxGA]));
         w49.Position = 1;
-        // Container child vbxConfig.Gtk.Box+BoxChild
-        btnStart = new Button
-        {
-            CanFocus = true,
-            Name = "btnStart",
-            UseUnderline = true,
-            Label = Catalog.GetString("_Start")
-        };
-        vbxConfig.Add(btnStart);
-        Box.BoxChild w50 = ((Box.BoxChild)(vbxConfig[btnStart]));
-        w50.Position = 2;
-        w50.Expand = false;
-        w50.Fill = false;
+
         // Container child vbxConfig.Gtk.Box+BoxChild
         btnNew = new Button
         {
@@ -612,9 +604,67 @@ public partial class MainWindow
         };
         vbxConfig.Add(btnNew);
         Box.BoxChild w51 = ((Box.BoxChild)(vbxConfig[btnNew]));
-        w51.Position = 3;
+        w51.Position = 2;
         w51.Expand = false;
         w51.Fill = false;
+
+        // Container child vbxConfig.Gtk.Box+BoxChild
+        hboxRunStep = new HBox
+        {
+            Name = "hboxRunStep", 
+            Spacing = 0,
+            HeightRequest = 30
+        };
+        vbxConfig.Add(hboxRunStep);
+        Box.BoxChild wRunStep = ((Box.BoxChild)(vbxConfig[hboxRunStep]));
+        wRunStep.Position = 3;
+        wRunStep.Expand = false;
+        wRunStep.Fill = false;
+        btnStart = new Button
+        {
+            CanFocus = true,
+            Name = "btnStart",
+            UseUnderline = true,
+            Label = Catalog.GetString("_Start"),
+
+        };
+        hboxRunStep.Add(btnStart);
+        Box.BoxChild w50 = ((Box.BoxChild)(hboxRunStep[btnStart]));
+        w50.Position = 0;
+        w50.Expand = true;
+        w50.Fill = true;
+        //w50.Padding = 0;
+        // Container child vbxConfig.Gtk.Box+BoxChild
+        btnResume = new Button
+        {
+            CanFocus = true,
+            Name = "btnResume",
+            UseUnderline = true,
+            Label = Catalog.GetString("_Resume"),
+
+        };
+        hboxRunStep.Add(btnResume);
+        Box.BoxChild w53 = ((Box.BoxChild)(hboxRunStep[btnResume]));
+        w53.Position = 1;
+        w53.Expand = true;
+        w53.Fill = true;
+        //w53.Padding = 0;
+
+        // Container child vbxConfig.Gtk.Box+BoxChild
+        btnStep = new Button
+        {
+            CanFocus = true,
+            Name = "btnStep",
+            UseUnderline = true,
+            Label = Catalog.GetString("_Step"),
+        };
+        hboxRunStep.Add(btnStep);
+        Box.BoxChild wStep = ((Box.BoxChild)(hboxRunStep[btnStep]));
+        wStep.Position = 2;
+        wStep.Expand = true;
+        wStep.Fill = true;
+        //wStep.Padding = 0;
+       
         // Container child vbxConfig.Gtk.Box+BoxChild
         btnStop = new Button
         {
@@ -628,19 +678,8 @@ public partial class MainWindow
         w52.Position = 4;
         w52.Expand = false;
         w52.Fill = false;
-        // Container child vbxConfig.Gtk.Box+BoxChild
-        btnResume = new Button
-        {
-            CanFocus = true,
-            Name = "btnResume",
-            UseUnderline = true,
-            Label = Catalog.GetString("_Resume")
-        };
-        vbxConfig.Add(btnResume);
-        Box.BoxChild w53 = ((Box.BoxChild)(vbxConfig[btnResume]));
-        w53.Position = 5;
-        w53.Expand = false;
-        w53.Fill = false;
+       
+        //Config pane
         hbxMain.Add(vbxConfig);
         Box.BoxChild w54 = ((Box.BoxChild)(hbxMain[vbxConfig]));
         w54.Position = 1;

@@ -110,42 +110,20 @@ public partial class MainWindow : Window
         m_evolvingThread.Start();
     }
 
+    public void StepGAThread(bool isResuming)
+    {
+        vbxSample.Sensitive = false;
+        vbxGA.Sensitive = false;
+        m_evolvingThread = isResuming ? new Thread(StepResumeGA) : new Thread(StepStartGA);
+        m_evolvingThread.Start();
+    }
+
     private void StartGA()
     {
         RunGA(() =>
         {
-            m_sampleController.Reset();
-            m_sampleContext.Population = new Population(
-                Convert.ToInt32(sbtPopulationMinSize.Value),
-                Convert.ToInt32(sbtPopulationMaxSize.Value),
-                m_sampleController.CreateChromosome()) {GenerationStrategy = m_generationStrategy};
-
-            // According to MetaGeneticAlgorithmTest comparison, there is less than 10% overhead with using a MetaGeneticAlgorithm with DefaultMetaHeuristic.
-            // This allows having sample controllers making use of the new feature.
-            m_ga = new MetaGeneticAlgorithm(
-                m_sampleContext.Population,
-                m_fitness,
-                m_selection,
-                m_crossover,
-                m_mutation)
-            {
-                CrossoverProbability = Convert.ToSingle(hslCrossoverProbability.Value),
-                MutationProbability = Convert.ToSingle(hslMutationProbability.Value),
-                Reinsertion = m_reinsertion,
-                Termination = m_termination
-            };
-
-            m_sampleContext.GA = m_ga;
-            m_ga.GenerationRan += delegate
-            {
-                Application.Invoke(delegate
-                {
-                    m_sampleController.Update();
-                });
-            };
-
-            m_sampleController.ConfigGA(m_ga);
-            m_ga.Start();
+          InitGA();
+          m_ga.Resume();
         });
     }
 
@@ -153,19 +131,30 @@ public partial class MainWindow : Window
     {
         RunGA(() =>
         {
-            m_ga.Population.MinSize = Convert.ToInt32(sbtPopulationMinSize.Value);
-            m_ga.Population.MaxSize = Convert.ToInt32(sbtPopulationMaxSize.Value);
-            m_ga.Selection = m_selection;
-            m_ga.Crossover = m_crossover;
-            m_ga.Mutation = m_mutation;
-            m_ga.CrossoverProbability = Convert.ToSingle(hslCrossoverProbability.Value);
-            m_ga.MutationProbability = Convert.ToSingle(hslMutationProbability.Value);
-            m_ga.Reinsertion = m_reinsertion;
-            m_ga.Termination = m_termination;
-
+            UpdateGA();
             m_ga.Resume();
         });
     }
+
+
+    private void StepResumeGA()
+    {
+        RunGA(() =>
+        {
+            UpdateGA();
+            m_ga.Step();
+        });
+    }
+
+    private void StepStartGA()
+    {
+        RunGA(() =>
+        {
+            InitGA();
+            m_ga.Step();
+        });
+    }
+
 
     private void RunGA(Action runAction)
     {
@@ -210,6 +199,59 @@ public partial class MainWindow : Window
             vbxGA.Sensitive = true;
         });
     }
+
+    private void InitGA()
+    {
+        m_sampleController.Reset();
+        m_sampleContext.Population = new Population(
+                Convert.ToInt32(sbtPopulationMinSize.Value),
+                Convert.ToInt32(sbtPopulationMaxSize.Value),
+                m_sampleController.CreateChromosome())
+            { GenerationStrategy = m_generationStrategy };
+
+        // According to MetaGeneticAlgorithmTest comparison, there is less than 10% overhead with using a MetaGeneticAlgorithm with DefaultMetaHeuristic.
+        // This allows having sample controllers making use of the new feature.
+        m_ga = new MetaGeneticAlgorithm(
+            m_sampleContext.Population,
+            m_fitness,
+            m_selection,
+            m_crossover,
+            m_mutation)
+        {
+            CrossoverProbability = Convert.ToSingle(hslCrossoverProbability.Value),
+            MutationProbability = Convert.ToSingle(hslMutationProbability.Value),
+            Reinsertion = m_reinsertion,
+            Termination = m_termination
+        };
+
+        m_sampleContext.GA = m_ga;
+        m_ga.GenerationRan += delegate
+        {
+            Application.Invoke(delegate
+            {
+                m_sampleController.Update();
+            });
+        };
+
+        m_sampleController.ConfigGA(m_ga);
+        m_ga.Initialise();
+    }
+
+    private void UpdateGA()
+    {
+        m_ga.Population.MinSize = Convert.ToInt32(sbtPopulationMinSize.Value);
+        m_ga.Population.MaxSize = Convert.ToInt32(sbtPopulationMaxSize.Value);
+        m_ga.Selection = m_selection;
+        m_ga.Crossover = m_crossover;
+        m_ga.Mutation = m_mutation;
+        m_ga.CrossoverProbability = Convert.ToSingle(hslCrossoverProbability.Value);
+        m_ga.MutationProbability = Convert.ToSingle(hslMutationProbability.Value);
+        m_ga.Reinsertion = m_reinsertion;
+        m_ga.Termination = m_termination;
+    }
+
+
+
     #endregion
 
     #region Sample methods
@@ -326,6 +368,7 @@ public partial class MainWindow : Window
         {
             btnStop.Visible = true;
             btnStart.Visible = false;
+            hboxRunStep.Visible = false;
             RunGAThread(false);
         };
 
@@ -333,7 +376,7 @@ public partial class MainWindow : Window
         {
             btnStop.Visible = true;
             btnNew.Visible = false;
-            btnResume.Visible = false;
+            hboxRunStep.Visible = false;
             RunGAThread(true);
         };
 
@@ -343,6 +386,7 @@ public partial class MainWindow : Window
             btnStop.Sensitive = false;
             m_ga.Stop();
             btnStop.Label = "_Stop";
+            hboxRunStep.Visible = true;
             btnResume.Visible = true;
             btnStop.Visible = false;
             btnStop.Sensitive = true;
@@ -351,11 +395,19 @@ public partial class MainWindow : Window
 
         btnNew.Clicked += delegate
         {
+            hboxRunStep.Visible = true;
             btnResume.Visible = false;
             btnStart.Visible = true;
             btnNew.Visible = false;
             vbxSample.Sensitive = true;
         };
+        btnStep.Clicked += delegate
+        {
+            StepGAThread(btnResume.Visible);
+            btnStart.Hide();
+            btnResume.Show();
+        };
+
     }
 
     private void PrepareComboBoxes()

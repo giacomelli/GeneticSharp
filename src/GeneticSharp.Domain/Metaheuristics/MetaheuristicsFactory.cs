@@ -128,6 +128,16 @@ namespace GeneticSharp.Domain.Metaheuristics
             return toReturn;
         }
 
+        public static BubbleNetOperator<TGeneValue> GetSimpleBubbleNetOperator<TGeneValue>(double mixCoef = 0.5)
+        {
+            return (geneValues, geneToDoubleConverter, doubleToGeneConverter, l, b) =>
+            {
+                var metricValues = geneValues.Select(geneToDoubleConverter).ToList();
+                var geometricValue = (metricValues[1] + metricValues[0]) / 2;
+                var toReturn = doubleToGeneConverter(geometricValue);
+                return toReturn;
+            };
+        }
 
 
 
