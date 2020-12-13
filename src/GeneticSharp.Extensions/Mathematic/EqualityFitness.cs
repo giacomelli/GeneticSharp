@@ -24,7 +24,7 @@ namespace GeneticSharp.Extensions.Mathematic
             var c = (int)genes[2].Value;
             var d = (int)genes[3].Value;
 
-            return a + (2 * b) + (3 * c) + (4 * d);
+            return a + 2 * b + 3 * c + 4 * d;
         }
 
         /// <summary>

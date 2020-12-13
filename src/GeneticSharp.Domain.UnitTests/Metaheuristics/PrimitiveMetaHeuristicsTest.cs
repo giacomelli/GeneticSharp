@@ -29,7 +29,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             };
 
 
-            var geomCrossover = new GeometricCrossover<int>().WithGeometricOperator(geneValues => geneValues[0]);
+            var geomCrossover = new GeometricCrossover<int>().WithGeometricOperator((geneIndex, geneValues) => geneValues[0]);
             testContainer.SubMetaHeuristic = new CrossoverHeuristic().WithCrossover(geomCrossover);
             var ctx = new EvolutionContext();
             
@@ -40,7 +40,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             offSpring.Each(o => o.GetGenes().Each(gene => Assert.AreEqual(gene.Value, 0)));
 
             //Testing subheuristic, returning second parent genes
-            geomCrossover.LinearGeometricOperator = geneValues => geneValues[1];
+            geomCrossover.LinearGeometricOperator = (geneIndex, geneValues) => geneValues[1];
             ctx.Index = 2;
             offSpring = testContainer.MatchParentsAndCross(ctx, null, 1, stubParents);
             offSpring.Each(o => o.GetGenes().Each(gene => Assert.AreEqual(3, gene.Value )));

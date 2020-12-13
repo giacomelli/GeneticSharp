@@ -129,7 +129,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Collections
         public void Compare_LazyOrderBy_SequentialMaxByLinear_AtEquilibriumPoint()
         {
 
-            var minRatio = 0.5;
+            var minRatio = 0.3;
             var maxRatio = 8;
 
             var takeNb = 75;

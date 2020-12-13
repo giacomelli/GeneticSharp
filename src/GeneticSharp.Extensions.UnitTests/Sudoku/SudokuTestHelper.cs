@@ -66,7 +66,7 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
 
             ga.Start();
 
-            var bestIndividual = ((ISudokuChromosome)ga.Population.BestChromosome);
+            var bestIndividual = (ISudokuChromosome)ga.Population.BestChromosome;
             var solutions = bestIndividual.GetSudokus();
             generationNb = ga.Population.GenerationsNumber;
             return solutions.Max(solutionSudoku => fitness.Evaluate(solutionSudoku));

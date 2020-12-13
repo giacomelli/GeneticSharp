@@ -19,7 +19,7 @@ namespace GeneticSharp.Runner.GtkApp
             CanDefault = true;
             Name = "GeneticSharp.Runner.GtkApp.PropertyEditor";
             Title = Catalog.GetString("PropertiyEditor");
-            WindowPosition = ((WindowPosition)(2));
+            WindowPosition = (WindowPosition)2;
             Modal = true;
             DefaultWidth = 100;
             DefaultHeight = 50;
@@ -32,14 +32,14 @@ namespace GeneticSharp.Runner.GtkApp
             w2.Name = "dialog1_ActionArea";
             w2.Spacing = 10;
             w2.BorderWidth = 5;
-            w2.LayoutStyle = ((ButtonBoxStyle)(4));
+            w2.LayoutStyle = (ButtonBoxStyle)4;
             // Container child dialog1_ActionArea.Gtk.ButtonBox+ButtonBoxChild
             buttonCancel = new Button
             {
                 Name = "buttonCancel", UseStock = true, UseUnderline = true, Label = "gtk-cancel"
             };
             AddActionWidget(buttonCancel, -6);
-            ButtonBox.ButtonBoxChild w3 = ((ButtonBox.ButtonBoxChild)(w2[buttonCancel]));
+            ButtonBox.ButtonBoxChild w3 = (ButtonBox.ButtonBoxChild)w2[buttonCancel];
             w3.Expand = false;
             w3.Fill = false;
             // Container child dialog1_ActionArea.Gtk.ButtonBox+ButtonBoxChild
@@ -53,11 +53,11 @@ namespace GeneticSharp.Runner.GtkApp
                 Label = "gtk-ok"
             };
             AddActionWidget(buttonOk, -5);
-            ButtonBox.ButtonBoxChild w4 = ((ButtonBox.ButtonBoxChild)(w2[buttonOk]));
+            ButtonBox.ButtonBoxChild w4 = (ButtonBox.ButtonBoxChild)w2[buttonOk];
             w4.Position = 1;
             w4.Expand = false;
             w4.Fill = false;
-            if ((Child != null))
+            if (Child != null)
             {
                 Child.ShowAll();
             }

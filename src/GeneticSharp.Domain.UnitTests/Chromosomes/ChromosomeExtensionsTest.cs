@@ -90,7 +90,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
 
             Assert.Catch<InvalidOperationException>(
                 () => {
-                    (new List<IChromosome> { chromosome1, chromosome2 }).ValidateGenes();
+                    new List<IChromosome> { chromosome1, chromosome2 }.ValidateGenes();
             }, "The chromosome '{0}' is generating genes with null value.".With(chromosome2.GetType().Name));
         }
 
@@ -102,7 +102,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
             var chromosome2 = Substitute.For<ChromosomeBase>(3);
             chromosome2.ReplaceGenes (0, new[] { new Gene (1), new Gene (2), new Gene (3) });
 
-            (new List<IChromosome> { chromosome1, chromosome2 }).ValidateGenes();
+            new List<IChromosome> { chromosome1, chromosome2 }.ValidateGenes();
         }
     }
 }

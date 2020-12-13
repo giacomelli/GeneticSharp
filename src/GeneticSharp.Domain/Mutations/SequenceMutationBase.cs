@@ -26,7 +26,7 @@ namespace GeneticSharp.Domain.Mutations
                 var indexes = RandomizationProvider.Current.GetUniqueInts(2, 0, chromosome.Length).OrderBy(i => i).ToArray();
                 var firstIndex = indexes[0];
                 var secondIndex = indexes[1];
-                var sequenceLength = (secondIndex - firstIndex) + 1;
+                var sequenceLength = secondIndex - firstIndex + 1;
 
                 var mutatedSequence = MutateOnSequence(chromosome.GetGenes().Skip(firstIndex).Take(sequenceLength).ToList()).ToArray();
                 

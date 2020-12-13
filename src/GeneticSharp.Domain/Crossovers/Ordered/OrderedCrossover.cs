@@ -88,7 +88,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// <param name="middleSectionEndIndex">Middle section end index.</param>
         private static IChromosome CreateChild(IChromosome firstParent, IChromosome secondParent, int middleSectionBeginIndex, int middleSectionEndIndex)
         {
-            var middleSectionGenes = firstParent.GetGenes().Skip(middleSectionBeginIndex).Take((middleSectionEndIndex - middleSectionBeginIndex) + 1);
+            var middleSectionGenes = firstParent.GetGenes().Skip(middleSectionBeginIndex).Take(middleSectionEndIndex - middleSectionBeginIndex + 1);
 
             using (var secondParentRemainingGenes = secondParent.GetGenes().Except(middleSectionGenes).GetEnumerator())
             {

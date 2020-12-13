@@ -68,10 +68,10 @@ namespace GeneticSharp.Domain
         public int GenerationsNumber => Results.Count > 0 ? GetScopedResults().Sum(r => r.Population.GenerationsNumber) / GetScopedResults().Count() : 0;
 
 
-        private IEnumerable<IEvolutionResult> GetScopedResults()
+        protected IEnumerable<IEvolutionResult> GetScopedResults()
         {
             var skipNb = Convert.ToInt32( Math.Floor(Results.Count * SkipExtremaPercentage));
-            return Results.Skip(skipNb).Take(Results.Count - (2 * skipNb));
+            return Results.Skip(skipNb).Take(Results.Count - 2 * skipNb);
         }
 
 

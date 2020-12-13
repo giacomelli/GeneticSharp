@@ -110,7 +110,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <returns></returns>
         public static IChromosome GetNewIndividual(IList<EukaryoteChromosome> karyotype)
         {
-            var newParent = (karyotype[0]).ParentIndividual.CreateNew();
+            var newParent = karyotype[0].ParentIndividual.CreateNew();
             foreach (var subChromosome in karyotype)
             {
                 newParent.ReplaceGenes(subChromosome.StartGeneIndex, subChromosome.GetGenes());

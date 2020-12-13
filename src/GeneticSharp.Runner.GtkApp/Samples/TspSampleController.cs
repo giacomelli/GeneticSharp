@@ -37,7 +37,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             var citiesNumber = new SpinButton(2, 10000, 2) {Text = "Number of cities", Value = m_numberOfCities};
             citiesNumber.ValueChanged += delegate
             {
-                m_numberOfCities = citiesNumber.ValueAsInt - (citiesNumber.ValueAsInt % 2);
+                m_numberOfCities = citiesNumber.ValueAsInt - citiesNumber.ValueAsInt % 2;
                 citiesNumber.Value = m_numberOfCities;
                 OnReconfigured();
             };

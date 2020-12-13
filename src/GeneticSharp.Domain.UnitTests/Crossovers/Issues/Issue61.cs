@@ -55,7 +55,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers.Issues
                 int guessValue = 0;
                 for (int i = genes.Length - 1; i >= 0; i--)
                 {
-                    guessValue += ((Int32)genes[i].Value * powof10[i]);
+                    guessValue += (Int32)genes[i].Value * powof10[i];
                 }
                 return guessValue;
             }
@@ -87,7 +87,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers.Issues
             {
                 var genes = chromosome.GetGenes();
                 int guessValue = GuessNumberChromosome.ToGuessValue(genes);
-                double fitness = 1.0 - (Math.Abs(finalAns - guessValue) / (double)maxDiffValue);
+                double fitness = 1.0 - Math.Abs(finalAns - guessValue) / (double)maxDiffValue;
                 return fitness;
             }
         }

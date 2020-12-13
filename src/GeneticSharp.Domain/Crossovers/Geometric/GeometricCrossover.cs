@@ -16,7 +16,7 @@ namespace GeneticSharp.Domain.Crossovers.Geometric
     public class GeometricCrossover<TValue> : CrossoverBase
     {
 
-        private static readonly Func<IList<TValue>, TValue> _defaultGeometricOperator = geneValues => (geneValues.Sum(val => val.To<double>()) / geneValues.Count).To<TValue>();
+        private static readonly Func<int, IList<TValue>, TValue> _defaultGeometricOperator = (geneIndex, geneValues) => (geneValues.Sum(val => val.To<double>()) / geneValues.Count).To<TValue>();
 
 
         public GeometricCrossover(): this(false){}
@@ -30,7 +30,7 @@ namespace GeneticSharp.Domain.Crossovers.Geometric
             LinearGeometricOperator = _defaultGeometricOperator;
         }
 
-        public GeometricCrossover(bool ordered, int parentNb, Func<IList<TValue>, TValue> linearGeometricOperator, bool generateTwin = false) : this(ordered, parentNb, generateTwin)
+        public GeometricCrossover(bool ordered, int parentNb, Func<int, IList<TValue>, TValue> linearGeometricOperator, bool generateTwin = false) : this(ordered, parentNb, generateTwin)
         {
             LinearGeometricOperator = linearGeometricOperator;
         }
@@ -38,7 +38,7 @@ namespace GeneticSharp.Domain.Crossovers.Geometric
         /// <summary>
         /// A function to compute child gene value from same index parent gene values
         /// </summary>
-        public Func<IList<TValue>, TValue> LinearGeometricOperator { get; set; }
+        public Func<int, IList<TValue>, TValue> LinearGeometricOperator { get; set; }
 
         /// <summary>
         /// A function to compute child gene values from all parent gene values
@@ -98,7 +98,7 @@ namespace GeneticSharp.Domain.Crossovers.Geometric
             for (int i = 0; i < nbGenes; i++)
             {
                 var inputs = geometricParents.Select(p => p[i]).ToList();
-                var newGeneValue = LinearGeometricOperator(inputs);
+                var newGeneValue = LinearGeometricOperator(i, inputs);
                 geometricChild.Add(newGeneValue);
             }
 

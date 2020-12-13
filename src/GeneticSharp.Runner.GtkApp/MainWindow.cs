@@ -44,6 +44,7 @@ public partial class MainWindow : Window
     private ISampleController m_sampleController;
     private SampleContext m_sampleContext;
     private Thread m_evolvingThread;
+
     #endregion
 
     #region Constructors
@@ -64,7 +65,8 @@ public partial class MainWindow : Window
 
         drawingArea.ExposeEvent += delegate
         {
-            DrawBuffer();
+            UpdateSample();
+            //DrawBuffer();
         };
 
         ShowAll();
@@ -83,13 +85,13 @@ public partial class MainWindow : Window
         ResetBuffer();
         ResetSample();
 
-        Timeout.Add(
-            100,
-            delegate
-            {
-                UpdateSample();
-                return true;
-            });
+        //Timeout.Add(
+        //    100,
+        //    delegate
+        //    {
+        //        UpdateSample();
+        //        return true;
+        //    });
     }
     #endregion
 
@@ -230,6 +232,12 @@ public partial class MainWindow : Window
             Application.Invoke(delegate
             {
                 m_sampleController.Update();
+                var now = DateTime.Now;
+                if (now - m_sampleContext.LastDrawTime > TimeSpan.FromMilliseconds(100))
+                {
+                    m_sampleContext.LastDrawTime = now;
+                    UpdateSample();
+                }
             });
         };
 
@@ -328,7 +336,11 @@ public partial class MainWindow : Window
 
     private void UpdateSample()
     {
-        DrawSample();
+        
+       
+           
+            DrawSample();
+        
     }
 
     private void ResetSample()

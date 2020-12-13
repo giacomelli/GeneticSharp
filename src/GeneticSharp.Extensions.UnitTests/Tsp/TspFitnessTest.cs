@@ -80,7 +80,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             }
 
 
-            testResults.Each(r=> Assert.LessOrEqual(r.durationCached.Ticks / (double) (r.durationUncached.Ticks ), r.ratio));
+            testResults.Each(r=> Assert.LessOrEqual(r.durationCached.Ticks / (double) r.durationUncached.Ticks, r.ratio));
 
         }
 
@@ -138,7 +138,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                 var cityFitnesses = new List<double>(repeatNb);
 
                 //We run several passes for small city numbers
-                for (int i = 0; i <(1 + maxCityNb / (1 + 100*i)); i++)
+                for (int i = 0; i <1 + maxCityNb / (1 + 100*i); i++)
                 {
                     var chromosome = new TspChromosome(cityNb).Initialized();
                     var fitness = target.Evaluate(chromosome);

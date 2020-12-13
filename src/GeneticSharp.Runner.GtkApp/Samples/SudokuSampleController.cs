@@ -334,7 +334,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             SudokuBoard sudokuBoardToDraw = null;
             if (population != null)
             {
-                if ((population.BestChromosome is ISudokuChromosome bestChromosome))
+                if (population.BestChromosome is ISudokuChromosome bestChromosome)
                 {
                     if (population.CurrentGeneration != null)
                     {

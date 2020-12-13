@@ -12,7 +12,7 @@ namespace Stetic
 
         internal static void Initialize(Widget iconRenderer)
         {
-            if ((initialized == false))
+            if (initialized == false)
             {
                 initialized = true;
             }

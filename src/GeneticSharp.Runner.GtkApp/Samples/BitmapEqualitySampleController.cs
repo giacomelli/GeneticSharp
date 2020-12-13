@@ -129,18 +129,16 @@ namespace GeneticSharp.Runner.GtkApp.Samples
                     {
                         //// bitmap.Save("{0}/{1}_{2}.png".With(m_destFolder, generationsNumber.ToString("D10"), best.Fitness));
 
-                        using (var ms = new MemoryStream())
-                        {
-                            var converter = new ImageConverter();
+                        var converter = new ImageConverter();
 
-                            var imageBytes = (byte[])converter.ConvertTo(bitmap, typeof(byte[]));
-                            var pb = new Pixbuf(imageBytes);
-                            var width = Context.DrawingArea.Width;
-                            var height = Context.DrawingArea.Height;
+                        var imageBytes = (byte[])converter.ConvertTo(bitmap, typeof(byte[]));
+                        var pb = new Pixbuf(imageBytes);
+                        var width = Context.DrawingArea.Width;
+                        var height = Context.DrawingArea.Height;
 
-                            pb = pb.ScaleSimple(width, height, InterpType.Nearest);
-                            buffer.DrawPixbuf(gc, pb, 0, 0, 0, 100, width, height, RgbDither.None, 0, 0);
-                        }
+                        pb = pb.ScaleSimple(width, height, InterpType.Nearest);
+                        buffer.DrawPixbuf(gc, pb, 0, 0, 0, 100, width, height, RgbDither.None, 0, 0);
+
                     }
 
                     //// m_lastBest = best;

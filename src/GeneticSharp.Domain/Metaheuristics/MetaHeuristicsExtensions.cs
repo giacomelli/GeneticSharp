@@ -286,7 +286,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             return metaHeuristic;
         }
 
-        public static GeometricCrossover<TValue> WithGeometricOperator<TValue>(this GeometricCrossover<TValue> geometricCrossover, Func<IList<TValue>, TValue> geometricOperator) 
+        public static GeometricCrossover<TValue> WithGeometricOperator<TValue>(this GeometricCrossover<TValue> geometricCrossover, Func<int, IList<TValue>, TValue> geometricOperator) 
         {
             geometricCrossover.LinearGeometricOperator = geometricOperator;
             return geometricCrossover;

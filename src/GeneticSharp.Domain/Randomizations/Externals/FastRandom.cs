@@ -92,7 +92,7 @@ namespace SharpNeatLib.Maths
             if (lowerBound > upperBound)
                 throw new ArgumentOutOfRangeException("upperBound", upperBound, "upperBound must be >=lowerBound");
 
-            uint t = (x ^ (x << 11));
+            uint t = x ^ (x << 11);
             x = y; y = z; z = w;
 
             // The explicit int cast before the first multiplication gives better performance.
@@ -101,12 +101,12 @@ namespace SharpNeatLib.Maths
             if (range < 0)
             {   // If range is <0 then an overflow has occured and must resort to using long integer arithmetic instead (slower).
                 // We also must use all 32 bits of precision, instead of the normal 31, which again is slower.    
-                return lowerBound + (int)((REAL_UNIT_UINT * (w = (w ^ (w >> 19)) ^ (t ^ (t >> 8)))) * (upperBound - (long)lowerBound));
+                return lowerBound + (int)(REAL_UNIT_UINT * (w = w ^ (w >> 19) ^ t ^ (t >> 8)) * (upperBound - (long)lowerBound));
             }
 
             // 31 bits of precision will suffice if range<=int.MaxValue. This allows us to cast to an int and gain
             // a little more performance.
-            return lowerBound + (int)((REAL_UNIT_INT * (int)(0x7FFFFFFF & (w = (w ^ (w >> 19)) ^ (t ^ (t >> 8))))) * range);
+            return lowerBound + (int)(REAL_UNIT_INT * (int)(0x7FFFFFFF & (w = w ^ (w >> 19) ^ t ^ (t >> 8))) * range);
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace SharpNeatLib.Maths
         /// <returns></returns>
         public double NextDouble()
         {
-            uint t = (x ^ (x << 11));
+            uint t = x ^ (x << 11);
             x = y; y = z; z = w;
 
             // Here we can gain a 2x speed improvement by generating a value that can be cast to 
@@ -127,7 +127,7 @@ namespace SharpNeatLib.Maths
             //
             // Also note that the loss of one bit of precision is equivalent to what occurs within 
             // System.Random.
-            return (REAL_UNIT_INT * (int)(0x7FFFFFFF & (w = (w ^ (w >> 19)) ^ (t ^ (t >> 8)))));
+            return REAL_UNIT_INT * (int)(0x7FFFFFFF & (w = w ^ (w >> 19) ^ t ^ (t >> 8)));
         }
         #endregion
     }

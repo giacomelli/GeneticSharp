@@ -13,6 +13,7 @@ using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.Mathematic;
+using GeneticSharp.Extensions.Mathematic.Functions;
 using GeneticSharp.Infrastructure.Framework.Commons;
 using NUnit.Framework;
 
@@ -59,7 +60,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             for (int i = 0; i < nbPhases; i++)
             {
                 var iClosure = i;
-                var geomCrossover = new GeometricCrossover<int>().WithGeometricOperator(geneValues => iClosure);
+                var geomCrossover = new GeometricCrossover<int>().WithGeometricOperator((geneIndex, geneValues)   => iClosure);
                 var geomHeuristic = new CrossoverHeuristic().WithCrossover(geomCrossover);
 
                 geometricHeuristics.Add(geomHeuristic);
@@ -73,13 +74,27 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
             var toReturn = new List<Func<Gene[], double>>
             {
-                genes => KnownFunctionsFactory.Rastrigin(genes.Select(g => g.Value.To<double>()).ToArray()),
-                genes => 1 /
-                         (1 - KnownFunctionsFactory.ReverseAckley(genes.Select(g => g.Value.To<double>()).ToArray())),
-                genes => 1 / (1 -
-                              KnownFunctionsFactory.ReverseRosenbrock(genes.Select(g => g.Value.To<double>()).ToArray())
-                    ),
-                genes => KnownFunctionsFactory.ReverseLevy(genes.Select(g => g.Value.To<double>()).ToArray())
+                genes =>
+                {
+                    var knownFunction = KnownFunctions.GetKnownFunctions()[nameof(KnownFunctions.Rastrigin)];
+                    return knownFunction.Fitness(knownFunction.Function(genes.Select(g => g.Value.To<double>()).ToArray()));
+                },
+                genes =>
+                {
+                    var knownFunction = KnownFunctions.GetKnownFunctions()[nameof(KnownFunctions.Ackley)];
+                    return knownFunction.Fitness(knownFunction.Function(genes.Select(g => g.Value.To<double>()).ToArray()));
+                },
+                genes =>
+                {
+                    var knownFunction = KnownFunctions.GetKnownFunctions()[nameof(KnownFunctions.Rosenbrock)];
+                    return knownFunction.Fitness(knownFunction.Function(genes.Select(g => g.Value.To<double>()).ToArray()));
+                    
+                },
+                genes =>
+                {
+                    var knownFunction = KnownFunctions.GetKnownFunctions()[nameof(KnownFunctions.Levy)];
+                    return knownFunction.Fitness(knownFunction.Function(genes.Select(g => g.Value.To<double>()).ToArray()));
+                }
             };
             return toReturn;
         }
@@ -153,8 +168,8 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
         protected List<IList<(EvolutionResult result1, EvolutionResult result2)>> CompareMetaHeuristicsKnownFunctionsDifferentSizes(double maxCoordinate, Func<int, IMetaHeuristic> metaHeuristic1, Func<int, IMetaHeuristic> metaHeuristic2, ICrossover crossover, IEnumerable<int> sizes, ITermination termination, IReinsertion reinsertion)
         {
-            double GetGeneValueFunction(double d) => Math.Sign(d) * Math.Min(Math.Abs(d), maxCoordinate);
-            IChromosome AdamChromosome(int i) => new EquationChromosome<double>(-maxCoordinate, maxCoordinate, i) {GetGeneValueFunction = GetGeneValueFunction};
+            //double GetGeneValueFunction(double d) => Math.Sign(d) * Math.Min(Math.Abs(d), maxCoordinate);
+            IChromosome AdamChromosome(int i) => new EquationChromosome<double>(-maxCoordinate, maxCoordinate, i) ;
 
             var knownFunctions = GetKnownFunctions();
 

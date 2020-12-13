@@ -147,7 +147,7 @@ namespace GeneticSharp.Runner.GtkApp
             var width = Context.DrawingArea.Width;
             var height = Context.DrawingArea.Height;
             var plotWidth = width - (plotMinX + plotMargin);
-            var plotHeight = height - (plotMargin);
+            var plotHeight = height - plotMargin;
 
             // Draw the rectangle area.
             buffer.DrawRectangle(gc, false, plotMinX, plotMinY, plotWidth, plotHeight);
@@ -169,14 +169,14 @@ namespace GeneticSharp.Runner.GtkApp
             {
                 var p = positions[i];
 
-                var x1 = plotMinX + Convert.ToInt32((plotWidth * p.Value[0]) / maxX1);
-                var y1 = plotMinY + Convert.ToInt32((plotHeight * p.Value[1]) / maxY1);
+                var x1 = plotMinX + Convert.ToInt32(plotWidth * p.Value[0] / maxX1);
+                var y1 = plotMinY + Convert.ToInt32(plotHeight * p.Value[1] / maxY1);
                 var point = new Point(x1, y1);
                 buffer.DrawRectangle(gc, true, point.X, point.Y, 1, 1);
                 points.Add(point);
 
-                var x2 = plotMinX + Convert.ToInt32((plotWidth * p.Value[2]) / maxX2);
-                var y2 = plotMinY + Convert.ToInt32((plotHeight * p.Value[3]) / maxY2);
+                var x2 = plotMinX + Convert.ToInt32(plotWidth * p.Value[2] / maxX2);
+                var y2 = plotMinY + Convert.ToInt32(plotHeight * p.Value[3] / maxY2);
                 point = new Point(x2, y2);
                 buffer.DrawRectangle(gc, true, point.X, point.Y, 1, 1);
                 points.Add(point);

@@ -45,7 +45,7 @@ namespace GeneticSharp.Extensions.Tsp
         protected override Func<IChromosome, int, int, bool> GetDefaultSwapValidationFunction()
         {
             return (chromosome, swapIndex1, swapIndex2) =>
-                GetDistanceGainFromSwap(((TspChromosome)chromosome), swapIndex1, swapIndex2) > 0;
+                GetDistanceGainFromSwap((TspChromosome)chromosome, swapIndex1, swapIndex2) > 0;
         }
 
         /// <summary>

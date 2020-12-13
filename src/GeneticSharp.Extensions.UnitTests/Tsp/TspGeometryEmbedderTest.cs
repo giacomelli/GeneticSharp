@@ -119,9 +119,9 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
 
             foreach (var (nbCities, threshold, ratio) in testParams)
             {
-                int nbGenerationsWOA = 200;
+                int nbGenerationsWOA = 100;
                 var termination = new FitnessThresholdTermination(threshold);
-                Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(nbGenerationsWOA, nbCities, termination, reinsertion, ratio);
+                Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(5, nbGenerationsWOA, nbCities, termination, reinsertion, ratio);
             }
         }
 
@@ -133,7 +133,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             var nbGenerations = 200;
             var termination = new GenerationNumberTermination(nbGenerations);
             var reinsertion = new FitnessBasedElitistReinsertion();
-            Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(nbGenerations, numberOfCities, termination, reinsertion, 1.1);
+            Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(2, nbGenerations, numberOfCities, termination, reinsertion, 1.1);
         }
 
        [Test]
@@ -143,7 +143,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             int numberOfCities = 200;
             var termination = new TimeEvolvingTermination(TimeSpan.FromSeconds(10));
             var reinsertion = new FitnessBasedElitistReinsertion();
-            Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(nbGenerationsWOA, numberOfCities, termination, reinsertion, 0.95);
+            Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(1, nbGenerationsWOA, numberOfCities, termination, reinsertion, 0.95);
         }
 
         [Test]
@@ -153,7 +153,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             int numberOfCities = 1000;
             var termination = new TimeEvolvingTermination(TimeSpan.FromSeconds(10));
             var reinsertion = new FitnessBasedElitistReinsertion();
-            Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(nbGenerationsWOA, numberOfCities, termination, reinsertion, 0.9);
+            Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(1, nbGenerationsWOA, numberOfCities, termination, reinsertion, 0.9);
         }
 
 
@@ -198,10 +198,10 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                 resultDEtail.Add(results);
 
                (double meanNative, double meanWoa, double meanWoaGeom, double meanWoaSwap) resultMean = (0,0,0,0);
-               resultMean.meanNative = results.Sum(tuple => tuple.native.Fitness.Value)/ results.Count;
-               resultMean.meanWoa = results.Sum(tuple => tuple.woa.Fitness.Value)/results.Count;
-               resultMean.meanWoaGeom = results.Sum(tuple => tuple.woaGeom.Fitness.Value/ results.Count);
-                resultMean.meanWoaSwap = results.Sum(tuple => tuple.woaSwap.Fitness.Value/ results.Count);
+               resultMean.meanNative = results.Sum(tuple => tuple.native.Fitness)/ results.Count;
+               resultMean.meanWoa = results.Sum(tuple => tuple.woa.Fitness)/results.Count;
+               resultMean.meanWoaGeom = results.Sum(tuple => tuple.woaGeom.Fitness/ results.Count);
+                resultMean.meanWoaSwap = results.Sum(tuple => tuple.woaSwap.Fitness/ results.Count);
 
                 meansByParam.Add(resultMean);
 
@@ -233,12 +233,12 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                 
                 // WOA parameters
 
-                int GetGeneValueFunction(double d) => Math.Round(d).PositiveMod(fitness.Cities.Count);
+                int GetGeneValueFunction(int geneIndex, double d) => Math.Round(d).PositiveMod(fitness.Cities.Count);
 
                 //Simple WOA
                 var defaultEmbedding = new OrderedEmbedding<int> {GeneSelectionMode = GeneSelectionMode.RandomOrder | GeneSelectionMode.SingleFirstAllowed};
                 
-                metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(true, nbGenerationsWOA, geneValue => geneValue, GetGeneValueFunction, noMutation:noMutation, helicoidScale:helicoidScale);
+                metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(true, nbGenerationsWOA, (geneIndex,  geneValue) => geneValue, GetGeneValueFunction, noMutation:noMutation, helicoidScale:helicoidScale);
                 var resultWOA = Evolve_NbCities_Fast(fitness, adamChromosome, populationSize, metaHeuristic, crossover, mutation, termination, reinsertion);
                 toReturn.woa = resultWOA;
 
@@ -265,8 +265,8 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                 var updateEveryGenerationNb = 20;
 
                 //WOA with Embedding  
-                metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(true, nbGenerationsWOA, 
-                    geneValue => geneValue,
+                metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(true, nbGenerationsWOA,
+                    (geneIndex, geneValue) => geneValue,
                     GetGeneValueFunction, tspGeometryEmbedding, noMutation:noMutation);
 
                 //Embedding metric update routing: the best chromosome takes over target metric space
@@ -290,8 +290,8 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                 //simpleGeometryEmbedding.ValidateSwapFunction = tspGeometryEmbedding.ValidateSwapFunction;
 
 
-                metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(true, nbGenerationsWOA, 
-                    geneValue => geneValue,
+                metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(true, nbGenerationsWOA,
+                    (geneIndex, geneValue) => geneValue,
                     GetGeneValueFunction, simpleGeometryEmbedding, noMutation:noMutation);
                 var resultWOAwithSwap = Evolve_NbCities_Fast(fitness, adamChromosome, populationSize, metaHeuristic, crossover, mutation, termination, reinsertion);
 
@@ -309,7 +309,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             }
         }
 
-        public void Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(int nbGenerationsWOA, int numberOfCities, ITermination termination, IReinsertion reinsertion, double ratio)
+        public void Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(int repeatNb, int nbGenerationsWOA, int numberOfCities, ITermination termination, IReinsertion reinsertion, double ratio)
         {
             try
             {
@@ -330,24 +330,24 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                 var crossover = new OrderedCrossover();
                 var mutation = new TworsMutation();
                 // Native evolution
-                var resultOriginal = Evolve_NbCities_Fast(fitness, adamChromosome, populationSize, null, crossover, mutation, termination, reinsertion);
+                var resultOriginal = Evolve_NbCities_Fast_Repeat(repeatNb, fitness, adamChromosome, populationSize, null, crossover, mutation, termination, reinsertion);
                 Assert.GreaterOrEqual(resultOriginal.Fitness, 0.2);
 
 
                 // WOA parameters
-                int GetGeneValueFunction(double d) => Math.Round(d).PositiveMod(numberOfCities);
+                int GetGeneValueFunction(int geneIndex, double d) => Math.Round(d).PositiveMod(numberOfCities);
                  //Default OrderedEmbedding with cold start
                 var tspGeometryEmbedding = new TspPermutationEmbedding(fitness) { GeneSelectionMode = GeneSelectionMode.RandomOrder  };
                 var updateEveryGenerationNb = 20;
 
                 //WOA with Embedding  
-                var metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(true, nbGenerationsWOA, 
-                    geneValue => geneValue,
+                var metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(true, nbGenerationsWOA,
+                    (geneIndex, geneValue) => geneValue,
                     GetGeneValueFunction, tspGeometryEmbedding, noMutation: true);
 
                 //Embedding metric update routing: the best chromosome takes over target metric space
                 var evolvedfitnessMetric = 0.0;
-                var resultWOAGeom = Evolve_NbCities_Fast(fitness, adamChromosome, populationSize, metaHeuristic,
+                var resultWOAGeom = Evolve_NbCities_Fast_Repeat(repeatNb, fitness, adamChromosome, populationSize, metaHeuristic,
                     crossover, mutation, termination, reinsertion,
                     algorithm =>
                     {
@@ -369,7 +369,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
         }
 
 
-        private void AssertIsPerformingLessByRatio(ITermination termination, double ratio, TspEvolutionResult result1, TspEvolutionResult result2)
+        private void AssertIsPerformingLessByRatio(ITermination termination, double ratio, ITspEvolutionResult result1, ITspEvolutionResult result2)
         {
             switch (termination.GetType().Name)
             {
@@ -387,6 +387,20 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                     default:throw new InvalidOperationException("Termination not supported");
             }
         }
+
+
+        private ITspEvolutionResult Evolve_NbCities_Fast_Repeat(int repeatNb, TspFitness fitness, TspChromosome adamChromosome, int populationSize, IMetaHeuristic metaHeuristic, ICrossover crossover, IMutation mutation, ITermination termination, IReinsertion reinsertion, Action<IGeneticAlgorithm> generationUpdate = null)
+        {
+            var meanResult = new TspMeanEvolutionResult(){SkipExtremaPercentage = 0.2};
+            for (int i = 0; i < repeatNb; i++)
+            {
+                var resulti = Evolve_NbCities_Fast(fitness, adamChromosome, populationSize, metaHeuristic, crossover, mutation, termination, reinsertion, generationUpdate);
+                meanResult.Results.Add(resulti);
+            }
+
+            return meanResult;
+        }
+
 
         private TspEvolutionResult Evolve_NbCities_Fast(TspFitness fitness, TspChromosome adamChromosome, int populationSize, IMetaHeuristic metaHeuristic, ICrossover crossover, IMutation mutation, ITermination termination, IReinsertion reinsertion,  Action<IGeneticAlgorithm> generationUpdate = null)
         {
@@ -430,7 +444,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
 
             Assert.Less(lastDistance, firstDistance);
 
-            return new TspEvolutionResult { Population = ga.Population, TimeEvolving = ga.TimeEvolving, Distance = lastDistance };
+            return new TspEvolutionResult() { Population = ga.Population, TimeEvolving = ga.TimeEvolving};
         }
 
     }

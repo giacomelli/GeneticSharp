@@ -86,7 +86,7 @@ namespace GeneticSharp.Extensions.Checkers
         /// <returns>True if it is not playable square.</returns>
         public static bool IsNotPlayableSquare(int columnIndex, int rowIndex)
         {
-            return !((columnIndex % 2 == 0 && rowIndex % 2 != 0) || (columnIndex % 2 != 0 && rowIndex % 2 == 0));
+            return !(columnIndex % 2 == 0 && rowIndex % 2 != 0 || columnIndex % 2 != 0 && rowIndex % 2 == 0);
         }
 
         /// <summary>
@@ -143,9 +143,7 @@ namespace GeneticSharp.Extensions.Checkers
         /// </returns>
         public override bool Equals(object obj)
         {
-            var other = obj as CheckersSquare;
-
-            if (other == null)
+            if (!(obj is CheckersSquare other))
             {
                 return false;
             }
@@ -164,9 +162,9 @@ namespace GeneticSharp.Extensions.Checkers
         public override int GetHashCode()
         {
             int hash = 17;
-            hash = (hash * 23) + ColumnIndex.GetHashCode();
-            hash = (hash * 23) + RowIndex.GetHashCode();
-            hash = (hash * 23) + State.GetHashCode();
+            hash = hash * 23 + ColumnIndex.GetHashCode();
+            hash = hash * 23 + RowIndex.GetHashCode();
+            hash = hash * 23 + State.GetHashCode();
 
             return hash;
         }

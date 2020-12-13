@@ -96,7 +96,7 @@ namespace GeneticSharp.Runner.ConsoleApp
 
         public override void Draw(IChromosome bestChromosome)
         {
-            if (GA.GenerationsNumber == 1 || (GA.GenerationsNumber % 200 == 0 && m_lastBest.Fitness != bestChromosome.Fitness))
+            if (GA.GenerationsNumber == 1 || GA.GenerationsNumber % 200 == 0 && m_lastBest.Fitness != bestChromosome.Fitness)
             {
                 var best = bestChromosome as BitmapChromosome;
 

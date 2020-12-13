@@ -130,7 +130,7 @@ public partial class MainWindow
         Name = "MainWindow";
         Title = Catalog.GetString("GeneticSharp :: Runner");
         Icon = new Pixbuf(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "./Icon.png"));
-        WindowPosition = ((WindowPosition)(1));
+        WindowPosition = (WindowPosition)1;
         Modal = true;
         DefaultWidth = 800;
         DefaultHeight = 600;
@@ -139,7 +139,7 @@ public partial class MainWindow
         // Container child hbxMain.Gtk.Box+BoxChild
         drawingArea = new DrawingArea {Name = "drawingArea"};
         hbxMain.Add(drawingArea);
-        Box.BoxChild w1 = ((Box.BoxChild)(hbxMain[drawingArea]));
+        Box.BoxChild w1 = (Box.BoxChild)hbxMain[drawingArea];
         w1.Position = 0;
         w1.Padding = 1;
         // Container child hbxMain.Gtk.Box+BoxChild
@@ -152,7 +152,7 @@ public partial class MainWindow
             Name = "label4", LabelProp = Catalog.GetString("Problem")
         };
         vbxSample.Add(label4);
-        Box.BoxChild w2 = ((Box.BoxChild)(vbxSample[label4]));
+        Box.BoxChild w2 = (Box.BoxChild)vbxSample[label4];
         w2.Position = 0;
         w2.Expand = false;
         w2.Fill = false;
@@ -160,7 +160,7 @@ public partial class MainWindow
         cmbSample = ComboBox.NewText();
         cmbSample.Name = "cmbSample";
         vbxSample.Add(cmbSample);
-        Box.BoxChild w3 = ((Box.BoxChild)(vbxSample[cmbSample]));
+        Box.BoxChild w3 = (Box.BoxChild)vbxSample[cmbSample];
         w3.Position = 1;
         w3.Expand = false;
         w3.Fill = false;
@@ -170,10 +170,10 @@ public partial class MainWindow
             CanFocus = true, Name = "problemConfigWidgetContainer", Position = 10
         };
         vbxSample.Add(problemConfigWidgetContainer);
-        Box.BoxChild w4 = ((Box.BoxChild)(vbxSample[problemConfigWidgetContainer]));
+        Box.BoxChild w4 = (Box.BoxChild)vbxSample[problemConfigWidgetContainer];
         w4.Position = 2;
         vbxConfig.Add(vbxSample);
-        Box.BoxChild w5 = ((Box.BoxChild)(vbxConfig[vbxSample]));
+        Box.BoxChild w5 = (Box.BoxChild)vbxConfig[vbxSample];
         w5.Position = 0;
         // Container child vbxConfig.Gtk.Box+BoxChild
         vbxGA = new VBox
@@ -185,12 +185,12 @@ public partial class MainWindow
         // Container child vbxGA.Gtk.Box+BoxChild
         vbbSample = new VButtonBox {Name = "vbbSample"};
         vbxGA.Add(vbbSample);
-        Box.BoxChild w6 = ((Box.BoxChild)(vbxGA[vbbSample]));
+        Box.BoxChild w6 = (Box.BoxChild)vbxGA[vbbSample];
         w6.Position = 0;
         // Container child vbxGA.Gtk.Box+BoxChild
         hseparator1 = new HSeparator {Name = "hseparator1"};
         vbxGA.Add(hseparator1);
-        Box.BoxChild w7 = ((Box.BoxChild)(vbxGA[hseparator1]));
+        Box.BoxChild w7 = (Box.BoxChild)vbxGA[hseparator1];
         w7.Position = 1;
         w7.Expand = false;
         w7.Fill = false;
@@ -200,7 +200,7 @@ public partial class MainWindow
             Name = "label1", LabelProp = Catalog.GetString("Population size")
         };
         vbxGA.Add(label1);
-        Box.BoxChild w8 = ((Box.BoxChild)(vbxGA[label1]));
+        Box.BoxChild w8 = (Box.BoxChild)vbxGA[label1];
         w8.Position = 2;
         w8.Expand = false;
         w8.Fill = false;
@@ -209,7 +209,7 @@ public partial class MainWindow
         // Container child hbox2.Gtk.Box+BoxChild
         label2 = new Label {Name = "label2", LabelProp = Catalog.GetString("Min")};
         hbox2.Add(label2);
-        Box.BoxChild w9 = ((Box.BoxChild)(hbox2[label2]));
+        Box.BoxChild w9 = (Box.BoxChild)hbox2[label2];
         w9.Position = 0;
         w9.Expand = false;
         w9.Fill = false;
@@ -224,7 +224,7 @@ public partial class MainWindow
             Value = 50
         };
         hbox2.Add(sbtPopulationMinSize);
-        Box.BoxChild w10 = ((Box.BoxChild)(hbox2[sbtPopulationMinSize]));
+        Box.BoxChild w10 = (Box.BoxChild)hbox2[sbtPopulationMinSize];
         w10.Position = 1;
         w10.Expand = false;
         w10.Fill = false;
@@ -234,7 +234,7 @@ public partial class MainWindow
         // Container child hbox3.Gtk.Box+BoxChild
         label3 = new Label {Name = "label3", LabelProp = Catalog.GetString("Max")};
         hbox3.Add(label3);
-        Box.BoxChild w11 = ((Box.BoxChild)(hbox3[label3]));
+        Box.BoxChild w11 = (Box.BoxChild)hbox3[label3];
         w11.Position = 0;
         w11.Expand = false;
         w11.Fill = false;
@@ -249,18 +249,18 @@ public partial class MainWindow
             Value = 70
         };
         hbox3.Add(sbtPopulationMaxSize);
-        Box.BoxChild w12 = ((Box.BoxChild)(hbox3[sbtPopulationMaxSize]));
+        Box.BoxChild w12 = (Box.BoxChild)hbox3[sbtPopulationMaxSize];
         w12.Position = 1;
         w12.Expand = false;
         w12.Fill = false;
         hbox2.Add(hbox3);
-        Box.BoxChild w13 = ((Box.BoxChild)(hbox2[hbox3]));
-        w13.PackType = ((PackType)(1));
+        Box.BoxChild w13 = (Box.BoxChild)hbox2[hbox3];
+        w13.PackType = (PackType)1;
         w13.Position = 2;
         w13.Expand = false;
         w13.Fill = false;
         vbxGA.Add(hbox2);
-        Box.BoxChild w14 = ((Box.BoxChild)(vbxGA[hbox2]));
+        Box.BoxChild w14 = (Box.BoxChild)vbxGA[hbox2];
         w14.Position = 3;
         w14.Expand = false;
         w14.Fill = false;
@@ -271,7 +271,7 @@ public partial class MainWindow
         cmbGenerationStrategy.WidthRequest = 200;
         cmbGenerationStrategy.Name = "cmbGenerationStrategy";
         hbox11.Add(cmbGenerationStrategy);
-        Box.BoxChild w15 = ((Box.BoxChild)(hbox11[cmbGenerationStrategy]));
+        Box.BoxChild w15 = (Box.BoxChild)hbox11[cmbGenerationStrategy];
         w15.Position = 0;
         w15.Expand = false;
         w15.Fill = false;
@@ -284,19 +284,19 @@ public partial class MainWindow
             Label = Catalog.GetString("Edit")
         };
         hbox11.Add(btnEditGenerationStrategy);
-        Box.BoxChild w16 = ((Box.BoxChild)(hbox11[btnEditGenerationStrategy]));
+        Box.BoxChild w16 = (Box.BoxChild)hbox11[btnEditGenerationStrategy];
         w16.Position = 1;
         w16.Expand = false;
         w16.Fill = false;
         vbxGA.Add(hbox11);
-        Box.BoxChild w17 = ((Box.BoxChild)(vbxGA[hbox11]));
+        Box.BoxChild w17 = (Box.BoxChild)vbxGA[hbox11];
         w17.Position = 4;
         w17.Expand = false;
         w17.Fill = false;
         // Container child vbxGA.Gtk.Box+BoxChild
         hseparator2 = new HSeparator {Name = "hseparator2"};
         vbxGA.Add(hseparator2);
-        Box.BoxChild w18 = ((Box.BoxChild)(vbxGA[hseparator2]));
+        Box.BoxChild w18 = (Box.BoxChild)vbxGA[hseparator2];
         w18.Position = 5;
         w18.Expand = false;
         w18.Fill = false;
@@ -306,7 +306,7 @@ public partial class MainWindow
             Name = "label5", LabelProp = Catalog.GetString("Selection")
         };
         vbxGA.Add(label5);
-        Box.BoxChild w19 = ((Box.BoxChild)(vbxGA[label5]));
+        Box.BoxChild w19 = (Box.BoxChild)vbxGA[label5];
         w19.Position = 6;
         w19.Expand = false;
         w19.Fill = false;
@@ -317,7 +317,7 @@ public partial class MainWindow
         cmbSelection.WidthRequest = 200;
         cmbSelection.Name = "cmbSelection";
         hbox5.Add(cmbSelection);
-        Box.BoxChild w20 = ((Box.BoxChild)(hbox5[cmbSelection]));
+        Box.BoxChild w20 = (Box.BoxChild)hbox5[cmbSelection];
         w20.Position = 0;
         w20.Expand = false;
         w20.Fill = false;
@@ -330,19 +330,19 @@ public partial class MainWindow
             Label = Catalog.GetString("Edit")
         };
         hbox5.Add(btnEditSelection);
-        Box.BoxChild w21 = ((Box.BoxChild)(hbox5[btnEditSelection]));
+        Box.BoxChild w21 = (Box.BoxChild)hbox5[btnEditSelection];
         w21.Position = 1;
         w21.Expand = false;
         w21.Fill = false;
         vbxGA.Add(hbox5);
-        Box.BoxChild w22 = ((Box.BoxChild)(vbxGA[hbox5]));
+        Box.BoxChild w22 = (Box.BoxChild)vbxGA[hbox5];
         w22.Position = 7;
         w22.Expand = false;
         w22.Fill = false;
         // Container child vbxGA.Gtk.Box+BoxChild
         hseparator4 = new HSeparator {Name = "hseparator4"};
         vbxGA.Add(hseparator4);
-        Box.BoxChild w23 = ((Box.BoxChild)(vbxGA[hseparator4]));
+        Box.BoxChild w23 = (Box.BoxChild)vbxGA[hseparator4];
         w23.Position = 8;
         w23.Expand = false;
         w23.Fill = false;
@@ -352,7 +352,7 @@ public partial class MainWindow
             Name = "label7", LabelProp = Catalog.GetString("Crossover")
         };
         vbxGA.Add(label7);
-        Box.BoxChild w24 = ((Box.BoxChild)(vbxGA[label7]));
+        Box.BoxChild w24 = (Box.BoxChild)vbxGA[label7];
         w24.Position = 9;
         w24.Expand = false;
         w24.Fill = false;
@@ -364,7 +364,7 @@ public partial class MainWindow
             Name = "label10", LabelProp = Catalog.GetString("Probability")
         };
         hbox9.Add(label10);
-        Box.BoxChild w25 = ((Box.BoxChild)(hbox9[label10]));
+        Box.BoxChild w25 = (Box.BoxChild)hbox9[label10];
         w25.Position = 0;
         w25.Expand = false;
         w25.Fill = false;
@@ -383,13 +383,13 @@ public partial class MainWindow
             },
             DrawValue = true,
             Digits = 2,
-            ValuePos = ((PositionType) (2))
+            ValuePos = (PositionType) 2
         };
         hbox9.Add(hslCrossoverProbability);
-        Box.BoxChild w26 = ((Box.BoxChild)(hbox9[hslCrossoverProbability]));
+        Box.BoxChild w26 = (Box.BoxChild)hbox9[hslCrossoverProbability];
         w26.Position = 1;
         vbxGA.Add(hbox9);
-        Box.BoxChild w27 = ((Box.BoxChild)(vbxGA[hbox9]));
+        Box.BoxChild w27 = (Box.BoxChild)vbxGA[hbox9];
         w27.Position = 10;
         w27.Expand = false;
         w27.Fill = false;
@@ -400,7 +400,7 @@ public partial class MainWindow
         cmbCrossover.WidthRequest = 200;
         cmbCrossover.Name = "cmbCrossover";
         hbox6.Add(cmbCrossover);
-        Box.BoxChild w28 = ((Box.BoxChild)(hbox6[cmbCrossover]));
+        Box.BoxChild w28 = (Box.BoxChild)hbox6[cmbCrossover];
         w28.Position = 0;
         w28.Expand = false;
         w28.Fill = false;
@@ -413,19 +413,19 @@ public partial class MainWindow
             Label = Catalog.GetString("Edit")
         };
         hbox6.Add(btnEditCrossover);
-        Box.BoxChild w29 = ((Box.BoxChild)(hbox6[btnEditCrossover]));
+        Box.BoxChild w29 = (Box.BoxChild)hbox6[btnEditCrossover];
         w29.Position = 1;
         w29.Expand = false;
         w29.Fill = false;
         vbxGA.Add(hbox6);
-        Box.BoxChild w30 = ((Box.BoxChild)(vbxGA[hbox6]));
+        Box.BoxChild w30 = (Box.BoxChild)vbxGA[hbox6];
         w30.Position = 11;
         w30.Expand = false;
         w30.Fill = false;
         // Container child vbxGA.Gtk.Box+BoxChild
         hseparator5 = new HSeparator {Name = "hseparator5"};
         vbxGA.Add(hseparator5);
-        Box.BoxChild w31 = ((Box.BoxChild)(vbxGA[hseparator5]));
+        Box.BoxChild w31 = (Box.BoxChild)vbxGA[hseparator5];
         w31.Position = 12;
         w31.Expand = false;
         w31.Fill = false;
@@ -435,7 +435,7 @@ public partial class MainWindow
             Name = "label8", LabelProp = Catalog.GetString("Mutation")
         };
         vbxGA.Add(label8);
-        Box.BoxChild w32 = ((Box.BoxChild)(vbxGA[label8]));
+        Box.BoxChild w32 = (Box.BoxChild)vbxGA[label8];
         w32.Position = 13;
         w32.Expand = false;
         w32.Fill = false;
@@ -447,7 +447,7 @@ public partial class MainWindow
             Name = "label9", LabelProp = Catalog.GetString("Probability")
         };
         hbox8.Add(label9);
-        Box.BoxChild w33 = ((Box.BoxChild)(hbox8[label9]));
+        Box.BoxChild w33 = (Box.BoxChild)hbox8[label9];
         w33.Position = 0;
         w33.Expand = false;
         w33.Fill = false;
@@ -459,13 +459,13 @@ public partial class MainWindow
             Adjustment = {Upper = 1.1, PageIncrement = 0.1, PageSize = 0.1, StepIncrement = 0.01},
             DrawValue = true,
             Digits = 2,
-            ValuePos = ((PositionType) (2))
+            ValuePos = (PositionType) 2
         };
         hbox8.Add(hslMutationProbability);
-        Box.BoxChild w34 = ((Box.BoxChild)(hbox8[hslMutationProbability]));
+        Box.BoxChild w34 = (Box.BoxChild)hbox8[hslMutationProbability];
         w34.Position = 1;
         vbxGA.Add(hbox8);
-        Box.BoxChild w35 = ((Box.BoxChild)(vbxGA[hbox8]));
+        Box.BoxChild w35 = (Box.BoxChild)vbxGA[hbox8];
         w35.Position = 14;
         w35.Expand = false;
         w35.Fill = false;
@@ -476,7 +476,7 @@ public partial class MainWindow
         cmbMutation.WidthRequest = 200;
         cmbMutation.Name = "cmbMutation";
         hbox7.Add(cmbMutation);
-        Box.BoxChild w36 = ((Box.BoxChild)(hbox7[cmbMutation]));
+        Box.BoxChild w36 = (Box.BoxChild)hbox7[cmbMutation];
         w36.Position = 0;
         w36.Expand = false;
         w36.Fill = false;
@@ -489,19 +489,19 @@ public partial class MainWindow
             Label = Catalog.GetString("Edit")
         };
         hbox7.Add(btnEditMutation);
-        Box.BoxChild w37 = ((Box.BoxChild)(hbox7[btnEditMutation]));
+        Box.BoxChild w37 = (Box.BoxChild)hbox7[btnEditMutation];
         w37.Position = 1;
         w37.Expand = false;
         w37.Fill = false;
         vbxGA.Add(hbox7);
-        Box.BoxChild w38 = ((Box.BoxChild)(vbxGA[hbox7]));
+        Box.BoxChild w38 = (Box.BoxChild)vbxGA[hbox7];
         w38.Position = 15;
         w38.Expand = false;
         w38.Fill = false;
         // Container child vbxGA.Gtk.Box+BoxChild
         hseparator3 = new HSeparator {Name = "hseparator3"};
         vbxGA.Add(hseparator3);
-        Box.BoxChild w39 = ((Box.BoxChild)(vbxGA[hseparator3]));
+        Box.BoxChild w39 = (Box.BoxChild)vbxGA[hseparator3];
         w39.Position = 16;
         w39.Expand = false;
         w39.Fill = false;
@@ -511,7 +511,7 @@ public partial class MainWindow
             Name = "label12", LabelProp = Catalog.GetString("Reinsertion")
         };
         vbxGA.Add(label12);
-        Box.BoxChild w40 = ((Box.BoxChild)(vbxGA[label12]));
+        Box.BoxChild w40 = (Box.BoxChild)vbxGA[label12];
         w40.Position = 17;
         w40.Expand = false;
         w40.Fill = false;
@@ -522,7 +522,7 @@ public partial class MainWindow
         cmbReinsertion.WidthRequest = 200;
         cmbReinsertion.Name = "cmbTermination1";
         hbox12.Add(cmbReinsertion);
-        Box.BoxChild w41 = ((Box.BoxChild)(hbox12[cmbReinsertion]));
+        Box.BoxChild w41 = (Box.BoxChild)hbox12[cmbReinsertion];
         w41.Position = 0;
         w41.Expand = false;
         w41.Fill = false;
@@ -535,12 +535,12 @@ public partial class MainWindow
             Label = Catalog.GetString("Edit")
         };
         hbox12.Add(btnEditReinsertion);
-        Box.BoxChild w42 = ((Box.BoxChild)(hbox12[btnEditReinsertion]));
+        Box.BoxChild w42 = (Box.BoxChild)hbox12[btnEditReinsertion];
         w42.Position = 1;
         w42.Expand = false;
         w42.Fill = false;
         vbxGA.Add(hbox12);
-        Box.BoxChild w43 = ((Box.BoxChild)(vbxGA[hbox12]));
+        Box.BoxChild w43 = (Box.BoxChild)vbxGA[hbox12];
         w43.Position = 18;
         w43.Expand = false;
         w43.Fill = false;
@@ -550,7 +550,7 @@ public partial class MainWindow
             Name = "label11", LabelProp = Catalog.GetString("Termination")
         };
         vbxGA.Add(label11);
-        Box.BoxChild w44 = ((Box.BoxChild)(vbxGA[label11]));
+        Box.BoxChild w44 = (Box.BoxChild)vbxGA[label11];
         w44.Position = 19;
         w44.Expand = false;
         w44.Fill = false;
@@ -561,7 +561,7 @@ public partial class MainWindow
         cmbTermination.WidthRequest = 200;
         cmbTermination.Name = "cmbTermination";
         hbox10.Add(cmbTermination);
-        Box.BoxChild w45 = ((Box.BoxChild)(hbox10[cmbTermination]));
+        Box.BoxChild w45 = (Box.BoxChild)hbox10[cmbTermination];
         w45.Position = 0;
         w45.Expand = false;
         w45.Fill = false;
@@ -574,24 +574,24 @@ public partial class MainWindow
             Label = Catalog.GetString("Edit")
         };
         hbox10.Add(btnEditTermination);
-        Box.BoxChild w46 = ((Box.BoxChild)(hbox10[btnEditTermination]));
+        Box.BoxChild w46 = (Box.BoxChild)hbox10[btnEditTermination];
         w46.Position = 1;
         w46.Expand = false;
         w46.Fill = false;
         vbxGA.Add(hbox10);
-        Box.BoxChild w47 = ((Box.BoxChild)(vbxGA[hbox10]));
+        Box.BoxChild w47 = (Box.BoxChild)vbxGA[hbox10];
         w47.Position = 20;
         w47.Expand = false;
         w47.Fill = false;
         // Container child vbxGA.Gtk.Box+BoxChild
         hseparator6 = new HSeparator {Name = "hseparator6"};
         vbxGA.Add(hseparator6);
-        Box.BoxChild w48 = ((Box.BoxChild)(vbxGA[hseparator6]));
+        Box.BoxChild w48 = (Box.BoxChild)vbxGA[hseparator6];
         w48.Position = 21;
         w48.Expand = false;
         w48.Fill = false;
         vbxConfig.Add(vbxGA);
-        Box.BoxChild w49 = ((Box.BoxChild)(vbxConfig[vbxGA]));
+        Box.BoxChild w49 = (Box.BoxChild)vbxConfig[vbxGA];
         w49.Position = 1;
 
         // Container child vbxConfig.Gtk.Box+BoxChild
@@ -603,7 +603,7 @@ public partial class MainWindow
             Label = Catalog.GetString("_New")
         };
         vbxConfig.Add(btnNew);
-        Box.BoxChild w51 = ((Box.BoxChild)(vbxConfig[btnNew]));
+        Box.BoxChild w51 = (Box.BoxChild)vbxConfig[btnNew];
         w51.Position = 2;
         w51.Expand = false;
         w51.Fill = false;
@@ -616,7 +616,7 @@ public partial class MainWindow
             HeightRequest = 30
         };
         vbxConfig.Add(hboxRunStep);
-        Box.BoxChild wRunStep = ((Box.BoxChild)(vbxConfig[hboxRunStep]));
+        Box.BoxChild wRunStep = (Box.BoxChild)vbxConfig[hboxRunStep];
         wRunStep.Position = 3;
         wRunStep.Expand = false;
         wRunStep.Fill = false;
@@ -629,7 +629,7 @@ public partial class MainWindow
 
         };
         hboxRunStep.Add(btnStart);
-        Box.BoxChild w50 = ((Box.BoxChild)(hboxRunStep[btnStart]));
+        Box.BoxChild w50 = (Box.BoxChild)hboxRunStep[btnStart];
         w50.Position = 0;
         w50.Expand = true;
         w50.Fill = true;
@@ -644,7 +644,7 @@ public partial class MainWindow
 
         };
         hboxRunStep.Add(btnResume);
-        Box.BoxChild w53 = ((Box.BoxChild)(hboxRunStep[btnResume]));
+        Box.BoxChild w53 = (Box.BoxChild)hboxRunStep[btnResume];
         w53.Position = 1;
         w53.Expand = true;
         w53.Fill = true;
@@ -659,7 +659,7 @@ public partial class MainWindow
             Label = Catalog.GetString("_Step"),
         };
         hboxRunStep.Add(btnStep);
-        Box.BoxChild wStep = ((Box.BoxChild)(hboxRunStep[btnStep]));
+        Box.BoxChild wStep = (Box.BoxChild)hboxRunStep[btnStep];
         wStep.Position = 2;
         wStep.Expand = true;
         wStep.Fill = true;
@@ -674,19 +674,19 @@ public partial class MainWindow
             Label = Catalog.GetString("_Stop")
         };
         vbxConfig.Add(btnStop);
-        Box.BoxChild w52 = ((Box.BoxChild)(vbxConfig[btnStop]));
+        Box.BoxChild w52 = (Box.BoxChild)vbxConfig[btnStop];
         w52.Position = 4;
         w52.Expand = false;
         w52.Fill = false;
        
         //Config pane
         hbxMain.Add(vbxConfig);
-        Box.BoxChild w54 = ((Box.BoxChild)(hbxMain[vbxConfig]));
+        Box.BoxChild w54 = (Box.BoxChild)hbxMain[vbxConfig];
         w54.Position = 1;
         w54.Expand = false;
         w54.Fill = false;
         Add(hbxMain);
-        if ((Child != null))
+        if (Child != null)
         {
             Child.ShowAll();
         }

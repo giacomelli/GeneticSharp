@@ -88,13 +88,13 @@ namespace GeneticSharp.Infrastructure.Framework.Texts
             int tLen = t.Length;
 
             // suffix common to both strings can be ignored
-            while ((sLen > 0) && (s[sLen - 1] == t[tLen - 1])) { sLen--; tLen--; }
+            while (sLen > 0 && s[sLen - 1] == t[tLen - 1]) { sLen--; tLen--; }
 
             int start = 0;
-            if ((s[0] == t[0]) || (sLen == 0))
+            if (s[0] == t[0] || sLen == 0)
             { // if there's a shared prefix, or all s matches t's suffix
               // prefix common to both strings can be ignored
-                while ((start < sLen) && (s[start] == t[start])) start++;
+                while (start < sLen && s[start] == t[start]) start++;
                 sLen -= start; // length of the part excluding common prefix and suffix
                 tLen -= start;
 
@@ -173,13 +173,13 @@ namespace GeneticSharp.Infrastructure.Framework.Texts
             int tLen = t.Length;
 
             // suffix common to both strings can be ignored
-            while ((sLen > 0) && (s[sLen - 1] == t[tLen - 1])) { sLen--; tLen--; }
+            while (sLen > 0 && s[sLen - 1] == t[tLen - 1]) { sLen--; tLen--; }
 
             int start = 0;
-            if ((s[0] == t[0]) || (sLen == 0))
+            if (s[0] == t[0] || sLen == 0)
             { // if there's a shared prefix, or all s matches t's suffix
               // prefix common to both strings can be ignored
-                while ((start < sLen) && (s[start] == t[start])) start++;
+                while (start < sLen && s[start] == t[start]) start++;
                 sLen -= start; // length of the part excluding common prefix and suffix
                 tLen -= start;
 
@@ -218,9 +218,9 @@ namespace GeneticSharp.Infrastructure.Framework.Texts
                         if (left < current) current = left;   // insertion
                         if (above < current) current = above; // deletion
                         current++;
-                        if ((i != 0) && (j != 0)
-                            && (sChar == prevtChar)
-                            && (prevsChar == tChar))
+                        if (i != 0 && j != 0
+                                   && sChar == prevtChar
+                                   && prevsChar == tChar)
                         {
                             thisTransCost++;
                             if (thisTransCost < current) current = thisTransCost; // transposition
@@ -261,8 +261,8 @@ namespace GeneticSharp.Infrastructure.Framework.Texts
         /// to transform one string to the other, or -1 if the distance is greater than the specified maxDistance.</returns>
         public static int DamerauLevenshteinDistance(this string s, string t, int maxDistance)
         {
-            if (String.IsNullOrEmpty(s)) return ((t ?? "").Length <= maxDistance) ? (t ?? "").Length : -1;
-            if (String.IsNullOrEmpty(t)) return (s.Length <= maxDistance) ? s.Length : -1;
+            if (String.IsNullOrEmpty(s)) return (t ?? "").Length <= maxDistance ? (t ?? "").Length : -1;
+            if (String.IsNullOrEmpty(t)) return s.Length <= maxDistance ? s.Length : -1;
 
             // if strings of different lengths, ensure shorter string is in s. This can result in a little
             // faster speed by spending more time spinning just the inner loop during the main processing.
@@ -274,24 +274,24 @@ namespace GeneticSharp.Infrastructure.Framework.Texts
             int tLen = t.Length;
 
             // suffix common to both strings can be ignored
-            while ((sLen > 0) && (s[sLen - 1] == t[tLen - 1])) { sLen--; tLen--; }
+            while (sLen > 0 && s[sLen - 1] == t[tLen - 1]) { sLen--; tLen--; }
 
             int start = 0;
-            if ((s[0] == t[0]) || (sLen == 0))
+            if (s[0] == t[0] || sLen == 0)
             { // if there's a shared prefix, or all s matches t's suffix
               // prefix common to both strings can be ignored
-                while ((start < sLen) && (s[start] == t[start])) start++;
+                while (start < sLen && s[start] == t[start]) start++;
                 sLen -= start; // length of the part excluding common prefix and suffix
                 tLen -= start;
 
                 // if all of shorter string matches prefix and/or suffix of longer string, then
                 // edit distance is just the delete of additional characters present in longer string
-                if (sLen == 0) return (tLen <= maxDistance) ? tLen : -1;
+                if (sLen == 0) return tLen <= maxDistance ? tLen : -1;
 
                 t = t.Substring(start, tLen); // faster than t[start+j] in inner loop below
             }
             int lenDiff = tLen - sLen;
-            if ((maxDistance < 0) || (maxDistance > tLen))
+            if (maxDistance < 0 || maxDistance > tLen)
             {
                 maxDistance = tLen;
             }
@@ -319,8 +319,8 @@ namespace GeneticSharp.Infrastructure.Framework.Texts
                 int nextTransCost = 0;
                 // no need to look beyond window of lower right diagonal - maxDistance cells (lower right diag is i - lenDiff)
                 // and the upper left diagonal + maxDistance cells (upper left is i)
-                jStart += (i > jStartOffset) ? 1 : 0;
-                jEnd += (jEnd < tLen) ? 1 : 0;
+                jStart += i > jStartOffset ? 1 : 0;
+                jEnd += jEnd < tLen ? 1 : 0;
                 for (j = jStart; j < jEnd; j++)
                 {
                     int above = current;
@@ -335,9 +335,9 @@ namespace GeneticSharp.Infrastructure.Framework.Texts
                         if (left < current) current = left;   // insertion
                         if (above < current) current = above; // deletion
                         current++;
-                        if ((i != 0) && (j != 0)
-                            && (sChar == prevtChar)
-                            && (prevsChar == tChar))
+                        if (i != 0 && j != 0
+                                   && sChar == prevtChar
+                                   && prevsChar == tChar)
                         {
                             thisTransCost++;
                             if (thisTransCost < current) current = thisTransCost; // transposition
@@ -345,9 +345,9 @@ namespace GeneticSharp.Infrastructure.Framework.Texts
                     }
                     v0[j] = current;
                 }
-                if (haveMax && (v0[i + lenDiff] > maxDistance)) return -1;
+                if (haveMax && v0[i + lenDiff] > maxDistance) return -1;
             }
-            return (current <= maxDistance) ? current : -1;
+            return current <= maxDistance ? current : -1;
         }
 
 

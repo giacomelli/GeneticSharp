@@ -64,9 +64,9 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             var resultOriginal = Evolve_NbCities_Fast(fitness, adamChromosome, populationSize, null, crossover, mutation, termination);
 
             // WOA parameters
-            int GetGeneValueFunction(double d) => Math.Round(d).PositiveMod(numberOfCities);
+            int GetGeneValueFunction(int geneIndex, double d) => Math.Round(d).PositiveMod(numberOfCities);
 
-            var metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(true, nbGenerationsWOA,  geneValue => geneValue, GetGeneValueFunction);
+            var metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(true, nbGenerationsWOA, (geneIndex, geneValue) => geneValue, GetGeneValueFunction);
 
             // WOA evolution
             var resultWOA = Evolve_NbCities_Fast(fitness, adamChromosome, populationSize, metaHeuristic, crossover, mutation, termination);
@@ -75,6 +75,20 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             Assert.LessOrEqual(resultWOA.Fitness, resultOriginal.Fitness * 1.3);
             Assert.GreaterOrEqual(resultWOA.Fitness, resultOriginal.Fitness * 0.7);
 
+        }
+
+
+        private static ITspEvolutionResult Evolve_NbCities_Fast_Repeat(int repeatNb, TspFitness fitness, TspChromosome adamChromosome, int populationSize, IMetaHeuristic metaHeuristic, ICrossover crossover, IMutation mutation, ITermination termination, Action<IGeneticAlgorithm> generationUpdate = null)
+        {
+            var meanResult = new TspMeanEvolutionResult();
+            for (int i = 0; i < repeatNb; i++)
+            {
+                var resulti = Evolve_NbCities_Fast(fitness, adamChromosome, populationSize, metaHeuristic, crossover,
+                    mutation, termination, generationUpdate);
+                meanResult.Results.Add(resulti);
+            }
+
+            return meanResult;
         }
 
 
@@ -105,7 +119,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
 
             Assert.Less(lastDistance, firstDistance);
 
-            return new TspEvolutionResult {Population = ga.Population, TimeEvolving = ga.TimeEvolving, Distance =  lastDistance};
+            return new TspEvolutionResult {Population = ga.Population, TimeEvolving = ga.TimeEvolving};
         }
 
       

@@ -55,7 +55,7 @@ namespace GeneticSharp.Extensions.Multiple
         public override Gene GenerateGene(int geneIndex)
         {
             return Chromosomes[geneIndex / Chromosomes[0].Length]
-              .GenerateGene(geneIndex - ((geneIndex / Chromosomes[0].Length) * Chromosomes[0].Length));
+              .GenerateGene(geneIndex - geneIndex / Chromosomes[0].Length * Chromosomes[0].Length);
         }
 
 
@@ -71,7 +71,7 @@ namespace GeneticSharp.Extensions.Multiple
         {
             for (int i = 0; i < Length; i++)
             {
-                Chromosomes[i / Chromosomes[0].Length].ReplaceGene(i - ((i / Chromosomes[0].Length) * Chromosomes[0].Length), GetGene(i));
+                Chromosomes[i / Chromosomes[0].Length].ReplaceGene(i - i / Chromosomes[0].Length * Chromosomes[0].Length, GetGene(i));
             }
 
         }

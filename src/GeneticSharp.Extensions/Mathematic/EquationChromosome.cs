@@ -1,35 +1,58 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Extensions.Mathematic
 {
-    public class EquationChromosome<TValue> : EquationChromosomeBase<TValue>
+    public class EquationChromosome<TValue> : EquationChromosomeBase<TValue> where TValue : IComparable
     {
 
         private readonly IRandomization _random = RandomizationProvider.Current;
 
+       
+
         public EquationChromosome(int variablesNumber) : base(variablesNumber)
         {
+            GetGeneValueFunction = DefaultGetGeneValueFunction;
         }
 
         public EquationChromosome(TValue minValue, TValue maxValue, int variablesNumber) : base(minValue, maxValue, variablesNumber)
         {
+            GetGeneValueFunction = DefaultGetGeneValueFunction;
         }
 
         public override IChromosome CreateNew()
         {
-            return new EquationChromosome<TValue>(MinValue, MaxValue, Length);
+            return new EquationChromosome<TValue>(Length){Ranges = new List<(TValue min, TValue max)>(Ranges)};
         }
 
-        public override TValue GetRandomGeneValue(TValue min, TValue max)
+        public override TValue GetRandomGeneValue(int geneIndex, TValue min, TValue max)
         {
-            return GetGeneValueFunction(min.To<double>() + _random.GetDouble()* max.To<double>());
+            return GetGeneValueFunction(geneIndex, min.To<double>() + _random.GetDouble()* max.To<double>());
         }
 
 
-        public Func<double, TValue> GetGeneValueFunction { get; set; } = geneValue => geneValue.To<TValue>();
+        public Func<int, double, TValue> GetGeneValueFunction { get; set; } 
+
+        private TValue DefaultGetGeneValueFunction(int geneIndex, double geneValue)
+        {
+            var toReturn = geneValue.To<TValue>();
+            if (toReturn.CompareTo(Ranges[geneIndex].min) < 0)
+            {
+                toReturn = Ranges[geneIndex].min;
+            }
+            else if (toReturn.CompareTo(Ranges[geneIndex].max) > 0)
+            {
+                toReturn = Ranges[geneIndex].max;
+            }
+
+            return toReturn;
+        }
+
+       
         
     }
 
@@ -38,6 +61,9 @@ namespace GeneticSharp.Extensions.Mathematic
     /// </summary>
     public sealed class EquationChromosome : EquationChromosomeBase<int>
     {
+
+        public EquationChromosome(int length):base(length){}
+
         #region Constructors
 
         /// <summary>
@@ -52,9 +78,7 @@ namespace GeneticSharp.Extensions.Mathematic
                 throw new ArgumentOutOfRangeException(nameof(expectedResult), expectedResult,
                     "EquationChromosome expected value must be lower");
             }
-
-            MinValue = -Math.Abs(expectedResult * 2);
-            MaxValue = Math.Abs(expectedResult * 2);
+            Ranges = Enumerable.Repeat((-Math.Abs(expectedResult * 2), Math.Abs(expectedResult * 2)), variablesNumber).ToList();
             ResultIsNegative = expectedResult < 0;
         }
 
@@ -62,7 +86,7 @@ namespace GeneticSharp.Extensions.Mathematic
 
         #region Properties
 
-        public bool ResultIsNegative { get; set; }
+        public bool ResultIsNegative { get; }
 
         #endregion
 
@@ -76,14 +100,14 @@ namespace GeneticSharp.Extensions.Mathematic
         {
             if (ResultIsNegative)
             {
-                return new EquationChromosome(-MaxValue / 2, Length);
+                return new EquationChromosome(Length);
             }
 
-            return new EquationChromosome(MaxValue / 2, Length);
+            return new EquationChromosome(Length){Ranges = new List<(int min, int max)>(Ranges)};
         }
 
 
-        public override int GetRandomGeneValue(int min, int max)
+        public override int GetRandomGeneValue(int geneIndex, int min, int max)
         {
             return RandomizationProvider.Current.GetInt(min, max + 1);
         }

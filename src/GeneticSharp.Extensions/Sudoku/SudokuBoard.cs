@@ -62,7 +62,7 @@ namespace GeneticSharp.Extensions.Sudoku
         /// <returns>value of the cell</returns>
         public int GetCell(int x, int y)
         {
-            return Cells[(9 * x) + y];
+            return Cells[9 * x + y];
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace GeneticSharp.Extensions.Sudoku
         /// <param name="value">value of the cell to set</param>
         public void SetCell(int x, int y, int value)
         {
-            Cells[(9 * x) + y] = value;
+            Cells[9 * x + y] = value;
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace GeneticSharp.Extensions.Sudoku
                 foreach (var column in NeighborhoodIndex)
                 {
                     // we obtain the 81-cell index from the 9x9 row/column index
-                    var value = Cells[(row) * 9 + (column)];
+                    var value = Cells[row * 9 + column];
                     output.Append(value);
                     //we identify boxes with | within lines
                     output.Append((column + 1 ) % 3 == 0 ? " | " : "  ");

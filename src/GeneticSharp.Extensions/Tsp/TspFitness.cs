@@ -135,7 +135,7 @@ namespace GeneticSharp.Extensions.Tsp
                 {
                     lock (mLock)
                     {
-                        mMaxDistanceApprox = (Cities.Count) * CalcDistanceTwoCities(BoundingBox.Value.Item1, BoundingBox.Value.Item2);
+                        mMaxDistanceApprox = Cities.Count * CalcDistanceTwoCities(BoundingBox.Value.Item1, BoundingBox.Value.Item2);
                     }
                     
                 }

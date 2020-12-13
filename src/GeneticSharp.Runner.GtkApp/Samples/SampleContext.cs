@@ -1,10 +1,12 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using Gdk;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using Pango;
 using Color = Gdk.Color;
+using GC = Gdk.GC;
 using Rectangle = Gdk.Rectangle;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
@@ -13,6 +15,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
     {
         #region Fields
         private int m_lastTextY;
+        private DateTime m_lastDrawTime = DateTime.MinValue;
         #endregion
 
         public SampleContext(Window gdkWindow, Gtk.Window gtkWindow)
@@ -36,6 +39,12 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         public Population Population { get; set; }
 
         public Rectangle DrawingArea { get; set; }
+
+        public DateTime LastDrawTime
+        {
+            get => m_lastDrawTime;
+            set => m_lastDrawTime = value;
+        }
 
         public void Reset()
         {

@@ -56,11 +56,11 @@ namespace GeneticSharp.Domain.Crossovers
 
             // Parent1 creates the mapping section.
             var parent1Genes = parent1.GetGenes();
-            var parent1MappingSection = parent1Genes.Skip(firstCutPointIndex).Take((secondCutPointIndex - firstCutPointIndex) + 1).ToArray();
+            var parent1MappingSection = parent1Genes.Skip(firstCutPointIndex).Take(secondCutPointIndex - firstCutPointIndex + 1).ToArray();
 
             // Parent12 creates the mapping section.
             var parent2Genes = parent2.GetGenes();
-            var parent2MappingSection = parent2Genes.Skip(firstCutPointIndex).Take((secondCutPointIndex - firstCutPointIndex) + 1).ToArray();
+            var parent2MappingSection = parent2Genes.Skip(firstCutPointIndex).Take(secondCutPointIndex - firstCutPointIndex + 1).ToArray();
 
             // The new offsprings are created and 
             // their genes ar replaced start in the first cut point index

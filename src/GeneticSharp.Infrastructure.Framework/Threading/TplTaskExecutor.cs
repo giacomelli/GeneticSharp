@@ -35,8 +35,8 @@ namespace GeneticSharp.Infrastructure.Framework.Threading
 
                         // If cancellation token was requested OR take more time expected on Timeout property, 
                         // then stop the running.
-                        if ((CancellationTokenSource.IsCancellationRequested && !state.ShouldExitCurrentIteration) 
-                        || ((DateTime.Now - startTime) > Timeout && !state.ShouldExitCurrentIteration))
+                        if (CancellationTokenSource.IsCancellationRequested && !state.ShouldExitCurrentIteration 
+                        || DateTime.Now - startTime > Timeout && !state.ShouldExitCurrentIteration)
                             state.Break();
                     });
                 }

@@ -77,13 +77,13 @@ namespace GeneticSharp.Extensions.Sudoku
                                 //We parallelize going through all 3 constraint neighborhoods
                                 var row = index / 9;
                                 var col = index % 9;
-                                var boxStartIdx = (index / 27 * 27) + (index % 9 / 3 * 3);
+                                var boxStartIdx = index / 27 * 27 + index % 9 / 3 * 3;
 
                                 for (int i = 0; i < 9; i++)
                                 {
                                     //We go through all 9 cells in the 3 neighborhoods
-                                    var boxtargetIdx = boxStartIdx + (i % 3) + ((i / 3) * 9);
-                                    var targetIndices = new[] { (row * 9) + i, i * 9 + col, boxtargetIdx };
+                                    var boxtargetIdx = boxStartIdx + i % 3 + i / 3 * 9;
+                                    var targetIndices = new[] { row * 9 + i, i * 9 + col, boxtargetIdx };
                                     foreach (var targetIndex in targetIndices)
                                     {
                                         if (targetIndex != index)
@@ -279,7 +279,7 @@ namespace GeneticSharp.Extensions.Sudoku
         /// <returns>a list of all permutations for given size as lists of elements.</returns>
         static IList<IList<T>> GetPermutations<T>(IEnumerable<T> list, int length)
         {
-            if (length == 1) return list.Select(t => (IList<T>)(new[] { t }.ToList())).ToList();
+            if (length == 1) return list.Select(t => (IList<T>)new[] { t }.ToList()).ToList();
 
             var enumeratedList = list.ToList();
             return GetPermutations(enumeratedList, length - 1)

@@ -43,7 +43,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
                 chromosomes.Add (target);
             }
 
-            Assert.IsTrue (chromosomes.Any (c => c.GetGenes ().Any (g => ((int)g.Value) == 0)));
+            Assert.IsTrue (chromosomes.Any (c => c.GetGenes ().Any (g => (int)g.Value == 0)));
         }
     }
 }
