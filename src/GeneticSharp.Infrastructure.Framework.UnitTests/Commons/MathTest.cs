@@ -13,6 +13,21 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Commons
     {
 
         [Test]
+        public void PositiveMod_PerformsAsExpected()
+        {
+            var negInt = -1;
+            var positiveMod = negInt.PositiveMod(5);
+            var wrongMod = negInt % 5;
+
+            Assert.AreEqual(4, positiveMod);
+            Assert.AreNotEqual(4, wrongMod);
+
+            positiveMod = (-1.0).PositiveMod(5);
+            Assert.AreEqual(4, positiveMod);
+
+        }
+
+        [Test]
         public void Compare_IntPow_Pow_Faster()
         {
             var ratio = 1.0;
@@ -22,8 +37,10 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Commons
             var nbNumbers = (int) 10.IntPow(5);
             var maxPower = 500;
             var rnd = RandomizationProvider.Current;
-            var rndNumbers = Enumerable.Range(0, nbNumbers).Select(i => (rnd.GetDouble(0, 1) - 1) * 10).ToList();
+            //Picking numbers between -10000 and 10000
+            var rndNumbers = Enumerable.Range(0, nbNumbers).Select(i => (rnd.GetDouble(0, 1) - 1) * 20000).ToList();
 
+            //Picking int exponents between 2 and 500
             for (int i = 0; i < maxPower; i+=50)
             {
                 TimeSpan regularElapsed = TimeSpan.Zero;
