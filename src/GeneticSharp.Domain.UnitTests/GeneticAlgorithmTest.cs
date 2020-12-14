@@ -665,7 +665,8 @@ namespace GeneticSharp.Domain.UnitTests
                 var y2 = values[3];
 
                 // Euclidean distance: https://en.wikipedia.org/wiki/Euclidean_distance
-                return Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));
+                //Square is faster than Math.Pow
+                return Math.Sqrt((x2 - x1)*(x2 - x1) + (y2 - y1)* (y2 - y1));
             });
 
             var selection = new EliteSelection();

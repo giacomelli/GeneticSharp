@@ -61,7 +61,7 @@ namespace GeneticSharp.Infrastructure.Framework.Commons
         /// <param name="fractionDigits">Fraction (scale) digits.</param>
         public static string ToRepresentation(double value, int totalBits = 0, int fractionDigits = 2)
         {
-            var longValue = Convert.ToInt64(value * Math.Pow(10, fractionDigits));
+            var longValue = Convert.ToInt64(value * 10.IntPow(fractionDigits));
 
             var result = ToRepresentation(longValue, totalBits, false);
 

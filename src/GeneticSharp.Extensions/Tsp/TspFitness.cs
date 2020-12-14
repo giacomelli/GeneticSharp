@@ -298,7 +298,7 @@ namespace GeneticSharp.Extensions.Tsp
         /// <param name="two">City two.</param>
         public static double CalcDistanceTwoCities(TspCity one, TspCity two)
         {
-            return Math.Sqrt(Math.Pow(two.X - one.X, 2) + Math.Pow(two.Y - one.Y, 2));
+            return Math.Sqrt((two.X - one.X) * (two.X - one.X) + (two.Y - one.Y) * (two.Y - one.Y));
         }
 
         private (TspCity, TspCity) GetBoundingBox()
