@@ -58,7 +58,7 @@ namespace GeneticSharp.Extensions.Sudoku
         public double Evaluate(SudokuBoard testSudokuBoard)
         {
             var nbErrors = GetNbErrors(testSudokuBoard);
-            return 1 - nbErrors / 100;
+            return 1 - (double) nbErrors / 100;
         }
 
         /// <summary>

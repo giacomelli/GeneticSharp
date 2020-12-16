@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Gdk;
+using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
-using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
@@ -43,7 +43,7 @@ namespace GeneticSharp.Runner.GtkApp
                 var y2 = values[3];
 
                 // Euclidean distance: https://en.wikipedia.org/wiki/Euclidean_distance
-                return Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));
+                return Math.Sqrt((x2 - x1)* (x2 - x1) + (y2 - y1)* (y2 - y1));
             });
         }
 
@@ -79,7 +79,7 @@ namespace GeneticSharp.Runner.GtkApp
             return new FitnessStagnationTermination(100);
         }
 
-        public override void ConfigGA(MetaGeneticAlgorithm ga)
+        public override void ConfigGA(GeneticAlgorithm ga)
         {
             var latestFitness = 0.0;
 

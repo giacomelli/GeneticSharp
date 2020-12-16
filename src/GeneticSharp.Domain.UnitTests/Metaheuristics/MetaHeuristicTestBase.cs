@@ -14,7 +14,7 @@ using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.Mathematic;
 using GeneticSharp.Extensions.Mathematic.Functions;
-using GeneticSharp.Infrastructure.Framework.Commons;
+using GeneticSharp.Infrastructure.Framework.Images;
 using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.MetaHeuristics

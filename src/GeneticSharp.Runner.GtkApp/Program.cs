@@ -4,7 +4,7 @@ namespace GeneticSharp.Runner.GtkApp
 {
     public class MainClass
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
             Application.Init();
 

@@ -109,6 +109,16 @@ public partial class MainWindow
 
     private Button btnEditTermination;
 
+    private HSeparator hseparatorMetaHeuristics;
+
+    private Label labelMetaHeuristics;
+
+    private HBox hboxMetaHeuristic;
+
+    private ComboBox cmbMetaHeuristic;
+
+    private Button btnEditMetaHeuristic;
+
     private HSeparator hseparator6;
 
     private HBox hboxRunStep;
@@ -133,7 +143,7 @@ public partial class MainWindow
         WindowPosition = (WindowPosition)1;
         Modal = true;
         DefaultWidth = 800;
-        DefaultHeight = 600;
+        DefaultHeight = 770;
         // Container child MainWindow.Gtk.Container+ContainerChild
         hbxMain = new HBox {Name = "hbxMain", Spacing = 10, BorderWidth = 10};
         // Container child hbxMain.Gtk.Box+BoxChild
@@ -583,6 +593,51 @@ public partial class MainWindow
         w47.Position = 20;
         w47.Expand = false;
         w47.Fill = false;
+
+
+        // Container child vbxGA.Gtk.Box+BoxChild
+        hseparatorMetaHeuristics = new HSeparator { Name = "hseparatorMetaHeuristics" };
+        vbxGA.Add(hseparatorMetaHeuristics);
+        Box.BoxChild wHseparatorMetaHeuristics = (Box.BoxChild)vbxGA[hseparatorMetaHeuristics];
+        //wHseparatorMetaHeuristics.Position = 16;
+        wHseparatorMetaHeuristics.Expand = false;
+        wHseparatorMetaHeuristics.Fill = false;
+        // Container child vbxGA.Gtk.Box+BoxChild
+        labelMetaHeuristics = new Label
+        {
+            Name = "labelMetaHeuristics",
+            LabelProp = Catalog.GetString("Metaheuristic")
+        };
+        vbxGA.Add(labelMetaHeuristics);
+        Box.BoxChild wlabelMetaHeuristics = (Box.BoxChild)vbxGA[labelMetaHeuristics];
+        //wlabelMetaHeuristics.Position = 17;
+        wlabelMetaHeuristics.Expand = false;
+        wlabelMetaHeuristics.Fill = false;
+        // Container child vbxGA.Gtk.Box+BoxChild
+
+        // Container child hbox12.Gtk.Box+BoxChild
+        hboxMetaHeuristic = new HBox { Name = "hboxMetaHeuristic", Spacing = 6 };
+        vbxGA.Add(hboxMetaHeuristic);
+        Box.BoxChild whboxMetaHeuristic = (Box.BoxChild)vbxGA[hboxMetaHeuristic];
+        whboxMetaHeuristic.Expand = false;
+        whboxMetaHeuristic.Fill = false;
+        cmbMetaHeuristic = ComboBox.NewText();
+        cmbMetaHeuristic.WidthRequest = 200;
+        cmbMetaHeuristic.Name = "cmbMetaHeuristic";
+        hboxMetaHeuristic.Add(cmbMetaHeuristic);
+        Box.BoxChild wcmbMetaHeuristic = (Box.BoxChild)hboxMetaHeuristic[cmbMetaHeuristic];
+        //wcmbMetaHeuristic.Position = 0;
+        wcmbMetaHeuristic.Expand = false;
+        wcmbMetaHeuristic.Fill = false;
+        btnEditMetaHeuristic = new Button
+        {
+            CanFocus = true,
+            Name = "btnEditMetaHeuristic",
+            UseUnderline = true,
+            Label = Catalog.GetString("Edit")
+        };
+        hboxMetaHeuristic.Add(btnEditTermination);
+
         // Container child vbxGA.Gtk.Box+BoxChild
         hseparator6 = new HSeparator {Name = "hseparator6"};
         vbxGA.Add(hseparator6);

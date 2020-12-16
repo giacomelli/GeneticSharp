@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using Gdk;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
@@ -12,13 +11,31 @@ using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Extensions.Mathematic;
 using GeneticSharp.Extensions.Mathematic.Functions;
-using GeneticSharp.Infrastructure.Framework.Commons;
+using GeneticSharp.Infrastructure.Framework.Images;
+using GeneticSharp.Infrastructure.Framework.Threading;
 using GeneticSharp.Runner.GtkApp.Samples;
 using Gtk;
+using Action = System.Action;
 using Color = System.Drawing.Color;
 
 namespace GeneticSharp.Runner.GtkApp
 {
+
+    public enum LandscapeMode
+    {
+        KnownFunction,
+        KnownHeightMap,
+        CustomImage
+    }
+
+    public enum KnownHeightMap
+    {
+        EverestMount,
+        NepalBhoutan,
+        TibetanPlateau,
+        World
+    }
+
 
     /// <summary>
     /// Sample controller to visualize and explore fitness landscapes.  
@@ -27,28 +44,152 @@ namespace GeneticSharp.Runner.GtkApp
     public class LandscapeExplorerSampleController : SampleControllerBase
     {
 
+        private readonly Color indColor = Color.BlueViolet;
+        private readonly Color bestColor = Color.Aqua;
+        private SpinButton _xMin;
+        private SpinButton _xMax;
+        private SpinButton _yMin;
+        private SpinButton _yMax;
+
         private IKnownFunction mTargetFunction;
         private ((double min, double max) xRange, (double min, double max) yRange) mRange = ((-10,10),(-10,10));
         //private double coordsRange = 10;
 
-        private Dictionary<(int xDraw, int yDraw), double> _fValues = new Dictionary<(int xDraw, int yDraw), double>();
-        private double _fMin;
-        private double _fMax;
+        //private Dictionary<(int xDraw, int yDraw), double> _fValues = new Dictionary<(int xDraw, int yDraw), double>();
+        private ((int xDraw, int yDraw) position, double fValue) _minPoint;
+        private ((int xDraw, int yDraw) position, double fValue) _maxPoint;
         //private byte[] _fBitmapBytes;
-        private Bitmap _fBitmap;
+        private DirectBitmap _fBitmap;
+        private readonly ITaskExecutor _taskExecutor = new LinearTaskExecutor();
 
-
+        private Action _hideAndShow;
 
         public override Widget CreateConfigWidget()
         {
+            
             var container = new VBox();
+
+            var landscapeHBox = new HBox();
+            container.Add(landscapeHBox);
+            Box.BoxChild wlandscapeHBox = (Box.BoxChild)container[landscapeHBox];
+            wlandscapeHBox.Expand = false;
+            wlandscapeHBox.Fill = false;
+
+            var landscapeLabel = new Label { Text = "Landscape type" };
+            landscapeHBox.Add(landscapeLabel);
+
+            var modes = Enum.GetNames(typeof(LandscapeMode));
+            var landscapeModeCombo = new ComboBox(modes) { Active = 0 };
+            landscapeHBox.Add(landscapeModeCombo);
+            Box.BoxChild wlandscapeModeCombo = (Box.BoxChild)landscapeHBox[landscapeModeCombo];
+            wlandscapeModeCombo.Expand = false;
+            wlandscapeModeCombo.Fill = false;
+
+            var heightMapHBox = new HBox();
+            container.Add(heightMapHBox);
+            Box.BoxChild wheightMapHBox = (Box.BoxChild)container[heightMapHBox];
+            wheightMapHBox.Expand = false;
+            wheightMapHBox.Fill = false;
+
+            var heightMapHLabel = new Label { Text = "HeightMap to search" };
+            heightMapHBox.Add(heightMapHLabel);
+            var knownHeightMaps = Enum.GetNames(typeof(KnownHeightMap));
+
+            // Choosing function to display
+            var heightMapCombo = new ComboBox(knownHeightMaps) { Active = 0 };
+
+            heightMapHBox.Add(heightMapCombo);
+
+            void ConfigureHeightMap()
+            {
+                Enum.TryParse(heightMapCombo.ActiveText, out KnownHeightMap selectedHeightMap);
+                var imageFunction = new ImageHeightMapFunction();
+                switch (selectedHeightMap)
+                {
+                    case KnownHeightMap.EverestMount:
+                        imageFunction.TargetImage = Properties.Resources.EverestMount;
+                        break;
+                    case KnownHeightMap.NepalBhoutan:
+                        imageFunction.TargetImage = Properties.Resources.NepalBhoutan;
+                        break;
+                    case KnownHeightMap.TibetanPlateau:
+                        imageFunction.TargetImage = Properties.Resources.TibetanPlateau;
+                        break;
+                    case KnownHeightMap.World:
+                        imageFunction.TargetImage = Properties.Resources.World;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                mRange.xRange.min = 0;
+                mRange.xRange.max = imageFunction.TargetImage.Width - 1;
+                mRange.yRange.min = 0;
+                mRange.yRange.max = imageFunction.TargetImage.Height - 1;
+
+                mTargetFunction = imageFunction;
+                
+            }
+
+            heightMapCombo.Changed += delegate
+            {
+                ConfigureHeightMap();
+                Replot();
+            };
+
+
+
+            heightMapHBox.Add(heightMapCombo);
+
+
+
+            var imageHBox = new HBox();
+            container.Add(imageHBox);
+            Box.BoxChild wimageHBox = (Box.BoxChild)container[imageHBox];
+            wimageHBox.Expand = false;
+            wimageHBox.Fill = false;
+            // Height map image picker
+            var selectImageButton = new Button {Label = "Load an image"};
+            selectImageButton.Clicked += delegate
+            {
+                Gtk.FileChooserDialog filechooser =
+                    new Gtk.FileChooserDialog(
+                        "Select image to use as an height map",
+                        Context.GtkWindow,
+                        FileChooserAction.Open,
+                        "Cancel",
+                        ResponseType.Cancel,
+                        "Open",
+                        ResponseType.Accept);
+
+                if (filechooser.Run() == (int)ResponseType.Accept)
+                {
+                    var heightMapImage = System.Drawing.Image.FromFile(filechooser.Filename) as Bitmap;
+                    var imageFunction = new ImageHeightMapFunction(){TargetImage = heightMapImage};
+                    mTargetFunction = imageFunction;
+                    mRange.xRange.min = 0;
+                    mRange.xRange.max = heightMapImage.Width - 1;
+                    mRange.yRange.min = 0;
+                    mRange.yRange.max = heightMapImage.Height - 1;
+                    Replot();
+                }
+
+                filechooser.Destroy();
+
+                Replot();
+            };
+            imageHBox.Add(selectImageButton);
+
 
             var functionHBox = new HBox();
             container.Add(functionHBox);
+            Box.BoxChild wfunctionHBox = (Box.BoxChild)container[functionHBox];
+            wfunctionHBox.Expand = false;
+            wfunctionHBox.Fill = false;
 
             var functionsLabel = new Label {Text = "Function to search"};
             functionHBox.Add(functionsLabel);
             var knownFunctions = KnownFunctions.GetKnownFunctions();
+
             var functionList = knownFunctions.Select(m => m.Key).ToArray();
 
             // Choosing function to display
@@ -58,8 +199,51 @@ namespace GeneticSharp.Runner.GtkApp
            
             functionHBox.Add(functionCombo);
 
+            _hideAndShow = delegate
+            {
+
+                Enum.TryParse(landscapeModeCombo.ActiveText, out LandscapeMode selectedMode);
+                switch (selectedMode)
+                {
+                    case LandscapeMode.KnownFunction:
+                        functionHBox.ShowAll();
+                        imageHBox.HideAll();
+                        heightMapHBox.HideAll();
+                        ConfigureFunction();
+                        break;
+                    case LandscapeMode.KnownHeightMap:
+                        heightMapHBox.ShowAll();
+                        functionHBox.HideAll();
+                        imageHBox.HideAll();
+                        ConfigureHeightMap();
+                        break;
+                    case LandscapeMode.CustomImage:
+                        imageHBox.ShowAll();
+                        functionHBox.HideAll();
+                        heightMapHBox.HideAll();
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+                
+            };
+
+            landscapeModeCombo.Changed += delegate
+            {
+
+                _hideAndShow();
+                Replot();
+            };
+
+
+           
+
             var rangeHBox = new HBox();
             container.Add(rangeHBox);
+            Box.BoxChild wrangeHBox = (Box.BoxChild)container[rangeHBox];
+            wrangeHBox.Expand = false;
+            wrangeHBox.Fill = false;
             var rangeLabel = new Label { Text = "Search Range" };
             rangeHBox.Add(rangeLabel);
 
@@ -72,74 +256,80 @@ namespace GeneticSharp.Runner.GtkApp
 
             var xMinLabel = new Label { Text = "Xmin" };
             xHBox.Add(xMinLabel);
-            var xMin = new SpinButton(-10000, 10000, 1) { Value = mTargetFunction.Ranges(2)[0].min, Digits = 2};
-            xMin.ValueChanged += delegate
+            _xMin = new SpinButton(-10000, 10000, 1) { Digits = 2};
+            _xMin.ValueChanged += delegate
             {
-                mRange.xRange.min = xMin.Value;
-                _fBitmap = null;
-                _fValues.Clear();
-                OnReconfigured();
+                mRange.xRange.min = _xMin.Value;
             };
-            xHBox.Add(xMin);
+            xHBox.Add(_xMin);
             var xMaxLabel = new Label { Text = "Xmax" };
             xHBox.Add(xMaxLabel);
-            var xMax = new SpinButton(-10000, 10000, 1) { Value = mTargetFunction.Ranges(2)[0].max, Digits = 2 };
-            xMax.ValueChanged += delegate
+            _xMax = new SpinButton(-10000, 10000, 1) { Digits = 2 };
+            _xMax.ValueChanged += delegate
             {
-                mRange.xRange.max = xMax.Value;
-                _fBitmap = null;
-                _fValues.Clear();
-                OnReconfigured();
+                mRange.xRange.max = _xMax.Value;
             };
-            xHBox.Add(xMax);
+            xHBox.Add(_xMax);
 
             var yHBox = new HBox();
             rangeVBox.Add(yHBox);
 
             var yMinLabel = new Label { Text = "Ymin" };
             yHBox.Add(yMinLabel);
-            var yMin = new SpinButton(-10000, 10000, 1) { Value = mTargetFunction.Ranges(2)[1].min, Digits = 2 };
-            yMin.ValueChanged += delegate
+            _yMin = new SpinButton(-10000, 10000, 1) { Digits = 2 };
+            _yMin.ValueChanged += delegate
             {
-                mRange.yRange.min = yMin.Value;
-                _fBitmap = null;
-                _fValues.Clear();
-                OnReconfigured();
+                mRange.yRange.min = _yMin.Value;
             };
-            yHBox.Add(yMin);
+            yHBox.Add(_yMin);
             var yMaxLabel = new Label { Text = "Ymax" };
             yHBox.Add(yMaxLabel);
-            var yMax = new SpinButton(-10000, 10000, 1) { Value = mTargetFunction.Ranges(2)[1].max, Digits = 2 };
-            yMax.ValueChanged += delegate
+            _yMax = new SpinButton(-10000, 10000, 1) { Digits = 2 };
+            _yMax.ValueChanged += delegate
             {
-                mRange.yRange.max = yMax.Value;
-                _fBitmap = null;
-                _fValues.Clear();
-                OnReconfigured();
+                mRange.yRange.max = _yMax.Value;
             };
-            yHBox.Add(yMax);
+            yHBox.Add(_yMax);
 
-            functionCombo.Changed += delegate
+
+            void ConfigureFunction()
             {
                 //var method = knownFunctions[functionCombo.ActiveText];
                 //mTargetFunction = doubles => (double) method.Invoke(null, new[] {doubles});
                 mTargetFunction = knownFunctions[functionCombo.ActiveText];
                 //mRange = ((mTargetFunction.Ranges(2)[0], mTargetFunction.Ranges(2)[1]));
-                xMin.Value = mTargetFunction.Ranges(2)[0].min;
-                xMax.Value = mTargetFunction.Ranges(2)[0].max;
-                yMin.Value = mTargetFunction.Ranges(2)[1].min;
-                yMax.Value = mTargetFunction.Ranges(2)[1].max;
-                xMin.Update(); 
-                xMax.Update();
-                yMin.Update();
-                yMax.Update();
-                _fValues.Clear();
-                _fBitmap = null;
-                OnReconfigured();
+                mRange.xRange.min = mTargetFunction.Ranges(2)[0].min;
+                mRange.xRange.max = mTargetFunction.Ranges(2)[0].max;
+                mRange.yRange.min = mTargetFunction.Ranges(2)[1].min;
+                mRange.yRange.max = mTargetFunction.Ranges(2)[1].max;
+                
+            }
+
+
+
+            functionCombo.Changed += delegate
+            {
+                ConfigureFunction();
+                Replot();
             };
+
+
+
+            var replotButton = new Button { Label = "Replot Landscape" };
+            replotButton.Clicked += delegate
+            {
+                Replot();
+            };
+            container.Add(replotButton);
+            Box.BoxChild wreplotButton = (Box.BoxChild)container[replotButton];
+            wreplotButton.Expand = false;
+            wreplotButton.Fill = false;
+
 
             return container;
         }
+
+      
 
         public override IFitness CreateFitness()
         {
@@ -175,7 +365,11 @@ namespace GeneticSharp.Runner.GtkApp
 
         public override void Reset()
         {
-            //throw new System.NotImplementedException();
+            _hideAndShow();
+            _xMin.Value = mRange.xRange.min;
+            _xMax.Value = mRange.xRange.max;
+            _yMin.Value = mRange.yRange.min;
+            _yMax.Value = mRange.yRange.max;
         }
 
         public override void Update()
@@ -188,6 +382,7 @@ namespace GeneticSharp.Runner.GtkApp
             try
             {
                 PlotFunction();
+               
             }
             catch (Exception e)
             {
@@ -197,108 +392,107 @@ namespace GeneticSharp.Runner.GtkApp
         }
 
 
-        /// <summary>
-        /// Computes the currently selected function value for every pixel to draw
-        /// </summary>
-        private void ComputeFunctionValues()
-        {
-            var fValues = new Dictionary<(int xDraw, int yDraw), double>();
-            var r = Context.DrawingArea;
-            var width = Context.DrawingArea.Width; 
-            var height = Context.DrawingArea.Height;
-            var fMin = double.MaxValue;
-            var fMax = double.MinValue;
 
-            for (int xDraw = 0; xDraw < width; xDraw++)
-            {
-                for (int yDraw = 0; yDraw < height; yDraw++)
-                {
-                    var (x, y) = GetRealCoords(xDraw, yDraw);
-                    var fValue = mTargetFunction.Fitness(mTargetFunction.Function(new[] { x, y }));
-                    fValues.Add((xDraw, yDraw), fValue);
-                    if (fValue > fMax)
-                    {
-                        fMax = fValue;
-                    }
-                    if (fValue < fMin)
-                    {
-                        fMin = fValue;
-                    }
-                }
-            }
-
-            if (fMax<=fMin)
-            {
-                throw new InvalidOperationException("function has FMax <= FMin");
-            }
-            _fValues = fValues;
-            _fMin = fMin;
-            _fMax = fMax;
-        }
-
+        private bool _plotting;
 
         private void PlotFunction()
         {
-             
-            if (mTargetFunction!=null)
+
+            if (mTargetFunction != null)
             {
-                if (_fValues.Count == 0)
-                {
-                    ComputeFunctionValues();
-                }
+
                 if (_fBitmap == null)
                 {
-                    _fBitmap = BuildBitmap();
-                }
-                var  displayBitmap = _fBitmap;
-                if (Context.GA != null)
-                {
-                    displayBitmap = (Bitmap)displayBitmap.Clone();
-                    PlotPopulation(displayBitmap);
-                }
-                
-                var converter = new ImageConverter();
-                var imageBytes = (byte[]) converter.ConvertTo(displayBitmap, typeof(byte[]));
-                var pb = new Pixbuf(imageBytes);
-                var buffer = Context.Buffer;
-                var gc = Context.GC;
-                var width = Context.DrawingArea.Width;
-                var height = Context.DrawingArea.Height;
 
-                buffer.DrawPixbuf(gc, pb, 0, 0, 0, 100, width, height, RgbDither.None, 0, 0);
-               
-            }
-        }
-
-
-        private Color indColor = GetColorFromHSV(0.75);
-
-        private void PlotPopulation(Bitmap image)
-        {
-            foreach (var chromosome in Context.GA.Population.CurrentGeneration.Chromosomes)
-            {
-                var equChromosome = (EquationChromosome<double>)chromosome;
-                (double x, double y) = ((double)equChromosome.GetGene(0).Value,
-                    (double)equChromosome.GetGene(1).Value);
-                var cFitness = Context.GA.Fitness.Evaluate(chromosome);
-                var position = GetDrawingCoords(x, y);
-                for (int i = -2; i < 3; i++)
-                {
-                    for (int j = -2; j < 3; j++)
+                    Context.WriteText("Plotting Landscape, please wait...");
+                    if (_plotting) return;
+                    _plotting = true;
+                    _taskExecutor.Add(() =>
                     {
+                        _fBitmap = BuildBitmap();
+                        _plotting = false;
+                        OnReconfigured();
+                        _taskExecutor.Stop();
+                        _taskExecutor.Clear();
+                    });
+                    _taskExecutor.Start();
+                    //_fBitmap = BuildBitmap();
+                    ////OnReconfigured();
+                }
+                else
+                {
 
-                        var xDrawi = position.xDraw + i;
-                        var yDrawj = position.yDraw + j;
-                        if ((Math.Abs(i)+Math.Abs(j)) < 4 && xDrawi>=0 && xDrawi<image.Width && yDrawj>=0 && yDrawj<image.Height)
+                    if (Context.Population != null)
+                    {
+                        using (var displayBitmap = _fBitmap.Clone())
                         {
-                            image.SetPixel(xDrawi, yDrawj, indColor);
+                            PlotPopulation(displayBitmap);
+                            Context.WriteText($"Max Value: {_maxPoint.fValue}");
+                            Context.WriteText($"Min Value: {_minPoint.fValue}");
+                            DrawBitmap(displayBitmap.Bitmap);
                         }
+
+                    }
+                    else
+                    {
+                        DrawBitmap(_fBitmap.Bitmap);
                     }
                 }
-                
             }
         }
 
+
+        private void Replot()
+        {
+            _fBitmap = null;
+            OnReconfigured();
+        }
+
+
+        private void PlotPopulation(DirectBitmap image)
+        {
+
+           
+
+            foreach (var chromosome in Context.Population.CurrentGeneration.Chromosomes.Cast<EquationChromosome<double>>())
+            {
+                
+                (double x, double y) = ((double)chromosome.GetGene(0).Value,
+                    (double)chromosome.GetGene(1).Value);
+                var cFitness = chromosome.Fitness; 
+                var (xDraw, yDraw) = GetDrawingCoords(x, y);
+                DrawFunctionPoint(image, xDraw, yDraw, indColor);
+
+            }
+
+            var best = (EquationChromosome<double>) Context.Population.CurrentGeneration.BestChromosome;
+            if (best!=null)
+            {
+                (double xBest, double yBest) = ((double)best.GetGene(0).Value,
+                    (double)best.GetGene(1).Value);
+                var (xDraw, yDraw) = GetDrawingCoords(xBest, yBest);
+                DrawFunctionPoint(image, xDraw, yDraw, bestColor);
+                //layout.SetMarkup($"<span color='black'>({xBest},{yBest}){best.Fitness}</span>");
+                //buffer.DrawLayout(gc, Context.DrawingArea.X + positionBest.xDraw, Context.DrawingArea.Y + positionBest.yDraw, layout);    
+            }
+        }
+
+        private void DrawFunctionPoint(DirectBitmap image, int xDraw, int yDraw, Color indColor)
+        {
+            for (int i = -2; i < 3; i++)
+            {
+                for (int j = -2; j < 3; j++)
+                {
+
+                    var xDrawi = xDraw + i;
+                    var yDrawj = yDraw + j;
+                    if ((Math.Abs(i) + Math.Abs(j)) < 4 && xDrawi >= 0 && xDrawi < image.Width && yDrawj >= 0 && yDrawj < image.Height)
+                    {
+                        image.SetPixel(xDrawi, yDrawj, indColor);
+                    }
+                }
+            }
+        }
 
 
         private Color GetColor(double fValue, double fMin, double fMax)
@@ -312,8 +506,8 @@ namespace GeneticSharp.Runner.GtkApp
 
         private static Color GetColorFromHSV(double hue, double sat = 1.0, double val =1.0)
         {
-            HSVToRGB(hue, sat, val, out var dr, out var dg, out var db);
-            return Color.FromArgb((int)(dr * 255), (int)(dg * 255), (int)(db * 255));
+            var (r, g, b) = (hue, sat, val).HsvToRgb();
+            return Color.FromArgb((int)(r * 255), (int)(g * 255), (int)(b * 255));
         }
 
 
@@ -322,22 +516,69 @@ namespace GeneticSharp.Runner.GtkApp
         /// Builds the bitmap from genes.
         /// </summary>
         /// <returns>The bitmap.</returns>
-        public Bitmap BuildBitmap()
+        public DirectBitmap BuildBitmap()
         {
             var width = Context.DrawingArea.Width; 
             var height = Context.DrawingArea.Height;
-            var result = new Bitmap(width, height);
-
-            foreach (var pixelValue in _fValues)
+            var result = new DirectBitmap(width, height);
+            var fValues = ComputeFunctionValues();
+            foreach (var pixelValue in fValues)
             {
-                var color = GetColor(pixelValue.Value, _fMin, _fMax);
+                var color = GetColor(pixelValue.Value, _minPoint.fValue, _maxPoint.fValue);
                 result.SetPixel(pixelValue.Key.xDraw, pixelValue.Key.yDraw, color );
             }
+
+            DrawFunctionPoint(result,_minPoint.position.xDraw, _minPoint.position.yDraw, Color.White);
+            DrawFunctionPoint(result, _maxPoint.position.xDraw, _maxPoint.position.yDraw, Color.Black);
+          
+
             return result;
         }
 
-       
 
+        /// <summary>
+        /// Computes the currently selected function value for every pixel to draw
+        /// </summary>
+        private Dictionary<(int xDraw, int yDraw), double> ComputeFunctionValues()
+        {
+            var fValues = new Dictionary<(int xDraw, int yDraw), double>();
+            var r = Context.DrawingArea;
+            var width = Context.DrawingArea.Width;
+            var height = Context.DrawingArea.Height;
+            ((int xDraw, int yDraw), double fValue) minPoint = ((0, 0), double.MaxValue);
+            ((int xDraw, int yDraw), double fValue) maxPoint = ((0, 0), double.MinValue);
+
+            for (int xDraw = 0; xDraw < width; xDraw++)
+            {
+                for (int yDraw = 0; yDraw < height; yDraw++)
+                {
+                    var (x, y) = GetRealCoords(xDraw, yDraw);
+                    var fValue = mTargetFunction.Fitness(mTargetFunction.Function(new[] { x, y }));
+                    if (double.IsNaN(fValue))
+                    {
+                        Debugger.Break();
+                    }
+                    fValues.Add((xDraw, yDraw), fValue);
+                    if (fValue > maxPoint.fValue)
+                    {
+                        maxPoint = ((xDraw, yDraw), fValue);
+                    }
+                    if (fValue < minPoint.fValue)
+                    {
+                        minPoint = ((xDraw, yDraw), fValue);
+                    }
+                }
+            }
+
+            if (maxPoint.fValue <= minPoint.fValue)
+            {
+                throw new InvalidOperationException("function has FMax <= FMin");
+            }
+
+            _maxPoint = maxPoint;
+            _minPoint = minPoint;
+            return fValues;
+        }
 
 
         /// <summary>
@@ -379,90 +620,9 @@ namespace GeneticSharp.Runner.GtkApp
             var width = Context.DrawingArea.Width;
             var height = Context.DrawingArea.Height;
 
-            pb = pb.ScaleSimple(width, height, Gdk.InterpType.Nearest);
+            //pb = pb.ScaleSimple(width, height, Gdk.InterpType.Nearest);
             buffer.DrawPixbuf(gc, pb, 0, 0, 0, 100, width, height, Gdk.RgbDither.None, 0, 0);
 
         }
-
-
-        /// <summary>
-        /// Helper to build a RGB color from HSV definition
-        /// </summary>
-        /// <param name="h">Hue</param>
-        /// <param name="s">Saturation</param>
-        /// <param name="v"Value></param>
-        /// <param name="r">Red</param>
-        /// <param name="g">Green</param>
-        /// <param name="b">Blue</param>
-        public static void HSVToRGB(double h, double s, double v, out double r, out double g, out double b)
-        {
-            if (Math.Abs(h - 1.0) <= double.Epsilon)
-            {
-                h = 0.0;
-            }
-
-            double step = 1.0 / 6.0;
-            double vh = h / step;
-
-            int i = (int) Math.Floor(vh);
-
-            double f = vh - i;
-            double p = v * (1.0 - s);
-            double q = v * (1.0 - s * f);
-            double t = v * (1.0 - s * (1.0 - f));
-
-            switch (i)
-            {
-                case 0:
-                {
-                    r = v;
-                    g = t;
-                    b = p;
-                    break;
-                }
-                case 1:
-                {
-                    r = q;
-                    g = v;
-                    b = p;
-                    break;
-                }
-                case 2:
-                {
-                    r = p;
-                    g = v;
-                    b = t;
-                    break;
-                }
-                case 3:
-                {
-                    r = p;
-                    g = q;
-                    b = v;
-                    break;
-                }
-                case 4:
-                {
-                    r = t;
-                    g = p;
-                    b = v;
-                    break;
-                }
-                case 5:
-                {
-                    r = v;
-                    g = p;
-                    b = q;
-                    break;
-                }
-                default:
-                {
-                    // not possible - if we get here it is an internal error
-                    throw new ArgumentException();
-                }
-            }
-        }
-
-
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using GeneticSharp.Infrastructure.Framework.Commons;
+using GeneticSharp.Infrastructure.Framework.Images;
 
 namespace GeneticSharp.Extensions.Checkers
 {

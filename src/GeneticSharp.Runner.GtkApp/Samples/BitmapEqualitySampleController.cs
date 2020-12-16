@@ -3,10 +3,10 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using Gdk;
+using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
-using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Extensions.Drawing;
@@ -105,7 +105,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             return new EliteSelection();
         }
 
-        public override void ConfigGA(MetaGeneticAlgorithm ga)
+        public override void ConfigGA(GeneticAlgorithm ga)
         {
             ga.TaskExecutor = new ParallelTaskExecutor();
             base.ConfigGA(ga);
@@ -113,11 +113,11 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 
         public override void Draw()
         {
-            var ga = Context.GA;
+            //var ga = Context.GA;
 
-            if (ga != null)
+            if (Context.Population != null)
             {
-                var bestChromosome = ga.BestChromosome as BitmapChromosome;
+                var bestChromosome = Context.Population.BestChromosome as BitmapChromosome;
 
                 //// if (generationsNumber == 1 || (generationsNumber % 200 == 0 && m_lastBest.Fitness != bestChromosome.Fitness))
                 if (bestChromosome != null)

@@ -1,7 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
 
-namespace GeneticSharp.Infrastructure.Framework.Commons
+namespace GeneticSharp.Infrastructure.Framework.Images
 {
     public static class MathExtensions
     {

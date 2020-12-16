@@ -1,8 +1,6 @@
-using System;
 using System.Diagnostics;
 using System.Linq;
 using GeneticSharp.Domain;
-using GeneticSharp.Domain.Populations;
 using GeneticSharp.Extensions.Tsp;
 
 namespace GeneticSharp.Extensions.UnitTests.Tsp

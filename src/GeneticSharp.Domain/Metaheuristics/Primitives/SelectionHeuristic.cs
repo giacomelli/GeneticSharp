@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Selections;
 
@@ -7,6 +8,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
     /// <summary>
     /// Metaheuristic to provide a specific selection operator
     /// </summary>
+    [DisplayName("Selection")]
     public class SelectionHeuristic : OperatorHeuristic<ISelection>
     {
 

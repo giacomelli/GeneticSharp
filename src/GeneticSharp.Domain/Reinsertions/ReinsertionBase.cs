@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
-using GeneticSharp.Infrastructure.Framework.Commons;
+using GeneticSharp.Infrastructure.Framework.Images;
 
 namespace GeneticSharp.Domain.Reinsertions
 {

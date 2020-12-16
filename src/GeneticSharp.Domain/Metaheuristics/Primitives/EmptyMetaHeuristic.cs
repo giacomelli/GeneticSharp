@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Mutations;
@@ -9,9 +10,10 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
 {
 
 
-   /// <summary>
+    /// <summary>
     /// This MetaHeuristic doesn't perform any operation at all and returns null elements
     /// </summary>
+    [DisplayName("Empty")]
     public class EmptyMetaHeuristic : MetaHeuristicBase
     {
         public override IList<IChromosome> SelectParentPopulation(IEvolutionContext ctx, ISelection selection)

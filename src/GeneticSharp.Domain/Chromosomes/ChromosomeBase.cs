@@ -1,6 +1,6 @@
 using System;
 using System.Diagnostics;
-using GeneticSharp.Infrastructure.Framework.Commons;
+using GeneticSharp.Infrastructure.Framework.Images;
 using GeneticSharp.Infrastructure.Framework.Texts;
 
 namespace GeneticSharp.Domain.Chromosomes

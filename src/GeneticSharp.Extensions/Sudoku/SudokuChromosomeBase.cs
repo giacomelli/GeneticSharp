@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
+using GeneticSharp.Infrastructure.Framework.Images;
 
 namespace GeneticSharp.Extensions.Sudoku
 {
@@ -136,11 +137,12 @@ namespace GeneticSharp.Extensions.Sudoku
         /// <returns></returns>
         protected virtual IList<int> GetPermutation(int rowIndex, int permIDx)
         {
-
             // we use a modulo operator in case the gene was swapped:
             // It may contain a number higher than the number of available permutations. 
-            var perm = TargetRowsPermutations[rowIndex][permIDx % TargetRowsPermutations[rowIndex].Count];
+
+            var perm = TargetRowsPermutations[rowIndex][permIDx.PositiveMod(TargetRowsPermutations[rowIndex].Count)];
             return perm;
+
         }
 
 

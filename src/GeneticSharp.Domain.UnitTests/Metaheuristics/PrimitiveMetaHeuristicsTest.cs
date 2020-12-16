@@ -1,5 +1,4 @@
-﻿using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Crossovers.Geometric;
+﻿using GeneticSharp.Domain.Crossovers.Geometric;
 using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Domain.Metaheuristics.Parameters;
 using GeneticSharp.Domain.Metaheuristics.Primitives;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 
@@ -7,6 +8,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
     /// <summary>
     /// Metaheuristic to provide a specific Crossover operator
     /// </summary>
+    [DisplayName("Container")]
     public class CrossoverHeuristic : OperatorHeuristic<ICrossover>
     {
 

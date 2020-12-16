@@ -9,4 +9,8 @@
 	<PropertyGroup>
 		<LangVersion>7.3</LangVersion>
 	</PropertyGroup>
+	<ItemGroup>
+	  <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-26216-02" />
+	  <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+	</ItemGroup>
 </Project>

@@ -7,6 +7,7 @@ using GeneticSharp.Domain;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Metaheuristics;
+using GeneticSharp.Domain.Metaheuristics.Primitives;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Reinsertions;
@@ -22,7 +23,6 @@ using Alignment = Pango.Alignment;
 using Color = Gdk.Color;
 using Layout = Pango.Layout;
 using Rectangle = Gdk.Rectangle;
-using Timeout = GLib.Timeout;
 using Window = Gtk.Window;
 using WindowType = Gtk.WindowType;
 
@@ -32,7 +32,7 @@ using WindowType = Gtk.WindowType;
 public partial class MainWindow : Window
 {
     #region Fields
-    private MetaGeneticAlgorithm m_ga;
+    private GeneticAlgorithm m_ga;
     private IFitness m_fitness;
     private ISelection m_selection;
     private ICrossover m_crossover;
@@ -40,6 +40,7 @@ public partial class MainWindow : Window
     private IReinsertion m_reinsertion;
     private ITermination m_termination;
     private IGenerationStrategy m_generationStrategy;
+    private IMetaHeuristic m_metaheuristic;
 
     private ISampleController m_sampleController;
     private SampleContext m_sampleContext;
@@ -211,20 +212,44 @@ public partial class MainWindow : Window
                 m_sampleController.CreateChromosome())
             { GenerationStrategy = m_generationStrategy };
 
-        // According to MetaGeneticAlgorithmTest comparison, there is less than 10% overhead with using a MetaGeneticAlgorithm with DefaultMetaHeuristic.
-        // This allows having sample controllers making use of the new feature.
-        m_ga = new MetaGeneticAlgorithm(
-            m_sampleContext.Population,
-            m_fitness,
-            m_selection,
-            m_crossover,
-            m_mutation)
+
+        if (m_metaheuristic!= null)
         {
-            CrossoverProbability = Convert.ToSingle(hslCrossoverProbability.Value),
-            MutationProbability = Convert.ToSingle(hslMutationProbability.Value),
-            Reinsertion = m_reinsertion,
-            Termination = m_termination
-        };
+            // According to MetaGeneticAlgorithmTest comparison, there is less than 10% overhead with using a MetaGeneticAlgorithm with DefaultMetaHeuristic.
+            // This allows having sample controllers making use of the new feature.
+            m_ga = new MetaGeneticAlgorithm(
+                m_sampleContext.Population,
+                m_fitness,
+                m_selection,
+                m_crossover,
+                m_mutation,
+                m_metaheuristic)
+            {
+                CrossoverProbability = Convert.ToSingle(hslCrossoverProbability.Value),
+                MutationProbability = Convert.ToSingle(hslMutationProbability.Value),
+                Reinsertion = m_reinsertion,
+                Termination = m_termination
+            };
+        }
+        else
+        {
+            // According to MetaGeneticAlgorithmTest comparison, there is less than 10% overhead with using a MetaGeneticAlgorithm with DefaultMetaHeuristic.
+            // This allows having sample controllers making use of the new feature.
+            m_ga = new GeneticAlgorithm(
+                m_sampleContext.Population,
+                m_fitness,
+                m_selection,
+                m_crossover,
+                m_mutation)
+            {
+                CrossoverProbability = Convert.ToSingle(hslCrossoverProbability.Value),
+                MutationProbability = Convert.ToSingle(hslMutationProbability.Value),
+                Reinsertion = m_reinsertion,
+                Termination = m_termination
+            };
+        }
+
+       
 
         m_sampleContext.GA = m_ga;
         m_ga.GenerationRan += delegate
@@ -336,16 +361,13 @@ public partial class MainWindow : Window
 
     private void UpdateSample()
     {
-        
-       
-           
-            DrawSample();
-        
+        DrawSample();
     }
 
     private void ResetSample()
     {
         m_sampleContext.GC = m_sampleContext.CreateGC(new Color(255, 50, 50));
+        m_sampleContext.GA = null;
         m_sampleContext.Population = null;
         var r = drawingArea.Allocation;
         m_sampleContext.DrawingArea = new Rectangle(0, 100, r.Width, r.Height - 100);
@@ -364,7 +386,7 @@ public partial class MainWindow : Window
         if (m_sampleContext.Population != null)
         {
             m_sampleContext.WriteText("Generation: {0}", m_sampleContext.Population.GenerationsNumber);
-            m_sampleContext.WriteText("Fitness: {0:n2}", m_sampleContext.Population.BestChromosome != null ? m_sampleContext.Population.BestChromosome.Fitness : 0.0);
+            m_sampleContext.WriteText("Fitness: {0:n3}", m_sampleContext.Population.BestChromosome != null ? m_sampleContext.Population.BestChromosome.Fitness : 0.0);
             m_sampleContext.WriteText("Time: {0}", m_ga.TimeEvolving);
         }
 
@@ -480,6 +502,17 @@ public partial class MainWindow : Window
             PopulationService.CreateGenerationStrategyByName,
             () => m_generationStrategy,
             i => m_generationStrategy = i);
+
+        PrepareEditComboBox(
+            cmbMetaHeuristic,
+            btnEditMetaHeuristic,
+            MetaHeuristicsService<int>.GetMetaHeuristicNames,
+            MetaHeuristicsService<int>.GetMetaHeuristicTypeByName,
+            MetaHeuristicsService<int>.CreateMetaHeuristicByName,
+            () => m_metaheuristic,
+            metaHeuristic => m_metaheuristic = metaHeuristic
+            );
+
     }
 
     private void PrepareEditComboBox<TItem>(ComboBox comboBox, Button editButton, Func<IList<string>> getNames, Func<string, Type> getTypeByName, Func<string, object[], TItem> createItem, Func<TItem> getItem, Action<TItem> setItem)
@@ -522,7 +555,7 @@ public partial class MainWindow : Window
 
     private void ShowButtonByEditableProperties(Button editButton, object item)
     {
-        if (PropertyEditor.HasEditableProperties(item.GetType()))
+        if (item !=null && PropertyEditor.HasEditableProperties(item.GetType()))
         {
             editButton.Show();
         }

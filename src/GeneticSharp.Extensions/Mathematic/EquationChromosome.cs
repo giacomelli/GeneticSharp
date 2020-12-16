@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
-using GeneticSharp.Infrastructure.Framework.Commons;
+using GeneticSharp.Infrastructure.Framework.Images;
 
 namespace GeneticSharp.Extensions.Mathematic
 {
     public class EquationChromosome<TValue> : EquationChromosomeBase<TValue> where TValue : IComparable
     {
-
         private readonly IRandomization _random = RandomizationProvider.Current;
-
-       
 
         public EquationChromosome(int variablesNumber) : base(variablesNumber)
         {
@@ -31,9 +28,8 @@ namespace GeneticSharp.Extensions.Mathematic
 
         public override TValue GetRandomGeneValue(int geneIndex, TValue min, TValue max)
         {
-            return GetGeneValueFunction(geneIndex, min.To<double>() + _random.GetDouble()* max.To<double>());
+            return GetGeneValueFunction(geneIndex, min.To<double>() + _random.GetDouble()* (max.To<double>() - min.To<double>()));
         }
-
 
         public Func<int, double, TValue> GetGeneValueFunction { get; set; } 
 
@@ -51,9 +47,6 @@ namespace GeneticSharp.Extensions.Mathematic
 
             return toReturn;
         }
-
-       
-        
     }
 
     /// <summary>

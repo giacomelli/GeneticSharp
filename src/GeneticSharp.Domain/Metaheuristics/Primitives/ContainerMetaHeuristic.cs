@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Mutations;
@@ -9,17 +10,10 @@ using GeneticSharp.Domain.Selections;
 
 namespace GeneticSharp.Domain.Metaheuristics.Primitives
 {
-    public interface IContainerMetaHeuristic: IMetaHeuristic
-    {
-        /// <summary>
-        /// This sub metaheuristic is used by for all operators, except for those overriden
-        /// </summary>
-        IMetaHeuristic SubMetaHeuristic { get; set; }
-    }
-
     /// <summary>
     /// The ContainerMetaHeuristic is a common base class to hijack certain operations while providing a default fallback for other operations
     /// </summary>
+    [DisplayName("Container")]
     public class ContainerMetaHeuristic : MetaHeuristicBase, IContainerMetaHeuristic
     {
 

@@ -9,7 +9,7 @@ using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.Tsp;
-using GeneticSharp.Infrastructure.Framework.Commons;
+using GeneticSharp.Infrastructure.Framework.Images;
 using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Tsp
@@ -63,12 +63,12 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
 
             var resultOriginal = Evolve_NbCities_Fast(fitness, adamChromosome, populationSize, null, crossover, mutation, termination);
 
-            // WOA parameters
+            // WhaleOptimisation parameters
             int GetGeneValueFunction(int geneIndex, double d) => Math.Round(d).PositiveMod(numberOfCities);
 
             var metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(true, nbGenerationsWOA, (geneIndex, geneValue) => geneValue, GetGeneValueFunction);
 
-            // WOA evolution
+            // WhaleOptimisation evolution
             var resultWOA = Evolve_NbCities_Fast(fitness, adamChromosome, populationSize, metaHeuristic, crossover, mutation, termination);
 
             //Generally

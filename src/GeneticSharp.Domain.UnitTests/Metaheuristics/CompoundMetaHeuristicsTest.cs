@@ -10,7 +10,7 @@ using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Extensions.Mathematic;
 using GeneticSharp.Extensions.Mathematic.Functions;
-using GeneticSharp.Infrastructure.Framework.Commons;
+using GeneticSharp.Infrastructure.Framework.Images;
 using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
@@ -246,7 +246,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         /// <summary>
         /// The version with parameter calls should start faster with less preprocessing but then pay an additional cost for parameter lookup
         /// </summary>
-        //[Test]
+        [Test]
         public void Compare_WOAReduced_WOAParamCalls_Stub_Small_Bounds()
         {
             var repeatNb = 5;
@@ -317,12 +317,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
         }
 
-        private enum  KnownMetaheuristics
-        {
-            Default,
-            WOA,
-            WOAWithNaiveBubbleNet,
-        }
+       
 
 
 
@@ -330,12 +325,12 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         public void GridSearch_WOA()
         {
             var repeatNb = 5;
-            var testParams = new List<(KnownMetaheuristics kind,  double seconds, double helicoidScale, int nbGenerationsWOA, bool noMutation)>
+            var testParams = new List<(KnownCompoundMetaheuristics kind,  double seconds, double helicoidScale, int nbGenerationsWOA, bool noMutation)>
             {
                 
-                (KnownMetaheuristics.Default,  5.0, 1.0, 100, true),
-                (KnownMetaheuristics.WOA,  5.0, 1.0, 100,  true),
-                (KnownMetaheuristics.WOAWithNaiveBubbleNet,  5.0, 1.0, 100,  true),
+                (KnownCompoundMetaheuristics.Default,  5.0, 1.0, 100, true),
+                (KnownCompoundMetaheuristics.WhaleOptimisation,  5.0, 1.0, 100,  true),
+                (KnownCompoundMetaheuristics.WhaleOptimisationNaive,  5.0, 1.0, 100,  true),
 
             };
 
@@ -383,10 +378,10 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                         IMetaHeuristic metaHeuristic;
                         switch (kind)
                         {
-                            case KnownMetaheuristics.Default:
+                            case KnownCompoundMetaheuristics.Default:
                                 metaHeuristic = new DefaultMetaHeuristic();
                                 break;
-                            case KnownMetaheuristics.WOA:
+                            case KnownCompoundMetaheuristics.WhaleOptimisation:
                                 var woaMetaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false,
                                     nbGenerationsWoa,
                                     (int geneIndex, double geneValue) => geneValue,
@@ -394,7 +389,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                                     noMutation: noMutation);
                                 metaHeuristic = woaMetaHeuristic;
                                 break;
-                            case KnownMetaheuristics.WOAWithNaiveBubbleNet:
+                            case KnownCompoundMetaheuristics.WhaleOptimisationNaive:
                                 var woaNaiveMetaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false,
                                     nbGenerationsWoa,
                                     (int geneIndex, double geneValue) => geneValue,

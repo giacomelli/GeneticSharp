@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Reinsertions;
 
@@ -7,6 +8,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
     /// <summary>
     /// Metaheuristic to provide a specific Reinsertion operator
     /// </summary>
+    [DisplayName("Reinsertion")]
     public class ReinsertionHeuristic : OperatorHeuristic<IReinsertion>
     {
 

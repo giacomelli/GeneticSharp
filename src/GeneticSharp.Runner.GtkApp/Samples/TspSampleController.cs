@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
+using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
-using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Extensions.Tsp;
@@ -98,7 +98,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             return new EliteSelection();
         }
 
-        public override void ConfigGA(MetaGeneticAlgorithm ga)
+        public override void ConfigGA(GeneticAlgorithm ga)
         {
             ga.TaskExecutor = new ParallelTaskExecutor
             {

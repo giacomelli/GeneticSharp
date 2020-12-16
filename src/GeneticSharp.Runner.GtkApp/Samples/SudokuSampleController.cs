@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
@@ -124,6 +126,9 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 
             var fileHBox = new HBox();
             container.Add(fileHBox);
+            Box.BoxChild wfileHBox = (Box.BoxChild)container[fileHBox];
+            wfileHBox.Expand = false;
+            wfileHBox.Fill = false;
 
 
             // Sudoku index.
@@ -249,7 +254,13 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             };
             geneticsHBox.Add(selectorCombo);
             container.Add(geneticsHBox);
+            Box.BoxChild wgeneticsHBox = (Box.BoxChild)container[geneticsHBox];
+            wgeneticsHBox.Expand = false;
+            wgeneticsHBox.Fill = false;
             container.Add(_nbPermsHBox);
+            Box.BoxChild wnbPermsHBox = (Box.BoxChild)container[_nbPermsHBox];
+            wnbPermsHBox.Expand = false;
+            wnbPermsHBox.Fill = false;
 
             //Multi-chromosome checkbox
             var multiHBox = new HBox();
@@ -284,6 +295,9 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             multiHBox.Add(_nbChromosomesHBox);
 
             container.Add(multiHBox);
+            Box.BoxChild wmultiHBox = (Box.BoxChild)container[multiHBox];
+            wmultiHBox.Expand = false;
+            wmultiHBox.Fill = false;
 
             return container;
         }
@@ -393,12 +407,20 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         /// As demonstrated in <see href="https://www.researchgate.net/publication/224645744_Product_Geometric_Crossover_for_the_Sudoku_Puzzle">Product_Geometric_Crossover_for_the_Sudoku_Puzzle</see>, with rows permutations initialization this permits using ordered based crossovers and mutations preserving permutations, and in effect demonstrates better robustness together with those operators, in terms of preventing early collapse to a non solution, than simply using a cells based chromosome with same population size, initialization and non ordered based operators.     
         /// </summary>
         /// <param name="ga"></param>
-        public override void ConfigGA(MetaGeneticAlgorithm ga)
+        public override void ConfigGA(GeneticAlgorithm ga)
         {
             
             if (_ChromosomeType == nameof(SudokuChromosomeType.CellsWithEukaryoteMetaHeuristics))
             {
-                ga.Metaheuristic = new EukaryoteMetaHeuristic(9, 9, new DefaultMetaHeuristic()) { Scope = EvolutionStage.Crossover | EvolutionStage.Mutation };
+                if (ga is MetaGeneticAlgorithm mga)
+                {
+                    mga.Metaheuristic = new EukaryoteMetaHeuristic(9, 9, new DefaultMetaHeuristic()) { Scope = EvolutionStage.Crossover | EvolutionStage.Mutation };
+                }
+                else
+                {
+                    throw new InvalidOperationException("Metaheuristics should be enabled in order for the Eukaryote MetaHeuristic to be applied");
+                }
+                
             }
         }
     }

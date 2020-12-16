@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Metaheuristics.Parameters;
@@ -13,6 +14,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
     /// <summary>
     /// Provides a base class with mechanism to compute the current phase and corresponding phase Metaheuristic from population and current individuals
     /// </summary>
+    [DisplayName("IfElse")]
     public class IfElseMetaHeuristic:SwitchMetaHeuristic<bool> {}
 
 
@@ -20,6 +22,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
     /// <summary>
     /// Provides a base class with mechanism to compute the current phase and corresponding phase Metaheuristic from population and current individuals
     /// </summary>
+    [DisplayName("Switch")]
     public class SwitchMetaHeuristic<TIndex> : PhaseMetaHeuristicBase<TIndex>
     {
         public IMetaHeuristicParameterGenerator<TIndex> DynamicParameter { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using GeneticSharp.Infrastructure.Framework.Images;
 
 namespace GeneticSharp.Extensions.Mathematic.Functions
 {
@@ -71,6 +72,14 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
                 Function = Michalewitz,
                 Fitness = d => -d
             });
+            range = 50;
+            _knownFunctions.Add(nameof(Neumaier), new KnownFunction(range)
+            {
+                Name = nameof(Neumaier),
+                Description = "",
+                Function = Neumaier,
+                Fitness = d => -d
+            });
             range = 10;
             _knownFunctions.Add(nameof(Rastrigin), new KnownFunction(range)
             {
@@ -85,7 +94,6 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
                 Name = nameof(Rosenbrock),
                 Description = "",
                 Function = Rosenbrock,
-                Reverse = true,
                 Fitness = d =>  Math.Pow(0.99999, d) //-d // 1 / (1 + d)
             });
         }
@@ -105,7 +113,7 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
 
             for (var i = 0; i < coordinates.Length; i++)
             {
-                sum1 += Math.Pow(coordinates[i], 2);
+                sum1 += coordinates[i] * coordinates[i];
                 sum2 += Math.Cos(2 * Math.PI * coordinates[i]);
             }
 
@@ -180,7 +188,7 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
                 s = 0.0;
                 for (k = 1; k <= d; k++)
                 {
-                    pow2 = Math.Pow(2, k);
+                    pow2 = 2.IntPow(k);
                     s += Math.Round(pow2 * x[i]) / pow2;
                 }
                 prod *= 1.0 + (i + 1) * s;
@@ -201,9 +209,9 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
             double sum = 0.0;
             for (i = 0; i <= n - 2; i++)
             {
-                sum += Math.Pow(x[i] - 1, 2.0) * (1 + Math.Pow(Math.Sin(3 * Math.PI * x[i + 1]), 2.0));
+                sum += (x[i] - 1)* (x[i] - 1) * (1 + (Math.Sin(3 * Math.PI * x[i + 1])) * (Math.Sin(3 * Math.PI * x[i + 1])));
             }
-            return Math.Pow(Math.Sin(3 * Math.PI * x[0]), 2.0) + sum + (x[n - 1] - 1) * (1 + Math.Pow(Math.Sin(2 * Math.PI * x[n - 1]), 2.0));
+            return (Math.Sin(3 * Math.PI * x[0])) * (Math.Sin(3 * Math.PI * x[0])) + sum + (x[n - 1] - 1) * (1 + (Math.Sin(2 * Math.PI * x[n - 1])) * (Math.Sin(2 * Math.PI * x[n - 1])));
         }
 
         public static double Maxmod(double[] x)
@@ -237,10 +245,32 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
             u = 0;
             for (i = 0; i < n; i++)
             {
-                u += Math.Sin(x[i]) * Math.Pow(Math.Sin(i * x[i] * x[i] / Math.PI), 2.0 * 10.0);
+                u += Math.Sin(x[i]) * (Math.Sin(i * x[i] * x[i] / Math.PI).IntPow(20));
             }
             return u;
         }
+
+        public static double Neumaier( double[] x)
+            /*
+            Suitable bounds for a bound constrained version would be [-n^2,n^2] for each component.
+            The solution is x_i=i(n+1-i) with f(x)=-n(n+4)(n-1)/6.
+            */
+        {
+            int n = x.Length;
+            int i;
+            double s1 = 0.0;
+            double s2 = 0.0;
+            for (i = 0; i < n; i++)
+            {
+                s1 += (x[i] - 1) * (x[i] - 1);
+                if (i != 0)
+                {
+                    s2 += x[i] * x[i - 1];
+                }
+            }
+            return s1 - s2;
+        }
+
 
         public static double Rastrigin(double[] coordinates)
         {
@@ -265,8 +295,8 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
 
             for (var i = 0; i < coordinates.Length - 1; i++)
             {
-                sum1 += 100 * Math.Pow(coordinates[i + 1] - Math.Pow(coordinates[i], 2), 2)
-                    + Math.Pow(1 - coordinates[i], 2);
+                sum1 += 100 * (coordinates[i + 1] - coordinates[i] * coordinates[i]) * (coordinates[i + 1] - coordinates[i] * coordinates[i])
+                    + (1 - coordinates[i])* (1 - coordinates[i]);
             }
 
             return sum1;

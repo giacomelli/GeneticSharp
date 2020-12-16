@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Metaheuristics.Parameters;
@@ -8,20 +9,10 @@ using GeneticSharp.Domain.Selections;
 
 namespace GeneticSharp.Domain.Metaheuristics.Primitives
 {
-
-
-    public enum MatchingTechnique
-    {
-        Neighbor,
-        Randomize,
-        RouletteWheel,
-        Best
-    }
-
-
     /// <summary>
     /// The matching MetaHeuristic offers various techniques to match specific parents for mating and applies the crossover operator to them
     /// </summary>
+    [DisplayName("Match")]
     public class MatchMetaHeuristic : ContainerMetaHeuristic
     {
 
@@ -126,7 +117,15 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
                         () => RandomizationProvider.Current.GetDouble())[0]);
                     break;
                 case MatchingTechnique.Best:
-                    selectedParents.Add(ctx.Population.CurrentGeneration.BestChromosome);
+                    if (ctx.Population.CurrentGeneration.BestChromosome!=null)
+                    {
+                        selectedParents.Add(ctx.Population.CurrentGeneration.BestChromosome);
+                    }
+                    else
+                    {
+                        var fallbackTargetId = RandomizationProvider.Current.GetInt(0, parents.Count);
+                        selectedParents.Add(parents[fallbackTargetId]);
+                    }
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(currentMatchingTechnique), $"Unsupported matching process: {currentMatchingTechnique}");

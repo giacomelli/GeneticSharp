@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
@@ -15,7 +14,7 @@ using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.Tsp;
-using GeneticSharp.Infrastructure.Framework.Commons;
+using GeneticSharp.Infrastructure.Framework.Images;
 using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Tsp
@@ -231,11 +230,11 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                 IMetaHeuristic metaHeuristic = new DefaultMetaHeuristic();
                 toReturn.native = Evolve_NbCities_Fast(fitness, adamChromosome, populationSize, metaHeuristic, crossover, mutation, termination, reinsertion);
                 
-                // WOA parameters
+                // WhaleOptimisation parameters
 
                 int GetGeneValueFunction(int geneIndex, double d) => Math.Round(d).PositiveMod(fitness.Cities.Count);
 
-                //Simple WOA
+                //Simple WhaleOptimisation
                 var defaultEmbedding = new OrderedEmbedding<int> {GeneSelectionMode = GeneSelectionMode.RandomOrder | GeneSelectionMode.SingleFirstAllowed};
                 
                 metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(true, nbGenerationsWOA, (geneIndex,  geneValue) => geneValue, GetGeneValueFunction, noMutation:noMutation, helicoidScale:helicoidScale);
@@ -264,7 +263,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                 
                 var updateEveryGenerationNb = 20;
 
-                //WOA with Embedding  
+                //WhaleOptimisation with Embedding  
                 metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(true, nbGenerationsWOA,
                     (geneIndex, geneValue) => geneValue,
                     GetGeneValueFunction, tspGeometryEmbedding, noMutation:noMutation);
@@ -283,7 +282,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                     });
 
                 toReturn.woaGeom = resultWOAGeom;
-                // WOA evolution with simple swap validator (no permutation embedding)
+                // WhaleOptimisation evolution with simple swap validator (no permutation embedding)
                 var simpleGeometryEmbedding = new TspPermutationEmbedding(fitness){GeneSelectionMode = GeneSelectionMode.AllIndexed };
                 
                 //var simpleGeometryEmbedding = new OrderedEmbedding<int>();
@@ -334,13 +333,13 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                 Assert.GreaterOrEqual(resultOriginal.Fitness, 0.2);
 
 
-                // WOA parameters
+                // WhaleOptimisation parameters
                 int GetGeneValueFunction(int geneIndex, double d) => Math.Round(d).PositiveMod(numberOfCities);
                  //Default OrderedEmbedding with cold start
                 var tspGeometryEmbedding = new TspPermutationEmbedding(fitness) { GeneSelectionMode = GeneSelectionMode.RandomOrder  };
                 var updateEveryGenerationNb = 20;
 
-                //WOA with Embedding  
+                //WhaleOptimisation with Embedding  
                 var metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(true, nbGenerationsWOA,
                     (geneIndex, geneValue) => geneValue,
                     GetGeneValueFunction, tspGeometryEmbedding, noMutation: true);

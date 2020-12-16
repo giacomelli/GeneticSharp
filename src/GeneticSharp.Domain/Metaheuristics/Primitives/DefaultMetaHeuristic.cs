@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Mutations;
@@ -12,6 +13,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
     /// This meta heuristic does not do any extra steps from the baseline GeneticAlgorithm. For crossover it pick parents in the original selection order and applies the crossover operator depending on the given probabiliy.
     /// For mutation it applies the input mutator with given probability to the target chromosome, and for reinsertion, the reinsertion operator is also simply applied.
     /// </summary>
+    [DisplayName("Default")]
     public class DefaultMetaHeuristic : ScopedMetaHeuristic
     {
 

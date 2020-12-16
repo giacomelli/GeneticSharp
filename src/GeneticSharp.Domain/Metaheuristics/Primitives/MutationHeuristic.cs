@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Mutations;
 
@@ -7,6 +8,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
     /// <summary>
     /// Metaheuristic to provide a specific mutation operator
     /// </summary>
+    [DisplayName("Mutation")]
     public class MutationHeuristic : OperatorHeuristic<IMutation>
     {
 

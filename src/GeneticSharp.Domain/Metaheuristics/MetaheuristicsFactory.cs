@@ -24,6 +24,8 @@ namespace GeneticSharp.Domain.Metaheuristics
             l
         }
 
+
+
         public const double DefaultHelicoidScale = 1;
 
         public delegate TGeneValue EncirclingPreyOperator<TGeneValue>(IList<TGeneValue> geneValues, Func<TGeneValue, double> geneToDoubleConverter, 
@@ -35,7 +37,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <summary>
         /// As detailed in <see href="https://en.wikiversity.org/wiki/Whale_Optimization_Algorithm">Whale Optimization Algorithm</see>
         /// Implemented directly from <see href="https://fr.mathworks.com/matlabcentral/fileexchange/55667-the-whale-optimization-algorithm?s_tid=srchtitle">The Whale Optimization Algorithm</see>
-        /// This is the default and faster version of the WOA algorithm with Reduced lambda expressions.
+        /// This is the default and faster version of the WhaleOptimisation algorithm with Reduced lambda expressions.
         /// </summary>
         /// <param name="ordered">specifies if the resulting Geometric Crossover operation should be made ordered to preserve gene permutations or if genes should be simply overwritten</param>
         /// <param name="maxGenerations">max expected generations for parameter calibration</param>
@@ -46,9 +48,11 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <param name="noMutation">optionally toggle mutation operator (default true switches off mutation operator)</param>
         /// <param name="encirclingOperator">You can optionally replace the default exploration operator with your own function.</param>
         /// <param name="bubbleNetOperator">You can optionally replace the default exploitation operator with your own function.</param>
-        /// <returns>A MetaHeuristic applying the WOA</returns>
+        /// <returns>A MetaHeuristic applying the WhaleOptimisation</returns>
         public static IContainerMetaHeuristic WhaleOptimisationAlgorithm<TGeneValue>(bool ordered, int maxGenerations, 
-            Func<int, TGeneValue, double> geneToDoubleConverter, Func<int, double, TGeneValue> doubleToGeneConverter, IGeometryEmbedding<TGeneValue> geometryEmbedding = null, double helicoidScale = DefaultHelicoidScale, bool noMutation = true, EncirclingPreyOperator<TGeneValue> encirclingOperator = null, BubbleNetOperator<TGeneValue> bubbleNetOperator = null)
+            Func<int, TGeneValue, double> geneToDoubleConverter ,
+            Func<int, double, TGeneValue> doubleToGeneConverter, 
+            IGeometryEmbedding<TGeneValue> geometryEmbedding = null, double helicoidScale = DefaultHelicoidScale, bool noMutation = true, EncirclingPreyOperator<TGeneValue> encirclingOperator = null, BubbleNetOperator<TGeneValue> bubbleNetOperator = null)
         {
             var rnd = RandomizationProvider.Current;
             if (encirclingOperator == null)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
@@ -11,6 +12,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
     /// <summary>
     /// This MetaHeuristic doesn't perform any operation and can be used together with other Metaheuristics to Cancel certain operators
     /// </summary>
+    [DisplayName("NoOp")]
     public class NoOpMetaHeuristic : MetaHeuristicBase
     {
         public override IList<IChromosome> SelectParentPopulation(IEvolutionContext ctx, ISelection selection)

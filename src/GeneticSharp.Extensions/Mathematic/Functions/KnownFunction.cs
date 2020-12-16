@@ -24,8 +24,5 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
         public Func<double[], double> Function { get; set; }
         public Func<int, IList<(double min, double max)>> Ranges { get; set; }
         public Func<double, double> Fitness { get; set; }
-        public bool Reverse { get; set; }
     }
-
-
 }
