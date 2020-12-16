@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Infrastructure.Framework.Images;
+using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Domain.Crossovers.Geometric
 {

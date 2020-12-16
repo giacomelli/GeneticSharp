@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using GeneticSharp.Infrastructure.Framework.Images;
+using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Domain.Populations
 {

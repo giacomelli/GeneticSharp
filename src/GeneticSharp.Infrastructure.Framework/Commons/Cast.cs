@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GeneticSharp.Infrastructure.Framework.Images
+namespace GeneticSharp.Infrastructure.Framework.Commons
 {
     /// <summary>
     /// Converts a data type to another data type.

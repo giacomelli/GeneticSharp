@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using GeneticSharp.Infrastructure.Framework.Images;
+using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Domain.Metaheuristics.Primitives
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using GeneticSharp.Infrastructure.Framework.Texts;
 
-namespace GeneticSharp.Infrastructure.Framework.Images
+namespace GeneticSharp.Infrastructure.Framework.Commons
 {
     /// <summary>
     /// Exception helper.

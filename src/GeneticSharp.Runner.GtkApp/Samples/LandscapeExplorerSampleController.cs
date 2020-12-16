@@ -11,6 +11,7 @@ using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Extensions.Mathematic;
 using GeneticSharp.Extensions.Mathematic.Functions;
+using GeneticSharp.Infrastructure.Framework.Commons;
 using GeneticSharp.Infrastructure.Framework.Images;
 using GeneticSharp.Infrastructure.Framework.Threading;
 using GeneticSharp.Runner.GtkApp.Samples;

@@ -1,5 +1,5 @@
 ﻿using System;
-using GeneticSharp.Infrastructure.Framework.Images;
+using GeneticSharp.Infrastructure.Framework.Commons;
 using NUnit.Framework;
 
 namespace GeneticSharp.Infrastructure.Framework.UnitTests.Commons

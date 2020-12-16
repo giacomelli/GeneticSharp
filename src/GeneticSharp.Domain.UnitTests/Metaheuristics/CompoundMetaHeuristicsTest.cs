@@ -10,7 +10,7 @@ using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Extensions.Mathematic;
 using GeneticSharp.Extensions.Mathematic.Functions;
-using GeneticSharp.Infrastructure.Framework.Images;
+using GeneticSharp.Infrastructure.Framework.Commons;
 using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.MetaHeuristics

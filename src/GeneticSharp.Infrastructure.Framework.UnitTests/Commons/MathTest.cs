@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using GeneticSharp.Domain.Randomizations;
-using GeneticSharp.Infrastructure.Framework.Images;
+using GeneticSharp.Infrastructure.Framework.Commons;
 using NUnit.Framework;
 
 namespace GeneticSharp.Infrastructure.Framework.UnitTests.Commons

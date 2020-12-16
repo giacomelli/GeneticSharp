@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace GeneticSharp.Infrastructure.Framework.Images
+namespace GeneticSharp.Infrastructure.Framework.Commons
 {
     /// <summary>
     /// Imported from <see href="https://github.com/jarekczek/LambdaExpressionHelper">Github LambdaExpressionHelper library</see>

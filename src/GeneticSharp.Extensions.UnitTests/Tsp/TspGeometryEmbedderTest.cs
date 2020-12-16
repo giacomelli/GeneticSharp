@@ -14,7 +14,7 @@ using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.Tsp;
-using GeneticSharp.Infrastructure.Framework.Images;
+using GeneticSharp.Infrastructure.Framework.Commons;
 using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Tsp

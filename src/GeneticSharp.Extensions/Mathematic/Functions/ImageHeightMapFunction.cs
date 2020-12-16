@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using GeneticSharp.Domain.Metaheuristics;
+using GeneticSharp.Infrastructure.Framework.Commons;
 using GeneticSharp.Infrastructure.Framework.Images;
 
 namespace GeneticSharp.Extensions.Mathematic.Functions

@@ -2,7 +2,7 @@
 using System.Linq;
 using GeneticSharp.Infrastructure.Framework.Texts;
 
-namespace GeneticSharp.Infrastructure.Framework.Images
+namespace GeneticSharp.Infrastructure.Framework.Commons
 {
     /// <summary>
     /// Binary string representation.

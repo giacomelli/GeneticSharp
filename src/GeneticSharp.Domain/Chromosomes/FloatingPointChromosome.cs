@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using GeneticSharp.Domain.Randomizations;
-using GeneticSharp.Infrastructure.Framework.Images;
+using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Domain.Chromosomes
 {
