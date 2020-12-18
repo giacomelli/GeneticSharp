@@ -29,7 +29,7 @@ namespace GeneticSharp.Extensions.Tsp
         private double? mMinDistanceApprox;
         private double? mMaxDistanceApprox;
         private (TspCity, TspCity)? mBoundingBox;
-        private List<List<double>> _cityDistances;
+        private double[][] _cityDistances;
         private readonly object mLock = new object();
         private bool _cached;
 
@@ -182,7 +182,7 @@ namespace GeneticSharp.Extensions.Tsp
         /// <summary>
         /// The lazy-loaded dictionary of all city distances
         /// </summary>
-        public List<List<double>> CityDistances
+        public double[][] CityDistances
         {
             get
             {
@@ -192,7 +192,7 @@ namespace GeneticSharp.Extensions.Tsp
                     {
                         if (_cityDistances == null)
                         {
-                            _cityDistances = BuildPairDistances();
+                            _cityDistances = BuildPairDistances().Select(l=>l.ToArray()).ToArray();
                         }
                     }
                 }
@@ -298,7 +298,7 @@ namespace GeneticSharp.Extensions.Tsp
         /// <param name="two">City two.</param>
         public static double CalcDistanceTwoCities(TspCity one, TspCity two)
         {
-            return Math.Sqrt((two.X - one.X) * (two.X - one.X) + (two.Y - one.Y) * (two.Y - one.Y));
+            return Math.Sqrt((two.X - one.X) * (double)(two.X - one.X) + (two.Y - one.Y) * (double)(two.Y - one.Y));
         }
 
         private (TspCity, TspCity) GetBoundingBox()

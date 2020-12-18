@@ -136,7 +136,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
                 for (int i = 1; i < meanResults.Count-1; i++)
                 {
-                    Assert.GreaterOrEqual(meanResults[i].Fitness , normalGaResult.Fitness *ratio);
+                    Assert.GreaterOrEqual(meanResults[i].Fitness , normalGaResult.Fitness * ratio);
                 }
                 
                 

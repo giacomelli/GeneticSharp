@@ -24,6 +24,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
         }
 
 
+        // Ok it seems after usage of Math.Pow was replaced with simpler squares, city distance caching isn't an edge anymore, and direct computation is faster
         [Test]
         public void Evaluate_Manychromosomes_Cached_Faster()
         {
@@ -31,7 +32,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             var repeatNb = 40;
 
             // Note that with higher numbers the situation eventually reverses and the memory impediment must be detrimental
-            var cityNbsAndRatios = new (int cityNb, double ratio)[] { (5, 0.95), (100, 0.95), (500, 0.95), (2000, 1.7)};
+            var cityNbsAndRatios = new (int cityNb, double ratio)[] { (5, 0.9), (100, 0.95), (500, 1.1), (2000, 1.7)};
 
 
             var testResults = new List<(TimeSpan durationUncached, TimeSpan durationCached, double ratio)>();

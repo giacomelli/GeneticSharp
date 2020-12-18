@@ -225,11 +225,11 @@ namespace GeneticSharp.Extensions.Tsp
         /// Computes a sorted list of sorted distances between cities, for easier recall with distance rank parameter
         /// </summary>
         /// <param name="pairDistances">The city pair distances as obtained from the fitness class instance</param>
-        private List<SortedDictionary<int, double>> BuildSortedPairDistances(List<List<double>> pairDistances)
+        private List<SortedDictionary<int, double>> BuildSortedPairDistances(double[][] pairDistances)
         {
             var toReturn = new List<SortedDictionary<int, double>>(Fitness.Cities.Count);
 
-            for (var i = 0; i < pairDistances.Count; i++)
+            for (var i = 0; i < pairDistances.Length; i++)
             {
                 var pairDistance = pairDistances[i];
                 var distComparer = new DynamicComparer<int>((firstIndex, secondIndex) =>
