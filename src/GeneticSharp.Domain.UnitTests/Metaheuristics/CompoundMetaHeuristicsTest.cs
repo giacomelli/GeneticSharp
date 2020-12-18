@@ -131,7 +131,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
             var crossover = new OnePointCrossover(2);
 
-            var resultsRatio = new[] {1.3, 1.05, 2, 3};
+            var resultsRatio = new[] {100, 1.05, 1.05, 3};
             int maxNbGenerations = 100;
 
             Compare_WOA_Crossover_KnownFunctions_Size_LargerFitness_Bounded(crossover, SmallSizes, maxNbGenerations, resultsRatio);
@@ -141,14 +141,14 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
 
         [Test]
-        public void Compare_WOA_Uniform_KnownFunctions_Small_LargerFitness_Bounded()
+        public void Compare_WOA_Uniform_KnownFunctions_Large_LargerFitness_Bounded()
         {
             var crossover = new UniformCrossover();
 
-            var resultsRatio = new[] { 1.0, 1.0, 1.0, 1.2};
+            var resultsRatio = new[] { 100, 1.01, 10, 10};
             int maxNbGenerations = 100;
 
-            Compare_WOA_Crossover_KnownFunctions_Size_LargerFitness_Bounded(crossover, SmallSizes, maxNbGenerations, resultsRatio);
+            Compare_WOA_Crossover_KnownFunctions_Size_LargerFitness_Bounded(crossover, LargeSizes, maxNbGenerations, resultsRatio);
             
 
         }

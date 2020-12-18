@@ -23,8 +23,8 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
     public abstract class MetaHeuristicTestBase
     {
 
-        protected IEnumerable<int> SmallSizes = Enumerable.Range(1, 3).Select(x => 10 * x);
-        protected IEnumerable<int> LargeSizes = Enumerable.Range(1, 3).Select(x => 500 * x);
+        protected IEnumerable<int> SmallSizes = Enumerable.Range(1, 3).Select(x => 20 * x);
+        protected IEnumerable<int> LargeSizes = Enumerable.Range(1, 3).Select(x => 200 * x);
 
 
         protected OrTermination GetTermination(double minFitness, int maxNbGenerations, int stagnationNb,
