@@ -47,7 +47,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             ctx.Index = 0;
             //Testing no-op
             offSpring = testContainer.MatchParentsAndCross(ctx, null, 0, stubParents);
-            Assert.AreEqual(0, offSpring.Count);
+            Assert.IsNull(offSpring);
 
 
         }
@@ -88,7 +88,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             //Testing no-op
             ctx.Index = 0;
             offSpring = testHeuristic.MatchParentsAndCross(ctx, null, 0, stubParents);
-            Assert.AreEqual(0, offSpring.Count);
+            Assert.IsNull(offSpring);
 
 
         }
@@ -131,7 +131,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             //Testing no-op
             offSpring = testHeuristic.MatchParentsAndCross(ctx, null, 0, stubParents);
-            Assert.AreEqual(0, offSpring.Count);
+            Assert.IsNull(offSpring);
 
 
         }
@@ -176,7 +176,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             //Testing no-op
             offSpring = testHeuristic.MatchParentsAndCross(ctx, null, 0, stubParents);
-            Assert.AreEqual(0, offSpring.Count);
+            Assert.IsNull(offSpring);
 
 
         }
