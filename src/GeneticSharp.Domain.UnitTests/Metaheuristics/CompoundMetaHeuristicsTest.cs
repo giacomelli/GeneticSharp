@@ -390,7 +390,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                                 metaHeuristic = woaMetaHeuristic;
                                 break;
                             case KnownCompoundMetaheuristics.WhaleOptimisationNaive:
-                                var woaNaiveMetaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false,
+                                var woaNaiveMetaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithmExtended(false,
                                     nbGenerationsWoa,
                                     (int geneIndex, double geneValue) => geneValue,
                                     GetGeneValueFunction, helicoidScale: helicoidScale,

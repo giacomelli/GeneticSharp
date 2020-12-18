@@ -79,7 +79,7 @@ namespace GeneticSharp.Domain.Metaheuristics
                                 return (TGeneValue)_converter.ConvertFrom(metricValue);
                             });
                     case KnownCompoundMetaheuristics.WhaleOptimisationNaive:
-                        return MetaHeuristicsFactory.WhaleOptimisationAlgorithm<object>(false, 500,
+                        return MetaHeuristicsFactory.WhaleOptimisationAlgorithmExtended<object>(false, 500,
                             (geneIndex, geneValue) => Convert.ToDouble(geneValue),
                             (geneIndex, metricValue) =>
                             {

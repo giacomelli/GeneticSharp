@@ -34,6 +34,83 @@ namespace GeneticSharp.Domain.Metaheuristics
         public delegate TGeneValue BubbleNetOperator<TGeneValue>(IList<TGeneValue> geneValues, Func<TGeneValue, double> geneToDoubleConverter, 
             Func<double, TGeneValue> doubleToGeneConverter, double l, double b);
 
+
+
+        /// <summary>
+        /// As detailed in <see href="https://en.wikiversity.org/wiki/Whale_Optimization_Algorithm">Whale Optimization Algorithm</see>
+        /// Implemented directly from <see href="https://fr.mathworks.com/matlabcentral/fileexchange/55667-the-whale-optimization-algorithm?s_tid=srchtitle">The Whale Optimization Algorithm</see>
+        /// This is the default and faster version of the WhaleOptimisation algorithm with Reduced lambda expressions.
+        /// </summary>
+        /// <param name="ordered">specifies if the resulting Geometric Crossover operation should be made ordered to preserve gene permutations or if genes should be simply overwritten</param>
+        /// <param name="maxGenerations">max expected generations for parameter calibration</param>
+        /// <param name="helicoidScale">sets the amplitude of the cosine function applied in the bubblenet operator </param>
+        /// <param name="geneToDoubleConverter">Converter from typed gene value to double</param>
+        /// <param name="doubleToGeneConverter">Converter from double to typed gene value</param>
+        /// <param name="geometryEmbedding">an optional domain specific geometrisation operator to process gene values before being converted and processed by the geometric operator and back after conversion </param>
+        /// <param name="noMutation">optionally toggle mutation operator (default true switches off mutation operator)</param>
+        /// <returns>A MetaHeuristic applying the WhaleOptimisation</returns>
+        public static IContainerMetaHeuristic WhaleOptimisationAlgorithm<TGeneValue>(bool ordered, int maxGenerations,
+            Func<int, TGeneValue, double> geneToDoubleConverter,
+            Func<int, double, TGeneValue> doubleToGeneConverter,
+            IGeometryEmbedding<TGeneValue> geometryEmbedding = null, double helicoidScale = DefaultHelicoidScale, bool noMutation = true)
+        {
+            var rnd = RandomizationProvider.Current;
+
+            //Defining the cross operator to be applied with a random or best target, with the Encircling Prey Operator
+            var encirclingHeuristic = new CrossoverHeuristic()
+                .WithCrossover(ParamScope.None,
+                    (IMetaHeuristic h, IEvolutionContext ctx, double A, double C) => new GeometricCrossover<TGeneValue>(ordered, 2, false)
+                        .WithGeometricOperator((geneIndex, geneValues) => DefaultEncirclingPreyOperator(geneValues, value => geneToDoubleConverter(geneIndex, value), d => doubleToGeneConverter(geneIndex, d), A, C))
+                        .WithGeometryEmbedding(geometryEmbedding));
+
+            //Defining the main compound Metaheuristic with sub-parts.
+            var woaHeuristic = new IfElseMetaHeuristic()
+                .WithName("Whale Optimisation Algorithm", "Optimization algorithm mimicking the hunting mechanism of humpback whales in nature. Mirjalili, S., & Lewis, A. (2016)")
+                .WithScope(EvolutionStage.Crossover)
+                .WithParam(nameof(WoaParam.a), "a decreases linearly from 2 to 0 in Eq. (2.3)",
+                    ParamScope.Generation, (h, ctx) => 2.0 - ctx.Population.GenerationsNumber * (2.0 / maxGenerations))
+                .WithParam(nameof(WoaParam.a2), "a2 linearly dicreases from -1 to -2 to calculate t in Eq. (3.12)",
+                    ParamScope.Generation, (h, ctx) => -1.0 + ctx.Population.GenerationsNumber * (-1.0 / maxGenerations))
+                .WithParam(nameof(WoaParam.A), "Eq. (2.3) in the paper",
+                    ParamScope.Generation | ParamScope.Individual, (IMetaHeuristic h, IEvolutionContext ctx, double a) => 2.0 * a * rnd.GetDouble() - a)
+                .WithParam(nameof(WoaParam.C), "Eq. (2.4) in the paper",
+                    ParamScope.Generation | ParamScope.Individual, (h, ctx) => 2 * rnd.GetDouble())
+                .WithParam(nameof(WoaParam.l), "parameters in Eq. (2.5)",
+                    ParamScope.Generation | ParamScope.Individual, (IMetaHeuristic h, IEvolutionContext ctx, double a2) => (a2 - 1) * rnd.GetDouble() + 1.0)
+                .WithCaseGenerator(ParamScope.None, (h, ctx) => rnd.GetDouble() < 0.5)
+                .WithTrue(new IfElseMetaHeuristic()
+                    .WithName("Update Tracking heuristic", "Exploration phase, towards Random or Best individual")
+                    .WithCaseGenerator(ParamScope.Generation, (IMetaHeuristic h, IEvolutionContext ctx, double a) => Math.Abs(a) > 1)
+                    .WithTrue(new MatchMetaHeuristic(2)
+                        .WithName("Random tracking")
+                        .WithMatches(MatchingTechnique.Randomize)
+                        .WithSubMetaHeuristic(encirclingHeuristic))
+                    .WithFalse(new MatchMetaHeuristic(2)
+                        .WithName("Best individual encircling")
+                        .WithMatches(MatchingTechnique.Best)
+                        .WithSubMetaHeuristic(encirclingHeuristic)))
+                .WithFalse(new MatchMetaHeuristic(2)
+                    .WithName("Bubble Net heuristic", "Exploitation phase, helicoidal approach")
+                    .WithMatches(MatchingTechnique.Best)
+                    .WithSubMetaHeuristic(new CrossoverHeuristic()
+                        .WithCrossover(ParamScope.None,
+                            (IMetaHeuristic h, IEvolutionContext ctx, double l) => new GeometricCrossover<TGeneValue>(ordered, 2, false)
+                                .WithGeometricOperator((geneIndex, geneValues) => DefaultBubbleNetOperator(geneValues, value => geneToDoubleConverter(geneIndex, value), d => doubleToGeneConverter(geneIndex, d), l, helicoidScale))
+                                .WithGeometryEmbedding(geometryEmbedding))));
+
+            //Removing default mutation operator 
+            if (noMutation)
+            {
+                woaHeuristic.SubMetaHeuristic = new DefaultMetaHeuristic().WithScope(EvolutionStage.Selection | EvolutionStage.Reinsertion);
+            }
+            return woaHeuristic;
+        }
+
+
+
+
+
+
         /// <summary>
         /// As detailed in <see href="https://en.wikiversity.org/wiki/Whale_Optimization_Algorithm">Whale Optimization Algorithm</see>
         /// Implemented directly from <see href="https://fr.mathworks.com/matlabcentral/fileexchange/55667-the-whale-optimization-algorithm?s_tid=srchtitle">The Whale Optimization Algorithm</see>
@@ -49,7 +126,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <param name="encirclingOperator">You can optionally replace the default exploration operator with your own function.</param>
         /// <param name="bubbleNetOperator">You can optionally replace the default exploitation operator with your own function.</param>
         /// <returns>A MetaHeuristic applying the WhaleOptimisation</returns>
-        public static IContainerMetaHeuristic WhaleOptimisationAlgorithm<TGeneValue>(bool ordered, int maxGenerations, 
+        public static IContainerMetaHeuristic WhaleOptimisationAlgorithmExtended<TGeneValue>(bool ordered, int maxGenerations, 
             Func<int, TGeneValue, double> geneToDoubleConverter ,
             Func<int, double, TGeneValue> doubleToGeneConverter, 
             IGeometryEmbedding<TGeneValue> geometryEmbedding = null, double helicoidScale = DefaultHelicoidScale, bool noMutation = true, EncirclingPreyOperator<TGeneValue> encirclingOperator = null, BubbleNetOperator<TGeneValue> bubbleNetOperator = null)
