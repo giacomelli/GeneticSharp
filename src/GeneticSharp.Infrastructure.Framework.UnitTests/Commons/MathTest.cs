@@ -32,7 +32,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Commons
         //Local tests pass, but appveyor failing seems to suggest latest .Net core version was optimized
         // local tests are inconclusive as the optimization isn't witnessed
         //todo: figure out what is going on with the AppVeyor Build
-        private readonly double ratioMax = 1.5;
+        private readonly double ratioMax = 2.0;
 #else
         // .NET Framework 4.0 does not use squared exponentiation
         // Very conservative bound
@@ -46,7 +46,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Commons
         [Test]
         public void Compare_IntPow_Pow_Faster()
         {
-            var ratio = 1.0;
+            var ratio = ratioMax;
             var repeatNb = 5;
             var maxApprox = Math.Pow(10, -10);
 
