@@ -31,7 +31,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
         public IMetaHeuristic SubMetaHeuristic { get; set; }
 
 
-        public ProbabilityStrategy CrossoverProbabilityStrategy { get; set; }
+        public ProbabilityStrategy CrossoverProbabilityStrategy { get; set; } //= ProbabilityStrategy.TestProbability | ProbabilityStrategy.OverwriteProbability;
 
         public float StaticCrossoverProbability { get; set; } = 1;
 
@@ -52,7 +52,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
                 return SubMetaHeuristic.MatchParentsAndCross(ctx, crossover, crossoverProbability, parents);
             }
 
-            return new List<IChromosome>();
+            return null;
 
         }
 
