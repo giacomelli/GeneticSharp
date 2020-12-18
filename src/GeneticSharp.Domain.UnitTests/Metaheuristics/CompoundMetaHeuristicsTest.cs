@@ -309,7 +309,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             foreach (var (woaWithParams, woaReduced) in meanResultsBySize)
             {
                 Assert.Greater(woaReduced.GenerationsNumber / (double) woaWithParams.GenerationsNumber, 0.8);
-                Assert.Less(woaReduced.GenerationsNumber / (double)woaWithParams.GenerationsNumber, 5);
+                Assert.Less(woaReduced.GenerationsNumber / (double)woaWithParams.GenerationsNumber, 10);
             }
 
           
