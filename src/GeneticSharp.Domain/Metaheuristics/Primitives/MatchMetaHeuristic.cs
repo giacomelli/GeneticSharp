@@ -85,35 +85,30 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
                         //var  matchResult = new List<IChromosome>();
                         if (EnableHyperSpeed
                             && selectedParents.All(c => c.Fitness.Value ==  firstParent.Fitness.Value)
-                            //&& (selectedParents.All(c => c.Equals(firstParent))
+                                //Other possibilities (costly)
+                                //&& (selectedParents.All(c => c.Equals(firstParent))
                                 /*|| selectedParents.All(c => Enumerable.Range(0, c.Length).All(i => c.GetGene(i).Value.Equals(firstGenes[i].Value)))*//*)*/)
                         {
                             break;
+                            //Other possibilities to investigate
+                            //toReturn.AddRange(Enumerable.Repeat(firstParent, crossover.ChildrenNumber));
                         }
                         else
                         {
-                            //normalCount++;
                             var subContext = ctx.GetIndividual(0);
                             var matchResult =
                                 base.MatchParentsAndCross(subContext, crossover, subProbability, selectedParents);
-
-
                             if (matchResult != null)
                             {
                                 toReturn.AddRange(matchResult);
                             }
                         }
-
                     }
-                
                 }
                 return toReturn;
             }
-
             return null;
-
         }
-
 
         private void AddOneMatch(IList<IChromosome> selectedParents, int matchIndex, IEvolutionContext ctx, MatchingTechnique currentMatchingTechnique, IList<IChromosome> parents)
         {

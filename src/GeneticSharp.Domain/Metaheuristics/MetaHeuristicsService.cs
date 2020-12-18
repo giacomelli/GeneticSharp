@@ -13,6 +13,7 @@ namespace GeneticSharp.Domain.Metaheuristics
     {
         None = 0,
         Default,
+        DefaultRandomHyperspeed,
         WhaleOptimisation,
         WhaleOptimisationNaive,
     }
@@ -66,6 +67,10 @@ namespace GeneticSharp.Domain.Metaheuristics
                         return null;
                     case KnownCompoundMetaheuristics.Default:
                         return new DefaultMetaHeuristic();
+                    case KnownCompoundMetaheuristics.DefaultRandomHyperspeed:
+                        var toReturn = new DefaultMetaHeuristic();
+                        toReturn.MatchMetaHeuristic.MatchingTechniques[0] = MatchingTechnique.Randomize;
+                        return toReturn;
                     case KnownCompoundMetaheuristics.WhaleOptimisation:
                         return MetaHeuristicsFactory.WhaleOptimisationAlgorithm<TGeneValue>(false, 500,
                             (geneIndex, geneValue) => Convert.ToDouble(geneValue),
