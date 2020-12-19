@@ -5,6 +5,7 @@ using System.Threading;
 using Gdk;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Crossovers.Geometric;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Domain.Metaheuristics.Primitives;
@@ -507,8 +508,16 @@ public partial class MainWindow : Window
             cmbMetaHeuristic,
             btnEditMetaHeuristic,
             MetaHeuristicsService<int>.GetMetaHeuristicNames,
-            MetaHeuristicsService<int>.GetMetaHeuristicTypeByName,
-            MetaHeuristicsService<int>.CreateMetaHeuristicByName,
+            MetaHeuristicsService<int>.GetMetaHeuristicTypeByName,(s, objects) =>
+            {
+                IGeometricConverter<object> geometryConverter = new DefaultGeometricConverter<object>();
+                if (m_sampleController != null)
+                {
+                    geometryConverter = m_sampleController.GetGeometricConverters();
+                }
+                return MetaHeuristicsService<object>.CreateMetaHeuristicByName(s, geometryConverter.GeneToDouble,
+                    geometryConverter.DoubleToGene);
+            },
             () => m_metaheuristic,
             metaHeuristic => m_metaheuristic = metaHeuristic
             );

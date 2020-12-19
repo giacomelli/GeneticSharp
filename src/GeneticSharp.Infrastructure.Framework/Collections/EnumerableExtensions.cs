@@ -93,6 +93,14 @@ namespace GeneticSharp.Infrastructure.Framework.Collections
 
 
 
+        public static int BinarySearch<T>(this List<T> list, T item, Func<T, T, int> compare)
+        {
+            return list.BinarySearch(item, new DynamicComparer<T>(compare));
+        }
+
+
+
+
         public static IEnumerable<TSource> LazyOrderBy<TSource, TKey>(this IEnumerable<TSource> source,
             Func<TSource, TKey> keySelector)
         {

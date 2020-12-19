@@ -143,7 +143,7 @@ public partial class MainWindow
         WindowPosition = (WindowPosition)1;
         Modal = true;
         DefaultWidth = 800;
-        DefaultHeight = 770;
+        DefaultHeight = 800;
         // Container child MainWindow.Gtk.Container+ContainerChild
         hbxMain = new HBox {Name = "hbxMain", Spacing = 10, BorderWidth = 10};
         // Container child hbxMain.Gtk.Box+BoxChild

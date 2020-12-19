@@ -8,6 +8,7 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Mutations;
+using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Extensions.Mathematic;
 using GeneticSharp.Extensions.Mathematic.Functions;
@@ -44,7 +45,8 @@ namespace GeneticSharp.Runner.GtkApp
     [DisplayName("Landscape Explorer")]
     public class LandscapeExplorerSampleController : SampleControllerBase
     {
-
+        private int mNbDimensions = 2;
+        private int mNbSamples = 10;
         private readonly Color indColor = Color.BlueViolet;
         private readonly Color bestColor = Color.Aqua;
         private SpinButton _xMin;
@@ -70,6 +72,11 @@ namespace GeneticSharp.Runner.GtkApp
             
             var container = new VBox();
 
+
+           
+            // Landscape type
+
+
             var landscapeHBox = new HBox();
             container.Add(landscapeHBox);
             Box.BoxChild wlandscapeHBox = (Box.BoxChild)container[landscapeHBox];
@@ -85,6 +92,47 @@ namespace GeneticSharp.Runner.GtkApp
             Box.BoxChild wlandscapeModeCombo = (Box.BoxChild)landscapeHBox[landscapeModeCombo];
             wlandscapeModeCombo.Expand = false;
             wlandscapeModeCombo.Fill = false;
+
+            //Nb Dimensions / sample number
+
+            var nbDimensionsHBox = new HBox();
+            container.Add(nbDimensionsHBox);
+            Box.BoxChild wnbDimensionsHBox = (Box.BoxChild)container[nbDimensionsHBox];
+            wnbDimensionsHBox.Expand = false;
+            wnbDimensionsHBox.Fill = false;
+
+            var nbDimensionsLabel = new Label { Text = "Nb of gene dimensions" };
+            nbDimensionsHBox.Add(nbDimensionsLabel);
+
+            var nbDimensionsButton = new SpinButton(2, 10000, 1) { Digits = 0 };
+            nbDimensionsButton.ValueChanged += delegate
+            {
+                mNbDimensions = nbDimensionsButton.ValueAsInt;
+                _hideAndShow();
+            };
+            nbDimensionsHBox.Add(nbDimensionsButton);
+            Box.BoxChild wnbDimensionsButton = (Box.BoxChild)nbDimensionsHBox[nbDimensionsButton];
+            wnbDimensionsButton.Expand = false;
+            wnbDimensionsButton.Fill = false;
+
+            var nbSamplesLabel = new Label { Text = "Nb of samples" };
+            nbDimensionsHBox.Add(nbSamplesLabel);
+
+            var nbSamplesButton = new SpinButton(1, 10000, 1) { Digits = 0 };
+            nbSamplesButton.Value = mNbSamples;
+            nbSamplesButton.ValueChanged += delegate
+            {
+                mNbSamples = nbDimensionsButton.ValueAsInt;
+            };
+            nbDimensionsHBox.Add(nbSamplesButton);
+            Box.BoxChild wnbSamplesButton = (Box.BoxChild)nbDimensionsHBox[nbSamplesButton];
+            wnbSamplesButton.Expand = false;
+            wnbSamplesButton.Fill = false;
+
+
+
+            //Height maps
+
 
             var heightMapHBox = new HBox();
             container.Add(heightMapHBox);
@@ -137,11 +185,9 @@ namespace GeneticSharp.Runner.GtkApp
                 Replot();
             };
 
-
-
             heightMapHBox.Add(heightMapCombo);
 
-
+            // Custom image
 
             var imageHBox = new HBox();
             container.Add(imageHBox);
@@ -180,6 +226,7 @@ namespace GeneticSharp.Runner.GtkApp
             };
             imageHBox.Add(selectImageButton);
 
+            //Known functions
 
             var functionHBox = new HBox();
             container.Add(functionHBox);
@@ -226,8 +273,10 @@ namespace GeneticSharp.Runner.GtkApp
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
+                var isMultidimensional = mNbDimensions > 2;
+                nbSamplesButton.Visible = isMultidimensional;
+                nbSamplesLabel.Visible = isMultidimensional;
 
-                
             };
 
             landscapeModeCombo.Changed += delegate
@@ -238,6 +287,7 @@ namespace GeneticSharp.Runner.GtkApp
             };
 
 
+            //Range
            
 
             var rangeHBox = new HBox();
@@ -314,7 +364,7 @@ namespace GeneticSharp.Runner.GtkApp
                 Replot();
             };
 
-
+            //Replot button
 
             var replotButton = new Button { Label = "Replot Landscape" };
             replotButton.Clicked += delegate
@@ -341,11 +391,16 @@ namespace GeneticSharp.Runner.GtkApp
 
         public override IChromosome CreateChromosome()
         {
-            var toReturn = new EquationChromosome<double>( 2) {
-                Ranges = new List<(double min, double max)>(new [] {
-                    (mRange.xRange.min, mRange.xRange.max),
-                    (mRange.yRange.min,mRange.yRange.max)
-                })};
+            var ranges = new List<(double min, double max)>(new[] {
+                (mRange.xRange.min, mRange.xRange.max),
+                (mRange.yRange.min,mRange.yRange.max)});
+            for (int i = 2; i < mNbDimensions; i++)
+            {
+                ranges.Add((mRange.xRange.min, mRange.xRange.max));
+            }
+
+            var toReturn = new EquationChromosome<double>(mNbDimensions) {
+                Ranges = ranges};
             return toReturn;
         }
 
@@ -395,6 +450,7 @@ namespace GeneticSharp.Runner.GtkApp
 
 
         private bool _plotting;
+        private int samplingNb = 10;
 
         private void PlotFunction()
         {
@@ -417,8 +473,6 @@ namespace GeneticSharp.Runner.GtkApp
                         _taskExecutor.Clear();
                     });
                     _taskExecutor.Start();
-                    //_fBitmap = BuildBitmap();
-                    ////OnReconfigured();
                 }
                 else
                 {
@@ -554,11 +608,7 @@ namespace GeneticSharp.Runner.GtkApp
                 for (int yDraw = 0; yDraw < height; yDraw++)
                 {
                     var (x, y) = GetRealCoords(xDraw, yDraw);
-                    var fValue = mTargetFunction.Fitness(mTargetFunction.Function(new[] { x, y }));
-                    if (double.IsNaN(fValue))
-                    {
-                        Debugger.Break();
-                    }
+                    var fValue = GetFunctionValue(x, y);
                     fValues.Add((xDraw, yDraw), fValue);
                     if (fValue > maxPoint.fValue)
                     {
@@ -579,6 +629,47 @@ namespace GeneticSharp.Runner.GtkApp
             _maxPoint = maxPoint;
             _minPoint = minPoint;
             return fValues;
+        }
+
+        private double GetFunctionValue(double x, double y)
+        {
+
+            double fValue;
+            if (mNbDimensions == 2)
+            {
+                fValue = ComputeFunctionValue(new[] { x, y });
+            }
+            else
+            {
+                fValue = double.MinValue;
+                var rnd = RandomizationProvider.Current;
+                var sampleCoords = new double[mNbDimensions];
+                sampleCoords[0] =x;
+                sampleCoords[1] = y;
+                var coordsRange = mRange.xRange.max - mRange.xRange.min;
+                for (int i = 0; i < samplingNb; i++)
+                {
+                    for (int extraCoord = 2; extraCoord < mNbDimensions; extraCoord++)
+                    {
+                        var coord = this.mRange.xRange.min + rnd.GetDouble() * coordsRange;
+                        sampleCoords[extraCoord] = coord;
+                    }
+                    fValue = Math.Max(fValue, ComputeFunctionValue(sampleCoords));
+                }
+            }
+
+
+            if (double.IsNaN(fValue))
+            {
+                throw new InvalidOperationException("landscape function returned a NaN value for a landscape point");
+            }
+
+            return fValue;
+        }
+
+        private double ComputeFunctionValue(double[] inputCoords)
+        {
+            return mTargetFunction.Fitness(mTargetFunction.Function(inputCoords));
         }
 
 

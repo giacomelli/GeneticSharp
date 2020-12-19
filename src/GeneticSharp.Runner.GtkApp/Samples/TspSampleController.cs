@@ -3,10 +3,12 @@ using System.ComponentModel;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Crossovers.Geometric;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Extensions.Tsp;
+using GeneticSharp.Infrastructure.Framework.Commons;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Framework.Threading;
 using Gtk;
@@ -180,6 +182,14 @@ namespace GeneticSharp.Runner.GtkApp.Samples
                 Context.WriteText("Distance: {0:n2}", m_bestChromosome.Distance);
             }
         }
+
+        public override IGeometricConverter<object> GetGeometricConverters()
+        {
+            return new GeometricConverter<object>(){DoubleToGeneConverter = GetGeneValueFunction, GeneToDoubleConverter = (geneIndex, geneValue) => (double)geneValue};
+        }
+
+        private object GetGeneValueFunction(int geneIndex, double d) => Math.Round(d).PositiveMod(m_fitness.Cities.Count);
+
         #endregion
     }
 }

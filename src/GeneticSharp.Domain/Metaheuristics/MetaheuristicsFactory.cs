@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using GeneticSharp.Domain.Crossovers.Geometric;
 using GeneticSharp.Domain.Metaheuristics.Parameters;
@@ -14,6 +15,11 @@ namespace GeneticSharp.Domain.Metaheuristics
     public static class MetaHeuristicsFactory
     {
 
+
+        public static IGeometricConverter<TGeneValue> GetDefaultGeneConverter<TGeneValue>() =>
+            new DefaultGeometricConverter<TGeneValue>();
+
+
         //Declare the parameters used for better name access (note that the local variables won't be used directly because they will be thread-safe / context-dependent parameters
         private enum WoaParam
         {
@@ -23,6 +29,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             C, 
             l
         }
+
 
 
 

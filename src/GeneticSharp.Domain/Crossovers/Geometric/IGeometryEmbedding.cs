@@ -3,7 +3,6 @@ using GeneticSharp.Domain.Chromosomes;
 
 namespace GeneticSharp.Domain.Crossovers.Geometric
 {
-
     /// <summary>
     /// A general interface to define geometry embeddings. They are responsible for mapping gene-space into a target metric-space, in order to use a geometric operator
     /// </summary>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using GeneticSharp.Domain.Crossovers.Geometric;
 using GeneticSharp.Domain.Metaheuristics.Primitives;
 using GeneticSharp.Infrastructure.Framework.Reflection;
 
@@ -24,9 +25,9 @@ namespace GeneticSharp.Domain.Metaheuristics
     /// <summary>
     /// Population service.
     /// </summary>
-    public static class MetaHeuristicsService<TGeneValue> where TGeneValue: IConvertible
+    public static class MetaHeuristicsService<TGeneValue> //where TGeneValue: IConvertible
     {
-        private static readonly TypeConverter _converter = TypeDescriptor.GetConverter(typeof(TGeneValue));
+        
 
         #region Methods
         /// <summary>
@@ -55,7 +56,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <returns>The generation strategy implementation instance.</returns>
         /// <param name="name">The generation strategy name.</param>
         /// <param name="constructorArgs">Constructor arguments.</param>
-        public static IMetaHeuristic CreateMetaHeuristicByName(string name, params object[] constructorArgs)
+        public static IMetaHeuristic CreateMetaHeuristicByName(string name, Func<int, TGeneValue, double> geneToDoubleConverter, Func<int, double, TGeneValue> doubleToGeneConverter, IGeometryEmbedding<TGeneValue> geometryEmbedding = null)
         {
             var compoundNames = Enum.GetNames(typeof(KnownCompoundMetaheuristics));
             if (compoundNames.Contains(name))
@@ -72,25 +73,31 @@ namespace GeneticSharp.Domain.Metaheuristics
                         toReturn.MatchMetaHeuristic.MatchingTechniques[0] = MatchingTechnique.Randomize;
                         return toReturn;
                     case KnownCompoundMetaheuristics.WhaleOptimisation:
+                        if (geneToDoubleConverter == null)
+                        {
+                            geneToDoubleConverter = MetaHeuristicsFactory.GetDefaultGeneConverter<TGeneValue>().GeneToDouble;
+                        }
+                        if (doubleToGeneConverter == null)
+                        {
+                            doubleToGeneConverter = MetaHeuristicsFactory.GetDefaultGeneConverter<TGeneValue>().DoubleToGene;
+                        }
                         return MetaHeuristicsFactory.WhaleOptimisationAlgorithm<TGeneValue>(false, 500,
-                            (geneIndex, geneValue) => Convert.ToDouble(geneValue),
-                            (geneIndex, metricValue) =>
-                            {
-                                return (TGeneValue)_converter.ConvertFrom(metricValue);
-                            });
+                            geneToDoubleConverter, doubleToGeneConverter, geometryEmbedding);
                     case KnownCompoundMetaheuristics.WhaleOptimisationNaive:
-                        return MetaHeuristicsFactory.WhaleOptimisationAlgorithmExtended<object>(false, 500,
-                            (geneIndex, geneValue) => Convert.ToDouble(geneValue),
-                            (geneIndex, metricValue) =>
-                            {
-                                return (TGeneValue)_converter.ConvertFrom(metricValue);
-                            },
-                            bubbleNetOperator: MetaHeuristicsFactory.GetSimpleBubbleNetOperator<object>());
+                        if (geneToDoubleConverter == null)
+                        {
+                            geneToDoubleConverter = MetaHeuristicsFactory.GetDefaultGeneConverter<TGeneValue>().GeneToDouble;
+                        }
+                        if (doubleToGeneConverter == null)
+                        {
+                            doubleToGeneConverter = MetaHeuristicsFactory.GetDefaultGeneConverter<TGeneValue>().DoubleToGene;
+                        }
+                        return MetaHeuristicsFactory.WhaleOptimisationAlgorithmExtended<TGeneValue>(false, 500, geneToDoubleConverter, doubleToGeneConverter, geometryEmbedding, bubbleNetOperator: MetaHeuristicsFactory.GetSimpleBubbleNetOperator<TGeneValue>());
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
             }
-            return TypeHelper.CreateInstanceByName<IMetaHeuristic>(name, constructorArgs);
+            return TypeHelper.CreateInstanceByName<IMetaHeuristic>(name);
         }
 
         /// <summary>
@@ -109,6 +116,8 @@ namespace GeneticSharp.Domain.Metaheuristics
                     case KnownCompoundMetaheuristics.None:
                         return null;
                     case KnownCompoundMetaheuristics.Default:
+                        return typeof(DefaultMetaHeuristic);
+                    case KnownCompoundMetaheuristics.DefaultRandomHyperspeed:
                         return typeof(DefaultMetaHeuristic);
                     case KnownCompoundMetaheuristics.WhaleOptimisation:
                         return typeof(IfElseMetaHeuristic);

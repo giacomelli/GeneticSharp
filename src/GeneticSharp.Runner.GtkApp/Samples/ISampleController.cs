@@ -2,6 +2,7 @@
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Crossovers.Geometric;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Reinsertions;
@@ -100,7 +101,15 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         /// Draws the sample.
         /// </summary>
         void Draw();
-        
+
+
+        /// <summary>
+        /// Allows leveraging geometric-based crossovers and metaheuristics, while providing conversion from gene space to metric value and reverse.
+        /// </summary>
+        /// <returns>An object providing a bidirectional conversion from/to gene space / metric space</returns>
+        IGeometricConverter<object> GetGeometricConverters();
+
+
         #endregion
     }
 }

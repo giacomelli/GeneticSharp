@@ -2,12 +2,14 @@
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Crossovers.Geometric;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 using Gtk;
+using Object = Gtk.Object;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
 {
@@ -101,6 +103,17 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         public virtual void ConfigGA(GeneticAlgorithm ga)
         {
         }
+
+
+        /// <summary>
+        /// Allows leveraging geometric-based crossovers and metaheuristics, while providing conversion from gene space to metric value and reverse.
+        /// </summary>
+        /// <returns>An object providing a bidirectional conversion from/to gene space / metric space</returns>
+        public virtual IGeometricConverter<object> GetGeometricConverters()
+        {
+            return new DefaultGeometricConverter<object>();
+        }
+      
 
         /// <summary>
         /// Resets the sample.
