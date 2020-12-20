@@ -185,10 +185,12 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 
         public override IGeometricConverter<object> GetGeometricConverters()
         {
-            return new GeometricConverter<object>(){DoubleToGeneConverter = GetGeneValueFunction, GeneToDoubleConverter = (geneIndex, geneValue) => (double)geneValue};
+            return new GeometricConverter<object>{DoubleToGeneConverter = DoubleToGene, GeneToDoubleConverter = GeneToDouble};
         }
 
-        private object GetGeneValueFunction(int geneIndex, double d) => Math.Round(d).PositiveMod(m_fitness.Cities.Count);
+        private object DoubleToGene(int geneIndex, double d) => Math.Round(d).PositiveMod(m_fitness.Cities.Count);
+
+        private double GeneToDouble(int geneIndex, object geneValue) => Convert.ToDouble((int)geneValue);
 
         #endregion
     }

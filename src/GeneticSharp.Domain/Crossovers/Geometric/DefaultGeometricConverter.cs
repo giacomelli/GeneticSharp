@@ -15,8 +15,10 @@ namespace GeneticSharp.Domain.Crossovers.Geometric
             Convert.ToDouble(geneValue);
 
 
-        public TGeneValue DoubleToGene(int geneIndex, double metricValue) =>
-            (TGeneValue) _converter.ConvertFrom(metricValue);
-
+        public TGeneValue DoubleToGene(int geneIndex, double metricValue)
+        {
+            return (TGeneValue)_converter.ConvertFrom(metricValue);
+            //return (TGeneValue) ((IConvertible) metricValue).ToType(typeof(TGeneValue), null);
+        }
     }
 }

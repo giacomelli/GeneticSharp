@@ -91,6 +91,22 @@ namespace GeneticSharp.Infrastructure.Framework.Collections
             return currentMax;
         }
 
+        /// <summary>
+        /// Computes all possible permutation for a given set
+        /// </summary>
+        /// <typeparam name="T">the type of elements the set contains</typeparam>
+        /// <param name="list">the list of elements to use in permutations</param>
+        /// <param name="length">the size of the resulting list with permuted elements</param>
+        /// <returns>a list of all permutations for given size as lists of elements.</returns>
+       public static IList<IList<T>> GetPermutations<T>(this IEnumerable<T> list, int length)
+        {
+            if (length == 1) return list.Select(t => (IList<T>)new[] { t }.ToList()).ToList();
+
+            var enumeratedList = list.ToList();
+            return GetPermutations(enumeratedList, length - 1)
+                .SelectMany(t => enumeratedList.Where(e => !t.Contains(e)),
+                    (t1, t2) => (IList<T>)t1.Concat(new[] { t2 }).ToList()).ToList();
+        }
 
 
         public static int BinarySearch<T>(this List<T> list, T item, Func<T, T, int> compare)

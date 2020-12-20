@@ -16,20 +16,14 @@ namespace GeneticSharp.Extensions.Sudoku
         {
         }
 
+       
         /// <summary>
         /// Basic constructor with target sudoku to solve
         /// </summary>
         /// <param name="targetSudokuBoard">the target sudoku to solve</param>
         /// <param name="initWithPermutations">defines if the chromosome gene cells should be initialized with row permutations</param>
-        public SudokuCellsChromosome(SudokuBoard targetSudokuBoard, bool initWithPermutations) : this( targetSudokuBoard, initWithPermutations, null) {}
-
-        /// <summary>
-        /// Constructor with additional precomputed domains for faster cloning
-        /// </summary>
-        /// <param name="targetSudokuBoard">the target sudoku to solve</param>
-        /// <param name="initWithPermutations">defines if the chromosome gene cells should be initialized with row permutations</param>
         /// <param name="extendedMask">The cell domains after initial constraint propagation</param>
-        public SudokuCellsChromosome(SudokuBoard targetSudokuBoard, bool initWithPermutations, Dictionary<int, List<int>> extendedMask) : base(targetSudokuBoard, extendedMask, 81)
+        public SudokuCellsChromosome(SudokuBoard targetSudokuBoard, bool initWithPermutations) : base(targetSudokuBoard, 81)
         {
             InitWithPermutations = initWithPermutations;
         }
@@ -49,13 +43,13 @@ namespace GeneticSharp.Extensions.Sudoku
             }
             // otherwise we use a random digit amongts those permitted.
 			var rnd = RandomizationProvider.Current;
-	        var targetIdx = rnd.GetInt(0, ExtendedMask[geneIndex].Count);
-			return new Gene(ExtendedMask[geneIndex][targetIdx]);
+	        var targetIdx = rnd.GetInt(0, TargetSudokuBoard.ExtendedMask[geneIndex].Count);
+			return new Gene(TargetSudokuBoard.ExtendedMask[geneIndex][targetIdx]);
         }
 
         public override IChromosome CreateNew()
         {
-            return new SudokuCellsChromosome(TargetSudokuBoard, InitWithPermutations, ExtendedMask);
+            return new SudokuCellsChromosome(TargetSudokuBoard, InitWithPermutations);
         }
 
         /// <summary>
@@ -78,7 +72,7 @@ namespace GeneticSharp.Extensions.Sudoku
             {
                 for (int rowIndex = 0; rowIndex < 9; rowIndex++)
                 {
-                    var rowPerms = TargetRowsPermutations[rowIndex];
+                    var rowPerms = TargetSudokuBoard.GetRowsPermutations()[rowIndex];
                     var rndIndx = RandomizationProvider.Current.GetInt(0, rowPerms.Count);
                     var rowPerm = rowPerms[rndIndx];
                     for (int colIndex = 0; colIndex < 9; colIndex++)

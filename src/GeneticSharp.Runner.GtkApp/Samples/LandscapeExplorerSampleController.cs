@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Crossovers.Geometric;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Randomizations;
@@ -450,7 +451,7 @@ namespace GeneticSharp.Runner.GtkApp
 
 
         private bool _plotting;
-        private int samplingNb = 10;
+        //private int samplingNb = 10;
 
         private void PlotFunction()
         {
@@ -514,7 +515,7 @@ namespace GeneticSharp.Runner.GtkApp
                 
                 (double x, double y) = ((double)chromosome.GetGene(0).Value,
                     (double)chromosome.GetGene(1).Value);
-                var cFitness = chromosome.Fitness; 
+                //var cFitness = chromosome.Fitness; 
                 var (xDraw, yDraw) = GetDrawingCoords(x, y);
                 DrawFunctionPoint(image, xDraw, yDraw, indColor);
 
@@ -597,7 +598,6 @@ namespace GeneticSharp.Runner.GtkApp
         private Dictionary<(int xDraw, int yDraw), double> ComputeFunctionValues()
         {
             var fValues = new Dictionary<(int xDraw, int yDraw), double>();
-            var r = Context.DrawingArea;
             var width = Context.DrawingArea.Width;
             var height = Context.DrawingArea.Height;
             ((int xDraw, int yDraw), double fValue) minPoint = ((0, 0), double.MaxValue);
@@ -647,7 +647,7 @@ namespace GeneticSharp.Runner.GtkApp
                 sampleCoords[0] =x;
                 sampleCoords[1] = y;
                 var coordsRange = mRange.xRange.max - mRange.xRange.min;
-                for (int i = 0; i < samplingNb; i++)
+                for (int i = 0; i < mNbSamples; i++)
                 {
                     for (int extraCoord = 2; extraCoord < mNbDimensions; extraCoord++)
                     {
@@ -716,5 +716,19 @@ namespace GeneticSharp.Runner.GtkApp
             buffer.DrawPixbuf(gc, pb, 0, 0, 0, 100, width, height, Gdk.RgbDither.None, 0, 0);
 
         }
+
+
+
+        public override IGeometricConverter<object> GetGeometricConverters()
+        {
+            return new GeometricConverter<object> { DoubleToGeneConverter = DoubleToGene, GeneToDoubleConverter = GeneToDouble };
+        }
+
+        private object DoubleToGene(int geneIndex, double d) => geneIndex==1? Math.Max(mRange.yRange.min, Math.Min(mRange.yRange.max, d)): Math.Max(mRange.xRange.min, Math.Min(mRange.xRange.max, d));
+
+        private double GeneToDouble(int geneIndex, object geneValue) => (double) geneValue;
+
+
+
     }
 }
