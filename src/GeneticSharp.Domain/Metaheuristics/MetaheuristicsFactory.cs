@@ -16,8 +16,8 @@ namespace GeneticSharp.Domain.Metaheuristics
     {
 
 
-        public static IGeometricConverter<TGeneValue> GetDefaultGeneConverter<TGeneValue>() =>
-            new DefaultGeometricConverter<TGeneValue>();
+        //public static IGeometricConverter<TGeneValue> GetDefaultGeneConverter<TGeneValue>() =>
+        //    new DefaultGeometricConverter<TGeneValue>();
 
 
         //Declare the parameters used for better name access (note that the local variables won't be used directly because they will be thread-safe / context-dependent parameters
@@ -35,11 +35,9 @@ namespace GeneticSharp.Domain.Metaheuristics
 
         public const double DefaultHelicoidScale = 1;
 
-        public delegate TGeneValue EncirclingPreyOperator<TGeneValue>(int geneIndex, IList<TGeneValue> geneValues, Func<int, TGeneValue, double> geneToDoubleConverter, 
-            Func<int, double, TGeneValue> doubleToGeneConverter, double A, double C);
+        public delegate object EncirclingPreyOperator(int geneIndex, IEnumerable<object> geneValues, IGeometricConverter geometricConverter, double A, double C);
 
-        public delegate TGeneValue BubbleNetOperator<TGeneValue>(int geneIndex, IList<TGeneValue> geneValues, Func<int, TGeneValue, double> geneToDoubleConverter, 
-            Func<int, double, TGeneValue> doubleToGeneConverter, double l, double b);
+        public delegate object BubbleNetOperator(int geneIndex, IEnumerable<object> geneValues, IGeometricConverter geometricConverter, double l, double b);
 
 
 
@@ -56,19 +54,17 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <param name="geometryEmbedding">an optional domain specific geometrisation operator to process gene values before being converted and processed by the geometric operator and back after conversion </param>
         /// <param name="noMutation">optionally toggle mutation operator (default true switches off mutation operator)</param>
         /// <returns>A MetaHeuristic applying the WhaleOptimisation</returns>
-        public static IContainerMetaHeuristic WhaleOptimisationAlgorithm<TGeneValue>(bool ordered, int maxGenerations,
-            Func<int, TGeneValue, double> geneToDoubleConverter,
-            Func<int, double, TGeneValue> doubleToGeneConverter,
-            IGeometryEmbedding<TGeneValue> geometryEmbedding = null, double helicoidScale = DefaultHelicoidScale, bool noMutation = true)
+        public static IContainerMetaHeuristic WhaleOptimisationAlgorithm(bool ordered, int maxGenerations,
+           IGeometricConverter geometricConverter, double helicoidScale = DefaultHelicoidScale, bool noMutation = true)
         {
             var rnd = RandomizationProvider.Current;
 
             //Defining the cross operator to be applied with a random or best target, with the Encircling Prey Operator
             var encirclingHeuristic = new CrossoverHeuristic()
                 .WithCrossover(ParamScope.None,
-                    (IMetaHeuristic h, IEvolutionContext ctx, double A, double C) => new GeometricCrossover<TGeneValue>(ordered, 2, false)
-                        .WithGeometricOperator((geneIndex, geneValues) => DefaultEncirclingPreyOperator(geneIndex, geneValues, geneToDoubleConverter, doubleToGeneConverter, A, C))
-                        .WithGeometryEmbedding(geometryEmbedding));
+                    (IMetaHeuristic h, IEvolutionContext ctx, double A, double C) => new GeometricCrossover<object>(ordered, 2, false)
+                        .WithGeometricOperator((geneIndex, geneValues) => DefaultEncirclingPreyOperator(geneIndex, geneValues, geometricConverter, A, C))
+                        .WithGeometryEmbedding(geometricConverter.GetEmbedding()));
 
             //Defining the main compound Metaheuristic with sub-parts.
             var woaHeuristic = new IfElseMetaHeuristic()
@@ -101,9 +97,9 @@ namespace GeneticSharp.Domain.Metaheuristics
                     .WithMatches(MatchingTechnique.Best)
                     .WithSubMetaHeuristic(new CrossoverHeuristic()
                         .WithCrossover(ParamScope.None,
-                            (IMetaHeuristic h, IEvolutionContext ctx, double l) => new GeometricCrossover<TGeneValue>(ordered, 2, false)
-                                .WithGeometricOperator((geneIndex, geneValues) => DefaultBubbleNetOperator(geneIndex, geneValues, geneToDoubleConverter, doubleToGeneConverter, l, helicoidScale))
-                                .WithGeometryEmbedding(geometryEmbedding))));
+                            (IMetaHeuristic h, IEvolutionContext ctx, double l) => new GeometricCrossover<object>(ordered, 2, false)
+                                .WithGeometricOperator((geneIndex, geneValues) => DefaultBubbleNetOperator(geneIndex, geneValues, geometricConverter, l, helicoidScale))
+                                .WithGeometryEmbedding(geometricConverter.GetEmbedding()))));
 
             //Removing default mutation operator 
             if (noMutation)
@@ -112,9 +108,6 @@ namespace GeneticSharp.Domain.Metaheuristics
             }
             return woaHeuristic;
         }
-
-
-
 
 
 
@@ -133,10 +126,8 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <param name="encirclingOperator">You can optionally replace the default exploration operator with your own function.</param>
         /// <param name="bubbleNetOperator">You can optionally replace the default exploitation operator with your own function.</param>
         /// <returns>A MetaHeuristic applying the WhaleOptimisation</returns>
-        public static IContainerMetaHeuristic WhaleOptimisationAlgorithmExtended<TGeneValue>(bool ordered, int maxGenerations, 
-            Func<int, TGeneValue, double> geneToDoubleConverter ,
-            Func<int, double, TGeneValue> doubleToGeneConverter, 
-            IGeometryEmbedding<TGeneValue> geometryEmbedding = null, double helicoidScale = DefaultHelicoidScale, bool noMutation = true, EncirclingPreyOperator<TGeneValue> encirclingOperator = null, BubbleNetOperator<TGeneValue> bubbleNetOperator = null)
+        public static IContainerMetaHeuristic WhaleOptimisationAlgorithmExtended(bool ordered, int maxGenerations,
+            IGeometricConverter geometricConverter, double helicoidScale = DefaultHelicoidScale, bool noMutation = true, EncirclingPreyOperator encirclingOperator = null, BubbleNetOperator bubbleNetOperator = null)
         {
             var rnd = RandomizationProvider.Current;
             if (encirclingOperator == null)
@@ -152,9 +143,9 @@ namespace GeneticSharp.Domain.Metaheuristics
             //Defining the cross operator to be applied with a random or best target, with the Encircling Prey Operator
             var encirclingHeuristic = new CrossoverHeuristic()
                 .WithCrossover(ParamScope.None, 
-                    (IMetaHeuristic h, IEvolutionContext ctx, double A, double C) => new GeometricCrossover<TGeneValue>(ordered, 2, false) 
-                        .WithGeometricOperator((geneIndex, geneValues) => encirclingOperator(geneIndex, geneValues,geneToDoubleConverter, doubleToGeneConverter, A, C))
-                        .WithGeometryEmbedding(geometryEmbedding));
+                    (IMetaHeuristic h, IEvolutionContext ctx, double A, double C) => new GeometricCrossover<object>(ordered, 2, false) 
+                        .WithGeometricOperator((geneIndex, geneValues) => encirclingOperator(geneIndex, geneValues, geometricConverter, A, C))
+                        .WithGeometryEmbedding(geometricConverter.GetEmbedding()));
 
             //Defining the main compound Metaheuristic with sub-parts.
             var woaHeuristic = new IfElseMetaHeuristic() 
@@ -187,9 +178,9 @@ namespace GeneticSharp.Domain.Metaheuristics
                     .WithMatches(MatchingTechnique.Best)
                     .WithSubMetaHeuristic(new CrossoverHeuristic()
                         .WithCrossover(ParamScope.None,
-                            (IMetaHeuristic h, IEvolutionContext ctx, double l) => new GeometricCrossover<TGeneValue>(ordered, 2, false)
-                                .WithGeometricOperator((geneIndex, geneValues) => bubbleNetOperator(geneIndex, geneValues,geneToDoubleConverter, doubleToGeneConverter, l, helicoidScale))
-                                .WithGeometryEmbedding(geometryEmbedding))));
+                            (IMetaHeuristic h, IEvolutionContext ctx, double l) => new GeometricCrossover<object>(ordered, 2, false)
+                                .WithGeometricOperator((geneIndex, geneValues) => bubbleNetOperator(geneIndex, geneValues, geometricConverter, l, helicoidScale))
+                                .WithGeometryEmbedding(geometricConverter.GetEmbedding()))));
 
             //Removing default mutation operator 
             if (noMutation)
@@ -199,30 +190,30 @@ namespace GeneticSharp.Domain.Metaheuristics
             return woaHeuristic;
         }
 
-        private static TGeneValue DefaultEncirclingPreyOperator<TGeneValue>(int geneIndex, IList<TGeneValue> geneValues, Func<int, TGeneValue, double> geneToDoubleConverter, Func<int, double, TGeneValue> doubleToGeneConverter,
+        private static object DefaultEncirclingPreyOperator(int geneIndex, IEnumerable<object> geneValues, IGeometricConverter geometricConverter,
             double A, double C)
         {
-            var metricValues = geneValues.Select(value =>  geneToDoubleConverter(geneIndex, value)).ToList();
+            var metricValues = geneValues.Select(value =>  geometricConverter.GeneToDouble(geneIndex, value)).ToList();
             var geometricValue = metricValues[1] - A * Math.Abs(C * metricValues[1] - metricValues[0]);
-            var toReturn = doubleToGeneConverter(geneIndex, geometricValue);
+            var toReturn = geometricConverter.DoubleToGene(geneIndex, geometricValue);
             return toReturn;
         }
 
-        private static TGeneValue DefaultBubbleNetOperator<TGeneValue>(int geneIndex, IList<TGeneValue> geneValues, Func<int, TGeneValue, double> geneToDoubleConverter, Func<int, double, TGeneValue> doubleToGeneConverter, double l, double b)
+        private static object DefaultBubbleNetOperator(int geneIndex, IEnumerable<object> geneValues, IGeometricConverter geometricConverter, double l, double b)
         {
-            var metricValues = geneValues.Select(value => geneToDoubleConverter(geneIndex, value)).ToList();
+            var metricValues = geneValues.Select(value => geometricConverter.GeneToDouble(geneIndex, value)).ToList();
             var geometricValue = Math.Abs(metricValues[1] - metricValues[0]) * Math.Exp(b * l) * Math.Cos(l * 2.0 * Math.PI) + metricValues[1];
-            var toReturn = doubleToGeneConverter(geneIndex, geometricValue);
+            var toReturn = geometricConverter.DoubleToGene(geneIndex, geometricValue);
             return toReturn;
         }
 
-        public static BubbleNetOperator<TGeneValue> GetSimpleBubbleNetOperator<TGeneValue>(double mixCoef = 0.5)
+        public static BubbleNetOperator GetSimpleBubbleNetOperator(double mixCoef = 0.5)
         {
-            return (geneIndex, geneValues, geneToDoubleConverter, doubleToGeneConverter, l, b) =>
+            return (geneIndex, geneValues, geometricConverter, l, b) =>
             {
-                var metricValues = geneValues.Select(value =>  geneToDoubleConverter(geneIndex, value)).ToList();
+                var metricValues = geneValues.Select(value => geometricConverter.GeneToDouble(geneIndex, value)).ToList();
                 var geometricValue = mixCoef * metricValues[0] + (1-mixCoef) * metricValues[1];
-                var toReturn = doubleToGeneConverter(geneIndex, geometricValue);
+                var toReturn = geometricConverter.DoubleToGene(geneIndex, geometricValue);
                 return toReturn;
             };
         }
@@ -232,13 +223,13 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <summary>
         ///Alternate version with distinct parameter definitions, kept for reference
         /// </summary>
-        public static IMetaHeuristic WhaleOptimisationAlgorithmWithParams<TGeneValue>(bool ordered, int maxGenerations, Func<int, TGeneValue, double> geneToDoubleConverter, Func<int, double, TGeneValue> doubleToGeneConverter)
+        public static IMetaHeuristic WhaleOptimisationAlgorithmWithParams(bool ordered, int maxGenerations, IGeometricConverter geometricConverter)
         {
             var rnd = RandomizationProvider.Current;
 
             var updateTrackingCrossoverHeuristic = new CrossoverHeuristic()
-                .WithCrossover(ParamScope.None, (h,ctx) => new GeometricCrossover<TGeneValue>(ordered, 2, false) //geneValues[1] is from best or random chromosome, geneValues[0] is from current parent
-                    .WithGeometricOperator((geneIndex, geneValues) => doubleToGeneConverter(geneIndex, geneToDoubleConverter(geneIndex, geneValues[1]) - ctx.GetParam<double>(h, nameof(WoaParam.A)) * Math.Abs(ctx.GetParam<double>(h,nameof(WoaParam.C)) * geneToDoubleConverter(geneIndex, geneValues[1]) - geneToDoubleConverter(geneIndex, geneValues[0])))));
+                .WithCrossover(ParamScope.None, (h,ctx) => new GeometricCrossover<object>(ordered, 2, false) //geneValues[1] is from best or random chromosome, geneValues[0] is from current parent
+                    .WithGeometricOperator((geneIndex, geneValues) => geometricConverter.DoubleToGene(geneIndex, geometricConverter.GeneToDouble(geneIndex, geneValues[1]) - ctx.GetParam<double>(h, nameof(WoaParam.A)) * Math.Abs(ctx.GetParam<double>(h,nameof(WoaParam.C)) * geometricConverter.GeneToDouble(geneIndex, geneValues[1]) - geometricConverter.GeneToDouble(geneIndex, geneValues[0])))));
 
             return new IfElseMetaHeuristic()
                 .WithScope(EvolutionStage.Crossover)
@@ -259,11 +250,11 @@ namespace GeneticSharp.Domain.Metaheuristics
                 .WithFalse(new MatchMetaHeuristic(2)
                     .WithMatches(MatchingTechnique.Best)
                     .WithSubMetaHeuristic(new CrossoverHeuristic()
-                        .WithCrossover(ParamScope.None, (h,ctx) => new GeometricCrossover<TGeneValue>(ordered,2, false)
-                            .WithGeometricOperator((geneIndex, geneValues) => doubleToGeneConverter(geneIndex, Math.Abs(geneToDoubleConverter(geneIndex, geneValues[1]) - geneToDoubleConverter(geneIndex, geneValues[0])) 
+                        .WithCrossover(ParamScope.None, (h,ctx) => new GeometricCrossover<object>(ordered,2, false)
+                            .WithGeometricOperator((geneIndex, geneValues) => geometricConverter.DoubleToGene(geneIndex, Math.Abs(geometricConverter.GeneToDouble(geneIndex, geneValues[1]) - geometricConverter.GeneToDouble(geneIndex, geneValues[0])) 
                                                                                    * Math.Exp(ctx.GetParam<double>(h,nameof(WoaParam.l))) *
                                                                                    Math.Cos(ctx.GetParam<double>(h,nameof(WoaParam.l)) * 2 * Math.PI)
-                                                                                   + geneToDoubleConverter(geneIndex, geneValues[1]))))));
+                                                                                   + geometricConverter.GeneToDouble(geneIndex, geneValues[1]))))));
         }
 
 

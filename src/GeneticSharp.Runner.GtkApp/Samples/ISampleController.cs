@@ -106,8 +106,8 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         /// <summary>
         /// Allows leveraging geometric-based crossovers and metaheuristics, while providing conversion from gene space to metric value and reverse.
         /// </summary>
-        /// <returns>An object providing a bidirectional conversion from/to gene space / metric space</returns>
-        IGeometricConverter<object> GetGeometricConverters();
+        /// <returns>An object providing a bidirectional conversion from/to gene space / metric space, and an optional embedding</returns>
+        IGeometricConverter GetGeometricConverter();
 
 
         #endregion

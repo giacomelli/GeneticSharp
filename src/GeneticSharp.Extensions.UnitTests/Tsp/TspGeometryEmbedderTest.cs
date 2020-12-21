@@ -235,9 +235,17 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                 int GetGeneValueFunction(int geneIndex, double d) => Math.Round(d).PositiveMod(fitness.Cities.Count);
 
                 //Simple WhaleOptimisation
-                var defaultEmbedding = new OrderedEmbedding<int> {GeneSelectionMode = GeneSelectionMode.RandomOrder | GeneSelectionMode.SingleFirstAllowed};
-                
-                metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(true, nbGenerationsWOA, (geneIndex,  geneValue) => geneValue, GetGeneValueFunction, noMutation:noMutation, helicoidScale:helicoidScale);
+               
+
+                var noEmbeddingConverter = new GeometricConverter<int>
+                {
+                    DoubleToGeneConverter = GetGeneValueFunction,
+                    GeneToDoubleConverter = (genIndex, geneValue) => geneValue
+                };
+                var typedNoEmbeddingConverter = new TypedGeometricConverter();
+                typedNoEmbeddingConverter.SetTypedConverter(noEmbeddingConverter);
+
+                metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(true, nbGenerationsWOA, typedNoEmbeddingConverter, noMutation:noMutation, helicoidScale:helicoidScale);
                 var resultWOA = Evolve_NbCities_Fast(fitness, adamChromosome, populationSize, metaHeuristic, crossover, mutation, termination, reinsertion);
                 toReturn.woa = resultWOA;
 
@@ -258,15 +266,25 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                     tspGeometryEmbedding.TargetPermutation =
                         ((TspChromosome)toReturn.native.Population.BestChromosome).GetCities();
                 }
-                
+
+                var permutationEmbeddingConverter = new GeometricConverter<int>
+                {
+                    DoubleToGeneConverter = GetGeneValueFunction,
+                    GeneToDoubleConverter = (genIndex, geneValue) => geneValue,
+                    Embedding = tspGeometryEmbedding
+                };
+                var typedPermutationEmbeddingConverter = new TypedGeometricConverter();
+                typedPermutationEmbeddingConverter.SetTypedConverter(permutationEmbeddingConverter);
+
+
+
+
                 //var newTspFitness = fitness.Evaluate(tspGeometryEmbedding.GetMetricChromosome());
-                
+
                 var updateEveryGenerationNb = 20;
 
                 //WhaleOptimisation with Embedding  
-                metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(true, nbGenerationsWOA,
-                    (geneIndex, geneValue) => geneValue,
-                    GetGeneValueFunction, tspGeometryEmbedding, noMutation:noMutation);
+                metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(true, nbGenerationsWOA, typedPermutationEmbeddingConverter, noMutation:noMutation);
 
                 //Embedding metric update routing: the best chromosome takes over target metric space
                 var evolvedfitnessMetric = 0.0;
@@ -282,16 +300,30 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                     });
 
                 toReturn.woaGeom = resultWOAGeom;
+
+
+
+
                 // WhaleOptimisation evolution with simple swap validator (no permutation embedding)
-                var simpleGeometryEmbedding = new TspPermutationEmbedding(fitness){GeneSelectionMode = GeneSelectionMode.AllIndexed };
-                
+
+                //var simpleGeometryEmbedding = new TspPermutationEmbedding(fitness){GeneSelectionMode = GeneSelectionMode.AllIndexed };
+                var simpleGeometryEmbedding = new OrderedEmbedding<int> { GeneSelectionMode = GeneSelectionMode.RandomOrder | GeneSelectionMode.SingleFirstAllowed };
+
+                var simpleEmbeddingConverter = new GeometricConverter<int>
+                {
+                    DoubleToGeneConverter = GetGeneValueFunction,
+                    GeneToDoubleConverter = (genIndex, geneValue) => geneValue,
+                    Embedding = simpleGeometryEmbedding
+                };
+                var typedSimpleEmbeddingConverter = new TypedGeometricConverter();
+                typedSimpleEmbeddingConverter.SetTypedConverter(simpleEmbeddingConverter);
+
+
                 //var simpleGeometryEmbedding = new OrderedEmbedding<int>();
                 //simpleGeometryEmbedding.ValidateSwapFunction = tspGeometryEmbedding.ValidateSwapFunction;
 
 
-                metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(true, nbGenerationsWOA,
-                    (geneIndex, geneValue) => geneValue,
-                    GetGeneValueFunction, simpleGeometryEmbedding, noMutation:noMutation);
+                metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(true, nbGenerationsWOA, typedSimpleEmbeddingConverter, noMutation:noMutation);
                 var resultWOAwithSwap = Evolve_NbCities_Fast(fitness, adamChromosome, populationSize, metaHeuristic, crossover, mutation, termination, reinsertion);
 
 
@@ -339,10 +371,21 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                 var tspGeometryEmbedding = new TspPermutationEmbedding(fitness) { GeneSelectionMode = GeneSelectionMode.RandomOrder  };
                 var updateEveryGenerationNb = 20;
 
+
+                var permutationEmbeddingConverter = new GeometricConverter<int>
+                {
+                    DoubleToGeneConverter = GetGeneValueFunction,
+                    GeneToDoubleConverter = (genIndex, geneValue) => geneValue,
+                    Embedding = tspGeometryEmbedding
+                };
+                var typedPermutationEmbeddingConverter = new TypedGeometricConverter();
+                typedPermutationEmbeddingConverter.SetTypedConverter(permutationEmbeddingConverter);
+
+
+
+
                 //WhaleOptimisation with Embedding  
-                var metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(true, nbGenerationsWOA,
-                    (geneIndex, geneValue) => geneValue,
-                    GetGeneValueFunction, tspGeometryEmbedding, noMutation: true);
+                var metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(true, nbGenerationsWOA, typedPermutationEmbeddingConverter, noMutation: true);
 
                 //Embedding metric update routing: the best chromosome takes over target metric space
                 var evolvedfitnessMetric = 0.0;

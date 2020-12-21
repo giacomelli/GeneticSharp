@@ -7,6 +7,29 @@ using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Domain.Crossovers.Geometric
 {
+
+    //[DisplayName("Geometric")]
+    //public class GeometricCrossover : GeometricConverter<object>
+    //{
+
+    //    public GeometricCrossover() : base() { }
+
+    //    public GeometricCrossover(bool ordered) : base(ordered){}
+
+
+    //    public GeometricCrossover(bool ordered, int parentNb, bool generateTwin) : base(ordered, parentNb, generateTwin)
+    //    {
+    //    }
+
+    //    public GeometricCrossover(bool ordered, int parentNb, Func<int, IList<TValue>, TValue> linearGeometricOperator, bool generateTwin = false) : this(ordered, parentNb, generateTwin)
+    //    {
+    //        LinearGeometricOperator = linearGeometricOperator;
+    //    }
+
+
+    //}
+
+
     /// <summary>
     /// The Geometric crossover yields new genes by applying geometric operators on the parent genes values. Default operator convert genes to doubles computes the middle between gene values and converts back to the target type.
     /// Geometric operator can be gene based (Linear, same for all genes), or multidimensional (General)

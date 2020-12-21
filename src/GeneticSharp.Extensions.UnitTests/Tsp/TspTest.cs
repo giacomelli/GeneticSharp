@@ -2,6 +2,7 @@ using System;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Crossovers.Geometric;
 using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Domain.Metaheuristics.Primitives;
 using GeneticSharp.Domain.Mutations;
@@ -39,6 +40,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
         [Test]
         public void Compare_Simple_Ordered_TwoOr_WOA_ManyGenerations_FitnessesBounded()
         {
+            var repeatNb = 2;
             // population parameters
             int numberOfCities = 40;
             int populationSize = 100;
@@ -61,12 +63,21 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
 
             // Native evolution
 
-            var resultOriginal = Evolve_NbCities_Fast(fitness, adamChromosome, populationSize, null, crossover, mutation, termination);
+            var resultOriginal = Evolve_NbCities_Fast_Repeat(repeatNb, fitness, adamChromosome, populationSize, null, crossover, mutation, termination);
 
             // WhaleOptimisation parameters
             int GetGeneValueFunction(int geneIndex, double d) => Math.Round(d).PositiveMod(numberOfCities);
 
-            var metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(true, nbGenerationsWOA, (geneIndex, geneValue) => geneValue, GetGeneValueFunction);
+            var noEmbeddingConverter = new GeometricConverter<int>
+            {
+                DoubleToGeneConverter = GetGeneValueFunction,
+                GeneToDoubleConverter = (genIndex, geneValue) => geneValue
+            };
+            var typedNoEmbeddingConverter = new TypedGeometricConverter();
+            typedNoEmbeddingConverter.SetTypedConverter(noEmbeddingConverter);
+
+
+            var metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(true, nbGenerationsWOA, typedNoEmbeddingConverter);
 
             // WhaleOptimisation evolution
             var resultWOA = Evolve_NbCities_Fast(fitness, adamChromosome, populationSize, metaHeuristic, crossover, mutation, termination);

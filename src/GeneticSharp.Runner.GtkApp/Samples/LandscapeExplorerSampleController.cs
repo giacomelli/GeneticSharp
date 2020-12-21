@@ -719,14 +719,17 @@ namespace GeneticSharp.Runner.GtkApp
 
 
 
-        public override IGeometricConverter<object> GetGeometricConverters()
+        public override IGeometricConverter GetGeometricConverter()
         {
-            return new GeometricConverter<object> { DoubleToGeneConverter = DoubleToGene, GeneToDoubleConverter = GeneToDouble };
+            var typedConverter = new GeometricConverter<double> { DoubleToGeneConverter = DoubleToGene, GeneToDoubleConverter = GeneToDouble};
+            var toReturn = new TypedGeometricConverter();
+            toReturn.SetTypedConverter(typedConverter);
+            return toReturn;
         }
 
-        private object DoubleToGene(int geneIndex, double d) => geneIndex==1? Math.Max(mRange.yRange.min, Math.Min(mRange.yRange.max, d)): Math.Max(mRange.xRange.min, Math.Min(mRange.xRange.max, d));
+        private double DoubleToGene(int geneIndex, double d) => geneIndex==1? Math.Max(mRange.yRange.min, Math.Min(mRange.yRange.max, d)): Math.Max(mRange.xRange.min, Math.Min(mRange.xRange.max, d));
 
-        private double GeneToDouble(int geneIndex, object geneValue) => (double) geneValue;
+        private double GeneToDouble(int geneIndex, double geneValue) => (double) geneValue;
 
 
 

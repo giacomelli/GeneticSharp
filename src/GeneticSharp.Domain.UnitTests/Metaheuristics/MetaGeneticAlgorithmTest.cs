@@ -100,6 +100,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                 {
                     var defaultMatch = new DefaultMetaHeuristic();
                     defaultMatch.MatchMetaHeuristic.MatchingTechniques = new List<MatchingTechnique>(new[] { matchingTechnique });
+                    defaultMatch.MatchMetaHeuristic.EnableHyperSpeed = true;
                     heuristics.Add(defaultMatch);
                 }
             }
@@ -169,10 +170,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             Func<IEvolutionResult, IEvolutionResult, int> resultComparer = (IEvolutionResult result1, IEvolutionResult result2) => Convert.ToInt32(result1.TimeEvolving.Ticks - result2.TimeEvolving.Ticks);
 
 
-            var heuristics = new List<IMetaHeuristic>
-            {
-
-            };
+            var heuristics = new List<IMetaHeuristic>();
 
 
             foreach (var matchingTechnique in Enum.GetValues(typeof(MatchingTechnique)).Cast<MatchingTechnique>())

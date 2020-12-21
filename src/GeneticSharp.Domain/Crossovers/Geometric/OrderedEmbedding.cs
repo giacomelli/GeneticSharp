@@ -38,16 +38,16 @@ namespace GeneticSharp.Domain.Crossovers.Geometric
         /// </summary>
         public virtual IChromosome MapFromGeometryOrdered(IList<IChromosome> parents, IList<TValue> values)
         {
-            var offspring = parents[0].Clone();
-            
-            IList<int> selectedIndices;
+            var offspring = parents.First().Clone();
+            var valuesCount = values.Count();
+            IEnumerable<int> selectedIndices;
             if ((GeneSelectionMode & GeneSelectionMode.RandomOrder) == GeneSelectionMode.RandomOrder)
             {
-                selectedIndices = new List<int>( RandomizationProvider.Current.GetUniqueInts(values.Count, 0, values.Count));
+                selectedIndices = new List<int>( RandomizationProvider.Current.GetUniqueInts(valuesCount, 0, valuesCount));
             }
             else
             {
-                selectedIndices = Enumerable.Range(0, values.Count).ToList();
+                selectedIndices = Enumerable.Range(0, valuesCount);
             }
             //We precomputed swap indices for easier lookup
             var offspringIndexes = offspring.GetGenes().Select((g,i)=>(g,i)).ToDictionary(gi => (TValue) gi.g.Value, gi=>gi.i);

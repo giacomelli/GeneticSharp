@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Infrastructure.Framework.Collections;
@@ -117,12 +118,11 @@ namespace GeneticSharp.Extensions.Tsp
                 {
                     lock (mLock)
                     {
-                        var invertTargetPermutation = new List<int>(TargetPermutation);
+                        var invertTargetPermutation = new List<int>(TargetPermutation.Count);
                         for (int i = 0; i < Fitness.Cities.Count; i++)
                         {
-                            invertTargetPermutation[i] = TargetPermutation.IndexOf(i);
+                            invertTargetPermutation.Add(TargetPermutation.IndexOf(i));
                         }
-
                         _invertTargetPermutation = invertTargetPermutation;
                     }
                 }

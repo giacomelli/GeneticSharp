@@ -105,12 +105,11 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             {
                 case nameof(TimeEvolvingTermination):
                 case nameof(FitnessStagnationTermination):
-                    Assert.GreaterOrEqual(result1.Fitness * ratio, result2.Fitness);
+                    Assert.GreaterOrEqual( ratio, result2.Fitness / result1.Fitness);
                     break;
                 case nameof(FitnessThresholdTermination):
                 case nameof(GenerationNumberTermination):
-                    var duration1WithRatio = TimeSpan.FromTicks(Convert.ToInt64(result1.TimeEvolving.Ticks * ratio));
-                    Assert.GreaterOrEqual(duration1WithRatio, result2.TimeEvolving);
+                    Assert.GreaterOrEqual(ratio, result2.TimeEvolving.Ticks/(double)result1.TimeEvolving.Ticks);
                     break;
                 default: throw new InvalidOperationException("Termination not supported");
             }

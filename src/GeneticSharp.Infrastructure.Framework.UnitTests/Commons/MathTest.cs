@@ -32,7 +32,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Commons
         //Local tests pass, but appveyor failing seems to suggest latest .Net core version was optimized
         // local tests are inconclusive as the optimization isn't witnessed
         //todo: figure out what is going on with the AppVeyor Build
-        private readonly double ratioMax = 0.5;
+        private readonly double ratioMax = 0.4;
 #else
         // .NET Framework 4.0 does not use squared exponentiation
         // Very conservative bound

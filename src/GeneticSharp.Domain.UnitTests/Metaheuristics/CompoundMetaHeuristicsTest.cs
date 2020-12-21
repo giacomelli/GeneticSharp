@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Crossovers.Geometric;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Domain.Metaheuristics.Primitives;
@@ -82,8 +83,15 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             var functionHalfRange = 5;
 
-            double GetGeneValueFunction(int geneIndex, double d) => d % functionHalfRange;
-            IMetaHeuristic MetaHeuristic(int maxValue) => MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false, 300, (geneIndex, geneValue) => geneValue, GetGeneValueFunction);
+            double GetGeneValueFunction(int geneIndex, double metricValue) => metricValue % functionHalfRange;
+            var converter = new GeometricConverter<double>
+            {
+                DoubleToGeneConverter = GetGeneValueFunction, GeneToDoubleConverter = (genIndex, geneValue) => geneValue
+            };
+            var typedConverter = new TypedGeometricConverter();
+            typedConverter.SetTypedConverter(converter);
+
+            IMetaHeuristic MetaHeuristic(int maxValue) => MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false, 300, typedConverter);
             IChromosome AdamChromosome(int i) => new EquationChromosome<double>(-functionHalfRange, functionHalfRange, i) {GetGeneValueFunction = GetGeneValueFunction};
 
             var reinsertion = new FitnessBasedElitistReinsertion();
@@ -161,7 +169,18 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             double GetGeneValueFunction(int geneIndex, double d) => Math.Sign(d) * Math.Min(Math.Abs(d), maxCoordinate);
 
             IMetaHeuristic StandardHeuristic(int i) => new DefaultMetaHeuristic();
-            IMetaHeuristic MetaHeuristic(int maxValue) => MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false, maxNbGenerations, (geneIndex, geneValue) => geneValue, GetGeneValueFunction);
+
+
+            var noEmbeddingConverter = new GeometricConverter<double>
+            {
+                DoubleToGeneConverter = GetGeneValueFunction,
+                GeneToDoubleConverter = (genIndex, geneValue) => geneValue
+            };
+            var typedNoEmbeddingConverter = new TypedGeometricConverter();
+            typedNoEmbeddingConverter.SetTypedConverter(noEmbeddingConverter);
+
+
+            IMetaHeuristic MetaHeuristic(int maxValue) => MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false, maxNbGenerations, typedNoEmbeddingConverter);
 
             //Termination
             var minFitness = double.MaxValue;
@@ -377,25 +396,31 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                         TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(duration);
                         var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
                         IMetaHeuristic metaHeuristic;
+                        var noEmbeddingConverter = new GeometricConverter<double>
+                        {
+                            DoubleToGeneConverter = GetGeneValueFunction,
+                            GeneToDoubleConverter = (genIndex, geneValue) => geneValue
+                        };
+                        var typedNoEmbeddingConverter = new TypedGeometricConverter();
+                        typedNoEmbeddingConverter.SetTypedConverter(noEmbeddingConverter);
+
                         switch (kind)
                         {
                             case KnownCompoundMetaheuristics.Default:
                                 metaHeuristic = new DefaultMetaHeuristic();
                                 break;
                             case KnownCompoundMetaheuristics.WhaleOptimisation:
+
+                                
                                 var woaMetaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false,
-                                    nbGenerationsWoa,
-                                    (int geneIndex, double geneValue) => geneValue,
-                                    GetGeneValueFunction, helicoidScale: helicoidScale,
+                                    nbGenerationsWoa, typedNoEmbeddingConverter, helicoidScale: helicoidScale,
                                     noMutation: noMutation);
                                 metaHeuristic = woaMetaHeuristic;
                                 break;
                             case KnownCompoundMetaheuristics.WhaleOptimisationNaive:
                                 var woaNaiveMetaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithmExtended(false,
-                                    nbGenerationsWoa,
-                                    (int geneIndex, double geneValue) => geneValue,
-                                    GetGeneValueFunction, helicoidScale: helicoidScale,
-                                    noMutation: noMutation, bubbleNetOperator: MetaHeuristicsFactory.GetSimpleBubbleNetOperator<double>());
+                                    nbGenerationsWoa, typedNoEmbeddingConverter, helicoidScale: helicoidScale,
+                                    noMutation: noMutation, bubbleNetOperator: MetaHeuristicsFactory.GetSimpleBubbleNetOperator());
                                 metaHeuristic = woaNaiveMetaHeuristic;
                                 break;
                             default:
@@ -443,14 +468,25 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
             double FromGene(int geneIndex, int geneValue) => geneValue;
             var toGene = ChromosomeStub.GeneFromDouble(maxValue);
-            int ToGene(int i, double d) => toGene(d);
+            //int ToGene(int i, double d) => toGene(d);
+
+            IMetaHeuristic metaHeuristic;
+            var noEmbeddingConverter = new GeometricConverter<int>
+            {
+                DoubleToGeneConverter = toGene,
+                GeneToDoubleConverter = FromGene
+            };
+            var typedNoEmbeddingConverter = new TypedGeometricConverter();
+            typedNoEmbeddingConverter.SetTypedConverter(noEmbeddingConverter);
+
 
             if (!reduced)
             {
-                return MetaHeuristicsFactory.WhaleOptimisationAlgorithmWithParams(false, maxOperations, FromGene, ToGene);
+                metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithmWithParams(false, maxOperations, typedNoEmbeddingConverter);
             }
 
-            return MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false, maxOperations,  FromGene, ToGene);
+            metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false, maxOperations, typedNoEmbeddingConverter);
+            return metaHeuristic;
 
         }
 

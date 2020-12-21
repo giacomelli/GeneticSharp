@@ -183,14 +183,18 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             }
         }
 
-        public override IGeometricConverter<object> GetGeometricConverters()
+        public override IGeometricConverter GetGeometricConverter()
         {
-            return new GeometricConverter<object>{DoubleToGeneConverter = DoubleToGene, GeneToDoubleConverter = GeneToDouble};
+            var tspEmbedding = new TspPermutationEmbedding(this.m_fitness);
+            var typedConverter = new GeometricConverter<int>{DoubleToGeneConverter = DoubleToGene, GeneToDoubleConverter = GeneToDouble, Embedding = tspEmbedding };
+            var toReturn = new TypedGeometricConverter(); 
+            toReturn.SetTypedConverter(typedConverter);
+            return toReturn;
         }
 
-        private object DoubleToGene(int geneIndex, double d) => Math.Round(d).PositiveMod(m_fitness.Cities.Count);
+        private int DoubleToGene(int geneIndex, double d) => Math.Round(d).PositiveMod(m_fitness.Cities.Count);
 
-        private double GeneToDouble(int geneIndex, object geneValue) => Convert.ToDouble((int)geneValue);
+        private double GeneToDouble(int geneIndex, int geneValue) => Convert.ToDouble(geneValue);
 
         #endregion
     }

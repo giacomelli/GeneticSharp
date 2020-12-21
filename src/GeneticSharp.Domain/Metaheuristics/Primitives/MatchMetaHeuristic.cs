@@ -45,7 +45,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
         /// This will occur more and more after mode collapse, and accordingly, generations will be accelerated. 
         /// The concept is inspired from game of life runner golly's<see href="http://golly.sourceforge.net/Help/control.html"> Hyperspeed feature</see>, which speeds up generations expontentially on regular patterns by storing the long term evolution.
         /// </summary>
-        public bool EnableHyperSpeed { get; set; } = true;
+        public bool EnableHyperSpeed { get; set; }
 
         public MatchMetaHeuristic() : this (1) { }
 

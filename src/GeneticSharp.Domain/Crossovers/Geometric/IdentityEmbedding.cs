@@ -33,11 +33,13 @@ namespace GeneticSharp.Domain.Crossovers.Geometric
         /// </summary>
         public static IChromosome IdentityMapFromGeometry(IList<IChromosome> parent, IList<TValue> values)
         {
-            var offspring = parent[0].CreateNew();
-            for (int i = 0; i < values.Count; i++)
-            {
+            var offspring = parent.First().CreateNew();
 
-                offspring.ReplaceGene(i, new Gene(values[i]));
+            var i = 0;
+            foreach (var value in values)
+            {
+                offspring.ReplaceGene(i, new Gene(value));
+                i++;
             }
 
             return offspring;

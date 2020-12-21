@@ -25,7 +25,7 @@ namespace GeneticSharp.Domain.Metaheuristics
     /// <summary>
     /// Population service.
     /// </summary>
-    public static class MetaHeuristicsService<TGeneValue> //where TGeneValue: IConvertible
+    public static class MetaHeuristicsService //where TGeneValue: IConvertible
     {
         
 
@@ -46,8 +46,9 @@ namespace GeneticSharp.Domain.Metaheuristics
         public static IList<string> GetMetaHeuristicNames()
         {
             var compoundNames = Enum.GetNames(typeof(KnownCompoundMetaheuristics));
-            var typedNames =  TypeHelper.GetDisplayNamesByInterface<IMetaHeuristic>();
-            return compoundNames.Union(typedNames).Distinct().ToList();
+            //var typedNames =  TypeHelper.GetDisplayNamesByInterface<IMetaHeuristic>();
+            //return compoundNames.Union(typedNames).Distinct().ToList();
+            return compoundNames;
         }
 
         /// <summary>
@@ -56,7 +57,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <returns>The generation strategy implementation instance.</returns>
         /// <param name="name">The generation strategy name.</param>
         /// <param name="constructorArgs">Constructor arguments.</param>
-        public static IMetaHeuristic CreateMetaHeuristicByName(string name, Func<int, TGeneValue, double> geneToDoubleConverter, Func<int, double, TGeneValue> doubleToGeneConverter, IGeometryEmbedding<TGeneValue> geometryEmbedding = null)
+        public static IMetaHeuristic CreateMetaHeuristicByName(string name, IGeometricConverter geometricConverter = null)
         {
             var compoundNames = Enum.GetNames(typeof(KnownCompoundMetaheuristics));
             if (compoundNames.Contains(name))
@@ -73,26 +74,17 @@ namespace GeneticSharp.Domain.Metaheuristics
                         toReturn.MatchMetaHeuristic.MatchingTechniques[0] = MatchingTechnique.Randomize;
                         return toReturn;
                     case KnownCompoundMetaheuristics.WhaleOptimisation:
-                        if (geneToDoubleConverter == null)
+                        if (geometricConverter == null)
                         {
-                            geneToDoubleConverter = MetaHeuristicsFactory.GetDefaultGeneConverter<TGeneValue>().GeneToDouble;
+                            geometricConverter = new DefaultGeometricConverter();
                         }
-                        if (doubleToGeneConverter == null)
-                        {
-                            doubleToGeneConverter = MetaHeuristicsFactory.GetDefaultGeneConverter<TGeneValue>().DoubleToGene;
-                        }
-                        return MetaHeuristicsFactory.WhaleOptimisationAlgorithm<TGeneValue>(false, 500,
-                            geneToDoubleConverter, doubleToGeneConverter, geometryEmbedding);
+                        return MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false, 500, geometricConverter);
                     case KnownCompoundMetaheuristics.WhaleOptimisationNaive:
-                        if (geneToDoubleConverter == null)
+                        if (geometricConverter == null)
                         {
-                            geneToDoubleConverter = MetaHeuristicsFactory.GetDefaultGeneConverter<TGeneValue>().GeneToDouble;
+                            geometricConverter = new DefaultGeometricConverter();
                         }
-                        if (doubleToGeneConverter == null)
-                        {
-                            doubleToGeneConverter = MetaHeuristicsFactory.GetDefaultGeneConverter<TGeneValue>().DoubleToGene;
-                        }
-                        return MetaHeuristicsFactory.WhaleOptimisationAlgorithmExtended<TGeneValue>(false, 500, geneToDoubleConverter, doubleToGeneConverter, geometryEmbedding, bubbleNetOperator: MetaHeuristicsFactory.GetSimpleBubbleNetOperator<TGeneValue>());
+                        return MetaHeuristicsFactory.WhaleOptimisationAlgorithmExtended(false, 500, geometricConverter, bubbleNetOperator: MetaHeuristicsFactory.GetSimpleBubbleNetOperator());
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

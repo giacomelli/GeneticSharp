@@ -507,16 +507,15 @@ public partial class MainWindow : Window
         PrepareEditComboBox(
             cmbMetaHeuristic,
             btnEditMetaHeuristic,
-            MetaHeuristicsService<int>.GetMetaHeuristicNames,
-            MetaHeuristicsService<int>.GetMetaHeuristicTypeByName,(s, objects) =>
+            MetaHeuristicsService.GetMetaHeuristicNames,
+            MetaHeuristicsService.GetMetaHeuristicTypeByName,(s, objects) =>
             {
-                IGeometricConverter<object> geometryConverter = new DefaultGeometricConverter<object>();
+                IGeometricConverter geometricConverter = new DefaultGeometricConverter();
                 if (m_sampleController != null)
                 {
-                    geometryConverter = m_sampleController.GetGeometricConverters();
+                    geometricConverter = m_sampleController.GetGeometricConverter();
                 }
-                return MetaHeuristicsService<object>.CreateMetaHeuristicByName(s, geometryConverter.GeneToDouble,
-                    geometryConverter.DoubleToGene);
+                return MetaHeuristicsService.CreateMetaHeuristicByName(s, geometricConverter);
             },
             () => m_metaheuristic,
             metaHeuristic => m_metaheuristic = metaHeuristic
