@@ -123,7 +123,7 @@ namespace GeneticSharp.Runner.GtkApp
             nbSamplesButton.Value = mNbSamples;
             nbSamplesButton.ValueChanged += delegate
             {
-                mNbSamples = nbDimensionsButton.ValueAsInt;
+                mNbSamples = nbSamplesButton.ValueAsInt;
             };
             nbDimensionsHBox.Add(nbSamplesButton);
             Box.BoxChild wnbSamplesButton = (Box.BoxChild)nbDimensionsHBox[nbSamplesButton];
