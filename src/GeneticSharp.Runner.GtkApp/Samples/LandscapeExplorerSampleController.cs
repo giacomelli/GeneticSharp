@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Crossovers.Geometric;
@@ -477,7 +478,7 @@ namespace GeneticSharp.Runner.GtkApp
                         _taskExecutor.Stop();
                         _taskExecutor.Clear();
                     });
-                    _taskExecutor.Start();
+                   Task.Run(() => _taskExecutor.Start());
                 }
                 else
                 {
