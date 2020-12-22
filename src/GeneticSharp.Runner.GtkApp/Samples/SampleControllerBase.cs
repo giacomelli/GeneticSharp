@@ -18,6 +18,8 @@ namespace GeneticSharp.Runner.GtkApp.Samples
     /// </summary>
     public abstract class SampleControllerBase : ISampleController
     {
+        private IGeometricConverter _geometricConverter;
+
         #region Events
         /// <summary>
         /// Occurs when the sample is reconfigured in the config widget.
@@ -113,7 +115,18 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         {
             return new DefaultGeometricConverter();
         }
-      
+
+        public IGeometricConverter GeometricConverter
+        {
+            get
+            {
+                if (_geometricConverter == null)
+                {
+                    _geometricConverter = GetGeometricConverter();
+                }
+                return _geometricConverter;
+            }
+        }
 
         /// <summary>
         /// Resets the sample.

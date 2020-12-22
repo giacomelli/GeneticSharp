@@ -17,6 +17,8 @@ namespace GeneticSharp.Domain.Crossovers.Geometric
     public interface IGeometricConverter<TGeneValue>
     {
 
+        bool IsOrdered { get; }
+
         double GeneToDouble(int geneIndex, TGeneValue geneValue);
 
 

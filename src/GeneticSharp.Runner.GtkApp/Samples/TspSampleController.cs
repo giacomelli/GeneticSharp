@@ -5,6 +5,7 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Crossovers.Geometric;
 using GeneticSharp.Domain.Fitnesses;
+using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Extensions.Tsp;
@@ -128,6 +129,22 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             if (population != null && population.CurrentGeneration != null)
             {
                 m_bestChromosome = population.BestChromosome as TspChromosome;
+
+                if (population.GenerationsNumber.PositiveMod(20)==0)
+                {
+                    if (Context.GA is MetaGeneticAlgorithm mga)
+                    {
+                        var embedding = this.GeometricConverter.GetEmbedding();
+                        if (embedding is TypedGeometryEmbedding typedEmbedding)
+                        {
+                            if (typedEmbedding.TypedEmbedding is TspPermutationEmbedding permEmbedding)
+                            {
+                                permEmbedding.TargetPermutation = m_bestChromosome.GetCities();
+                            }
+                        }
+                    }
+                }
+                
             }
         }
 
@@ -186,7 +203,11 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         public override IGeometricConverter GetGeometricConverter()
         {
             var tspEmbedding = new TspPermutationEmbedding(this.m_fitness);
-            var typedConverter = new GeometricConverter<int>{DoubleToGeneConverter = DoubleToGene, GeneToDoubleConverter = GeneToDouble, Embedding = tspEmbedding };
+            var typedConverter = new GeometricConverter<int>
+            {
+                IsOrdered = true,
+                DoubleToGeneConverter = DoubleToGene, GeneToDoubleConverter = GeneToDouble, Embedding = tspEmbedding
+            };
             var toReturn = new TypedGeometricConverter(); 
             toReturn.SetTypedConverter(typedConverter);
             return toReturn;

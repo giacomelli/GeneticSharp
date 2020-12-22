@@ -429,7 +429,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 
         public override IGeometricConverter GetGeometricConverter()
         {
-            var typedConverter = new GeometricConverter<int> { DoubleToGeneConverter = DoubleToGene, GeneToDoubleConverter = GeneToDouble };
+            var typedConverter = new GeometricConverter<int> { IsOrdered = true, DoubleToGeneConverter = DoubleToGene, GeneToDoubleConverter = GeneToDouble };
             var toReturn = new TypedGeometricConverter();
             toReturn.SetTypedConverter(typedConverter);
             return toReturn;

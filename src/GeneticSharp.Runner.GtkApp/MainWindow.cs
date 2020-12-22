@@ -513,7 +513,7 @@ public partial class MainWindow : Window
                 IGeometricConverter geometricConverter = new DefaultGeometricConverter();
                 if (m_sampleController != null)
                 {
-                    geometricConverter = m_sampleController.GetGeometricConverter();
+                    geometricConverter = m_sampleController.GeometricConverter;
                 }
                 return MetaHeuristicsService.CreateMetaHeuristicByName(s, geometricConverter);
             },

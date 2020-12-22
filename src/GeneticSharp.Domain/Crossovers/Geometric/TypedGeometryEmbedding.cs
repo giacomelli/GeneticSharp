@@ -13,9 +13,12 @@ namespace GeneticSharp.Domain.Crossovers.Geometric
     public class TypedGeometryEmbedding : IGeometryEmbedding
     {
 
+        public object TypedEmbedding { get; set; }
+
         public void SetTypedEmbedding<TValue>(IGeometryEmbedding<TValue> embedding)
         {
             ExceptionHelper.ThrowIfNull(nameof(embedding), embedding);
+            TypedEmbedding = embedding;
             MapFromGeometryFunction = (parents, offSpringValues) =>
                 embedding.MapFromGeometry(parents, offSpringValues.Cast<TValue>().ToList());
             MapToGeometryFunction = parent => embedding.MapToGeometry(parent).Cast<object>().ToList();

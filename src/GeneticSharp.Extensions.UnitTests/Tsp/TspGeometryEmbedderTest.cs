@@ -417,14 +417,14 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             {
                 case nameof(GenerationNumberTermination):
                 case nameof(TimeEvolvingTermination):
-                    Assert.GreaterOrEqual(result1.Distance * ratio, result2.Distance);
+                    Assert.GreaterOrEqual( ratio, result2.Distance / result1.Distance);
                     break;
                 case nameof(FitnessThresholdTermination):
-                    Assert.GreaterOrEqual(TimeSpan.FromTicks(Convert.ToInt64(result1.TimeEvolving.Ticks * ratio)), result2.TimeEvolving);
+                    Assert.GreaterOrEqual(ratio, result2.TimeEvolving.Ticks / (double)result1.TimeEvolving.Ticks);
                     break;
                 case nameof(FitnessStagnationTermination):
-                    Assert.GreaterOrEqual(result1.Distance * ratio, result2.Distance);
-                    Assert.GreaterOrEqual(TimeSpan.FromTicks(Convert.ToInt64(result1.TimeEvolving.Ticks * ratio)), result2.TimeEvolving);
+                    Assert.GreaterOrEqual(ratio, result2.Distance / result1.Distance);
+                    Assert.GreaterOrEqual(ratio, result2.TimeEvolving.Ticks / (double)result1.TimeEvolving.Ticks);
                     break;
                     default:throw new InvalidOperationException("Termination not supported");
             }

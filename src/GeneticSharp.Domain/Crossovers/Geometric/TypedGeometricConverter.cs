@@ -16,7 +16,7 @@ namespace GeneticSharp.Domain.Crossovers.Geometric
             ExceptionHelper.ThrowIfNull(nameof(converter), converter);
             GeneToDoubleFunction = (geneIndex, geneValue) => converter.GeneToDouble(geneIndex, (TValue) geneValue);
             DoubleToGeneFunction = (geneIndex, metricValue) => converter.DoubleToGene(geneIndex, metricValue);
-
+            IsOrdered = converter.IsOrdered;
             var embedding = converter.GetEmbedding();
             if (embedding!=null)
             {
@@ -29,6 +29,8 @@ namespace GeneticSharp.Domain.Crossovers.Geometric
         public Func<int, object, double> GeneToDoubleFunction { get; set; }
 
         public Func<int, double, object> DoubleToGeneFunction { get; set; }
+
+        public bool IsOrdered { get; set; }
 
         public double GeneToDouble(int geneIndex, object geneValue)
         {

@@ -22,6 +22,7 @@ namespace GeneticSharp.Domain.Crossovers.Geometric
         public IGeometryEmbedding<TGeneValue> Embedding { get; set; }
 
 
+        public bool IsOrdered { get; set; }
         public double GeneToDouble(int geneIndex, TGeneValue geneValue) => GeneToDoubleConverter(geneIndex, geneValue);
         public TGeneValue DoubleToGene(int geneIndex, double metricValue) => DoubleToGeneConverter(geneIndex, metricValue);
         public IGeometryEmbedding<TGeneValue> GetEmbedding() => Embedding;

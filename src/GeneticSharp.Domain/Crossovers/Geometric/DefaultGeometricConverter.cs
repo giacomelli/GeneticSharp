@@ -30,6 +30,12 @@ namespace GeneticSharp.Domain.Crossovers.Geometric
             return _typedConverter.GetEmbedding();
         }
 
+        public bool IsOrdered
+        {
+            get => _typedConverter.IsOrdered;
+            set => _typedConverter.IsOrdered = value;
+        }
+
         public double GeneToDouble(int geneIndex, object geneValue)
         {
             return _typedConverter.GeneToDouble(geneIndex, geneValue);
@@ -46,6 +52,9 @@ namespace GeneticSharp.Domain.Crossovers.Geometric
     public class DefaultGeometricConverter<TGeneValue> : IGeometricConverter<TGeneValue>
     {
         private static readonly TypeConverter _converter = TypeDescriptor.GetConverter(typeof(TGeneValue));
+
+
+        public bool IsOrdered { get; set; }
 
         public double GeneToDouble(int geneIndex, TGeneValue geneValue) =>
             Convert.ToDouble(geneValue);

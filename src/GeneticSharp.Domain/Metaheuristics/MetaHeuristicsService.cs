@@ -78,13 +78,13 @@ namespace GeneticSharp.Domain.Metaheuristics
                         {
                             geometricConverter = new DefaultGeometricConverter();
                         }
-                        return MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false, 500, geometricConverter);
+                        return MetaHeuristicsFactory.WhaleOptimisationAlgorithm(geometricConverter.IsOrdered, 1000, geometricConverter);
                     case KnownCompoundMetaheuristics.WhaleOptimisationNaive:
                         if (geometricConverter == null)
                         {
                             geometricConverter = new DefaultGeometricConverter();
                         }
-                        return MetaHeuristicsFactory.WhaleOptimisationAlgorithmExtended(false, 500, geometricConverter, bubbleNetOperator: MetaHeuristicsFactory.GetSimpleBubbleNetOperator());
+                        return MetaHeuristicsFactory.WhaleOptimisationAlgorithmExtended(geometricConverter.IsOrdered, 1000, geometricConverter, bubbleNetOperator: MetaHeuristicsFactory.GetSimpleBubbleNetOperator());
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
