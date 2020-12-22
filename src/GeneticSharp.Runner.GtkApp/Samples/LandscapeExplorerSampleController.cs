@@ -102,20 +102,6 @@ namespace GeneticSharp.Runner.GtkApp
             wnbDimensionsHBox.Expand = false;
             wnbDimensionsHBox.Fill = false;
 
-            var nbDimensionsLabel = new Label { Text = "Nb of gene dimensions" };
-            nbDimensionsHBox.Add(nbDimensionsLabel);
-
-            var nbDimensionsButton = new SpinButton(2, 10000, 1) { Digits = 0 };
-            nbDimensionsButton.ValueChanged += delegate
-            {
-                mNbDimensions = nbDimensionsButton.ValueAsInt;
-                _hideAndShow();
-            };
-            nbDimensionsHBox.Add(nbDimensionsButton);
-            Box.BoxChild wnbDimensionsButton = (Box.BoxChild)nbDimensionsHBox[nbDimensionsButton];
-            wnbDimensionsButton.Expand = false;
-            wnbDimensionsButton.Fill = false;
-
             var nbSamplesLabel = new Label { Text = "Nb of samples" };
             nbDimensionsHBox.Add(nbSamplesLabel);
 
@@ -129,6 +115,24 @@ namespace GeneticSharp.Runner.GtkApp
             Box.BoxChild wnbSamplesButton = (Box.BoxChild)nbDimensionsHBox[nbSamplesButton];
             wnbSamplesButton.Expand = false;
             wnbSamplesButton.Fill = false;
+
+
+            var nbDimensionsLabel = new Label { Text = "Nb of dimensions" };
+            nbDimensionsHBox.Add(nbDimensionsLabel);
+
+            var nbDimensionsButton = new SpinButton(2, 10000, 1) { Digits = 0 };
+            nbDimensionsButton.ValueChanged += delegate
+            {
+                mNbDimensions = nbDimensionsButton.ValueAsInt;
+                _hideAndShow();
+            };
+            nbDimensionsHBox.Add(nbDimensionsButton);
+            Box.BoxChild wnbDimensionsButton = (Box.BoxChild)nbDimensionsHBox[nbDimensionsButton];
+            wnbDimensionsButton.Expand = false;
+            wnbDimensionsButton.Fill = false;
+
+           
+           
 
 
 
