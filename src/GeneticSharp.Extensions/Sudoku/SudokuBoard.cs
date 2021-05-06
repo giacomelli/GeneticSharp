@@ -19,12 +19,12 @@ namespace GeneticSharp.Extensions.Sudoku
         /// <summary>
         /// The list of cells is used many times and thus stored for quicker access.
         /// </summary>
-        public static readonly ReadOnlyCollection<int> CellIndex = new ReadOnlyCollection<int>(Enumerable.Range(0, 81).ToList());
+        public static readonly ReadOnlyCollection<int> CellIndex = new ReadOnlyCollection<int>(Enumerable.Range(0, 81).ToArray());
 
         /// <summary>
         /// The list of row indexes is used many times and thus stored for quicker access.
         /// </summary>
-        public static readonly ReadOnlyCollection<int> NeighborhoodIndex = new ReadOnlyCollection<int>(Enumerable.Range(0, 9).ToList());
+        public static readonly ReadOnlyCollection<int> NeighborhoodIndex = new ReadOnlyCollection<int>(Enumerable.Range(0, 9).ToArray());
 
         private static readonly List<List<int>> _rowsNeighborhoods =
             CellIndex.GroupBy(x => x / 9).Select(g => g.ToList()).ToList();
@@ -225,7 +225,7 @@ namespace GeneticSharp.Extensions.Sudoku
                 if (_extendedMask == null)
                 {
                     // We generate 1 to 9 figures for convenience
-                    var indices = Enumerable.Range(1, 9).ToList();
+                    var indices = Enumerable.Range(1, 9);
                     var extendedMask = new Dictionary<int, List<int>>(81);
 
                     //If target sudoku mask is provided, we generate an inverted mask with forbidden values by propagating rows, columns and boxes constraints
