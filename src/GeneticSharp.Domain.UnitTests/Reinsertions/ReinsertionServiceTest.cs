@@ -13,12 +13,13 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
         {
             var actual = ReinsertionService.GetReinsertionTypes();
 
-            Assert.AreEqual(5, actual.Count);
+            Assert.AreEqual(6, actual.Count);
             Assert.AreEqual(typeof(ElitistReinsertion), actual[0]);
             Assert.AreEqual(typeof(FitnessBasedElitistReinsertion), actual[1]);
-            Assert.AreEqual(typeof(FitnessBasedReinsertion), actual[2]);
-            Assert.AreEqual(typeof(PureReinsertion), actual[3]);
-            Assert.AreEqual(typeof(UniformReinsertion), actual[4]);
+            Assert.AreEqual(typeof(FitnessBasedPairwiseReinsertion), actual[2]);
+            Assert.AreEqual(typeof(FitnessBasedReinsertion), actual[3]);
+            Assert.AreEqual(typeof(PureReinsertion), actual[4]);
+            Assert.AreEqual(typeof(UniformReinsertion), actual[5]);
         }
 
         [Test]
@@ -26,12 +27,13 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
         {
             var actual = ReinsertionService.GetReinsertionNames();
 
-            Assert.AreEqual(5, actual.Count);
+            Assert.AreEqual(6, actual.Count);
             Assert.AreEqual("Elitist", actual[0]);
             Assert.AreEqual("Fitness Based Elitist", actual[1]);
-            Assert.AreEqual("Fitness Based", actual[2]);
-            Assert.AreEqual("Pure", actual[3]);
-            Assert.AreEqual("Uniform", actual[4]);
+            Assert.AreEqual("Fitness Based Pairwise", actual[2]);
+            Assert.AreEqual("Fitness Based", actual[3]);
+            Assert.AreEqual("Pure", actual[4]);
+            Assert.AreEqual("Uniform", actual[5]);
         }
 
         [Test]
