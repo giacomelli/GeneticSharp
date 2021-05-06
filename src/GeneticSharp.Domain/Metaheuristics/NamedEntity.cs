@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace GeneticSharp.Domain.Metaheuristics
 {
-
+    [DebuggerDisplay("{Guid} - {Name} - {Description}")]
     public class NamedEntity : INamedEntity
     {
 
@@ -14,7 +15,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <summary>
         /// An user-friendly name for the entity (Metaheuristic/Parameter)
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; set; } 
 
         /// <summary>
         /// A user-friendly description of what the Metaheuristic/parameter does 
