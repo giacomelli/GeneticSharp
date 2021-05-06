@@ -11,8 +11,51 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Collections
 {
 
     [TestFixture]
-    public class EnumerablerTest
+    public class EnumerableTest
     {
+
+        //[Test]
+        //public void CachedEnumerable_WorksAsNotCached()
+        //{
+        //    var unCached = Enumerable.Range(0, 10000).ToList();
+        //    var cached = CachedEnumerable.Range(0, 10000);
+
+        //    for (int i = 0; i < 10000; i++)
+        //    {
+        //        Assert.AreEqual(unCached[i], cached[i]);
+        //    }
+
+        //}
+
+
+        //[Test]
+        //public void CachedEnumerable_Faster()
+        //{
+        //    var cachedStopWatch = new Stopwatch();
+        //    var regularStopWatch = new Stopwatch();
+        //    regularStopWatch.Start();
+        //    for (int i = 0; i < 1000; i++)
+        //    {
+        //        for (int j = 1; j < 10; j++)
+        //        {
+        //            var unCached = Enumerable.Range(0, 100*j).ToArray();
+        //        }
+        //    }
+        //    regularStopWatch.Stop();
+        //    cachedStopWatch.Start();
+        //    for (int i = 0; i < 1000; i++)
+        //    {
+        //        for (int j = 1; j < 10; j++)
+        //        {
+        //            var cached = CachedEnumerable.Range(0, 100*j).ToArray();
+        //        }
+        //    }
+        //    cachedStopWatch.Stop();
+        //    Assert.Greater(regularStopWatch.Elapsed, cachedStopWatch.Elapsed);
+
+        //}
+
+
         [Test]
         public void Each_AddOne_ValuesExpected()
         {

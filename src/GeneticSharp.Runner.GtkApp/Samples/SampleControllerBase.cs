@@ -9,7 +9,6 @@ using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 using Gtk;
-using Object = Gtk.Object;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
 {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,7 +13,6 @@ using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Extensions.Mathematic;
 using GeneticSharp.Extensions.Mathematic.Functions;
-using GeneticSharp.Infrastructure.Framework.Commons;
 using GeneticSharp.Infrastructure.Framework.Images;
 using GeneticSharp.Infrastructure.Framework.Threading;
 using GeneticSharp.Runner.GtkApp.Samples;
@@ -391,7 +389,10 @@ namespace GeneticSharp.Runner.GtkApp
         public override IFitness CreateFitness()
         {
             var toReturn = new FunctionFitness<double>(genes =>
-                mTargetFunction.Fitness(mTargetFunction.Function(genes.Select(g => (double) g.Value).ToArray())));
+            {
+                var geneValues = genes.Select(g => (double) g.Value).ToArray();
+                return mTargetFunction.Fitness(geneValues, mTargetFunction.Function(geneValues));
+            });
             return toReturn;
         }
 
@@ -674,7 +675,7 @@ namespace GeneticSharp.Runner.GtkApp
 
         private double ComputeFunctionValue(double[] inputCoords)
         {
-            return mTargetFunction.Fitness(mTargetFunction.Function(inputCoords));
+            return mTargetFunction.Fitness(inputCoords, mTargetFunction.Function(inputCoords));
         }
 
 

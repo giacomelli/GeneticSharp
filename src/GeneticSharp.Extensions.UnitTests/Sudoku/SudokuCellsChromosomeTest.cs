@@ -63,7 +63,7 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
             var chromosome = new SudokuCellsChromosome(sudoku, true);
 
             // We split the original 81 genes/cells chromosome into a 9x9genes chromosomes Karyotype
-            var metaHeuristics = new EukaryoteMetaHeuristic(9, 9, new DefaultMetaHeuristic()) { Scope = EvolutionStage.Crossover | EvolutionStage.Mutation };
+            var metaHeuristics = new EukaryoteMetaHeuristic(9, 9, new DefaultMetaHeuristic()) { Scope =  EvolutionStage.Crossover | EvolutionStage.Mutation };
             //Since we used rows permutations at init and the solution is also a row permutation, we used ordered crossovers and mutations to keep yielding permutations
             var crossover = new CycleCrossover();
             var mutation = new TworsMutation();
