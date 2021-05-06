@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 
@@ -19,20 +20,33 @@ namespace GeneticSharp.Domain.Reinsertions
 
         protected override IList<IChromosome> PerformSelectChromosomes(IPopulation population, IList<IChromosome> offspring, IList<IChromosome> parents)
         {
-            if (parents.Count!=offspring.Count)
+            var maxCrossIndex = Math.Min(parents.Count, offspring.Count);
+            var toReturn = new List<IChromosome>(parents);
+            for (int i = 0; i < maxCrossIndex; i++)
             {
-                throw new NotImplementedException("FitnessBasedPairwiseReinsertion requires the offspring number to equals parents number");
-            }
-
-            for (int i = 0; i < parents.Count; i++)
-            {
-                if (parents[i].Fitness<offspring[i].Fitness)
+                if (toReturn[i].Fitness<offspring[i].Fitness)
                 {
-                    parents[i] = offspring[i];
+                    toReturn[i] = offspring[i];
                 }
             }
 
-            return parents;
+            var missingNb = population.MinSize - toReturn.Count;
+            if (missingNb>0)
+            {
+                if (offspring.Count>maxCrossIndex)
+                {
+                    var leftOver = offspring.Skip(maxCrossIndex).ToArray();
+                    if (leftOver.Length>=missingNb)
+                    {
+                        foreach (var chromosome in leftOver.Take(missingNb))
+                        {
+                            toReturn.Add(chromosome);
+                        }
+                    }
+                }
+            }
+
+            return toReturn;
         }
     }
 }
