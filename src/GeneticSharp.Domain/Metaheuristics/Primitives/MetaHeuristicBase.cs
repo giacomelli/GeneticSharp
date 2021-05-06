@@ -9,13 +9,10 @@ using GeneticSharp.Domain.Selections;
 
 namespace GeneticSharp.Domain.Metaheuristics.Primitives
 {
-   
-
-
     /// <summary>
-    /// A base class for Metaheuristics. Provides an ID, and a helper to add and get items from generation cache.
-    /// </summary>
-    public abstract class MetaHeuristicBase : NamedEntity, IMetaHeuristic
+        /// A base class for Metaheuristics. Provides an ID, and a helper to add and get items from generation cache.
+        /// </summary>
+        public abstract class MetaHeuristicBase : NamedEntity, IMetaHeuristic
     {
        
 
@@ -47,14 +44,19 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
                 {
                     return (IEvolutionContext)cachedContext;
                 }
-                var toReturn = new EvolutionContext { GeneticAlgorithm = geneticAlgorithm, Population = population };
-                RegisterParameters(toReturn);
+
+                var toReturn = GetNewContext(geneticAlgorithm, population);
                 population.Parameters[nameof(IEvolutionContext)] = toReturn;
                 return toReturn;
             }
         }
 
-
+        public IEvolutionContext GetNewContext(IGeneticAlgorithm geneticAlgorithm, IPopulation population)
+        {
+            var toReturn = new EvolutionContext { GeneticAlgorithm = geneticAlgorithm, Population = population };
+            RegisterParameters(toReturn);
+            return toReturn;
+        }
 
         public virtual void RegisterParameters(IEvolutionContext ctx)
         {
