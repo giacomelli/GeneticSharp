@@ -24,7 +24,16 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
 
         private void Init()
         {
-            DynamicParameter = new ExpressionMetaHeuristicParameter<int> {DynamicGenerator = (h, ctx) => ctx.Population.GenerationsNumber, Scope = ParamScope.Generation};
+            DynamicParameter = new ExpressionMetaHeuristicParameter<int>
+            {
+                DynamicGenerator = (IMetaHeuristic h, IEvolutionContext ctx) =>
+                    GetGenerationPhase(ctx), Scope = ParamScope.Generation | ParamScope.MetaHeuristic
+            };
+        }
+
+        private int GetGenerationPhase(IEvolutionContext ctx)
+        {
+            return (ctx.Population.GenerationsNumber - 1) % PhaseSizes.TotalPhaseSize;
         }
     }
 }
