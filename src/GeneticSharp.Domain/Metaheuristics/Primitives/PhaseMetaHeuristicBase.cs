@@ -14,6 +14,10 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
             PhaseHeuristics = new Dictionary<TIndex, IMetaHeuristic>();
         }
 
+        protected PhaseMetaHeuristicBase(IMetaHeuristic subMetaHeuristic) : base(subMetaHeuristic)
+        {
+            PhaseHeuristics = new Dictionary<TIndex, IMetaHeuristic>();
+        }
 
         public Dictionary<TIndex,IMetaHeuristic> PhaseHeuristics { get; }
 
