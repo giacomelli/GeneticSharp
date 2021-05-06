@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
+using GeneticSharp.Infrastructure.Framework.Collections;
 
 namespace GeneticSharp.Domain.Crossovers.Geometric
 {
