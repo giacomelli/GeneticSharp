@@ -23,13 +23,15 @@ namespace GeneticSharp.Domain
     /// <summary>
     /// The EvolutionResult class represent the result of a genetic algorithm evolution. It aggregates the evolution time and the resulting population.
     /// </summary>
-    [DebuggerDisplay("Fit:{Fitness}, Time:{TimeEvolving}, GenNb: {GenerationsNumber}")]
+    [DebuggerDisplay("Fit:{Fitness}, Time:{TimeEvolvingDisplay}, GenNb: {GenerationsNumber}")]
     public class EvolutionResult : IEvolutionResult
     {
 
         public double Fitness => Population.BestChromosome.Fitness.Value;
 
         public IPopulation Population { get; set; }
+
+        public string TimeEvolvingDisplay => TimeEvolving.ToString();
 
         public TimeSpan TimeEvolving { get; set; }
         public int GenerationsNumber => Population.GenerationsNumber;
@@ -38,10 +40,12 @@ namespace GeneticSharp.Domain
     /// <summary>
     /// The MeanEvolutionResult class allows collecting repeated evolution results and computing mean statistical values, while skipping a percentage of extrema when Results are sorted according to a custom comparer.
     /// </summary>
-    [DebuggerDisplay("Fit:{Fitness}, Time:{TimeEvolving}, GenNb: {GenerationsNumber}")]
+    [DebuggerDisplay("Fit:{Fitness}  -  {TestSettings}, Time:{TimeEvolvingDisplay}, GenNb:{GenerationsNumber}")]
     public class MeanEvolutionResult : IEvolutionResult
     {
         private SortedSet<IEvolutionResult> _results;
+
+        public object TestSettings { get; set; }
 
         public Func<IEvolutionResult, IEvolutionResult, int> ResultComparer { get; set; } =
             (result1, result2) => Math.Sign(result1.Fitness - result2.Fitness);
@@ -65,6 +69,8 @@ namespace GeneticSharp.Domain
         public IPopulation Population => Results.Count > 0 ? GetScopedResults().First().Population : null;
 
         public TimeSpan TimeEvolving => Results.Count > 0 ? TimeSpan.FromTicks(GetScopedResults().Sum(r => r.TimeEvolving.Ticks) / GetScopedResults().Count()) : TimeSpan.Zero;
+
+        public string TimeEvolvingDisplay => TimeEvolving.ToString();
         public int GenerationsNumber => Results.Count > 0 ? GetScopedResults().Sum(r => r.Population.GenerationsNumber) / GetScopedResults().Count() : 0;
 
 
