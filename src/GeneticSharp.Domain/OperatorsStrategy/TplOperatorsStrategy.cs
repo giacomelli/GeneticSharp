@@ -9,6 +9,7 @@ using GeneticSharp.Domain.Metaheuristics.Primitives;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Randomizations;
+using GeneticSharp.Infrastructure.Framework.Collections;
 
 namespace GeneticSharp.Domain
 {
@@ -29,7 +30,8 @@ namespace GeneticSharp.Domain
         /// <returns>The result chromosomes.</returns>
         public IList<IChromosome> Cross(IPopulation population, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
-            var offspring = new ConcurrentBag<IChromosome>();
+            //Switching to dictionary to restore order, which might be important (islands etc.)
+            var offspring = new ConcurrentDictionary<int, IList<IChromosome>>();
 
             Parallel.ForEach(Enumerable.Range(0, population.MinSize / crossover.ParentsNumber).Select(i => i * crossover.ParentsNumber), i =>
             {
@@ -40,13 +42,12 @@ namespace GeneticSharp.Domain
                 // have some rest chromosomes.
                 if (selectedParents.Count == crossover.ParentsNumber && RandomizationProvider.Current.GetDouble() <= crossoverProbability)
                 {
-                    var children = crossover.Cross(selectedParents);
-                    foreach (var item in children)
-                        offspring.Add(item);
+                    var children = crossover.Cross(selectedParents); 
+                    offspring[i]= children;
                 }
             });
 
-            return offspring.ToList();
+            return offspring.OrderBy(pair=>pair.Key).SelectMany(pair=>pair.Value).ToList();
         }
 
         /// <summary>
@@ -75,19 +76,21 @@ namespace GeneticSharp.Domain
         /// <returns>The result chromosomes.</returns>
         public IList<IChromosome> MetaCross(IMetaHeuristic metaHeuristic, IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
-            var offspring = new ConcurrentBag<IChromosome>();
+            var offspring = new ConcurrentDictionary<int, IList<IChromosome>>();
 
             Parallel.ForEach(Enumerable.Range(0, ctx.Population.MinSize / crossover.ParentsNumber).Select(i => i * crossover.ParentsNumber), i =>
             {
-                var children = metaHeuristic.MatchParentsAndCross(ctx.GetIndividual(i), crossover, crossoverProbability, parents);
-                if (children != null)
-                {
-                    foreach (var item in children)
-                        offspring.Add(item);
-                }
+                var indContext = ctx.GetIndividual(i);
+                var children = metaHeuristic.MatchParentsAndCross(indContext, crossover, crossoverProbability, parents);
+                //if (children != null)
+                //{
+                //    foreach (var item in children)
+                //        offspring.Add(item);
+                //}
+                offspring[i] = children;
             });
 
-            return offspring.ToList();
+            return offspring.OrderBy(pair => pair.Key).SelectMany(pair => pair.Value).ToList();
         }
 
         /// <summary>
@@ -102,7 +105,8 @@ namespace GeneticSharp.Domain
         {
             Parallel.ForEach(Enumerable.Range(0, chromosomes.Count), i =>
             {
-                metaHeuristic.MutateChromosome(ctx.GetIndividual(i), mutation, mutationProbability, chromosomes);
+                var indContext = ctx.GetIndividual(i);
+                metaHeuristic.MutateChromosome(indContext, mutation, mutationProbability, chromosomes);
             });
         }
 
