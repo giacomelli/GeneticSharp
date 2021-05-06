@@ -10,7 +10,7 @@ namespace GeneticSharp.Domain.Populations
     /// <summary>
     /// Represents a population of candidate solutions (chromosomes).
     /// </summary>
-    [DebuggerDisplay("Generations:{GenerationsNumber}, BestChromosome:{BestChromosome}")]
+    [DebuggerDisplay("Gen Nb:{GenerationsNumber}, BestChromosome:{BestChromosome}, Current Gen: {CurrentGeneration}")]
     public class Population : IPopulation
     {
         #region Constructors
