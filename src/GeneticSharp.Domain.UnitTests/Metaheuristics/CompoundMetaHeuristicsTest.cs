@@ -41,7 +41,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             var reinsertion = new FitnessBasedElitistReinsertion();
 
-            var compoundResults = EvolveMetaHeuristicDifferentSizes(
+            var compoundResults = EvolveMetaHeuristicDifferentSizes(1,
                 Fitness,
                 AdamChromosome,
                 SmallSizes,
@@ -66,7 +66,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             var reinsertion = new FitnessBasedElitistReinsertion();
 
-            var compoundResults = EvolveMetaHeuristicDifferentSizes(
+            var compoundResults = EvolveMetaHeuristicDifferentSizes(1,
                 Fitness,
                 AdamChromosome,
                 SmallSizes,
@@ -130,7 +130,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             foreach (var functionToSolve in functionsToSolveWithTargets)
             {
                 IFitness Fitness(int i) => new FunctionFitness<double>(functionToSolve.Key);
-                var compoundResults = EvolveMetaHeuristicDifferentSizes(
+                var compoundResults = EvolveMetaHeuristicDifferentSizes(1,
                     Fitness,
                     AdamChromosome,
                     SmallSizes,
@@ -213,7 +213,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
             var reinsertion = new FitnessBasedElitistReinsertion();
 
-            var compoundResults = CompareMetaHeuristicsKnownFunctionsDifferentSizes(maxCoordinate, StandardHeuristic, MetaHeuristic, crossover, sizes, termination, reinsertion);
+            var compoundResults = CompareMetaHeuristicsKnownFunctionsDifferentSizes(1, maxCoordinate, StandardHeuristic, MetaHeuristic, crossover, sizes, termination, reinsertion);
 
             for (int i = 0; i < compoundResults.Count; i++)
             {
@@ -232,7 +232,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
 
             var crossover = new UniformCrossover();
-            var results = Compare_WOAReduced_Crossover_ChromosomeStub(crossover, LargeSizes);
+            var results = Compare_WOAReduced_Crossover_ChromosomeStub(1, crossover, LargeSizes);
 
             var meanRatio = results.Sum(c => c.result2.Fitness / c.result1.Fitness) / results.Count;
 
@@ -244,7 +244,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         public void Compare_WOA_OnePoint_Stub_Small_LargerFitness()
         {
             var crossover = new OnePointCrossover(2);
-            var results = Compare_WOAReduced_Crossover_ChromosomeStub(crossover, SmallSizes);
+            var results = Compare_WOAReduced_Crossover_ChromosomeStub(1, crossover, SmallSizes);
 
             var meanRatio = results.Sum(c => c.result2.Fitness / c.result1.Fitness) / results.Count;
 
@@ -252,7 +252,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
         }
 
-        private IList<(EvolutionResult result1, EvolutionResult result2)> Compare_WOAReduced_Crossover_ChromosomeStub(ICrossover crossover, IEnumerable<int> sizes)
+        private IList<(IEvolutionResult result1, IEvolutionResult result2)> Compare_WOAReduced_Crossover_ChromosomeStub(int repeatNb, ICrossover crossover, IEnumerable<int> sizes)
         {
             IMetaHeuristic StandardHeuristic(int i) => new DefaultMetaHeuristic();
             IMetaHeuristic MetaHeuristic(int i) => GetDefaultWhaleHeuristicForChromosomStub(true, 50, i);
@@ -272,7 +272,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
             var reinsertion = new FitnessBasedElitistReinsertion();
 
-            var results = CompareMetaHeuristicsDifferentSizes(
+            var results = CompareMetaHeuristicsDifferentSizes(1,
                 sizes,
                 Fitness,
                 AdamChromosome,
@@ -325,7 +325,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             for (int i = 0; i < repeatNb; i++)
             {
-                var results = CompareMetaHeuristicsDifferentSizes(
+                var results = CompareMetaHeuristicsDifferentSizes(1,
                     problemSizes,
                     maxValue => new FitnessStub(maxValue) { SupportsParallel = false },
                     maxValue => new ChromosomeStub(maxValue, maxValue),
@@ -473,21 +473,12 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         }
 
 
-        public class IslandGene
-        {
+       
 
-            public bool NewIsland { get; set; }
-
-            public KnownCompoundMetaheuristics IslandMetaheuristic;
-
-            public bool NoMutation { get; set; }
-
-            public IReinsertion Reinsertion { get; set; }
-
-        }
-
-
-        [Test]
+        /// <summary>
+        /// This is a custom unit test to do some preliminary experiences. Interesting results can be made into dedicated unit tests
+        /// </summary>
+        //[Test]
         public void GridSearch()
         {
             try
