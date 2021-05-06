@@ -78,11 +78,11 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <param name="parents"></param>
         /// <param name="subChromosomeLengths"></param>
         /// <returns></returns>
-        public static IList<IList<IChromosome>> GetSubPopulations(IEnumerable<IChromosome> parents, IList<int> subChromosomeLengths)
+        public static List<List<IChromosome>> GetSubPopulations(IEnumerable<IChromosome> parents, IList<int> subChromosomeLengths)
         {
             var karyotypes = parents.Select(parent => GetKaryotype(parent, subChromosomeLengths));
             var subPopulations = Enumerable.Range(0, subChromosomeLengths.Count)
-                .Select(i => (IList<IChromosome>)karyotypes.Select(p => p[i]).ToList()).ToList();
+                .Select(i => karyotypes.Select(p => p[i]).ToList()).ToList();
             return subPopulations;
         }
 
@@ -100,7 +100,10 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <param name="children"></param>
         public static void UpdateParent(IList<IChromosome> children)
         {
-            children.Each(objEukaryoteChromomosome => ((EukaryoteChromosome)objEukaryoteChromomosome).UpdateParent());
+            foreach (var objEukaryoteChromosome in children)
+            {
+                ((EukaryoteChromosome)objEukaryoteChromosome).UpdateParent();
+            }
         }
 
         /// <summary>
@@ -128,7 +131,7 @@ namespace GeneticSharp.Domain.Chromosomes
         {
             var toReturn = new List<IChromosome>();
             var karyotypes = Enumerable.Range(0, subPopulations[0].Count)
-                .Select(i => subPopulations.Select(subPopulation => subPopulation[i]).Cast<EukaryoteChromosome>().ToList()).ToList();
+                .Select(i => subPopulations.Select(subPopulation => subPopulation[i]).Cast<EukaryoteChromosome>().ToList());
             foreach (var karyotype in karyotypes)
             {
                 var newParent = GetNewIndividual(karyotype);
