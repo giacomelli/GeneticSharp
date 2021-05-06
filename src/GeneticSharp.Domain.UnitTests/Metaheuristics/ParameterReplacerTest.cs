@@ -30,7 +30,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var reducedExpression =
                 ParameterReplacer.ReduceLambdaParameterGenerator<int>(childParameter.DynamicGeneratorWithArg, ctx);
 
-            Assert.AreEqual("(heuristic, context) => ((context.Index + 1) - 1)", reducedExpression.ToString());
+            Assert.AreEqual("(heuristic, context) => ((context.OriginalIndex + 1) - 1)", reducedExpression.ToString());
 
         }
 
