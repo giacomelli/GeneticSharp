@@ -31,24 +31,24 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         public void Evolve_IslandDefault_Stub_Small_Optmization()
         {
             var islandDEfaultName = nameof(KnownCompoundMetaheuristics.Islands5Default);
-            IMetaHeuristic MetaHeuristic(int maxValue) =>  MetaHeuristicsService.CreateMetaHeuristicByName(islandDEfaultName, 50, 50, null, true); //GetDefaultWhaleHeuristicForChromosomStub(false, 300, maxValue);
+            IMetaHeuristic MetaHeuristic(int maxValue) =>  MetaHeuristicsService.CreateMetaHeuristicByName(islandDEfaultName, 50, SmallPopulationSize, null, true); //GetDefaultWhaleHeuristicForChromosomStub(false, 300, maxValue);
             IChromosome AdamChromosome(int maxValue) => new ChromosomeStub(maxValue, maxValue);
             IFitness Fitness(int maxValue) => new FitnessStub(maxValue) { SupportsParallel = false };
 
             var reinsertion = new FitnessBasedElitistReinsertion();
 
-            var compoundResults = EvolveMetaHeuristicDifferentSizes(1,
+            var compoundResults = EvolveMetaHeuristicDifferentSizes(5,
                 Fitness,
                 AdamChromosome,
                 SmallSizes,
                 MetaHeuristic,
-                i => 0.6,
+                i => 0.5,
                 reinsertion);
 
 
             for (int i = 0; i < compoundResults.Count; i++)
             {
-                AssertEvolution(compoundResults[i].result, compoundResults[i].minFitness);
+                AssertEvolution(compoundResults[i].result, compoundResults[i].minFitness, false);
             }
 
         }

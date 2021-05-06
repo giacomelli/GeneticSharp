@@ -46,13 +46,13 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                 AdamChromosome,
                 SmallSizes,
                 MetaHeuristic,
-                i => 0.6,
+                i => 0.8,
                 reinsertion);
 
 
             for (int i = 0; i < compoundResults.Count; i++)
             {
-                AssertEvolution(compoundResults[i].result, compoundResults[i].minFitness);
+                AssertEvolution(compoundResults[i].result, compoundResults[i].minFitness, true);
             }
 
         }
@@ -71,12 +71,12 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                 AdamChromosome,
                 SmallSizes,
                 MetaHeuristic,
-                i => 0.6,
+                i => 0.8,
                 reinsertion);
 
             for (int i = 0; i < compoundResults.Count; i++)
             {
-                AssertEvolution(compoundResults[i].result, compoundResults[i].minFitness);
+                AssertEvolution(compoundResults[i].result, compoundResults[i].minFitness, false);
             }
         }
 
@@ -123,7 +123,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                             var geneValues = genes.Select(g => g.Value.To<double>()).ToArray();
                             return knownAckley.Fitness(geneValues, knownAckley.Function(geneValues));
                         },
-                        i => 0.1
+                        i => -0.1
                     }
                 };
 
@@ -140,7 +140,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
                 for (int i = 0; i < compoundResults.Count; i++)
                 {
-                    AssertEvolution(compoundResults[i].result, compoundResults[i].minFitness);
+                    AssertEvolution(compoundResults[i].result, compoundResults[i].minFitness, false);
                 }
 
             }
@@ -153,7 +153,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
             var crossover = new OnePointCrossover(2);
 
-            var resultsRatio = new[] { 100, 1.05, 1.05, 3 };
+            var resultsRatio = new[] { 2.5, 1.5, 1000, 10E5 };
             int maxNbGenerations = 100;
 
             Compare_WOA_Crossover_KnownFunctions_Size_LargerFitness_Bounded(crossover, SmallSizes, maxNbGenerations, resultsRatio);
@@ -167,7 +167,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
             var crossover = new UniformCrossover();
 
-            var resultsRatio = new[] { 100, 1.01, 10, 10 };
+            var resultsRatio = new[] { 1.5, 100, 10E5, 10E5 };
             int maxNbGenerations = 100;
 
             Compare_WOA_Crossover_KnownFunctions_Size_LargerFitness_Bounded(crossover, LargeSizes, maxNbGenerations, resultsRatio);
@@ -215,13 +215,16 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             var compoundResults = CompareMetaHeuristicsKnownFunctionsDifferentSizes(1, maxCoordinate, StandardHeuristic, MetaHeuristic, crossover, sizes, termination, reinsertion);
 
+            var ratios = new List<(double meanRatio, double limitRatio)>();
             for (int i = 0; i < compoundResults.Count; i++)
             {
                 var functionResults = compoundResults[i];
                 var meanRatio = functionResults.Sum(c => c.result2.Fitness / c.result1.Fitness) / functionResults.Count;
-
-                Assert.GreaterOrEqual(meanRatio, resultsRatio[i]);
+                ratios.Add((meanRatio, resultsRatio[i]));
+                
             }
+
+            ratios.ForEach(ratio=> Assert.GreaterOrEqual(ratio.meanRatio,ratio.limitRatio));
 
         }
 
@@ -395,7 +398,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             IChromosome AdamChromosome(int i) => new EquationChromosome<double>(-maxCoordinate, maxCoordinate, i) { GetGeneValueFunction = GetGeneValueFunction };
 
             // Ackley function
-            var ackleyFunctionWithFitness = GetKnownFunctions().Skip(1).First();
+            var ackleyFunctionWithFitness = GetKnownFunctions(true).Skip(1).First();
 
 
 
@@ -464,11 +467,14 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
 
             var smallSizeResult = sizeResults[0];
-            //WOA better than WOA "Naïve" on small dimensions
-            Assert.Greater(smallSizeResult[0].Fitness, smallSizeResult[1].Fitness);
             var largeSizeResult = sizeResults[1];
-            //WOA and WOA naive similar in high dimensions given the termination duration
-            Assert.Greater(0.05, Math.Abs(largeSizeResult[0].Fitness - largeSizeResult[1].Fitness));
+
+            //WOA and WOA naive similar in low dimensions given the termination duration
+            Assert.Less(Math.Abs(smallSizeResult[0].Fitness - smallSizeResult[1].Fitness), 0.05);
+            //WOA better than WOA "Naïve" on large dimensions
+            Assert.Greater(largeSizeResult[0].Fitness, largeSizeResult[1].Fitness);
+            
+           
 
         }
 
@@ -546,7 +552,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                 IChromosome AdamChromosome(int i) => new EquationChromosome<double>(-maxCoordinate, maxCoordinate, i) { GetGeneValueFunction = GetGeneValueFunction };
 
 
-                var knownFunctions = GetKnownFunctions();
+                var knownFunctions = GetKnownFunctions(false);
                 (string fName, Func<Gene[], double> function) compositeFunction = ("composite",
                     genes => knownFunctions
                         .Select((functionTuple, functionIndex) => functionTuple.function(genes

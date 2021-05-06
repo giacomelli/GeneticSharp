@@ -20,7 +20,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
 
 
-            var stubParents = GetStubs(10);
+            var stubParents = GetStubChromosomes(10);
 
             var testContainer = new ContainerMetaHeuristic
             {
@@ -30,7 +30,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             var geomCrossover = new GeometricCrossover<int>().WithLinearGeometricOperator((geneIndex, geneValues) => geneValues[0]);
             testContainer.SubMetaHeuristic = new CrossoverHeuristic().WithCrossover(geomCrossover);
-            IEvolutionContext ctx = new EvolutionContext();
+            IEvolutionContext ctx = new EvolutionContext().GetIndividual(0);
             
 
             //Testing subheuristic, returning first parent genes
@@ -57,7 +57,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
 
 
-            var stubParents = GetStubs(10);
+            var stubParents = GetStubChromosomes(10);
 
             var testHeuristic = new SwitchMetaHeuristic<int>()
                 .WithCaseGenerator(ParamScope.None, (heuristic, context) => context.OriginalIndex);
@@ -100,7 +100,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
 
 
-            var stubParents = GetStubs(100);
+            var stubParents = GetStubChromosomes(100);
 
             //Defining crossovers with constant gene values
             var nbPhases = 5;
@@ -119,6 +119,9 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var phaseIndex = 4;
             
             ctx.Population = new Population(10,10, stubParents[0]);
+            //Generations have a 1 based index
+            ctx.Population.CreateNewGeneration(stubParents);
+            //Incrementing generations to reach phase index
             for (int i = 0; i < phaseIndex*phaseDuration; i++)
             {
                 ctx.Population.CreateNewGeneration(stubParents);
@@ -143,7 +146,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var groupSize = 10;
             var nbPhases = 5;
 
-            var stubParents = GetStubs(groupSize * nbPhases);
+            var stubParents = GetStubChromosomes(groupSize * nbPhases);
 
             //Defining crossovers with constant gene values
             

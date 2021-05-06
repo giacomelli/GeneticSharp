@@ -24,7 +24,7 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
                 Name = nameof(Ackley),
                 Description = "",
                 Function = Ackley,
-                Fitness = (genes, d) => -d// Math.Pow(0.9, d) //1/(1+d) // Math.Pow(0.1, d)
+                Fitness = (genes, d) => Math.Pow(0.9, d) 
             });
             range = 1.0;
             _knownFunctions.Add(nameof(Hyperellipsoid), new KnownFunction(range)
@@ -57,7 +57,7 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
                 Description = "",
                 Function = Levy,
                 //Fitness = (genes, d) => -d
-                Fitness = (genes, d) => -d//Math.Pow(0.9, d)
+                Fitness = (genes, d) => Math.Pow(0.9, d)
             });
             range = 10;
             _knownFunctions.Add(nameof(Maxmod), new KnownFunction(range)
@@ -89,7 +89,7 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
                 Name = nameof(Rastrigin),
                 Description = "",
                 Function = Rastrigin,
-                Fitness = (genes, d) => -d// Math.Pow(0.999, d) 
+                Fitness = (genes, d) => Math.Pow(0.999, d) 
             });
             range = 2;
             _knownFunctions.Add(nameof(Rosenbrock), new KnownFunction(range)
@@ -97,7 +97,7 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
                 Name = nameof(Rosenbrock),
                 Description = "",
                 Function = Rosenbrock,
-                Fitness = (genes, d) => -d // Math.Pow(0.99,Math.Sqrt(d)) 
+                Fitness = (genes, d) => Math.Pow(0.99,Math.Sqrt(d)) 
             });
         }
 

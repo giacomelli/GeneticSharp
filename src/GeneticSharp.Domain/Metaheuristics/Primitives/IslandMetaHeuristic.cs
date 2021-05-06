@@ -109,6 +109,11 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
                 skips += island.CurrentGeneration.Chromosomes.Count;
             }
 
+            if (c.Population.CurrentGeneration.Chromosomes.Count>skips)
+            {
+                throw new InvalidOperationException(
+                    $"Population has {c.Population.CurrentGeneration.Chromosomes.Count} individuals whereas island is configured for {skips}");
+            }
             return islands;
 
         }

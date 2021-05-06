@@ -40,7 +40,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         }
 
 
-        protected IList<IChromosome> GetStubs(int nbChromosomes)
+        protected IList<IChromosome> GetStubChromosomes(int nbChromosomes)
         {
             IList<IChromosome> stubParents = Enumerable.Range(0, nbChromosomes).Select(i => (IChromosome)new ChromosomeStub(20, 10).Initialized()).ToList();
             for (int i = 0; i < stubParents.Count; i++)
@@ -71,7 +71,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             return geometricHeuristics;
         }
 
-        protected List<(string fName, Func<Gene[], double> function)> GetKnownFunctions()
+        protected List<(string fName, Func<Gene[], double> function)> GetKnownFunctions(bool normalizeFitness)
         {
             var functions = new string[] {
                 nameof(KnownFunctions.Ackley),
@@ -83,7 +83,15 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             {
                 var knownFunction = KnownFunctions.GetKnownFunctions()[fName];
                 var geneValues = genes.Select(g => g.Value.To<double>()).ToArray();
-                return knownFunction.Fitness(geneValues, knownFunction.Function.Shift(-4)(geneValues));
+                if (normalizeFitness)
+                {
+                    return knownFunction.Fitness(geneValues, knownFunction.Function.Shift(-4)(geneValues));
+                }
+                else
+                {
+                    //usual functions have minima, whereas we seek to maximize fitness
+                    return -knownFunction.Function.Shift(-4)(geneValues);
+                }
             }))).ToList();
             return toReturn;
         }
@@ -104,19 +112,30 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             }
         }
 
-        protected void AssertEvolution(IEvolutionResult result, double minLastFitness)
+        protected void AssertEvolution(IEvolutionResult result, double minLastFitness, bool assertRegularEvolution)
         {
             var lastFitness = double.MinValue;
-            foreach (var g in result.Population.Generations)
+
+            if (assertRegularEvolution)
             {
-                Assert.GreaterOrEqual(g.BestChromosome.Fitness.Value, lastFitness);
-                lastFitness = g.BestChromosome.Fitness.Value;
+                for (var index = 10; index < result.Population.Generations.Count; index += Math.Max(10, result.Population.Generations.Count-index-1))
+                {
+                    var g = result.Population.Generations[index];
+                    Assert.GreaterOrEqual(g.BestChromosome.Fitness.Value, lastFitness);
+                    lastFitness = g.BestChromosome.Fitness.Value;
+                }
             }
+            else
+            {
+                lastFitness = result.Population.BestChromosome.Fitness.Value;
+                Assert.GreaterOrEqual(lastFitness, result.Population.Generations[0].BestChromosome.Fitness.Value);
+            }
+            
 
             Assert.GreaterOrEqual(lastFitness, minLastFitness);
         }
 
-
+        public const int SmallPopulationSize = 100;
 
         protected IList<(IEvolutionResult result, double minFitness)> EvolveMetaHeuristicDifferentSizes(int repeatNb, Func<int, IFitness> fitness, Func<int, IChromosome> adamChromosome, IEnumerable<int> sizes, Func<int, IMetaHeuristic> metaHeuristic, Func<int, double> minFitness, IReinsertion reinsertion)
         {
@@ -126,7 +145,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             foreach (var maxValue in sizes)
             {
                 //Population Size
-                var populationSize = 100;
+                var populationSize = SmallPopulationSize;
 
                 //Termination
                 var terminationFitness = double.MaxValue;
@@ -170,7 +189,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             //double GetGeneValueFunction(double d) => Math.Sign(d) * Math.Min(Math.Abs(d), maxCoordinate);
             IChromosome AdamChromosome(int i) => new EquationChromosome<double>(-maxCoordinate, maxCoordinate, i) ;
 
-            var knownFunctions = GetKnownFunctions();
+            var knownFunctions = GetKnownFunctions(true);
 
 
             //Population Size
