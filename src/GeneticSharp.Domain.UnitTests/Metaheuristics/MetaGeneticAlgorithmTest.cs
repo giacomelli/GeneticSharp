@@ -24,7 +24,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var repeatNb = 10;
             var testParams = new List<(int size, double ratio)>
             {
-                (10, 1.1), (100, 1.1), (500, 1.1), (5000, 1.1)
+                (10, 1.2), (100, 1.2), (500, 1.2), (5000, 1.2)
             };
 
             IFitness Fitness(int i) => new FitnessStub(i) {SupportsParallel = false};
@@ -37,6 +37,8 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             Func<IEvolutionResult, IEvolutionResult, int> resultComparer = (IEvolutionResult result1, IEvolutionResult result2) => Convert.ToInt32(result1.TimeEvolving.Ticks - result2.TimeEvolving.Ticks);
 
             var heuristics = new List<IMetaHeuristic> { null, new DefaultMetaHeuristic() };
+
+            var testResults = new List<(IEvolutionResult traditionalResult, IEvolutionResult metaEvolutionResult, ITermination termination, double ratio)>();
             foreach (var (size, ratio) in testParams)
             {
                 
@@ -55,12 +57,12 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                     //}
                     
                 }
+                testResults.Add((traditionalGaResult, metaGaResult, termination, ratio));
                 
-                AssertIsPerformingLessByRatio(termination, ratio, traditionalGaResult , metaGaResult);
 
             }
 
-         
+         testResults.ForEach(tuple=> AssertIsPerformingLessByRatio(tuple.termination, tuple.ratio, tuple.traditionalResult, tuple.metaEvolutionResult));
 
 
         }
