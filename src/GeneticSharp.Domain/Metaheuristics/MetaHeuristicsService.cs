@@ -1,31 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Drawing.Text;
 using System.Linq;
 using GeneticSharp.Domain.Crossovers.Geometric;
+using GeneticSharp.Domain.Metaheuristics.Compound;
+using GeneticSharp.Domain.Metaheuristics.Matching;
+using GeneticSharp.Domain.Metaheuristics.Parameters;
 using GeneticSharp.Domain.Metaheuristics.Primitives;
 using GeneticSharp.Infrastructure.Framework.Reflection;
 
 namespace GeneticSharp.Domain.Metaheuristics
 {
-
-
-    public enum KnownCompoundMetaheuristics
-    {
-        None = 0,
-        Default,
-        DefaultRandomHyperspeed,
-        WhaleOptimisation,
-        WhaleOptimisationNaive,
-    }
-
-
-
-
     /// <summary>
     /// Population service.
     /// </summary>
-    public static class MetaHeuristicsService //where TGeneValue: IConvertible
+    public static class MetaHeuristicsService 
     {
         
 
@@ -45,21 +34,23 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <returns>The generation strategy names.</returns>
         public static IList<string> GetMetaHeuristicNames()
         {
-            var compoundNames = Enum.GetNames(typeof(KnownCompoundMetaheuristics));
             //var typedNames =  TypeHelper.GetDisplayNamesByInterface<IMetaHeuristic>();
             //return compoundNames.Union(typedNames).Distinct().ToList();
             return compoundNames;
         }
+
+        private static string[] compoundNames = Enum.GetNames(typeof(KnownCompoundMetaheuristics));
 
         /// <summary>
         /// Creates the IGenerationStrategy's implementation with the specified name.
         /// </summary>
         /// <returns>The generation strategy implementation instance.</returns>
         /// <param name="name">The generation strategy name.</param>
-        /// <param name="constructorArgs">Constructor arguments.</param>
-        public static IMetaHeuristic CreateMetaHeuristicByName(string name, IGeometricConverter geometricConverter = null)
+        /// <param name="geometricConverter">a parameter that defines how geometric operators should be applied,
+        /// that is how to do transformations between gene space and metric space</param>
+        public static IMetaHeuristic CreateMetaHeuristicByName(string name, int maxGenerations = 1000, int populationSize = 100, IGeometricConverter geometricConverter = null, bool noMutation = true)
         {
-            var compoundNames = Enum.GetNames(typeof(KnownCompoundMetaheuristics));
+            
             if (compoundNames.Contains(name))
             {
                 Enum.TryParse<KnownCompoundMetaheuristics>(name, out var enumName);
@@ -71,22 +62,111 @@ namespace GeneticSharp.Domain.Metaheuristics
                         return new DefaultMetaHeuristic();
                     case KnownCompoundMetaheuristics.DefaultRandomHyperspeed:
                         var toReturn = new DefaultMetaHeuristic();
-                        toReturn.MatchMetaHeuristic.MatchingTechniques[0] = MatchingTechnique.Randomize;
+                        toReturn.MatchMetaHeuristic.Picker.MatchPicks[1] = new MatchingSettings(){MatchingKind = MatchingKind.Random};
+                        toReturn.MatchMetaHeuristic.EnableHyperSpeed = true;
                         return toReturn;
                     case KnownCompoundMetaheuristics.WhaleOptimisation:
-                        if (geometricConverter == null)
-                        {
-                            geometricConverter = new DefaultGeometricConverter();
-                        }
-                        return MetaHeuristicsFactory.WhaleOptimisationAlgorithm(geometricConverter.IsOrdered, 1000, geometricConverter);
                     case KnownCompoundMetaheuristics.WhaleOptimisationNaive:
                         if (geometricConverter == null)
                         {
                             geometricConverter = new DefaultGeometricConverter();
                         }
-                        return MetaHeuristicsFactory.WhaleOptimisationAlgorithmExtended(geometricConverter.IsOrdered, 1000, geometricConverter, bubbleNetOperator: MetaHeuristicsFactory.GetSimpleBubbleNetOperator());
+                        var woa = new WhaleOptimisationAlgorithm()
+                        {
+                            MaxGenerations = maxGenerations, GeometricConverter = geometricConverter,
+                            NoMutation = noMutation
+                        };
+                        if (enumName == KnownCompoundMetaheuristics.WhaleOptimisationNaive)
+                        {
+                            woa.BubbleOperator = WhaleOptimisationAlgorithm.GetSimpleBubbleNetOperator();
+                        }
+                        return woa.Build();
+                    case KnownCompoundMetaheuristics.EquilibriumOptimizer:
+                        if (geometricConverter == null)
+                        {
+                            geometricConverter = new DefaultGeometricConverter();
+                        }
+                        var eo = new EquilibriumOptimizer()
+                        {
+                            MaxGenerations = maxGenerations,
+                            GeometricConverter = geometricConverter,
+                            NoMutation = noMutation
+                        };
+                        return eo.Build();
+                    case KnownCompoundMetaheuristics.ForensicBasedInvestigation:
+                        if (geometricConverter == null)
+                        {
+                            geometricConverter = new DefaultGeometricConverter();
+                        }
+                        var fbi = new ForensicBasedInvestigation()
+                        {
+                            MaxGenerations = maxGenerations,
+                            GeometricConverter = geometricConverter,
+                            NoMutation = noMutation
+                        };
+                        return fbi.Build();
+                    case KnownCompoundMetaheuristics.Islands5Default:
+                    case KnownCompoundMetaheuristics.Islands5DefaultNoMigration:
+                    case KnownCompoundMetaheuristics.Islands5BestMixture:
+                    case KnownCompoundMetaheuristics.Islands5BestMixtureNoMigration:
+                        var islandNb = 5;
+                        if (geometricConverter == null)
+                        {
+                            geometricConverter = new DefaultGeometricConverter();
+                        }
+                        IslandCompoundMetaheuristic islandCompound;
+
+                        switch (enumName)
+                        {
+                            case KnownCompoundMetaheuristics.Islands5Default:
+                            case KnownCompoundMetaheuristics.Islands5DefaultNoMigration:
+                                ICompoundMetaheuristic targetCompoundHeuristic;
+                                var defaultGA = new DefaultMetaHeuristic();
+                                targetCompoundHeuristic = new SimpleCompoundMetaheuristic(defaultGA);
+
+                                islandCompound = new IslandCompoundMetaheuristic(populationSize / islandNb, islandNb,
+                                    targetCompoundHeuristic);
+                               
+                                break;
+                            case KnownCompoundMetaheuristics.Islands5BestMixture:
+                            case KnownCompoundMetaheuristics.Islands5BestMixtureNoMigration:
+                                var woaIsland = new WhaleOptimisationAlgorithm()
+                                {
+                                    MaxGenerations = maxGenerations,
+                                    GeometricConverter = geometricConverter,
+                                    NoMutation = noMutation
+                                };
+                                var eoIsland = new EquilibriumOptimizer()
+                                {
+                                    MaxGenerations = maxGenerations,
+                                    GeometricConverter = geometricConverter,
+                                    NoMutation = noMutation
+                                };
+                                var fbiIsland = new ForensicBasedInvestigation()
+                                {
+                                    MaxGenerations = maxGenerations,
+                                    GeometricConverter = geometricConverter,
+                                    NoMutation = noMutation
+                                };
+                                var defaultGABest = new DefaultMetaHeuristic();
+                                var defaultIsland = new SimpleCompoundMetaheuristic(defaultGABest);
+                                islandCompound = new IslandCompoundMetaheuristic(populationSize,
+                                    (1,defaultIsland),
+                                    (1, woaIsland),
+                                    (1, fbiIsland),
+                                    (2, eoIsland));
+                                break;
+                            default:
+                                throw new InvalidOperationException("Unsuported Island configuration");
+                        }
+                        if (enumName == KnownCompoundMetaheuristics.Islands5DefaultNoMigration||
+                            enumName == KnownCompoundMetaheuristics.Islands5BestMixtureNoMigration)
+                        {
+                            islandCompound.MigrationMode = MigrationMode.None;
+                        }
+                        return islandCompound.Build();
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        throw new ArgumentOutOfRangeException(nameof(name));
                 }
             }
             return TypeHelper.CreateInstanceByName<IMetaHeuristic>(name);
@@ -108,15 +188,22 @@ namespace GeneticSharp.Domain.Metaheuristics
                     case KnownCompoundMetaheuristics.None:
                         return null;
                     case KnownCompoundMetaheuristics.Default:
-                        return typeof(DefaultMetaHeuristic);
                     case KnownCompoundMetaheuristics.DefaultRandomHyperspeed:
                         return typeof(DefaultMetaHeuristic);
                     case KnownCompoundMetaheuristics.WhaleOptimisation:
-                        return typeof(IfElseMetaHeuristic);
                     case KnownCompoundMetaheuristics.WhaleOptimisationNaive:
                         return typeof(IfElseMetaHeuristic);
+                    case KnownCompoundMetaheuristics.ForensicBasedInvestigation:
+                        return typeof(GenerationMetaHeuristic);
+                    case KnownCompoundMetaheuristics.EquilibriumOptimizer:
+                        return typeof(MatchMetaHeuristic);
+                    case KnownCompoundMetaheuristics.Islands5Default:
+                    case KnownCompoundMetaheuristics.Islands5DefaultNoMigration:
+                    case KnownCompoundMetaheuristics.Islands5BestMixture:
+                    case KnownCompoundMetaheuristics.Islands5BestMixtureNoMigration:
+                        return typeof(IslandMetaHeuristic);
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        throw new ArgumentOutOfRangeException(nameof(name));
                 }
             }
             return TypeHelper.GetTypeByName<IMetaHeuristic>(name);

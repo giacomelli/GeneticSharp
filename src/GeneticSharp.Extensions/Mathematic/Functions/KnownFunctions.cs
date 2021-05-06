@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Extensions.Mathematic.Functions
@@ -22,7 +24,7 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
                 Name = nameof(Ackley),
                 Description = "",
                 Function = Ackley,
-                Fitness = d => Math.Pow(0.99, d)
+                Fitness = (genes, d) => -d// Math.Pow(0.9, d) //1/(1+d) // Math.Pow(0.1, d)
             });
             range = 1.0;
             _knownFunctions.Add(nameof(Hyperellipsoid), new KnownFunction(range)
@@ -30,7 +32,7 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
                 Name = nameof(Hyperellipsoid),
                 Description = "",
                 Function = Hyperellipsoid,
-                Fitness = d => d
+                Fitness = (genes, d) => d
             });
             range = 512.0;
             _knownFunctions.Add(nameof(Eggholder), new KnownFunction(range)
@@ -38,7 +40,7 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
                 Name = nameof(Eggholder),
                 Description = "",
                 Function = Eggholder,
-                Fitness = d => -d
+                Fitness = (genes, d) => -d
             });
             range = 1000;
             _knownFunctions.Add(nameof(Katsuuras), new KnownFunction(range)
@@ -46,7 +48,7 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
                 Name = nameof(Katsuuras),
                 Description = "",
                 Function = Katsuuras,
-                Fitness = d => -d
+                Fitness = (genes, d) => -d
             });
             range = 10;
             _knownFunctions.Add(nameof(Levy), new KnownFunction(range)
@@ -54,7 +56,8 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
                 Name = nameof(Levy),
                 Description = "",
                 Function = Levy,
-                Fitness = d => Math.Pow(0.99, d)
+                //Fitness = (genes, d) => -d
+                Fitness = (genes, d) => -d//Math.Pow(0.9, d)
             });
             range = 10;
             _knownFunctions.Add(nameof(Maxmod), new KnownFunction(range)
@@ -62,7 +65,7 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
                 Name = nameof(Maxmod),
                 Description = "",
                 Function = Maxmod,
-                Fitness = d => -d
+                Fitness = (genes, d) => -d
             });
             range = Math.PI;
             _knownFunctions.Add(nameof(Michalewitz), new KnownFunction(range)
@@ -70,7 +73,7 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
                 Name = nameof(Michalewitz),
                 Description = "",
                 Function = Michalewitz,
-                Fitness = d => -d
+                Fitness = (genes, d) => -d
             });
             range = 50;
             _knownFunctions.Add(nameof(Neumaier), new KnownFunction(range)
@@ -78,7 +81,7 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
                 Name = nameof(Neumaier),
                 Description = "",
                 Function = Neumaier,
-                Fitness = d => -d
+                Fitness = (genes, d) => -d
             });
             range = 10;
             _knownFunctions.Add(nameof(Rastrigin), new KnownFunction(range)
@@ -86,7 +89,7 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
                 Name = nameof(Rastrigin),
                 Description = "",
                 Function = Rastrigin,
-                Fitness = d => Math.Pow(0.99, d)
+                Fitness = (genes, d) => -d// Math.Pow(0.999, d) 
             });
             range = 2;
             _knownFunctions.Add(nameof(Rosenbrock), new KnownFunction(range)
@@ -94,17 +97,29 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
                 Name = nameof(Rosenbrock),
                 Description = "",
                 Function = Rosenbrock,
-                Fitness = d =>  Math.Pow(0.99999, d) 
+                Fitness = (genes, d) => -d // Math.Pow(0.99,Math.Sqrt(d)) 
             });
         }
 
+        //private static Dictionary<int, double> _customFunctionMaxes = new Dictionary<int, double>();
+        //private static double CustomFunctionMax(int size)
+        //{
+        //    if (!_customFunctionMaxes.TryGetValue(size, out var toReturn))
+        //    {
+        //        toReturn = _knownFunctions[nameof(KnownFunctions.CustomFunction)]
+        //            .Function(Enumerable.Repeat(0.0, size).ToArray());
+        //        _customFunctionMaxes[size] = toReturn;
+        //    }
+
+        //    return toReturn;
+        //}
 
         public static IDictionary<string, IKnownFunction> GetKnownFunctions()
         {
             return _knownFunctions;
         }
 
-
+       
 
         public static double Ackley(double[] coordinates)
         {
@@ -196,22 +211,29 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
             return prod;
         }
 
-
+        /// <summary>
+        /// From <see cref="https://www.sfu.ca/~ssurjano/levy.html"/> 
+        /// </summary>
         public static double Levy(double[] x)
-            /*
-            - Global minimum
-            - for n=4, fmin = -21.502356 at (1,1,1,-9.752356 )
-            - for n=5,6,7, fmin = -11.504403 at (1,\dots,1,-4.754402 )
-            */
         {
+            //Minimum 0 at (1,1,1,1,1,1...)
             int n = x.Length;
             int i;
-            double sum = 0.0;
+            
+            var w = x.Select(xi => (1 + (xi - 1) / 4)).ToArray();
+            var s0 = Math.Sin(Math.PI * w[0]);
+            double sum =  s0*s0;
             for (i = 0; i <= n - 2; i++)
             {
-                sum += (x[i] - 1)* (x[i] - 1) * (1 + (Math.Sin(3 * Math.PI * x[i + 1])) * (Math.Sin(3 * Math.PI * x[i + 1])));
+                var s1 = (w[i] - 1);
+                var s2 = Math.Sin(Math.PI * w[i] + 1);
+                sum += s1 * s1 * (1 + 10 * s2 * s2);
             }
-            return (Math.Sin(3 * Math.PI * x[0])) * (Math.Sin(3 * Math.PI * x[0])) + sum + (x[n - 1] - 1) * (1 + (Math.Sin(2 * Math.PI * x[n - 1])) * (Math.Sin(2 * Math.PI * x[n - 1])));
+
+            var sn1 = w[n - 1] - 1;
+            var sn2 = Math.Sin(2 * Math.PI * w[n - 1]);
+            sum += sn1 * sn1 * (1 + sn2 * sn2);
+            return sum;
         }
 
         public static double Maxmod(double[] x)
@@ -274,7 +296,7 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
 
         public static double Rastrigin(double[] coordinates)
         {
-            double result = 0.0;
+            double result = 10 * coordinates.Length;
 
             foreach (double x in coordinates)
             {
@@ -295,8 +317,9 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
 
             for (var i = 0; i < coordinates.Length - 1; i++)
             {
-                sum1 += 100 * (coordinates[i + 1] - coordinates[i] * coordinates[i]) * (coordinates[i + 1] - coordinates[i] * coordinates[i])
-                    + (1 - coordinates[i])* (1 - coordinates[i]);
+                var s0 = coordinates[i + 1] - (coordinates[i] * coordinates[i]);
+                var s1 = coordinates[i] - 1;
+                sum1 += (100 * s0 * s0) + (s1 * s1);
             }
 
             return sum1;

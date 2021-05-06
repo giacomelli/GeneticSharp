@@ -28,7 +28,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
             DynamicParameter = new ExpressionMetaHeuristicParameter<int>
             {
                 Scope = ParamScope.Generation,
-                DynamicGenerator = (h, ctx) => ctx.Index 
+                DynamicGenerator = (h, ctx) => ctx.LocalIndex 
             };
         }
 

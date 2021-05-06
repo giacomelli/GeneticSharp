@@ -27,11 +27,17 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
     {
         public IMetaHeuristicParameterGenerator<TIndex> DynamicParameter { get; set; }
 
-
-
-        public override IList<IChromosome> ScopedSelectParentPopulation(IEvolutionContext ctx, ISelection selection)
+        public SwitchMetaHeuristic()
         {
-            var phaseItemIdx = DynamicParameter.Get<TIndex>(this, ctx, $"{this.Guid}_CaseGenerator");
+            
+        }
+        public SwitchMetaHeuristic(IMetaHeuristic subMetaHeuristic) : base(subMetaHeuristic)
+        {
+        }
+
+        protected override IList<IChromosome> ScopedSelectParentPopulation(IEvolutionContext ctx, ISelection selection)
+        {
+            var phaseItemIdx = DynamicParameter.Get<TIndex>(this, ctx, ParamName);
             IMetaHeuristic currentHeuristic = GetCurrentHeuristic(phaseItemIdx);
             if (currentHeuristic != null)
             {
@@ -44,10 +50,11 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
 
         }
 
-        public override IList<IChromosome> ScopedMatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
+        private const string ParamName = "phaseIndexGenerator";
+        protected override IList<IChromosome> ScopedMatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
-           
-            var phaseItemIdx = DynamicParameter.GetGenerator(ctx)(this, ctx);
+
+            var phaseItemIdx = DynamicParameter.Get<TIndex>(this, ctx, ParamName);
             IMetaHeuristic currentHeuristic = GetCurrentHeuristic(phaseItemIdx);
             if (currentHeuristic != null)
             {
@@ -58,9 +65,9 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
 
         }
 
-        public override void ScopedMutateChromosome(IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
+        protected override void ScopedMutateChromosome(IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
         {
-            var phaseItemIdx = DynamicParameter.GetGenerator(ctx)(this, ctx);
+            var phaseItemIdx = DynamicParameter.Get<TIndex>(this, ctx, ParamName);
             IMetaHeuristic currentHeuristic = GetCurrentHeuristic(phaseItemIdx);
             if (currentHeuristic != null)
             {
@@ -73,9 +80,9 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
            
         }
 
-        public override IList<IChromosome> ScopedReinsert(IEvolutionContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
+        protected override IList<IChromosome> ScopedReinsert(IEvolutionContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
         {
-            var phaseItemIdx = DynamicParameter.GetGenerator(ctx)(this, ctx);
+            var phaseItemIdx = DynamicParameter.Get<TIndex>(this, ctx, ParamName);
             IMetaHeuristic currentHeuristic = GetCurrentHeuristic(phaseItemIdx);
             if (currentHeuristic != null)
             {

@@ -52,6 +52,16 @@ namespace GeneticSharp.Domain.Crossovers
         }
         #endregion
 
+
+        #region Properties
+
+        public int MiddleSectionLength { get; set; } = 2;
+
+        #endregion
+
+
+
+
         #region Methods
         /// <summary>
         /// Performs the cross with specified parents generating the children.

@@ -4,10 +4,9 @@ using System.ComponentModel;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Metaheuristics.Parameters;
-using GeneticSharp.Domain.Randomizations;
-using GeneticSharp.Domain.Selections;
-using GeneticSharp.Infrastructure.Framework.Collections;
+using GeneticSharp.Domain.Metaheuristics.Matching;
+using GeneticSharp.Domain.Mutations;
+using GeneticSharp.Domain.Reinsertions;
 
 namespace GeneticSharp.Domain.Metaheuristics.Primitives
 {
@@ -18,27 +17,9 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
     public class MatchMetaHeuristic : ContainerMetaHeuristic
     {
 
-        /// <summary>
-        /// This internal class serves exposing methods to generate a random wheel from population and relative individual fitnesses
-        /// </summary>
-        private abstract class ReuseRouletteWheelSelection : RouletteWheelSelection
-        {
 
-            public new static IList<IChromosome> SelectFromWheel(int number, IList<IChromosome> chromosomes,
-                IList<double> rouletteWheel, Func<double> getPointer)
-            {
-                return RouletteWheelSelection.SelectFromWheel(number, chromosomes, rouletteWheel, getPointer);
-            }
 
-            public new static void CalculateCumulativePercentFitness(IList<IChromosome> chromosomes,
-                IList<double> rouletteWheel)
-            {
-                RouletteWheelSelection.CalculateCumulativePercentFitness(chromosomes, rouletteWheel);
-            }
-
-        }
-
-        public int NumberOfMatches { get; set; }
+        public MatchPicker Picker { get; set; } = new MatchPicker();
 
         /// <summary>
         ///Hyperspeed allows for skiping twin parents with same fitness and skip them assuming they are identical and the offspring will be clones.
@@ -47,115 +28,65 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
         /// </summary>
         public bool EnableHyperSpeed { get; set; }
 
-        public MatchMetaHeuristic() : this (1) { }
+       
 
-        public MatchMetaHeuristic(int numberOfMatches) : this(new DefaultMetaHeuristic(), numberOfMatches) { }
-
-        public MatchMetaHeuristic(IMetaHeuristic subMetaHeuristic, int numberOfMatches) : base(subMetaHeuristic)
+        public MatchMetaHeuristic() : this(new DefaultMetaHeuristic())
         {
-            NumberOfMatches = numberOfMatches;
-            CrossoverProbabilityStrategy = ProbabilityStrategy.TestProbability | ProbabilityStrategy.OverwriteProbability;
         }
 
-        public ParamScope RouletteCachingScope { get; set; } = ParamScope.Generation | ParamScope.MetaHeuristic;
-
-        public List<MatchingTechnique> MatchingTechniques { get; set; }
-
-        public override IList<IChromosome> MatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
+        public MatchMetaHeuristic(IMetaHeuristic subMetaHeuristic/*, int numberOfMatches*/) : base(subMetaHeuristic)
         {
+            //NumberOfMatches = numberOfMatches;
+            CrossoverProbabilityStrategy =
+                ProbabilityStrategy.TestProbability | ProbabilityStrategy.OverwriteProbability;
+        }
 
-            if (ShouldRun(crossoverProbability, CrossoverProbabilityStrategy, StaticCrossoverProbability, out var subProbability))
+      
+        protected override IList<IChromosome> DoMatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover,
+            float crossoverProbability,
+            IList<IChromosome> parents)
+        {
+            var toReturn = new List<IChromosome>(crossover.ParentsNumber * crossover.ChildrenNumber);
+
+            //todo: crossover.ParentsNumber comes from the OperatorsStrategy legacy skipping indexer
+            for (int matchIndex = 0; matchIndex < crossover.ParentsNumber; matchIndex++)
             {
-                var toReturn = new List<IChromosome>(NumberOfMatches * crossover.ChildrenNumber);
-
-                for (int matchIndex = 0; matchIndex < NumberOfMatches; matchIndex++)
+                var referenceIndex = ctx.LocalIndex + matchIndex;
+                if (referenceIndex < parents.Count)
                 {
-                    var referenceIndex = ctx.Index + matchIndex;
-                    if (referenceIndex<parents.Count)
-                    {
-                        var firstParent = parents[referenceIndex];
-                        var firstGenes = firstParent.GetGenes();
-                        var selectedParents = new List<IChromosome>(crossover.ParentsNumber) { firstParent };
-                        for (int i = 0; i < crossover.ParentsNumber - 1; i++)
-                        {
-                            var currentMatchingTechnique = MatchingTechniques[i];
-                            AddOneMatch(selectedParents, i + matchIndex + 1, ctx, currentMatchingTechnique, parents);
-                        }
+                    var selectedParents = Picker.SelectMatches(this, ctx, referenceIndex, crossover, parents);
 
-                        //var  matchResult = new List<IChromosome>();
-                        if (EnableHyperSpeed
-                            && selectedParents.All(c => c.Fitness.Value ==  firstParent.Fitness.Value)
-                                //Other possibilities (costly)
-                                //&& (selectedParents.All(c => c.Equals(firstParent))
-                                /*|| selectedParents.All(c => Enumerable.Range(0, c.Length).All(i => c.GetGene(i).Value.Equals(firstGenes[i].Value)))*//*)*/)
-                        {
-                            break;
-                            //Other possibilities to investigate
-                            //toReturn.AddRange(Enumerable.Repeat(firstParent, crossover.ChildrenNumber));
-                        }
-                        else
-                        {
-                            var subContext = ctx.GetIndividual(0);
-                            var matchResult =
-                                base.MatchParentsAndCross(subContext, crossover, subProbability, selectedParents);
-                            if (matchResult != null)
-                            {
-                                toReturn.AddRange(matchResult);
-                            }
-                        }
-                    }
-                }
-                return toReturn;
-            }
-            return null;
-        }
-
-        private void AddOneMatch(IList<IChromosome> selectedParents, int matchIndex, IEvolutionContext ctx, MatchingTechnique currentMatchingTechnique, IList<IChromosome> parents)
-        {
-            switch (currentMatchingTechnique)
-            {
-                case MatchingTechnique.Neighbor:
-                    var newParentIdx = ctx.Index + matchIndex;
-                    if (newParentIdx < parents.Count)
+                    //var  matchResult = new List<IChromosome>();
+                    if (EnableHyperSpeed
+                        && selectedParents.All(c =>
+                            c.Fitness != null && selectedParents[0].Fitness != null &&
+                            Math.Abs(c.Fitness.Value - selectedParents[0].Fitness.Value) <= double.Epsilon)
+                        //todo:investigate Other possibilities (costly)
+                        //&& (selectedParents.All(c => c.Equals(selectedParents[0]))
+                        /*|| selectedParents.All(c => Enumerable.Range(0, c.Length).All(i => c.GetGene(i).Value.Equals(selectedParents[0].GetGene(i).Value)))*/
+                        /*)*/)
                     {
-                        selectedParents.Add(parents[newParentIdx]);
-                    }
-                    break;
-                case MatchingTechnique.Randomize:
-                    var targetIdx = RandomizationProvider.Current.GetInt(0, parents.Count);
-                    selectedParents.Add(parents[targetIdx]);
-                    break;
-                case MatchingTechnique.RouletteWheel:
-                    var dynamicRouletteParameter = new MetaHeuristicParameter<IList<double>>
-                    {
-                        Scope = RouletteCachingScope,
-                        Generator = (h, c) => {
-                            var tempRoulette = new List<double>(parents.Count);
-                            ReuseRouletteWheelSelection.CalculateCumulativePercentFitness(parents, tempRoulette);
-                            return tempRoulette;
-                        }
-                    };
-                    var currentRoulette = dynamicRouletteParameter.Get(this, ctx, "currentRouletteWheel");
-                    selectedParents.Add(ReuseRouletteWheelSelection.SelectFromWheel(1, parents, currentRoulette,
-                        () => RandomizationProvider.Current.GetDouble())[0]);
-                    break;
-                case MatchingTechnique.Best:
-                    if (ctx.Population.CurrentGeneration.BestChromosome!=null)
-                    {
-                        selectedParents.Add(ctx.Population.CurrentGeneration.BestChromosome);
+                        break;
+                        //Other possibilities to investigate
+                        //toReturn.AddRange(Enumerable.Repeat(firstParent, crossover.ChildrenNumber));
                     }
                     else
                     {
-                        var fallbackTargetId = RandomizationProvider.Current.GetInt(0, parents.Count);
-                        selectedParents.Add(parents[fallbackTargetId]);
+                        var subContext = ctx.GetLocal(0);
+                        subContext.SelectedParents = selectedParents;
+                        var matchResult =
+                            base.DoMatchParentsAndCross(subContext, crossover, crossoverProbability, selectedParents);
+                        if (matchResult != null)
+                        {
+                            toReturn.AddRange(matchResult);
+                        }
                     }
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(currentMatchingTechnique), $"Unsupported matching process: {currentMatchingTechnique}");
+                }
             }
 
-
+            return toReturn;
         }
-      
+
+       
     }
 }

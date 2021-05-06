@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Mutations;
@@ -22,6 +23,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
         /// </summary>
         public EvolutionStage Scope { get; set; } = EvolutionStage.All;
 
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sealed override  IList<IChromosome> SelectParentPopulation(IEvolutionContext ctx, ISelection selection)
         {
             if ((Scope & EvolutionStage.Selection) == EvolutionStage.Selection)
@@ -32,17 +34,19 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
             return base.SelectParentPopulation(ctx, selection);
         }
 
-        public sealed override IList<IChromosome> MatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected sealed override IList<IChromosome> DoMatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
             if ((Scope & EvolutionStage.Crossover) == EvolutionStage.Crossover)
             {
                 return ScopedMatchParentsAndCross(ctx, crossover, crossoverProbability, parents);
             }
 
-            return base.MatchParentsAndCross(ctx, crossover, crossoverProbability, parents);
+            return base.DoMatchParentsAndCross(ctx, crossover, crossoverProbability, parents);
         }
 
-        public sealed override void MutateChromosome(IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected sealed override void DoMutateChromosome(IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
         {
             if ((Scope & EvolutionStage.Mutation) == EvolutionStage.Mutation)
             {
@@ -50,10 +54,11 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
             }
             else
             {
-                base.MutateChromosome(ctx, mutation, mutationProbability, offSprings);
+                base.DoMutateChromosome(ctx, mutation, mutationProbability, offSprings);
             }
         }
 
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sealed override IList<IChromosome> Reinsert(IEvolutionContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
         {
             if ((Scope & EvolutionStage.Reinsertion) == EvolutionStage.Reinsertion)
@@ -65,15 +70,15 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
 
         }
 
-        public abstract IList<IChromosome> ScopedSelectParentPopulation(IEvolutionContext ctx, ISelection selection);
+        protected abstract IList<IChromosome> ScopedSelectParentPopulation(IEvolutionContext ctx, ISelection selection);
 
-        public abstract IList<IChromosome> ScopedMatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover,
+        protected abstract IList<IChromosome> ScopedMatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover,
             float crossoverProbability, IList<IChromosome> parents);
 
-        public abstract  void ScopedMutateChromosome(IEvolutionContext ctx, IMutation mutation,
+        protected abstract  void ScopedMutateChromosome(IEvolutionContext ctx, IMutation mutation,
             float mutationProbability, IList<IChromosome> offSprings);
 
-        public abstract IList<IChromosome> ScopedReinsert(IEvolutionContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents);
+        protected abstract IList<IChromosome> ScopedReinsert(IEvolutionContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents);
 
     }
 }

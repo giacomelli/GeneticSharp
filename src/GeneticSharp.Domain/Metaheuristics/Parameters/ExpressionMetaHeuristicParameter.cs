@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System;
+using System.Linq.Expressions;
 
 namespace GeneticSharp.Domain.Metaheuristics.Parameters
 {
@@ -16,7 +17,17 @@ namespace GeneticSharp.Domain.Metaheuristics.Parameters
         {
             if (Generator == null)
             {
-                Generator = GetDynamicGenerator(ctx).Compile();
+                Expression<ParameterGenerator<TParamType>> expr = GetDynamicGenerator(ctx);
+                try
+                {
+                    Generator = expr.Compile();
+                }
+                catch (Exception e)
+                {
+                    //Console.WriteLine(e);
+                    throw new InvalidOperationException($"could not compile expression {expr.ToString()}", e);
+                }
+                
             }
 
             return base.GetGenerator(ctx);

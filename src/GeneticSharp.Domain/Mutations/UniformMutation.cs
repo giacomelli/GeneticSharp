@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
+using GeneticSharp.Infrastructure.Framework.Collections;
 using GeneticSharp.Infrastructure.Framework.Commons;
 using GeneticSharp.Infrastructure.Framework.Texts;
 

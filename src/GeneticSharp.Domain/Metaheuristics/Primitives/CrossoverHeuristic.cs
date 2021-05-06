@@ -12,10 +12,10 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
     public class CrossoverHeuristic : OperatorHeuristic<ICrossover>
     {
 
-      
-        public override IList<IChromosome> MatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
+
+        protected override IList<IChromosome> DoMatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
-            return base.MatchParentsAndCross(ctx, GetOperator( ctx), crossoverProbability, parents);
+            return base.DoMatchParentsAndCross(ctx, GetOperator( ctx), crossoverProbability, parents);
 
         }
     }

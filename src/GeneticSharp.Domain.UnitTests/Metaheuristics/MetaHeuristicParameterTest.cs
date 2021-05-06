@@ -16,18 +16,18 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             var param = new MetaHeuristicParameter<int>
             {
-                Generator = (heuristic, ctx) => ctx.Index + 1, 
+                Generator = (heuristic, ctx) => ctx.OriginalIndex + 1, 
                 Scope = ParamScope.Generation
             };
 
 
-            var generationContext = new EvolutionContext();
-            generationContext.GetIndividual(0);
+            IEvolutionContext generationContext = new EvolutionContext();
+           var indContext = generationContext.GetIndividual(0);
 
-            var int1 = param.Get(null, generationContext, "test");
+            var int1 = param.Get(null, indContext, "test");
             Assert.AreEqual(1, int1);
 
-            generationContext.Index = 2;
+            indContext = generationContext.GetIndividual(2);
             var int2 = param.Get(null, generationContext, "test");
             //scope is generation, the result should be cached and unchanged
             Assert.AreEqual(int1, int2);

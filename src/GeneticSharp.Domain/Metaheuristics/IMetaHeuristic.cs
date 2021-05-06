@@ -7,7 +7,7 @@ using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Selections;
 
-namespace GeneticSharp.Domain.Metaheuristics.Primitives
+namespace GeneticSharp.Domain.Metaheuristics
 {
     /// <summary>
     /// Defines an interface for parent matching and crossover application metaheuristics
@@ -67,6 +67,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
         /// </summary>
         /// <param name="algorithm">the parent genetic algorithm (may be null in certain cases)</param>
         /// <param name="population">the population to evolve (must not be null)</param>
+        /// <param name="storeInPopulation">keeps the new context in population for further investigation</param>
         /// <returns></returns>
         IEvolutionContext GetContext(IGeneticAlgorithm algorithm, IPopulation population);
 

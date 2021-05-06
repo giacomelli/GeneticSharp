@@ -4,6 +4,7 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Crossovers.Geometric;
 using GeneticSharp.Domain.Metaheuristics;
+using GeneticSharp.Domain.Metaheuristics.Compound;
 using GeneticSharp.Domain.Metaheuristics.Primitives;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
@@ -70,14 +71,19 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
 
             var noEmbeddingConverter = new GeometricConverter<int>
             {
+                IsOrdered = true,
                 DoubleToGeneConverter = GetGeneValueFunction,
                 GeneToDoubleConverter = (genIndex, geneValue) => geneValue
             };
             var typedNoEmbeddingConverter = new TypedGeometricConverter();
             typedNoEmbeddingConverter.SetTypedConverter(noEmbeddingConverter);
 
-
-            var metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(true, nbGenerationsWOA, typedNoEmbeddingConverter);
+            var woa = new WhaleOptimisationAlgorithm()
+            {
+                MaxGenerations = nbGenerationsWOA,
+                GeometricConverter = typedNoEmbeddingConverter,
+               };
+            var metaHeuristic = woa.Build();
 
             // WhaleOptimisation evolution
             var resultWOA = Evolve_NbCities_Fast(fitness, adamChromosome, populationSize, metaHeuristic, crossover, mutation, termination);

@@ -22,7 +22,13 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
 
         public override IList<IChromosome> MatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
-            return new List<IChromosome>();
+            //todo: figure out if best to return parents
+            if (parents.Count - ctx.LocalIndex >= crossover.ChildrenNumber)
+            {
+                return parents.Skip(ctx.LocalIndex).Take(crossover.ChildrenNumber).ToList();
+            }
+
+            return parents.Skip(ctx.LocalIndex).ToList();
         }
 
         public override void MutateChromosome(IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)

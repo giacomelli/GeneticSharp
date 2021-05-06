@@ -6,7 +6,6 @@ using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Metaheuristics.Parameters;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Selections;
 
@@ -16,7 +15,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
     /// The Eukaryote Meta Heuristic uses Eurkaryote Chromosomes to split the original individual into Karyotypes of child sub chromosomes and apply distinct phase Metaheuristics to the child chromosomes before building back the resulting parents
     /// </summary>
     [DisplayName("Eukaryote")]
-    public class EukaryoteMetaHeuristic : SizeBasedMetaHeuristic
+    public class EukaryoteMetaHeuristic : SubPopulationMetaHeuristicBase<SubPopulation>
     {
        
         public EukaryoteMetaHeuristic()
@@ -24,62 +23,85 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
 
         public EukaryoteMetaHeuristic(int subChromosomeSize, params IMetaHeuristic[] phaseHeuristics) : base(subChromosomeSize, phaseHeuristics) { }
 
-        public EukaryoteMetaHeuristic(int phaseSize, int repeatNb, params IMetaHeuristic[] phaseHeuristics) : base(phaseSize, repeatNb, phaseHeuristics) { }
+        public EukaryoteMetaHeuristic(int phaseSize, int islandNb, params IMetaHeuristic[] phaseHeuristics) : base(phaseSize, islandNb, phaseHeuristics) { }
 
-        public override IList<IChromosome> ScopedSelectParentPopulation(IEvolutionContext ctx, ISelection selection)
+
+
+
+        protected override IList<SubPopulation> GenerateSubPopulations(IMetaHeuristic h, IEvolutionContext c)
         {
-            IList<IList<IChromosome>> subPopulations = EukaryoteChromosome.GetSubPopulations(ctx.Population.CurrentGeneration.Chromosomes, PhaseSizes);
-            var selectedParents = PerformSubOperator(subPopulations, (subHeuristic, subChromosomes) =>
+            var subPopulations = new List<SubPopulation>(PhaseSizes.Phases.Count);
+            var subPopulationChromosomes = EukaryoteChromosome.GetSubPopulations(c.Population.CurrentGeneration.Chromosomes, PhaseSizes.Phases);
+            for (int subPopulationIndex = 0; subPopulationIndex < subPopulationChromosomes.Count; subPopulationIndex++)
             {
-                var subPopulation = new EukaryotePopulation(ctx.Population, subChromosomes) ;
-                //todo: deal with parameters (delegate?)
-                var newCtx = new EvolutionContext {GeneticAlgorithm = ctx.GeneticAlgorithm, Population = subPopulation};
-                return subHeuristic.SelectParentPopulation(newCtx, selection);
+                var subPopulation = new SubPopulation(c.Population, subPopulationChromosomes[subPopulationIndex]);
+                subPopulations.Add(subPopulation);
+            }
+            return subPopulations;
+        }
 
+
+        private const string subPopulationsKey = "eukaryoteSubPopulations";
+
+        protected override IList<IChromosome> ScopedSelectParentPopulation(IEvolutionContext ctx, ISelection selection)
+        {
+            //IList<IList<IChromosome>> subPopulations = EukaryoteChromosome.GetSubPopulations(ctx.Population.CurrentGeneration.Chromosomes, PhaseSizes.Phases);
+            var subPopulations = DynamicSubPopulationParameter.Get(this, ctx, subPopulationsKey);
+            var selectedParents = PerformSubOperator(subPopulations, (subHeuristic, subPopulation) =>
+            {
+                //todo:check parameter scope
+                var newCtx = subPopulation.GetContext(ctx);
+                var toReturn = subHeuristic.SelectParentPopulation(newCtx, selection);
+                newCtx.SelectedParents = toReturn;
+                
+                return toReturn;
             });
            
             return selectedParents;
         }
 
-        public ParamScope SubPopulationCachingScope { get; set; } = ParamScope.Generation | ParamScope.MetaHeuristic;
 
-
-
-        public override IList<IChromosome> ScopedMatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
+        protected override IList<IChromosome> ScopedMatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
 
-            var dynamicSubPopulationParameter = new MetaHeuristicParameter<IList<IList<IChromosome>>>
-            {
-                Scope = SubPopulationCachingScope,
-                Generator = (h, c) => EukaryoteChromosome.GetSubPopulations(parents, PhaseSizes)
-            };
-            var subPopulations = dynamicSubPopulationParameter.Get(this, ctx, "subPopulations");
+            var subPopulations = DynamicSubPopulationParameter.Get(this, ctx, subPopulationsKey);
 
-            if (RandomizationProvider.Current.GetDouble() <= crossoverProbability)
+            if (subPopulations[0].GetContext(ctx).SelectedParents.Count==0)
             {
-                var offsprings = PerformSubOperator(subPopulations, (subHeuristic, subPopulation) => subHeuristic.MatchParentsAndCross(ctx, crossover,
-                    1, subPopulation));
-
-                return offsprings;
+                var selectedSubParents = EukaryoteChromosome.GetSubPopulations(parents, PhaseSizes.Phases);
+                for (int subPopulationIndex = 0; subPopulationIndex < selectedSubParents.Count; subPopulationIndex++)
+                {
+                    subPopulations[subPopulationIndex].GetContext(ctx).SelectedParents = selectedSubParents[subPopulationIndex];
+                }
             }
 
-            return new List<IChromosome>();
+            var offsprings = PerformSubOperator(subPopulations, (subHeuristic, subPopulation) =>
+            {
+                var newCtx = subPopulation.GetContext(ctx);
+                var toReturn = subHeuristic.MatchParentsAndCross(ctx, crossover,
+                    1, newCtx.SelectedParents);
+                newCtx.GeneratedOffsprings = toReturn;
+                return toReturn;
+            });
+
+            return offsprings;
+
         }
 
 
-        public override void ScopedMutateChromosome(IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
+        protected override void ScopedMutateChromosome(IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
         {
-            var karyotype = EukaryoteChromosome.GetKaryotype(offSprings[ctx.Index], PhaseSizes);
+            var karyotype = EukaryoteChromosome.GetKaryotype(offSprings[ctx.LocalIndex], PhaseSizes.Phases);
             for (var subChromosomeIdx = 0; subChromosomeIdx < karyotype.Count; subChromosomeIdx++)
             {
                 var subChromosome = karyotype[subChromosomeIdx];
-                var subContext = ctx.GetIndividual(0);
+                var subContext = ctx.GetLocal(0);
                 PhaseHeuristics[subChromosomeIdx].MutateChromosome(subContext, mutation, mutationProbability,new List<IChromosome>(new []{subChromosome}));
             }
             EukaryoteChromosome.UpdateParent(karyotype);
         }
 
-        public override IList<IChromosome> ScopedReinsert(IEvolutionContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
+        protected override IList<IChromosome> ScopedReinsert(IEvolutionContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
         {
             ////In order to use suboperator, we will temporarily concatenate offspring and parents
             //var offSpringCount = offspring.Count;
@@ -103,35 +125,6 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
 
         }
 
-
-        private IList<IChromosome> PerformSubOperator(IList<IList<IChromosome>> subPopulations, Func<IMetaHeuristic, IList<IChromosome>, IList<IChromosome>> subPopulationOperator)
-        {
-            var resultSubPopulations = new List<IList<IChromosome>>();
-            for (var subChromosomeIndex = 0; subChromosomeIndex < subPopulations.Count; subChromosomeIndex++)
-            {
-                var subPopulation = subPopulations[subChromosomeIndex];
-                var subHeuristic = PhaseHeuristics[subChromosomeIndex];
-                var subResults = subPopulationOperator(subHeuristic, subPopulation);
-                resultSubPopulations.Add(subResults);
-            }
-
-            var resultPopulation = EukaryoteChromosome.GetNewIndividuals(resultSubPopulations);
-            return resultPopulation;
-        }
-
-        /// <summary>
-        /// The Eukaryote population serves applying genetic operators to populations of Eurkaryote chromosomes
-        /// </summary>
-        public sealed class EukaryotePopulation : Population
-        {
-            public IPopulation ParentPopulation { get; set; }
-
-            public EukaryotePopulation(IPopulation parentPopulation, IList<IChromosome> subPopulation) : base(parentPopulation.MinSize, parentPopulation.MaxSize, subPopulation[0])
-            {
-                ParentPopulation = parentPopulation;
-                CreateNewGeneration(subPopulation);
-                GenerationsNumber = parentPopulation.GenerationsNumber;
-            }
-        }
+       
     }
 }

@@ -15,7 +15,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var paramNameAsString = "paramName";
             var ctxParam = new ExpressionMetaHeuristicParameter<int>()
                 .WithName(paramNameAsString, "param description");
-            ctxParam.DynamicGenerator = (heuristic, context) => context.Index + 1;
+            ctxParam.DynamicGenerator = (heuristic, context) => context.OriginalIndex + 1;
 
             var idx = 3;
             IEvolutionContext ctx = new EvolutionContext();

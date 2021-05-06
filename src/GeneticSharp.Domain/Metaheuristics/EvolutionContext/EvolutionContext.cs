@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Metaheuristics.Parameters;
 using GeneticSharp.Domain.Metaheuristics.Primitives;
 using GeneticSharp.Domain.Populations;
@@ -12,6 +14,16 @@ namespace GeneticSharp.Domain.Metaheuristics
     /// </summary>
     public class EvolutionContext : IEvolutionContext
     {
+
+        #region ctors
+
+        public EvolutionContext()
+        {
+        }
+
+       
+
+        #endregion
 
         #region Fields
 
@@ -32,16 +44,27 @@ namespace GeneticSharp.Domain.Metaheuristics
 
 
         /// <inheritdoc />
-        public int Index { get; set; }
+        public int OriginalIndex { get; set; } = -1;
+
+
+        /// <inheritdoc />
+        public int LocalIndex { get; set; } = -1;
+
 
         /// <inheritdoc />
         public EvolutionStage CurrentStage { get; set; }
+
+        /// <inheritdoc />
+        public IList<IChromosome> SelectedParents { get; set; }
+
+        /// <inheritdoc />
+        public IList<IChromosome> GeneratedOffsprings { get; set; }
 
 
         /// <summary>
         /// Allows storing and reusing objects during operators evaluation
         /// </summary>
-        public ConcurrentDictionary<(string, int, EvolutionStage, IMetaHeuristic, int), object> Params { get; set; } = new ConcurrentDictionary<(string, int, EvolutionStage, IMetaHeuristic, int), object>();
+        public ConcurrentDictionary<(string key, int generation, EvolutionStage stage, IMetaHeuristic heuristic, int individual), object> Params { get; set; } = new ConcurrentDictionary<(string, int, EvolutionStage, IMetaHeuristic, int), object>();
 
 
 
@@ -50,9 +73,20 @@ namespace GeneticSharp.Domain.Metaheuristics
         #region Public Methods
 
         /// <inheritdoc />
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public IEvolutionContext GetIndividual(int index)
         {
-            return new IndividualContext(this, index);
+            return new IndividualContext(this, index, index);
+        }
+
+        public IEvolutionContext GetLocal(int index)
+        {
+            if (OriginalIndex<0)
+            {
+                throw new InvalidOperationException("a local context can only be created from an individual context");
+            }
+
+            return new IndividualContext(this, OriginalIndex, index);
         }
 
 
@@ -66,7 +100,9 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <inheritdoc />
         public TItemType GetParam<TItemType>(IMetaHeuristic h, string paramName)
         {
-            return GetParamWithContext<TItemType>(h, paramName, this);
+            var paramDef = GetParameterDefinition(paramName);
+            return paramDef.Get<TItemType>(h, this, paramName);
+            //return GetParamWithContext<TItemType>(h, paramName, this);
         }
 
 
@@ -75,7 +111,9 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <inheritdoc />
         public void RegisterParameter(string paramName, IMetaHeuristicParameter param)
         {
-            _paramDefinitions.Add(paramName, param);
+            //_paramDefinitions.Add(paramName, param);
+            //todo: better handler collisions
+            _paramDefinitions[paramName]= param;
         }
 
         /// <inheritdoc />
@@ -88,20 +126,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             throw new ArgumentException($"parameter {paramName} not found in MetaHeuristic expression chain", nameof(paramName));
         }
 
-        #endregion
-
-        #region Private methods
-
-        internal TItemType GetParamWithContext<TItemType>(IMetaHeuristic h, string paramName, IEvolutionContext ctx)
-        {
-            _paramDefinitions.TryGetValue(paramName, out var paramDef);
-            if (paramDef == null)
-            {
-                throw new ArgumentException($"parameter {paramName} was not registered", nameof(paramName));
-            }
-            return paramDef.Get<TItemType>(h, ctx, paramName);
-        }
-
+      
 
         #endregion
 

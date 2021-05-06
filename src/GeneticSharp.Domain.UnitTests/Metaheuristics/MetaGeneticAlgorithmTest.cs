@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Castle.Components.DictionaryAdapter;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
+using GeneticSharp.Domain.Metaheuristics;
+using GeneticSharp.Domain.Metaheuristics.Matching;
 using GeneticSharp.Domain.Metaheuristics.Primitives;
 using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Terminations;
@@ -94,12 +95,12 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             };
 
 
-            foreach (var matchingTechnique in Enum.GetValues(typeof(MatchingTechnique)).Cast<MatchingTechnique>())
+            foreach (var matchingTechnique in Enum.GetValues(typeof(MatchingKind)).Cast<MatchingKind>())
             {
-                if (matchingTechnique!= MatchingTechnique.Best)
+                if (matchingTechnique!= MatchingKind.Best && matchingTechnique != MatchingKind.Worst && matchingTechnique != MatchingKind.Current && matchingTechnique != MatchingKind.Custom && matchingTechnique != MatchingKind.Child)
                 {
                     var defaultMatch = new DefaultMetaHeuristic();
-                    defaultMatch.MatchMetaHeuristic.MatchingTechniques = new List<MatchingTechnique>(new[] { matchingTechnique });
+                    defaultMatch.MatchMetaHeuristic.WithMatches(new[] { MatchingKind.Current, matchingTechnique });
                     defaultMatch.MatchMetaHeuristic.EnableHyperSpeed = true;
                     heuristics.Add(defaultMatch);
                 }
@@ -173,14 +174,19 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var heuristics = new List<IMetaHeuristic>();
 
 
-            foreach (var matchingTechnique in Enum.GetValues(typeof(MatchingTechnique)).Cast<MatchingTechnique>())
+            foreach (var matchingTechnique in Enum.GetValues(typeof(MatchingKind)).Cast<MatchingKind>().Except(new []
+                {
+                    MatchingKind.Current,
+                    MatchingKind.Custom,
+                    MatchingKind.Child
+                }))
             {
                 var defaultMatch = new DefaultMetaHeuristic();
-                defaultMatch.MatchMetaHeuristic.MatchingTechniques = new List<MatchingTechnique>(new[] { matchingTechnique });
+                defaultMatch.MatchMetaHeuristic.WithMatches(new[] { MatchingKind.Current,  matchingTechnique });
                 defaultMatch.MatchMetaHeuristic.EnableHyperSpeed = false;
                 heuristics.Add(defaultMatch);
                 var hyperSpeedMatch = new DefaultMetaHeuristic();
-                hyperSpeedMatch.MatchMetaHeuristic.MatchingTechniques = new List<MatchingTechnique>(new[] { matchingTechnique });
+                hyperSpeedMatch.MatchMetaHeuristic.WithMatches(new[] { MatchingKind.Current, matchingTechnique });
                 hyperSpeedMatch.MatchMetaHeuristic.EnableHyperSpeed = true;
                 heuristics.Add(hyperSpeedMatch);
             }

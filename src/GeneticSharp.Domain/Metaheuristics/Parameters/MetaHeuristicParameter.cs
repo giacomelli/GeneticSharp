@@ -39,8 +39,12 @@ namespace GeneticSharp.Domain.Metaheuristics.Parameters
         /// <inheritdoc />
         public TItemType Get<TItemType>(IMetaHeuristic h, IEvolutionContext ctx, string paramName)
         {
-
-            var maskedTuple = GetScopeMask((paramName, ctx.Population?.GenerationsNumber ?? 0, ctx.CurrentStage, h, ctx.Index));
+            if (Scope == ParamScope.None)
+            {
+                return (TItemType)ComputeParameter(h, ctx);
+            }
+            var maskedTuple = (paramName, ctx.Population?.GenerationsNumber ?? 0, ctx.CurrentStage, h, ctx.OriginalIndex);
+            GetScopeMask(ref maskedTuple);
 
             var toReturn = (TItemType)ctx.GetOrAdd(maskedTuple, () => ComputeParameter(h, ctx));
             return toReturn;
@@ -59,7 +63,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Parameters
             return Generator;
         }
 
-        private (string key, int generation, EvolutionStage stage, IMetaHeuristic heuristic, int individual) GetScopeMask((string key, int generation, EvolutionStage stage, IMetaHeuristic heuristic, int individual) input)
+        private void GetScopeMask(ref (string key, int generation, EvolutionStage stage, IMetaHeuristic heuristic, int individual) input)
         {
             if ((Scope & ParamScope.Generation) != ParamScope.Generation)
             {
@@ -78,8 +82,6 @@ namespace GeneticSharp.Domain.Metaheuristics.Parameters
             {
                 input.individual = 0;
             }
-
-            return input;
         }
 
       

@@ -15,6 +15,7 @@ using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.Mathematic;
 using GeneticSharp.Extensions.Mathematic.Functions;
 using GeneticSharp.Infrastructure.Framework.Commons;
+using GeneticSharp.Infrastructure.Framework.Threading;
 using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
@@ -60,7 +61,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             for (int i = 0; i < nbPhases; i++)
             {
                 var iClosure = i;
-                var geomCrossover = new GeometricCrossover<int>().WithGeometricOperator((geneIndex, geneValues)   => iClosure);
+                var geomCrossover = new GeometricCrossover<int>().WithLinearGeometricOperator((geneIndex, geneValues)   => iClosure);
                 var geomHeuristic = new CrossoverHeuristic().WithCrossover(geomCrossover);
 
                 geometricHeuristics.Add(geomHeuristic);
@@ -70,32 +71,20 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             return geometricHeuristics;
         }
 
-        protected List<Func<Gene[], double>> GetKnownFunctions()
+        protected List<(string fName, Func<Gene[], double> function)> GetKnownFunctions()
         {
-            var toReturn = new List<Func<Gene[], double>>
-            {
-                genes =>
-                {
-                    var knownFunction = KnownFunctions.GetKnownFunctions()[nameof(KnownFunctions.Rastrigin)];
-                    return knownFunction.Fitness(knownFunction.Function(genes.Select(g => g.Value.To<double>()).ToArray()));
-                },
-                genes =>
-                {
-                    var knownFunction = KnownFunctions.GetKnownFunctions()[nameof(KnownFunctions.Ackley)];
-                    return knownFunction.Fitness(knownFunction.Function(genes.Select(g => g.Value.To<double>()).ToArray()));
-                },
-                genes =>
-                {
-                    var knownFunction = KnownFunctions.GetKnownFunctions()[nameof(KnownFunctions.Rosenbrock)];
-                    return knownFunction.Fitness(knownFunction.Function(genes.Select(g => g.Value.To<double>()).ToArray()));
-                    
-                },
-                genes =>
-                {
-                    var knownFunction = KnownFunctions.GetKnownFunctions()[nameof(KnownFunctions.Levy)];
-                    return knownFunction.Fitness(knownFunction.Function(genes.Select(g => g.Value.To<double>()).ToArray()));
-                }
+            var functions = new string[] {
+                nameof(KnownFunctions.Ackley),
+                nameof(KnownFunctions.Rastrigin) ,
+                nameof(KnownFunctions.Levy),
+                nameof(KnownFunctions.Rosenbrock),
             };
+            var toReturn = functions.Select((fName, findex) => (fName, (Func<Gene[], double>) (genes =>
+            {
+                var knownFunction = KnownFunctions.GetKnownFunctions()[fName];
+                var geneValues = genes.Select(g => g.Value.To<double>()).ToArray();
+                return knownFunction.Fitness(geneValues, knownFunction.Function.Shift(-4)(geneValues));
+            }))).ToList();
             return toReturn;
         }
 
@@ -159,7 +148,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
             var crossover = new OnePointCrossover(2);
             
-            var target = InitGa(metaHeuristic, fitness(maxValue), adamChromosome(maxValue), crossover,  populationSize, termination, reinsertion);
+            var target = InitGa(metaHeuristic, fitness(maxValue), adamChromosome(maxValue), crossover,  populationSize, termination, reinsertion, true);
             target.Start();
             return new EvolutionResult { Population = target.Population, TimeEvolving = target.TimeEvolving };
 
@@ -182,7 +171,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             foreach (var functionToSolve in knownFunctions)
             {
-                IFitness Fitness(int i) => new FunctionFitness<double>(functionToSolve);
+                IFitness Fitness(int i) => new FunctionFitness<double>(functionToSolve.function);
 
                 IList<(EvolutionResult result1, EvolutionResult result2)> results;
                 results = CompareMetaHeuristicsDifferentSizes(
@@ -235,7 +224,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             foreach (var metaHeuristic in metaHeuristics)
             {
-                var target = InitGa(metaHeuristic, fitness, adamChromosome, crossover, populationSize, termination, reinsertion);
+                var target = InitGa(metaHeuristic, fitness, adamChromosome, crossover, populationSize, termination, reinsertion, true);
 
                 target.Start();
                 var firstResult = target.GetResult();
@@ -247,7 +236,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
 
 
-        protected virtual GeneticAlgorithm InitGa(IMetaHeuristic metaHeuristic, IFitness fitness, IChromosome adamChromosome, ICrossover crossover, int populationSize, ITermination termination, IReinsertion reinsertion)
+        protected virtual GeneticAlgorithm InitGa(IMetaHeuristic metaHeuristic, IFitness fitness, IChromosome adamChromosome, ICrossover crossover, int populationSize, ITermination termination, IReinsertion reinsertion, bool enableParallelism)
         {
             var selection = new EliteSelection();
             var mutation = new UniformMutation();
@@ -275,6 +264,12 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             target.Reinsertion = reinsertion;
             target.Termination = termination;
             target.MutationProbability = 0.1f;
+            if (enableParallelism)
+            {
+                target.OperatorsStrategy = new TplOperatorsStrategy();
+            }
+            target.TaskExecutor = new TplTaskExecutor();
+
 
             return target;
         }

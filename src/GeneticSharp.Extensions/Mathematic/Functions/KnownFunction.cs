@@ -13,7 +13,7 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
 
         public KnownFunction()
         {
-            Fitness = d => d;
+            Fitness = (genes, d) => d;
         }
 
         public KnownFunction(double range):this()
@@ -23,6 +23,16 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
 
         public Func<double[], double> Function { get; set; }
         public Func<int, IList<(double min, double max)>> Ranges { get; set; }
-        public Func<double, double> Fitness { get; set; }
+        public Func<double[], double, double> Fitness { get; set; }
+    }
+
+
+    public static class KnownFunctionExtensions 
+    {
+        public static Func<double[], double> Shift(this Func<double[], double> function, double shift)
+        {
+            return coords => function(coords.Select(d => d - shift).ToArray());
+        }
+
     }
 }

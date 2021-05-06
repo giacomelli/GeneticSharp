@@ -28,9 +28,9 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             };
 
 
-            var geomCrossover = new GeometricCrossover<int>().WithGeometricOperator((geneIndex, geneValues) => geneValues[0]);
+            var geomCrossover = new GeometricCrossover<int>().WithLinearGeometricOperator((geneIndex, geneValues) => geneValues[0]);
             testContainer.SubMetaHeuristic = new CrossoverHeuristic().WithCrossover(geomCrossover);
-            var ctx = new EvolutionContext();
+            IEvolutionContext ctx = new EvolutionContext();
             
 
             //Testing subheuristic, returning first parent genes
@@ -40,11 +40,11 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             //Testing subheuristic, returning second parent genes
             geomCrossover.LinearGeometricOperator = (geneIndex, geneValues) => geneValues[1];
-            ctx.Index = 2;
+            ctx = ctx.GetIndividual(2);
             offSpring = testContainer.MatchParentsAndCross(ctx, null, 1, stubParents);
             offSpring.Each(o => o.GetGenes().Each(gene => Assert.AreEqual(3, gene.Value )));
 
-            ctx.Index = 0;
+            ctx = ctx.GetIndividual(0);
             //Testing no-op
             offSpring = testContainer.MatchParentsAndCross(ctx, null, 0, stubParents);
             Assert.IsNull(offSpring);
@@ -60,7 +60,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var stubParents = GetStubs(10);
 
             var testHeuristic = new SwitchMetaHeuristic<int>()
-                .WithCaseGenerator(ParamScope.None, (heuristic, context) => context.Index);
+                .WithCaseGenerator(ParamScope.None, (heuristic, context) => context.OriginalIndex);
             testHeuristic.CrossoverProbabilityStrategy = ProbabilityStrategy.TestProbability;
 
 
@@ -74,11 +74,11 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             }
             
-            var ctx = new EvolutionContext();
+            IEvolutionContext ctx = new EvolutionContext();
 
             //Testing subheuristic, trigger switch with constant crossover based on Index
             var phaseIndex = 4;
-            ctx.Index = phaseIndex;
+            ctx = ctx.GetIndividual(phaseIndex);
             var offSpring = testHeuristic.MatchParentsAndCross(ctx, null, 1, stubParents);
 
             Assert.AreEqual(1, offSpring.Count);
@@ -86,7 +86,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
 
             //Testing no-op
-            ctx.Index = 0;
+            ctx = ctx.GetIndividual(0);
             offSpring = testHeuristic.MatchParentsAndCross(ctx, null, 0, stubParents);
             Assert.IsNull(offSpring);
 
@@ -113,7 +113,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                 CrossoverProbabilityStrategy = ProbabilityStrategy.TestProbability
             };
 
-            var ctx = new EvolutionContext();
+            IEvolutionContext ctx = new EvolutionContext();
 
             //Testing subheuristic, trigger switch with constant crossover based on Index
             var phaseIndex = 4;
@@ -124,7 +124,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                 ctx.Population.CreateNewGeneration(stubParents);
             }
 
-            ctx.Index = 0;
+            ctx = ctx.GetIndividual(0);
             var offSpring = testHeuristic.MatchParentsAndCross(ctx, null, 1, stubParents);
             Assert.AreEqual(1, offSpring.Count);
             offSpring.Each(o => o.GetGenes().Each(gene => Assert.AreEqual(phaseIndex, gene.Value)));
@@ -156,7 +156,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                 CrossoverProbabilityStrategy = ProbabilityStrategy.TestProbability
             };
 
-            var ctx = new EvolutionContext();
+            IEvolutionContext ctx = new EvolutionContext();
 
             //Testing subheuristic, trigger switch with constant crossover based on Index
             var phaseIndex = 4;
@@ -165,7 +165,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             ctx.Population.CreateNewGeneration(stubParents);
 
             var itemIndex = phaseIndex * groupSize;
-            ctx.Index = itemIndex;
+            ctx = ctx.GetIndividual(itemIndex);
 
             var offSpring = testHeuristic.MatchParentsAndCross(ctx, null, 1, stubParents);
             Assert.AreEqual(1, offSpring.Count);

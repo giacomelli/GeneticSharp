@@ -72,7 +72,7 @@ namespace GeneticSharp.Domain
         {
             var minSize = ctx.Population.MinSize;
             var offspring = new List<IChromosome>(minSize);
-
+            //todo: the matchmetaheuristic has to use crossover.ParentsNumber as a consequence of the following. There's probably a better way around that legacy behavior
             for (int i = 0; i < minSize; i += crossover.ParentsNumber)
             {
                 var children = metaHeuristic.MatchParentsAndCross(ctx.GetIndividual(i), crossover, crossoverProbability, parents);

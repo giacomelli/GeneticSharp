@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Versioning;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Crossovers.Geometric;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Metaheuristics;
+using GeneticSharp.Domain.Metaheuristics.Compound;
 using GeneticSharp.Domain.Metaheuristics.Primitives;
 using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Reinsertions;
@@ -18,7 +21,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 {
     [TestFixture]
     [Category("MetaHeuristics")]
-    class CompoundMetaHeuristicsTest: MetaHeuristicTestBase
+    class CompoundMetaHeuristicsTest : MetaHeuristicTestBase
     {
         [TearDown]
         public void Cleanup()
@@ -26,23 +29,23 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             RandomizationProvider.Current = new BasicRandomization();
         }
 
-        
-        
+
+
 
         [Test]
         public void Evolve_WOAParams_Stub_Small_Optmization()
         {
             IMetaHeuristic MetaHeuristic(int maxValue) => GetDefaultWhaleHeuristicForChromosomStub(false, 300, maxValue);
             IChromosome AdamChromosome(int maxValue) => new ChromosomeStub(maxValue, maxValue);
-            IFitness Fitness(int maxValue) => new FitnessStub(maxValue) {SupportsParallel = false};
+            IFitness Fitness(int maxValue) => new FitnessStub(maxValue) { SupportsParallel = false };
 
             var reinsertion = new FitnessBasedElitistReinsertion();
 
-            var compoundResults=  EvolveMetaHeuristicDifferentSizes(
+            var compoundResults = EvolveMetaHeuristicDifferentSizes(
                 Fitness,
                 AdamChromosome,
                 SmallSizes,
-                MetaHeuristic, 
+                MetaHeuristic,
                 i => 0.6,
                 reinsertion);
 
@@ -59,15 +62,15 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
             IMetaHeuristic MetaHeuristic(int maxValue) => GetDefaultWhaleHeuristicForChromosomStub(true, 300, maxValue);
             IChromosome AdamChromosome(int maxValue) => new ChromosomeStub(maxValue, maxValue);
-            IFitness Fitness(int maxValue) => new FitnessStub(maxValue) {SupportsParallel = false};
+            IFitness Fitness(int maxValue) => new FitnessStub(maxValue) { SupportsParallel = false };
 
             var reinsertion = new FitnessBasedElitistReinsertion();
 
-            var compoundResults =  EvolveMetaHeuristicDifferentSizes(
+            var compoundResults = EvolveMetaHeuristicDifferentSizes(
                 Fitness,
                 AdamChromosome,
-                SmallSizes, 
-                MetaHeuristic, 
+                SmallSizes,
+                MetaHeuristic,
                 i => 0.6,
                 reinsertion);
 
@@ -86,13 +89,23 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             double GetGeneValueFunction(int geneIndex, double metricValue) => metricValue % functionHalfRange;
             var converter = new GeometricConverter<double>
             {
-                DoubleToGeneConverter = GetGeneValueFunction, GeneToDoubleConverter = (genIndex, geneValue) => geneValue
+                DoubleToGeneConverter = GetGeneValueFunction,
+                GeneToDoubleConverter = (genIndex, geneValue) => geneValue
             };
             var typedConverter = new TypedGeometricConverter();
             typedConverter.SetTypedConverter(converter);
 
-            IMetaHeuristic MetaHeuristic(int maxValue) => MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false, 300, typedConverter);
-            IChromosome AdamChromosome(int i) => new EquationChromosome<double>(-functionHalfRange, functionHalfRange, i) {GetGeneValueFunction = GetGeneValueFunction};
+            IMetaHeuristic MetaHeuristic(int maxValue)
+            {
+                var woa = new WhaleOptimisationAlgorithm()
+                {
+                    MaxGenerations = 300,
+                    GeometricConverter = typedConverter,
+                };
+                return woa.Build();
+            }
+
+            IChromosome AdamChromosome(int i) => new EquationChromosome<double>(-functionHalfRange, functionHalfRange, i) { GetGeneValueFunction = GetGeneValueFunction };
 
             var reinsertion = new FitnessBasedElitistReinsertion();
 
@@ -107,7 +120,8 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                         genes =>
                         {
                             var knownAckley = KnownFunctions.GetKnownFunctions()[nameof(KnownFunctions.Ackley)];
-                            return knownAckley.Fitness(knownAckley.Function(genes.Select(g => g.Value.To<double>()).ToArray()));
+                            var geneValues = genes.Select(g => g.Value.To<double>()).ToArray();
+                            return knownAckley.Fitness(geneValues, knownAckley.Function(geneValues));
                         },
                         i => 0.1
                     }
@@ -119,8 +133,8 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                 var compoundResults = EvolveMetaHeuristicDifferentSizes(
                     Fitness,
                     AdamChromosome,
-                    SmallSizes, 
-                    MetaHeuristic, 
+                    SmallSizes,
+                    MetaHeuristic,
                     functionToSolve.Value,
                     reinsertion);
 
@@ -130,7 +144,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                 }
 
             }
-            
+
         }
 
 
@@ -139,7 +153,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
             var crossover = new OnePointCrossover(2);
 
-            var resultsRatio = new[] {100, 1.05, 1.05, 3};
+            var resultsRatio = new[] { 100, 1.05, 1.05, 3 };
             int maxNbGenerations = 100;
 
             Compare_WOA_Crossover_KnownFunctions_Size_LargerFitness_Bounded(crossover, SmallSizes, maxNbGenerations, resultsRatio);
@@ -153,11 +167,11 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
             var crossover = new UniformCrossover();
 
-            var resultsRatio = new[] { 100, 1.01, 10, 10};
+            var resultsRatio = new[] { 100, 1.01, 10, 10 };
             int maxNbGenerations = 100;
 
             Compare_WOA_Crossover_KnownFunctions_Size_LargerFitness_Bounded(crossover, LargeSizes, maxNbGenerations, resultsRatio);
-            
+
 
         }
 
@@ -173,6 +187,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             var noEmbeddingConverter = new GeometricConverter<double>
             {
+                IsOrdered = false,
                 DoubleToGeneConverter = GetGeneValueFunction,
                 GeneToDoubleConverter = (genIndex, geneValue) => geneValue
             };
@@ -180,11 +195,19 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             typedNoEmbeddingConverter.SetTypedConverter(noEmbeddingConverter);
 
 
-            IMetaHeuristic MetaHeuristic(int maxValue) => MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false, maxNbGenerations, typedNoEmbeddingConverter);
+            IMetaHeuristic MetaHeuristic(int maxValue)
+            {
+                var woa = new WhaleOptimisationAlgorithm()
+                {
+                    MaxGenerations = maxNbGenerations,
+                    GeometricConverter = typedNoEmbeddingConverter,
+                };
+                return woa.Build();
+            }
 
             //Termination
             var minFitness = double.MaxValue;
-            
+
             int stagnationNb = 100;
             TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(5);
             var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
@@ -207,7 +230,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         [Test]
         public void Compare_WOA_Uniform_Stub_Large_LargerFitness()
         {
-           
+
             var crossover = new UniformCrossover();
             var results = Compare_WOAReduced_Crossover_ChromosomeStub(crossover, LargeSizes);
 
@@ -315,9 +338,9 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
                 for (int sizeIndex = 0; sizeIndex < results.Count; sizeIndex++)
                 {
-                    if (meanResultsBySize.Count<sizeIndex+1)
+                    if (meanResultsBySize.Count < sizeIndex + 1)
                     {
-                        meanResultsBySize.Add((new MeanEvolutionResult{ResultComparer = ResultComparer, SkipExtremaPercentage = 0.2} , new MeanEvolutionResult { ResultComparer = ResultComparer, SkipExtremaPercentage = 0.2 }));
+                        meanResultsBySize.Add((new MeanEvolutionResult { ResultComparer = ResultComparer, SkipExtremaPercentage = 0.2 }, new MeanEvolutionResult { ResultComparer = ResultComparer, SkipExtremaPercentage = 0.2 }));
                     }
                     meanResultsBySize[sizeIndex].woaWithParams.Results.Add(results[sizeIndex].result1);
                     meanResultsBySize[sizeIndex].woaReduced.Results.Add(results[sizeIndex].result2);
@@ -328,121 +351,295 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             foreach (var (woaWithParams, woaReduced) in meanResultsBySize)
             {
                 //todo: figure out why such a big swing depending on the Framework version (.net code as reduced version faster, unlike .Net 4.6.2)
-                Assert.Greater(woaReduced.GenerationsNumber / (double) woaWithParams.GenerationsNumber, 0.6);
+                Assert.Greater(woaReduced.GenerationsNumber / (double)woaWithParams.GenerationsNumber, 0.6);
                 Assert.Less(woaReduced.GenerationsNumber / (double)woaWithParams.GenerationsNumber, 10);
             }
 
-          
-            
+
+
 
         }
 
-       
 
-
-
-        //[Test]
-        public void GridSearch_WOA()
+        [Test]
+        public void Compare_WOA_WOANaive_Ackley_Bounds()
         {
             var repeatNb = 5;
-            var testParams = new List<(KnownCompoundMetaheuristics kind,  double seconds, double helicoidScale, int nbGenerationsWOA, bool noMutation)>
+            var testParams = new List<(KnownCompoundMetaheuristics kind, double seconds, int nbGenerationsWOA, bool noMutation)>
             {
-                
-                (KnownCompoundMetaheuristics.Default,  5.0, 1.0, 100, true),
-                (KnownCompoundMetaheuristics.WhaleOptimisation,  5.0, 1.0, 100,  true),
-                (KnownCompoundMetaheuristics.WhaleOptimisationNaive,  5.0, 1.0, 100,  true),
+
+                (KnownCompoundMetaheuristics.WhaleOptimisation,  1.0,  100,  true),
+                (KnownCompoundMetaheuristics.WhaleOptimisationNaive,  1.0, 100,  true),
 
             };
 
-            var sizes = new[] { 50, 100, 200 }.ToList();
+            var sizes = new[] { 50, 200 }.ToList();
 
             // population parameters
             int populationSize = 100;
 
             //Termination
             var minFitness = double.MaxValue;
-            int maxNbGenerations = 100000;
-            int stagnationNb = 100000;
+            int maxNbGenerations = int.MaxValue;
+            int stagnationNb = int.MaxValue;
 
             //var reinsertion = new FitnessBasedElitistReinsertion();
             var reinsertion = new PureReinsertion();
 
             var crossover = new UniformCrossover();
-            
+
 
             var maxCoordinate = 10;
 
             double GetGeneValueFunction(int geneIndex, double d) => Math.Sign(d) * Math.Min(Math.Abs(d), maxCoordinate);
-            IChromosome AdamChromosome(int i) => new EquationChromosome<double>(-maxCoordinate, maxCoordinate, i) {GetGeneValueFunction = GetGeneValueFunction};
+            IChromosome AdamChromosome(int i) => new EquationChromosome<double>(-maxCoordinate, maxCoordinate, i) { GetGeneValueFunction = GetGeneValueFunction };
 
-            var knownFunctions = GetKnownFunctions();//.Skip(2).Take(1);
+            // Ackley function
+            var ackleyFunctionWithFitness = GetKnownFunctions().Skip(1).First();
 
-            var functionResults = new List<List<List<MeanEvolutionResult>>>();
-            foreach (var functionToSolve in knownFunctions)
+
+
+            IFitness Fitness(int i) => new FunctionFitness<double>(ackleyFunctionWithFitness.function);
+
+
+            var sizeResults = new List<List<MeanEvolutionResult>>();
+            foreach (var size in sizes)
             {
-                IFitness Fitness(int i) => new FunctionFitness<double>(functionToSolve);
+
+                var testResults = new List<MeanEvolutionResult>();
 
 
-                var sizeResults = new List<List<MeanEvolutionResult>>();
-                foreach (var size in sizes)
+                foreach (var (kind, duration, nbGenerationsWoa, noMutation) in testParams)
                 {
 
-                    var testResults = new List<MeanEvolutionResult>();
-
-                    
-                    foreach (var (kind, duration, helicoidScale, nbGenerationsWoa, noMutation) in testParams)
+                    TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(duration);
+                    var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
+                    IMetaHeuristic metaHeuristic;
+                    var noEmbeddingConverter = new GeometricConverter<double>
                     {
+                        IsOrdered = false,
+                        DoubleToGeneConverter = GetGeneValueFunction,
+                        GeneToDoubleConverter = (genIndex, geneValue) => geneValue
+                    };
+                    var typedNoEmbeddingConverter = new TypedGeometricConverter();
+                    typedNoEmbeddingConverter.SetTypedConverter(noEmbeddingConverter);
 
-                        TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(duration);
-                        var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
-                        IMetaHeuristic metaHeuristic;
-                        var noEmbeddingConverter = new GeometricConverter<double>
-                        {
-                            DoubleToGeneConverter = GetGeneValueFunction,
-                            GeneToDoubleConverter = (genIndex, geneValue) => geneValue
-                        };
-                        var typedNoEmbeddingConverter = new TypedGeometricConverter();
-                        typedNoEmbeddingConverter.SetTypedConverter(noEmbeddingConverter);
-
-                        switch (kind)
-                        {
-                            case KnownCompoundMetaheuristics.Default:
-                                metaHeuristic = new DefaultMetaHeuristic();
-                                break;
-                            case KnownCompoundMetaheuristics.WhaleOptimisation:
-
-                                
-                                var woaMetaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false,
-                                    nbGenerationsWoa, typedNoEmbeddingConverter, helicoidScale: helicoidScale,
-                                    noMutation: noMutation);
-                                metaHeuristic = woaMetaHeuristic;
-                                break;
-                            case KnownCompoundMetaheuristics.WhaleOptimisationNaive:
-                                var woaNaiveMetaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithmExtended(false,
-                                    nbGenerationsWoa, typedNoEmbeddingConverter, helicoidScale: helicoidScale,
-                                    noMutation: noMutation, bubbleNetOperator: MetaHeuristicsFactory.GetSimpleBubbleNetOperator());
-                                metaHeuristic = woaNaiveMetaHeuristic;
-                                break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
-
-                        var meanResult = new MeanEvolutionResult{ SkipExtremaPercentage = 0.2 };
-                        for (int i = 0; i < repeatNb; i++)
-                        {
-                            var target = InitGa(metaHeuristic, Fitness(size), AdamChromosome(size), crossover, populationSize, termination, reinsertion);
-                            target.Start();
-                            var result = target.GetResult();
-                            meanResult.Results.Add(result);
-                        }
-                        testResults.Add(meanResult);
+                    switch (kind)
+                    {
+                        case KnownCompoundMetaheuristics.Default:
+                            metaHeuristic = new DefaultMetaHeuristic();
+                            break;
+                        case KnownCompoundMetaheuristics.WhaleOptimisation:
+                        case KnownCompoundMetaheuristics.WhaleOptimisationNaive:
+                            var woa = new WhaleOptimisationAlgorithm()
+                            {
+                                MaxGenerations = nbGenerationsWoa,
+                                GeometricConverter = typedNoEmbeddingConverter,
+                                NoMutation = noMutation
+                            };
+                            if (kind == KnownCompoundMetaheuristics.WhaleOptimisationNaive)
+                            {
+                                woa.BubbleOperator = WhaleOptimisationAlgorithm.GetSimpleBubbleNetOperator();
+                            }
+                            metaHeuristic = woa.Build();
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
                     }
-                    sizeResults.Add(testResults);
+
+                    var meanResult = new MeanEvolutionResult { SkipExtremaPercentage = 0.2 };
+                    for (int i = 0; i < repeatNb; i++)
+                    {
+                        var target = InitGa(metaHeuristic, Fitness(size), AdamChromosome(size), crossover, populationSize, termination, reinsertion, true);
+                        target.Start();
+                        var result = target.GetResult();
+                        meanResult.Results.Add(result);
+                    }
+                    testResults.Add(meanResult);
                 }
-                functionResults.Add(sizeResults);
+                sizeResults.Add(testResults);
             }
 
-            Assert.GreaterOrEqual(functionResults.Count, 0);
+
+
+
+            var smallSizeResult = sizeResults[0];
+            //WOA better than WOA "Naïve" on small dimensions
+            Assert.Greater(smallSizeResult[0].Fitness, smallSizeResult[1].Fitness);
+            var largeSizeResult = sizeResults[1];
+            //WOA and WOA naive similar in high dimensions given the termination duration
+            Assert.Greater(0.05, Math.Abs(largeSizeResult[0].Fitness - largeSizeResult[1].Fitness));
+
+        }
+
+
+        public class IslandGene
+        {
+
+            public bool NewIsland { get; set; }
+
+            public KnownCompoundMetaheuristics IslandMetaheuristic;
+
+            public bool NoMutation { get; set; }
+
+            public IReinsertion Reinsertion { get; set; }
+
+        }
+
+
+        [Test]
+        public void GridSearch()
+        {
+            try
+            {
+
+                var repeatNb = 1;
+                repeatNb = 3;
+
+
+                var fitnessBasedElitist = new FitnessBasedElitistReinsertion();
+                var pure = new PureReinsertion();
+                var pairwise = new FitnessBasedPairwiseReinsertion();
+
+                var maxTime = 300;
+                var defaultNbGens = 200;
+
+                var testParams = new List<(KnownCompoundMetaheuristics kind, double duration, int nbGenerations, bool noMutation, int populationSize, IReinsertion reinsertion, bool forceReinsertion)>
+            {
+
+                //(KnownCompoundMetaheuristics.Islands5Default,  maxTime, defaultNbGens,  false, 250, pure),
+                (KnownCompoundMetaheuristics.Islands5BestMixture,  maxTime, defaultNbGens,  true, 250, fitnessBasedElitist, false),
+                (KnownCompoundMetaheuristics.Islands5BestMixtureNoMigration,  maxTime, defaultNbGens,  true, 250, fitnessBasedElitist, false),
+
+                //(KnownCompoundMetaheuristics.Default,  maxTime, defaultNbGens, false, 50, fitnessBasedElitist, true),
+                //(KnownCompoundMetaheuristics.Default,  maxTime, defaultNbGens, false, 250, fitnessBasedElitist, true),
+                //(KnownCompoundMetaheuristics.Default,  maxTime, defaultNbGens, false, 2000, fitnessBasedElitist, true),
+
+                (KnownCompoundMetaheuristics.EquilibriumOptimizer,  maxTime, defaultNbGens,  false, 100, fitnessBasedElitist, false),
+                //(KnownCompoundMetaheuristics.EquilibriumOptimizer,  maxTime, defaultNbGens,  false, 250, fitnessBasedElitist, false),
+
+               
+                //(KnownCompoundMetaheuristics.ForensicBasedInvestigation,  maxTime, 2* defaultNbGens,  true, 50, pairwise, false),
+                //(KnownCompoundMetaheuristics.ForensicBasedInvestigation,  maxTime, 2* defaultNbGens,  true, 250, pairwise, true),
+
+                (KnownCompoundMetaheuristics.WhaleOptimisation,  maxTime, defaultNbGens,  true, 50, pure, false),
+                (KnownCompoundMetaheuristics.WhaleOptimisation,  maxTime, defaultNbGens,  true, 250, pure, false),
+
+
+
+
+            };
+
+                var islandSize = 50;
+
+                //var sizes = new[] { 100 }.ToList();
+                var sizes = new[] { 10, 50, 100 }.ToList();
+                //var sizes = new[] { 50, 100, 200, 500 }.ToList();
+
+                // population parameters
+                //int populationSize = 500;
+
+                //Termination
+                var minFitness = double.MaxValue;
+                int maxNbGenerations = 200;
+                int stagnationNb = 100000;
+
+
+
+                var crossover = new UniformCrossover();
+
+
+                var maxCoordinate = 10;
+
+                double GetGeneValueFunction(int geneIndex, double d) => Math.Sign(d) * Math.Min(Math.Abs(d), maxCoordinate);
+                IChromosome AdamChromosome(int i) => new EquationChromosome<double>(-maxCoordinate, maxCoordinate, i) { GetGeneValueFunction = GetGeneValueFunction };
+
+
+                var knownFunctions = GetKnownFunctions();
+                (string fName, Func<Gene[], double> function) compositeFunction = ("composite",
+                    genes => knownFunctions
+                        .Select((functionTuple, functionIndex) => functionTuple.function(genes
+                            .Skip(functionIndex * genes.Length / knownFunctions.Count())
+                            .Take(genes.Length / knownFunctions.Count).ToArray())).Aggregate(-1.0, (f1, f2) => f1 + (f1 * -f2)));
+                var allFunctions = new List<(string fName, Func<Gene[], double> function)>();
+                allFunctions.AddRange(knownFunctions);
+                allFunctions.Add(compositeFunction);
+                //allFunctions = knownFunctions.Take(1).ToList();
+
+
+
+                var functionResults = new List<(string functionName, List<List<MeanEvolutionResult>>)>();
+                var sw = Stopwatch.StartNew();
+                foreach (var functionToSolve in allFunctions)
+                {
+                    IFitness Fitness(int i) => new FunctionFitness<double>(functionToSolve.function);
+
+
+                    var sizeResults = new List<List<MeanEvolutionResult>>();
+                    foreach (var size in sizes)
+                    {
+
+                        var testResults = new List<MeanEvolutionResult>();
+
+
+                        foreach (var (kind, duration, nbGenerations, noMutation, populationSize, reinsertion, forceReinsertion) in testParams)
+                        {
+
+                            TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(duration);
+                            maxNbGenerations = nbGenerations;
+                            var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
+
+                            var noEmbeddingConverter = new GeometricConverter<double>
+                            {
+                                IsOrdered = false,
+                                DoubleToGeneConverter = GetGeneValueFunction,
+                                GeneToDoubleConverter = (genIndex, geneValue) => geneValue
+                            };
+                            var typedNoEmbeddingConverter = new TypedGeometricConverter();
+                            typedNoEmbeddingConverter.SetTypedConverter(noEmbeddingConverter);
+
+                            IMetaHeuristic metaHeuristic = MetaHeuristicsService.CreateMetaHeuristicByName(kind.ToString(), nbGenerations, populationSize, typedNoEmbeddingConverter, noMutation);
+
+                            //Enforcing reinsertion
+                            if (forceReinsertion && metaHeuristic is IContainerMetaHeuristic containerMetaHeuristic)
+                            {
+                                var subMH = containerMetaHeuristic.SubMetaHeuristic;
+                                if (subMH is ReinsertionHeuristic rh)
+                                {
+                                    rh.StaticOperator = reinsertion;
+                                }
+                                else
+                                {
+                                    containerMetaHeuristic.SubMetaHeuristic = new ReinsertionHeuristic()
+                                        { StaticOperator = reinsertion, SubMetaHeuristic = subMH };
+                                }
+                            }
+
+
+                            var meanResult = new MeanEvolutionResult { TestSettings = (kind, duration, nbGenerations, noMutation, populationSize, reinsertion, forceReinsertion), SkipExtremaPercentage = 0.2 };
+                            for (int i = 0; i < repeatNb; i++)
+                            {
+                                var target = InitGa(metaHeuristic, Fitness(size), AdamChromosome(size), crossover, populationSize, termination, reinsertion, true);
+                                target.Start();
+                                var result = target.GetResult();
+                                meanResult.Results.Add(result);
+                            }
+                            testResults.Add(meanResult);
+                        }
+                        sizeResults.Add(testResults);
+                    }
+                    functionResults.Add((functionToSolve.fName, sizeResults));
+                }
+                sw.Stop();
+                var testDuration = sw.Elapsed;
+                Assert.GreaterOrEqual(functionResults.Count, 0);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
 
 
 
@@ -473,6 +670,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             IMetaHeuristic metaHeuristic;
             var noEmbeddingConverter = new GeometricConverter<int>
             {
+                IsOrdered = false,
                 DoubleToGeneConverter = toGene,
                 GeneToDoubleConverter = FromGene
             };
@@ -480,12 +678,22 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             typedNoEmbeddingConverter.SetTypedConverter(noEmbeddingConverter);
 
 
+            var woa = new WhaleOptimisationAlgorithm()
+            {
+                MaxGenerations = maxOperations,
+                GeometricConverter = typedNoEmbeddingConverter,
+            };
+
             if (!reduced)
             {
-                metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithmWithParams(false, maxOperations, typedNoEmbeddingConverter);
+                metaHeuristic = woa.CreateWithParams();
+            }
+            else
+            {
+                metaHeuristic = woa.Build();
             }
 
-            metaHeuristic = MetaHeuristicsFactory.WhaleOptimisationAlgorithm(false, maxOperations, typedNoEmbeddingConverter);
+
             return metaHeuristic;
 
         }

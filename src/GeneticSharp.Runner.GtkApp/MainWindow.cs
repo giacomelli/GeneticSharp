@@ -515,7 +515,7 @@ public partial class MainWindow : Window
                 {
                     geometricConverter = m_sampleController.GeometricConverter;
                 }
-                return MetaHeuristicsService.CreateMetaHeuristicByName(s, geometricConverter);
+                return MetaHeuristicsService.CreateMetaHeuristicByName(s, maxGenerations:3000, geometricConverter:geometricConverter, noMutation:false);
             },
             () => m_metaheuristic,
             metaHeuristic => m_metaheuristic = metaHeuristic

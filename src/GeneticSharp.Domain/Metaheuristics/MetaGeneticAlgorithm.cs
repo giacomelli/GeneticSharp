@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
@@ -21,6 +22,8 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// </summary>
         public IMetaHeuristic Metaheuristic { get; set; }
 
+        public bool KeepContextInPopulation { get; set; }
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Metaheuristics.MetaGeneticAlgorithm"/> class.
@@ -35,9 +38,8 @@ namespace GeneticSharp.Domain.Metaheuristics
             IFitness fitness,
             ISelection selection,
             ICrossover crossover,
-            IMutation mutation):base(population,fitness,selection, crossover, mutation)
+            IMutation mutation):this(population,fitness,selection, crossover, mutation, new DefaultMetaHeuristic())
         {
-            Metaheuristic = new DefaultMetaHeuristic();
         }
 
         /// <summary>
@@ -48,7 +50,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <param name="selection">The selection operator.</param>
         /// <param name="crossover">The crossover operator.</param>
         /// <param name="mutation">The mutation operator.</param>
-        /// <param name="metaHeuristic">the Metaheuristic</param>
+        /// <param name="metaHeuristic">the root Metaheuristic</param>
         public MetaGeneticAlgorithm(
             IPopulation population,
             IFitness fitness,
@@ -58,6 +60,18 @@ namespace GeneticSharp.Domain.Metaheuristics
             IMetaHeuristic metaHeuristic) : base(population, fitness, selection, crossover, mutation)
         {
             Metaheuristic = metaHeuristic;
+            this.TerminationReached+=OnTerminationReached;
+        }
+
+        private void OnTerminationReached(object sender, EventArgs e)
+        {
+            if (!KeepContextInPopulation)
+            {
+                if (Population.Parameters.ContainsKey(nameof(IEvolutionContext)))
+                {
+                    Population.Parameters.Remove(nameof(IEvolutionContext));
+                }
+            }
         }
 
         protected override void EvolveOneGeneration()
@@ -66,8 +80,10 @@ namespace GeneticSharp.Domain.Metaheuristics
             ctx.CurrentStage = EvolutionStage.Selection;
             var parents = SelectParents(ctx);
             ctx.CurrentStage = EvolutionStage.Crossover;
+            ctx.SelectedParents = parents;
             var offspring = Cross(ctx, parents);
             ctx.CurrentStage = EvolutionStage.Mutation;
+            ctx.GeneratedOffsprings = offspring;
             Mutate(ctx, offspring);
 
             EvaluateFitness(offspring);

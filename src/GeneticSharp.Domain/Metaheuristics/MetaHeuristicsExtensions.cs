@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Crossovers.Geometric;
+using GeneticSharp.Domain.Metaheuristics.Matching;
 using GeneticSharp.Domain.Metaheuristics.Parameters;
 using GeneticSharp.Domain.Metaheuristics.Primitives;
 using GeneticSharp.Domain.Mutations;
@@ -48,6 +49,25 @@ namespace GeneticSharp.Domain.Metaheuristics
         public static T WithParam<T, TParamType, TArg1>(this T metaHeuristic, string paramName, string paramDescription, ParamScope scope, Expression<ParameterGenerator<TParamType, TArg1>> generator) where T : MetaHeuristicBase
         {
             metaHeuristic.Parameters.Add(paramName, new ExpressionMetaHeuristicParameter<TParamType, TArg1> { Name = paramName, Description = paramDescription, DynamicGeneratorWithArg = generator, Scope = scope });
+            return metaHeuristic;
+        }
+
+        /// <summary>
+        /// Additional arguments can be added to the parameter expression. They must be named exactly as a previously defined parameter and will be processed into a nested expression accounting for the different parameter scopes.
+        /// </summary>
+        public static T WithParam<T, TParamType, TArg1, TArg2>(this T metaHeuristic, string paramName, string paramDescription, ParamScope scope, Expression<ParameterGenerator<TParamType, TArg1, TArg2>> generator) where T : MetaHeuristicBase
+        {
+            metaHeuristic.Parameters.Add(paramName, new ExpressionMetaHeuristicParameter<TParamType, TArg1, TArg2> { Name = paramName, Description = paramDescription,DynamicGeneratorWithArgs =  generator, Scope = scope });
+            return metaHeuristic;
+        }
+
+
+        /// <summary>
+        /// Additional arguments can be added to the parameter expression. They must be named exactly as a previously defined parameter and will be processed into a nested expression accounting for the different parameter scopes.
+        /// </summary>
+        public static T WithParam<T, TParamType, TArg1, TArg2, TArg3>(this T metaHeuristic, string paramName, string paramDescription, ParamScope scope, Expression<ParameterGenerator<TParamType, TArg1, TArg2, TArg3>> generator) where T : MetaHeuristicBase
+        {
+            metaHeuristic.Parameters.Add(paramName, new ExpressionMetaHeuristicParameter<TParamType, TArg1, TArg2, TArg3> { Name = paramName, Description = paramDescription, DynamicGeneratorWithArgs = generator, Scope = scope });
             return metaHeuristic;
         }
 
@@ -226,7 +246,17 @@ namespace GeneticSharp.Domain.Metaheuristics
             };
             return metaHeuristic;
         }
-        
+
+        public static T WithCrossover<T, TArg1, TArg2, TArg3>(this T metaHeuristic, ParamScope scope, Expression<ParameterGenerator<ICrossover, TArg1, TArg2, TArg3>> dynamicOperator) where T : CrossoverHeuristic
+        {
+            metaHeuristic.DynamicParameter = new ExpressionMetaHeuristicParameter<ICrossover, TArg1, TArg2, TArg3>
+            {
+                DynamicGeneratorWithArgs = dynamicOperator,
+                Scope = scope
+            };
+            return metaHeuristic;
+        }
+
 
         public static T WithMutation<T>(this T metaHeuristic, IMutation mutation) where T : MutationHeuristic
         {
@@ -262,16 +292,49 @@ namespace GeneticSharp.Domain.Metaheuristics
             return metaHeuristic;
         }
 
-        public static T WithMatches<T>(this T metaHeuristic, params MatchingTechnique[] matchingTechnique) where T : MatchMetaHeuristic
+        public static T WithMatches<T>(this T metaHeuristic, params MatchingKind[] matchingKinds) where T : MatchMetaHeuristic
         {
-            metaHeuristic.MatchingTechniques = matchingTechnique.ToList();
+            var settings = matchingKinds.Select(m => new MatchingSettings(){MatchingKind = m, CachingScope = MatchingSettings.GetDefaultScope(m)});
+            metaHeuristic.Picker.MatchPicks.AddRange(settings.ToList());
             return metaHeuristic;
         }
 
+        public static T WithEmigrantMatches<T>(this T metaHeuristic,int nbPicks, params MatchingKind[] matchingKinds) where T : IslandMetaHeuristic
+        {
+            var settings = matchingKinds.Select(m => new MatchingSettings() { MatchingKind = m , AdditionalPicks = nbPicks -1, CachingScope = MatchingSettings.GetDefaultScope(m) });
+            metaHeuristic.EmigrantPicker.MatchPicks.AddRange( settings.ToList());
+            return metaHeuristic;
+        }
+
+        public static T WithImmigrantReplaceMatches<T>(this T metaHeuristic, int nbPicks, params MatchingKind[] matchingKinds) where T : IslandMetaHeuristic
+        {
+            var settings = matchingKinds.Select(m => new MatchingSettings() { MatchingKind = m, AdditionalPicks = nbPicks - 1 , CachingScope = MatchingSettings.GetDefaultScope(m) });
+            metaHeuristic.ImigrantReplacePicker.MatchPicks.AddRange(settings.ToList());
+            return metaHeuristic;
+        }
+
+
+        public static T WithCustomMatchStep<T>(this T metaHeuristic, params MatchingSettings[] stepSettings) where T : MatchMetaHeuristic
+        {
+            if (metaHeuristic.Picker.CustomMatch == null)
+            {
+                metaHeuristic.Picker.CustomMatch = new List<List<MatchingSettings>>();
+            }
+            metaHeuristic.Picker.CustomMatch.Add(new List<MatchingSettings>(stepSettings)); 
+            return metaHeuristic;
+        }
+
+        public static T WithChildMetaHeuristic<T>(this T metaHeuristic, IMetaHeuristic childMetaHeuristic) where T : MatchMetaHeuristic
+        {
+          metaHeuristic.Picker.ChildMetaHeuristic = childMetaHeuristic;
+          return metaHeuristic;
+        }
+
+
         public static T WithSizeMetaHeuristic<T>(this T metaHeuristic, int phaseSize, IMetaHeuristic subMetaHeuristic) where T : SizeBasedMetaHeuristic
         {
-            metaHeuristic.PhaseSizes.Add(phaseSize);
-            metaHeuristic.PhaseHeuristics[metaHeuristic.PhaseSizes.Count - 1] = subMetaHeuristic;
+            metaHeuristic.PhaseSizes.Add(metaHeuristic.PhaseSizes.Phases.Count,phaseSize);
+            metaHeuristic.PhaseHeuristics[metaHeuristic.PhaseSizes.Phases.Count - 1] = subMetaHeuristic;
             return metaHeuristic;
         }
 
@@ -279,15 +342,21 @@ namespace GeneticSharp.Domain.Metaheuristics
         {
             for (int i = 0; i < repeatNb; i++)
             {
-                metaHeuristic.PhaseSizes.Add(phaseSize);
-                metaHeuristic.PhaseHeuristics[metaHeuristic.PhaseSizes.Count - 1] = subMetaHeuristic;
+                metaHeuristic.PhaseSizes.Add(metaHeuristic.PhaseSizes.Phases.Count, phaseSize);
+                metaHeuristic.PhaseHeuristics[metaHeuristic.PhaseSizes.Phases.Count - 1] = subMetaHeuristic;
             }
             return metaHeuristic;
         }
 
-        public static GeometricCrossover<TValue> WithGeometricOperator<TValue>(this GeometricCrossover<TValue> geometricCrossover, Func<int, IList<TValue>, TValue> geometricOperator) 
+        public static GeometricCrossover<TValue> WithLinearGeometricOperator<TValue>(this GeometricCrossover<TValue> geometricCrossover, Func<int, IList<TValue>, TValue> geometricOperator) 
         {
             geometricCrossover.LinearGeometricOperator = geometricOperator;
+            return geometricCrossover;
+        }
+
+        public static GeometricCrossover<TValue> WithGeneralGeometricOperator<TValue>(this GeometricCrossover<TValue> geometricCrossover, Func<IList<IList<TValue>>, IList<TValue>> geometricOperator)
+        {
+            geometricCrossover.GeneralGeometricOperator = geometricOperator;
             return geometricCrossover;
         }
 

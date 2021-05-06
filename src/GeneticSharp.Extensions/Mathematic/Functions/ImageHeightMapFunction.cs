@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using GeneticSharp.Domain.Metaheuristics;
-using GeneticSharp.Infrastructure.Framework.Commons;
 using GeneticSharp.Infrastructure.Framework.Images;
 
 namespace GeneticSharp.Extensions.Mathematic.Functions
@@ -34,7 +33,7 @@ namespace GeneticSharp.Extensions.Mathematic.Functions
             var extraCoordsRanges = Enumerable.Repeat((-1000.0, 1000.0), i - 2);
             return drawRange.Union(extraCoordsRanges).ToList();
         };
-        public Func<double, double> Fitness => d => d;
+        public Func<double[],double, double> Fitness => (coords, d) => d;
 
 
         private double ComputeValue(double[] coords)
