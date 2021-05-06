@@ -11,7 +11,7 @@ namespace GeneticSharp.Domain.Populations
     /// <summary>
     /// Represents a generation of a population.
     /// </summary>
-    [DebuggerDisplay("{Number} = {BestChromosome.Fitness}")]
+    [DebuggerDisplay("{Number} = {BestChromosome.Fitness}, {ChromosomesNb} chromosomes")]
     public sealed class Generation
     {
         #region Constructors
@@ -52,6 +52,9 @@ namespace GeneticSharp.Domain.Populations
         /// </summary>
         public DateTime CreationDate { get; private set; }
 
+
+        private int ChromosomesNb => Chromosomes.Count;
+
         /// <summary>
         /// Gets the chromosomes.
         /// </summary>
@@ -64,7 +67,15 @@ namespace GeneticSharp.Domain.Populations
         /// <value>The best chromosome.</value>
         public IChromosome BestChromosome { get; internal set; }
 
-        
+        public IEnumerable<IChromosome> GetBestChromosomes(int nbChromosomes)
+        {
+            return Chromosomes.LazyOrderBy(c => -c.Fitness ?? 0).Take(nbChromosomes);
+        }
+
+        public IEnumerable<IChromosome> GetWorstChromosomes(int nbChromosomes)
+        {
+            return Chromosomes.LazyOrderBy(c => c.Fitness ?? 0).Take(nbChromosomes);
+        }
 
         #endregion
 
@@ -90,7 +101,10 @@ namespace GeneticSharp.Domain.Populations
         /// <returns>True if all chromosomes are valid.</returns>
         private void ValidateChromosomes()
         {
-            Chromosomes.Each(ValidateChromosome);
+            foreach (var chromosome in Chromosomes)
+            {
+                ValidateChromosome(chromosome);
+            }
         }
 
 
