@@ -39,7 +39,13 @@ namespace GeneticSharp.Domain.Crossovers.Geometric
     public class GeometricCrossover<TValue> : CrossoverBase
     {
 
-        private static readonly Func<int, IList<TValue>, TValue> _defaultGeometricOperator = (geneIndex, geneValues) => (geneValues.Sum(val => val.To<double>()) / geneValues.Count).To<TValue>();
+        private static TValue GetCentroid(int geneIndex, IList<TValue> geneValues)
+        {
+            return (geneValues.Sum(val => val.To<double>()) / geneValues.Count).To<TValue>();
+        }
+        
+        
+        private static readonly Func<int, IList<TValue>, TValue> _defaultGeometricOperator = GetCentroid;
 
 
         public GeometricCrossover(): this(false){}
@@ -80,7 +86,11 @@ namespace GeneticSharp.Domain.Crossovers.Geometric
         /// </summary>
         protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
         {
-           var toReturn = new List<IChromosome>(ChildrenNumber);
+            if (GeometryEmbedding == null)
+            {
+                GeometryEmbedding = new OrderedEmbedding<TValue> { IsOrdered = IsOrdered };
+            }
+            var toReturn = new List<IChromosome>(ChildrenNumber);
            var firstChild = CreateOffspring(parents);
            toReturn.Add(firstChild);
            if (ChildrenNumber==2)
@@ -98,11 +108,8 @@ namespace GeneticSharp.Domain.Crossovers.Geometric
         /// </summary>
         public IChromosome CreateOffspring(IList<IChromosome> parents)
         {
-            if (GeometryEmbedding == null)
-            {
-                GeometryEmbedding = new OrderedEmbedding<TValue> { IsOrdered = IsOrdered };
-            }
-            var geometricParents = parents.Select(p => GeometryEmbedding.MapToGeometry(p)).ToList();
+           
+            var geometricParents = parents.Select(p => GeometryEmbedding.MapToGeometry(p)).ToArray();
             IList<TValue> geometricChild;
 
             if (GeneralGeometricOperator != null)
@@ -120,7 +127,7 @@ namespace GeneticSharp.Domain.Crossovers.Geometric
             geometricChild = new List<TValue>(nbGenes);
             for (int i = 0; i < nbGenes; i++)
             {
-                var inputs = geometricParents.Select(p => p[i]).ToList();
+                var inputs = geometricParents.Select(p => p[i]).ToArray();
                 var newGeneValue = LinearGeometricOperator(i, inputs);
                 geometricChild.Add(newGeneValue);
             }
