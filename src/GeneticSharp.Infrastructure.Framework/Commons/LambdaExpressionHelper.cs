@@ -84,12 +84,20 @@ namespace GeneticSharp.Infrastructure.Framework.Commons
         public static LambdaExpression ReplaceParameter(this LambdaExpression expr,
             string parName, Expression replacementExpr)
         {
-            var parToRepl = expr.Parameters.First(p => p.Name.Equals(parName));
-            var newPars = expr.Parameters.Where(p => !p.Name.Equals(parName)).ToArray();
-            var vis = new ReplaceParameterVisitor();
-            vis.PrepareReplace(parToRepl, replacementExpr);
-            var newExprBody = vis.Visit(expr.Body);
-            return Expression.Lambda(newExprBody, newPars).UnifyParametersByName();
+            try
+            {
+                var parToRepl = expr.Parameters.First(p => p.Name.Equals(parName));
+                var newPars = expr.Parameters.Where(p => !p.Name.Equals(parName)).ToArray();
+                var vis = new ReplaceParameterVisitor();
+                vis.PrepareReplace(parToRepl, replacementExpr);
+                var newExprBody = vis.Visit(expr.Body);
+                return Expression.Lambda(newExprBody, newPars).UnifyParametersByName();
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException($"Expression {expr.ToString()} couldn't have parameter {parName} replaced with {replacementExpr.ToString()}",e);
+            }
+            
         }
     }
 }
