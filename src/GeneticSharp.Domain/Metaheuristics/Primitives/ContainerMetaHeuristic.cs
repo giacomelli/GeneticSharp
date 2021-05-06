@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Selections;
 
@@ -14,7 +13,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
     /// The ContainerMetaHeuristic is a common base class to hijack certain operations while providing a default fallback for other operations
     /// </summary>
     [DisplayName("Container")]
-    public class ContainerMetaHeuristic : MetaHeuristicBase, IContainerMetaHeuristic
+    public class ContainerMetaHeuristic : CustomProbabilityMetaHeuristic, IContainerMetaHeuristic
     {
 
         public ContainerMetaHeuristic(): this( new DefaultMetaHeuristic()){}
@@ -31,41 +30,25 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
         public IMetaHeuristic SubMetaHeuristic { get; set; }
 
 
-        public ProbabilityStrategy CrossoverProbabilityStrategy { get; set; } //= ProbabilityStrategy.TestProbability | ProbabilityStrategy.OverwriteProbability;
-
-        public float StaticCrossoverProbability { get; set; } = 1;
-
-        public ProbabilityStrategy MutationProbabilityStrategy { get; set; }
-
-        public float StaticMutationProbability { get; set; } = 1;
-
-
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override IList<IChromosome> SelectParentPopulation(IEvolutionContext ctx, ISelection selection)
         {
             return SubMetaHeuristic.SelectParentPopulation(ctx, selection);
         }
 
-        public override IList<IChromosome> MatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected override IList<IChromosome> DoMatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
-            if (ShouldRun(crossoverProbability, CrossoverProbabilityStrategy, StaticCrossoverProbability, out crossoverProbability))
-            {
-                return SubMetaHeuristic.MatchParentsAndCross(ctx, crossover, crossoverProbability, parents);
-            }
-
-            return null;
-
+            return SubMetaHeuristic.MatchParentsAndCross(ctx, crossover, crossoverProbability, parents);
         }
 
-
-        public override void MutateChromosome(IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected override void DoMutateChromosome(IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
         {
-            if (ShouldRun(mutationProbability, MutationProbabilityStrategy, StaticMutationProbability, out mutationProbability))
-            {
                 SubMetaHeuristic.MutateChromosome(ctx, mutation, mutationProbability, offSprings);
-            }
-           
         }
 
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override IList<IChromosome> Reinsert(IEvolutionContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
         {
             return SubMetaHeuristic.Reinsert(ctx, reinsertion, offspring, parents);
@@ -79,18 +62,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
         }
 
 
-        protected bool ShouldRun(float initialProbability, ProbabilityStrategy strategy, float staticProbability, out float subProbability )
-        {
-            subProbability = (strategy & ProbabilityStrategy.OverwriteProbability) == ProbabilityStrategy.OverwriteProbability ? staticProbability : initialProbability;
-            if ((strategy & ProbabilityStrategy.TestProbability) != ProbabilityStrategy.TestProbability) return true;
-            if (!(Math.Abs(subProbability - 1) > float.Epsilon) || RandomizationProvider.Current.GetDouble() < subProbability)
-            {
-                subProbability = 1;
-                return true;
-            }
-
-            return false;
-        }
+     
 
     }
 }
