@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Metaheuristics.Parameters;
@@ -45,7 +46,6 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
 
         protected override IList<IChromosome> ScopedSelectParentPopulation(IEvolutionContext ctx, ISelection selection)
         {
-            //IList<IList<IChromosome>> subPopulations = EukaryoteChromosome.GetSubPopulations(ctx.Population.CurrentGeneration.Chromosomes, PhaseSizes.Phases);
             var subPopulations = DynamicSubPopulationParameter.Get(this, ctx, subPopulationsKey);
             var selectedParents = PerformSubOperator(subPopulations, (subHeuristic, subPopulation) =>
             {
@@ -66,16 +66,9 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
 
             var subPopulations = DynamicSubPopulationParameter.Get(this, ctx, subPopulationsKey);
 
-            if (subPopulations[0].GetContext(ctx).SelectedParents.Count==0)
-            {
-                var selectedSubParents = EukaryoteChromosome.GetSubPopulations(parents, PhaseSizes.Phases);
-                for (int subPopulationIndex = 0; subPopulationIndex < selectedSubParents.Count; subPopulationIndex++)
-                {
-                    subPopulations[subPopulationIndex].GetContext(ctx).SelectedParents = selectedSubParents[subPopulationIndex];
-                }
-            }
+            SynchroniseParents(subPopulations, ctx, parents);
 
-            var offsprings = PerformSubOperator(subPopulations, (subHeuristic, subPopulation) =>
+             var offsprings = PerformSubOperator(subPopulations, (subHeuristic, subPopulation) =>
             {
                 var newCtx = subPopulation.GetContext(ctx);
                 var toReturn = subHeuristic.MatchParentsAndCross(ctx, crossover,
@@ -87,6 +80,8 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
             return offsprings;
 
         }
+
+       
 
 
         protected override void ScopedMutateChromosome(IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
@@ -125,6 +120,26 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
 
         }
 
-       
+
+        private void SynchroniseParents(IList<SubPopulation> subPopulations, IEvolutionContext ctx, IList<IChromosome> parents)
+        {
+            var subContext0 = subPopulations.Last().GetContext(ctx);
+            if (subContext0.SelectedParents == null || subContext0.SelectedParents.Count == 0)
+            {
+                lock (ctx)
+                {
+                    if (subContext0.SelectedParents == null || subContext0.SelectedParents.Count == 0)
+                    {
+                        var selectedSubParents = EukaryoteChromosome.GetSubPopulations(parents, PhaseSizes.Phases);
+                        for (int subPopulationIndex = 0; subPopulationIndex < selectedSubParents.Count; subPopulationIndex++)
+                        {
+                            subPopulations[subPopulationIndex].GetContext(ctx).SelectedParents = selectedSubParents[subPopulationIndex];
+                        }
+                    }
+                }
+            }
+        }
+
+
     }
 }
