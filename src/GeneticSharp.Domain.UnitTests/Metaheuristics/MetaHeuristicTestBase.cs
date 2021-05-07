@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
@@ -24,12 +25,13 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
     public abstract class MetaHeuristicTestBase
     {
 
-        public const bool EnableOperatorsParallelism = true;
+        public const bool EnableOperatorsParallelism = false;
         public const bool EnableEvaluatorParallelism = true;
 
-
+        protected IEnumerable<int> VerSmallSizes = Enumerable.Range(1, 3).Select(x => 5 + 5 * x);
         protected IEnumerable<int> SmallSizes = Enumerable.Range(1, 3).Select(x => 20 * x);
         protected IEnumerable<int> LargeSizes = Enumerable.Range(1, 3).Select(x => 200 * x);
+        protected IEnumerable<int> VeryLargeSizes = Enumerable.Range(1, 3).Select(x => 5000 * x);
 
 
         protected OrTermination GetTermination(double minFitness, int maxNbGenerations, int stagnationNb,
@@ -133,14 +135,36 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             {
                 case nameof(TimeEvolvingTermination):
                 case nameof(FitnessStagnationTermination):
-                    Assert.GreaterOrEqual( ratio, result2.Fitness / result1.Fitness);
+                    AssertIsPerformingLessByRatio(EvolutionMeasure.Fitness, ratio, result1, result2);
                     break;
                 case nameof(FitnessThresholdTermination):
                 case nameof(GenerationNumberTermination):
-                    Assert.GreaterOrEqual(ratio, result2.TimeEvolving.Ticks/(double)result1.TimeEvolving.Ticks);
+                    AssertIsPerformingLessByRatio(EvolutionMeasure.Duration, ratio, result1, result2);
                     break;
                 default: throw new InvalidOperationException("Termination not supported");
             }
+        }
+
+        protected void AssertIsPerformingLessByRatio(EvolutionMeasure comparisonMeasure, double ratio, IEvolutionResult result1, IEvolutionResult result2)
+        {
+            switch (comparisonMeasure)
+            {
+                case EvolutionMeasure.Fitness:
+                    var measure = Math.Sign(result1.Fitness) * result2.Fitness / result1.Fitness;
+                    Assert.GreaterOrEqual(Math.Sign(result1.Fitness) * ratio, measure);
+                    break;
+                case EvolutionMeasure.Duration:
+                    var timeMeasure = result2.TimeEvolving.Ticks / (double) result1.TimeEvolving.Ticks;
+                    Assert.GreaterOrEqual(ratio, timeMeasure);
+                    break;
+                default: throw new InvalidOperationException("Termination not supported");
+            }
+        }
+
+        public enum EvolutionMeasure
+        {
+            Fitness,
+            Duration
         }
 
         protected void AssertEvolution(IEvolutionResult result, double minLastFitness, bool assertRegularEvolution)
@@ -267,13 +291,13 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             {
                 var heuristics = new List<IMetaHeuristic> {metaHeuristic1(size), metaHeuristic2(size)};
 
-                var results = CompareMetaHeuristics(repeatNb, fitness(size), adamChromosome(size), heuristics, crossover, populationSize, termination, reinsertion);
+                var results = CompareMetaHeuristicsSamePopulation(repeatNb, fitness(size), adamChromosome(size), heuristics, crossover, populationSize, termination, reinsertion);
                 compoundResults.Add((results[0], results[1]));
             }
             return compoundResults;
         }
      
-        protected virtual IList<IEvolutionResult> CompareMetaHeuristics(int repeatNb, IFitness fitness, IChromosome adamChromosome, IList<IMetaHeuristic> metaHeuristics, ICrossover crossover,  int populationSize, ITermination termination, IReinsertion reinsertion)
+        protected virtual IList<IEvolutionResult> CompareMetaHeuristicsSamePopulation(int repeatNb, IFitness fitness, IChromosome adamChromosome, IList<IMetaHeuristic> metaHeuristics, ICrossover crossover,  int populationSize, ITermination termination, IReinsertion reinsertion)
         {
             var toReturn = new List<IEvolutionResult>();
             foreach (var metaHeuristic in metaHeuristics)
@@ -290,6 +314,111 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             }
 
             return toReturn;
+        }
+
+        protected virtual IList<(string functionName, IList<IList<MeanEvolutionResult>> sizeResults)> EvolveMetaHeuristicsFunctionsTestParams( List<(string fName, Func<Gene[], double> function)> functions, IEnumerable<int> sizes, int repeatNb, params 
+            (KnownCompoundMetaheuristics kind, double duration, int nbGenerations, bool noMutation, int populationSize,
+                IReinsertion reinsertion, bool forceReinsertion)[] testParams)
+        {
+
+            
+
+            //Termination
+            var minFitness = double.MaxValue;
+            int maxNbGenerations = 200;
+            int stagnationNb = 100000;
+
+            var crossover = new UniformCrossover();
+
+            var maxCoordinate = 10;
+
+            double GetGeneValueFunction(int geneIndex, double d) => Math.Sign(d) * Math.Min(Math.Abs(d), maxCoordinate);
+
+            IChromosome AdamChromosome(int i) => new EquationChromosome<double>(-maxCoordinate, maxCoordinate, i)
+                {GetGeneValueFunction = GetGeneValueFunction};
+
+
+          
+
+
+
+            var functionResults = new List<(string functionName, IList<IList<MeanEvolutionResult>>)>();
+            //var sw = Stopwatch.StartNew();
+            foreach (var functionToSolve in functions)
+            {
+                IFitness fitness = new FunctionFitness<double>(functionToSolve.function);
+
+
+                var sizeResults = new List<IList<MeanEvolutionResult>>();
+                foreach (var size in sizes)
+                {
+
+                    var testResults = new List<MeanEvolutionResult>();
+
+                    foreach (var (kind, duration, nbGenerations, noMutation, populationSize, reinsertion,
+                        forceReinsertion) in testParams)
+                    {
+
+                        TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(duration);
+                        maxNbGenerations = nbGenerations;
+                        var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
+
+                        var noEmbeddingConverter = new GeometricConverter<double>
+                        {
+                            IsOrdered = false,
+                            DoubleToGeneConverter = GetGeneValueFunction,
+                            GeneToDoubleConverter = (genIndex, geneValue) => geneValue
+                        };
+                        var typedNoEmbeddingConverter = new TypedGeometricConverter();
+                        typedNoEmbeddingConverter.SetTypedConverter(noEmbeddingConverter);
+
+                        IMetaHeuristic metaHeuristic = MetaHeuristicsService.CreateMetaHeuristicByName(kind.ToString(),
+                            nbGenerations, populationSize, typedNoEmbeddingConverter, noMutation);
+
+                        //Enforcing reinsertion
+                        if (forceReinsertion && metaHeuristic is IContainerMetaHeuristic containerMetaHeuristic)
+                        {
+                            var subMH = containerMetaHeuristic.SubMetaHeuristic;
+                            if (subMH is ReinsertionHeuristic rh)
+                            {
+                                rh.StaticOperator = reinsertion;
+                            }
+                            else
+                            {
+                                containerMetaHeuristic.SubMetaHeuristic = new ReinsertionHeuristic()
+                                    {StaticOperator = reinsertion, SubMetaHeuristic = subMH};
+                            }
+                        }
+
+                        var meanResult = new MeanEvolutionResult
+                        {
+                            TestSettings = (kind, duration, nbGenerations, noMutation, populationSize, reinsertion,
+                                forceReinsertion),
+                            SkipExtremaPercentage = 0.2
+                        };
+                        for (int i = 0; i < repeatNb; i++)
+                        {
+                            var target = InitGa(metaHeuristic, fitness, AdamChromosome(size), crossover, populationSize,
+                                termination, reinsertion, true);
+                            target.Start();
+                            var result = target.GetResult();
+                            meanResult.Results.Add(result);
+                        }
+
+
+                        testResults.Add(meanResult);
+
+
+                    }
+
+                    sizeResults.Add(testResults);
+                }
+
+                functionResults.Add((functionToSolve.fName, sizeResults));
+
+            }
+
+            return functionResults;
         }
 
         protected virtual GeneticAlgorithm InitGa(IMetaHeuristic metaHeuristic, IFitness fitness, IChromosome adamChromosome, ICrossover crossover, int populationSize, ITermination termination, IReinsertion reinsertion, bool enableParallelism)

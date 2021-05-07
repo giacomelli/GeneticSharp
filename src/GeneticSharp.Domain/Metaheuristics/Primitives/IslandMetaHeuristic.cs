@@ -32,7 +32,9 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
     public class IslandMetaHeuristic : SubPopulationMetaHeuristicBase<IslandPopulation>
     {
         private const string islandsKey = "islands";
-        public const double DefaultGlobalMigrationRate = 0.005;
+        public const double SmallMigrationRate = 0.005;
+        public const double MediumMigrationRate = 0.02;
+        public const double LargeMigrationRate = 0.1;
 
         public IslandMetaHeuristic() : base()
         {
@@ -83,7 +85,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
 
         
 
-        public double GlobalMigrationRate { get; set; } = DefaultGlobalMigrationRate;
+        public double GlobalMigrationRate { get; set; } = SmallMigrationRate;
 
         public int MigrationsGenerationPeriod { get; set; } = 10;
 

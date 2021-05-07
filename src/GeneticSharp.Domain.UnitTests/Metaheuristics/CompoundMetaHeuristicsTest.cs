@@ -12,6 +12,7 @@ using GeneticSharp.Domain.Metaheuristics.Compound;
 using GeneticSharp.Domain.Metaheuristics.Primitives;
 using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Reinsertions;
+using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.Mathematic;
 using GeneticSharp.Extensions.Mathematic.Functions;
 using GeneticSharp.Infrastructure.Framework.Commons;
@@ -479,154 +480,59 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         }
 
 
-       
+
 
         /// <summary>
         /// This is a custom unit test to do some preliminary experiences. Interesting results can be made into dedicated unit tests
         /// </summary>
-        //[Test]
+        [Test]
         public void GridSearch()
         {
             try
             {
 
                 var repeatNb = 1;
-                repeatNb = 3;
+                //repeatNb = 3;
+
+                var sizes = SmallSizes;
+
+                var knownFunctions = GetKnownFunctions(false);
+                var allFunctions = new List<(string fName, Func<Gene[], double> function)>(knownFunctions);
+                allFunctions = knownFunctions.Take(1).ToList();
 
 
                 var fitnessBasedElitist = new FitnessBasedElitistReinsertion();
                 var pure = new PureReinsertion();
                 var pairwise = new FitnessBasedPairwiseReinsertion();
 
-                var maxTime = 300;
+                var defaultMaxTime = 300;
                 var defaultNbGens = 200;
+                var defaultPopSize = 100;
 
-                var testParams = new List<(KnownCompoundMetaheuristics kind, double duration, int nbGenerations, bool noMutation, int populationSize, IReinsertion reinsertion, bool forceReinsertion)>
+                var testParams = new (KnownCompoundMetaheuristics kind, double duration, int nbGenerations, bool noMutation, int populationSize, IReinsertion reinsertion, bool forceReinsertion)[]
             {
+                (KnownCompoundMetaheuristics.Islands5DefaultNoMigration,  defaultMaxTime , defaultNbGens,  false, defaultPopSize, fitnessBasedElitist, false),
+                (KnownCompoundMetaheuristics.Islands5Default,  defaultMaxTime , defaultNbGens,  false, defaultPopSize, fitnessBasedElitist, false),
+                //(KnownCompoundMetaheuristics.Islands5BestMixture,  maxTime, defaultNbGens,  true, defaultPopSize, fitnessBasedElitist, false),
+                //(KnownCompoundMetaheuristics.Islands5BestMixtureNoMigration,  maxTime, defaultNbGens,  true, defaultPopSize, fitnessBasedElitist, false),
 
-                //(KnownCompoundMetaheuristics.Islands5Default,  maxTime, defaultNbGens,  false, 250, pure),
-                (KnownCompoundMetaheuristics.Islands5BestMixture,  maxTime, defaultNbGens,  true, 250, fitnessBasedElitist, false),
-                (KnownCompoundMetaheuristics.Islands5BestMixtureNoMigration,  maxTime, defaultNbGens,  true, 250, fitnessBasedElitist, false),
+                (KnownCompoundMetaheuristics.Default,  defaultMaxTime , defaultNbGens, false, defaultPopSize, fitnessBasedElitist, false),
+                //(KnownCompoundMetaheuristics.Default,  maxTime, defaultNbGens, true, defaultPopSize, fitnessBasedElitist, false),
 
-                //(KnownCompoundMetaheuristics.Default,  maxTime, defaultNbGens, false, 50, fitnessBasedElitist, true),
-                //(KnownCompoundMetaheuristics.Default,  maxTime, defaultNbGens, false, 250, fitnessBasedElitist, true),
-                //(KnownCompoundMetaheuristics.Default,  maxTime, defaultNbGens, false, 2000, fitnessBasedElitist, true),
-
-                (KnownCompoundMetaheuristics.EquilibriumOptimizer,  maxTime, defaultNbGens,  false, 100, fitnessBasedElitist, false),
-                //(KnownCompoundMetaheuristics.EquilibriumOptimizer,  maxTime, defaultNbGens,  false, 250, fitnessBasedElitist, false),
+                //(KnownCompoundMetaheuristics.EquilibriumOptimizer,  maxTime, defaultNbGens,  false, defaultPopSize, fitnessBasedElitist, false),
 
                
                 //(KnownCompoundMetaheuristics.ForensicBasedInvestigation,  maxTime, 2* defaultNbGens,  true, 50, pairwise, false),
                 //(KnownCompoundMetaheuristics.ForensicBasedInvestigation,  maxTime, 2* defaultNbGens,  true, 250, pairwise, true),
 
-                (KnownCompoundMetaheuristics.WhaleOptimisation,  maxTime, defaultNbGens,  true, 50, pure, false),
-                (KnownCompoundMetaheuristics.WhaleOptimisation,  maxTime, defaultNbGens,  true, 250, pure, false),
-
-
-
+                (KnownCompoundMetaheuristics.WhaleOptimisation,  defaultMaxTime , defaultNbGens,  true, 50, pure, false),
+                (KnownCompoundMetaheuristics.WhaleOptimisation,  defaultMaxTime , defaultNbGens,  true, defaultPopSize, pure, false),
 
             };
 
-                var islandSize = 50;
-
-                //var sizes = new[] { 100 }.ToList();
-                var sizes = new[] { 10, 50, 100 }.ToList();
-                //var sizes = new[] { 50, 100, 200, 500 }.ToList();
-
-                // population parameters
-                //int populationSize = 500;
-
-                //Termination
-                var minFitness = double.MaxValue;
-                int maxNbGenerations = 200;
-                int stagnationNb = 100000;
-
-
-
-                var crossover = new UniformCrossover();
-
-
-                var maxCoordinate = 10;
-
-                double GetGeneValueFunction(int geneIndex, double d) => Math.Sign(d) * Math.Min(Math.Abs(d), maxCoordinate);
-                IChromosome AdamChromosome(int i) => new EquationChromosome<double>(-maxCoordinate, maxCoordinate, i) { GetGeneValueFunction = GetGeneValueFunction };
-
-
-                var knownFunctions = GetKnownFunctions(false);
-                (string fName, Func<Gene[], double> function) compositeFunction = ("composite",
-                    genes => knownFunctions
-                        .Select((functionTuple, functionIndex) => functionTuple.function(genes
-                            .Skip(functionIndex * genes.Length / knownFunctions.Count())
-                            .Take(genes.Length / knownFunctions.Count).ToArray())).Aggregate(-1.0, (f1, f2) => f1 + (f1 * -f2)));
-                var allFunctions = new List<(string fName, Func<Gene[], double> function)>();
-                allFunctions.AddRange(knownFunctions);
-                allFunctions.Add(compositeFunction);
-                //allFunctions = knownFunctions.Take(1).ToList();
-
-
-
-                var functionResults = new List<(string functionName, List<List<MeanEvolutionResult>>)>();
                 var sw = Stopwatch.StartNew();
-                foreach (var functionToSolve in allFunctions)
-                {
-                    IFitness Fitness(int i) => new FunctionFitness<double>(functionToSolve.function);
-
-
-                    var sizeResults = new List<List<MeanEvolutionResult>>();
-                    foreach (var size in sizes)
-                    {
-
-                        var testResults = new List<MeanEvolutionResult>();
-
-
-                        foreach (var (kind, duration, nbGenerations, noMutation, populationSize, reinsertion, forceReinsertion) in testParams)
-                        {
-
-                            TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(duration);
-                            maxNbGenerations = nbGenerations;
-                            var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
-
-                            var noEmbeddingConverter = new GeometricConverter<double>
-                            {
-                                IsOrdered = false,
-                                DoubleToGeneConverter = GetGeneValueFunction,
-                                GeneToDoubleConverter = (genIndex, geneValue) => geneValue
-                            };
-                            var typedNoEmbeddingConverter = new TypedGeometricConverter();
-                            typedNoEmbeddingConverter.SetTypedConverter(noEmbeddingConverter);
-
-                            IMetaHeuristic metaHeuristic = MetaHeuristicsService.CreateMetaHeuristicByName(kind.ToString(), nbGenerations, populationSize, typedNoEmbeddingConverter, noMutation);
-
-                            //Enforcing reinsertion
-                            if (forceReinsertion && metaHeuristic is IContainerMetaHeuristic containerMetaHeuristic)
-                            {
-                                var subMH = containerMetaHeuristic.SubMetaHeuristic;
-                                if (subMH is ReinsertionHeuristic rh)
-                                {
-                                    rh.StaticOperator = reinsertion;
-                                }
-                                else
-                                {
-                                    containerMetaHeuristic.SubMetaHeuristic = new ReinsertionHeuristic()
-                                        { StaticOperator = reinsertion, SubMetaHeuristic = subMH };
-                                }
-                            }
-
-
-                            var meanResult = new MeanEvolutionResult { TestSettings = (kind, duration, nbGenerations, noMutation, populationSize, reinsertion, forceReinsertion), SkipExtremaPercentage = 0.2 };
-                            for (int i = 0; i < repeatNb; i++)
-                            {
-                                var target = InitGa(metaHeuristic, Fitness(size), AdamChromosome(size), crossover, populationSize, termination, reinsertion, true);
-                                target.Start();
-                                var result = target.GetResult();
-                                meanResult.Results.Add(result);
-                            }
-                            testResults.Add(meanResult);
-                        }
-                        sizeResults.Add(testResults);
-                    }
-                    functionResults.Add((functionToSolve.fName, sizeResults));
-                }
+                var functionResults = EvolveMetaHeuristicsFunctionsTestParams(allFunctions, sizes, repeatNb, testParams);
+                
                 sw.Stop();
                 var testDuration = sw.Elapsed;
                 Assert.GreaterOrEqual(functionResults.Count, 0);
@@ -641,6 +547,9 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
 
         }
+
+
+
 
 
         #region private methods

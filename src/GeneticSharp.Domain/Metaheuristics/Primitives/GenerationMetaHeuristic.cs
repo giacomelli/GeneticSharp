@@ -33,6 +33,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
 
         private int GetGenerationPhase(IEvolutionContext ctx)
         {
+            //Note Generation index is 1-based
             return (ctx.Population.GenerationsNumber - 1) % PhaseSizes.TotalPhaseSize;
         }
     }

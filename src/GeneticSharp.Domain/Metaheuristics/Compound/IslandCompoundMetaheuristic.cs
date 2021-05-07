@@ -57,7 +57,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Compound
 
         public int MigrationsGenerationPeriod { get; set; } = 10;
 
-        public double GlobalMigrationRate { get; set; } = IslandMetaHeuristic.DefaultGlobalMigrationRate;
+        public double GlobalMigrationRate { get; set; } = IslandMetaHeuristic.SmallMigrationRate;
 
 
         public List<int> IslandSizes { get; set; }
