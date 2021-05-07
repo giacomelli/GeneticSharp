@@ -24,6 +24,10 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
     public abstract class MetaHeuristicTestBase
     {
 
+        public const bool EnableOperatorsParallelism = true;
+        public const bool EnableEvaluatorParallelism = true;
+
+
         protected IEnumerable<int> SmallSizes = Enumerable.Range(1, 3).Select(x => 20 * x);
         protected IEnumerable<int> LargeSizes = Enumerable.Range(1, 3).Select(x => 200 * x);
 
@@ -79,7 +83,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                 nameof(KnownFunctions.Levy),
                 nameof(KnownFunctions.Rosenbrock),
             };
-            var toReturn = functions.Select((fName, findex) => (fName, (Func<Gene[], double>) (genes =>
+            var knownFunctions = functions.Select((fName, findex) => ((string fName, Func<Gene[], double> function))(fName, (Func<Gene[], double>) (genes =>
             {
                 var knownFunction = KnownFunctions.GetKnownFunctions()[fName];
                 var geneValues = genes.Select(g => g.Value.To<double>()).ToArray();
@@ -92,7 +96,34 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                     //usual functions have minima, whereas we seek to maximize fitness
                     return -knownFunction.Function.Shift(-4)(geneValues);
                 }
-            }))).ToList();
+            }))).ToArray();
+            var toReturn = knownFunctions.ToList();
+
+
+            //Adding custom composite function with partitioned chromosomes and multiplied function values
+            
+            int aggregatorSeed = -1;
+            if (normalizeFitness)
+            {
+                aggregatorSeed = 1;
+            }
+           
+            Func<double, double, double> compositeAggregate;
+            if (normalizeFitness)
+            {
+                compositeAggregate = (f1, f2) =>  f1 * f2;
+            }
+            else
+            {
+                compositeAggregate = (f1, f2) => f1 + (f1 * -f2);
+            }
+            
+            (string fName, Func<Gene[], double> function) compositeFunction = ("composite",
+                genes => knownFunctions
+                    .Select((functionTuple, functionIndex) => functionTuple.function(genes
+                        .Skip(functionIndex * genes.Length / knownFunctions.Count())
+                        .Take(genes.Length / toReturn.Count).ToArray())).Aggregate(aggregatorSeed, compositeAggregate));
+            toReturn.Add(compositeFunction);
             return toReturn;
         }
 
@@ -222,7 +253,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
 
 
-        protected virtual IList<(IEvolutionResult result1, IEvolutionResult result2)> CompareMetaHeuristicsDifferentSizes(int repeatNb, IEnumerable<int> sizes, 
+        protected virtual IList<(IEvolutionResult result1, IEvolutionResult result2)> CompareMetaHeuristicsDifferentSizes(int repeatNb, IEnumerable<int> problemSizes, 
             Func<int, IFitness> fitness, 
             Func<int, IChromosome> adamChromosome, 
             Func<int, IMetaHeuristic> metaHeuristic1, 
@@ -231,43 +262,26 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             int populationSize,
             ITermination termination, IReinsertion reinsertion)
         {
-
-
             var compoundResults = new List<(IEvolutionResult result1, IEvolutionResult result2)>();
-            foreach (var size in sizes)
+            foreach (var size in problemSizes)
             {
                 var heuristics = new List<IMetaHeuristic> {metaHeuristic1(size), metaHeuristic2(size)};
 
                 var results = CompareMetaHeuristics(repeatNb, fitness(size), adamChromosome(size), heuristics, crossover, populationSize, termination, reinsertion);
                 compoundResults.Add((results[0], results[1]));
             }
-
             return compoundResults;
-
         }
-
      
         protected virtual IList<IEvolutionResult> CompareMetaHeuristics(int repeatNb, IFitness fitness, IChromosome adamChromosome, IList<IMetaHeuristic> metaHeuristics, ICrossover crossover,  int populationSize, ITermination termination, IReinsertion reinsertion)
         {
-
             var toReturn = new List<IEvolutionResult>();
-
-
-           
-
-
-
-
-
-
             foreach (var metaHeuristic in metaHeuristics)
             {
-
-
                 var meanResult = new MeanEvolutionResult { TestSettings = (metaHeuristic, populationSize, termination, reinsertion), SkipExtremaPercentage = 0.2 };
                 for (int i = 0; i < repeatNb; i++)
                 {
-                    var target = InitGa(metaHeuristic, fitness, adamChromosome, crossover, populationSize, termination, reinsertion, true);
+                    var target = InitGa(metaHeuristic, fitness, adamChromosome, crossover, populationSize, termination, reinsertion, EnableOperatorsParallelism);
                     target.Start();
                     var result = target.GetResult();
                     meanResult.Results.Add(result);
@@ -277,8 +291,6 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             return toReturn;
         }
-
-
 
         protected virtual GeneticAlgorithm InitGa(IMetaHeuristic metaHeuristic, IFitness fitness, IChromosome adamChromosome, ICrossover crossover, int populationSize, ITermination termination, IReinsertion reinsertion, bool enableParallelism)
         {
@@ -312,7 +324,15 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             {
                 target.OperatorsStrategy = new TplOperatorsStrategy();
             }
-            target.TaskExecutor = new TplTaskExecutor();
+
+            if (EnableEvaluatorParallelism)
+            {
+                target.TaskExecutor = new TplTaskExecutor();
+            }
+            else
+            {
+                target.TaskExecutor = new LinearTaskExecutor();
+            }
 
 
             return target;
@@ -320,6 +340,6 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
 
 
-
+        
     }
 }

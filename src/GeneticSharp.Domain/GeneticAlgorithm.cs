@@ -462,7 +462,7 @@ namespace GeneticSharp.Domain
             }
             catch (Exception ex)
             {
-                throw new FitnessException(Fitness, "Error executing Fitness.Evaluate for chromosome: {0}".With(ex.Message), ex);
+              throw new FitnessException(Fitness, "Error executing Fitness.Evaluate for chromosome: {0}".With(ex.Message), ex);
             }
         }
 

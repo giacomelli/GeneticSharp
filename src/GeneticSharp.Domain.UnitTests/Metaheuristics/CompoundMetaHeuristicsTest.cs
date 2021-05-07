@@ -153,7 +153,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
             var crossover = new OnePointCrossover(2);
 
-            var resultsRatio = new[] { 2.5, 1.5, 1000, 10E5 };
+            var resultsRatio = new[] { 2.5, 1.5, 1E4, 1E5, 500 };
             int maxNbGenerations = 100;
 
             Compare_WOA_Crossover_KnownFunctions_Size_LargerFitness_Bounded(crossover, SmallSizes, maxNbGenerations, resultsRatio);
@@ -167,7 +167,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         {
             var crossover = new UniformCrossover();
 
-            var resultsRatio = new[] { 1.5, 100, 10E5, 10E5 };
+            var resultsRatio = new[] { 1.5, 100, 1E10, 1E5, 1E5 };
             int maxNbGenerations = 100;
 
             Compare_WOA_Crossover_KnownFunctions_Size_LargerFitness_Bounded(crossover, LargeSizes, maxNbGenerations, resultsRatio);
