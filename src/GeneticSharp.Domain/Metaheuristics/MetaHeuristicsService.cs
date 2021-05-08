@@ -153,10 +153,9 @@ namespace GeneticSharp.Domain.Metaheuristics
                                         var defaultGABest = new DefaultMetaHeuristic();
                                         var defaultIsland = new SimpleCompoundMetaheuristic(defaultGABest);
                                         islandCompound = new IslandCompoundMetaheuristic(populationSize,
-                                            (1, defaultIsland),
-                                            (1, woaIsland),
-                                            (1, fbiIsland),
-                                            (2, eoIsland));
+                                            (2, woaIsland),
+                                            (2, eoIsland),
+                                            (1, woaIsland));
                                         islandCompound.GlobalMigrationRate = IslandMetaHeuristic.SmallMigrationRate;
                                         break;
                                     default:

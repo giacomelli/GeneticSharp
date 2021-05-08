@@ -28,7 +28,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         public const bool EnableOperatorsParallelism = false;
         public const bool EnableEvaluatorParallelism = true;
 
-        protected IEnumerable<int> VerSmallSizes = Enumerable.Range(1, 3).Select(x => 5 + 5 * x);
+        protected IEnumerable<int> VerySmallSizes = Enumerable.Range(1, 3).Select(x => 5 * x);
         protected IEnumerable<int> SmallSizes = Enumerable.Range(1, 3).Select(x => 20 * x);
         protected IEnumerable<int> LargeSizes = Enumerable.Range(1, 3).Select(x => 200 * x);
         protected IEnumerable<int> VeryLargeSizes = Enumerable.Range(1, 3).Select(x => 5000 * x);
@@ -151,11 +151,11 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             {
                 case EvolutionMeasure.Fitness:
                     var measure = Math.Sign(result1.Fitness) * result2.Fitness / result1.Fitness;
-                    Assert.GreaterOrEqual(Math.Sign(result1.Fitness) * ratio, measure);
+                    Assert.LessOrEqual(measure, Math.Sign(result1.Fitness) * ratio );
                     break;
                 case EvolutionMeasure.Duration:
                     var timeMeasure = result2.TimeEvolving.Ticks / (double) result1.TimeEvolving.Ticks;
-                    Assert.GreaterOrEqual(ratio, timeMeasure);
+                    Assert.LessOrEqual(timeMeasure, ratio);
                     break;
                 default: throw new InvalidOperationException("Termination not supported");
             }
@@ -316,7 +316,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             return toReturn;
         }
 
-        protected virtual IList<(string functionName, IList<IList<MeanEvolutionResult>> sizeResults)> EvolveMetaHeuristicsFunctionsTestParams( List<(string fName, Func<Gene[], double> function)> functions, IEnumerable<int> sizes, int repeatNb, params 
+        protected virtual IList<(string functionName, IList<IList<MeanEvolutionResult>> sizeResults)> EvolveMetaHeuristicsFunctionsTestParams( IEnumerable<(string fName, Func<Gene[], double> function)> functions, IEnumerable<int> sizes, int repeatNb, params 
             (KnownCompoundMetaheuristics kind, double duration, int nbGenerations, bool noMutation, int populationSize,
                 IReinsertion reinsertion, bool forceReinsertion)[] testParams)
         {
@@ -399,7 +399,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                         for (int i = 0; i < repeatNb; i++)
                         {
                             var target = InitGa(metaHeuristic, fitness, AdamChromosome(size), crossover, populationSize,
-                                termination, reinsertion, true);
+                                termination, reinsertion, EnableOperatorsParallelism);
                             target.Start();
                             var result = target.GetResult();
                             meanResult.Results.Add(result);

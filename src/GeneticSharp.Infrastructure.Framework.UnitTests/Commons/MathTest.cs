@@ -42,8 +42,8 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Commons
 
 
 
-
-        [Test]
+        //Cf. above. .Net performance isn't consistent across versions
+        //[Test]
         public void Compare_IntPow_Pow_Faster()
         {
             var ratio = ratioMax;
