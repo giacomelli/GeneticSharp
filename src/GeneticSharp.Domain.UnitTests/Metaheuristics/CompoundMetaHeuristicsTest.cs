@@ -485,7 +485,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         /// <summary>
         /// This is a custom unit test to do some preliminary experiences. Interesting results can be made into dedicated unit tests
         /// </summary>
-        [Test]
+        //[Test]
         public void GridSearch()
         {
             try
