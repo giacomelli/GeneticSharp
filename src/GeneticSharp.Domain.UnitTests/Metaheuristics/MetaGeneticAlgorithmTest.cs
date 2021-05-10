@@ -9,6 +9,7 @@ using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Domain.Metaheuristics.Matching;
 using GeneticSharp.Domain.Metaheuristics.Primitives;
 using GeneticSharp.Domain.Reinsertions;
+using GeneticSharp.Domain.Results;
 using GeneticSharp.Domain.Terminations;
 using NUnit.Framework;
 
@@ -34,7 +35,10 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             
             var reinsertion = new FitnessBasedElitistReinsertion();
 
-            Func<IEvolutionResult, IEvolutionResult, int> resultComparer = (IEvolutionResult result1, IEvolutionResult result2) => Convert.ToInt32(result1.TimeEvolving.Ticks - result2.TimeEvolving.Ticks);
+            Func<IEvolutionResult, IEvolutionResult, int> resultComparer = MeanEvolutionResult.CompareSequence(
+                MeanEvolutionResult.CompareDuration, 
+                MeanEvolutionResult.CompareFitness, 
+                (r1, r2) => -MeanEvolutionResult.CompareGenerations(r1,r2));
 
             var heuristics = new List<IMetaHeuristic> { null, new DefaultMetaHeuristic() };
 
@@ -84,7 +88,11 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             var reinsertion = new FitnessBasedElitistReinsertion();
 
-            Func<IEvolutionResult, IEvolutionResult, int> resultComparer = (IEvolutionResult result1, IEvolutionResult result2) => Convert.ToInt32(result1.TimeEvolving.Ticks - result2.TimeEvolving.Ticks);
+
+            Func<IEvolutionResult, IEvolutionResult, int> resultComparer = MeanEvolutionResult.CompareSequence(
+                MeanEvolutionResult.CompareDuration,
+                MeanEvolutionResult.CompareFitness,
+                (r1, r2) => -MeanEvolutionResult.CompareGenerations(r1, r2));
 
             var defaultMetaheuristic = new DefaultMetaHeuristic();
 
@@ -170,7 +178,10 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             var reinsertion = new FitnessBasedElitistReinsertion();
 
-            Func<IEvolutionResult, IEvolutionResult, int> resultComparer = (IEvolutionResult result1, IEvolutionResult result2) => Convert.ToInt32(result1.TimeEvolving.Ticks - result2.TimeEvolving.Ticks);
+            Func<IEvolutionResult, IEvolutionResult, int> resultComparer = MeanEvolutionResult.CompareSequence(
+                MeanEvolutionResult.CompareDuration,
+                MeanEvolutionResult.CompareFitness,
+                (r1, r2) => -MeanEvolutionResult.CompareGenerations(r1, r2));
 
 
             var heuristics = new List<IMetaHeuristic>();

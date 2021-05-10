@@ -12,6 +12,7 @@ using GeneticSharp.Domain.Metaheuristics.Compound;
 using GeneticSharp.Domain.Metaheuristics.Primitives;
 using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Reinsertions;
+using GeneticSharp.Domain.Results;
 using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.Mathematic;
 using GeneticSharp.Extensions.Mathematic.Functions;
@@ -300,10 +301,10 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             IMetaHeuristic WoaWithReducedArgs(int maxValue) => GetDefaultWhaleHeuristicForChromosomStub(true, 300, maxValue);
             var crossover = new UniformCrossover();
 
-            var problemSizes = SmallSizes;
+            var problemSizes = SmallSizes.Skip(1).Take(1);
 
             //Population Size
-            var populationSize = 400;
+            var populationSize = 200;
 
             //Termination
             var minFitness = double.MaxValue;
@@ -313,7 +314,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
             var reinsertion = new FitnessBasedElitistReinsertion();
 
-            var meanResultsBySize = new List<(MeanEvolutionResult woaWithParams, MeanEvolutionResult woaReduced)>();
+            //var meanResultsBySize = new List<(MeanEvolutionResult woaWithParams, MeanEvolutionResult woaReduced)>();
 
             int ResultComparer(IEvolutionResult result1, IEvolutionResult result2)
             {
@@ -325,38 +326,33 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
                 return result1.Fitness > result2.Fitness ? 1 : -1;
             }
+            var results = CompareMetaHeuristicsDifferentSizes(repeatNb,
+                problemSizes,
+                maxValue => new FitnessStub(maxValue) { SupportsParallel = false },
+                maxValue => new ChromosomeStub(maxValue, maxValue),
+                WoaWithParamCalls,
+                WoaWithReducedArgs,
+                crossover,
+                populationSize, termination, reinsertion);
+
+            //todo: figure out why such a big swing depending on the Framework version (.net code as reduced version faster, unlike .Net 4.6.2)
+
+#if NETCOREAPP
+            double lowerBoundGenRatio = 0.9;
+            double upperBoundGenRatio = 1.5;
+#else
+            double lowerBoundGenRatio = 0.6;
+            double upperBoundGenRatio = 1.5;
+#endif
 
 
-            for (int i = 0; i < repeatNb; i++)
+
+            foreach (var (woaWithParams, woaReduced) in results)
             {
-                var results = CompareMetaHeuristicsDifferentSizes(1,
-                    problemSizes,
-                    maxValue => new FitnessStub(maxValue) { SupportsParallel = false },
-                    maxValue => new ChromosomeStub(maxValue, maxValue),
-                    WoaWithParamCalls,
-                    WoaWithReducedArgs,
-                    crossover,
-                    populationSize, termination, reinsertion);
+               
 
-
-
-                for (int sizeIndex = 0; sizeIndex < results.Count; sizeIndex++)
-                {
-                    if (meanResultsBySize.Count < sizeIndex + 1)
-                    {
-                        meanResultsBySize.Add((new MeanEvolutionResult { ResultComparer = ResultComparer, SkipExtremaPercentage = 0.2 }, new MeanEvolutionResult { ResultComparer = ResultComparer, SkipExtremaPercentage = 0.2 }));
-                    }
-                    meanResultsBySize[sizeIndex].woaWithParams.Results.Add(results[sizeIndex].result1);
-                    meanResultsBySize[sizeIndex].woaReduced.Results.Add(results[sizeIndex].result2);
-                }
-
-            }
-
-            foreach (var (woaWithParams, woaReduced) in meanResultsBySize)
-            {
-                //todo: figure out why such a big swing depending on the Framework version (.net code as reduced version faster, unlike .Net 4.6.2)
-                Assert.Greater(woaReduced.GenerationsNumber / (double)woaWithParams.GenerationsNumber, 0.6);
-                Assert.Less(woaReduced.GenerationsNumber / (double)woaWithParams.GenerationsNumber, 10);
+                Assert.Greater(woaReduced.GenerationsNumber / (double)woaWithParams.GenerationsNumber, lowerBoundGenRatio);
+                Assert.Less(woaReduced.GenerationsNumber / (double)woaWithParams.GenerationsNumber, upperBoundGenRatio);
             }
 
 
