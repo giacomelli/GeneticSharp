@@ -34,6 +34,35 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
 
 
+        /// <summary>
+        /// Default Whale Optimization Algorithm Compound MetaHeuristic exhibits optimization on stub chromosome
+        /// </summary>
+        [Test]
+        public void Evolve_WOA_Stub_Small_Optmization()
+        {
+            IMetaHeuristic MetaHeuristic(int maxValue) => GetDefaultWhaleHeuristicForChromosomStub(true, 300, maxValue);
+            IChromosome AdamChromosome(int maxValue) => new ChromosomeStub(maxValue, maxValue);
+            IFitness Fitness(int maxValue) => new FitnessStub(maxValue) { SupportsParallel = false };
+
+            var reinsertion = new FitnessBasedElitistReinsertion();
+
+            var compoundResults = EvolveMetaHeuristicDifferentSizes(1,
+                Fitness,
+                AdamChromosome,
+                SmallSizes,
+                MetaHeuristic,
+                i => 0.8,
+                reinsertion);
+
+            for (int i = 0; i < compoundResults.Count; i++)
+            {
+                AssertEvolution(compoundResults[i].result, compoundResults[i].minFitness, false);
+            }
+        }
+
+        /// <summary>
+        /// Whale Optimization Algorithm Compound MetaHeuristic with params variant exhibits optimization on stub chromosome
+        /// </summary>
         [Test]
         public void Evolve_WOAParams_Stub_Small_Optmization()
         {
@@ -59,29 +88,43 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
         }
 
+        /// <summary>
+        /// Whale Optimization Algorithm Compound MetaHeuristic optimizes better than regular GA with Uniform crossover on Stub Chromosome on large problem sizes
+        /// </summary>
         [Test]
-        public void Evolve_WOA_Stub_Small_Optmization()
+        public void Compare_WOA_Uniform_Stub_Large_LargerFitness()
         {
-            IMetaHeuristic MetaHeuristic(int maxValue) => GetDefaultWhaleHeuristicForChromosomStub(true, 300, maxValue);
-            IChromosome AdamChromosome(int maxValue) => new ChromosomeStub(maxValue, maxValue);
-            IFitness Fitness(int maxValue) => new FitnessStub(maxValue) { SupportsParallel = false };
+            var targetRatio = 1;
+            var crossover = new UniformCrossover();
+            var results = Compare_WOAReduced_Crossover_ChromosomeStub(1, crossover, LargeSizes);
 
-            var reinsertion = new FitnessBasedElitistReinsertion();
+            var meanRatio = results.Sum(c => c.result2.Fitness / c.result1.Fitness) / results.Count;
 
-            var compoundResults = EvolveMetaHeuristicDifferentSizes(1,
-                Fitness,
-                AdamChromosome,
-                SmallSizes,
-                MetaHeuristic,
-                i => 0.8,
-                reinsertion);
+            Assert.GreaterOrEqual(meanRatio, targetRatio);
 
-            for (int i = 0; i < compoundResults.Count; i++)
-            {
-                AssertEvolution(compoundResults[i].result, compoundResults[i].minFitness, false);
-            }
         }
 
+        /// <summary>
+        /// Whale Optimization Algorithm Compound MetaHeuristic optimizes better than regular GA with One Point crossover on Stub Chromosome on small problem sizes
+        /// </summary>
+        [Test]
+        public void Compare_WOA_OnePoint_Stub_Small_LargerFitness()
+        {
+            var crossover = new OnePointCrossover(2);
+            var results = Compare_WOAReduced_Crossover_ChromosomeStub(1, crossover, SmallSizes);
+
+            var meanRatio = results.Sum(c => c.result2.Fitness / c.result1.Fitness) / results.Count;
+
+            Assert.GreaterOrEqual(meanRatio, 1);
+
+        }
+
+      
+
+
+        /// <summary>
+        /// Whale Optimization Algorithm Compound MetaHeuristic exhibits optimization on Known parametric functions with small problem sizes
+        /// </summary>
         [Test]
         public void Evolve_WOA_KnownFunctions_Small_Optmization()
         {
@@ -150,6 +193,9 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         }
 
 
+        /// <summary>
+        /// Whale Optimization Algorithm Compound MetaHeuristic optimizes better than regular GA with OnePointCrossover on several Known parametric functions on small problem sizes
+        /// </summary>
         [Test]
         public void Compare_WOA_OnePoint_KnownFunctions_Small_LargerFitness_Bounded()
         {
@@ -163,13 +209,15 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         }
 
 
-
+        /// <summary>
+        /// Whale Optimization Algorithm Compound MetaHeuristic optimizes better  than regular GA with Uniform crossover on several Known parametric functions on large problem sizes
+        /// </summary>
         [Test]
         public void Compare_WOA_Uniform_KnownFunctions_Large_LargerFitness_Bounded()
         {
             var crossover = new UniformCrossover();
 
-            var resultsRatio = new[] { 1.5, 100, 1E10, 1E5, 1E5 };
+            var resultsRatio = new[] { 1.5, 100, 1E10, 1E6, 1E5 };
             int maxNbGenerations = 100;
 
             Compare_WOA_Crossover_KnownFunctions_Size_LargerFitness_Bounded(crossover, LargeSizes, maxNbGenerations, resultsRatio);
@@ -178,116 +226,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         }
 
 
-        private void Compare_WOA_Crossover_KnownFunctions_Size_LargerFitness_Bounded(ICrossover crossover, IEnumerable<int> sizes, int maxNbGenerations, double[] resultsRatio)
-        {
-
-            var maxCoordinate = 5;
-            double GetGeneValueFunction(int geneIndex, double d) => Math.Sign(d) * Math.Min(Math.Abs(d), maxCoordinate);
-
-            IMetaHeuristic StandardHeuristic(int i) => new DefaultMetaHeuristic();
-
-
-            var noEmbeddingConverter = new GeometricConverter<double>
-            {
-                IsOrdered = false,
-                DoubleToGeneConverter = GetGeneValueFunction,
-                GeneToDoubleConverter = (genIndex, geneValue) => geneValue
-            };
-            var typedNoEmbeddingConverter = new TypedGeometricConverter();
-            typedNoEmbeddingConverter.SetTypedConverter(noEmbeddingConverter);
-
-
-            IMetaHeuristic MetaHeuristic(int maxValue)
-            {
-                var woa = new WhaleOptimisationAlgorithm()
-                {
-                    MaxGenerations = maxNbGenerations,
-                    GeometricConverter = typedNoEmbeddingConverter,
-                };
-                return woa.Build();
-            }
-
-            //Termination
-            var minFitness = double.MaxValue;
-
-            int stagnationNb = 100;
-            TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(5);
-            var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
-            var reinsertion = new FitnessBasedElitistReinsertion();
-
-            var compoundResults = CompareMetaHeuristicsKnownFunctionsDifferentSizes(1, maxCoordinate, StandardHeuristic, MetaHeuristic, crossover, sizes, termination, reinsertion);
-
-            var ratios = new List<(double meanRatio, double limitRatio)>();
-            for (int i = 0; i < compoundResults.Count; i++)
-            {
-                var functionResults = compoundResults[i];
-                var meanRatio = functionResults.Sum(c => c.result2.Fitness / c.result1.Fitness) / functionResults.Count;
-                ratios.Add((meanRatio, resultsRatio[i]));
-                
-            }
-
-            ratios.ForEach(ratio=> Assert.GreaterOrEqual(ratio.meanRatio,ratio.limitRatio));
-
-        }
-
-
-
-        [Test]
-        public void Compare_WOA_Uniform_Stub_Large_LargerFitness()
-        {
-
-            var crossover = new UniformCrossover();
-            var results = Compare_WOAReduced_Crossover_ChromosomeStub(1, crossover, LargeSizes);
-
-            var meanRatio = results.Sum(c => c.result2.Fitness / c.result1.Fitness) / results.Count;
-
-            Assert.GreaterOrEqual(meanRatio, 1);
-
-        }
-
-        [Test]
-        public void Compare_WOA_OnePoint_Stub_Small_LargerFitness()
-        {
-            var crossover = new OnePointCrossover(2);
-            var results = Compare_WOAReduced_Crossover_ChromosomeStub(1, crossover, SmallSizes);
-
-            var meanRatio = results.Sum(c => c.result2.Fitness / c.result1.Fitness) / results.Count;
-
-            Assert.GreaterOrEqual(meanRatio, 1);
-
-        }
-
-        private IList<(IEvolutionResult result1, IEvolutionResult result2)> Compare_WOAReduced_Crossover_ChromosomeStub(int repeatNb, ICrossover crossover, IEnumerable<int> sizes)
-        {
-            IMetaHeuristic StandardHeuristic(int i) => new DefaultMetaHeuristic();
-            IMetaHeuristic MetaHeuristic(int i) => GetDefaultWhaleHeuristicForChromosomStub(true, 50, i);
-
-            IFitness Fitness(int i) => new FitnessStub(i) { SupportsParallel = false };
-            IChromosome AdamChromosome(int i) => new ChromosomeStub(i, i);
-
-
-            //Population Size
-            var populationSize = 100;
-
-            //Termination
-            var minFitness = double.MaxValue;
-            int maxNbGenerations = 50;
-            int stagnationNb = 100;
-            TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(5);
-            var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
-            var reinsertion = new FitnessBasedElitistReinsertion();
-
-            var results = CompareMetaHeuristicsDifferentSizes(1,
-                sizes,
-                Fitness,
-                AdamChromosome,
-                StandardHeuristic,
-                MetaHeuristic,
-                crossover, populationSize, termination, reinsertion);
-
-            return results;
-
-        }
+      
 
 
         /// <summary>
@@ -360,7 +299,9 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
         }
 
-
+        /// <summary>
+        /// Whale Optimization Algorithm performs similarly in lower dimension and better in higher dimensions than WOA with BubblenetOperator replaced by a simpler centroid oprator 
+        /// </summary>
         [Test]
         public void Compare_WOA_WOANaive_Ackley_Bounds()
         {
@@ -479,7 +420,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
 
         /// <summary>
-        /// This is a custom unit test to do some preliminary experiences. Interesting results can be made into dedicated unit tests
+        /// This is a custom unit test to do some preliminary experiences. Interesting results can be made into dedicated unit tests. The test attribute is commented out by default
         /// </summary>
         //[Test]
         public void GridSearch()
@@ -551,17 +492,6 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         #region private methods
 
 
-        //private static TGeneValue NaiveBubbleNetOperator<TGeneValue>(IList<TGeneValue> geneValues, Func<TGeneValue, double> geneToDoubleConverter, Func<double, TGeneValue> doubleToGeneConverter, double l, double b)
-        //{
-        //    var metricValues = geneValues.Select(geneToDoubleConverter).ToList();
-        //    var geometricValue = (metricValues[1] + metricValues[0]) / 2;
-        //    var toReturn = doubleToGeneConverter(geometricValue);
-        //    return toReturn;
-        //}
-
-
-
-
 
         private IMetaHeuristic GetDefaultWhaleHeuristicForChromosomStub(bool reduced, int maxOperations, int maxValue)
         {
@@ -597,6 +527,91 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
 
             return metaHeuristic;
+
+        }
+
+        private IList<(IEvolutionResult result1, IEvolutionResult result2)> Compare_WOAReduced_Crossover_ChromosomeStub(int repeatNb, ICrossover crossover, IEnumerable<int> sizes)
+        {
+            IMetaHeuristic StandardHeuristic(int i) => new DefaultMetaHeuristic();
+            IMetaHeuristic MetaHeuristic(int i) => GetDefaultWhaleHeuristicForChromosomStub(true, 50, i);
+
+            IFitness Fitness(int i) => new FitnessStub(i) { SupportsParallel = false };
+            IChromosome AdamChromosome(int i) => new ChromosomeStub(i, i);
+
+
+            //Population Size
+            var populationSize = 100;
+
+            //Termination
+            var minFitness = double.MaxValue;
+            int maxNbGenerations = 50;
+            int stagnationNb = 100;
+            TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(5);
+            var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
+            var reinsertion = new FitnessBasedElitistReinsertion();
+
+            var results = CompareMetaHeuristicsDifferentSizes(1,
+                sizes,
+                Fitness,
+                AdamChromosome,
+                StandardHeuristic,
+                MetaHeuristic,
+                crossover, populationSize, termination, reinsertion);
+
+            return results;
+
+        }
+
+
+        private void Compare_WOA_Crossover_KnownFunctions_Size_LargerFitness_Bounded(ICrossover crossover, IEnumerable<int> sizes, int maxNbGenerations, double[] resultsRatio)
+        {
+
+            var maxCoordinate = 5;
+            double GetGeneValueFunction(int geneIndex, double d) => Math.Sign(d) * Math.Min(Math.Abs(d), maxCoordinate);
+
+            IMetaHeuristic StandardHeuristic(int i) => new DefaultMetaHeuristic();
+
+
+            var noEmbeddingConverter = new GeometricConverter<double>
+            {
+                IsOrdered = false,
+                DoubleToGeneConverter = GetGeneValueFunction,
+                GeneToDoubleConverter = (genIndex, geneValue) => geneValue
+            };
+            var typedNoEmbeddingConverter = new TypedGeometricConverter();
+            typedNoEmbeddingConverter.SetTypedConverter(noEmbeddingConverter);
+
+
+            IMetaHeuristic MetaHeuristic(int maxValue)
+            {
+                var woa = new WhaleOptimisationAlgorithm()
+                {
+                    MaxGenerations = maxNbGenerations,
+                    GeometricConverter = typedNoEmbeddingConverter,
+                };
+                return woa.Build();
+            }
+
+            //Termination
+            var minFitness = double.MaxValue;
+
+            int stagnationNb = 100;
+            TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(5);
+            var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
+            var reinsertion = new FitnessBasedElitistReinsertion();
+
+            var compoundResults = CompareMetaHeuristicsKnownFunctionsDifferentSizes(1, maxCoordinate, StandardHeuristic, MetaHeuristic, crossover, sizes, termination, reinsertion);
+
+            var ratios = new List<(double meanRatio, double limitRatio)>();
+            for (int i = 0; i < compoundResults.Count; i++)
+            {
+                var functionResults = compoundResults[i];
+                var meanRatio = functionResults.Sum(c => c.result2.Fitness / c.result1.Fitness) / functionResults.Count;
+                ratios.Add((meanRatio, resultsRatio[i]));
+
+            }
+
+            ratios.ForEach(ratio => Assert.GreaterOrEqual(ratio.meanRatio, ratio.limitRatio));
 
         }
 
