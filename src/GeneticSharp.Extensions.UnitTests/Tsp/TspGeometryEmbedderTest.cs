@@ -121,29 +121,43 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             {
                 int nbGenerationsWOA = 100;
                 var termination = new FitnessThresholdTermination(threshold);
-                Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(5, nbGenerationsWOA, nbCities, termination, reinsertion, ratio, false);
+                Compare_WOA_PermutationEmbedding_OrderedTwors_ManyGenerations_Criterion(5, nbGenerationsWOA, nbCities, termination, reinsertion, ratio, false);
             }
         }
 
+      
 
         [Test]
         public void Compare_WOA_GeometryEmbedding_ManyGenerations_SmallerDistance()
         {
             int numberOfCities = 100;
             var nbGenerations = 200;
+            var minDistanceRatio = 1;
             var termination = new GenerationNumberTermination(nbGenerations);
             var reinsertion = new FitnessBasedElitistReinsertion();
-            Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(2, nbGenerations, numberOfCities, termination, reinsertion, 1.1, false);
+            Compare_WOA_PermutationEmbedding_OrderedTwors_ManyGenerations_Criterion(2, nbGenerations, numberOfCities, termination, reinsertion, minDistanceRatio, false);
         }
 
-       [Test]
+        [Test]
+        public void Compare_WOA_WeightedOrdered_ManyGenerations_SmallerDistance()
+        {
+            int numberOfCities = 100;
+            var nbGenerations = 200;
+            var minDistanceRatio = 1;
+
+            var termination = new GenerationNumberTermination(nbGenerations);
+            var reinsertion = new FitnessBasedElitistReinsertion();
+            Compare_WOA_WeightedOrdered_OrderedTwors_ManyGenerations_Criterion(5, nbGenerations, numberOfCities, termination, reinsertion, minDistanceRatio, false);
+        }
+
+        [Test]
         public void Compare_WOA_GeometryEmbedding_TimeConstraint_SmallerDistance()
         {
             int nbGenerationsWOA = 200;
             int numberOfCities = 200;
             var termination = new TimeEvolvingTermination(TimeSpan.FromSeconds(10));
             var reinsertion = new FitnessBasedElitistReinsertion();
-            Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(1, nbGenerationsWOA, numberOfCities, termination, reinsertion, 0.95, false);
+            Compare_WOA_PermutationEmbedding_OrderedTwors_ManyGenerations_Criterion(1, nbGenerationsWOA, numberOfCities, termination, reinsertion, 0.95, false);
         }
 
         [Test]
@@ -153,7 +167,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             int numberOfCities = 1000;
             var termination = new TimeEvolvingTermination(TimeSpan.FromSeconds(10));
             var reinsertion = new FitnessBasedElitistReinsertion();
-            Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(1, nbGenerationsWOA, numberOfCities, termination, reinsertion, 0.9, false);
+            Compare_WOA_PermutationEmbedding_OrderedTwors_ManyGenerations_Criterion(1, nbGenerationsWOA, numberOfCities, termination, reinsertion, 0.9, false);
         }
 
 
@@ -353,7 +367,8 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             }
         }
 
-        public void Compare_WOA_GeometryEmbedding_ManyGenerations_Criterion(int repeatNb, int nbGenerationsWOA, int numberOfCities, ITermination termination, IReinsertion reinsertion, double ratio, bool naiveOperator)
+
+        public void Compare_WOA_PermutationEmbedding_OrderedTwors_ManyGenerations_Criterion(int repeatNb, int nbGenerationsWOA, int numberOfCities, ITermination termination, IReinsertion reinsertion, double ratio, bool naiveOperator)
         {
             try
             {
@@ -380,8 +395,8 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
 
                 // WhaleOptimisation parameters
                 int GetGeneValueFunction(int geneIndex, double d) => Math.Round(d).PositiveMod(numberOfCities);
-                 //Default OrderedEmbedding with cold start
-                var tspGeometryEmbedding = new TspPermutationEmbedding(fitness) { GeneSelectionMode = GeneSelectionMode.RandomOrder  };
+                //Default OrderedEmbedding with cold start
+                var tspGeometryEmbedding = new TspPermutationEmbedding(fitness) { GeneSelectionMode = GeneSelectionMode.RandomOrder };
                 var updateEveryGenerationNb = 20;
 
 
@@ -424,7 +439,97 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                         }
                     });
 
-                AssertIsPerformingLessByRatio(termination, ratio, resultOriginal, resultWOAGeom);
+                AssertIsPerformingBetterByRatio(termination, ratio, resultWOAGeom, resultOriginal);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        private void Compare_WOA_WeightedOrdered_OrderedTwors_ManyGenerations_Criterion(int repeatNb, int nbGenerationsWOA, int numberOfCities, ITermination termination, IReinsertion reinsertion, double ratio, bool naiveOperator)
+        {
+            var ordered = new OrderedCrossover();
+            var customEmbedding = new WeightedCrossoverEmbedding(){WeightedCrossover = ordered }; 
+
+            var weightedEmbeddingConverter = new GeometricConverter<double>
+            {
+                IsOrdered = true,
+                DoubleToGeneConverter = (geneIndex, geometricValue) => geometricValue,
+                GeneToDoubleConverter = (genIndex, geneValue) => geneValue,
+                Embedding = customEmbedding
+            };
+            var typedConverter = new TypedGeometricConverter();
+            typedConverter.SetTypedConverter(weightedEmbeddingConverter);
+
+            Compare_WOA_CustomConverter_OrderedTwors_ManyGenerations_Criterion(repeatNb, nbGenerationsWOA,
+                numberOfCities, true, termination, reinsertion, ratio, naiveOperator, typedConverter);
+
+        }
+
+
+        private void Compare_WOA_CustomConverter_OrderedTwors_ManyGenerations_Criterion(int repeatNb, int nbGenerationsWOA, int numberOfCities, bool enableMutations, ITermination termination, IReinsertion reinsertion, double ratio, bool naiveOperator, IGeometricConverter converter)
+        {
+            try
+            {
+                
+
+                // population parameters
+                int populationSize = 100;
+
+                // Fitness and chromosomes 
+                var fitness = new TspFitness(numberOfCities, 0, 1000, 0, 1000);
+                var adamChromosome = new TspChromosome(fitness.Cities.Count).Initialized();
+                var startFitness = fitness.Evaluate(adamChromosome);
+
+                //start fitness should be random path, which is typically better than worst cases
+                Assert.GreaterOrEqual(startFitness, 0.2);
+
+
+                // Native operators
+                var crossover = new OrderedCrossover();
+                var mutation = new TworsMutation();
+                // Native evolution
+                IMetaHeuristic nativeHeuristic;
+                if (enableMutations)
+                {
+                    nativeHeuristic = null;
+                }
+                else
+                {
+                    nativeHeuristic = new DefaultMetaHeuristic().WithScope(EvolutionStage.Selection |
+                        EvolutionStage.Crossover | EvolutionStage.Reinsertion | EvolutionStage.Mutation);
+                }
+                
+                var resultOriginal = Evolve_NbCities_Fast_Repeat(repeatNb, fitness, adamChromosome, populationSize, nativeHeuristic, crossover, mutation, termination, reinsertion);
+                Assert.GreaterOrEqual(resultOriginal.Fitness, 0.2);
+
+
+                // WhaleOptimisation parameters
+
+
+
+                //WhaleOptimisation with Embedding  
+                var woa = new WhaleOptimisationAlgorithm()
+                {
+                    MaxGenerations = nbGenerationsWOA,
+                    GeometricConverter = converter,
+                    NoMutation = ! enableMutations
+                };
+                if (naiveOperator)
+                {
+                    woa.BubbleOperator = WhaleOptimisationAlgorithm.GetSimpleBubbleNetOperator();
+                }
+                IContainerMetaHeuristic metaHeuristic = woa.Build();
+
+
+                var sw = Stopwatch.StartNew();
+                //Embedding metric update routing: the best chromosome takes over target metric space
+                var resultWOAGeom = Evolve_NbCities_Fast_Repeat(repeatNb, fitness, adamChromosome, populationSize, metaHeuristic, crossover, mutation, termination, reinsertion);
+                var duration = sw.Elapsed;
+                AssertIsPerformingBetterByRatio(termination, ratio, resultWOAGeom, resultOriginal);
 
             }
             catch (Exception e)
@@ -435,20 +540,20 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
         }
 
 
-        private void AssertIsPerformingLessByRatio(ITermination termination, double ratio, ITspEvolutionResult result1, ITspEvolutionResult result2)
+        private void AssertIsPerformingBetterByRatio(ITermination termination, double ratio, ITspEvolutionResult result1, ITspEvolutionResult result2)
         {
             switch (termination.GetType().Name)
             {
                 case nameof(GenerationNumberTermination):
                 case nameof(TimeEvolvingTermination):
-                    Assert.GreaterOrEqual( ratio, result2.Distance / result1.Distance);
+                    Assert.GreaterOrEqual(result2.Distance / result1.Distance, ratio);
                     break;
                 case nameof(FitnessThresholdTermination):
-                    Assert.GreaterOrEqual(ratio, result2.TimeEvolving.Ticks / (double)result1.TimeEvolving.Ticks);
+                    Assert.GreaterOrEqual(result2.TimeEvolving.Ticks / (double)result1.TimeEvolving.Ticks, ratio);
                     break;
                 case nameof(FitnessStagnationTermination):
-                    Assert.GreaterOrEqual(ratio, result2.Distance / result1.Distance);
-                    Assert.GreaterOrEqual(ratio, result2.TimeEvolving.Ticks / (double)result1.TimeEvolving.Ticks);
+                    Assert.GreaterOrEqual(result2.Distance / result1.Distance, ratio);
+                    Assert.GreaterOrEqual(result2.TimeEvolving.Ticks / (double)result1.TimeEvolving.Ticks, ratio);
                     break;
                     default:throw new InvalidOperationException("Termination not supported");
             }

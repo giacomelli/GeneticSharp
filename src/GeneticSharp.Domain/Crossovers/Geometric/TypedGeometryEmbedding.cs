@@ -18,15 +18,14 @@ namespace GeneticSharp.Domain.Crossovers.Geometric
         {
             ExceptionHelper.ThrowIfNull(nameof(embedding), embedding);
             TypedEmbedding = embedding;
-            MapFromGeometryFunction = (parents, offSpringValues) =>
-                embedding.MapFromGeometry(parents, offSpringValues.Cast<TValue>().ToList());
-            MapToGeometryFunction = parent => embedding.MapToGeometry(parent).Cast<object>().ToList();
+            MapFromGeometryFunction = (parents, offSpringValues) => embedding.MapFromGeometry(parents, offSpringValues.Cast<TValue>().ToArray());
+            MapToGeometryFunction = parents => embedding.MapToGeometry(parents).Select(c=>(IList<Object>)c.Cast<object>().ToArray()).ToArray();
 
         }
 
         public Func<IList<IChromosome>, IList<object>, IChromosome> MapFromGeometryFunction { get; set; }
 
-        public Func<IChromosome, IList<object>> MapToGeometryFunction { get; set; }
+        public Func<IList<IChromosome>, IList<IList<object>>> MapToGeometryFunction { get; set; }
 
        
 
@@ -35,9 +34,11 @@ namespace GeneticSharp.Domain.Crossovers.Geometric
             return MapFromGeometryFunction(parents, offSpringValues);
         }
 
-       public IList<object> MapToGeometry(IChromosome parent)
+        public IList<IList<object>> MapToGeometry(IList<IChromosome> parents)
         {
-            return MapToGeometryFunction(parent);
+            return MapToGeometryFunction(parents);
         }
+
+      
     }
 }

@@ -37,14 +37,19 @@ namespace GeneticSharp.Extensions.Tsp
             return base.MapFromGeometryOrdered(parents, values);
         }
 
-        public override IList<int> MapToGeometry(IChromosome parent)
+
+        
+        public override IList<IList<int>> MapToGeometry(IList<IChromosome> parents)
         {
+            
+            var toreturn = base.MapToGeometry(parents);
             if (_TargetPermutation != null)
             {
-                return ToMetricSpace(base.MapToGeometry(parent));
+
+                toreturn = toreturn.Select(ToMetricSpace).ToArray();
             }
 
-            return base.MapToGeometry(parent);
+            return toreturn;
         }
 
         /// <summary>

@@ -23,10 +23,12 @@ namespace GeneticSharp.Domain.Crossovers.Geometric
         /// <summary>
         /// The default unordered embedding uses the default pass-through <see cref="IdentityMapToGeometry"/> method.
         /// </summary>
-        public virtual IList<TValue> MapToGeometry(IChromosome parent)
+        public virtual IList<IList<TValue>> MapToGeometry(IList<IChromosome> parents)
         {
-            return IdentityMapToGeometry(parent);
+            return parents.Select(IdentityMapToGeometry).ToArray();
         }
+
+        
 
         /// <summary>
         /// The default Offspring creation method is a pass through between metric values and gene values

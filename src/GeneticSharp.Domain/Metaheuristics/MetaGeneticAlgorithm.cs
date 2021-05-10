@@ -12,7 +12,7 @@ namespace GeneticSharp.Domain.Metaheuristics
 {
 
     /// <summary>
-    /// A MetaGenetic Algorithm uses advanced MetaHeursitics to control evolution stages dynamically through dynamic parameters, expressions and rules.
+    /// A MetaGenetic Algorithm uses advanced MetaHeursitics to control evolution stages dynamically through parameters, expressions and rules.
     /// </summary>
     public class MetaGeneticAlgorithm : GeneticAlgorithm
     {

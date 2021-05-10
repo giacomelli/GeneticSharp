@@ -51,10 +51,10 @@ namespace GeneticSharp.Extensions.Tsp
         /// <summary>
         /// Computes the difference in distance by an index swap without having to sum over all the cities. 
         /// </summary>
-        /// <param name="initialOrder"></param>
-        /// <param name="swapIndex1"></param>
-        /// <param name="swapIndex2"></param>
-        /// <returns></returns>
+        /// <param name="initialOrder">the reference chromosome for comparizon</param>
+        /// <param name="swapIndex1">the first index of the swap</param>
+        /// <param name="swapIndex2">the second index of the swap</param>
+        /// <returns>the difference in distance after doing the swap</returns>
         public double GetDistanceGainFromSwap(TspChromosome initialOrder, int swapIndex1, int swapIndex2)
         {
 

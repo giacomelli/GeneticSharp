@@ -36,7 +36,7 @@ namespace GeneticSharp.Domain.Crossovers.Geometric
         /// </summary>
         /// <param name="parent">the parent to convert</param>
         /// <returns>the converted metric-space vector representing the parent</returns>
-        IList<TValue> MapToGeometry(IChromosome parent);
+        IList<IList<TValue>> MapToGeometry(IList<IChromosome> parents);
 
     }
 }

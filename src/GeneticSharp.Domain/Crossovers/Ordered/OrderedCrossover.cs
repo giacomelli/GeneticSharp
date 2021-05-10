@@ -39,7 +39,7 @@ namespace GeneticSharp.Domain.Crossovers
     /// </remarks>
     /// </summary>
     [DisplayName("Ordered (OX1)")]
-    public sealed class OrderedCrossover : CrossoverBase
+    public sealed class OrderedCrossover : CrossoverBase, IWeightedCrossover
     {
         #region Constructors
         /// <summary>
@@ -53,12 +53,6 @@ namespace GeneticSharp.Domain.Crossovers
         #endregion
 
 
-        #region Properties
-
-        public int MiddleSectionLength { get; set; } = 2;
-
-        #endregion
-
 
 
 
@@ -70,6 +64,52 @@ namespace GeneticSharp.Domain.Crossovers
         /// <returns>The offspring (children) of the parents.</returns>
         protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
         {
+            var middleSectionIndexes = RandomizationProvider.Current.GetUniqueInts(2, 0, parents[0].Length);
+            Array.Sort(middleSectionIndexes);
+            return this.PerformSectionCross(parents, true, (0, middleSectionIndexes[0], middleSectionIndexes[1]));
+        }
+
+
+        /// <summary>
+        /// The geometric version of the ordered crossover sets the length of the parent section length according to the weights for both children, without including the symmetrical child.
+        /// </summary>
+        /// <param name="parents">the parent chromosomes to cross</param>
+        /// <param name="weights">the weight for each parent chromosome</param>
+        /// <returns>the children of the crossover applied to the parents, given the parent weights</returns>
+        public IList<IChromosome> PerformWeightedCross(IList<IChromosome> parents, IList<double> weights)
+        {
+            
+            if (parents.Count!=2)
+            {
+                throw new InvalidOperationException(
+                    "Geometric ordered crossover with more than 2 parents not yet supported");
+            }
+
+            var parentOne = parents[0];
+            var parentTwo = parents[1];
+
+            var firstParentLength = (int) (parents[0].Length * weights[0] / ((weights[0] + weights[1])));
+
+            var firstChildFirstIndex = RandomizationProvider.Current.GetInt(0, parentOne.Length - firstParentLength);
+            var secondChildFirstIndex = RandomizationProvider.Current.GetInt(0, firstParentLength);
+            var firstChildMiddleSectionIndices = (0, firstChildFirstIndex, firstChildFirstIndex + firstParentLength);
+            var secondChildMiddleSectionIndices = (1, secondChildFirstIndex, secondChildFirstIndex + parentOne.Length - firstParentLength);
+
+            return this.PerformSectionCross(parents, false, firstChildMiddleSectionIndices,
+                secondChildMiddleSectionIndices);
+        }
+
+
+
+
+        /// <summary>
+        /// Performs orderd crossover given the indexes of the middle section
+        /// </summary>
+        /// <param name="parents">the parents to cross</param>
+        /// <param name="middleSectionIndexes">an int array with begin and end indices for the middle section</param>
+        /// <returns></returns>
+        private IList<IChromosome> PerformSectionCross(IList<IChromosome> parents, bool generateSecondChild, params (int sectionParentIndex, int beginIndex, int endIndex) [] childMiddleSectionIndexes)
+        {
             var parentOne = parents[0];
             var parentTwo = parents[1];
 
@@ -78,14 +118,23 @@ namespace GeneticSharp.Domain.Crossovers
                 throw new CrossoverException(this, "The Ordered Crossover (OX1) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
             }
 
-            var middleSectionIndexes = RandomizationProvider.Current.GetUniqueInts(2, 0, parentOne.Length);
-            Array.Sort(middleSectionIndexes);
-            var middleSectionBeginIndex = middleSectionIndexes[0];
-            var middleSectionEndIndex = middleSectionIndexes[1];
-            var firstChild = CreateChild(parentOne, parentTwo, middleSectionBeginIndex, middleSectionEndIndex);
-            var secondChild = CreateChild(parentTwo, parentOne, middleSectionBeginIndex, middleSectionEndIndex);
+            var nbChildren = generateSecondChild ? 2 * childMiddleSectionIndexes.Length : childMiddleSectionIndexes.Length;
+            var toReturn = new List<IChromosome>(nbChildren);
+            foreach (var middleSectionIndexes in childMiddleSectionIndexes)
+            {
+                var middleSectionBeginIndex = middleSectionIndexes.beginIndex;
+                var middleSectionEndIndex = middleSectionIndexes.endIndex;
+                var firstChild = CreateChild(parentOne, parentTwo, middleSectionBeginIndex, middleSectionEndIndex);
+                toReturn.Add(firstChild);
+                if (generateSecondChild)
+                {
+                    var secondChild = CreateChild(parentTwo, parentOne, middleSectionBeginIndex, middleSectionEndIndex);
+                    toReturn.Add(secondChild);
+                }
+                
+            }
 
-            return new List<IChromosome> { firstChild, secondChild };
+            return toReturn;
         }
 
         /// <summary>
@@ -123,5 +172,7 @@ namespace GeneticSharp.Domain.Crossovers
             }
         }
         #endregion
+
+       
     }
 }

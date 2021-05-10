@@ -109,7 +109,7 @@ namespace GeneticSharp.Domain.Crossovers.Geometric
         public IChromosome CreateOffspring(IList<IChromosome> parents)
         {
            
-            var geometricParents = parents.Select(p => GeometryEmbedding.MapToGeometry(p)).ToArray();
+            var geometricParents = GeometryEmbedding.MapToGeometry(parents);
             IList<TValue> geometricChild;
 
             if (GeneralGeometricOperator != null)
@@ -123,9 +123,9 @@ namespace GeneticSharp.Domain.Crossovers.Geometric
                 throw new InvalidOperationException("GeometricCrossover has not geometric operator defined");
             }
 
-            var nbGenes = parents[0].Length;
-            geometricChild = new List<TValue>(nbGenes);
-            for (int i = 0; i < nbGenes; i++)
+            var nbValues = geometricParents[0].Count;
+            geometricChild = new List<TValue>(nbValues);
+            for (int i = 0; i < nbValues; i++)
             {
                 var inputs = geometricParents.Select(p => p[i]).ToArray();
                 var newGeneValue = LinearGeometricOperator(i, inputs);
