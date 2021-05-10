@@ -183,7 +183,7 @@ namespace GeneticSharp.Extensions.Tsp
         }
 
         /// <summary>
-        /// Computes a TSP solution naively by running through all cities several times, and swaping immediat neighboors if larger than a moving ranked distance.
+        /// Computes a TSP solution naively by running through all cities several times, and swaping immediate neighboors if larger than a moving ranked distance.
         /// </summary>
         /// <returns>a candidate solution to the TSP problem</returns>
         public IList<int> ComputeSimpleEmbedding()
