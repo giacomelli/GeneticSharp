@@ -269,6 +269,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                 problemSizes,
                 maxValue => new FitnessStub(maxValue) { SupportsParallel = false },
                 maxValue => new ChromosomeStub(maxValue, maxValue),
+                false,
                 WoaWithParamCalls,
                 WoaWithReducedArgs,
                 crossover,
@@ -336,7 +337,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             IChromosome AdamChromosome(int i) => new EquationChromosome<double>(-maxCoordinate, maxCoordinate, i) { GetGeneValueFunction = GetGeneValueFunction };
 
             // Ackley function
-            var ackleyFunctionWithFitness = GetKnownFunctions(true).Skip(1).First();
+            var ackleyFunctionWithFitness = GetKnownFunctions(true).First();
 
 
 
@@ -391,7 +392,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                     var meanResult = new MeanEvolutionResult { SkipExtremaPercentage = 0.2 };
                     for (int i = 0; i < repeatNb; i++)
                     {
-                        var target = InitGa(metaHeuristic, Fitness(size), AdamChromosome(size), crossover, populationSize, termination, reinsertion, true);
+                        var target = InitMetaGeneticAlgorithm(metaHeuristic, Fitness(size), AdamChromosome(size), false, crossover, populationSize, termination, reinsertion, true);
                         target.Start();
                         var result = target.GetResult();
                         meanResult.Results.Add(result);
@@ -416,6 +417,112 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
         }
 
+
+        /// <summary>
+        /// Population Adamchromosome is responsible for creating the initial generation. Eve chromosomes are fixed individuals that can be added to the first generation. This is illustrated here by reinjecting an evolution's best result using standard GA into the same settings for a second run resulting in improved fitness mechanically with FitnesElitist reinsertion. The 2nd evolution run isn't necessarily more successful though with frequent collapse to the Eve chromosome.   
+        /// </summary>
+        [Test]
+        public void Compare_Default_DefaultWithEveBootstrap_Ackley_BetterFitness()
+        {
+            var repeatNb = 1;
+            
+
+            //Problem Sizes
+            var sizes = SmallSizes;//.Skip(2).Take(1);
+
+            var resultsRatio = new[] { 1, 1, 1, 1, 1};
+
+
+            //Heuristics
+
+
+            var defaultHeuristic = new DefaultMetaHeuristic();
+
+
+            //var noEmbeddingConverter = new GeometricConverter<double>
+            //{
+            //    IsOrdered = false,
+            //    DoubleToGeneConverter = GetGeneValueFunction,
+            //    GeneToDoubleConverter = (genIndex, geneValue) => geneValue
+            //};
+            //var typedNoEmbeddingConverter = new TypedGeometricConverter();
+            //typedNoEmbeddingConverter.SetTypedConverter(noEmbeddingConverter);
+
+
+            //var woaCompound = new WhaleOptimisationAlgorithm()
+            //{
+            //    MaxGenerations = maxNbGenerations,
+            //    GeometricConverter = typedNoEmbeddingConverter,
+            //};
+            //var woa = woaCompound.Build();
+
+
+
+            //Population Size
+            var populationSize = 100;
+
+
+            int maxNbGenerations = 100;
+
+
+            //Functions
+
+            var maxCoordinate = 5;
+            double GetGeneValueFunction(int geneIndex, double d) => Math.Sign(d) * Math.Min(Math.Abs(d), maxCoordinate);
+
+            IChromosome AdamChromosome(int i) => new EquationChromosome<double>(-maxCoordinate, maxCoordinate, i);
+
+            var knownFunctions = GetKnownFunctions(false);
+            var targetFunction = knownFunctions;//.Where(f => f.fName == nameof(KnownFunctions.Rastrigin));
+
+
+            //Reinsertion
+            var reinsertion = new FitnessBasedElitistReinsertion();
+
+
+            //Crossover
+            var crossover = new UniformCrossover();
+
+
+            //Termination
+            var minFitness = double.MaxValue;
+            int stagnationNb = 100;
+            TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(5);
+            var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
+
+
+           
+
+
+            var resultsByFunctionBySize = new List<IList<(IEvolutionResult resultWithoutEve, IEvolutionResult resultWithEve)>>();
+
+            foreach (var functionToSolve in targetFunction)
+            {
+                IFitness Fitness(int i) => new FunctionFitness<double>(functionToSolve.function);
+
+                var results = CompareMetaHeuristicsDifferentSizes(repeatNb,
+                    sizes,
+                    Fitness,
+                    AdamChromosome, 
+                    true,
+                    i=> defaultHeuristic,
+                    i=> defaultHeuristic,
+                    crossover, populationSize, termination, reinsertion);
+
+                resultsByFunctionBySize.Add(results);
+
+            }
+
+            for (int functionIndex = 0; functionIndex < resultsByFunctionBySize.Count; functionIndex++)
+            {
+                var resultsBySize = resultsByFunctionBySize[functionIndex];
+                foreach (var sizeResult in resultsBySize)
+                {
+                    AssertIsPerformingLessByRatio(EvolutionMeasure.Fitness, resultsRatio[functionIndex], sizeResult.resultWithEve, sizeResult.resultWithoutEve);
+                }
+            }
+
+        }
 
 
 
@@ -553,7 +660,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var results = CompareMetaHeuristicsDifferentSizes(1,
                 sizes,
                 Fitness,
-                AdamChromosome,
+                AdamChromosome, false,
                 StandardHeuristic,
                 MetaHeuristic,
                 crossover, populationSize, termination, reinsertion);

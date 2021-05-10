@@ -25,33 +25,24 @@ namespace GeneticSharp.Domain.Populations
         #endregion
 
         #region Public methods
-        /// <summary>
-        /// Creates the initial generation.
-        /// </summary>
-        public override void CreateInitialGeneration()
+      
+
+        protected override IList<IChromosome> CreateNewChromosomes(int nbChromosomes)
         {
-            Generations = new List<Generation>();
-            GenerationsNumber = 0;
-
             var chromosomes = new ConcurrentBag<IChromosome>();
-            Parallel.For(0, MinSize, i =>
+            Parallel.For(0, nbChromosomes, i =>
             {
-                var c = AdamChromosome.CreateNew();
-
-                if (c == null)
-                {
-                    throw new InvalidOperationException("The Adam chromosome's 'CreateNew' method generated a null chromosome. This is a invalid behavior, please, check your chromosome code.");
-                }
-
-                c.InitializeGenes();
-
-                c.ValidateGenes();
+                var c = CreateNewChromosome();
 
                 chromosomes.Add(c);
             });
 
-            CreateNewGeneration(chromosomes.ToList());
+
+          
+            return chromosomes.ToList();
         }
+
+
         #endregion
     }
 }

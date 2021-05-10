@@ -228,7 +228,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var meanResult = new MeanEvolutionResult { TestSettings = (metaHeuristic, populationSize, termination, reinsertion), SkipExtremaPercentage = 0.2 };
             for (int i = 0; i < repeatNb; i++)
             {
-                var target = InitGa(metaHeuristic, fitness(maxValue), adamChromosome(maxValue), crossover, populationSize, termination, reinsertion, true);
+                var target = InitMetaGeneticAlgorithm(metaHeuristic, fitness(maxValue), adamChromosome(maxValue), false, crossover, populationSize, termination, reinsertion, true);
                 target.Start();
                 var result = target.GetResult();
                 meanResult.Results.Add(result);
@@ -263,7 +263,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                 results = CompareMetaHeuristicsDifferentSizes(repeatNb,
                     sizes,
                     Fitness,
-                    AdamChromosome,
+                    AdamChromosome, false,
                     metaHeuristic1,
                     metaHeuristic2,
                     crossover, populationSize, termination, reinsertion);
@@ -280,7 +280,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
         protected virtual IList<(IEvolutionResult result1, IEvolutionResult result2)> CompareMetaHeuristicsDifferentSizes(int repeatNb, IEnumerable<int> problemSizes, 
             Func<int, IFitness> fitness, 
-            Func<int, IChromosome> adamChromosome, 
+            Func<int, IChromosome> adamChromosome, bool useBestPreviousAsInitEve,
             Func<int, IMetaHeuristic> metaHeuristic1, 
             Func<int, IMetaHeuristic> metaHeuristic2, 
             ICrossover crossover, 
@@ -292,26 +292,39 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             {
                 var heuristics = new List<IMetaHeuristic> {metaHeuristic1(size), metaHeuristic2(size)};
 
-                var results = CompareMetaHeuristicsSamePopulation(repeatNb, fitness(size), adamChromosome(size), heuristics, crossover, populationSize, termination, reinsertion);
+                var results = CompareMetaHeuristicsSamePopulation(repeatNb, fitness(size), adamChromosome(size), useBestPreviousAsInitEve, heuristics, crossover, populationSize, termination, reinsertion);
                 compoundResults.Add((results[0], results[1]));
             }
             return compoundResults;
         }
      
-        protected virtual IList<IEvolutionResult> CompareMetaHeuristicsSamePopulation(int repeatNb, IFitness fitness, IChromosome adamChromosome, IList<IMetaHeuristic> metaHeuristics, ICrossover crossover,  int populationSize, ITermination termination, IReinsertion reinsertion)
+        protected virtual IList<IEvolutionResult> CompareMetaHeuristicsSamePopulation(int repeatNb, IFitness fitness, IChromosome adamChromosome, bool usePreviousBestAsCurrentEve, IList<IMetaHeuristic> metaHeuristics, ICrossover crossover,  int populationSize, ITermination termination, IReinsertion reinsertion)
         {
             var toReturn = new List<IEvolutionResult>();
-            foreach (var metaHeuristic in metaHeuristics)
+            for (var metaHeuristicIndex = 0; metaHeuristicIndex < metaHeuristics.Count; metaHeuristicIndex++)
             {
-                var meanResult = new MeanEvolutionResult { TestSettings = (metaHeuristic, populationSize, termination, reinsertion), SkipExtremaPercentage = 0.2 };
+                var metaHeuristic = metaHeuristics[metaHeuristicIndex];
+                var meanResult = new MeanEvolutionResult
+                {
+                    TestSettings = (metaHeuristic, populationSize, termination, reinsertion),
+                    SkipExtremaPercentage = 0.2
+                };
+                var useAdamAsCurrentEve = usePreviousBestAsCurrentEve && metaHeuristicIndex > 0 ;
                 for (int i = 0; i < repeatNb; i++)
                 {
-                    var target = InitGa(metaHeuristic, fitness, adamChromosome, crossover, populationSize, termination, reinsertion, EnableOperatorsParallelism);
+                    var target = InitMetaGeneticAlgorithm(metaHeuristic, fitness, adamChromosome, useAdamAsCurrentEve
+                        , crossover, populationSize, termination, reinsertion,
+                        EnableOperatorsParallelism);
                     target.Start();
                     var result = target.GetResult();
                     meanResult.Results.Add(result);
                 }
+
                 toReturn.Add(meanResult);
+                if (usePreviousBestAsCurrentEve)
+                {
+                    adamChromosome = meanResult.Population.BestChromosome;
+                }
             }
 
             return toReturn;
@@ -399,7 +412,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                         };
                         for (int i = 0; i < repeatNb; i++)
                         {
-                            var target = InitGa(metaHeuristic, fitness, AdamChromosome(size), crossover, populationSize,
+                            var target = InitMetaGeneticAlgorithm(metaHeuristic, fitness, AdamChromosome(size), false, crossover, populationSize,
                                 termination, reinsertion, EnableOperatorsParallelism);
                             target.Start();
                             var result = target.GetResult();
@@ -422,7 +435,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             return functionResults;
         }
 
-        protected virtual GeneticAlgorithm InitGa(IMetaHeuristic metaHeuristic, IFitness fitness, IChromosome adamChromosome, ICrossover crossover, int populationSize, ITermination termination, IReinsertion reinsertion, bool enableParallelism)
+        protected virtual GeneticAlgorithm InitMetaGeneticAlgorithm(IMetaHeuristic metaHeuristic, IFitness fitness, IChromosome adamChromosome, bool useAdamAsEve, ICrossover crossover, int populationSize, ITermination termination, IReinsertion reinsertion, bool enableParallelism)
         {
             var selection = new EliteSelection();
             var mutation = new UniformMutation();
@@ -430,6 +443,10 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var generationStrategy = new TrackingGenerationStrategy();
 
             var initialPopulation = new Population(populationSize, populationSize, adamChromosome) { GenerationStrategy = generationStrategy };
+            if (useAdamAsEve)
+            {
+                initialPopulation.EveChromosomes = new[] {adamChromosome};
+            }
             GeneticAlgorithm target;
             if (metaHeuristic != null)
             {

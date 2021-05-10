@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Randomizations;
@@ -68,6 +69,19 @@ namespace GeneticSharp.Domain.UnitTests.Populations
             {
                 population.CreateInitialGeneration();
             }, "The Adam chromosome's 'CreateNew' method generated a null chromosome. This is a invalid behavior, please, check your chromosome code.");
+        }
+
+        [Test]
+        public void CreateInitialGeneration_EmptyEveChromosome_Exception()
+        {
+            var c = Substitute.For<ChromosomeBase>(4);
+            c.CreateNew().Returns(new ChromosomeStub());
+            var population = new Population(2, 2, c){EveChromosomes = new IChromosome[]{null}};
+
+            Assert.Catch<InvalidOperationException>(() =>
+            {
+                population.CreateInitialGeneration();
+            }, "The Eve chromosomes must be non null, please, check your population creation code.");
         }
 
         [Test]
