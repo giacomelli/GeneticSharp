@@ -24,7 +24,9 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
     [Category("Extensions")]
     public class TspGeometryEmbeddingTest
     {
-
+        /// <summary>
+        /// Permutation embedding can generate a default solution through simple swapping loops. It can be accelerated and maintain relatively constant fitness accross sizes at a computation cost.
+        /// </summary>
         [Test]
         public void PermutationEmbedding_DefaultSolution_DecentFitness()
         {
@@ -39,7 +41,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             var startFitness = fitness.Evaluate(adamChromosome);
 
             //start fitness should be random path, which is typically better than worst cases
-            Assert.GreaterOrEqual(startFitness, 0.1);
+            Assert.GreaterOrEqual(startFitness, 0.5);
 
             //Empty OrderedEmbedding
 
@@ -62,21 +64,21 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             var metricChromosome = tspGeometryEmbedding.GetMetricChromosome();
             var fitnessMetric = fitness.Evaluate(metricChromosome);
 
-            Assert.GreaterOrEqual(fitnessMetric, 0.6);
+            Assert.GreaterOrEqual(fitnessMetric, 0.8);
 
             //Testing longer default scans
 
-            tspGeometryEmbedding = new TspPermutationEmbedding(fitness) { DefaultNbScans = 5 };
+            tspGeometryEmbedding = new TspPermutationEmbedding(fitness) { DefaultNbScans = 20 };
             sw.Restart();
             tspGeometryEmbedding.RegisterDefaultEmbedding();
             var longtimeToChromosome = sw.Elapsed;
 
             Assert.LessOrEqual(longtimeToChromosome, TimeSpan.FromSeconds(1));
 
-            metricChromosome = tspGeometryEmbedding.GetMetricChromosome();
-            var longInitFitnessMetric = fitness.Evaluate(metricChromosome);
+            var longInitmetricChromosome = tspGeometryEmbedding.GetMetricChromosome();
+            var longInitFitnessMetric = fitness.Evaluate(longInitmetricChromosome);
 
-            Assert.GreaterOrEqual(longInitFitnessMetric, 0.6);
+            Assert.GreaterOrEqual(longInitFitnessMetric, 0.8);
 
 
             //Testing agressive skips 
@@ -86,7 +88,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             startFitness = fitness.Evaluate(adamChromosome);
 
             //start fitness should be random path, which is typically better than worst cases
-            Assert.GreaterOrEqual(startFitness, 0.1);
+            Assert.GreaterOrEqual(startFitness, 0.5);
 
             tspGeometryEmbedding = new TspPermutationEmbedding(fitness)
             {
@@ -99,20 +101,22 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
 
             Assert.LessOrEqual(skipsToChromosome, TimeSpan.FromSeconds(20));
 
-            metricChromosome = tspGeometryEmbedding.GetMetricChromosome();
-            var skipInitFitnessMetric = fitness.Evaluate(metricChromosome);
+            var agressiveInitChromosome = tspGeometryEmbedding.GetMetricChromosome();
+            var agressiveInitFitnessMetric = fitness.Evaluate(agressiveInitChromosome);
 
-            Assert.GreaterOrEqual(skipInitFitnessMetric, 0.5);
+            Assert.GreaterOrEqual(agressiveInitFitnessMetric, 0.8);
 
         }
 
-
+        /// <summary>
+        /// TspOrderedEmbedding validate gene swaps from geometric values, using a fast path segment comparer. Accordingly, WOA with such an embedding evolves faster than Ordered Crossover/ReverseSequence Mutation, which are the fastest classical operators for TSP
+        /// </summary>
         [Test]
-        public void Compare_WOA_GeometryEmbedding_OrderedTwors_ManyGenerations_Faster()
+        public void Compare_WOA_TspOrderedEmbedding_Ordered_ReverseSequence_FitnessThresold_Faster()
         {
             var testParams = new List<(int nbCities, double threshold, double ratio)>
             {
-                (100, 0.85, 0.9), (200, 0.75, 0.8), (400, 0.75, 0.8)
+                (100, 0.85, 0.7), (200, 0.75, 1.2), (400, 0.75, 2)
             };
 
             var reinsertion = new FitnessBasedElitistReinsertion();
@@ -121,25 +125,66 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             {
                 int nbGenerationsWOA = 100;
                 var termination = new FitnessThresholdTermination(threshold);
-                Compare_WOA_PermutationEmbedding_OrderedTwors_ManyGenerations_Criterion(5, nbGenerationsWOA, nbCities, termination, reinsertion, ratio, false);
+                Compare_WOA_GeometricEmbedding_Ordered_ReverseSequence_ManyGenerations_Criterion(5, nbGenerationsWOA, nbCities, termination, reinsertion, ratio, false, false);
             }
         }
 
 
-
+        /// <summary>
+        /// Woa with TspOrderedEmbedding yields a result as good as Ordered/ReverseSequence classical GA on a fixed number of generations
+        /// </summary>
         [Test]
-        public void Compare_WOA_GeometryEmbedding_ManyGenerations_SmallerDistance()
+        public void Compare_WOA_TspOrderedEmbedding_Ordered_ReverseSequence_ManyGenerations_SmallerDistance()
         {
             int numberOfCities = 100;
             var nbGenerations = 200;
             var minDistanceRatio = 1;
             var termination = new GenerationNumberTermination(nbGenerations);
             var reinsertion = new FitnessBasedElitistReinsertion();
-            Compare_WOA_PermutationEmbedding_OrderedTwors_ManyGenerations_Criterion(2, nbGenerations, numberOfCities, termination, reinsertion, minDistanceRatio, false);
+            Compare_WOA_GeometricEmbedding_Ordered_ReverseSequence_ManyGenerations_Criterion(2, nbGenerations, numberOfCities, termination, reinsertion, minDistanceRatio, false, false);
         }
 
+
+
+        /// <summary>
+        /// Using a geometric metaheuristic and a geometry embedding both come at a cost. Setting a time constraint favors traditional GA on small problems. Large problem exbhibit the opposite though.
+        /// </summary>
         [Test]
-        public void Compare_WOA_WeightedOrdered_ManyGenerations_SmallerDistance()
+        public void Compare_WOA_TspOrderedEmbedding_Ordered_ReverseSequence_Large__TimeConstraint_SmallerDistance()
+        {
+            int nbGenerationsWOA = 200;
+            int numberOfCities = 400;
+            var duration = TimeSpan.FromSeconds(1);
+
+            var minDistanceRatio = 1;
+
+            var termination = new TimeEvolvingTermination(duration);
+            var reinsertion = new FitnessBasedElitistReinsertion();
+            Compare_WOA_GeometricEmbedding_Ordered_ReverseSequence_ManyGenerations_Criterion(5, nbGenerationsWOA, numberOfCities, termination, reinsertion, minDistanceRatio, false, false);
+        }
+
+        /// <summary>
+        /// With even larger problems, OrderedEmbedding increases speed up on tradditional Ordered w. ReverseSequence
+        /// </summary>
+        [Test]
+        public void Compare_WOA_TspOrderedEmbedding_Ordered_ReverseSequence_VeryLargeProblem_TimeConstraint_SmallerDistance()
+        {
+            int nbGenerationsWOA = 100;
+            int numberOfCities = 1000;
+            var termination = new TimeEvolvingTermination(TimeSpan.FromSeconds(10));
+            var reinsertion = new FitnessBasedElitistReinsertion();
+            Compare_WOA_GeometricEmbedding_Ordered_ReverseSequence_ManyGenerations_Criterion(1, nbGenerationsWOA, numberOfCities, termination, reinsertion, 1.2, false, false);
+        }
+
+
+
+
+        /// <summary>
+        /// WeightedOrdered attempts at providing a geometric parametrisation of the OrderedCrossover: it implements IWeightedCrossover, which can be feed an WeightedCrossoverEmbedding object to be used together with usual MetaHeuristic geometric crossovers.
+        /// Such a configuration outperforms default GA with Ordered Chromosome and Twors mutation.
+        /// </summary>
+        [Test]
+        public void Compare_WOA_WeightedOrdered_Ordered_Twors_ManyGenerations_SmallerDistance()
         {
             int numberOfCities = 100;
             var nbGenerations = 200;
@@ -150,26 +195,10 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             Compare_WOA_WeightedOrdered_OrderedTwors_ManyGenerations_Criterion(5, nbGenerations, numberOfCities, termination, reinsertion, minDistanceRatio, false);
         }
 
-        [Test]
-        public void Compare_WOA_GeometryEmbedding_TimeConstraint_SmallerDistance()
-        {
-            int nbGenerationsWOA = 200;
-            int numberOfCities = 200;
-            var termination = new TimeEvolvingTermination(TimeSpan.FromSeconds(10));
-            var reinsertion = new FitnessBasedElitistReinsertion();
-            Compare_WOA_PermutationEmbedding_OrderedTwors_ManyGenerations_Criterion(1, nbGenerationsWOA, numberOfCities, termination, reinsertion, 0.95, false);
-        }
 
-        [Test]
-        public void Compare_WOA_GeometryEmbedding_VeryLargeProblem_TimeConstraint_SmallerDistance()
-        {
-            int nbGenerationsWOA = 100;
-            int numberOfCities = 1000;
-            var termination = new TimeEvolvingTermination(TimeSpan.FromSeconds(10));
-            var reinsertion = new FitnessBasedElitistReinsertion();
-            Compare_WOA_PermutationEmbedding_OrderedTwors_ManyGenerations_Criterion(1, nbGenerationsWOA, numberOfCities, termination, reinsertion, 0.9, false);
-        }
+       
 
+      
 
 
         //[Test()]
@@ -368,7 +397,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
         }
 
 
-        private void Compare_WOA_PermutationEmbedding_OrderedTwors_ManyGenerations_Criterion(int repeatNb, int nbGenerationsWOA, int numberOfCities, ITermination termination, IReinsertion reinsertion, double ratio, bool naiveOperator)
+        private void Compare_WOA_GeometricEmbedding_Ordered_ReverseSequence_ManyGenerations_Criterion(int repeatNb, int nbGenerationsWOA, int numberOfCities, ITermination termination, IReinsertion reinsertion, double ratio, bool naiveOperator, bool permutationEmbedding)
         {
             try
             {
@@ -382,22 +411,32 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                 var startFitness = fitness.Evaluate(adamChromosome);
 
                 //start fitness should be random path, which is typically better than worst cases
-                Assert.GreaterOrEqual(startFitness, 0.2);
+                Assert.GreaterOrEqual(startFitness, 0.6);
 
 
                 // Native operators
                 var crossover = new OrderedCrossover();
-                var mutation = new TworsMutation();
+                var mutation = new ReverseSequenceMutation();
                 // Native evolution
                 var resultOriginal = Evolve_NbCities_Fast_Repeat(repeatNb, fitness, adamChromosome, populationSize, null, crossover, mutation, termination, reinsertion);
-                Assert.GreaterOrEqual(resultOriginal.Fitness, 0.2);
+                Assert.GreaterOrEqual(resultOriginal.Fitness, 0.7);
 
 
                 // WhaleOptimisation parameters
                 int GetGeneValueFunction(int geneIndex, double d) => Math.Round(d).PositiveMod(numberOfCities);
                 //Default OrderedEmbedding with cold start
-                var tspGeometryEmbedding = new TspPermutationEmbedding(fitness) { GeneSelectionMode = GeneSelectionMode.RandomOrder };
-                var updateEveryGenerationNb = 20;
+
+                TspOrderedEmbedding geometryEmbedding;
+                if (permutationEmbedding)
+                {
+                    geometryEmbedding = new TspPermutationEmbedding(fitness) { GeneSelectionMode = GeneSelectionMode.RandomOrder };
+                }
+                else
+                {
+                    geometryEmbedding = new TspOrderedEmbedding(fitness);
+                }
+                
+                
 
 
                 var permutationEmbeddingConverter = new GeometricConverter<int>
@@ -405,7 +444,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                     IsOrdered = true,
                     DoubleToGeneConverter = GetGeneValueFunction,
                     GeneToDoubleConverter = (genIndex, geneValue) => geneValue,
-                    Embedding = tspGeometryEmbedding
+                    Embedding = geometryEmbedding
                 };
                 var typedPermutationEmbeddingConverter = new TypedGeometricConverter();
                 typedPermutationEmbeddingConverter.SetTypedConverter(permutationEmbeddingConverter);
@@ -428,14 +467,18 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
 
                 //Embedding metric update routing: the best chromosome takes over target metric space
                 var evolvedfitnessMetric = 0.0;
+                var updateEveryGenerationNb = 20;
+
                 var resultWOAGeom = Evolve_NbCities_Fast_Repeat(repeatNb, fitness, adamChromosome, populationSize, metaHeuristic,
                     crossover, mutation, termination, reinsertion,
                     algorithm =>
                     {
-                        if (algorithm.GenerationsNumber % updateEveryGenerationNb == 0 && evolvedfitnessMetric < algorithm.BestChromosome.Fitness)
+                        if (geometryEmbedding is TspPermutationEmbedding tspEmbedding 
+                            && algorithm.GenerationsNumber % updateEveryGenerationNb == 0 
+                            && evolvedfitnessMetric < algorithm.BestChromosome.Fitness)
                         {
                             evolvedfitnessMetric = algorithm.BestChromosome.Fitness.Value;
-                            tspGeometryEmbedding.TargetPermutation = ((TspChromosome)algorithm.BestChromosome).GetCities();
+                            tspEmbedding.TargetPermutation = ((TspChromosome)algorithm.BestChromosome).GetCities();
                         }
                     });
 

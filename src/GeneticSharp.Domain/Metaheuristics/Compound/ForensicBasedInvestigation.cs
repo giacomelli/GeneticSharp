@@ -164,9 +164,13 @@ namespace GeneticSharp.Domain.Metaheuristics.Compound
             }
 
             //Enforcing Pairwise reinsertion
-            var subHeuristic = fbiHeuristic.SubMetaHeuristic;
-            fbiHeuristic.SubMetaHeuristic = new ReinsertionHeuristic()
-                {StaticOperator = new FitnessBasedPairwiseReinsertion(), SubMetaHeuristic = subHeuristic }.WithName("Forced Pairwise Reinsertion Heuristic"); 
+            if (SetDefaultReinsertion)
+            {
+                var subHeuristic = fbiHeuristic.SubMetaHeuristic;
+                fbiHeuristic.SubMetaHeuristic = new ReinsertionHeuristic()
+                    { StaticOperator = new FitnessBasedPairwiseReinsertion(), SubMetaHeuristic = subHeuristic }.WithName("Forced Pairwise Reinsertion Heuristic");
+            }
+            
 
             return fbiHeuristic;
         }

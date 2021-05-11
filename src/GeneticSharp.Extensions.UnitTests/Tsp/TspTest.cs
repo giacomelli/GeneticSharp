@@ -21,8 +21,9 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
     public class TspTest
     {
         [Test]
-        public void Evolve_ManyGenerations_Fast()
+        public void Evolve_ManyGenerations_Ordered_Twors_GoodFitness()
         {
+            var minFitness = 0.87;
             int numberOfCities = 40;
             int populationSize = 40;
 
@@ -34,10 +35,30 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             var fitness = new TspFitness(numberOfCities, 0, 1000, 0, 1000);
             var chromosome = new TspChromosome(fitness.Cities.Count).Initialized();
             var result = Evolve_NbCities_Fast(fitness, chromosome, populationSize, null, crossover, mutation, terminationCriterium);
-            Assert.GreaterOrEqual(result.Fitness, 0.8);
+            Assert.GreaterOrEqual(result.Fitness, minFitness);
         }
 
+        [Test]
+        public void Evolve_Simple_ManyGenerations_Ordered_ReverseSequence_ExcellentFitness()
+        {
+            var minFitness = 0.93;
+            int numberOfCities = 40;
+            int populationSize = 40;
 
+            var crossover = new OrderedCrossover();
+            var mutation = new ReverseSequenceMutation();
+
+            var terminationCriterium = new GenerationNumberTermination(1001);
+
+            var fitness = new TspFitness(numberOfCities, 0, 1000, 0, 1000);
+            var chromosome = new TspChromosome(fitness.Cities.Count).Initialized();
+            var result = Evolve_NbCities_Fast(fitness, chromosome, populationSize, null, crossover, mutation, terminationCriterium);
+            Assert.GreaterOrEqual(result.Fitness, minFitness);
+        }
+
+        /// <summary>
+        /// Naive usage of a geometric heuristic with a TSP chromosome projects the city indices that make up into equivalent doubles, which is not a good projection. 
+        /// </summary>
         [Test]
         public void Compare_Simple_Ordered_TwoOr_WOA_ManyGenerations_FitnessesBounded()
         {
@@ -60,7 +81,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
 
             // Native operators
             var crossover = new OrderedCrossover();
-            var mutation = new TworsMutation();
+            var mutation = new ReverseSequenceMutation();
 
             // Native evolution
 
@@ -82,6 +103,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             {
                 MaxGenerations = nbGenerationsWOA,
                 GeometricConverter = typedNoEmbeddingConverter,
+                SetDefaultReinsertion = false
                };
             var metaHeuristic = woa.Build();
 

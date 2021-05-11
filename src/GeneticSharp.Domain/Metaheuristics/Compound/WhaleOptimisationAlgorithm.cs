@@ -134,9 +134,13 @@ namespace GeneticSharp.Domain.Metaheuristics.Compound
             }
 
             //Enforcing pure reinsertion
-            var subHeuristic = woaHeuristic.SubMetaHeuristic;
-            woaHeuristic.SubMetaHeuristic = new ReinsertionHeuristic()
-                { StaticOperator = new PureReinsertion(), SubMetaHeuristic = subHeuristic }.WithName("Forced Pure Reinsertion Heuristic");
+            if (SetDefaultReinsertion)
+            {
+                var subHeuristic = woaHeuristic.SubMetaHeuristic;
+                woaHeuristic.SubMetaHeuristic = new ReinsertionHeuristic()
+                    { StaticOperator = new PureReinsertion(), SubMetaHeuristic = subHeuristic }.WithName("Forced Pure Reinsertion Heuristic");
+            }
+           
 
             return woaHeuristic;
         }

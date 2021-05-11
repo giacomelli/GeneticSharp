@@ -137,10 +137,16 @@ namespace GeneticSharp.Domain.Metaheuristics.Compound
                 generationHeuristic.SubMetaHeuristic = new DefaultMetaHeuristic().WithScope(EvolutionStage.Selection | EvolutionStage.Crossover | EvolutionStage.Reinsertion).WithName("Not Mutation Heuristic");
             }
 
-            //Enforcing pure reinsertion
-            var subHeuristic = generationHeuristic.SubMetaHeuristic;
-            generationHeuristic.SubMetaHeuristic = new ReinsertionHeuristic()
-                { StaticOperator = new FitnessBasedElitistReinsertion(), SubMetaHeuristic = subHeuristic }.WithName("Forced Fitness Elitist Reinsertion Heuristic");
+            //Enforcing FitnessBasedElitistReinsertion
+            if (SetDefaultReinsertion)
+            {
+                var subHeuristic = generationHeuristic.SubMetaHeuristic;
+                generationHeuristic.SubMetaHeuristic = new ReinsertionHeuristic()
+                    { StaticOperator = new FitnessBasedElitistReinsertion(), SubMetaHeuristic = subHeuristic }.WithName("Forced Fitness Elitist Reinsertion Heuristic");
+            }
+
+
+           
 
 
             return eoHeuristic;

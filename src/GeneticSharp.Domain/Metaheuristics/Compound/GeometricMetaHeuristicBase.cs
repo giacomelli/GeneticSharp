@@ -14,6 +14,9 @@ namespace GeneticSharp.Domain.Metaheuristics.Compound
         /// </summary>
         public bool NoMutation { get; set; } = true;
 
+
+        public bool SetDefaultReinsertion { get; set; } = true;
+
         /// <summary>
         /// Max expected generations for parameter calibration
         /// </summary>
