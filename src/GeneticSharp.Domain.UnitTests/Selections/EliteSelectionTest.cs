@@ -67,8 +67,24 @@ namespace GeneticSharp.Domain.UnitTests.Selections
                 c1, c2, c3, c4
             });
 
+            //First we select unsorted
 
             var actual = target.SelectChromosomes(2, generation);
+            Assert.AreEqual(2, actual.Count);
+            Assert.AreEqual(0.5, actual[0].Fitness);
+            Assert.AreEqual(0.7, actual[1].Fitness);
+
+            actual = target.SelectChromosomes(3, generation);
+            Assert.AreEqual(3, actual.Count);
+            Assert.AreEqual(0.1, actual[0].Fitness);
+            Assert.AreEqual(0.5, actual[1].Fitness);
+            Assert.AreEqual(0.7, actual[2].Fitness);
+
+            //Then we apply a sort with the same selection
+
+            target.SortSelected = true;
+
+            actual = target.SelectChromosomes(2, generation);
             Assert.AreEqual(2, actual.Count);
             Assert.AreEqual(0.7, actual[0].Fitness);
             Assert.AreEqual(0.5, actual[1].Fitness);

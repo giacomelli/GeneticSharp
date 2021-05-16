@@ -24,6 +24,15 @@ namespace GeneticSharp.Domain.Selections
         }
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Sorts the selected parents by fitness value descending
+        /// </summary>
+        public bool SortSelected { get; set; }
+
+        #endregion
+
         #region ISelection implementation
         /// <summary>
         /// Performs the selection of chromosomes from the generation specified.
@@ -34,7 +43,24 @@ namespace GeneticSharp.Domain.Selections
         protected override IList<IChromosome> PerformSelectChromosomes(int number, Generation generation)
         {
             var ordered = generation.Chromosomes.OrderByDescending(c => c.Fitness);
-            return ordered.Take(number).ToList();
+            if (SortSelected)
+            {
+                return ordered.Take(number).ToList();
+            }
+
+            if (generation.Chromosomes.Count==number)
+            {
+                return generation.Chromosomes;
+            }
+
+            if (generation.Chromosomes.Count > number)
+            {
+                var cutoff = ordered.Skip(number - 1).First().Fitness.Value;
+                return generation.Chromosomes.Where(c => c.Fitness >= cutoff).Take(number).ToList();
+            }
+
+            return generation.Chromosomes.Take(number).ToList();
+
         }
 
         #endregion
