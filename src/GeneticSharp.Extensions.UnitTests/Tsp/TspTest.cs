@@ -96,15 +96,13 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                 DoubleToGeneConverter = GetGeneValueFunction,
                 GeneToDoubleConverter = (genIndex, geneValue) => geneValue
             };
-            var typedNoEmbeddingConverter = new TypedGeometricConverter();
-            typedNoEmbeddingConverter.SetTypedConverter(noEmbeddingConverter);
 
             var woa = new WhaleOptimisationAlgorithm()
             {
                 MaxGenerations = nbGenerationsWOA,
-                GeometricConverter = typedNoEmbeddingConverter,
                 SetDefaultReinsertion = false
                };
+            woa.SetGeometricConverter(noEmbeddingConverter);
             var metaHeuristic = woa.Build();
 
             // WhaleOptimisation evolution

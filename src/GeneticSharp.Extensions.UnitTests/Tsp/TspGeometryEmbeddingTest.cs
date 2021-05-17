@@ -286,16 +286,14 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
                     DoubleToGeneConverter = GetGeneValueFunction,
                     GeneToDoubleConverter = (genIndex, geneValue) => geneValue,
                 };
-                var typedNoEmbeddingConverter = new TypedGeometricConverter();
-                typedNoEmbeddingConverter.SetTypedConverter(noEmbeddingConverter);
 
                 var woa = new WhaleOptimisationAlgorithm()
                 {
                     MaxGenerations = nbGenerationsWOA,
-                    GeometricConverter = typedNoEmbeddingConverter,
                     HelicoidScale = helicoidScale,
                     NoMutation = noMutation
                 };
+                woa.SetGeometricConverter(noEmbeddingConverter);
                 metaHeuristic = woa.Build();
 
                 var resultWOA = Evolve_NbCities_Fast(fitness, adamChromosome, populationSize, metaHeuristic, crossover, mutation, termination, reinsertion);

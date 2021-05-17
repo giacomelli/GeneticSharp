@@ -110,12 +110,13 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         [Test]
         public void Compare_WOA_OnePoint_Stub_Small_LargerFitness()
         {
+            var targetRatio = 1;
             var crossover = new OnePointCrossover(2);
             var results = Compare_WOAReduced_Crossover_ChromosomeStub(1, crossover, SmallSizes);
 
             var meanRatio = results.Sum(c => c.result2.Fitness / c.result1.Fitness) / results.Count;
 
-            Assert.GreaterOrEqual(meanRatio, 1);
+            Assert.GreaterOrEqual(meanRatio, targetRatio);
 
         }
 
@@ -363,8 +364,6 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                         DoubleToGeneConverter = GetGeneValueFunction,
                         GeneToDoubleConverter = (genIndex, geneValue) => geneValue
                     };
-                    var typedNoEmbeddingConverter = new TypedGeometricConverter();
-                    typedNoEmbeddingConverter.SetTypedConverter(noEmbeddingConverter);
 
                     switch (kind)
                     {
@@ -376,9 +375,9 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                             var woa = new WhaleOptimisationAlgorithm()
                             {
                                 MaxGenerations = nbGenerationsWoa,
-                                GeometricConverter = typedNoEmbeddingConverter,
                                 NoMutation = noMutation
                             };
+                            woa.SetGeometricConverter(noEmbeddingConverter);
                             if (kind == KnownCompoundMetaheuristics.WhaleOptimisationNaive)
                             {
                                 woa.BubbleOperator = WhaleOptimisationAlgorithm.GetSimpleBubbleNetOperator();
@@ -437,25 +436,6 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
 
             var defaultHeuristic = new DefaultMetaHeuristic();
-
-
-            //var noEmbeddingConverter = new GeometricConverter<double>
-            //{
-            //    IsOrdered = false,
-            //    DoubleToGeneConverter = GetGeneValueFunction,
-            //    GeneToDoubleConverter = (genIndex, geneValue) => geneValue
-            //};
-            //var typedNoEmbeddingConverter = new TypedGeometricConverter();
-            //typedNoEmbeddingConverter.SetTypedConverter(noEmbeddingConverter);
-
-
-            //var woaCompound = new WhaleOptimisationAlgorithm()
-            //{
-            //    MaxGenerations = maxNbGenerations,
-            //    GeometricConverter = typedNoEmbeddingConverter,
-            //};
-            //var woa = woaCompound.Build();
-
 
 
             //Population Size
@@ -613,15 +593,12 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                 DoubleToGeneConverter = toGene,
                 GeneToDoubleConverter = FromGene
             };
-            var typedNoEmbeddingConverter = new TypedGeometricConverter();
-            typedNoEmbeddingConverter.SetTypedConverter(noEmbeddingConverter);
-
 
             var woa = new WhaleOptimisationAlgorithm()
             {
                 MaxGenerations = maxOperations,
-                GeometricConverter = typedNoEmbeddingConverter,
             };
+            woa.SetGeometricConverter(noEmbeddingConverter);
 
             if (!reduced)
             {
@@ -678,24 +655,20 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             IMetaHeuristic StandardHeuristic(int i) => new DefaultMetaHeuristic();
 
-
             var noEmbeddingConverter = new GeometricConverter<double>
             {
                 IsOrdered = false,
                 DoubleToGeneConverter = GetGeneValueFunction,
                 GeneToDoubleConverter = (genIndex, geneValue) => geneValue
             };
-            var typedNoEmbeddingConverter = new TypedGeometricConverter();
-            typedNoEmbeddingConverter.SetTypedConverter(noEmbeddingConverter);
-
 
             IMetaHeuristic MetaHeuristic(int maxValue)
             {
                 var woa = new WhaleOptimisationAlgorithm()
                 {
                     MaxGenerations = maxNbGenerations,
-                    GeometricConverter = typedNoEmbeddingConverter,
                 };
+                woa.SetGeometricConverter(noEmbeddingConverter);
                 return woa.Build();
             }
 

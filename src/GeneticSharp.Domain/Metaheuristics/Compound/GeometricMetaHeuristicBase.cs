@@ -28,6 +28,16 @@ namespace GeneticSharp.Domain.Metaheuristics.Compound
         /// </summary>
         public IGeometricConverter GeometricConverter { get; set; }
 
+        /// <summary>
+        /// A converter providing a gene to/from double converter and an optional geometrisation embedding
+        /// </summary>
+        public void  SetGeometricConverter<TGeneValue>(IGeometricConverter<TGeneValue> converter)
+        {
+            var typedNoEmbeddingConverter = new TypedGeometricConverter();
+            typedNoEmbeddingConverter.SetTypedConverter(converter);
+            GeometricConverter = typedNoEmbeddingConverter;
+        }
+
         public abstract IContainerMetaHeuristic Build();
     }
 }
