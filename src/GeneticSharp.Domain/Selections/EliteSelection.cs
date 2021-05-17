@@ -48,18 +48,13 @@ namespace GeneticSharp.Domain.Selections
                 return ordered.Take(number).ToList();
             }
 
-            if (generation.Chromosomes.Count==number)
-            {
-                return generation.Chromosomes;
-            }
-
             if (generation.Chromosomes.Count > number)
             {
                 var cutoff = ordered.Skip(number - 1).First().Fitness.Value;
                 return generation.Chromosomes.Where(c => c.Fitness >= cutoff).Take(number).ToList();
             }
 
-            return generation.Chromosomes.Take(number).ToList();
+            return generation.Chromosomes;
 
         }
 
