@@ -5,6 +5,7 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Randomizations;
+using GeneticSharp.Infrastructure.Framework.Collections;
 
 namespace GeneticSharp.Domain.Metaheuristics.Primitives
 {
@@ -23,20 +24,33 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sealed override IList<IChromosome> MatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
         {
-            if (ShouldRun(crossoverProbability, CrossoverProbabilityStrategy, StaticCrossoverProbability, out crossoverProbability))
+            IList<IChromosome> toReturn = null;
+            var baseProbability =  (CrossoverProbabilityStrategy & ProbabilityStrategy.OverwriteProbability) == ProbabilityStrategy.OverwriteProbability ? StaticCrossoverProbability : crossoverProbability;
+            while (ShouldRun(baseProbability, CrossoverProbabilityStrategy,  out var subCrossoverProbability))
             {
-                return DoMatchParentsAndCross(ctx, crossover, crossoverProbability, parents);
+                var newChildren = DoMatchParentsAndCross(ctx, crossover, subCrossoverProbability, parents);
+                if (toReturn == null)
+                {
+                    toReturn = newChildren;
+                }
+                else
+                {
+                    toReturn.AddRange(newChildren);
+                }
+                baseProbability--;
             }
 
-            return null;
+            return toReturn;
         }
 
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sealed override void MutateChromosome(IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
         {
-            if (ShouldRun(mutationProbability, MutationProbabilityStrategy, StaticMutationProbability, out mutationProbability))
+            var baseProbability = (MutationProbabilityStrategy & ProbabilityStrategy.OverwriteProbability) == ProbabilityStrategy.OverwriteProbability ? StaticMutationProbability : mutationProbability;
+            while (ShouldRun(baseProbability, MutationProbabilityStrategy,  out var subMutationProbability))
             {
-                DoMutateChromosome(ctx, mutation, mutationProbability, offSprings);
+                DoMutateChromosome(ctx, mutation, subMutationProbability, offSprings);
+                baseProbability--;
             }
         }
 
@@ -50,16 +64,19 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
 
 
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected bool ShouldRun(float initialProbability, ProbabilityStrategy strategy, float staticProbability, out float subProbability)
+        protected bool ShouldRun(float baseProbability, ProbabilityStrategy strategy, out float subProbability)
         {
-            subProbability = (strategy & ProbabilityStrategy.OverwriteProbability) == ProbabilityStrategy.OverwriteProbability ? staticProbability : initialProbability;
+            subProbability = baseProbability;
+            if (baseProbability<0)
+            {
+                return false;
+            }
             if ((strategy & ProbabilityStrategy.TestProbability) != ProbabilityStrategy.TestProbability) return true;
-            if (!(Math.Abs(subProbability - 1) > float.Epsilon) || RandomizationProvider.Current.GetDouble() < subProbability)
+            if ( 1 - subProbability < float.Epsilon || RandomizationProvider.Current.GetDouble() < subProbability)
             {
                 subProbability = 1;
                 return true;
             }
-
             return false;
         }
 
