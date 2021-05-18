@@ -588,7 +588,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
 
         /// <summary>
-        /// Forensic Based Investigation seems to work best with PureReinsertion: Preventing collapse to early best seems critical, with Uniform reinsertion another good candidate, and FitnessBasedElitist/Pairwise worst fits.
+        /// Forensic Based Investigation seems to work best with <see cref="FitnessBasedPairwiseReinsertion"/>: Fitness Based Elitist comes second, Pure and Fitness come last, Keeping best chromosomes accross generations seem key.
         /// </summary>
         [Test]
         public void Evolve_FBI_DifferentReinsertions_KnownFunctions_Composite_Small_PairwiseReinsertionBest()
@@ -617,6 +617,40 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var bestReinsertion = reinsertions[bestResultIndex];
             Assert.AreEqual(compound.GetDefaultReinsertion().GetType().Name, bestReinsertion.GetType().Name);
             Assert.AreEqual(nameof(FitnessBasedPairwiseReinsertion), bestReinsertion.GetType().Name);
+
+        }
+
+
+        /// <summary>
+        /// Equilibrium Optimizer seems to work best with FitnessXXX reinsertions, with quite some variability accross congigurations. This test with Levy seems robust though
+        /// </summary>
+        [Test]
+        public void Evolve_EO_DifferentReinsertions_KnownFunctions_Composite_Small_PairwiseReinsertionBest()
+        {
+            var repeatNb = 5;
+
+            //Population Size
+            var populationSize = 100;
+
+            int maxNbGenerations = 100;
+            var compound = new EquilibriumOptimizer()
+            {
+                MaxGenerations = maxNbGenerations,
+                NoMutation = true,
+            };
+
+            var reinsertionNames = ReinsertionService.GetReinsertionNames();
+            var reinsertions = reinsertionNames.Select(name => ReinsertionService.CreateReinsertionByName(name)).ToArray();
+
+            var functionName = nameof(KnownFunctions.Levy);
+            var pbSizes = VerySmallSizes.Skip(1).Take(1);
+            var results = Evolve_GeometricCompound_DifferentReinsertions_KnownFunctions_Small(repeatNb, populationSize, maxNbGenerations, compound, reinsertions, pbSizes, functionName);
+
+            var bestResult = results[0][0].MaxBy(r => r.Fitness);
+            var bestResultIndex = results[0][0].IndexOf(bestResult);
+            var bestReinsertion = reinsertions[bestResultIndex];
+            //Assert.AreEqual(compound.GetDefaultReinsertion().GetType().Name, bestReinsertion.GetType().Name);
+            Assert.Contains(bestReinsertion.GetType().Name, new string[]{nameof(FitnessBasedElitistReinsertion), nameof(FitnessBasedPairwiseReinsertion), nameof(FitnessBasedReinsertion)});
 
         }
 
@@ -714,7 +748,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         /// <summary>
         /// This is a custom unit test to do some preliminary experiences. Interesting results can be made into dedicated unit tests. The test attribute is commented out by default
         /// </summary>
-        [Test]
+        //[Test]
         public void GridSearch()
         {
             try
