@@ -84,14 +84,14 @@ namespace GeneticSharp.Domain.Metaheuristics.Compound
 
 
             //Defining the cross operator to be applied to generate centroid from 4 best chromosomes
-            var centroidHeuristic = new CrossoverHeuristic()
+            var centroidHeuristic = new CrossoverMetaHeuristic()
                 .WithCrossover(ParamScope.None,
                     (IMetaHeuristic h, IEvolutionContext ctx) => new GeometricCrossover<object>(GeometricConverter.IsOrdered, 4, false)
                         .WithGeometryEmbedding(GeometricConverter.GetEmbedding()));
 
 
 
-            var generationHeuristic = new CrossoverHeuristic()
+            var generationHeuristic = new CrossoverMetaHeuristic()
                 .WithCrossover(ParamScope.None,
                     (IMetaHeuristic h, IEvolutionContext ctx, IList<double> gcp, double[] lambda, double[] f) => new GeometricCrossover<object>(GeometricConverter.IsOrdered, 2, false)
                         .WithLinearGeometricOperator((geneIndex, geneValues) => DefaultEquilibriumOperator(geneIndex, geneValues, GeometricConverter, gcp, lambda, f, V))

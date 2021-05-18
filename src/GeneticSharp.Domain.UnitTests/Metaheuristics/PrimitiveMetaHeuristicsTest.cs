@@ -22,14 +22,12 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             var stubParents = GetStubChromosomes(10);
 
-            var testContainer = new ContainerMetaHeuristic
-            {
-                CrossoverProbabilityStrategy = ProbabilityStrategy.TestProbability
-            };
+            var testContainer = new ContainerMetaHeuristic();
+            testContainer.ProbabilityConfig.Crossover.Strategy = ProbabilityStrategy.TestProbability;
 
 
             var geomCrossover = new GeometricCrossover<int>().WithLinearGeometricOperator((geneIndex, geneValues) => geneValues[0]);
-            testContainer.SubMetaHeuristic = new CrossoverHeuristic().WithCrossover(geomCrossover);
+            testContainer.SubMetaHeuristic = new CrossoverMetaHeuristic().WithCrossover(geomCrossover);
             IEvolutionContext ctx = new EvolutionContext().GetIndividual(0);
             
 
@@ -61,7 +59,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             var testHeuristic = new SwitchMetaHeuristic<int>()
                 .WithCaseGenerator(ParamScope.None, (heuristic, context) => context.OriginalIndex);
-            testHeuristic.CrossoverProbabilityStrategy = ProbabilityStrategy.TestProbability;
+            testHeuristic.ProbabilityConfig.Crossover.Strategy = ProbabilityStrategy.TestProbability;
 
 
             var nbPhases = 5;
@@ -108,10 +106,8 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             var phaseDuration = 10;
 
-            var testHeuristic = new GenerationMetaHeuristic(phaseDuration, geometricHeuristics.ToArray())
-            {
-                CrossoverProbabilityStrategy = ProbabilityStrategy.TestProbability
-            };
+            var testHeuristic = new GenerationMetaHeuristic(phaseDuration, geometricHeuristics.ToArray());
+            testHeuristic.ProbabilityConfig.Crossover.Strategy = ProbabilityStrategy.TestProbability;
 
             IEvolutionContext ctx = new EvolutionContext();
 
@@ -154,10 +150,8 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
 
 
-            var testHeuristic = new PopulationMetaHeuristic(groupSize, geometricHeuristics.ToArray())
-            {
-                CrossoverProbabilityStrategy = ProbabilityStrategy.TestProbability
-            };
+            var testHeuristic = new PopulationMetaHeuristic(groupSize, geometricHeuristics.ToArray());
+            testHeuristic.ProbabilityConfig.Crossover.Strategy = ProbabilityStrategy.TestProbability;
 
             IEvolutionContext ctx = new EvolutionContext();
 

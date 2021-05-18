@@ -62,7 +62,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Compound
             {
                 var subHeuristic = toReturn.SubMetaHeuristic;
                 var reinsertion = CustomReinsertion ?? GetDefaultReinsertion();
-                toReturn.SubMetaHeuristic = new ReinsertionHeuristic()
+                toReturn.SubMetaHeuristic = new ReinsertionMetaHeuristic()
                     { StaticOperator = reinsertion, SubMetaHeuristic = subHeuristic }.WithName($"Forced {reinsertion.GetType().Name} Reinsertion MetaHeuristic");
             }
 

@@ -114,7 +114,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Compound
                 .WithParam(nameof(FBIParam.pbSize), "Size of pb = nb of genes", ParamScope.Evolution, (h, ctx) => ctx.Population.CurrentGeneration.Chromosomes[0].GetGenes().Length)
                 .WithParam(nameof(FBIParam.nChange), "random gene index for update", ParamScope.MetaHeuristic | ParamScope.Generation | ParamScope.Individual, (IMetaHeuristic h, IEvolutionContext ctx, int pbSize) => rnd.GetInt(0, pbSize))
                 .WithMatches(MatchingKind.Current, MatchingKind.Random, MatchingKind.Random)
-                .WithCrossoverMetaHeuristic(new CrossoverHeuristic()
+                .WithCrossoverMetaHeuristic(new CrossoverMetaHeuristic()
                     .WithCrossover(ParamScope.None, (IMetaHeuristic h, IEvolutionContext ctx, int nChange) => new GeometricCrossover<object>(GeometricConverter.IsOrdered, 3, false)
                         .WithLinearGeometricOperator((geneIndex, geneValues) => A1StepOperator(geneIndex, geneValues, GeometricConverter, nChange))
                         .WithGeometryEmbedding(GeometricConverter.GetEmbedding())));
@@ -127,7 +127,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Compound
                 .WithCaseGenerator(ParamScope.None, (IMetaHeuristic h, IEvolutionContext ctx, double prob) => GetA2Switch(prob) /*rnd.GetDouble() > prob*/)
                 .WithTrue(new MatchMetaHeuristic()
                     .WithMatches(MatchingKind.Current, MatchingKind.Best, MatchingKind.Random, MatchingKind.Random, MatchingKind.Random)
-                    .WithCrossoverMetaHeuristic(new CrossoverHeuristic()
+                    .WithCrossoverMetaHeuristic(new CrossoverMetaHeuristic()
                         .WithCrossover(ParamScope.Constant, (h, ctx) => new GeometricCrossover<object>(GeometricConverter.IsOrdered, 5, false)
                             .WithLinearGeometricOperator((geneIndex, geneValues) => A2StepOperator(geneIndex, geneValues, GeometricConverter))
                             .WithGeometryEmbedding(GeometricConverter.GetEmbedding()))))
@@ -135,7 +135,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Compound
 
             var b1StepHeuristic = new MatchMetaHeuristic().WithName("B1 Step")
                 .WithMatches(MatchingKind.Current, MatchingKind.Best)
-                .WithCrossoverMetaHeuristic(new CrossoverHeuristic()
+                .WithCrossoverMetaHeuristic(new CrossoverMetaHeuristic()
                     .WithCrossover(ParamScope.Constant, (h, ctx) =>
                         new GeometricCrossover<object>(GeometricConverter.IsOrdered, 2, false)
                             .WithLinearGeometricOperator((geneIndex, geneValues) =>
@@ -145,7 +145,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Compound
             var b2StepHeuristic = new MatchMetaHeuristic().WithName("B2 Step")
                 .WithParam(nameof(FBIParam.randomBetter), "random better than current", ParamScope.MetaHeuristic | ParamScope.Generation | ParamScope.Individual, (h, ctx) => (ctx.SelectedParents[0].Fitness > ctx.SelectedParents[1].Fitness))
                 .WithMatches(MatchingKind.Current, MatchingKind.Random, MatchingKind.Best)
-                .WithCrossoverMetaHeuristic(new CrossoverHeuristic()
+                .WithCrossoverMetaHeuristic(new CrossoverMetaHeuristic()
                     .WithCrossover(ParamScope.None, (IMetaHeuristic h, IEvolutionContext ctx, bool randomBetter) =>
                         new GeometricCrossover<object>(GeometricConverter.IsOrdered,3 , false)
                             .WithLinearGeometricOperator((geneIndex, geneValues) =>

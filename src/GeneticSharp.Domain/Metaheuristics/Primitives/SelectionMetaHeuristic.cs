@@ -9,7 +9,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
     /// Metaheuristic to provide a specific selection operator
     /// </summary>
     [DisplayName("Selection")]
-    public class SelectionHeuristic : OperatorHeuristic<ISelection>
+    public class SelectionMetaHeuristic : OperatorMetaHeuristic<ISelection>
     {
 
 

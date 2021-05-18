@@ -70,7 +70,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             {
                 var iClosure = i;
                 var geomCrossover = new GeometricCrossover<int>().WithLinearGeometricOperator((geneIndex, geneValues)   => iClosure);
-                var geomHeuristic = new CrossoverHeuristic().WithCrossover(geomCrossover);
+                var geomHeuristic = new CrossoverMetaHeuristic().WithCrossover(geomCrossover);
 
                 geometricHeuristics.Add(geomHeuristic);
 
@@ -418,13 +418,13 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                         if (forceReinsertion && metaHeuristic is IContainerMetaHeuristic containerMetaHeuristic)
                         {
                             var subMH = containerMetaHeuristic.SubMetaHeuristic;
-                            if (subMH is ReinsertionHeuristic rh)
+                            if (subMH is ReinsertionMetaHeuristic rh)
                             {
                                 rh.StaticOperator = reinsertion;
                             }
                             else
                             {
-                                containerMetaHeuristic.SubMetaHeuristic = new ReinsertionHeuristic()
+                                containerMetaHeuristic.SubMetaHeuristic = new ReinsertionMetaHeuristic()
                                     {StaticOperator = reinsertion, SubMetaHeuristic = subMH};
                             }
                         }

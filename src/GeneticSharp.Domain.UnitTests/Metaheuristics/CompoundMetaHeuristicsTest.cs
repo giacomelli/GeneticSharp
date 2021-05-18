@@ -855,6 +855,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             foreach (var currentReinsertion in reinsertions)
             {
                 geometricCompound.CustomReinsertion = currentReinsertion;
+                
                 var metaHeuristic = geometricCompound.Build();
                 metaHeuristics.Add(metaHeuristic);
             }

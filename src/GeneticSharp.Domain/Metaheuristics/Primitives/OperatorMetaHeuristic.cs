@@ -2,7 +2,7 @@
 
 namespace GeneticSharp.Domain.Metaheuristics.Primitives
 {
-    public abstract class OperatorHeuristic<TOperator> : ContainerMetaHeuristic
+    public abstract class OperatorMetaHeuristic<TOperator> : ContainerMetaHeuristic
     {
 
 

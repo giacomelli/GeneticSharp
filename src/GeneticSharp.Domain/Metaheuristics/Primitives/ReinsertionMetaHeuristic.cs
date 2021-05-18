@@ -9,7 +9,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
     /// Metaheuristic to provide a specific Reinsertion operator
     /// </summary>
     [DisplayName("Reinsertion")]
-    public class ReinsertionHeuristic : OperatorHeuristic<IReinsertion>
+    public class ReinsertionMetaHeuristic : OperatorMetaHeuristic<IReinsertion>
     {
 
        

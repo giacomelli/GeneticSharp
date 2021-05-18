@@ -32,7 +32,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
 
         public MatchMetaHeuristic() : base(new DefaultMetaHeuristic())
         {
-            CrossoverProbabilityStrategy = ProbabilityStrategy.TestProbability | ProbabilityStrategy.OverwriteProbability;
+           ProbabilityConfig.Crossover.Strategy = ProbabilityStrategy.TestProbability | ProbabilityStrategy.OverwriteProbability;
         }
 
         public MatchMetaHeuristic(IMetaHeuristic crossMetaHeuristic) : this()
@@ -42,7 +42,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
 
         public MatchMetaHeuristic(IMetaHeuristic crossMetaHeuristic, IMetaHeuristic subMetaHeuristic) : base(subMetaHeuristic)
         {
-            CrossoverProbabilityStrategy = ProbabilityStrategy.TestProbability | ProbabilityStrategy.OverwriteProbability;
+            ProbabilityConfig.Crossover.Strategy = ProbabilityStrategy.TestProbability | ProbabilityStrategy.OverwriteProbability;
             CrossMetaHeuristic = crossMetaHeuristic;
         }
 

@@ -112,7 +112,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// </summary>
         public static T WithCrossoverProbabilityStrategy<T>(this T metaHeuristic, ProbabilityStrategy strategy) where T : ContainerMetaHeuristic
         {
-            metaHeuristic.CrossoverProbabilityStrategy = strategy;
+            metaHeuristic.ProbabilityConfig.Crossover.Strategy = strategy;
             return metaHeuristic;
         }
 
@@ -121,7 +121,7 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// </summary>
         public static T WithMutationProbabilityStrategy<T>(this T metaHeuristic, ProbabilityStrategy strategy) where T : ContainerMetaHeuristic
         {
-            metaHeuristic.MutationProbabilityStrategy = strategy;
+            metaHeuristic.ProbabilityConfig.Mutation.Strategy = strategy;
             return metaHeuristic;
         }
 
@@ -206,14 +206,14 @@ namespace GeneticSharp.Domain.Metaheuristics
         /// <param name="metaHeuristic">the MetaHeuristic to which to apply the fluent operator</param>
         /// <param name="selection">The static selection to define</param>
         /// <returns>the currrent selection metaheuristic with a static selection defined</returns>
-        public static T WithSelection<T>(this T metaHeuristic, ISelection selection) where T : SelectionHeuristic
+        public static T WithSelection<T>(this T metaHeuristic, ISelection selection) where T : SelectionMetaHeuristic
         {
             metaHeuristic.StaticOperator = selection;
             return metaHeuristic;
         }
 
 
-        public static T WithSelection<T>(this T metaHeuristic, ParameterGenerator<ISelection> dynamicOperator, ParamScope scope) where T : SelectionHeuristic
+        public static T WithSelection<T>(this T metaHeuristic, ParameterGenerator<ISelection> dynamicOperator, ParamScope scope) where T : SelectionMetaHeuristic
         {
             metaHeuristic.DynamicParameter = new MetaHeuristicParameter<ISelection>
             {
@@ -224,13 +224,13 @@ namespace GeneticSharp.Domain.Metaheuristics
         }
 
 
-        public static T WithCrossover<T>(this T metaHeuristic, ICrossover crossover) where T : CrossoverHeuristic
+        public static T WithCrossover<T>(this T metaHeuristic, ICrossover crossover) where T : CrossoverMetaHeuristic
         {
             metaHeuristic.StaticOperator = crossover;
             return metaHeuristic;
         }
 
-        public static T WithCrossover<T>(this T metaHeuristic, ParamScope scope, ParameterGenerator<ICrossover> dynamicOperator) where T : CrossoverHeuristic
+        public static T WithCrossover<T>(this T metaHeuristic, ParamScope scope, ParameterGenerator<ICrossover> dynamicOperator) where T : CrossoverMetaHeuristic
         {
             metaHeuristic.DynamicParameter = new MetaHeuristicParameter<ICrossover>
             {
@@ -240,7 +240,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             return metaHeuristic;
         }
 
-        public static T WithCrossover<T, TArg1>(this T metaHeuristic, ParamScope scope, Expression<ParameterGenerator<ICrossover, TArg1>> dynamicOperator) where T : CrossoverHeuristic
+        public static T WithCrossover<T, TArg1>(this T metaHeuristic, ParamScope scope, Expression<ParameterGenerator<ICrossover, TArg1>> dynamicOperator) where T : CrossoverMetaHeuristic
         {
             metaHeuristic.DynamicParameter = new ExpressionMetaHeuristicParameter<ICrossover,TArg1>
             {
@@ -250,7 +250,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             return metaHeuristic;
         }
 
-        public static T WithCrossover<T, TArg1, TArg2>(this T metaHeuristic, ParamScope scope, Expression<ParameterGenerator<ICrossover, TArg1, TArg2>> dynamicOperator) where T : CrossoverHeuristic
+        public static T WithCrossover<T, TArg1, TArg2>(this T metaHeuristic, ParamScope scope, Expression<ParameterGenerator<ICrossover, TArg1, TArg2>> dynamicOperator) where T : CrossoverMetaHeuristic
         {
             metaHeuristic.DynamicParameter = new ExpressionMetaHeuristicParameter<ICrossover, TArg1, TArg2>
             {
@@ -260,7 +260,7 @@ namespace GeneticSharp.Domain.Metaheuristics
             return metaHeuristic;
         }
 
-        public static T WithCrossover<T, TArg1, TArg2, TArg3>(this T metaHeuristic, ParamScope scope, Expression<ParameterGenerator<ICrossover, TArg1, TArg2, TArg3>> dynamicOperator) where T : CrossoverHeuristic
+        public static T WithCrossover<T, TArg1, TArg2, TArg3>(this T metaHeuristic, ParamScope scope, Expression<ParameterGenerator<ICrossover, TArg1, TArg2, TArg3>> dynamicOperator) where T : CrossoverMetaHeuristic
         {
             metaHeuristic.DynamicParameter = new ExpressionMetaHeuristicParameter<ICrossover, TArg1, TArg2, TArg3>
             {
@@ -271,13 +271,13 @@ namespace GeneticSharp.Domain.Metaheuristics
         }
 
 
-        public static T WithMutation<T>(this T metaHeuristic, IMutation mutation) where T : MutationHeuristic
+        public static T WithMutation<T>(this T metaHeuristic, IMutation mutation) where T : MutationMetaHeuristic
         {
             metaHeuristic.StaticOperator = mutation;
             return metaHeuristic;
         }
 
-        public static T WithMutation<T>(this T metaHeuristic, ParamScope scope, ParameterGenerator<IMutation> dynamicOperator) where T : MutationHeuristic
+        public static T WithMutation<T>(this T metaHeuristic, ParamScope scope, ParameterGenerator<IMutation> dynamicOperator) where T : MutationMetaHeuristic
         {
             metaHeuristic.DynamicParameter = new MetaHeuristicParameter<IMutation>
             {
@@ -289,13 +289,13 @@ namespace GeneticSharp.Domain.Metaheuristics
 
 
 
-        public static T WithReinsertion<T>(this T metaHeuristic, IReinsertion reinsertion) where T : ReinsertionHeuristic
+        public static T WithReinsertion<T>(this T metaHeuristic, IReinsertion reinsertion) where T : ReinsertionMetaHeuristic
         {
             metaHeuristic.StaticOperator = reinsertion;
             return metaHeuristic;
         }
 
-        public static T WithReinsertion<T>(this T metaHeuristic, ParamScope scope, ParameterGenerator<IReinsertion> dynamicOperator) where T : ReinsertionHeuristic
+        public static T WithReinsertion<T>(this T metaHeuristic, ParamScope scope, ParameterGenerator<IReinsertion> dynamicOperator) where T : ReinsertionMetaHeuristic
         {
             metaHeuristic.DynamicParameter = new MetaHeuristicParameter<IReinsertion>
             {

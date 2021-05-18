@@ -9,7 +9,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
     /// Metaheuristic to provide a specific mutation operator
     /// </summary>
     [DisplayName("Mutation")]
-    public class MutationHeuristic : OperatorHeuristic<IMutation>
+    public class MutationMetaHeuristic : OperatorMetaHeuristic<IMutation>
     {
 
         protected override void DoMutateChromosome(IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)

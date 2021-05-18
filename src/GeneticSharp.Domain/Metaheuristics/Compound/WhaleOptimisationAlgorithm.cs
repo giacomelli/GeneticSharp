@@ -84,7 +84,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Compound
             var rnd = RandomizationProvider.Current;
 
             //Defining the cross operator to be applied with a random or best target, with the Encircling Prey Operator
-            var encirclingHeuristic = new CrossoverHeuristic()
+            var encirclingHeuristic = new CrossoverMetaHeuristic()
                 .WithName("encircling crossover")
                 .WithCrossover(ParamScope.None,
                     (IMetaHeuristic h, IEvolutionContext ctx, double A, double C) => new GeometricCrossover<object>(GeometricConverter.IsOrdered, 2, false)
@@ -120,7 +120,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Compound
                 .WithFalse(new MatchMetaHeuristic()
                     .WithName("Bubble Net heuristic", "Exploitation phase, helicoidal approach")
                     .WithMatches(MatchingKind.Current, MatchingKind.Best)
-                    .WithCrossoverMetaHeuristic(new CrossoverHeuristic()
+                    .WithCrossoverMetaHeuristic(new CrossoverMetaHeuristic()
                         .WithName("Bubble Net crossover")
                         .WithCrossover(ParamScope.None,
                             (IMetaHeuristic h, IEvolutionContext ctx, double l) => new GeometricCrossover<object>(GeometricConverter.IsOrdered, 2, false)
@@ -143,7 +143,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Compound
         {
             var rnd = RandomizationProvider.Current;
 
-            var updateTrackingCrossoverHeuristic = new CrossoverHeuristic()
+            var updateTrackingCrossoverHeuristic = new CrossoverMetaHeuristic()
                 .WithCrossover(ParamScope.None, (h, ctx) => new GeometricCrossover<object>(GeometricConverter.IsOrdered, 2, false) //geneValues[1] is from best or random chromosome, geneValues[0] is from current parent
                     .WithLinearGeometricOperator((geneIndex, geneValues) => GeometricConverter.DoubleToGene(geneIndex, GeometricConverter.GeneToDouble(geneIndex, geneValues[1]) - ctx.GetParam<double>(h, nameof(WoaParam.A)) * Math.Abs(ctx.GetParam<double>(h, nameof(WoaParam.C)) * GeometricConverter.GeneToDouble(geneIndex, geneValues[1]) - GeometricConverter.GeneToDouble(geneIndex, geneValues[0])))));
 
@@ -165,7 +165,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Compound
                         .WithCrossoverMetaHeuristic(updateTrackingCrossoverHeuristic)))
                 .WithFalse(new MatchMetaHeuristic()
                     .WithMatches(MatchingKind.Current, MatchingKind.Best)
-                    .WithCrossoverMetaHeuristic(new CrossoverHeuristic()
+                    .WithCrossoverMetaHeuristic(new CrossoverMetaHeuristic()
                         .WithCrossover(ParamScope.None, (h, ctx) => new GeometricCrossover<object>(GeometricConverter.IsOrdered, 2, false)
                             .WithLinearGeometricOperator((geneIndex, geneValues) => GeometricConverter.DoubleToGene(geneIndex, Math.Abs(GeometricConverter.GeneToDouble(geneIndex, geneValues[1]) - GeometricConverter.GeneToDouble(geneIndex, geneValues[0]))
                                                                                    * Math.Exp(ctx.GetParam<double>(h, nameof(WoaParam.l))) *

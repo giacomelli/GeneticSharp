@@ -9,7 +9,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
     /// Metaheuristic to provide a specific Crossover operator
     /// </summary>
     [DisplayName("Container")]
-    public class CrossoverHeuristic : OperatorHeuristic<ICrossover>
+    public class CrossoverMetaHeuristic : OperatorMetaHeuristic<ICrossover>
     {
 
 
