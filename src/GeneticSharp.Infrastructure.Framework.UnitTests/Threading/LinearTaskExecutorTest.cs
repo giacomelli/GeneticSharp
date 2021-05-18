@@ -6,11 +6,11 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Infrastructure")]
     public class LinearTaskExecutorTest
     {
-        [Test()]
+        [Test]
         public void Start_Task_TaskRan()
         {
             var pipeline = "";
@@ -23,7 +23,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
             Assert.AreEqual("123", pipeline);
         }
 
-        [Test()]
+        [Test]
         public void Start_TakeMoreThanTimeout_False()
         {
             var pipeline = "";
@@ -41,7 +41,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
             Assert.AreEqual("12", pipeline);
         }
 
-        [Test()]
+        [Test]
         public void Stop_ManyTasks_True()
         {
             var pipeline = "";

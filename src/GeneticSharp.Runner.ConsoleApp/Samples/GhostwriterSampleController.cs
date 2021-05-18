@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Web;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Fitnesses;
@@ -17,8 +16,8 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
     [DisplayName("Ghostwriter")]
     public class GhostwriterSampleController : SampleControllerBase
     {
-        private List<string> m_quotes;
-        private List<string> m_words;
+        private readonly List<string> m_quotes;
+        private readonly List<string> m_words;
 
         public GhostwriterSampleController()
         {
@@ -40,7 +39,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         public override void ConfigGA(GeneticAlgorithm ga)
         {
             base.ConfigGA(ga);
-            ga.TaskExecutor = new ParallelTaskExecutor()
+            ga.TaskExecutor = new ParallelTaskExecutor
             {
                 MinThreads = 25,
                 MaxThreads = 50
@@ -49,11 +48,11 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
 
         public override IFitness CreateFitness()
         {
-            return new GhostwriterFitness((text) =>
+            return new GhostwriterFitness(text =>
             {
                 var minDistance = m_quotes.Min(q => LevenshteinDistance(q, text));
 
-                return 1 - (minDistance / 100f);
+                return 1 - minDistance / 100f;
             });
         }
 
@@ -109,7 +108,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
                 // use formula to fill in the rest of the row
                 for (int j = 0; j < t.Length; j++)
                 {
-                    var cost = (s[i] == t[j]) ? 0 : 1;
+                    var cost = s[i] == t[j] ? 0 : 1;
                     v1[j + 1] = Math.Min(Math.Min(v1[j] + 1, v0[j + 1] + 1), v0[j] + cost);
                 }
 

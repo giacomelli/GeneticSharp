@@ -9,17 +9,17 @@ namespace GeneticSharp.Runner.GtkApp
     /// <summary>
     /// A property editor to genetic algorithm operators.
     /// </summary>
-    public partial class PropertyEditor : Gtk.Dialog
+    public partial class PropertyEditor : Dialog
     {
         #region Fields
-        private Type m_objectType;
-        private Dictionary<PropertyInfo, Widget> m_widgetMap;
+        private readonly Type m_objectType;
+        private readonly Dictionary<PropertyInfo, Widget> m_widgetMap;
         #endregion
 
         #region Constructors
         public PropertyEditor(Type objectType, object objectInstance)
         {
-            this.Build();
+            Build();
             buttonOk.Clicked += delegate
             {
                 BindToObject();
@@ -79,15 +79,13 @@ namespace GeneticSharp.Runner.GtkApp
 
                 if (p.PropertyType == typeof(int))
                 {
-                    var spinButton = new SpinButton(0, int.MaxValue, 1);
-                    spinButton.Value = Convert.ToDouble(value);
+                    var spinButton = new SpinButton(0, int.MaxValue, 1) {Value = Convert.ToDouble(value)};
                     input = spinButton;
                 }
 
                 if (p.PropertyType == typeof(bool))
                 {
-                    var toggle = new ToggleButton();
-                    toggle.Active = Convert.ToBoolean(value);
+                    var toggle = new ToggleButton {Active = Convert.ToBoolean(value)};
                     input = toggle;
                 }
                 else if (p.PropertyType == typeof(float) || p.PropertyType == typeof(double))
@@ -104,8 +102,7 @@ namespace GeneticSharp.Runner.GtkApp
                 else if (p.PropertyType == typeof(TimeSpan))
                 {
                     var secondsHBox = new HBox();
-                    var seconds = new SpinButton(0, int.MaxValue, 1);
-                    seconds.Value = ((TimeSpan)value).TotalSeconds;
+                    var seconds = new SpinButton(0, int.MaxValue, 1) {Value = ((TimeSpan) value).TotalSeconds};
                     secondsHBox.Add(seconds);
 
                     var secondsLabel = new Label("seconds");

@@ -2,10 +2,10 @@
 using System.Reflection;
 using System.Runtime.Serialization;
 using GeneticSharp.Domain.Reinsertions;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
-namespace GeneticSharp.Domain.UnitTests.Chromosomes
+namespace GeneticSharp.Domain.UnitTests.Reinsertions
 {
     [TestFixture]
     [Category("Reinsertions")]

@@ -7,9 +7,9 @@ using GeneticSharp.Runner.ConsoleApp.Samples;
 
 namespace GeneticSharp.Runner.ConsoleApp
 {
-    public class Program
+    public static class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
             Run();
         }
@@ -27,7 +27,7 @@ namespace GeneticSharp.Runner.ConsoleApp
 
             for (int i = 0; i < sampleNames.Count; i++)
             {
-                Console.WriteLine("{0}) {1}", i + 1, sampleNames[i]);
+                Console.WriteLine($@"{i + 1}) {sampleNames[i]}");
             }
 
             int sampleNumber = 0;
@@ -54,11 +54,15 @@ namespace GeneticSharp.Runner.ConsoleApp
             var crossover = sampleController.CreateCrossover();
             var mutation = sampleController.CreateMutation();
             var fitness = sampleController.CreateFitness();
-            var population = new Population(100, 200, sampleController.CreateChromosome());
-            population.GenerationStrategy = new PerformanceGenerationStrategy();
+            var population = new Population(100, 200, sampleController.CreateChromosome())
+            {
+                GenerationStrategy = new PerformanceGenerationStrategy()
+            };
 
-            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
-            ga.Termination = sampleController.CreateTermination();
+            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation)
+            {
+                Termination = sampleController.CreateTermination()
+            };
 
             var terminationName = ga.Termination.GetType().Name;
 
@@ -67,11 +71,11 @@ namespace GeneticSharp.Runner.ConsoleApp
                 DrawSampleName(selectedSampleName);
 
                 var bestChromosome = ga.Population.BestChromosome;
-                Console.WriteLine("Termination: {0}", terminationName);
-                Console.WriteLine("Generations: {0}", ga.Population.GenerationsNumber);
-                Console.WriteLine("Fitness: {0,10}", bestChromosome.Fitness);
-                Console.WriteLine("Time: {0}", ga.TimeEvolving);
-                Console.WriteLine("Speed (gen/sec): {0:0.0000}", ga.Population.GenerationsNumber / ga.TimeEvolving.TotalSeconds);
+                Console.WriteLine($@"Termination: {terminationName}");
+                Console.WriteLine($@"Generations: {ga.Population.GenerationsNumber}");
+                Console.WriteLine(@"Fitness: {0,10}", bestChromosome.Fitness);
+                Console.WriteLine($@"Time: {ga.TimeEvolving}" );
+                Console.WriteLine(@"Speed (gen/sec): {0:0.0000}", ga.Population.GenerationsNumber / ga.TimeEvolving.TotalSeconds);
                 sampleController.Draw(bestChromosome);
             };
 
@@ -84,7 +88,7 @@ namespace GeneticSharp.Runner.ConsoleApp
             {
                 Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine();
-                Console.WriteLine("Error: {0}", ex.Message);
+                Console.WriteLine($@"Error: {ex.Message}");
                 Console.ResetColor();
                 Console.ReadKey();
                 return;
@@ -103,7 +107,7 @@ namespace GeneticSharp.Runner.ConsoleApp
             Console.Clear();
 
             Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine("GeneticSharp - ConsoleApp");
+            Console.WriteLine(@"GeneticSharp - ConsoleApp");
             Console.WriteLine();
             Console.WriteLine(selectedSampleName);
             Console.ResetColor();

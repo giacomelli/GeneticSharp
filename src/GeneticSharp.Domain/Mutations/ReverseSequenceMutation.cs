@@ -32,7 +32,7 @@ namespace GeneticSharp.Domain.Mutations
         /// </summary>
         /// <returns>The resulted sequence after mutation operation.</returns>
         /// <param name="sequence">The sequence to be mutated.</param>
-        protected override IEnumerable<T> MutateOnSequence<T>(IEnumerable<T> sequence)
+        protected override IEnumerable<T> MutateOnSequence<T>(IList<T> sequence)
         {
             return sequence.Reverse();
         }

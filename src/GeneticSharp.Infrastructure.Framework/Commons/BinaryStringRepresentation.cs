@@ -47,7 +47,42 @@ namespace GeneticSharp.Infrastructure.Framework.Commons
         /// <param name="totalBits">Total bits.</param>
         public static string[] ToRepresentation(long[] values, int[] totalBits)
         {
-            return ToRepresentation<long>(values, totalBits, totalBits, (v, t, f) => ToRepresentation(v, t));
+            return ToRepresentation(values, totalBits, totalBits, (v, t, f) => ToRepresentation(v, t));
+        }
+
+       
+
+        /// <summary>
+        /// Converts from double to string representation .
+        /// </summary>
+        /// <returns>The representation.</returns>
+        /// <param name="value">Value.</param>
+        /// <param name="totalBits">Total bits.</param>
+        /// <param name="fractionDigits">Fraction (scale) digits.</param>
+        public static string ToRepresentation(double value, int totalBits = 0, int fractionDigits = 2)
+        {
+            var longValue = Convert.ToInt64(value * 10.IntPow(fractionDigits));
+
+            var result = ToRepresentation(longValue, totalBits, false);
+
+            if (totalBits > 0 && result.Length > totalBits)
+            {
+                throw new ArgumentException("The value {0} needs {1} total bits to be represented.".With(value, result.Length), nameof(value));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Converts from doubles to strings representation .
+        /// </summary>
+        /// <returns>The representations.</returns>
+        /// <param name="values">The values..</param>
+        /// <param name="totalBits">The total bits.</param>
+        /// <param name="fractionDigits">The fraction (scale) digits.</param>
+        public static string[] ToRepresentation(double[] values, int[] totalBits, int[] fractionDigits)
+        {
+            return ToRepresentation(values, totalBits, fractionDigits, (v, t, f) => ToRepresentation(v, t, f));
         }
 
         /// <summary>
@@ -88,38 +123,6 @@ namespace GeneticSharp.Infrastructure.Framework.Commons
             return int64s;
         }
 
-        /// <summary>
-        /// Converts from double to string representation .
-        /// </summary>
-        /// <returns>The representation.</returns>
-        /// <param name="value">Value.</param>
-        /// <param name="totalBits">Total bits.</param>
-        /// <param name="fractionDigits">Fraction (scale) digits.</param>
-        public static string ToRepresentation(double value, int totalBits = 0, int fractionDigits = 2)
-        {
-            var longValue = Convert.ToInt64(value * Math.Pow(10, fractionDigits));
-
-            var result = ToRepresentation(longValue, totalBits, false);
-
-            if (totalBits > 0 && result.Length > totalBits)
-            {
-                throw new ArgumentException("The value {0} needs {1} total bits to be represented.".With(value, result.Length), nameof(value));
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Converts from doubles to strings representation .
-        /// </summary>
-        /// <returns>The representations.</returns>
-        /// <param name="values">The values..</param>
-        /// <param name="totalBits">The total bits.</param>
-        /// <param name="fractionDigits">The fraction (scale) digits.</param>
-        public static string[] ToRepresentation(double[] values, int[] totalBits, int[] fractionDigits)
-        {
-            return ToRepresentation<double>(values, totalBits, fractionDigits, (v, t, f) => ToRepresentation(v, t, f));
-        }
 
         /// <summary>
         /// Converts from string representation to double.
@@ -143,7 +146,7 @@ namespace GeneticSharp.Infrastructure.Framework.Commons
         /// <param name="fractionDigits">Fraction (scale) digits.</param>
         public static double[] ToDouble(string representation, int[] totalBits, int[] fractionDigits)
         {
-            return ToValue<double>(
+            return ToValue(
                 representation,
                 totalBits,
                 fractionDigits,

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Randomizations;
 
 namespace GeneticSharp.Domain.Crossovers
 {
@@ -22,13 +20,6 @@ namespace GeneticSharp.Domain.Crossovers
     public class PositionBasedCrossover : OrderBasedCrossover
     {
         #region Constructors
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.PositionBasedCrossover"/> class.
-        /// </summary>
-        public PositionBasedCrossover()
-        {
-        }
 
         #endregion
 
@@ -59,7 +50,7 @@ namespace GeneticSharp.Domain.Crossovers
         {
             var secondParentSwapGenes = secondParent.GetGenes()
                  .Select((g, i) => new { Gene = g, Index = i })
-                 .Where((g) => swapIndexes.Contains(g.Index))
+                 .Where(g => swapIndexes.Contains(g.Index))
                  .ToArray();
 
             using (var firstParentRemainingGenes = firstParent.GetGenes()

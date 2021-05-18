@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Metaheuristics;
+using GeneticSharp.Domain.Metaheuristics.Primitives;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
 
@@ -14,6 +16,7 @@ namespace GeneticSharp.Domain
         /// <summary>
         /// Crosses the specified parents.
         /// </summary>
+        /// <param name="population">the current population to cross</param>
         /// <param name="crossover">The crossover class.</param>
         /// <param name="crossoverProbability">The crossover probability.</param>
         /// <param name="parents">The parents.</param>
@@ -27,5 +30,27 @@ namespace GeneticSharp.Domain
         /// <param name="mutationProbability">The mutation probability.</param>
         /// <param name="chromosomes">The chromosomes.</param>
         void Mutate(IMutation mutation, float mutationProbability, IList<IChromosome> chromosomes);
+
+
+        /// <summary>
+        /// Crosses the specified parents.
+        /// </summary>
+        /// <param name="metaHeuristic">the current metaHeuristic being run</param>
+        /// <param name="ctx">the current evolution context</param>
+        /// <param name="crossover">The crossover class.</param>
+        /// <param name="crossoverProbability">The crossover probability.</param>
+        /// <param name="parents">The parents.</param>
+        /// <returns>The result chromosomes.</returns>
+        IList<IChromosome> MetaCross(IMetaHeuristic metaHeuristic, IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents);
+
+        /// <summary>
+        /// Mutate the specified chromosomes.
+        /// </summary>
+        /// <param name="metaHeuristic">the current metaHeuristic being run</param>
+        /// <param name="ctx">the current evolution context</param>
+        /// <param name="mutation">The mutation class.</param>
+        /// <param name="mutationProbability">The mutation probability.</param>
+        /// <param name="chromosomes">The chromosomes.</param>
+        void MetaMutate(IMetaHeuristic metaHeuristic, IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> chromosomes);
     }
 }

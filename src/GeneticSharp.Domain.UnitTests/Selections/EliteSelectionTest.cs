@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Selections;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Selections
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Selections")]
     public class EliteSelectionTest
     {
-        [Test()]
+        [Test]
         public void SelectChromosomes_InvalidNumber_Exception()
         {
             var target = new EliteSelection();
@@ -33,7 +33,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             }, "The number of selected chromosomes should be at least 2.");
         }
 
-        [Test()]
+        [Test]
         public void SelectChromosomes_NullGeneration_Exception()
         {
             var target = new EliteSelection();
@@ -46,7 +46,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             Assert.AreEqual("generation", actual.ParamName);
         }
 
-        [Test()]
+        [Test]
         public void SelectChromosomes_Generation_ChromosomesSelected()
         {
             var target = new EliteSelection();
@@ -62,12 +62,29 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             var c4 = Substitute.ForPartsOf<ChromosomeBase>(2);
             c4.Fitness = 0.7;
 
-            var generation = new Generation(1, new List<IChromosome>() {
+            var generation = new Generation(1, new List<IChromosome>
+            {
                 c1, c2, c3, c4
             });
 
+            //First we select unsorted
 
             var actual = target.SelectChromosomes(2, generation);
+            Assert.AreEqual(2, actual.Count);
+            Assert.AreEqual(0.5, actual[0].Fitness);
+            Assert.AreEqual(0.7, actual[1].Fitness);
+
+            actual = target.SelectChromosomes(3, generation);
+            Assert.AreEqual(3, actual.Count);
+            Assert.AreEqual(0.1, actual[0].Fitness);
+            Assert.AreEqual(0.5, actual[1].Fitness);
+            Assert.AreEqual(0.7, actual[2].Fitness);
+
+            //Then we apply a sort with the same selection
+
+            target.SortSelected = true;
+
+            actual = target.SelectChromosomes(2, generation);
             Assert.AreEqual(2, actual.Count);
             Assert.AreEqual(0.7, actual[0].Fitness);
             Assert.AreEqual(0.5, actual[1].Fitness);

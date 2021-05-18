@@ -5,11 +5,11 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Terminations
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Terminations")]
     public class TerminationBaseTest
     {
-        [Test()]
+        [Test]
         public void HasReached_NullGeneration_Exception()
         {
             var target = Substitute.For<TerminationBase>();

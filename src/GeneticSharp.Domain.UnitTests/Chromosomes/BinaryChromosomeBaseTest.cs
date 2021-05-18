@@ -1,7 +1,7 @@
-﻿using NUnit.Framework;
-using GeneticSharp.Domain.Chromosomes;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using GeneticSharp.Domain.Chromosomes;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Chromosomes
 {
@@ -12,7 +12,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         public void FlipGene_Index_ValueFlip()
         {
             var target = new BinaryChromosomeStub (2);
-            target.ReplaceGenes (0, new Gene[] {
+            target.ReplaceGenes (0, new[] {
                 new Gene(0), new Gene(1)
             });
 
@@ -38,12 +38,12 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
                 var gene1 = target.GenerateGene (1);
                 Assert.IsInstanceOf<int> (gene1.Value);
 
-                target.ReplaceGenes(0, new Gene[] { gene0, gene1 });
+                target.ReplaceGenes(0, new[] { gene0, gene1 });
 
                 chromosomes.Add (target);
             }
 
-            Assert.IsTrue (chromosomes.Any (c => c.GetGenes ().Any (g => ((int)g.Value) == 0)));
+            Assert.IsTrue (chromosomes.Any (c => c.GetGenes ().Any (g => (int)g.Value == 0)));
         }
     }
 }

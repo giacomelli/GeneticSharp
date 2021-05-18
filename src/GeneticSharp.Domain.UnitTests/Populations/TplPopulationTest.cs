@@ -8,8 +8,8 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Populations
 {
-    [TestFixture()]
-    [NUnit.Framework.Category("Populations")]
+    [TestFixture]
+    [Category("Populations")]
     public class TplPopulationTest
     {
         [TearDown]

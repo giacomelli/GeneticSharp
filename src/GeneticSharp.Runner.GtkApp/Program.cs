@@ -1,21 +1,12 @@
 using Gtk;
-using System;
 
 namespace GeneticSharp.Runner.GtkApp
 {
     public class MainClass
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
-            try
-            {
-                Application.Init();
-            }
-            catch(DllNotFoundException)
-            {
-                // If you are here, see this: https://github.com/giacomelli/GeneticSharp/wiki/setup#gtk-app.
-                throw;
-            }
+            Application.Init();
 
             MainWindow win = new MainWindow();
             win.Show();

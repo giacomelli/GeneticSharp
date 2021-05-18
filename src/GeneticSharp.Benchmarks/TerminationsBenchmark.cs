@@ -10,8 +10,8 @@ namespace GeneticSharp.Benchmarks
     [Config(typeof(DefaultConfig))]
     public class TerminationsBenchmark
     {
-        private ITermination _trueTermination = Substitute.For<ITermination>();
-        private ITermination _falseTermination = Substitute.For<ITermination>();
+        private readonly ITermination _trueTermination = Substitute.For<ITermination>();
+        private readonly ITermination _falseTermination = Substitute.For<ITermination>();
 
         public TerminationsBenchmark()
         {

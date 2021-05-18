@@ -4,11 +4,11 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Mathematic
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Extensions")]
     public class FunctionBuilderFitnessTest
     {
-        [Test()]
+        [Test]
         public void Evaluate_InvalidFunction_WorstFitness()
         {
             var target = new FunctionBuilderFitness(
@@ -24,7 +24,7 @@ namespace GeneticSharp.Extensions.UnitTests.Mathematic
             Assert.AreEqual(double.MinValue, actual);
         }
 
-        [Test()]
+        [Test]
         public void Evaluate_NoneResultsEquals_FitnessIsDiff()
         {
             var target = new FunctionBuilderFitness(
@@ -39,7 +39,7 @@ namespace GeneticSharp.Extensions.UnitTests.Mathematic
             Assert.AreEqual(-3, actual);
         }
 
-        [Test()]
+        [Test]
         public void Evaluate_AllResultsEquals_MaxFitness()
         {
             var target = new FunctionBuilderFitness(

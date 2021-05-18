@@ -59,6 +59,10 @@ namespace GeneticSharp.Infrastructure.Framework.Reflection
         public static TInterface CreateInstanceByName<TInterface>(string name, params object[] constructorArgs)
         {
             var crossoverType = GetTypeByName<TInterface>(name);
+            if (crossoverType.IsGenericType)
+            {
+                crossoverType = crossoverType.MakeGenericType(typeof(int));
+            }
 
             try
             {

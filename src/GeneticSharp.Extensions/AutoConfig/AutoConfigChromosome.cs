@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Mutations;
@@ -28,7 +27,8 @@ namespace GeneticSharp.Extensions.AutoConfig
         /// </summary>
         public AutoConfigChromosome() : base(3)
         {
-            CreateGenes();
+            //We have to remove gene creation from constructors because crossovers don't need it
+            //CreateGenes();
         }
         #endregion
 

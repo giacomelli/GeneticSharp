@@ -1,9 +1,8 @@
-﻿using System;
-using BenchmarkDotNet.Running;
+﻿using BenchmarkDotNet.Running;
 
 namespace GeneticSharp.Benchmarks
 {
-    class Program
+   static class Program
     {
         static void Main(string[] args)
         {

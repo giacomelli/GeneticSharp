@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
@@ -12,7 +11,6 @@ using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.Drawing;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Runner.ConsoleApp.Samples;
-using GeneticSharp.Infrastructure.Framework.Commons;
 using ImageMagick;
 
 namespace GeneticSharp.Runner.ConsoleApp
@@ -24,10 +22,6 @@ namespace GeneticSharp.Runner.ConsoleApp
         private IChromosome m_lastBest;
         private string m_destFolder;
         private int m_minutesToEvolve;
-
-        public BitmapEqualitySampleController()
-        {
-        }
 
         #region implemented abstract members of SampleControllerBase
 
@@ -51,7 +45,7 @@ namespace GeneticSharp.Runner.ConsoleApp
             return new TworsMutation();
         }
 
-        public override GeneticSharp.Domain.Crossovers.ICrossover CreateCrossover()
+        public override ICrossover CreateCrossover()
         {            
             return new UniformCrossover();
         }
@@ -63,7 +57,7 @@ namespace GeneticSharp.Runner.ConsoleApp
             Console.WriteLine("Input image file:");
             var inputImageFile = Console.ReadLine();
 
-            var targetBitmap = Bitmap.FromFile(inputImageFile) as Bitmap;
+            var targetBitmap = Image.FromFile(inputImageFile) as Bitmap;
             m_fitness = new BitmapEqualityFitness(targetBitmap);
 
             var folder = Path.Combine(Path.GetDirectoryName(inputImageFile), "results");
@@ -91,8 +85,7 @@ namespace GeneticSharp.Runner.ConsoleApp
                         collection[0].AnimationDelay = 100;
                     }
 
-                    var settings = new QuantizeSettings();
-                    settings.Colors = 256;
+                    var settings = new QuantizeSettings {Colors = 256};
                     collection.Quantize(settings);
 
                     collection.Optimize();
@@ -103,7 +96,7 @@ namespace GeneticSharp.Runner.ConsoleApp
 
         public override void Draw(IChromosome bestChromosome)
         {
-            if (GA.GenerationsNumber == 1 || (GA.GenerationsNumber % 200 == 0 && m_lastBest.Fitness != bestChromosome.Fitness))
+            if (GA.GenerationsNumber == 1 || GA.GenerationsNumber % 200 == 0 && m_lastBest.Fitness != bestChromosome.Fitness)
             {
                 var best = bestChromosome as BitmapChromosome;
 

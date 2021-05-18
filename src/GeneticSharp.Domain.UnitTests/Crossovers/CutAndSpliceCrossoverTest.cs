@@ -2,8 +2,8 @@
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Randomizations;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
@@ -22,7 +22,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         {
             var target = new CutAndSpliceCrossover();
             var chromosome1 = Substitute.For<ChromosomeBase>(4);
-            chromosome1.ReplaceGenes(0, new Gene[]
+            chromosome1.ReplaceGenes(0, new[]
             {
                 new Gene(1),
                 new Gene(2),
@@ -32,7 +32,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             chromosome1.CreateNew().Returns(Substitute.For<ChromosomeBase>(4));
 
             var chromosome2 = Substitute.For<ChromosomeBase>(4);
-            chromosome2.ReplaceGenes(0, new Gene[]
+            chromosome2.ReplaceGenes(0, new[]
             {
                 new Gene(5),
                 new Gene(6),
@@ -46,7 +46,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             RandomizationProvider.Current = rnd;
 
-            var actual = target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
+            var actual = target.Cross(new List<IChromosome> { chromosome1, chromosome2 });
 
             Assert.AreEqual(2, actual.Count);
             Assert.AreEqual(2, actual[0].Length);
@@ -68,7 +68,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         {
             var target = new CutAndSpliceCrossover();
             var chromosome1 = Substitute.ForPartsOf<ChromosomeBase>(4);
-            chromosome1.ReplaceGenes(0, new Gene[]
+            chromosome1.ReplaceGenes(0, new[]
             {
                 new Gene(1),
                 new Gene(2),
@@ -78,7 +78,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             chromosome1.CreateNew().Returns(Substitute.ForPartsOf<ChromosomeBase>(4));
 
             var chromosome2 = Substitute.ForPartsOf<ChromosomeBase>(5);
-            chromosome2.ReplaceGenes(0, new Gene[]
+            chromosome2.ReplaceGenes(0, new[]
             {
                 new Gene(5),
                 new Gene(6),
@@ -94,7 +94,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             RandomizationProvider.Current = rnd;
 
-            var actual = target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
+            var actual = target.Cross(new List<IChromosome> { chromosome1, chromosome2 });
 
             Assert.AreEqual(2, actual.Count);
             Assert.AreEqual(5, actual[0].Length);

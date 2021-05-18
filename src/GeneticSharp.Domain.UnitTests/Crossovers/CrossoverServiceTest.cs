@@ -1,23 +1,25 @@
 using System;
 using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Crossovers.Geometric;
 using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Crossovers")]
     public class CrossoverServiceTest
     {
-        [Test()]
+        [Test]
         public void GetCrossoverTypes_NoArgs_AllAvailableCrossovers()
         {
             var actual = CrossoverService.GetCrossoverTypes();
 
-            Assert.AreEqual(12, actual.Count);
+            Assert.AreEqual(13, actual.Count);
             var index = -1;
             Assert.AreEqual(typeof(AlternatingPositionCrossover), actual[++index]);
             Assert.AreEqual(typeof(CutAndSpliceCrossover), actual[++index]);
             Assert.AreEqual(typeof(CycleCrossover), actual[++index]);
+            Assert.AreEqual(typeof(GeometricCrossover<>), actual[++index]);
             Assert.AreEqual(typeof(OnePointCrossover), actual[++index]);
             Assert.AreEqual(typeof(OrderBasedCrossover), actual[++index]);
             Assert.AreEqual(typeof(OrderedCrossover), actual[++index]);
@@ -29,16 +31,17 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             Assert.AreEqual(typeof(VotingRecombinationCrossover), actual[++index]);
         }
 
-        [Test()]
+        [Test]
         public void GetCrossoverNames_NoArgs_AllAvailableCrossoversNames()
         {
             var actual = CrossoverService.GetCrossoverNames();
 
-            Assert.AreEqual(12, actual.Count);
+            Assert.AreEqual(13, actual.Count);
             var index = -1;
             Assert.AreEqual("Alternating-position (AP)", actual[++index]);
             Assert.AreEqual("Cut and Splice", actual[++index]);
             Assert.AreEqual("Cycle (CX)", actual[++index]);
+            Assert.AreEqual("Geometric", actual[++index]);
             Assert.AreEqual("One-Point", actual[++index]);
             Assert.AreEqual("Order-based (OX2)", actual[++index]);
             Assert.AreEqual("Ordered (OX1)", actual[++index]);
@@ -50,7 +53,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             Assert.AreEqual("Voting Recombination (VR)", actual[++index]);
         }
 
-        [Test()]
+        [Test]
         public void CreateCrossoverByName_InvalidName_Exception()
         {
             Assert.Catch<ArgumentException>(() =>
@@ -59,7 +62,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             }, "There is no ICrossover implementation with name 'Test'.");
         }
 
-        [Test()]
+        [Test]
         public void CreateCrossoverByName_ValidNameButInvalidConstructorArgs_Exception()
         {
             Assert.Catch<ArgumentException>(() =>
@@ -68,7 +71,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             }, "A ICrossover's implementation with name 'One-Point' was found, but seems the constructor args were invalid");
         }
 
-        [Test()]
+        [Test]
         public void CreateCrossoverByName_ValidName_CrossoverCreated()
         {
             ICrossover actual = CrossoverService.CreateCrossoverByName("One-Point", 1) as OnePointCrossover;
@@ -93,7 +96,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             Assert.IsNotNull(actual);
         }
 
-        [Test()]
+        [Test]
         public void GetCrossoverTypeByName_InvalidName_Exception()
         {
             Assert.Catch<ArgumentException>(() =>
@@ -102,7 +105,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             }, "There is no ICrossover implementation with name 'Test'.");
         }
 
-        [Test()]
+        [Test]
         public void GetCrossoverTypeByName_ValidName_CrossoverTpe()
         {
             var actual = CrossoverService.GetCrossoverTypeByName("One-Point");

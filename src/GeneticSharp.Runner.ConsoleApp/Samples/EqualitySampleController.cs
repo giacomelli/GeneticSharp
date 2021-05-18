@@ -14,9 +14,6 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
     [DisplayName("Equality equation")]
     public class EqualitySampleController : SampleControllerBase
     {
-        #region Fields
-        private EqualityFitness m_fitness;
-        #endregion
 
         #region Methods        
         /// <summary>
@@ -34,8 +31,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         /// <returns>The fitness.</returns>
         public override IFitness CreateFitness()
         {
-            m_fitness = new EqualityFitness();
-            return m_fitness;
+            return new EqualityFitness();
         }
 
         /// <summary>
@@ -45,9 +41,9 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         public override void Draw(IChromosome bestChromosome)
         {
             var best = bestChromosome as EquationChromosome;
-
+            
             var genes = best.GetGenes();
-            Console.WriteLine("Equation: {0} + 2*{1} + 3*{2} + 4*{3} = {4}", genes[0], genes[1], genes[2], genes[3], EqualityFitness.GetEquationResult(best));
+            Console.WriteLine($@"Equation: {genes[0]} + 2*{genes[1]} + 3*{genes[2]} + 4*{genes[3]} = {EqualityFitness.GetEquationResult(best)}");
         }
 
         /// <summary>

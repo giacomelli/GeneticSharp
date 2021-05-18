@@ -20,7 +20,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             RandomizationProvider.Current = new BasicRandomization();
         }
 
-        [Test()]
+        [Test]
         [MaxTime(100000)]
         public void Evolve_ManyGenerations_Fast()
         {
@@ -30,6 +30,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             var crossover = new OrderedCrossover();
             var mutation = new TworsMutation();
             var chromosome = new CheckersChromosome(movesAhead, boardSize);
+            chromosome.InitializeGenes();
             var fitness = new CheckersFitness(new CheckersBoard(boardSize));
 
             var population = new Population(40, 40, chromosome);

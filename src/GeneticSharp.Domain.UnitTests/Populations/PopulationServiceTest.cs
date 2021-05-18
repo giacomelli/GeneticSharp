@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Populations
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Populations")]
     public class PopulationServiceTest
     {
@@ -15,7 +15,7 @@ namespace GeneticSharp.Domain.UnitTests.Populations
             RandomizationProvider.Current = new BasicRandomization();
         }
 
-        [Test()]
+        [Test]
         public void GetGenerationStrategyTypes_NoArgs_AllAvailableIGenerationStrategy()
         {
             var actual = PopulationService.GetGenerationStrategyTypes();
@@ -25,7 +25,7 @@ namespace GeneticSharp.Domain.UnitTests.Populations
             Assert.AreEqual(typeof(TrackingGenerationStrategy), actual[1]);
         }
 
-        [Test()]
+        [Test]
         public void GetGenerationStrategyNames_NoArgs_AllAvailableGenerationStrategiesNames()
         {
             var actual = PopulationService.GetGenerationStrategyNames();
@@ -35,7 +35,7 @@ namespace GeneticSharp.Domain.UnitTests.Populations
             Assert.AreEqual("Tracking", actual[1]);
         }
 
-        [Test()]
+        [Test]
         public void CreateGenerationStrategyByName_InvalidName_Exception()
         {
             Assert.Catch<ArgumentException>(() =>
@@ -44,7 +44,7 @@ namespace GeneticSharp.Domain.UnitTests.Populations
             }, "There is no IGenerationStrategy implementation with name 'Test'.");
         }
 
-        [Test()]
+        [Test]
         public void CreateGenerationStrategyByName_ValidNameButInvalidConstructorArgs_Exception()
         {
             Assert.Catch<ArgumentException>(() =>
@@ -53,7 +53,7 @@ namespace GeneticSharp.Domain.UnitTests.Populations
             }, "A IGenerationStrategy's implementation with name 'Tracking' was found, but seems the constructor args were invalid.");
         }
 
-        [Test()]
+        [Test]
         public void CreateGenerationStrategyByName_ValidName_GenerationStrategyCreated()
         {
             IGenerationStrategy actual = PopulationService.CreateGenerationStrategyByName("Performance", 1) as PerformanceGenerationStrategy;
@@ -63,7 +63,7 @@ namespace GeneticSharp.Domain.UnitTests.Populations
             Assert.IsNotNull(actual);
         }
 
-        [Test()]
+        [Test]
         public void GetGenerationStrategyTypeByName_InvalidName_Exception()
         {
             Assert.Catch<ArgumentException>(() =>
@@ -72,7 +72,7 @@ namespace GeneticSharp.Domain.UnitTests.Populations
             }, "There is no IGenerationStrategy implementation with name 'Test'.");
         }
 
-        [Test()]
+        [Test]
         public void GetGenerationStrategyTypeByName_ValidName_GenerationStrategyTpe()
         {
             var actual = PopulationService.GetGenerationStrategyTypeByName("Performance");

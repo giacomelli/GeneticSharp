@@ -4,35 +4,39 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Reinsertions
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Reinsertions")]
     public class ReinsertionServiceTest
     {
-        [Test()]
+        [Test]
         public void GetReinsertionTypes_NoArgs_AllAvailableReinsertions()
         {
             var actual = ReinsertionService.GetReinsertionTypes();
 
-            Assert.AreEqual(4, actual.Count);
+            Assert.AreEqual(6, actual.Count);
             Assert.AreEqual(typeof(ElitistReinsertion), actual[0]);
-            Assert.AreEqual(typeof(FitnessBasedReinsertion), actual[1]);
-            Assert.AreEqual(typeof(PureReinsertion), actual[2]);
-            Assert.AreEqual(typeof(UniformReinsertion), actual[3]);
+            Assert.AreEqual(typeof(FitnessBasedElitistReinsertion), actual[1]);
+            Assert.AreEqual(typeof(FitnessBasedPairwiseReinsertion), actual[2]);
+            Assert.AreEqual(typeof(FitnessBasedReinsertion), actual[3]);
+            Assert.AreEqual(typeof(PureReinsertion), actual[4]);
+            Assert.AreEqual(typeof(UniformReinsertion), actual[5]);
         }
 
-        [Test()]
+        [Test]
         public void GetReinsertionNames_NoArgs_AllAvailableReinsertionsNames()
         {
             var actual = ReinsertionService.GetReinsertionNames();
 
-            Assert.AreEqual(4, actual.Count);
+            Assert.AreEqual(6, actual.Count);
             Assert.AreEqual("Elitist", actual[0]);
-            Assert.AreEqual("Fitness Based", actual[1]);
-            Assert.AreEqual("Pure", actual[2]);
-            Assert.AreEqual("Uniform", actual[3]);
+            Assert.AreEqual("Fitness Based Elitist", actual[1]);
+            Assert.AreEqual("Fitness Based Pairwise", actual[2]);
+            Assert.AreEqual("Fitness Based", actual[3]);
+            Assert.AreEqual("Pure", actual[4]);
+            Assert.AreEqual("Uniform", actual[5]);
         }
 
-        [Test()]
+        [Test]
         public void CreateReinsertionByName_InvalidName_Exception()
         {
             Assert.Catch<ArgumentException>(() =>
@@ -41,7 +45,7 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             }, "There is no IReinsertion implementation with name 'Test'.");
         }
 
-        [Test()]
+        [Test]
         public void CreateReinsertionByName_ValidNameButInvalidConstructorArgs_Exception()
         {
             Assert.Catch<ArgumentException>(() =>
@@ -50,15 +54,20 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             }, "A IReinsertion's implementation with name 'Elitist' was found, but seems the constructor args were invalid.");
         }
 
-        [Test()]
+        [Test]
         public void CreateReinsertionByName_ValidName_ReinsertionCreated()
         {
             IReinsertion actual = ReinsertionService.CreateReinsertionByName("Elitist") as ElitistReinsertion;
             Assert.IsNotNull(actual);
 
+            actual = ReinsertionService.CreateReinsertionByName("Fitness Based Elitist") as FitnessBasedElitistReinsertion;
+            Assert.IsNotNull(actual);
+
+
             actual = ReinsertionService.CreateReinsertionByName("Fitness Based") as FitnessBasedReinsertion;
             Assert.IsNotNull(actual);
 
+           
             actual = ReinsertionService.CreateReinsertionByName("Pure") as PureReinsertion;
             Assert.IsNotNull(actual);
 
@@ -66,7 +75,7 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             Assert.IsNotNull(actual);
         }
 
-        [Test()]
+        [Test]
         public void GetReinsertionTypeByName_InvalidName_Exception()
         {
             Assert.Catch<ArgumentException>(() =>
@@ -75,7 +84,7 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             }, "There is no IReinsertion implementation with name 'Test'.");
         }
 
-        [Test()]
+        [Test]
         public void GetReinsertionTypeByName_ValidName_ReinsertionTpe()
         {
             var actual = ReinsertionService.GetReinsertionTypeByName("Elitist");

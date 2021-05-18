@@ -5,7 +5,10 @@ using System.Threading;
 using Gdk;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Crossovers.Geometric;
 using GeneticSharp.Domain.Fitnesses;
+using GeneticSharp.Domain.Metaheuristics;
+using GeneticSharp.Domain.Metaheuristics.Primitives;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Reinsertions;
@@ -15,11 +18,19 @@ using GeneticSharp.Infrastructure.Framework.Reflection;
 using GeneticSharp.Runner.GtkApp;
 using GeneticSharp.Runner.GtkApp.Samples;
 using Gtk;
+using Pango;
+using Action = System.Action;
+using Alignment = Pango.Alignment;
+using Color = Gdk.Color;
+using Layout = Pango.Layout;
+using Rectangle = Gdk.Rectangle;
+using Window = Gtk.Window;
+using WindowType = Gtk.WindowType;
 
 /// <summary>
 /// Main window.
 /// </summary>
-public partial class MainWindow : Gtk.Window
+public partial class MainWindow : Window
 {
     #region Fields
     private GeneticAlgorithm m_ga;
@@ -30,14 +41,16 @@ public partial class MainWindow : Gtk.Window
     private IReinsertion m_reinsertion;
     private ITermination m_termination;
     private IGenerationStrategy m_generationStrategy;
+    private IMetaHeuristic m_metaheuristic;
 
     private ISampleController m_sampleController;
     private SampleContext m_sampleContext;
     private Thread m_evolvingThread;
+
     #endregion
 
     #region Constructors
-    public MainWindow() : base(Gtk.WindowType.Toplevel)
+    public MainWindow() : base(WindowType.Toplevel)
     {
         Build();
         HeightRequest = 200;
@@ -54,7 +67,8 @@ public partial class MainWindow : Gtk.Window
 
         drawingArea.ExposeEvent += delegate
         {
-            DrawBuffer();
+            UpdateSample();
+            //DrawBuffer();
         };
 
         ShowAll();
@@ -73,13 +87,13 @@ public partial class MainWindow : Gtk.Window
         ResetBuffer();
         ResetSample();
 
-        GLib.Timeout.Add(
-            100,
-            new GLib.TimeoutHandler(delegate
-        {
-            UpdateSample();
-            return true;
-        }));
+        //Timeout.Add(
+        //    100,
+        //    delegate
+        //    {
+        //        UpdateSample();
+        //        return true;
+        //    });
     }
     #endregion
 
@@ -100,41 +114,20 @@ public partial class MainWindow : Gtk.Window
         m_evolvingThread.Start();
     }
 
+    public void StepGAThread(bool isResuming)
+    {
+        vbxSample.Sensitive = false;
+        vbxGA.Sensitive = false;
+        m_evolvingThread = isResuming ? new Thread(StepResumeGA) : new Thread(StepStartGA);
+        m_evolvingThread.Start();
+    }
+
     private void StartGA()
     {
         RunGA(() =>
         {
-            m_sampleController.Reset();
-            m_sampleContext.Population = new Population(
-                Convert.ToInt32(sbtPopulationMinSize.Value),
-                Convert.ToInt32(sbtPopulationMaxSize.Value),
-                m_sampleController.CreateChromosome()) {GenerationStrategy = m_generationStrategy};
-
-
-            m_ga = new GeneticAlgorithm(
-                m_sampleContext.Population,
-                m_fitness,
-                m_selection,
-                m_crossover,
-                m_mutation)
-            {
-                CrossoverProbability = Convert.ToSingle(hslCrossoverProbability.Value),
-                MutationProbability = Convert.ToSingle(hslMutationProbability.Value),
-                Reinsertion = m_reinsertion,
-                Termination = m_termination
-            };
-
-            m_sampleContext.GA = m_ga;
-            m_ga.GenerationRan += delegate
-            {
-                Application.Invoke(delegate
-                {
-                    m_sampleController.Update();
-                });
-            };
-
-            m_sampleController.ConfigGA(m_ga);
-            m_ga.Start();
+          InitGA();
+          m_ga.Resume();
         });
     }
 
@@ -142,21 +135,32 @@ public partial class MainWindow : Gtk.Window
     {
         RunGA(() =>
         {
-            m_ga.Population.MinSize = Convert.ToInt32(sbtPopulationMinSize.Value);
-            m_ga.Population.MaxSize = Convert.ToInt32(sbtPopulationMaxSize.Value);
-            m_ga.Selection = m_selection;
-            m_ga.Crossover = m_crossover;
-            m_ga.Mutation = m_mutation;
-            m_ga.CrossoverProbability = Convert.ToSingle(hslCrossoverProbability.Value);
-            m_ga.MutationProbability = Convert.ToSingle(hslMutationProbability.Value);
-            m_ga.Reinsertion = m_reinsertion;
-            m_ga.Termination = m_termination;
-
+            UpdateGA();
             m_ga.Resume();
         });
     }
 
-    private void RunGA(System.Action runAction)
+
+    private void StepResumeGA()
+    {
+        RunGA(() =>
+        {
+            UpdateGA();
+            m_ga.Step();
+        });
+    }
+
+    private void StepStartGA()
+    {
+        RunGA(() =>
+        {
+            InitGA();
+            m_ga.Step();
+        });
+    }
+
+
+    private void RunGA(Action runAction)
     {
         try
         {
@@ -199,6 +203,89 @@ public partial class MainWindow : Gtk.Window
             vbxGA.Sensitive = true;
         });
     }
+
+    private void InitGA()
+    {
+        m_sampleController.Reset();
+        m_sampleContext.Population = new Population(
+                Convert.ToInt32(sbtPopulationMinSize.Value),
+                Convert.ToInt32(sbtPopulationMaxSize.Value),
+                m_sampleController.CreateChromosome())
+            { GenerationStrategy = m_generationStrategy };
+
+
+        if (m_metaheuristic!= null)
+        {
+            // According to MetaGeneticAlgorithmTest comparison, there is less than 10% overhead with using a MetaGeneticAlgorithm with DefaultMetaHeuristic.
+            // This allows having sample controllers making use of the new feature.
+            m_ga = new MetaGeneticAlgorithm(
+                m_sampleContext.Population,
+                m_fitness,
+                m_selection,
+                m_crossover,
+                m_mutation,
+                m_metaheuristic)
+            {
+                CrossoverProbability = Convert.ToSingle(hslCrossoverProbability.Value),
+                MutationProbability = Convert.ToSingle(hslMutationProbability.Value),
+                Reinsertion = m_reinsertion,
+                Termination = m_termination
+            };
+        }
+        else
+        {
+            // According to MetaGeneticAlgorithmTest comparison, there is less than 10% overhead with using a MetaGeneticAlgorithm with DefaultMetaHeuristic.
+            // This allows having sample controllers making use of the new feature.
+            m_ga = new GeneticAlgorithm(
+                m_sampleContext.Population,
+                m_fitness,
+                m_selection,
+                m_crossover,
+                m_mutation)
+            {
+                CrossoverProbability = Convert.ToSingle(hslCrossoverProbability.Value),
+                MutationProbability = Convert.ToSingle(hslMutationProbability.Value),
+                Reinsertion = m_reinsertion,
+                Termination = m_termination
+            };
+        }
+
+       
+
+        m_sampleContext.GA = m_ga;
+        m_ga.GenerationRan += delegate
+        {
+            Application.Invoke(delegate
+            {
+                m_sampleController.Update();
+                var now = DateTime.Now;
+                if (now - m_sampleContext.LastDrawTime > TimeSpan.FromMilliseconds(100))
+                {
+                    m_sampleContext.LastDrawTime = now;
+                    UpdateSample();
+                }
+            });
+        };
+
+        m_sampleController.ConfigGA(m_ga);
+        m_ga.Initialise();
+    }
+
+    private void UpdateGA()
+    {
+        m_ga.Population.MinSize = Convert.ToInt32(sbtPopulationMinSize.Value);
+        m_ga.Population.MaxSize = Convert.ToInt32(sbtPopulationMaxSize.Value);
+        m_ga.Selection = m_selection;
+        m_ga.Crossover = m_crossover;
+        m_ga.Mutation = m_mutation;
+        m_ga.CrossoverProbability = Convert.ToSingle(hslCrossoverProbability.Value);
+        m_ga.MutationProbability = Convert.ToSingle(hslMutationProbability.Value);
+        m_ga.Reinsertion = m_reinsertion;
+        m_ga.Termination = m_termination;
+    }
+
+
+
     #endregion
 
     #region Sample methods
@@ -208,9 +295,9 @@ public partial class MainWindow : Gtk.Window
         m_sampleController = TypeHelper.CreateInstanceByName<ISampleController>(cmbSample.ActiveText);
 
         // Sample context.
-        var layout = new Pango.Layout(this.PangoContext)
+        var layout = new Layout(PangoContext)
         {
-            Alignment = Pango.Alignment.Center, FontDescription = Pango.FontDescription.FromString("Arial 16")
+            Alignment = Alignment.Center, FontDescription = FontDescription.FromString("Arial 16")
         };
 
         m_sampleContext = new SampleContext(drawingArea.GdkWindow, this)
@@ -218,7 +305,7 @@ public partial class MainWindow : Gtk.Window
             Layout = layout
         };
 
-        m_sampleContext.GC = m_sampleContext.CreateGC(new Gdk.Color(255, 50, 50));
+        m_sampleContext.GC = m_sampleContext.CreateGC(new Color(255, 50, 50));
 
         m_sampleController.Context = m_sampleContext;
         m_sampleController.Reconfigured += delegate
@@ -256,13 +343,14 @@ public partial class MainWindow : Gtk.Window
 
     private void SetSampleOperatorsToComboxes()
     {
-        SetSampleOperatorToCombobox(CrossoverService.GetCrossoverTypes, m_sampleController.CreateCrossover, (c) => m_crossover = c, cmbCrossover);
-        SetSampleOperatorToCombobox(MutationService.GetMutationTypes, m_sampleController.CreateMutation, (c) => m_mutation = c, cmbMutation);
-        SetSampleOperatorToCombobox(SelectionService.GetSelectionTypes, m_sampleController.CreateSelection, (c) => m_selection = c, cmbSelection);
-        SetSampleOperatorToCombobox(TerminationService.GetTerminationTypes, m_sampleController.CreateTermination, (c) => m_termination = c, cmbTermination);
+        SetSampleOperatorToCombobox(CrossoverService.GetCrossoverTypes, m_sampleController.CreateCrossover, c => m_crossover = c, cmbCrossover);
+        SetSampleOperatorToCombobox(MutationService.GetMutationTypes, m_sampleController.CreateMutation, c => m_mutation = c, cmbMutation);
+        SetSampleOperatorToCombobox(SelectionService.GetSelectionTypes, m_sampleController.CreateSelection, c => m_selection = c, cmbSelection);
+        SetSampleOperatorToCombobox(TerminationService.GetTerminationTypes, m_sampleController.CreateTermination, c => m_termination = c, cmbTermination);
+        SetSampleOperatorToCombobox(ReinsertionService.GetReinsertionTypes, m_sampleController.CreateReinsertion, c => m_reinsertion = c, cmbReinsertion);
     }
 
-    private void SetSampleOperatorToCombobox<TOperator>(Func<IList<Type>> getOperatorTypes, Func<TOperator> getOperator, System.Action<TOperator> setOperator, ComboBox combobox)
+    private void SetSampleOperatorToCombobox<TOperator>(Func<IList<Type>> getOperatorTypes, Func<TOperator> getOperator, Action<TOperator> setOperator, ComboBox combobox)
     {
         var @operator = getOperator();
         var operatorType = @operator.GetType();
@@ -279,7 +367,8 @@ public partial class MainWindow : Gtk.Window
 
     private void ResetSample()
     {
-        m_sampleContext.GC = m_sampleContext.CreateGC(new Gdk.Color(255, 50, 50));
+        m_sampleContext.GC = m_sampleContext.CreateGC(new Color(255, 50, 50));
+        m_sampleContext.GA = null;
         m_sampleContext.Population = null;
         var r = drawingArea.Allocation;
         m_sampleContext.DrawingArea = new Rectangle(0, 100, r.Width, r.Height - 100);
@@ -298,7 +387,7 @@ public partial class MainWindow : Gtk.Window
         if (m_sampleContext.Population != null)
         {
             m_sampleContext.WriteText("Generation: {0}", m_sampleContext.Population.GenerationsNumber);
-            m_sampleContext.WriteText("Fitness: {0:n2}", m_sampleContext.Population.BestChromosome != null ? m_sampleContext.Population.BestChromosome.Fitness : 0.0);
+            m_sampleContext.WriteText("Fitness: {0:n3}", m_sampleContext.Population.BestChromosome != null ? m_sampleContext.Population.BestChromosome.Fitness : 0.0);
             m_sampleContext.WriteText("Time: {0}", m_ga.TimeEvolving);
         }
 
@@ -314,6 +403,7 @@ public partial class MainWindow : Gtk.Window
         {
             btnStop.Visible = true;
             btnStart.Visible = false;
+            hboxRunStep.Visible = false;
             RunGAThread(false);
         };
 
@@ -321,7 +411,7 @@ public partial class MainWindow : Gtk.Window
         {
             btnStop.Visible = true;
             btnNew.Visible = false;
-            btnResume.Visible = false;
+            hboxRunStep.Visible = false;
             RunGAThread(true);
         };
 
@@ -331,6 +421,7 @@ public partial class MainWindow : Gtk.Window
             btnStop.Sensitive = false;
             m_ga.Stop();
             btnStop.Label = "_Stop";
+            hboxRunStep.Visible = true;
             btnResume.Visible = true;
             btnStop.Visible = false;
             btnStop.Sensitive = true;
@@ -339,11 +430,19 @@ public partial class MainWindow : Gtk.Window
 
         btnNew.Clicked += delegate
         {
+            hboxRunStep.Visible = true;
             btnResume.Visible = false;
             btnStart.Visible = true;
             btnNew.Visible = false;
             vbxSample.Sensitive = true;
         };
+        btnStep.Clicked += delegate
+        {
+            StepGAThread(btnResume.Visible);
+            btnStart.Hide();
+            btnResume.Show();
+        };
+
     }
 
     private void PrepareComboBoxes()
@@ -355,7 +454,7 @@ public partial class MainWindow : Gtk.Window
            SelectionService.GetSelectionTypeByName,
            SelectionService.CreateSelectionByName,
            () => m_selection,
-           (i) => m_selection = i);
+           i => m_selection = i);
 
         PrepareEditComboBox(
             cmbCrossover,
@@ -364,7 +463,7 @@ public partial class MainWindow : Gtk.Window
             CrossoverService.GetCrossoverTypeByName,
             CrossoverService.CreateCrossoverByName,
             () => m_crossover,
-            (i) => m_crossover = i);
+            i => m_crossover = i);
 
         PrepareEditComboBox(
             cmbMutation,
@@ -373,7 +472,7 @@ public partial class MainWindow : Gtk.Window
             MutationService.GetMutationTypeByName,
             MutationService.CreateMutationByName,
             () => m_mutation,
-            (i) => m_mutation = i);
+            i => m_mutation = i);
 
         PrepareEditComboBox(
             cmbTermination,
@@ -385,16 +484,16 @@ public partial class MainWindow : Gtk.Window
             TerminationService.GetTerminationTypeByName,
             TerminationService.CreateTerminationByName,
             () => m_termination,
-            (i) => m_termination = i);
+            i => m_termination = i);
 
         PrepareEditComboBox(
-            cmbTermination1,
+            cmbReinsertion,
             btnEditReinsertion,
             ReinsertionService.GetReinsertionNames,
             ReinsertionService.GetReinsertionTypeByName,
             ReinsertionService.CreateReinsertionByName,
             () => m_reinsertion,
-            (i) => m_reinsertion = i);
+            i => m_reinsertion = i);
 
         PrepareEditComboBox(
             cmbGenerationStrategy,
@@ -403,7 +502,25 @@ public partial class MainWindow : Gtk.Window
             PopulationService.GetGenerationStrategyTypeByName,
             PopulationService.CreateGenerationStrategyByName,
             () => m_generationStrategy,
-            (i) => m_generationStrategy = i);
+            i => m_generationStrategy = i);
+
+        PrepareEditComboBox(
+            cmbMetaHeuristic,
+            btnEditMetaHeuristic,
+            MetaHeuristicsService.GetMetaHeuristicNames,
+            MetaHeuristicsService.GetMetaHeuristicTypeByName,(s, objects) =>
+            {
+                IGeometricConverter geometricConverter = new DefaultGeometricConverter();
+                if (m_sampleController != null)
+                {
+                    geometricConverter = m_sampleController.GeometricConverter;
+                }
+                return MetaHeuristicsService.CreateMetaHeuristicByName(s, maxGenerations:3000, geometricConverter:geometricConverter, noMutation:false);
+            },
+            () => m_metaheuristic,
+            metaHeuristic => m_metaheuristic = metaHeuristic
+            );
+
     }
 
     private void PrepareEditComboBox<TItem>(ComboBox comboBox, Button editButton, Func<IList<string>> getNames, Func<string, Type> getTypeByName, Func<string, object[], TItem> createItem, Func<TItem> getItem, Action<TItem> setItem)
@@ -446,7 +563,7 @@ public partial class MainWindow : Gtk.Window
 
     private void ShowButtonByEditableProperties(Button editButton, object item)
     {
-        if (PropertyEditor.HasEditableProperties(item.GetType()))
+        if (item !=null && PropertyEditor.HasEditableProperties(item.GetType()))
         {
             editButton.Show();
         }

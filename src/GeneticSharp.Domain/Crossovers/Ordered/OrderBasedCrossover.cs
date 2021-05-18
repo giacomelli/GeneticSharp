@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
@@ -58,7 +57,7 @@ namespace GeneticSharp.Domain.Crossovers
             var firstChild = CreateChild(parentOne, parentTwo, swapIndexes);
             var secondChild = CreateChild(parentTwo, parentOne, swapIndexes);
 
-            return new List<IChromosome>() { firstChild, secondChild };
+            return new List<IChromosome> { firstChild, secondChild };
         }
 
         /// <summary>
@@ -88,7 +87,7 @@ namespace GeneticSharp.Domain.Crossovers
             // and sixth positions are selected. The elements in these positions are 4, 6 and 5 respectively...
             var secondParentSwapGenes = secondParent.GetGenes()
                 .Select((g, i) => new { Gene = g, Index = i })
-                .Where((g) => swapIndexes.Contains(g.Index))
+                .Where(g => swapIndexes.Contains(g.Index))
                 .ToArray();
 
             var firstParentGenes = firstParent.GetGenes();
@@ -96,7 +95,7 @@ namespace GeneticSharp.Domain.Crossovers
             // ...in the first parent, these elements are present at the fourth, fifth and sixth positions...
             var firstParentSwapGenes = firstParentGenes
                 .Select((g, i) => new { Gene = g, Index = i })
-                .Where((g) => secondParentSwapGenes.Any(s => s.Gene == g.Gene))
+                .Where(g => secondParentSwapGenes.Any(s => s.Gene == g.Gene))
                 .ToArray();
 
             var child = firstParent.CreateNew();

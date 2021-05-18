@@ -4,8 +4,8 @@ using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Randomizations;
 using GeneticSharp.Domain.Selections;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Selections
 {
@@ -19,7 +19,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             RandomizationProvider.Current = new BasicRandomization();
         }
 
-        [Test()]
+        [Test]
         public void SelectChromosomes_InvalidNumber_Exception()
         {
             var target = new StochasticUniversalSamplingSelection();
@@ -40,7 +40,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             }, "The number of selected chromosomes should be at least 2.");
         }
 
-        [Test()]
+        [Test]
         public void SelectChromosomes_NullGeneration_Exception()
         {
             var target = new StochasticUniversalSamplingSelection();
@@ -52,24 +52,21 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             Assert.AreEqual("generation", actual.ParamName);
         }
 
-        [Test()]
+        [Test]
         public void SelectChromosomes_Generation_ChromosomesSelected()
         {
 
             var target = new StochasticUniversalSamplingSelection();
-            var c1 = new ChromosomeStub();
-            c1.Fitness = 0.1;
+            var c1 = new ChromosomeStub {Fitness = 0.1};
 
-            var c2 = new ChromosomeStub();
-            c2.Fitness = 0.5;
+            var c2 = new ChromosomeStub {Fitness = 0.5};
 
-            var c3 = new ChromosomeStub();
-            c3.Fitness = 0;
+            var c3 = new ChromosomeStub {Fitness = 0};
 
-            var c4 = new ChromosomeStub();
-            c4.Fitness = 0.7;
+            var c4 = new ChromosomeStub {Fitness = 0.7};
 
-            var generation = new Generation(1, new List<IChromosome>() {
+            var generation = new Generation(1, new List<IChromosome>
+            {
                 c1, c2, c3, c4
             });
 

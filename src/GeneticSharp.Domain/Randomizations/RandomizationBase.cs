@@ -92,7 +92,7 @@ namespace GeneticSharp.Domain.Randomizations
         /// </returns>
         public float GetFloat(float min, float max)
         {
-            return min + ((max - min) * GetFloat());
+            return min + (max - min) * GetFloat();
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace GeneticSharp.Domain.Randomizations
         /// <param name="max">Max value.</param>
         public virtual double GetDouble(double min, double max)
         {
-            return min + ((max - min) * GetDouble());
+            return min + (max - min) * GetDouble();
         }
         #endregion
     }

@@ -1,5 +1,5 @@
-using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Framework.Commons;
+using GeneticSharp.Infrastructure.Framework.Texts;
 
 namespace GeneticSharp.Domain.Terminations
 {
@@ -20,7 +20,7 @@ namespace GeneticSharp.Domain.Terminations
         /// <param name="geneticAlgorithm">The genetic algorithm.</param>
         public bool HasReached(IGeneticAlgorithm geneticAlgorithm)
         {
-            ExceptionHelper.ThrowIfNull("geneticAlgorithm", geneticAlgorithm);
+            ExceptionHelper.ThrowIfNull(nameof(geneticAlgorithm), geneticAlgorithm);
 
             m_hasReached = PerformHasReached(geneticAlgorithm);
 

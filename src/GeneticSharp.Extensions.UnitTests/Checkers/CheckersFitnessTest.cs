@@ -3,31 +3,29 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Checkers
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Extensions")]
     public class CheckersFitnessTest
     {
-        [Test()]
+        [Test]
         public void Evaluate_ChromosomeInvalidMove_Fitness0()
         {
             var target = new CheckersFitness(new CheckersBoard(8));
             var chromosome = new CheckersChromosome(2, 8);
-            chromosome.Moves.Clear();
-            chromosome.Moves.Add(new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(1, 2) }, new CheckersSquare(6, 7)));
+            chromosome.AddMove(new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(1, 2) }, new CheckersSquare(6, 7)));
             Assert.AreEqual(0, target.Evaluate(chromosome));
         }
 
-        [Test()]
+        [Test]
         public void Evaluate_ChromosomeForwardMove_Fitness05()
         {
             var target = new CheckersFitness(new CheckersBoard(8));
             var chromosome = new CheckersChromosome(2, 8);
-            chromosome.Moves.Clear();
-            chromosome.Moves.Add(new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(1, 2) }, new CheckersSquare(2, 3)));
+            chromosome.AddMove(new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(1, 2) }, new CheckersSquare(2, 3)));
             Assert.AreEqual(0.5, target.Evaluate(chromosome));
         }
 
-        [Test()]
+        [Test]
         public void Evaluate_ChromosomeForwardMoveAndCanCaptureAnotherOne_Fitness2()
         {
             var board = new CheckersBoard(8);
@@ -39,8 +37,7 @@ namespace GeneticSharp.Extensions.UnitTests.Checkers
             Assert.IsTrue(board.MovePiece(move));
 
             var chromosome = new CheckersChromosome(2, 8);
-            chromosome.Moves.Clear();
-            chromosome.Moves.Add(new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(4, 3) }, new CheckersSquare(6, 5)));
+            chromosome.AddMove(new CheckersMove(new CheckersPiece(CheckersPlayer.PlayerOne) { CurrentSquare = new CheckersSquare(4, 3) }, new CheckersSquare(6, 5)));
             target.Update(chromosome);
 
             Assert.AreEqual(2, target.Evaluate(chromosome));

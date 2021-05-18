@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml;
-using System.Xml.Serialization;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
 
@@ -18,27 +12,29 @@ namespace GeneticSharp.Extensions.Sudoku
     {
        
 
-        public SudokuCellsChromosome() : this(null)
+        public SudokuCellsChromosome() : this(null, true)
         {
         }
 
+       
         /// <summary>
         /// Basic constructor with target sudoku to solve
         /// </summary>
         /// <param name="targetSudokuBoard">the target sudoku to solve</param>
-        public SudokuCellsChromosome(SudokuBoard targetSudokuBoard) : this( targetSudokuBoard, null) {}
+        /// <param name="initWithPermutations">defines if the chromosome gene cells should be initialized with row permutations</param>
+        /// <param name="extendedMask">The cell domains after initial constraint propagation</param>
+        public SudokuCellsChromosome(SudokuBoard targetSudokuBoard, bool initWithPermutations) : base(targetSudokuBoard, 81)
+        {
+            InitWithPermutations = initWithPermutations;
+        }
 
         /// <summary>
-        /// Constructor with additional precomputed domains for faster cloning
+        /// Defines if the chromosome cell should be initialized with row permutations, allowing for ordered subcrossovers with metaheuristics
         /// </summary>
-        /// <param name="targetSudokuBoard">the target sudoku to solve</param>
-        /// <param name="extendedMask">The cell domains after initial constraint propagation</param>
-        public SudokuCellsChromosome(SudokuBoard targetSudokuBoard, Dictionary<int, List<int>> extendedMask) : base(targetSudokuBoard, extendedMask, 81)
-	    {
-	    }
+        public bool InitWithPermutations { get; set; }
 
 
-	    public override Gene GenerateGene(int geneIndex)
+        public override Gene GenerateGene(int geneIndex)
         {
             //If a target mask exist and has a digit for the cell, we use it.
             if (TargetSudokuBoard != null && TargetSudokuBoard.Cells[geneIndex] != 0)
@@ -47,13 +43,13 @@ namespace GeneticSharp.Extensions.Sudoku
             }
             // otherwise we use a random digit amongts those permitted.
 			var rnd = RandomizationProvider.Current;
-	        var targetIdx = rnd.GetInt(0, ExtendedMask[geneIndex].Count);
-			return new Gene(ExtendedMask[geneIndex][targetIdx]);
+	        var targetIdx = rnd.GetInt(0, TargetSudokuBoard.ExtendedMask[geneIndex].Count);
+			return new Gene(TargetSudokuBoard.ExtendedMask[geneIndex][targetIdx]);
         }
 
         public override IChromosome CreateNew()
         {
-            return new SudokuCellsChromosome(TargetSudokuBoard, ExtendedMask);
+            return new SudokuCellsChromosome(TargetSudokuBoard, InitWithPermutations);
         }
 
         /// <summary>
@@ -64,6 +60,32 @@ namespace GeneticSharp.Extensions.Sudoku
         {
             var sudoku = new SudokuBoard(GetGenes().Select(g => (int)g.Value));
             return new List<SudokuBoard>(new[] { sudoku });
+        }
+
+
+        /// <summary>
+        /// Creates the initial cell genes, either random accounting for the target Sudoku Mask, or according to row permutations with the same constraint
+        /// </summary>
+        protected override void CreateGenes()
+        {
+            if (InitWithPermutations)
+            {
+                for (int rowIndex = 0; rowIndex < 9; rowIndex++)
+                {
+                    var rowPerms = TargetSudokuBoard.GetRowsPermutations()[rowIndex];
+                    var rndIndx = RandomizationProvider.Current.GetInt(0, rowPerms.Count);
+                    var rowPerm = rowPerms[rndIndx];
+                    for (int colIndex = 0; colIndex < 9; colIndex++)
+                    {
+                        ReplaceGene(9*rowIndex+colIndex, new Gene(rowPerm[colIndex]));
+                    }
+                }
+            }
+            else
+            {
+                base.CreateGenes();
+            }
+            
         }
     }
 }

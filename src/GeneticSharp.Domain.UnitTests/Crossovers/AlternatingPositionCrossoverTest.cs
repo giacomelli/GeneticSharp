@@ -1,19 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Randomizations;
-using NUnit.Framework;
-using NSubstitute;
-using System;
-using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Fitnesses;
-using System.Linq;
-using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Mutations;
+using GeneticSharp.Domain.Populations;
+using GeneticSharp.Domain.Randomizations;
+using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
-using System.Diagnostics;
-using GeneticSharp.Extensions.Tsp;
 using GeneticSharp.Domain.UnitTests.Crossovers.Issues;
+using GeneticSharp.Extensions.Tsp;
+using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
@@ -33,7 +31,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             var target = new AlternatingPositionCrossover();
 
             var chromosome1 = Substitute.For<ChromosomeBase>(8);
-            chromosome1.ReplaceGenes(0, new Gene[] {
+            chromosome1.ReplaceGenes(0, new[] {
                 new Gene(8),
                 new Gene(2),
                 new Gene(3),
@@ -46,7 +44,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             // 3 7 5 1 6 8 2 4
             var chromosome2 = Substitute.For<ChromosomeBase>(8);
-            chromosome2.ReplaceGenes(0, new Gene[] {
+            chromosome2.ReplaceGenes(0, new[] {
                 new Gene(1),
                 new Gene(2),
                 new Gene(3),
@@ -59,7 +57,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             Assert.Catch<CrossoverException>(() =>
             {
-                target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
+                target.Cross(new List<IChromosome> { chromosome1, chromosome2 });
             }, "The Alternating-position (AP) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
         }
 
@@ -70,7 +68,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             // 1 2 3 4 5 6 7 8
             var chromosome1 = Substitute.For<ChromosomeBase>(8);
-            chromosome1.ReplaceGenes(0, new Gene[] {
+            chromosome1.ReplaceGenes(0, new[] {
                 new Gene(1),
                 new Gene(2),
                 new Gene(3),
@@ -86,7 +84,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             // 3 7 5 1 6 8 2 4
             var chromosome2 = Substitute.For<ChromosomeBase>(8);
-            chromosome2.ReplaceGenes(0, new Gene[] {
+            chromosome2.ReplaceGenes(0, new[] {
                 new Gene(3),
                 new Gene(7),
                 new Gene(5),
@@ -99,7 +97,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             var child2 = Substitute.For<ChromosomeBase>(8);
             chromosome2.CreateNew().Returns(child2);
 
-            var actual = target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
+            var actual = target.Cross(new List<IChromosome> { chromosome1, chromosome2 });
 
             Assert.AreEqual(2, actual.Count);
 
@@ -135,8 +133,10 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         {
             var target = new AlternatingPositionCrossover();
             var chromosome1 = new TspChromosome(100);
+            chromosome1.InitializeGenes();
             var chromosome2 = new TspChromosome(100);
-            var actual = target.Cross(new TspChromosome[] { chromosome1, chromosome2 });
+            chromosome2.InitializeGenes();
+            var actual = target.Cross(new IChromosome[] { chromosome1, chromosome2 });
 
             Assert.AreEqual(2, actual.Count);
 
@@ -173,26 +173,29 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         [Test]
         public void GA_Issue61_Solved()
         {
-            const Int32 FinalAns = 4567213;
-            var chromosome = new Issue61.GuessNumberChromosome(FinalAns.ToString().Length);
-            var population = new Population(1000, 5000, chromosome);
-            var fitness = new Issue61.GuessNumberFitness(FinalAns);
+            const Int32 finalAns = 4567213;
+            var adamChromosome = new Issue61.GuessNumberChromosome(finalAns.ToString().Length);
+            adamChromosome.InitializeGenes();
+            var population = new Population(1000, 5000, adamChromosome);
+            var fitness = new Issue61.GuessNumberFitness(finalAns);
             var selection = new EliteSelection();
             var crossover = new AlternatingPositionCrossover();
             var mutation = new ReverseSequenceMutation();
-            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
-            ga.MutationProbability = 0.2f;
-            ga.CrossoverProbability = 0.75f;
-            ga.Termination = new OrTermination(
-                new FitnessThresholdTermination(1.0),
-                new FitnessStagnationTermination(200),
-                new GenerationNumberTermination(1000));
-            ga.Population.GenerationStrategy = new TrackingGenerationStrategy();
+            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation)
+            {
+                MutationProbability = 0.2f,
+                CrossoverProbability = 0.75f,
+                Termination = new OrTermination(
+                    new FitnessThresholdTermination(1.0),
+                    new FitnessStagnationTermination(200),
+                    new GenerationNumberTermination(1000)),
+                Population = {GenerationStrategy = new TrackingGenerationStrategy()}
+            };
             ga.Start();
 
             foreach(var gen in ga.Population.Generations)
             {
-                foreach(var chromossome in gen.Chromosomes)
+                foreach(var chromosome in gen.Chromosomes)
                 {
                     // Asserts if AlternatingPositionCrossover generated only ordered chromossomes.
                     Assert.AreEqual(chromosome.Length, chromosome.GetGenes().Distinct().Count());

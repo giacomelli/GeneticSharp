@@ -8,14 +8,14 @@ namespace GeneticSharp.Benchmarks
     [Config(typeof(DefaultConfig))]
     public class MutationsBenchmark
     {
-        private const int _numberOfCities = 100;
-        private const float _probability = 1f;
+        private const int NumberOfCities = 100;
+        private const float Probability = 1f;
 
         [Benchmark]
         public IMutation DisplacementMutation()
         {
             var target = new DisplacementMutation();
-            target.Mutate(new TspChromosome(_numberOfCities), _probability);
+            target.Mutate(new TspChromosome(NumberOfCities), Probability);
 
             return target;
         }
@@ -24,7 +24,7 @@ namespace GeneticSharp.Benchmarks
         public IMutation FlipBitMutation()
         {
             var target = new FlipBitMutation();
-            target.Mutate(new FloatingPointChromosome(0, _numberOfCities, 0), _probability);
+            target.Mutate(new FloatingPointChromosome(0, NumberOfCities, 0), Probability);
 
             return target;
         }
@@ -33,7 +33,7 @@ namespace GeneticSharp.Benchmarks
         public IMutation InsertionMutation()
         {
             var target = new InsertionMutation();
-            target.Mutate(new TspChromosome(_numberOfCities), _probability);
+            target.Mutate(new TspChromosome(NumberOfCities), Probability);
 
             return target;
         }
@@ -42,7 +42,7 @@ namespace GeneticSharp.Benchmarks
         public IMutation PartialShuffleMutation()
         {
             var target = new PartialShuffleMutation();
-            target.Mutate(new TspChromosome(_numberOfCities), _probability);
+            target.Mutate(new TspChromosome(NumberOfCities), Probability);
 
             return target;
         }
@@ -51,7 +51,7 @@ namespace GeneticSharp.Benchmarks
         public IMutation ReverseSequenceMutation()
         {
             var target = new ReverseSequenceMutation();
-            target.Mutate(new TspChromosome(_numberOfCities), _probability);
+            target.Mutate(new TspChromosome(NumberOfCities), Probability);
 
             return target;
         }
@@ -60,7 +60,7 @@ namespace GeneticSharp.Benchmarks
         public IMutation TworsMutation()
         {
             var target = new TworsMutation();
-            target.Mutate(new TspChromosome(_numberOfCities), _probability);
+            target.Mutate(new TspChromosome(NumberOfCities), Probability);
 
             return target;
         }
@@ -69,7 +69,7 @@ namespace GeneticSharp.Benchmarks
         public IMutation UniformMutation()
         {
             var target = new UniformMutation();
-            target.Mutate(new TspChromosome(_numberOfCities), _probability);
+            target.Mutate(new TspChromosome(NumberOfCities), Probability);
 
             return target;
         }

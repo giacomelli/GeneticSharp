@@ -1,17 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
+using GeneticSharp.Infrastructure.Framework.Collections;
 using GeneticSharp.Infrastructure.Framework.Texts;
-using GeneticSharp.Infrastructure.Framework.Commons;
-using System.Diagnostics;
 
 namespace GeneticSharp.Domain.Populations
 {
     /// <summary>
     /// Represents a generation of a population.
     /// </summary>
-    [DebuggerDisplay("{Number} = {BestChromosome.Fitness}")]
+    [DebuggerDisplay("{Number} = {BestChromosome.Fitness}, {ChromosomesNb} chromosomes")]
     public sealed class Generation
     {
         #region Constructors
@@ -52,6 +52,9 @@ namespace GeneticSharp.Domain.Populations
         /// </summary>
         public DateTime CreationDate { get; private set; }
 
+
+        private int ChromosomesNb => Chromosomes.Count;
+
         /// <summary>
         /// Gets the chromosomes.
         /// </summary>
@@ -63,6 +66,17 @@ namespace GeneticSharp.Domain.Populations
         /// </summary>
         /// <value>The best chromosome.</value>
         public IChromosome BestChromosome { get; internal set; }
+
+        public IEnumerable<IChromosome> GetBestChromosomes(int nbChromosomes)
+        {
+            return Chromosomes.LazyOrderBy(c => -c.Fitness ?? 0).Take(nbChromosomes);
+        }
+
+        public IEnumerable<IChromosome> GetWorstChromosomes(int nbChromosomes)
+        {
+            return Chromosomes.LazyOrderBy(c => c.Fitness ?? 0).Take(nbChromosomes);
+        }
+
         #endregion
 
         #region Methods
@@ -72,33 +86,44 @@ namespace GeneticSharp.Domain.Populations
         /// <param name="chromosomesNumber">Chromosomes number to keep on generation.</param>
         public void End(int chromosomesNumber)
         {
-            Chromosomes = Chromosomes
-                .Where(ValidateChromosome)
-                .OrderByDescending(c => c.Fitness.Value)
-                .ToList();
-
+            ValidateChromosomes();
             if (Chromosomes.Count > chromosomesNumber)
             {
                 Chromosomes = Chromosomes.Take(chromosomesNumber).ToList();
             }
-
-            BestChromosome = Chromosomes.First();
+            BestChromosome = Chromosomes.MaxBy(chromosome =>  chromosome.Fitness.Value);
         }
+
+
+        /// <summary>
+        /// Validates the chromosome.
+        /// </summary>
+        /// <returns>True if all chromosomes are valid.</returns>
+        private void ValidateChromosomes()
+        {
+            foreach (var chromosome in Chromosomes)
+            {
+                ValidateChromosome(chromosome);
+            }
+        }
+
 
         /// <summary>
         /// Validates the chromosome.
         /// </summary>
         /// <param name="chromosome">The chromosome to validate.</param>
         /// <returns>True if a chromosome is valid.</returns>
-        private static bool ValidateChromosome(IChromosome chromosome)
+        private static void ValidateChromosome(IChromosome chromosome)
         {
             if (!chromosome.Fitness.HasValue)
             {
                 throw new InvalidOperationException("There is unknown problem in current generation, because a chromosome has no fitness value.");
             }
-
-            return true;
         }
+
+        
+
+
         #endregion
     }
 }

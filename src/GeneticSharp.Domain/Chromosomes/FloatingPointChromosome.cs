@@ -15,7 +15,7 @@ namespace GeneticSharp.Domain.Chromosomes
         private readonly double[] m_maxValue;
         private readonly int[] m_totalBits;
         private readonly int[] m_fractionDigits;
-        private readonly string m_originalValueStringRepresentation;
+        private string m_originalValueStringRepresentation;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome"/> class.
@@ -24,7 +24,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <param name="maxValue">Max value.</param>
         /// <param name="fractionDigits">Decimals.</param>
         public FloatingPointChromosome (double minValue, double maxValue, int fractionDigits) 
-            : this(new double[] { minValue }, new double[] { maxValue }, new int[] { 32 }, new int[] { fractionDigits })
+            : this(new[] { minValue }, new[] { maxValue }, new[] { 32 }, new[] { fractionDigits })
         {
         }
 
@@ -36,7 +36,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <param name="totalBits">Total bits.</param>
         /// <param name="fractionDigits">Decimals.</param>
         public FloatingPointChromosome(double minValue, double maxValue, int totalBits, int fractionDigits)
-            : this(new double[] { minValue }, new double[] { maxValue }, new int[] { totalBits }, new int[] { fractionDigits })
+            : this(new[] { minValue }, new[] { maxValue }, new[] { totalBits }, new[] { fractionDigits })
         {
         }
 
@@ -69,25 +69,40 @@ namespace GeneticSharp.Domain.Chromosomes
             m_fractionDigits = fractionDigits;
 
             // If values are not supplied, create random values
-            if (geneValues == null)
+            if (geneValues != null)
             {
-                geneValues = new double[minValue.Length];
-                var rnd = RandomizationProvider.Current;
-
-                for (int i = 0; i < geneValues.Length; i++)
-                {
-                    geneValues[i] = rnd.GetDouble(minValue[i], maxValue[i]);
-                }
+                m_originalValueStringRepresentation = String.Join(
+                    "",
+                    BinaryStringRepresentation.ToRepresentation(
+                        geneValues,
+                        totalBits,
+                        fractionDigits));
             }
 
-            m_originalValueStringRepresentation = String.Join(
-                "",
-                BinaryStringRepresentation.ToRepresentation(
-                geneValues,
-                totalBits,
-                fractionDigits));
+        }
 
-            CreateGenes();
+        private string OriginalValueStringRepresentation
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(m_originalValueStringRepresentation))
+                {
+                   var geneValues = new double[m_minValue.Length];
+                    var rnd = RandomizationProvider.Current;
+
+                    for (int i = 0; i < geneValues.Length; i++)
+                    {
+                        geneValues[i] = rnd.GetDouble(m_minValue[i], m_maxValue[i]);
+                    }
+                    m_originalValueStringRepresentation = String.Join(
+                        "",
+                        BinaryStringRepresentation.ToRepresentation(
+                            geneValues,
+                            m_totalBits,
+                            m_fractionDigits));
+                }
+                return m_originalValueStringRepresentation;
+            }
         }
 
         /// <summary>
@@ -106,7 +121,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <param name="geneIndex">Gene index.</param>
         public override Gene GenerateGene (int geneIndex)
         {
-            return new Gene (Convert.ToInt32(m_originalValueStringRepresentation [geneIndex].ToString(), CultureInfo.InvariantCulture));
+            return new Gene (Convert.ToInt32(OriginalValueStringRepresentation [geneIndex].ToString(), CultureInfo.InvariantCulture));
         }
 
         /// <summary>

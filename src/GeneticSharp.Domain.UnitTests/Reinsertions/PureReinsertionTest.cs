@@ -2,27 +2,29 @@
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Domain.Reinsertions;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Reinsertions
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Reinsertions")]
     public class PureReinsertionTest
     {
-        [Test()]
+        [Test]
         public void SelectChromosomes_offspringSizeEqualsParentsSizeAndGreaterThanMinSizeAndLowerThanMaxSize_Selectoffspring()
         {
             var target = new PureReinsertion();
             var chromosome = Substitute.For<ChromosomeBase>(2);
 
             var population = new Population(2, 6, chromosome);
-            var offspring = new List<IChromosome>() {
+            var offspring = new List<IChromosome>
+            {
                 chromosome, chromosome, chromosome, chromosome
             };
 
-            var parents = new List<IChromosome>() {
+            var parents = new List<IChromosome>
+            {
                 Substitute.For<ChromosomeBase> (2),
                 Substitute.For<ChromosomeBase> (2),
                 Substitute.For<ChromosomeBase> (2),

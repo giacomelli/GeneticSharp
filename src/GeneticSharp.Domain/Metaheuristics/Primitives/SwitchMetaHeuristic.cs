@@ -1,0 +1,108 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using GeneticSharp.Domain.Chromosomes;
+using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Metaheuristics.Parameters;
+using GeneticSharp.Domain.Mutations;
+using GeneticSharp.Domain.Reinsertions;
+using GeneticSharp.Domain.Selections;
+
+namespace GeneticSharp.Domain.Metaheuristics.Primitives
+{
+
+    /// <summary>
+    /// Provides a base class with mechanism to compute the current phase and corresponding phase Metaheuristic from population and current individuals
+    /// </summary>
+    [DisplayName("IfElse")]
+    public class IfElseMetaHeuristic:SwitchMetaHeuristic<bool> {}
+
+
+
+    /// <summary>
+    /// Provides a base class with mechanism to compute the current phase and corresponding phase Metaheuristic from population and current individuals
+    /// </summary>
+    [DisplayName("Switch")]
+    public class SwitchMetaHeuristic<TIndex> : PhaseMetaHeuristicBase<TIndex>
+    {
+        public IMetaHeuristicParameterGenerator<TIndex> DynamicParameter { get; set; }
+
+        public SwitchMetaHeuristic()
+        {
+            
+        }
+        public SwitchMetaHeuristic(IMetaHeuristic subMetaHeuristic) : base(subMetaHeuristic)
+        {
+        }
+
+        protected override IList<IChromosome> ScopedSelectParentPopulation(IEvolutionContext ctx, ISelection selection)
+        {
+            var phaseItemIdx = DynamicParameter.Get<TIndex>(this, ctx, ParamName);
+            IMetaHeuristic currentHeuristic = GetCurrentHeuristic(phaseItemIdx);
+            if (currentHeuristic != null)
+            {
+                return currentHeuristic.SelectParentPopulation(ctx, selection);
+            }
+
+            throw new InvalidOperationException($"No phase heuristic for MetaHeuristic {Guid} and phase index {phaseItemIdx}");
+
+
+
+        }
+
+        private const string ParamName = "phaseIndexGenerator";
+        protected override IList<IChromosome> ScopedMatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover, float crossoverProbability, IList<IChromosome> parents)
+        {
+
+            var phaseItemIdx = DynamicParameter.Get<TIndex>(this, ctx, ParamName);
+            IMetaHeuristic currentHeuristic = GetCurrentHeuristic(phaseItemIdx);
+            if (currentHeuristic != null)
+            {
+                return currentHeuristic.MatchParentsAndCross(ctx, crossover, crossoverProbability, parents);
+            }
+
+            throw new InvalidOperationException($"No phase heuristic for MetaHeuristic {Guid} and phase index {phaseItemIdx}");
+
+        }
+
+        protected override void ScopedMutateChromosome(IEvolutionContext ctx, IMutation mutation, float mutationProbability, IList<IChromosome> offSprings)
+        {
+            var phaseItemIdx = DynamicParameter.Get<TIndex>(this, ctx, ParamName);
+            IMetaHeuristic currentHeuristic = GetCurrentHeuristic(phaseItemIdx);
+            if (currentHeuristic != null)
+            {
+                currentHeuristic.MutateChromosome(ctx, mutation, mutationProbability, offSprings);
+            }
+            else
+            {
+                throw new InvalidOperationException($"No phase heuristic for MetaHeuristic {Guid} and phase index {phaseItemIdx}");
+            }
+           
+        }
+
+        protected override IList<IChromosome> ScopedReinsert(IEvolutionContext ctx, IReinsertion reinsertion, IList<IChromosome> offspring, IList<IChromosome> parents)
+        {
+            var phaseItemIdx = DynamicParameter.Get<TIndex>(this, ctx, ParamName);
+            IMetaHeuristic currentHeuristic = GetCurrentHeuristic(phaseItemIdx);
+            if (currentHeuristic != null)
+            {
+                return currentHeuristic.Reinsert(ctx, reinsertion, offspring, parents);
+            }
+
+            throw new InvalidOperationException($"No phase heuristic for MetaHeuristic {Guid} and phase index {phaseItemIdx}");
+        }
+
+
+        protected virtual IMetaHeuristic GetCurrentHeuristic(TIndex phaseItemIndex)
+        {
+            if (PhaseHeuristics.TryGetValue(phaseItemIndex, out var currentHeuristic))
+            {
+                return currentHeuristic;
+            }
+
+            return null;
+        }
+
+       
+    }
+}

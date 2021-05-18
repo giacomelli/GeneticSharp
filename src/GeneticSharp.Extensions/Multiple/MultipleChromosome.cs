@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using GeneticSharp.Domain.Chromosomes;
 
 namespace GeneticSharp.Extensions.Multiple
@@ -34,13 +33,18 @@ namespace GeneticSharp.Extensions.Multiple
         /// <param name="chromosomes"></param>
         public MultipleChromosome(IList<IChromosome> chromosomes) : base(chromosomes.Count * chromosomes[0].Length)
         {
-            Chromosomes = chromosomes;
-            for (int i = 0; i < Length; i++)
+            if (chromosomes == null || chromosomes.Count == 0)
             {
-                ReplaceGene(i, GenerateGene(i));
+                throw new ArgumentException("chromosomes argument must have at least one element", nameof(chromosomes));
             }
-
-            UpdateSubGenes();
+            Chromosomes = chromosomes;
+            for (int i = 0; i < chromosomes.Count; i++)
+            {
+                for (int j = 0; j < chromosomes[0].Length; j++)
+                {
+                    ReplaceGene(i* chromosomes[0].Length + j, chromosomes[i].GetGene(j));
+                }
+            }
         }
 
         /// <summary>
@@ -51,7 +55,7 @@ namespace GeneticSharp.Extensions.Multiple
         public override Gene GenerateGene(int geneIndex)
         {
             return Chromosomes[geneIndex / Chromosomes[0].Length]
-              .GenerateGene(geneIndex - ((geneIndex / Chromosomes[0].Length) * Chromosomes[0].Length));
+              .GenerateGene(geneIndex - geneIndex / Chromosomes[0].Length * Chromosomes[0].Length);
         }
 
 
@@ -67,9 +71,16 @@ namespace GeneticSharp.Extensions.Multiple
         {
             for (int i = 0; i < Length; i++)
             {
-                Chromosomes[i / Chromosomes[0].Length].ReplaceGene(i - ((i / Chromosomes[0].Length) * Chromosomes[0].Length), GetGene(i));
+                Chromosomes[i / Chromosomes[0].Length].ReplaceGene(i - i / Chromosomes[0].Length * Chromosomes[0].Length, GetGene(i));
             }
 
+        }
+
+
+        protected override void CreateGenes()
+        {
+            base.CreateGenes();
+            UpdateSubGenes();
         }
     }
 }

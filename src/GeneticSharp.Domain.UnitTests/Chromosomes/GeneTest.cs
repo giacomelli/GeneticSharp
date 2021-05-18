@@ -29,7 +29,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         public void Equals_OtherAsObjectOtherValue_False()
         {
             var target = new Gene(1);
-            var other = new Gene(2); ;
+            var other = new Gene(2);
             Assert.IsFalse(target.Equals(other as object));
         }
 
@@ -37,7 +37,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         public void Equals_OtherAsObjectSameValue_True()
         {
             var target = new Gene(1);
-            var other = new Gene(1); ;
+            var other = new Gene(1);
             Assert.IsTrue(target.Equals(other as object));
         }
 

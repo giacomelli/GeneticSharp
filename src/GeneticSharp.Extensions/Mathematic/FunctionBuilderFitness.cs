@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Fitnesses;
+using NCalc;
 
 namespace GeneticSharp.Extensions.Mathematic
 {
@@ -77,7 +77,7 @@ namespace GeneticSharp.Extensions.Mathematic
         /// <param name="input">The arguments values and expected results of the function.</param>
         public double GetFunctionResult(string function, FunctionBuilderInput input)
         {
-            var expression = new NCalc.Expression(function);
+            var expression = new Expression(function);
 
             for (int i = 0; i < m_parameterNames.Length; i++)
             {

@@ -2,10 +2,10 @@
 using System.Reflection;
 using System.Runtime.Serialization;
 using GeneticSharp.Domain.Selections;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
-namespace GeneticSharp.Domain.UnitTests.Chromosomes
+namespace GeneticSharp.Domain.UnitTests.Selections
 {
     [TestFixture]
     [Category("Selections")]

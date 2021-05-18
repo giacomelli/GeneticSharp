@@ -1,0 +1,130 @@
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
+
+  <PropertyGroup>
+    <TargetFramework>net462</TargetFramework>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  
+  <Import Project="..\msbuilds\GeneticSharp.dotnet-core.targets" />
+  <Import Project="..\msbuilds\GeneticSharp.common.targets" />
+ 
+  <PropertyGroup>
+   <OutputType>WinExe</OutputType>
+    <RootNamespace>GeneticSharp.Runner.GtkApp</RootNamespace>
+    <AssemblyName>GeneticSharp.Runner.GtkApp</AssemblyName>
+   </PropertyGroup>
+ 
+  <ItemGroup>
+    <Compile Remove="references\**" />
+    <EmbeddedResource Remove="references\**" />
+    <None Remove="references\**" />
+  </ItemGroup>
+ 
+  <ItemGroup>
+    <None Remove="Samples\HeightMaps\EverestMount-HeightMap.png" />
+    <None Remove="Samples\HeightMaps\NepalBhoutan-HeightMap.png" />
+    <None Remove="Samples\HeightMaps\TibetanPlateau-HeightMap.png" />
+    <None Remove="Samples\HeightMaps\World-HeightMap.png" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-26216-02" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(OS)' == 'Unix' ">
+    <Reference Include="atk-sharp">
+      <HintPath>references\Unix\atk-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="gtk-dotnet">
+      <HintPath>references\Unix\gtk-dotnet.dll</HintPath>
+    </Reference>
+    <Reference Include="gtk-sharp">
+      <HintPath>references\Unix\gtk-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="glib-sharp">
+      <HintPath>references\Unix\glib-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="glade-sharp">
+      <HintPath>references\Unix\glade-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="gdk-sharp">
+      <HintPath>references\Unix\gdk-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="pango-sharp">
+      <HintPath>references\Unix\pango-sharp.dll</HintPath>
+    </Reference>
+      <Reference Include="Mono.Posix">
+      <HintPath>references\Unix\Mono.Posix.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  
+  <ItemGroup Condition=" '$(OS)' == 'Windows_NT' ">
+      <Reference Include="atk-sharp">
+        <HintPath>references\Windows_NT\atk-sharp.dll</HintPath>
+      </Reference>
+      <Reference Include="gtk-dotnet">
+        <HintPath>references\Windows_NT\gtk-dotnet.dll</HintPath>
+      </Reference>
+      <Reference Include="gtk-sharp">
+        <HintPath>references\Windows_NT\gtk-sharp.dll</HintPath>
+      </Reference>
+      <Reference Include="glib-sharp">
+        <HintPath>references\Windows_NT\glib-sharp.dll</HintPath>
+      </Reference>
+      <Reference Include="glade-sharp">
+        <HintPath>references\Windows_NT\glade-sharp.dll</HintPath>
+      </Reference>
+      <Reference Include="gdk-sharp">
+        <HintPath>references\Windows_NT\gdk-sharp.dll</HintPath>
+      </Reference>
+      <Reference Include="pango-sharp">
+        <HintPath>references\Windows_NT\pango-sharp.dll</HintPath>
+      </Reference>
+        <Reference Include="Mono.Posix">
+        <HintPath>references\Windows_NT\Mono.Posix.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="gtk-gui\gui.stetic">
+      <LogicalName>gui.stetic</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Samples\HeightMaps\EverestMount-HeightMap.png">
+	    <LogicalName>EverestMount</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Samples\HeightMaps\NepalBhoutan-HeightMap.png">
+	    <LogicalName>NepalBhoutan</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Samples\HeightMaps\TibetanPlateau-HeightMap.png">
+	    <LogicalName>TibetanPlateau</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Samples\HeightMaps\World-HeightMap.png">
+	    <LogicalName>World</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj" />
+    <ProjectReference Include="..\GeneticSharp.Extensions\GeneticSharp.Extensions.csproj" />
+    <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icon.png">
+      <DeployService-UseProjectRelativePath>True</DeployService-UseProjectRelativePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

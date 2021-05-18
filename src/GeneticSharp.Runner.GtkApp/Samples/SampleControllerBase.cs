@@ -1,12 +1,14 @@
 ﻿using System;
+using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Crossovers.Geometric;
 using GeneticSharp.Domain.Fitnesses;
 using GeneticSharp.Domain.Mutations;
+using GeneticSharp.Domain.Reinsertions;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Domain.Terminations;
 using Gtk;
-using GeneticSharp.Domain;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
 {
@@ -15,6 +17,8 @@ namespace GeneticSharp.Runner.GtkApp.Samples
     /// </summary>
     public abstract class SampleControllerBase : ISampleController
     {
+        private IGeometricConverter _geometricConverter;
+
         #region Events
         /// <summary>
         /// Occurs when the sample is reconfigured in the config widget.
@@ -85,11 +89,42 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         }
 
         /// <summary>
+        /// Creates the <see cref="IReinsertion"/>
+        /// </summary>
+        /// <returns>the default sample reinsertion</returns>
+        public IReinsertion CreateReinsertion()
+        {
+            return  new FitnessBasedElitistReinsertion();
+        }
+
+        /// <summary>
         /// Configure the Genetic Algorithm.
         /// </summary>
         /// <param name="ga">The genetic algorithm.</param>
         public virtual void ConfigGA(GeneticAlgorithm ga)
         {
+        }
+
+
+        /// <summary>
+        /// Allows leveraging geometric-based crossovers and metaheuristics, while providing conversion from gene space to metric value and reverse.
+        /// </summary>
+        /// <returns>An object providing a bidirectional conversion from/to gene space / metric space</returns>
+        public virtual IGeometricConverter GetGeometricConverter()
+        {
+            return new DefaultGeometricConverter();
+        }
+
+        public IGeometricConverter GeometricConverter
+        {
+            get
+            {
+                if (_geometricConverter == null)
+                {
+                    _geometricConverter = GetGeometricConverter();
+                }
+                return _geometricConverter;
+            }
         }
 
         /// <summary>
@@ -107,15 +142,14 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         /// </summary>
         public abstract void Draw();
 
+       
+
         /// <summary>
         /// Raises the reconfigured event.
         /// </summary>
         protected void OnReconfigured()
         {
-            if (Reconfigured != null)
-            {
-                Reconfigured(this, EventArgs.Empty);
-            }
+            Reconfigured?.Invoke(this, EventArgs.Empty);
         }
         #endregion
     }

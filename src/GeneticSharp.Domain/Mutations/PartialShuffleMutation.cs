@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using GeneticSharp.Domain.Randomizations;
 using System.Linq;
+using GeneticSharp.Domain.Randomizations;
 
 namespace GeneticSharp.Domain.Mutations
 {
@@ -33,7 +33,7 @@ namespace GeneticSharp.Domain.Mutations
         /// </summary>
         /// <returns>The resulted sequence after mutation operation.</returns>
         /// <param name="sequence">The sequence to be mutated.</param>
-        protected override IEnumerable<T> MutateOnSequence<T>(IEnumerable<T> sequence)
+        protected override IEnumerable<T> MutateOnSequence<T>(IList<T> sequence)
         {
             // If there is at least two differente genes on source sequence,
             // Then is possible shuffle their in sequence.

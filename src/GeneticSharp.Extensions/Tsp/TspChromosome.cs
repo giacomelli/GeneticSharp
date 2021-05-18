@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
 
@@ -11,6 +14,7 @@ namespace GeneticSharp.Extensions.Tsp
     /// </remarks>
     /// </summary>
     [Serializable]
+    [DebuggerDisplay("Distance:{Distance}, Fitness:{Fitness}")]
     public class TspChromosome : ChromosomeBase
     {
         #region Fields
@@ -25,13 +29,23 @@ namespace GeneticSharp.Extensions.Tsp
         public TspChromosome(int numberOfCities) : base(numberOfCities)
         {
             m_numberOfCities = numberOfCities;
-            var citiesIndexes = RandomizationProvider.Current.GetUniqueInts(numberOfCities, 0, numberOfCities);
+            
+        }
 
-            for (int i = 0; i < numberOfCities; i++)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TspChromosome"/> class with a vector of cities
+        /// </summary>
+        /// <param name="cities">a list of integer to initialize the chromosome genes</param>
+        public TspChromosome(IList<int> cities) : base(cities.Count())
+        {
+            m_numberOfCities = cities.Count();
+            for (int i = 0; i < cities.Count; i++)
             {
-                ReplaceGene(i, new Gene(citiesIndexes[i]));
+                ReplaceGene(i, new Gene(cities[i]));
             }
         }
+
+
         #endregion
 
         #region Properties
@@ -40,6 +54,20 @@ namespace GeneticSharp.Extensions.Tsp
         /// </summary>
         /// <value>The distance.</value>
         public double Distance { get; internal set; }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Gets the list of city indices.
+        /// </summary>
+        /// <value>The distance.</value>
+        public IList<int> GetCities()
+        {
+            return GetGenes().Select(g => (int?) g.Value ?? 0).ToList();
+        }
+
         #endregion
 
         #region implemented abstract members of ChromosomeBase
@@ -73,6 +101,17 @@ namespace GeneticSharp.Extensions.Tsp
 
             return clone;
         }
+
+        protected override void CreateGenes()
+        {
+            var citiesIndexes = RandomizationProvider.Current.GetUniqueInts(m_numberOfCities, 0, m_numberOfCities);
+
+            for (int i = 0; i < m_numberOfCities; i++)
+            {
+                ReplaceGene(i, new Gene(citiesIndexes[i]));
+            }
+        }
+
         #endregion
     }
 }

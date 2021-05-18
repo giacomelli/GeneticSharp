@@ -1,7 +1,7 @@
-﻿using GeneticSharp.Domain.Randomizations;
-using System;
+﻿using System;
 using System.Collections;
 using System.Linq;
+using GeneticSharp.Domain.Randomizations;
 
 namespace GeneticSharp.Domain.Chromosomes
 {
@@ -12,7 +12,7 @@ namespace GeneticSharp.Domain.Chromosomes
     {
         private readonly int m_minValue;
         private readonly int m_maxValue;
-        private readonly BitArray m_originalValue;
+        private BitArray m_originalValue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:GeneticSharp.Domain.Chromosomes.IntegerChromosome"/> class.
@@ -23,10 +23,21 @@ namespace GeneticSharp.Domain.Chromosomes
         {
             m_minValue = minValue;
             m_maxValue = maxValue;
-            var intValue = RandomizationProvider.Current.GetInt(m_minValue, m_maxValue);
-            m_originalValue = new BitArray(new int[] { intValue });
+           
+            
+        }
 
-            CreateGenes();
+        private BitArray OriginalValue
+        {
+            get
+            {
+                if (m_originalValue == null)
+                {
+                    var intValue = RandomizationProvider.Current.GetInt(m_minValue, m_maxValue);
+                    m_originalValue = new BitArray(new[] { intValue });
+                }
+                return m_originalValue;
+            }
         }
 
         /// <summary>
@@ -36,7 +47,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <param name="geneIndex">Gene index.</param>
         public override Gene GenerateGene(int geneIndex)
         {
-            var value = m_originalValue[geneIndex];
+            var value = OriginalValue[geneIndex];
 
             return new Gene(value);
         }

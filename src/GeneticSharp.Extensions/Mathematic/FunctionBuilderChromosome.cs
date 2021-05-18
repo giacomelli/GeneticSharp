@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
 using GeneticSharp.Domain.Chromosomes;
+using GeneticSharp.Domain.Randomizations;
 
 namespace GeneticSharp.Extensions.Mathematic
 {
@@ -36,10 +36,6 @@ namespace GeneticSharp.Extensions.Mathematic
             m_availableOperations = availableOperations;
             m_maxOperations = maxOperations;
 
-            for (int i = 0; i < Length; i++)
-            {
-                ReplaceGene(i, GenerateGene(i));
-            }
         }
         #endregion
 
@@ -51,7 +47,7 @@ namespace GeneticSharp.Extensions.Mathematic
         /// <param name="parametersCount">Parameters count.</param>
         public static ReadOnlyCollection<string> BuildAvailableOperations(int parametersCount)
         {
-            var availableOperations = new List<string>(new string[] { string.Empty, "+", "-", "/", "*", "__INT__" });
+            var availableOperations = new List<string>(new[] { string.Empty, "+", "-", "/", "*", "__INT__" });
             availableOperations.AddRange(GetParameterNames(parametersCount));
 
             return availableOperations.AsReadOnly();
@@ -111,7 +107,7 @@ namespace GeneticSharp.Extensions.Mathematic
         /// <param name="geneIndex">Gene index.</param>
         public override Gene GenerateGene(int geneIndex)
         {
-            var rnd = Domain.Randomizations.RandomizationProvider.Current;
+            var rnd = RandomizationProvider.Current;
             var op = m_availableOperations[rnd.GetInt(0, m_availableOperations.Count)];
 
             if (op.Equals("__INT__", StringComparison.OrdinalIgnoreCase))

@@ -3,10 +3,13 @@ using System.ComponentModel;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Crossovers.Geometric;
 using GeneticSharp.Domain.Fitnesses;
+using GeneticSharp.Domain.Metaheuristics;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Extensions.Tsp;
+using GeneticSharp.Infrastructure.Framework.Commons;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Framework.Threading;
 using Gtk;
@@ -31,22 +34,19 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         /// Creates the config widget.
         /// </summary>
         /// <returns>The config widget.</returns>
-        public override Gtk.Widget CreateConfigWidget()
+        public override Widget CreateConfigWidget()
         {
             var container = new VBox();
-            var citiesNumber = new SpinButton(2, 10000, 2);
-            citiesNumber.Text = "Number of cities";
-            citiesNumber.Value = m_numberOfCities;
+            var citiesNumber = new SpinButton(2, 10000, 2) {Text = "Number of cities", Value = m_numberOfCities};
             citiesNumber.ValueChanged += delegate
             {
-                m_numberOfCities = citiesNumber.ValueAsInt - (citiesNumber.ValueAsInt % 2);
+                m_numberOfCities = citiesNumber.ValueAsInt - citiesNumber.ValueAsInt % 2;
                 citiesNumber.Value = m_numberOfCities;
                 OnReconfigured();
             };
             container.Add(citiesNumber);
 
-            var generateButton = new Button();
-            generateButton.Label = "Generate cities";
+            var generateButton = new Button {Label = "Generate cities"};
             generateButton.Clicked += delegate
             {
                 m_numberOfCities = citiesNumber.ValueAsInt;
@@ -54,9 +54,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             };
             container.Add(generateButton);
 
-            var showIndexes = new CheckButton();
-            showIndexes.Active = m_showIndexes;
-            showIndexes.Label = "Show indexes";
+            var showIndexes = new CheckButton {Active = m_showIndexes, Label = "Show indexes"};
             showIndexes.Toggled += delegate
             {
                 m_showIndexes = showIndexes.Active;
@@ -131,6 +129,22 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             if (population != null && population.CurrentGeneration != null)
             {
                 m_bestChromosome = population.BestChromosome as TspChromosome;
+
+                if (population.GenerationsNumber.PositiveMod(20)==0)
+                {
+                    if (Context.GA is MetaGeneticAlgorithm mga)
+                    {
+                        var embedding = this.GeometricConverter.GetEmbedding();
+                        if (embedding is TypedGeometryEmbedding typedEmbedding)
+                        {
+                            if (typedEmbedding.TypedEmbedding is TspPermutationEmbedding permEmbedding)
+                            {
+                                permEmbedding.TargetPermutation = m_bestChromosome.GetCities();
+                            }
+                        }
+                    }
+                }
+                
             }
         }
 
@@ -185,6 +199,24 @@ namespace GeneticSharp.Runner.GtkApp.Samples
                 Context.WriteText("Distance: {0:n2}", m_bestChromosome.Distance);
             }
         }
+
+        public override IGeometricConverter GetGeometricConverter()
+        {
+            var tspEmbedding = new TspPermutationEmbedding(this.m_fitness);
+            var typedConverter = new GeometricConverter<int>
+            {
+                IsOrdered = true,
+                DoubleToGeneConverter = DoubleToGene, GeneToDoubleConverter = GeneToDouble, Embedding = tspEmbedding
+            };
+            var toReturn = new TypedGeometricConverter(); 
+            toReturn.SetTypedConverter(typedConverter);
+            return toReturn;
+        }
+
+        private int DoubleToGene(int geneIndex, double d) => Math.Round(d).PositiveMod(m_fitness.Cities.Count);
+
+        private double GeneToDouble(int geneIndex, int geneValue) => Convert.ToDouble(geneValue);
+
         #endregion
     }
 }

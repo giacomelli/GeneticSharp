@@ -1,8 +1,8 @@
 ﻿using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Randomizations;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Mutations
 {
@@ -16,12 +16,12 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             RandomizationProvider.Current = new BasicRandomization();
         }
 
-        [Test()]
+        [Test]
         public void Mutate_NoProbality_NoExchangeGenes()
         {
             var target = new TworsMutation();
             var chromosome = Substitute.For<ChromosomeBase>(4);
-            chromosome.ReplaceGenes(0, new Gene[]
+            chromosome.ReplaceGenes(0, new[]
             {
                 new Gene(1),
                 new Gene(2),
@@ -42,12 +42,12 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             Assert.AreEqual(4, chromosome.GetGene(3).Value);
         }
 
-        [Test()]
+        [Test]
         public void Mutate_ValidChromosome_ExchangeGenes()
         {
             var target = new TworsMutation();
             var chromosome = Substitute.For<ChromosomeBase>(4);
-            chromosome.ReplaceGenes(0, new Gene[]
+            chromosome.ReplaceGenes(0, new[]
                                                      {
                 new Gene(1),
                 new Gene(2),
@@ -56,7 +56,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             });
 
             var rnd = Substitute.For<IRandomization>();
-            rnd.GetUniqueInts(2, 0, 4).Returns(new int[] { 0, 2 });
+            rnd.GetUniqueInts(2, 0, 4).Returns(new[] { 0, 2 });
             RandomizationProvider.Current = rnd;
 
             target.Mutate(chromosome, 1);

@@ -19,27 +19,30 @@ namespace GeneticSharp.Extensions.UnitTests.AutoConfig
             RandomizationProvider.Current = new BasicRandomization();
         }
 
-        [Test()]
+        [Test]
         public void Evaluate_StartOk_Fitness()
         {
             var chromosome = new AutoConfigChromosome();
+            chromosome.InitializeGenes();
             var targetChromosome = new TspChromosome(10);
-
+            targetChromosome.InitializeGenes();
             var targetFitness = new TspFitness(10, 0, 100, 0, 100);
-            var target = new AutoConfigFitness(targetFitness, targetChromosome);
-            target.PopulationMinSize = 20;
-            target.PopulationMaxSize = 20;
-            target.Termination = new FitnessThresholdTermination(0.1f);
+            var target = new AutoConfigFitness(targetFitness, targetChromosome)
+            {
+                PopulationMinSize = 20, PopulationMaxSize = 20, Termination = new FitnessThresholdTermination(0.1f)
+            };
 
             var actual = target.Evaluate(chromosome);
             Assert.AreNotEqual(0, actual);
         }
 
-        [Test()]
+        [Test]
         public void Evaluate_StartFailed_ZeroFitness()
         {
             var chromosome = new AutoConfigChromosome();
+            chromosome.InitializeGenes();
             var targetChromosome = Substitute.For<IChromosome>();
+            targetChromosome.InitializeGenes();
             targetChromosome.CreateNew().Returns(x => throw new Exception("TEST"));
 
             var targetFitness = new TspFitness(10, 0, 100, 0, 100);

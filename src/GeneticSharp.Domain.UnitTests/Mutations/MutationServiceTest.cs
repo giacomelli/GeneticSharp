@@ -6,11 +6,11 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Mutations
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Mutations")]
     public class MutationServiceTest
     {
-        [Test()]
+        [Test]
         public void GetMutationTypes_NoArgs_AllAvailableMutations()
         {
             var actual = MutationService.GetMutationTypes();
@@ -25,7 +25,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             Assert.AreEqual(typeof(UniformMutation), actual[6]);
         }
 
-        [Test()]
+        [Test]
         public void GetMutationNames_NoArgs_AllAvailableMutationsNames()
         {
             var actual = MutationService.GetMutationNames();
@@ -40,7 +40,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             Assert.AreEqual("Uniform", actual[6]);
         }
 
-        [Test()]
+        [Test]
         public void CreateMutationByName_InvalidName_Exception()
         {
             Assert.Catch<ArgumentException>(() =>
@@ -49,7 +49,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             }, "There is no IMutation implementation with name 'Test'.");
         }
 
-        [Test()]
+        [Test]
         public void CreateMutationByName_ValidNameButInvalidConstructorArgs_Exception()
         {
             Assert.Catch<ArgumentException>(() =>
@@ -58,7 +58,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             }, "A IMutation's implementation with name 'Uniform' was found, but seems the constructor args were invalid.");
         }
 
-        [Test()]
+        [Test]
         public void CreateMutationByName_ValidName_MutationCreated()
         {
             IMutation actual = MutationService.CreateMutationByName("Reverse Sequence (RSM)") as ReverseSequenceMutation;
@@ -71,7 +71,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             Assert.IsNotNull(actual);
         }
 
-        [Test()]
+        [Test]
         public void GetMutationTypeByName_InvalidName_Exception()
         {
             Assert.Catch<ArgumentException>(() =>
@@ -80,7 +80,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             }, "There is no IMutation implementation with name 'Test'.");
         }
 
-        [Test()]
+        [Test]
         public void GetMutationTypeByName_ValidName_CrossoverTpe()
         {
             var actual = MutationService.GetMutationTypeByName("Reverse Sequence (RSM)");
@@ -93,7 +93,7 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             Assert.AreEqual(typeof(UniformMutation), actual);
         }
 
-        [Test()]
+        [Test]
         public void Shuffle_Source_Shuffled()
         {
             var rnd = Substitute.For<IRandomization>();
@@ -103,22 +103,22 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             rnd.GetInt(0, 2).Returns(0);
             rnd.GetInt(0, 1).Returns(1);
 
-            var actual = new int[] { 1, 2, 3, 4, 5 }.Shuffle(rnd);
-            CollectionAssert.AreEqual(new int[] { 5, 3, 4, 1, 2 }, actual);
+            var actual = new[] { 1, 2, 3, 4, 5 }.Shuffle(rnd);
+            CollectionAssert.AreEqual(new[] { 5, 3, 4, 1, 2 }, actual);
         }
 
-        [Test()]
+        [Test]
         public void LeftShift_ValueToShift_Shifted()
         {
-             var actual = new int[] { 1, 2, 3, 4, 5 }.LeftShift(2);
-            CollectionAssert.AreEqual(new int[] { 3, 4, 5, 1, 2 }, actual);
+             var actual = new[] { 1, 2, 3, 4, 5 }.LeftShift(2);
+            CollectionAssert.AreEqual(new[] { 3, 4, 5, 1, 2 }, actual);
         }
 
-        [Test()]
+        [Test]
         public void RightShift_ValueToShift_Shifted()
         {
-            var actual = new int[] { 1, 2, 3, 4, 5 }.RightShift(2);
-            CollectionAssert.AreEqual(new int[] { 4, 5, 1, 2, 3 }, actual);
+            var actual = new[] { 1, 2, 3, 4, 5 }.RightShift(2);
+            CollectionAssert.AreEqual(new[] { 4, 5, 1, 2, 3 }, actual);
         }
     }
 }

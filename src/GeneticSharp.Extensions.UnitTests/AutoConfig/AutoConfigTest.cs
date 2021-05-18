@@ -9,7 +9,6 @@ using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.AutoConfig;
 using GeneticSharp.Extensions.Tsp;
 using GeneticSharp.Infrastructure.Framework.Threading;
-using NSubstitute;
 using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.AutoConfig
@@ -24,41 +23,44 @@ namespace GeneticSharp.Extensions.UnitTests.AutoConfig
             RandomizationProvider.Current = new BasicRandomization();
         }
 
-        [Test()]
+        [Test]
         public void Evolve_ManyGenerations_Fast()
         {
             var selection = new EliteSelection();
             var crossover = new UniformCrossover();
             var mutation = new UniformMutation(true);
             var chromosome = new AutoConfigChromosome();
+            chromosome.InitializeGenes();
             var targetChromosome = new TspChromosome(10);
-            var targetFitness = new TspFitness(10, 0, 100, 0, 100);            
-            var fitness = new AutoConfigFitness(targetFitness, targetChromosome);
-            fitness.PopulationMinSize = 20;
-            fitness.PopulationMaxSize = 20;
-            fitness.Termination = new TimeEvolvingTermination(TimeSpan.FromSeconds(5));
-            
+            targetChromosome.InitializeGenes();
+            var targetFitness = new TspFitness(10, 0, 100, 0, 100);
+            var fitness = new AutoConfigFitness(targetFitness, targetChromosome)
+            {
+                PopulationMinSize = 20,
+                PopulationMaxSize = 20,
+                Termination = new TimeEvolvingTermination(TimeSpan.FromSeconds(5))
+            };
+
             var population = new Population(10, 10, chromosome);
 
-            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation);
-            
-            ga.TaskExecutor = new ParallelTaskExecutor()
+            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation)
             {
-                MinThreads = 10,
-                MaxThreads = 20
-            };        
+                TaskExecutor = new ParallelTaskExecutor {MinThreads = 10, MaxThreads = 20},
+                Termination = new GenerationNumberTermination(10)
+            };
 
-            ga.Termination = new GenerationNumberTermination(10);
+
+
             ga.Start();
 
             Assert.NotNull(ga.BestChromosome);            
         }
 
-        [Test()]
+        [Test]
         public void GenerateGene_InvalidIndex_Exception()
         {
             var target = new AutoConfigChromosome();
-
+            target.InitializeGenes();
             var actual = Assert.Catch(() => target.GenerateGene(9));
             Assert.AreEqual("Invalid AutoConfigChromosome gene index.", actual.Message);
         }

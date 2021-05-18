@@ -1,4 +1,5 @@
 using System.Reflection;
+
 // Switch beetwen configurantios.
 #if DEBUG
  // Debug only used for development porpuses.

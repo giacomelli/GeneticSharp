@@ -30,7 +30,7 @@ namespace GeneticSharp.Extensions.Checkers
     /// <summary>
     /// Checkers move.
     /// </summary>
-    [DebuggerDisplay("({From.ColumnIndex}, {From.RowIndex}) -> ({To.ColumnIndex}, {To.RowIndex})")]
+    [DebuggerDisplay("({Piece.CurrentSquare.ColumnIndex}, {Piece.CurrentSquare.RowIndex}) -> ({ToSquare.ColumnIndex}, {ToSquare.RowIndex})")]
     public class CheckersMove
     {
         #region Constructors

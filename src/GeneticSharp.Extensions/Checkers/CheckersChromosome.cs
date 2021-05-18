@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
 
@@ -23,22 +24,17 @@ namespace GeneticSharp.Extensions.Checkers
             : base(movesAhead)
         {
             m_boardSize = boardSize;
-            Moves = new List<CheckersMove>();
-
-            for (int i = 0; i < movesAhead; i++)
-            {
-                Moves.Add(null);
-                ReplaceGene(i, GenerateGene(i));
-            }
         }
         #endregion
 
         #region Properties
+
         /// <summary>
         /// Gets the moves.
         /// </summary>
         /// <value>The moves.</value>
-        public IList<CheckersMove> Moves { get; private set; }
+        public IEnumerable<CheckersMove> Moves => GetGenes().Where(g=>g.Value!=null).Select(g=>(CheckersMove)g.Value).ToList();
+
         #endregion
 
         #region Methods
@@ -54,8 +50,6 @@ namespace GeneticSharp.Extensions.Checkers
 
             var to = FindPlayableSquare();
             var move = new CheckersMove(from.CurrentPiece, to);
-
-            Moves[geneIndex] = move;
 
             return new Gene(move);
         }
@@ -76,9 +70,13 @@ namespace GeneticSharp.Extensions.Checkers
         public override IChromosome Clone()
         {
             var clone = base.Clone() as CheckersChromosome;
-            clone.Moves = Moves;
 
             return clone;
+        }
+
+        public void AddMove(CheckersMove move)
+        {
+            ReplaceGene(Moves.Count(), new Gene(move));
         }
 
         private CheckersSquare FindPlayableSquare()

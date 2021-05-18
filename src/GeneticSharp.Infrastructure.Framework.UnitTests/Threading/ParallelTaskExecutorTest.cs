@@ -3,10 +3,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using GeneticSharp.Infrastructure.Framework.Threading;
 using NUnit.Framework;
+using Timer = System.Timers.Timer;
 
 namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Infrastructure")]
     public class ParallelTaskExecutorTest
     {
@@ -64,8 +65,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
         public void Start_Timeout_False()
         {
             var pipeline = "1";
-            var target = new ParallelTaskExecutor();
-            target.Timeout = TimeSpan.FromMilliseconds(2);
+            var target = new ParallelTaskExecutor {Timeout = TimeSpan.FromMilliseconds(2)};
 
             target.Add(() =>
             {
@@ -108,8 +108,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
         public void Stop_ManyTasks_StopAll()
         {
             var pipeline = "";
-            var target = new ParallelTaskExecutor();
-            target.Timeout = TimeSpan.FromMilliseconds(1000);
+            var target = new ParallelTaskExecutor {Timeout = TimeSpan.FromMilliseconds(1000)};
 
             target.Add(() =>
             {
@@ -196,7 +195,8 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
 
 
             int otherThreadCount = 0;
-            var otherThread = new System.Timers.Timer(25)
+
+            var otherThread = new Timer(50)
             {
                 AutoReset = true
             };

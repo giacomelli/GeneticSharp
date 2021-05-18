@@ -46,10 +46,10 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
             var targetChromosome = new TspChromosome(10);
             var targetFitness = new TspFitness(10, 0, 100, 0, 100);
 
-            var fitness = new AutoConfigFitness(targetFitness, targetChromosome);
-            fitness.Termination = new FitnessStagnationTermination(500);
-            fitness.PopulationMinSize = 20;
-            fitness.PopulationMaxSize = 20;
+            var fitness = new AutoConfigFitness(targetFitness, targetChromosome)
+            {
+                Termination = new FitnessStagnationTermination(500), PopulationMinSize = 20, PopulationMaxSize = 20
+            };
 
             return fitness;
         }
@@ -57,7 +57,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
         public override void ConfigGA(GeneticAlgorithm ga)
         {
             base.ConfigGA(ga);
-            ga.TaskExecutor = new ParallelTaskExecutor()
+            ga.TaskExecutor = new ParallelTaskExecutor
             {
                 MinThreads = 250,
                 MaxThreads = 500

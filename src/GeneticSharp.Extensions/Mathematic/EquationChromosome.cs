@@ -1,15 +1,64 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Randomizations;
+using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Extensions.Mathematic
 {
+    public class EquationChromosome<TValue> : EquationChromosomeBase<TValue> where TValue : IComparable
+    {
+        private readonly IRandomization _random = RandomizationProvider.Current;
+
+        public EquationChromosome(int variablesNumber) : base(variablesNumber)
+        {
+            GetGeneValueFunction = DefaultGetGeneValueFunction;
+        }
+
+        public EquationChromosome(TValue minValue, TValue maxValue, int variablesNumber) : base(minValue, maxValue, variablesNumber)
+        {
+            GetGeneValueFunction = DefaultGetGeneValueFunction;
+        }
+
+        public override IChromosome CreateNew()
+        {
+            return new EquationChromosome<TValue>(Length){Ranges = new List<(TValue min, TValue max)>(Ranges)};
+        }
+
+        public override TValue GetRandomGeneValue(int geneIndex, TValue min, TValue max)
+        {
+            return GetGeneValueFunction(geneIndex, min.To<double>() + _random.GetDouble()* (max.To<double>() - min.To<double>()));
+        }
+
+        public Func<int, double, TValue> GetGeneValueFunction { get; set; } 
+
+        private TValue DefaultGetGeneValueFunction(int geneIndex, double geneValue)
+        {
+            var toReturn = geneValue.To<TValue>();
+            if (toReturn.CompareTo(Ranges[geneIndex].min) < 0)
+            {
+                toReturn = Ranges[geneIndex].min;
+            }
+            else if (toReturn.CompareTo(Ranges[geneIndex].max) > 0)
+            {
+                toReturn = Ranges[geneIndex].max;
+            }
+
+            return toReturn;
+        }
+    }
+
     /// <summary>
     /// An equation chromosome.
     /// </summary>
-    public sealed class EquationChromosome : ChromosomeBase
+    public sealed class EquationChromosome : EquationChromosomeBase<int>
     {
-        #region Constructors        
+
+        public EquationChromosome(int length):base(length){}
+
+        #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EquationChromosome"/> class.
         /// </summary>
@@ -19,45 +68,43 @@ namespace GeneticSharp.Extensions.Mathematic
         {
             if (expectedResult >= int.MaxValue / 2)
             {
-                throw new ArgumentOutOfRangeException("expectedResult", expectedResult, "EquationChromosome expected value must be lower");
+                throw new ArgumentOutOfRangeException(nameof(expectedResult), expectedResult,
+                    "EquationChromosome expected value must be lower");
             }
-
-            ResultRange = expectedResult * 2;
-
-            for (int i = 0; i < Length; i++)
-            {
-                ReplaceGene(i, GenerateGene(i));
-            }
+            Ranges = Enumerable.Repeat((-Math.Abs(expectedResult * 2), Math.Abs(expectedResult * 2)), variablesNumber).ToList();
+            ResultIsNegative = expectedResult < 0;
         }
+
         #endregion
 
         #region Properties
-        /// <summary>
-        /// Gets the result range.
-        /// </summary>
-        /// <value>The result range.</value>
-        public int ResultRange { get; private set; }
+
+        public bool ResultIsNegative { get; }
+
         #endregion
 
-        #region Methods        
+        #region Methods
+
         /// <summary>
         /// Creates the new.
         /// </summary>
         /// <returns>The new chromosome.</returns>
         public override IChromosome CreateNew()
         {
-            return new EquationChromosome(ResultRange / 2, Length);
+            if (ResultIsNegative)
+            {
+                return new EquationChromosome(Length);
+            }
+
+            return new EquationChromosome(Length){Ranges = new List<(int min, int max)>(Ranges)};
         }
 
-        /// <summary>
-        /// Generates the gene.
-        /// </summary>
-        /// <param name="geneIndex">Index of the gene.</param>
-        /// <returns>The generated gene.</returns>
-        public override Gene GenerateGene(int geneIndex)
+
+        public override int GetRandomGeneValue(int geneIndex, int min, int max)
         {
-            return new Gene(RandomizationProvider.Current.GetInt(ResultRange * -1, ResultRange + 1));
+            return RandomizationProvider.Current.GetInt(min, max + 1);
         }
+
         #endregion
     }
 }

@@ -1,5 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
-
 namespace GeneticSharp.Domain.Randomizations
 {
     /// <summary>

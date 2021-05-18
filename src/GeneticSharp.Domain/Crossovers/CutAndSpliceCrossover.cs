@@ -47,7 +47,7 @@ namespace GeneticSharp.Domain.Crossovers
             var offspring1 = CreateOffspring(parent1, parent2, parent1Point, parent2Point);
             var offspring2 = CreateOffspring(parent2, parent1, parent2Point, parent1Point);
 
-            return new List<IChromosome>() { offspring1, offspring2 };
+            return new List<IChromosome> { offspring1, offspring2 };
         }
 
         private static IChromosome CreateOffspring(IChromosome leftParent, IChromosome rightParent, int leftParentPoint, int rightParentPoint)

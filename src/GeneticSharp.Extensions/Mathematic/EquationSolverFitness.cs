@@ -1,17 +1,17 @@
 ﻿using System;
 using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Fitnesses;
+using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Extensions.Mathematic
 {
     /// <summary>
     /// Equation solver fitness.
     /// </summary>
-    public class EquationSolverFitness : IFitness
+    public class EquationSolverFitness<TValue> : FunctionFitness<TValue>
     {
         #region Fields
-        private readonly int m_expectedResult;
-        private readonly Func<Gene[], int> m_getEquationResult;
+        private readonly Func<Gene[], TValue> m_expectedResultFunction;
+        
         #endregion
 
         #region Constructors
@@ -20,11 +20,21 @@ namespace GeneticSharp.Extensions.Mathematic
         /// </summary>
         /// <param name="expectedResult">Expected result.</param>
         /// <param name="getEquationResult">Get equation result.</param>
-        public EquationSolverFitness(int expectedResult, Func<Gene[], int> getEquationResult)
+        public EquationSolverFitness(TValue expectedResult, Func<Gene[], TValue> getEquationResult):base(getEquationResult)
         {
-            m_expectedResult = expectedResult;
-            m_getEquationResult = getEquationResult;
+            m_expectedResultFunction = x=> expectedResult;
+            
         }
+
+
+        public EquationSolverFitness(Func<Gene[], TValue> expectedResultFunction, Func<Gene[], TValue> getEquationResult) : base(getEquationResult)
+        {
+            m_expectedResultFunction = expectedResultFunction;
+
+        }
+
+
+
         #endregion
 
         #region Methods
@@ -33,14 +43,38 @@ namespace GeneticSharp.Extensions.Mathematic
         /// </summary>
         /// <param name="chromosome">The chromosome to be evaluated.</param>
         /// <returns>The fitness of the chromosome.</returns>
-        public double Evaluate(IChromosome chromosome)
+        public override double Evaluate(IChromosome chromosome)
         {
-            var equalityChromosome = chromosome as EquationChromosome;
+            var equationResult = TypedEvaluate(chromosome);
 
-            var fitness = Math.Abs(m_getEquationResult(equalityChromosome.GetGenes()) - m_expectedResult);
+            return CompareValues(m_expectedResultFunction(chromosome.GetGenes()), equationResult);
+
+        }
+
+
+        protected virtual double CompareValues(TValue expected, TValue equationResult)
+        {
+            var diff = Math.Abs(expected.To<double>()-equationResult.To<double>());
+            return 1 - (diff/1+diff);
+        }
+
+
+
+        #endregion
+    }
+
+
+
+
+    public class EquationSolverFitness : EquationSolverFitness<int>
+    {
+        public EquationSolverFitness(int expectedResult, Func<Gene[], int> getEquationResult) : base(expectedResult, getEquationResult){}
+        protected override double CompareValues(int expected, int equationResult)
+        {
+            var fitness = Math.Abs(expected - equationResult);
 
             return fitness * -1;
         }
-        #endregion
     }
+
 }

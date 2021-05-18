@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Extensions.Checkers
@@ -88,8 +87,8 @@ namespace GeneticSharp.Extensions.Checkers
                             PlayerOnePieces.Add(piece);
                             square.PutPiece(piece);
                         }
-                        /// fi the actual line index is bigger than max lines index -3, 
-                        /// then it is a square for player two.
+                        // fi the actual line index is bigger than max lines index -3, 
+                        // then it is a square for player two.
                         else if (r >= Size - 3)
                         {
                             var piece = new CheckersPiece(CheckersPlayer.PlayerTwo);
@@ -157,13 +156,13 @@ namespace GeneticSharp.Extensions.Checkers
                 if (moveKind == CheckersMoveKind.Capture)
                 {
                     // Here is checked if needs to capture a piece between To and From.
-                    if (to.ColumnIndex == from.ColumnIndex + (2 * indexModifier))
+                    if (to.ColumnIndex == from.ColumnIndex + 2 * indexModifier)
                     {
-                        GetSquare(from.ColumnIndex + (1 * indexModifier), from.RowIndex + (1 * indexModifier)).RemovePiece();
+                        GetSquare(from.ColumnIndex + 1 * indexModifier, from.RowIndex + 1 * indexModifier).RemovePiece();
                     }
-                    else if (to.ColumnIndex == from.ColumnIndex - (2 * indexModifier))
+                    else if (to.ColumnIndex == from.ColumnIndex - 2 * indexModifier)
                     {
-                        GetSquare(from.ColumnIndex - (1 * indexModifier), from.RowIndex + (1 * indexModifier)).RemovePiece();
+                        GetSquare(from.ColumnIndex - 1 * indexModifier, from.RowIndex + 1 * indexModifier).RemovePiece();
                     }
                 }
             }
@@ -196,8 +195,8 @@ namespace GeneticSharp.Extensions.Checkers
                         : CheckersSquareState.OccupiedByPlayerOne;
 
                     // Forward move.
-                    if (to.RowIndex == from.RowIndex + (1 * indexModifier)
-                        && (to.ColumnIndex == from.ColumnIndex - (1 * indexModifier) || to.ColumnIndex == from.ColumnIndex + (1 * indexModifier)))
+                    if (to.RowIndex == from.RowIndex + 1 * indexModifier
+                        && (to.ColumnIndex == from.ColumnIndex - 1 * indexModifier || to.ColumnIndex == from.ColumnIndex + 1 * indexModifier))
                     {
                         kind = CheckersMoveKind.Forward;
                     }
@@ -222,7 +221,7 @@ namespace GeneticSharp.Extensions.Checkers
 
             var capturableCount = 0;
             var square = piece.CurrentSquare;
-            var newRowIndex = square.RowIndex + (2 * GetIndexModifier(piece.Player));
+            var newRowIndex = square.RowIndex + 2 * GetIndexModifier(piece.Player);
 
             if (IsValidIndex(newRowIndex))
             {
@@ -313,16 +312,17 @@ namespace GeneticSharp.Extensions.Checkers
 
         private bool CanCapture(CheckersSquare to, CheckersSquare from, CheckersSquareState opponentState, int indexModifier)
         {
-            if (to.RowIndex == from.RowIndex + (2 * indexModifier))
+            if (to.RowIndex == from.RowIndex + 2 * indexModifier)
             {
                 // To right or To left?
-                if (to.ColumnIndex == from.ColumnIndex + (2 * indexModifier)
-                && GetSquare(from.ColumnIndex + (1 * indexModifier), from.RowIndex + (1 * indexModifier)).State == opponentState)
+                if (to.ColumnIndex == from.ColumnIndex + 2 * indexModifier
+                && GetSquare(from.ColumnIndex + 1 * indexModifier, from.RowIndex + 1 * indexModifier).State == opponentState)
                 {
                     return true;
                 }
-                else if (to.ColumnIndex == from.ColumnIndex - (2 * indexModifier)
-                && GetSquare(from.ColumnIndex - (1 * indexModifier), from.RowIndex + (1 * indexModifier)).State == opponentState)
+
+                if (to.ColumnIndex == @from.ColumnIndex - 2 * indexModifier
+                    && GetSquare(@from.ColumnIndex - 1 * indexModifier, @from.RowIndex + 1 * indexModifier).State == opponentState)
                 {
                     return true;
                 }

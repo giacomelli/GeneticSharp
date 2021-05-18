@@ -39,15 +39,16 @@ namespace GeneticSharp.Extensions.Checkers
         {
             double fitness = 0;
             var c = chromosome as CheckersChromosome;
-            double movesAhead = c.Moves.Count;
+            var moves = c.Moves.ToArray();
+            double movesAhead = moves.Length;
 
-            var nextMovementFitness = EvaluateMove(c.Moves.First());
+            var nextMovementFitness = EvaluateMove(moves.First());
 
             if (nextMovementFitness > 0)
             {
                 fitness += nextMovementFitness / movesAhead;
 
-                foreach (var move in c.Moves.Skip(1))
+                foreach (var move in moves.Skip(1))
                 {
                     fitness += EvaluateMove(move) / movesAhead;
                 }

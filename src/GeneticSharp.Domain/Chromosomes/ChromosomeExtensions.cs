@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GeneticSharp.Domain.Results;
 using GeneticSharp.Infrastructure.Framework.Texts;
 
 namespace GeneticSharp.Domain.Chromosomes
@@ -59,5 +60,36 @@ namespace GeneticSharp.Domain.Chromosomes
                 throw new InvalidOperationException("The chromosome '{0}' is generating genes with null value.".With(chromosome.GetType().Name));
             }
         }
+
+        /// <summary>
+        /// Initializes and returns a chromosome
+        /// </summary>
+        /// <typeparam name="TChromosome">the chromosome type</typeparam>
+        /// <param name="chromosome">the chromosome being initialized</param>
+        /// <returns></returns>
+        public static TChromosome Initialized<TChromosome>(this TChromosome chromosome)
+            where TChromosome : IChromosome
+        {
+            chromosome.InitializeGenes();
+            return chromosome;
+        }
+
+        public static TChromosome FlipGene<TChromosome>(this TChromosome chromosome,int firstIndex, int secondIndex)
+            where TChromosome : IChromosome
+        {
+            var firstGene = chromosome.GetGene(firstIndex);
+            var secondGene = chromosome.GetGene(secondIndex);
+
+            chromosome.ReplaceGene(firstIndex, secondGene);
+            chromosome.ReplaceGene(secondIndex, firstGene);
+            return chromosome;
+        }
+
+
+        public static EvolutionResult GetResult(this GeneticAlgorithm ga)
+        {
+            return new EvolutionResult { Population = ga.Population, TimeEvolving = ga.TimeEvolving };
+        }
+
     }
 }

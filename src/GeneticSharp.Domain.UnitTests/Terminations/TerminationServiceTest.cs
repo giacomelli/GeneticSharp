@@ -4,11 +4,11 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Terminations
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Terminations")]
     public class TerminationServiceTest
     {
-        [Test()]
+        [Test]
         public void GetTerminationTypes_NoArgs_AllAvailableTerminations()
         {
             var actual = TerminationService.GetTerminationTypes();
@@ -22,7 +22,7 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
             Assert.AreEqual(typeof(TimeEvolvingTermination), actual[5]);
         }
 
-        [Test()]
+        [Test]
         public void GetTerminationNames_NoArgs_AllAvailableTerminationsNames()
         {
             var actual = TerminationService.GetTerminationNames();
@@ -37,7 +37,7 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
 
         }
 
-        [Test()]
+        [Test]
         public void CreateTerminationByName_InvalidName_Exception()
         {
             Assert.Catch<ArgumentException>(() =>
@@ -46,7 +46,7 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
             }, "There is no ITermination implementation with name 'Test'.");
         }
 
-        [Test()]
+        [Test]
         public void CreateTerminationByName_ValidNameButInvalidConstructorArgs_Exception()
         {
             Assert.Catch<ArgumentException>(() =>
@@ -55,7 +55,7 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
             }, "A ITermination's implementation with name 'Generation Number' was found, but seems the constructor args were invalid.");
         }
 
-        [Test()]
+        [Test]
         public void CreateTerminationByName_ValidName_TerminationCreated()
         {
             ITermination actual = TerminationService.CreateTerminationByName("Fitness Stagnation") as FitnessStagnationTermination;
@@ -71,7 +71,7 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
             Assert.IsNotNull(actual);
         }
 
-        [Test()]
+        [Test]
         public void GetTerminationTypeByName_InvalidName_Exception()
         {
             Assert.Catch<ArgumentException>(() =>
@@ -80,7 +80,7 @@ namespace GeneticSharp.Domain.UnitTests.Terminations
             }, "There is no ITermination implementation with name 'Test'.");
         }
 
-        [Test()]
+        [Test]
         public void GetTerminationTypeByName_ValidName_CrossoverTpe()
         {
             var actual = TerminationService.GetTerminationTypeByName("Generation Number");

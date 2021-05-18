@@ -2,11 +2,11 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Infrastructure")]
     public class TaskExecutorBaseTest
     {
-        [Test()]
+        [Test]
         public void Add_Tasks_TasksAdded()
         {
             var target = new StubTaskExecutor();
@@ -17,7 +17,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
             Assert.AreEqual(3, target.GetTasks().Count);
         }
 
-        [Test()]
+        [Test]
         public void Clear_Tasks_TasksClean()
         {
             var target = new StubTaskExecutor();
@@ -29,7 +29,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
             Assert.AreEqual(0, target.GetTasks().Count);
         }
 
-        [Test()]
+        [Test]
         public void Start_NoArgs_StopRequestedFalse()
         {
             var target = new StubTaskExecutor();
@@ -40,7 +40,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
             Assert.IsFalse(target.GetStopRequested());
         }
 
-        [Test()]
+        [Test]
         public void Stop_NoArgs_StopRequestedTrue()
         {
             var target = new StubTaskExecutor();

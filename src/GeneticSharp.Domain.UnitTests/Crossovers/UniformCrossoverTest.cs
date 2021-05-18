@@ -2,8 +2,8 @@
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Randomizations;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
@@ -21,7 +21,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         public void Cross_ParentsWithTwoGenesProbabilityDiffPercents_DiffChildren()
         {
             var chromosome1 = Substitute.For<ChromosomeBase>(4);
-            chromosome1.ReplaceGenes(0, new Gene[]
+            chromosome1.ReplaceGenes(0, new[]
             {
                 new Gene(1),
                 new Gene(2),
@@ -31,7 +31,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             chromosome1.CreateNew().Returns(Substitute.For<ChromosomeBase>(4));
 
             var chromosome2 = Substitute.For<ChromosomeBase>(4);
-            chromosome2.ReplaceGenes(0, new Gene[]
+            chromosome2.ReplaceGenes(0, new[]
             {
                 new Gene(5),
                 new Gene(6),
@@ -39,7 +39,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
                 new Gene(8)
             });
             chromosome2.CreateNew().Returns(Substitute.For<ChromosomeBase>(4));
-            var parents = new List<IChromosome>() { chromosome1, chromosome2 };
+            var parents = new List<IChromosome> { chromosome1, chromosome2 };
 
             var rnd = Substitute.For<IRandomization>();
             rnd.GetDouble().Returns(0, 0.49, 0.5, 1);

@@ -3,11 +3,11 @@ using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Randomizations
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Randomizations")]
     public class RandomizationProviderTest
     {
-        [Test()]
+        [Test]
         public void Current_Default_IsNotNull()
         {
             Assert.IsNotNull(RandomizationProvider.Current);

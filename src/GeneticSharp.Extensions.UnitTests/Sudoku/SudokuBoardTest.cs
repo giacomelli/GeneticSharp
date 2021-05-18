@@ -9,11 +9,11 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
 {
 
 
-    [TestFixture()]
+    [TestFixture]
     [Category("Extensions")]
     public class SudokuBoardTest
     {
-        [Test()]
+        [Test]
         public void Constructor_TooManyCells_Exception()
         {
             var tooMuchCells = Enumerable.Repeat(0, 82);
@@ -27,7 +27,7 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
         /// <summary>
         /// The sample sudoku string should parse properly into corresponding cells
         /// </summary>
-        [Test()]
+        [Test]
         public void Parse_SampleString_ConsistantCells()
         {
 
@@ -55,7 +55,7 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
         /// <summary>
         /// The sample sudoku file should parse properly into corresponding individual Sudokus
         /// </summary>
-        [Test()]  
+        [Test]  
         public void Parse_SampleFile_SudokusAreParsedFromFile()
         {
 

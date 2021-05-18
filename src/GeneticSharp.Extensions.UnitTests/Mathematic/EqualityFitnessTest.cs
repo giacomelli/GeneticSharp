@@ -1,15 +1,14 @@
-﻿using System.Linq;
-using GeneticSharp.Domain.Chromosomes;
+﻿using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Extensions.Mathematic;
 using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Mathematic
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Extensions")]
     public class EqualityFitnessTest
     {
-        [Test()]
+        [Test]
         public void Evaluate_DiffChromosomes_DiffFitness()
         {
             var target = new EqualityFitness();

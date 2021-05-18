@@ -1,18 +1,24 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using Gdk;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Populations;
 using GeneticSharp.Infrastructure.Framework.Texts;
+using Pango;
+using Color = Gdk.Color;
+using GC = Gdk.GC;
+using Rectangle = Gdk.Rectangle;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
 {
     public class SampleContext
     {
         #region Fields
-        private int m_lastTextY = 0;
+        private int m_lastTextY;
+        private DateTime m_lastDrawTime = DateTime.MinValue;
         #endregion
 
-        public SampleContext(Gdk.Window gdkWindow, Gtk.Window gtkWindow)
+        public SampleContext(Window gdkWindow, Gtk.Window gtkWindow)
         {
             GdkWindow = gdkWindow;
             GtkWindow = gtkWindow;
@@ -20,19 +26,25 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 
         public GeneticAlgorithm GA { get; set; }
 
-        public Gdk.Window GdkWindow { get; private set; }
+        public Window GdkWindow { get; private set; }
 
         public Gtk.Window GtkWindow { get; private set; }
 
-        public Gdk.GC GC { get; set; }
+        public GC GC { get; set; }
 
         public Pixmap Buffer { get; set; }
 
-        public Pango.Layout Layout { get; set; }
+        public Layout Layout { get; set; }
 
         public Population Population { get; set; }
 
         public Rectangle DrawingArea { get; set; }
+
+        public DateTime LastDrawTime
+        {
+            get => m_lastDrawTime;
+            set => m_lastDrawTime = value;
+        }
 
         public void Reset()
         {
@@ -46,12 +58,14 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             m_lastTextY += 20;
         }
 
-        public Gdk.GC CreateGC(Gdk.Color foregroundColor)
+        public GC CreateGC(Color foregroundColor)
         {
-            var gc = new Gdk.GC(GdkWindow);
-            gc.RgbFgColor = foregroundColor;
-            gc.RgbBgColor = new Gdk.Color(255, 255, 255);
-            gc.Background = new Gdk.Color(255, 255, 255);
+            var gc = new GC(GdkWindow)
+            {
+                RgbFgColor = foregroundColor,
+                RgbBgColor = new Color(255, 255, 255),
+                Background = new Color(255, 255, 255)
+            };
             gc.SetLineAttributes(1, LineStyle.OnOffDash, CapStyle.Projecting, JoinStyle.Round);
 
             return gc;

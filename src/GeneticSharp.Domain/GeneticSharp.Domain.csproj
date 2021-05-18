@@ -27,6 +27,10 @@
   <PropertyGroup>
     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj" PrivateAssets="all" />
@@ -37,5 +41,7 @@
       <BuildOutputInPackage Include="@(_ResolvedProjectReferencePaths)" />
     </ItemGroup>
   </Target>
-
+	<PropertyGroup>
+		<LangVersion>7.3</LangVersion>
+	</PropertyGroup>
 </Project>

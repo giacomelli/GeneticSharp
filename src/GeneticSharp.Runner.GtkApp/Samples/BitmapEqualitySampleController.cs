@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using Gdk;
+using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Fitnesses;
@@ -9,10 +11,10 @@ using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Extensions.Drawing;
 using GeneticSharp.Infrastructure.Framework.Texts;
-using Gtk;
-using GeneticSharp.Infrastructure.Framework.Commons;
-using GeneticSharp.Domain;
 using GeneticSharp.Infrastructure.Framework.Threading;
+using Gtk;
+using Image = System.Drawing.Image;
+using Size = System.Drawing.Size;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
 {
@@ -20,7 +22,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
     public class BitmapEqualitySampleController : SampleControllerBase
     {
         #region Fields
-        private BitmapEqualityFitness m_fitness = new BitmapEqualityFitness();
+        private readonly BitmapEqualityFitness m_fitness = new BitmapEqualityFitness();
         //// private IChromosome m_lastBest;
         private string m_destFolder;
         private double m_resolution = 1;
@@ -37,12 +39,11 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         public override Widget CreateConfigWidget()
         {
             var container = new VBox();
-            var selectImageButton = new Button();
-            selectImageButton.Label = "Select the image";
+            var selectImageButton = new Button {Label = "Select the image"};
             selectImageButton.Clicked += delegate
             {
-                Gtk.FileChooserDialog filechooser =
-                new Gtk.FileChooserDialog(
+                FileChooserDialog filechooser =
+                new FileChooserDialog(
                     "Select the image to use",
                 Context.GtkWindow,
                 FileChooserAction.Open,
@@ -53,7 +54,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 
                 if (filechooser.Run() == (int)ResponseType.Accept)
                 {
-                    m_targetBitmap = Bitmap.FromFile(filechooser.Filename) as Bitmap;
+                    m_targetBitmap = Image.FromFile(filechooser.Filename) as Bitmap;
                     InitializeFitness();
 
                     var folder = Path.Combine(Path.GetDirectoryName(filechooser.Filename), "results");
@@ -68,12 +69,10 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             container.Add(selectImageButton);
 
             // Resolution.
-            m_resolutionLabel = new Label();
-            m_resolutionLabel.Text = "Resolution";
+            m_resolutionLabel = new Label {Text = "Resolution"};
             container.Add(m_resolutionLabel);
 
-            var resolutionButton = new SpinButton(0.01, 1, 0.01);
-            resolutionButton.Value = 100;
+            var resolutionButton = new SpinButton(0.01, 1, 0.01) {Value = 100};
             resolutionButton.ValueChanged += delegate
             {
                 m_resolution = resolutionButton.Value;
@@ -114,36 +113,32 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 
         public override void Draw()
         {
-            var ga = Context.GA;
+            //var ga = Context.GA;
 
-            if (ga != null)
+            if (Context.Population != null)
             {
-                var generationsNumber = ga.GenerationsNumber;
-                var bestChromosome = ga.BestChromosome as BitmapChromosome;
+                var bestChromosome = Context.Population.BestChromosome as BitmapChromosome;
 
                 //// if (generationsNumber == 1 || (generationsNumber % 200 == 0 && m_lastBest.Fitness != bestChromosome.Fitness))
                 if (bestChromosome != null)
                 {
                     var buffer = Context.Buffer;
                     var gc = Context.GC;
-                    var layout = Context.Layout;
 
                     using (var bitmap = bestChromosome.BuildBitmap())
                     {
                         //// bitmap.Save("{0}/{1}_{2}.png".With(m_destFolder, generationsNumber.ToString("D10"), best.Fitness));
 
-                        using (var ms = new MemoryStream())
-                        {
-                            var converter = new ImageConverter();
+                        var converter = new ImageConverter();
 
-                            var imageBytes = (byte[])converter.ConvertTo(bitmap, typeof(byte[]));
-                            var pb = new Gdk.Pixbuf(imageBytes);
-                            var width = Context.DrawingArea.Width;
-                            var height = Context.DrawingArea.Height;
+                        var imageBytes = (byte[])converter.ConvertTo(bitmap, typeof(byte[]));
+                        var pb = new Pixbuf(imageBytes);
+                        var width = Context.DrawingArea.Width;
+                        var height = Context.DrawingArea.Height;
 
-                            pb = pb.ScaleSimple(width, height, Gdk.InterpType.Nearest);
-                            buffer.DrawPixbuf(gc, pb, 0, 0, 0, 100, width, height, Gdk.RgbDither.None, 0, 0);
-                        }
+                        pb = pb.ScaleSimple(width, height, InterpType.Nearest);
+                        buffer.DrawPixbuf(gc, pb, 0, 0, 0, 100, width, height, RgbDither.None, 0, 0);
+
                     }
 
                     //// m_lastBest = best;

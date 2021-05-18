@@ -1,13 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
+using GeneticSharp.Domain.Crossovers.Geometric;
 using GeneticSharp.Domain.Fitnesses;
+using GeneticSharp.Domain.Metaheuristics;
+using GeneticSharp.Domain.Metaheuristics.Primitives;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Selections;
 using GeneticSharp.Extensions.Multiple;
 using GeneticSharp.Extensions.Sudoku;
+using GeneticSharp.Infrastructure.Framework.Commons;
 using Gtk;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
@@ -19,6 +25,8 @@ namespace GeneticSharp.Runner.GtkApp.Samples
     public enum SudokuChromosomeType
     {
         Cells,
+        CellsInitWithRowsPermutations,
+        CellsWithEukaryoteMetaHeuristics,
         CellsWithoutMask,
         RowsPermutations,
         RandomRowsPermutations,
@@ -49,11 +57,11 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         }
 
 
-        private string _ChromosomeType = nameof(SudokuChromosomeType.RowsPermutations); // The selected type of chromosome
+        private SudokuChromosomeType _ChromosomeType = SudokuChromosomeType.RowsPermutations; // The selected type of chromosome
         private int _nbPermutations = 2; //The number of genes per permutation for random permutations
         private int _nbSudokus = 5; //The number of Sudokus to generate from random permutations
         private HBox _nbPermsHBox;
-        private bool _multipleChromosome = false; // Do we evolve several sudokus/sub-chromosomes per individual solution
+        private bool _multipleChromosome; // Do we evolve several sudokus/sub-chromosomes per individual solution
         private int _nbChromosomes = 2; //Nb of sudokus per individual if multiple
         private HBox _nbChromosomesHBox;
 
@@ -83,15 +91,19 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             {
                 switch (_ChromosomeType)
                 {
-                    case nameof(SudokuChromosomeType.RandomRowsPermutations):
+                    case SudokuChromosomeType.RandomRowsPermutations:
                         return new SudokuRandomPermutationsChromosome(GetTargetSudoku(), _nbPermutations, _nbSudokus);
-                    case nameof(SudokuChromosomeType.RowsPermutations):
+                    case SudokuChromosomeType.RowsPermutations:
                         return new SudokuPermutationsChromosome(GetTargetSudoku());
-                    case nameof(SudokuChromosomeType.RowsWithoutMask):
+                    case SudokuChromosomeType.RowsWithoutMask:
                         return new SudokuPermutationsChromosome();
-                    case nameof(SudokuChromosomeType.Cells):
-                        return new SudokuCellsChromosome(GetTargetSudoku());
-                    case nameof(SudokuChromosomeType.CellsWithoutMask):
+                    case SudokuChromosomeType.Cells:
+                        return new SudokuCellsChromosome(GetTargetSudoku(), false);
+                    case SudokuChromosomeType.CellsInitWithRowsPermutations:
+                        return new SudokuCellsChromosome(GetTargetSudoku(), true);
+                    case SudokuChromosomeType.CellsWithEukaryoteMetaHeuristics:
+                        return new SudokuCellsChromosome(GetTargetSudoku(), true);
+                    case SudokuChromosomeType.CellsWithoutMask:
                         return new SudokuCellsChromosome();
                 }
             }
@@ -116,6 +128,9 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 
             var fileHBox = new HBox();
             container.Add(fileHBox);
+            Box.BoxChild wfileHBox = (Box.BoxChild)container[fileHBox];
+            wfileHBox.Expand = false;
+            wfileHBox.Fill = false;
 
 
             // Sudoku index.
@@ -138,8 +153,8 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             var selectImageButton = new Button { Label = "Load sudoku(s) file" };
             selectImageButton.Clicked += delegate
             {
-                Gtk.FileChooserDialog filechooser =
-            new Gtk.FileChooserDialog(
+                FileChooserDialog filechooser =
+            new FileChooserDialog(
               "Select the sudoku to use",
               Context.GtkWindow,
               FileChooserAction.Open,
@@ -179,9 +194,6 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 
 
 
-
-
-
             // Genetics selector.
 
             var geneticsHBox = new HBox();
@@ -191,20 +203,22 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             var geneticsLabel = new Label { Text = "Genetics" };
             geneticsHBox.Add(geneticsLabel);
 
-            var chromosomeTypes = new string[] {
+            var chromosomeTypes = new[] {
         nameof(SudokuChromosomeType.RowsPermutations)
         ,nameof(SudokuChromosomeType.Cells)
+        ,nameof(SudokuChromosomeType.CellsInitWithRowsPermutations)
+        ,nameof(SudokuChromosomeType.CellsWithEukaryoteMetaHeuristics)
         ,nameof(SudokuChromosomeType.RandomRowsPermutations)
         ,nameof(SudokuChromosomeType.RowsWithoutMask)
         ,nameof(SudokuChromosomeType.CellsWithoutMask)
       };
 
+            // Random Permutation chromosome: choosing Nb of permutations and Nb of Sudokus
             _nbPermsHBox = new HBox
             {
-                Visible = _ChromosomeType == nameof(SudokuChromosomeType.RandomRowsPermutations)
+                Visible = _ChromosomeType == SudokuChromosomeType.RandomRowsPermutations
             };
-
-
+            
             var nbPermsLabel = new Label { Text = "Nb Permutations" };
             _nbPermsHBox.Add(nbPermsLabel);
 
@@ -232,19 +246,25 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             };
 
 
-
+            // Choosing Type of Sudoku Chromosome
             var selectorCombo = new ComboBox(chromosomeTypes) { Active = 0 };
             selectorCombo.Changed += delegate
             {
-                _ChromosomeType = selectorCombo.ActiveText;
-                _nbPermsHBox.Visible = _ChromosomeType == nameof(SudokuChromosomeType.RandomRowsPermutations);
+                Enum.TryParse( selectorCombo.ActiveText, out _ChromosomeType);
+                _nbPermsHBox.Visible = _ChromosomeType == SudokuChromosomeType.RandomRowsPermutations;
                 OnReconfigured();
             };
             geneticsHBox.Add(selectorCombo);
             container.Add(geneticsHBox);
+            Box.BoxChild wgeneticsHBox = (Box.BoxChild)container[geneticsHBox];
+            wgeneticsHBox.Expand = false;
+            wgeneticsHBox.Fill = false;
             container.Add(_nbPermsHBox);
+            Box.BoxChild wnbPermsHBox = (Box.BoxChild)container[_nbPermsHBox];
+            wnbPermsHBox.Expand = false;
+            wnbPermsHBox.Fill = false;
 
-            //Multi check
+            //Multi-chromosome checkbox
             var multiHBox = new HBox();
             var multiCheck = new CheckButton("Multi-Solutions") {Active = _multipleChromosome};
 
@@ -277,6 +297,9 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             multiHBox.Add(_nbChromosomesHBox);
 
             container.Add(multiHBox);
+            Box.BoxChild wmultiHBox = (Box.BoxChild)container[multiHBox];
+            wmultiHBox.Expand = false;
+            wmultiHBox.Fill = false;
 
             return container;
         }
@@ -302,7 +325,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
                 return new MultipleFitness(CreateFitness(false));
             }
 
-            if (_ChromosomeType == nameof(SudokuChromosomeType.RandomRowsPermutations))
+            if (_ChromosomeType == SudokuChromosomeType.RandomRowsPermutations)
             {
                 return new SudokuFitness(GetTargetSudoku());
             }
@@ -327,7 +350,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
             SudokuBoard sudokuBoardToDraw = null;
             if (population != null)
             {
-                if ((population.BestChromosome is ISudokuChromosome bestChromosome))
+                if (population.BestChromosome is ISudokuChromosome bestChromosome)
                 {
                     if (population.CurrentGeneration != null)
                     {
@@ -338,6 +361,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
                         {
                             Context.WriteText($"Next: [{string.Join(",", stats[1].First.Cells.Take(9).Select(i => i.ToString()).ToArray())}] [{string.Join(",", stats[1].Last.Cells.Take(9).Select(i => i.ToString()).ToArray())}]");
                         }
+                        
 
                     }
                     sudokuBoardToDraw = bestChromosome.GetSudokus().First();
@@ -371,7 +395,7 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         public override void Reset()
         {
             // Quick hack to force visibility not taken into account at creation (GTK#/MainWidow bug?)
-            _nbPermsHBox.Visible = _ChromosomeType == nameof(SudokuChromosomeType.RandomRowsPermutations);
+            _nbPermsHBox.Visible = _ChromosomeType == SudokuChromosomeType.RandomRowsPermutations;
             _nbChromosomesHBox.Visible = _multipleChromosome;
         }
 
@@ -379,6 +403,60 @@ namespace GeneticSharp.Runner.GtkApp.Samples
         {
             //throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// We handle the special case of using a <see cref="EukaryoteMetaHeuristic"/>, which makes use of <see cref="EukaryoteChromosome"/> to split the <see cref="SudokuCellsChromosome"/> into 9 smaller rows chromosomes.
+        /// As demonstrated in <see href="https://www.researchgate.net/publication/224645744_Product_Geometric_Crossover_for_the_Sudoku_Puzzle">Product_Geometric_Crossover_for_the_Sudoku_Puzzle</see>, with rows permutations initialization this permits using ordered based crossovers and mutations preserving permutations, and in effect demonstrates better robustness together with those operators, in terms of preventing early collapse to a non solution, than simply using a cells based chromosome with same population size, initialization and non ordered based operators.     
+        /// </summary>
+        /// <param name="ga"></param>
+        public override void ConfigGA(GeneticAlgorithm ga)
+        {
+            
+            if (_ChromosomeType == SudokuChromosomeType.CellsWithEukaryoteMetaHeuristics)
+            {
+                if (ga is MetaGeneticAlgorithm mga)
+                {
+                    mga.Metaheuristic = new EukaryoteMetaHeuristic(9, 9, new DefaultMetaHeuristic()) { Scope = EvolutionStage.Crossover | EvolutionStage.Mutation };
+                }
+                else
+                {
+                    throw new InvalidOperationException("Metaheuristics should be enabled in order for the Eukaryote MetaHeuristic to be applied");
+                }
+                
+            }
+        }
+
+
+        public override IGeometricConverter GetGeometricConverter()
+        {
+            var typedConverter = new GeometricConverter<int> { IsOrdered = true, DoubleToGeneConverter = DoubleToGene, GeneToDoubleConverter = GeneToDouble };
+            var toReturn = new TypedGeometricConverter();
+            toReturn.SetTypedConverter(typedConverter);
+            return toReturn;
+        }
+
+        private int DoubleToGene(int geneIndex, double d)
+        {
+            switch (this._ChromosomeType)
+            {
+                case SudokuChromosomeType.Cells:
+                case SudokuChromosomeType.CellsInitWithRowsPermutations:
+                case SudokuChromosomeType.CellsWithEukaryoteMetaHeuristics:
+                case SudokuChromosomeType.CellsWithoutMask:
+                    return Math.Round(d-1).PositiveMod(9) + 1;
+                case SudokuChromosomeType.RowsPermutations:
+                case SudokuChromosomeType.RandomRowsPermutations:
+                case SudokuChromosomeType.RowsWithoutMask:
+                    return Math.Round(d)
+                        .PositiveMod(this._sudokuList[_sudokuIndex].GetRowsPermutations()[geneIndex].Count);
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            
+        }
+
+        private double GeneToDouble(int geneIndex, int geneValue) => Convert.ToDouble(geneValue);
+
 
     }
 }

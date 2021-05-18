@@ -57,7 +57,7 @@ namespace GeneticSharp.Domain.Crossovers
                 }
             }
 
-            return new List<IChromosome>() { offspring };
+            return new List<IChromosome> { offspring };
         }
         #endregion
     }

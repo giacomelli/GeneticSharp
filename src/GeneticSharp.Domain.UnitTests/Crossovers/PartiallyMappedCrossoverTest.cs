@@ -2,12 +2,12 @@
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Randomizations;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {
-    [TestFixture()]
+    [TestFixture]
     [Category("Crossovers")]
     public class PartiallyMappedCrossoverTest
     {
@@ -23,7 +23,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             var target = new PartiallyMappedCrossover();
 
             var chromosome1 = Substitute.For<ChromosomeBase>(8);
-            chromosome1.ReplaceGenes(0, new Gene[] {
+            chromosome1.ReplaceGenes(0, new[] {
                 new Gene(1),
                 new Gene(2),
                 new Gene(3),
@@ -36,7 +36,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             chromosome1.CreateNew().Returns(Substitute.For<ChromosomeBase>(8));
 
             var chromosome2 = Substitute.For<ChromosomeBase>(8);
-            chromosome2.ReplaceGenes(0, new Gene[]
+            chromosome2.ReplaceGenes(0, new[]
                                      {
                 new Gene(3),
                 new Gene(7),
@@ -51,7 +51,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             Assert.Catch <CrossoverException>(() =>
             {
-                target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
+                target.Cross(new List<IChromosome> { chromosome1, chromosome2 });
             }, "The Partially Mapped Crossover (PMX) can be only used with ordered chromosomes. The specified chromosome has repeated genes.");
         }
 
@@ -62,7 +62,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             // 1 2 3 4 5 6 7 8 
             var chromosome1 = Substitute.For<ChromosomeBase>(8);
-            chromosome1.ReplaceGenes(0, new Gene[] {
+            chromosome1.ReplaceGenes(0, new[] {
                 new Gene(1),
                 new Gene(2),
                 new Gene(3),
@@ -76,7 +76,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
 
             // 3 7 5 1 6 8 2 4
             var chromosome2 = Substitute.For<ChromosomeBase>(8);
-            chromosome2.ReplaceGenes(0, new Gene[]
+            chromosome2.ReplaceGenes(0, new[]
             {
                 new Gene(3),
                 new Gene(7),
@@ -90,10 +90,10 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             chromosome2.CreateNew().Returns(Substitute.For<ChromosomeBase>(8));
 
             var rnd = Substitute.For<IRandomization>();
-            rnd.GetUniqueInts(2, 0, 8).Returns(new int[] { 5, 3 });
+            rnd.GetUniqueInts(2, 0, 8).Returns(new[] { 5, 3 });
             RandomizationProvider.Current = rnd;
 
-            var actual = target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
+            var actual = target.Cross(new List<IChromosome> { chromosome1, chromosome2 });
 
             Assert.AreEqual(2, actual.Count);
             Assert.AreEqual(8, actual[0].Length);

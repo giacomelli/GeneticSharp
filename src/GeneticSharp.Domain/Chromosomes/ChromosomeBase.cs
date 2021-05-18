@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
-using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Framework.Commons;
+using GeneticSharp.Infrastructure.Framework.Texts;
 
 namespace GeneticSharp.Domain.Chromosomes
 {
@@ -60,12 +60,12 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </returns>
         public static bool operator ==(ChromosomeBase first, ChromosomeBase second)
         {
-            if (Object.ReferenceEquals(first, second))
+            if (ReferenceEquals(first, second))
             {
                 return true;
             }
 
-            if (((object)first == null) || ((object)second == null))
+            if (first is null || second is null)
             {
                 return false;
             }
@@ -96,17 +96,17 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </returns>
         public static bool operator <(ChromosomeBase first, ChromosomeBase second)
         {
-            if (Object.ReferenceEquals(first, second))
+            if (ReferenceEquals(first, second))
             {
                 return false;
             }
 
-            if ((object)first == null)
+            if (first is null)
             {
                 return true;
             }
 
-            if ((object)second == null)
+            if (second is null)
             {
                 return false;
             }
@@ -270,9 +270,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <see cref="GeneticSharp.Domain.Chromosomes.ChromosomeBase"/>; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
-            var other = obj as IChromosome;
-
-            if (other == null)
+            if (!(obj is IChromosome other))
             {
                 return false;
             }
@@ -305,6 +303,12 @@ namespace GeneticSharp.Domain.Chromosomes
         {
             ReplaceGene(index, GenerateGene(index));
         }
+
+        public void InitializeGenes()
+        {
+            CreateGenes();
+        }
+
 
         /// <summary>
         /// Creates all genes

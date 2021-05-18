@@ -9,7 +9,7 @@ namespace GeneticSharp.Benchmarks
     [Config(typeof(DefaultConfig))]
     public class CrossoversBenchmark
     {
-        private const int _numberOfCities = 100;
+        private const int NumberOfCities = 100;
 
         [Benchmark]
         public IList<IChromosome> AlternatingPosition()
@@ -97,20 +97,20 @@ namespace GeneticSharp.Benchmarks
 
         private IList<IChromosome> CreateTwoParents()
         {
-            return new TspChromosome[]
+            return new IChromosome[]
             {
-                new TspChromosome(_numberOfCities),
-                new TspChromosome(_numberOfCities)
+                new TspChromosome(NumberOfCities),
+                new TspChromosome(NumberOfCities)
             };
         }
 
         private IList<IChromosome> CreateThreeParents()
         {
-            return new TspChromosome[]
+            return new IChromosome[]
             {
-                new TspChromosome(_numberOfCities),
-                new TspChromosome(_numberOfCities),
-                new TspChromosome(_numberOfCities)
+                new TspChromosome(NumberOfCities),
+                new TspChromosome(NumberOfCities),
+                new TspChromosome(NumberOfCities)
             };
         }
     }
