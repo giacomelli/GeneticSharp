@@ -100,7 +100,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
             var woa = new WhaleOptimisationAlgorithm()
             {
                 MaxGenerations = nbGenerationsWOA,
-                SetDefaultReinsertion = false
+                ForceReinsertion = false
                };
             woa.SetGeometricConverter(noEmbeddingConverter);
             var metaHeuristic = woa.Build();

@@ -179,9 +179,9 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         [Test]
         public void Compare_IslandBestMixture_WOA_Ackley_VerySmall_BetterFitness()
         {
-            var fitnessRatiosBySize = new double[] { 1E5, 50, 2 };
+            var fitnessRatiosBySize = new double[] { 1E5, 40, 1.5 };
 
-            var repeatNb = 1;
+            var repeatNb = 5;
 
             var sizes = VerySmallSizes;
 
@@ -225,9 +225,9 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         [Test]
         public void Compare_IslandBestMixture_WOA_Levy_VerySmall_BetterFitness()
         {
-            var fitnessRatiosBySize = new double[] { 1E5, 1000, 2 };
+            var fitnessRatiosBySize = new double[] { 1E5, 100, 2 };
 
-            var repeatNb = 1;
+            var repeatNb = 5;
 
             var sizes = VerySmallSizes;
 

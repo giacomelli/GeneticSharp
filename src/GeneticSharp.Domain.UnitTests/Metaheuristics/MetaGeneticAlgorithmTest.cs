@@ -52,7 +52,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                 var termination = new GenerationNumberTermination(nbGenerations);
                 for (int i = 0; i < repeatNb; i++)
                 {
-                    var results = CompareMetaHeuristicsSamePopulation(1, Fitness(size), AdamChromosome(size), false,
+                    var results = EvolveMetaHeuristicsSamePopulation(1, Fitness(size), AdamChromosome(size), false,
                         heuristics, crossover, 100, termination, reinsertion);
                     //if (i>0)//Skip first evolution
                     //{
@@ -126,7 +126,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                 //var termination = new FitnessThresholdTermination(0.97);
                 for (int i = 0; i < repeatNb; i++)
                 {
-                    var results = CompareMetaHeuristicsSamePopulation(1, Fitness(size), AdamChromosome(size), false,
+                    var results = EvolveMetaHeuristicsSamePopulation(1, Fitness(size), AdamChromosome(size), false,
                         heuristics, crossover, 100, termination, reinsertion);
                     //if (i>0)//Skip first evolution
                     //{
@@ -214,7 +214,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                 //var termination = new FitnessThresholdTermination(0.97);
                 for (int i = 0; i < repeatNb; i++)
                 {
-                    var results = CompareMetaHeuristicsSamePopulation(1, Fitness(size), AdamChromosome(size), false,
+                    var results = EvolveMetaHeuristicsSamePopulation(1, Fitness(size), AdamChromosome(size), false,
                         heuristics, crossover, 100, termination, reinsertion);
                     //if (i>0)//Skip first evolution
                     //{

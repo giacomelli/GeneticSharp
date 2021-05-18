@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -26,13 +27,13 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
     public abstract class MetaHeuristicTestBase
     {
 
-        public const bool EnableOperatorsParallelism = false;
+        public const bool EnableOperatorsParallelism = true;
         public const bool EnableEvaluatorParallelism = true;
 
-        protected IEnumerable<int> VerySmallSizes = Enumerable.Range(1, 3).Select(x => 5 * x);
-        protected IEnumerable<int> SmallSizes = Enumerable.Range(1, 3).Select(x => 20 * x);
-        protected IEnumerable<int> LargeSizes = Enumerable.Range(1, 3).Select(x => 200 * x);
-        protected IEnumerable<int> VeryLargeSizes = Enumerable.Range(1, 3).Select(x => 5000 * x);
+        protected static IList<int> VerySmallSizes = Enumerable.Range(1, 3).Select(x => 5 * x).ToList();
+        protected static IList<int> SmallSizes = Enumerable.Range(1, 3).Select(x => 20 * x).ToList();
+        protected static IList<int> LargeSizes = Enumerable.Range(1, 3).Select(x => 200 * x).ToList();
+        protected static IList<int> VeryLargeSizes = Enumerable.Range(1, 3).Select(x => 5000 * x).ToList();
 
 
         protected OrTermination GetTermination(double minFitness, int maxNbGenerations, int stagnationNb,
@@ -198,7 +199,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
             var toReturn = new List<(IEvolutionResult result, double minFitness)>();
             var minFitnesses = new List<double>();
-            foreach (var maxValue in sizes)
+            foreach (var pbSize in sizes)
             {
                 //Population Size
                 var populationSize = SmallPopulationSize;
@@ -210,8 +211,8 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                 TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(2);
                 var termination = GetTermination(terminationFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
 
-                var result = EvolveMetaHeuristic(repeatNb, fitness, adamChromosome, metaHeuristic(maxValue), maxValue,  populationSize, termination, reinsertion);
-                toReturn.Add((result, minFitness(maxValue)));
+                var result = EvolveMetaHeuristic(repeatNb, fitness, adamChromosome, metaHeuristic(pbSize), pbSize,  populationSize, termination, reinsertion);
+                toReturn.Add((result, minFitness(pbSize)));
             }
 
             return toReturn;
@@ -240,32 +241,37 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
         }
 
-        protected List<IList<(IEvolutionResult result1, IEvolutionResult result2)>> CompareMetaHeuristicsKnownFunctionsDifferentSizes(int repeatNb, double maxCoordinate, Func<int, IMetaHeuristic> metaHeuristic1, Func<int, IMetaHeuristic> metaHeuristic2, ICrossover crossover, IEnumerable<int> sizes, ITermination termination, IReinsertion reinsertion)
+        protected IList<IList<(IEvolutionResult result1, IEvolutionResult result2)>> CompareMetaHeuristicsKnownFunctionsDifferentSizes(int repeatNb, double maxCoordinate, Func<int, IMetaHeuristic> metaHeuristic1, Func<int, IMetaHeuristic> metaHeuristic2, ICrossover crossover, IEnumerable<int> sizes, ITermination termination, IReinsertion reinsertion)
+        {
+
+            var metaHeuristicsBySize = new List<Func<int, IMetaHeuristic>> { metaHeuristic1, metaHeuristic2 };
+            var compoundResults = EvolveMetaHeuristicsKnownFunctionsDifferentSizes(repeatNb, maxCoordinate, metaHeuristicsBySize, crossover, sizes, termination, reinsertion);
+            return compoundResults.Select(fr=>(IList<(IEvolutionResult result1, IEvolutionResult result2)>)fr.Select(r => (r[0], r[1])).ToArray()).ToArray();
+
+        }
+
+
+        protected IList<IList<IList<IEvolutionResult>>> EvolveMetaHeuristicsKnownFunctionsDifferentSizes(int repeatNb, double maxCoordinate, IList<Func<int, IMetaHeuristic>> metaHeuristicsBySize, ICrossover crossover, IEnumerable<int> sizes, ITermination termination, IReinsertion reinsertion)
         {
             //double GetGeneValueFunction(double d) => Math.Sign(d) * Math.Min(Math.Abs(d), maxCoordinate);
-            IChromosome AdamChromosome(int i) => new EquationChromosome<double>(-maxCoordinate, maxCoordinate, i) ;
+            IChromosome AdamChromosome(int i) => new EquationChromosome<double>(-maxCoordinate, maxCoordinate, i);
 
             var knownFunctions = GetKnownFunctions(true);
-
 
             //Population Size
             var populationSize = 100;
 
-            
-
-            var resultsByFunctionBySize = new List<IList<(IEvolutionResult result1, IEvolutionResult result2)>>();
+            var resultsByFunctionBySize = new List<IList<IList<IEvolutionResult>>>();
 
             foreach (var functionToSolve in knownFunctions)
             {
                 IFitness Fitness(int i) => new FunctionFitness<double>(functionToSolve.function);
 
-                IList<(IEvolutionResult result1, IEvolutionResult result2)> results;
-                results = CompareMetaHeuristicsDifferentSizes(repeatNb,
+               var results = EvolveMetaHeuristicsDifferentSizes(repeatNb,
                     sizes,
                     Fitness,
                     AdamChromosome, false,
-                    metaHeuristic1,
-                    metaHeuristic2,
+                    metaHeuristicsBySize,
                     crossover, populationSize, termination, reinsertion);
 
                 resultsByFunctionBySize.Add(results);
@@ -278,6 +284,8 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
 
 
+
+
         protected virtual IList<(IEvolutionResult result1, IEvolutionResult result2)> CompareMetaHeuristicsDifferentSizes(int repeatNb, IEnumerable<int> problemSizes, 
             Func<int, IFitness> fitness, 
             Func<int, IChromosome> adamChromosome, bool useBestPreviousAsInitEve,
@@ -287,18 +295,35 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             int populationSize,
             ITermination termination, IReinsertion reinsertion)
         {
-            var compoundResults = new List<(IEvolutionResult result1, IEvolutionResult result2)>();
+            var metaHeuristicsBySize = new List<Func<int, IMetaHeuristic>> { metaHeuristic1, metaHeuristic2 };
+            var compoundResults = EvolveMetaHeuristicsDifferentSizes(repeatNb, problemSizes, fitness, adamChromosome, useBestPreviousAsInitEve, metaHeuristicsBySize, crossover, populationSize, termination, reinsertion);
+            return compoundResults.Select(r=>(r[0],r[1])).ToArray();
+        }
+
+
+        protected virtual IList<IList<IEvolutionResult>> EvolveMetaHeuristicsDifferentSizes(int repeatNb, IEnumerable<int> problemSizes,
+            Func<int, IFitness> fitness,
+            Func<int, IChromosome> adamChromosome, bool useBestPreviousAsInitEve,
+            IList<Func<int, IMetaHeuristic>> metaHeuristicsBySize,
+            ICrossover crossover,
+            int populationSize,
+            ITermination termination, IReinsertion reinsertion)
+        {
+            var compoundResults = new List<IList<IEvolutionResult>>();
             foreach (var size in problemSizes)
             {
-                var heuristics = new List<IMetaHeuristic> {metaHeuristic1(size), metaHeuristic2(size)};
+                var metaHeuristicsInstances = metaHeuristicsBySize.Select(m=>m(size)).ToArray();
 
-                var results = CompareMetaHeuristicsSamePopulation(repeatNb, fitness(size), adamChromosome(size), useBestPreviousAsInitEve, heuristics, crossover, populationSize, termination, reinsertion);
-                compoundResults.Add((results[0], results[1]));
+                var results = EvolveMetaHeuristicsSamePopulation(repeatNb, fitness(size), adamChromosome(size), useBestPreviousAsInitEve, metaHeuristicsInstances, crossover, populationSize, termination, reinsertion);
+                compoundResults.Add((results));
             }
             return compoundResults;
         }
-     
-        protected virtual IList<IEvolutionResult> CompareMetaHeuristicsSamePopulation(int repeatNb, IFitness fitness, IChromosome adamChromosome, bool usePreviousBestAsCurrentEve, IList<IMetaHeuristic> metaHeuristics, ICrossover crossover,  int populationSize, ITermination termination, IReinsertion reinsertion)
+
+
+
+
+        protected virtual IList<IEvolutionResult> EvolveMetaHeuristicsSamePopulation(int repeatNb, IFitness fitness, IChromosome adamChromosome, bool usePreviousBestAsCurrentEve, IList<IMetaHeuristic> metaHeuristics, ICrossover crossover,  int populationSize, ITermination termination, IReinsertion reinsertion)
         {
             var toReturn = new List<IEvolutionResult>();
             for (var metaHeuristicIndex = 0; metaHeuristicIndex < metaHeuristics.Count; metaHeuristicIndex++)
