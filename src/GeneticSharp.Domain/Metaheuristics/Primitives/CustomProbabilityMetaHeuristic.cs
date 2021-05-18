@@ -61,7 +61,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
         protected bool ShouldRun(float baseProbability, ProbabilityStrategy strategy, out float subProbability)
         {
             subProbability = baseProbability;
-            if (baseProbability<0)
+            if (baseProbability<=float.Epsilon)
             {
                 return false;
             }

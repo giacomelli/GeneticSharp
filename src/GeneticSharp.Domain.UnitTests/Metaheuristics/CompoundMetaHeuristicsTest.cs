@@ -135,7 +135,14 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             };
 
             var minFitnesses = new Func<int, double>[]{size => 10.0 * size, size=>0.9999};
-            Evolve_GeometricMetaheuristic_KnownFunctions_Small_Optmization(1, woa, minFitnesses);
+           var functionResults = Evolve_GeometricMetaheuristic_KnownFunctions_Small_Optmization(1, woa, minFitnesses);
+            foreach (var compoundResults in functionResults)
+            {
+                for (int i = 0; i < compoundResults.Count; i++)
+                {
+                    AssertEvolution(compoundResults[i].result, compoundResults[i].minFitness, false);
+                }
+            }
 
         }
 
@@ -152,7 +159,14 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             };
 
             var minFitnesses = new Func<int, double>[] { size => 15.0 * size, size => 0.99999999 };
-            Evolve_GeometricMetaheuristic_KnownFunctions_Small_Optmization(1, woa, minFitnesses);
+            var functionResults = Evolve_GeometricMetaheuristic_KnownFunctions_Small_Optmization(1, woa, minFitnesses);
+            foreach (var compoundResults in functionResults)
+            {
+                for (int i = 0; i < compoundResults.Count; i++)
+                {
+                    AssertEvolution(compoundResults[i].result, compoundResults[i].minFitness, false);
+                }
+            }
 
         }
 
@@ -169,7 +183,14 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             };
 
             var minFitnesses = new Func<int, double>[] { size => 15.0 * size, size => 0.99999999 };
-            Evolve_GeometricMetaheuristic_KnownFunctions_Small_Optmization(1, woa, minFitnesses);
+            var functionResults = Evolve_GeometricMetaheuristic_KnownFunctions_Small_Optmization(1, woa, minFitnesses);
+            foreach (var compoundResults in functionResults)
+            {
+                for (int i = 0; i < compoundResults.Count; i++)
+                {
+                    AssertEvolution(compoundResults[i].result, compoundResults[i].minFitness, false);
+                }
+            }
 
         }
 
@@ -192,7 +213,19 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             };
 
 
-            Compare_GeometricMetaheuristic_Crossover_KnownFunctions_Size_LargerFitness_Bounded(repeatNb, compound, crossover, sizes, maxNbGenerations, resultsRatio);
+           var compoundResults = Compare_GeometricMetaheuristic_Crossover_KnownFunctions_Size_LargerFitness_Bounded(repeatNb, compound, crossover, sizes, maxNbGenerations, resultsRatio);
+
+
+            var ratios = new List<(double meanRatio, double limitRatio)>();
+            for (int i = 0; i < compoundResults.Count; i++)
+            {
+                var functionResults = compoundResults[i];
+                var meanRatio = functionResults.Sum(c => c.result2.Fitness / c.result1.Fitness) / functionResults.Count;
+                ratios.Add((meanRatio, resultsRatio[i]));
+
+            }
+
+            ratios.ForEach(ratio => Assert.GreaterOrEqual(ratio.meanRatio, ratio.limitRatio));
 
         }
 
@@ -215,7 +248,20 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             };
 
 
-            Compare_GeometricMetaheuristic_Crossover_KnownFunctions_Size_LargerFitness_Bounded(repeatNb, compound, crossover, sizes, maxNbGenerations, resultsRatio);
+            
+            var compoundResults = Compare_GeometricMetaheuristic_Crossover_KnownFunctions_Size_LargerFitness_Bounded(repeatNb, compound, crossover, sizes, maxNbGenerations, resultsRatio);
+
+
+            var ratios = new List<(double meanRatio, double limitRatio)>();
+            for (int i = 0; i < compoundResults.Count; i++)
+            {
+                var functionResults = compoundResults[i];
+                var meanRatio = functionResults.Sum(c => c.result2.Fitness / c.result1.Fitness) / functionResults.Count;
+                ratios.Add((meanRatio, resultsRatio[i]));
+
+            }
+
+            ratios.ForEach(ratio => Assert.GreaterOrEqual(ratio.meanRatio, ratio.limitRatio));
 
         }
 
@@ -231,7 +277,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         public void Compare_FBI_DefaultOnePoint_KnownFunctions_Small_LargerFitness_Bounded()
         {
             var repeatNb = 1;
-            var resultsRatio = new[] { 1.5, 1.5, 1E5, 1E4, 1000 };
+            var resultsRatio = new[] { 1.5, 1.5, 1E5, 1E4, 200 };
             int maxNbGenerations = 100;
             var crossover = new OnePointCrossover(2);
             var sizes = SmallSizes;
@@ -244,7 +290,19 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             };
 
 
-            Compare_GeometricMetaheuristic_Crossover_KnownFunctions_Size_LargerFitness_Bounded(repeatNb, compound, crossover, sizes, maxNbGenerations, resultsRatio);
+            var compoundResults = Compare_GeometricMetaheuristic_Crossover_KnownFunctions_Size_LargerFitness_Bounded(repeatNb, compound, crossover, sizes, maxNbGenerations, resultsRatio);
+
+
+            var ratios = new List<(double meanRatio, double limitRatio)>();
+            for (int i = 0; i < compoundResults.Count; i++)
+            {
+                var functionResults = compoundResults[i];
+                var meanRatio = functionResults.Sum(c => c.result2.Fitness / c.result1.Fitness) / functionResults.Count;
+                ratios.Add((meanRatio, resultsRatio[i]));
+
+            }
+
+            ratios.ForEach(ratio => Assert.GreaterOrEqual(ratio.meanRatio, ratio.limitRatio));
 
         }
 
@@ -262,12 +320,24 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             int maxNbGenerations = 100;
             var sizes = LargeSizes;
 
-            var woa = new WhaleOptimisationAlgorithm()
+            var compound = new WhaleOptimisationAlgorithm()
             {
                 MaxGenerations = maxNbGenerations,
             };
 
-            Compare_GeometricMetaheuristic_Crossover_KnownFunctions_Size_LargerFitness_Bounded(repeatNb, woa, crossover, sizes, maxNbGenerations, resultsRatio);
+            var compoundResults = Compare_GeometricMetaheuristic_Crossover_KnownFunctions_Size_LargerFitness_Bounded(repeatNb, compound, crossover, sizes, maxNbGenerations, resultsRatio);
+
+
+            var ratios = new List<(double meanRatio, double limitRatio)>();
+            for (int i = 0; i < compoundResults.Count; i++)
+            {
+                var functionResults = compoundResults[i];
+                var meanRatio = functionResults.Sum(c => c.result2.Fitness / c.result1.Fitness) / functionResults.Count;
+                ratios.Add((meanRatio, resultsRatio[i]));
+
+            }
+
+            ratios.ForEach(ratio => Assert.GreaterOrEqual(ratio.meanRatio, ratio.limitRatio));
 
 
         }
@@ -325,7 +395,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             //todo: figure out why such a big swing depending on the Framework version (.net code as reduced version faster, unlike .Net 4.6.2)
 
 #if NETCOREAPP
-            double lowerBoundGenRatio = 0.9;
+            double lowerBoundGenRatio = 0.8;
             double upperBoundGenRatio = 1.5;
 #else
             double lowerBoundGenRatio = 0.6;
@@ -437,7 +507,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                     var meanResult = new MeanEvolutionResult { SkipExtremaPercentage = 0.2 };
                     for (int i = 0; i < repeatNb; i++)
                     {
-                        var target = InitMetaGeneticAlgorithm(metaHeuristic, Fitness(size), AdamChromosome(size), false, crossover, populationSize, termination, reinsertion, true);
+                        var target = InitMetaGeneticAlgorithm(metaHeuristic, Fitness(size), AdamChromosome(size), false, crossover, populationSize, termination, reinsertion, EnableOperatorsParallelism);
                         target.Start();
                         var result = target.GetResult();
                         meanResult.Results.Add(result);
@@ -720,7 +790,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         }
 
 
-        private void Evolve_GeometricMetaheuristic_KnownFunctions_Small_Optmization(int repeatNb, GeometricMetaHeuristicBase geometricCompound, Func<int, double>[] minFitnesses)
+        private IList<IList<(IEvolutionResult result, double minFitness)>> Evolve_GeometricMetaheuristic_KnownFunctions_Small_Optmization(int repeatNb, GeometricMetaHeuristicBase geometricCompound, Func<int, double>[] minFitnesses)
         {
             var sizes = SmallSizes;
             var functionHalfRange = 5;
@@ -773,19 +843,15 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                 functionResults.Add(compoundResults);
 
             }
-            foreach (var compoundResults in functionResults)
-            {
-                for (int i = 0; i < compoundResults.Count; i++)
-                {
-                    AssertEvolution(compoundResults[i].result, compoundResults[i].minFitness, false);
-                }
-            }
+
+            return functionResults;
+            
 
         }
 
 
 
-        private void Compare_GeometricMetaheuristic_Crossover_KnownFunctions_Size_LargerFitness_Bounded(int repeatNb, GeometricMetaHeuristicBase geometricCompound, ICrossover crossover, IEnumerable<int> sizes, int maxNbGenerations, double[] resultsRatio)
+        private IList<IList<(IEvolutionResult result1, IEvolutionResult result2)>> Compare_GeometricMetaheuristic_Crossover_KnownFunctions_Size_LargerFitness_Bounded(int repeatNb, GeometricMetaHeuristicBase geometricCompound, ICrossover crossover, IEnumerable<int> sizes, int maxNbGenerations, double[] resultsRatio)
         {
 
             var maxCoordinate = 5;
@@ -812,17 +878,8 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var reinsertion = new FitnessBasedElitistReinsertion();
 
            var compoundResults = CompareMetaHeuristicsKnownFunctionsDifferentSizes(repeatNb, maxCoordinate, StandardHeuristic, pbSize => metaheuristic, crossover, sizes, termination, reinsertion);
-
-            var ratios = new List<(double meanRatio, double limitRatio)>();
-            for (int i = 0; i < compoundResults.Count; i++)
-            {
-                var functionResults = compoundResults[i];
-                var meanRatio = functionResults.Sum(c => c.result2.Fitness / c.result1.Fitness) / functionResults.Count;
-                ratios.Add((meanRatio, resultsRatio[i]));
-
-            }
-
-            ratios.ForEach(ratio => Assert.GreaterOrEqual(ratio.meanRatio, ratio.limitRatio));
+           return compoundResults;
+            
 
         }
 

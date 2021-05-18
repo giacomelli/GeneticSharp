@@ -27,7 +27,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
     public abstract class MetaHeuristicTestBase
     {
 
-        public const bool EnableOperatorsParallelism = true;
+        public const bool EnableOperatorsParallelism = false;
         public const bool EnableEvaluatorParallelism = true;
 
         protected static IList<int> VerySmallSizes = Enumerable.Range(1, 3).Select(x => 5 * x).ToList();
