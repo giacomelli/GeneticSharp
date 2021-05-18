@@ -10,6 +10,22 @@ namespace GeneticSharp.Infrastructure.Framework.Collections
     public static class EnumerableExtensions
     {
 
+
+        /// <summary>
+        /// Adds the List.AddRange method to IList objects
+        /// </summary>
+        public static void AddRange<TValue>(this IList<TValue> objList, IEnumerable<TValue> secondList)
+        {
+            if (secondList!=null)
+            {
+                foreach (var newValue in secondList)
+                {
+                    objList.Add(newValue);
+                }
+            }
+        }
+
+
         /// <summary>
         /// Simple function to swap indexed items in a list
         /// </summary>
