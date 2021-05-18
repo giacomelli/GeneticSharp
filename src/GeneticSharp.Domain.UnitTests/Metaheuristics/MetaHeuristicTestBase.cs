@@ -27,7 +27,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
     public abstract class MetaHeuristicTestBase
     {
 
-        public const bool EnableOperatorsParallelism = false;
+        public const bool EnableOperatorsParallelism = true;
         public const bool EnableEvaluatorParallelism = true;
 
         protected static IList<int> VerySmallSizes = Enumerable.Range(1, 3).Select(x => 5 * x).ToList();
@@ -122,7 +122,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                 compositeAggregate = (f1, f2) => f1 + (f1 * -f2);
             }
             
-            (string fName, Func<Gene[], double> function) compositeFunction = ("composite",
+            (string fName, Func<Gene[], double> function) compositeFunction = (CompositeFunctionName,
                 genes => knownFunctions
                     .Select((functionTuple, functionIndex) => functionTuple.function(genes
                         .Skip(functionIndex * genes.Length / knownFunctions.Count())
@@ -130,6 +130,8 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             toReturn.Add(compositeFunction);
             return toReturn;
         }
+
+        public const string CompositeFunctionName = "composite";
 
         protected void AssertIsPerformingLessByRatio(ITermination termination, double ratio, IEvolutionResult result1, IEvolutionResult result2)
         {
@@ -241,25 +243,28 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
         }
 
-        protected IList<IList<(IEvolutionResult result1, IEvolutionResult result2)>> CompareMetaHeuristicsKnownFunctionsDifferentSizes(int repeatNb, double maxCoordinate, Func<int, IMetaHeuristic> metaHeuristic1, Func<int, IMetaHeuristic> metaHeuristic2, ICrossover crossover, IEnumerable<int> sizes, ITermination termination, IReinsertion reinsertion)
+        protected IList<IList<(IEvolutionResult result1, IEvolutionResult result2)>> CompareMetaHeuristicsKnownFunctionsDifferentSizes(int repeatNb, int populationSize, double maxCoordinate, Func<int, IMetaHeuristic> metaHeuristic1, Func<int, IMetaHeuristic> metaHeuristic2, ICrossover crossover, IEnumerable<int> sizes, ITermination termination, IReinsertion reinsertion)
         {
 
             var metaHeuristicsBySize = new List<Func<int, IMetaHeuristic>> { metaHeuristic1, metaHeuristic2 };
-            var compoundResults = EvolveMetaHeuristicsKnownFunctionsDifferentSizes(repeatNb, maxCoordinate, metaHeuristicsBySize, crossover, sizes, termination, reinsertion);
+            var compoundResults = EvolveMetaHeuristicsKnownFunctionsDifferentSizes(repeatNb, populationSize, maxCoordinate, metaHeuristicsBySize, crossover, sizes, termination, reinsertion);
             return compoundResults.Select(fr=>(IList<(IEvolutionResult result1, IEvolutionResult result2)>)fr.Select(r => (r[0], r[1])).ToArray()).ToArray();
 
         }
 
 
-        protected IList<IList<IList<IEvolutionResult>>> EvolveMetaHeuristicsKnownFunctionsDifferentSizes(int repeatNb, double maxCoordinate, IList<Func<int, IMetaHeuristic>> metaHeuristicsBySize, ICrossover crossover, IEnumerable<int> sizes, ITermination termination, IReinsertion reinsertion)
+        protected IList<IList<IList<IEvolutionResult>>> EvolveMetaHeuristicsKnownFunctionsDifferentSizes(int repeatNb, int populationSize, double maxCoordinate, IList<Func<int, IMetaHeuristic>> metaHeuristicsBySize, ICrossover crossover, IEnumerable<int> sizes, ITermination termination, IReinsertion reinsertion,string functionName = "")
         {
             //double GetGeneValueFunction(double d) => Math.Sign(d) * Math.Min(Math.Abs(d), maxCoordinate);
             IChromosome AdamChromosome(int i) => new EquationChromosome<double>(-maxCoordinate, maxCoordinate, i);
 
             var knownFunctions = GetKnownFunctions(true);
+            if (!string.IsNullOrEmpty(functionName))
+            {
+                knownFunctions = knownFunctions.Where(tuple => tuple.fName == functionName).ToList();
+            }
 
-            //Population Size
-            var populationSize = 100;
+           
 
             var resultsByFunctionBySize = new List<IList<IList<IEvolutionResult>>>();
 

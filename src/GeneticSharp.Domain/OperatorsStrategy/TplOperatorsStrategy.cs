@@ -47,7 +47,7 @@ namespace GeneticSharp.Domain
                 }
             });
 
-            return offspring.OrderBy(pair=>pair.Key).SelectMany(pair=>pair.Value).ToList();
+            return offspring.OrderBy(pair=>pair.Key).Where(pair => pair.Value != null).SelectMany(pair=>pair.Value).ToList();
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace GeneticSharp.Domain
                 offspring[i] = children;
             });
 
-            return offspring.OrderBy(pair => pair.Key).SelectMany(pair => pair.Value).ToList();
+            return offspring.OrderBy(pair => pair.Key).Where(pair=>pair.Value!=null).SelectMany(pair => pair.Value).ToList();
         }
 
         /// <summary>

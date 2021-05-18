@@ -16,6 +16,7 @@ using GeneticSharp.Domain.Results;
 using GeneticSharp.Domain.Terminations;
 using GeneticSharp.Extensions.Mathematic;
 using GeneticSharp.Extensions.Mathematic.Functions;
+using GeneticSharp.Infrastructure.Framework.Collections;
 using GeneticSharp.Infrastructure.Framework.Commons;
 using NUnit.Framework;
 
@@ -201,6 +202,10 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         public void Compare_WOA_DefaultOnePoint_KnownFunctions_Small_LargerFitness_Bounded()
         {
             var repeatNb = 1;
+
+            //Population Size
+            var populationSize = 100;
+
             var resultsRatio = new[] { 2.5, 1.5, 1E4, 1E5, 300 };
             int maxNbGenerations = 100;
             var crossover = new OnePointCrossover(2);
@@ -213,7 +218,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             };
 
 
-           var compoundResults = Compare_GeometricMetaheuristic_Crossover_KnownFunctions_Size_LargerFitness_Bounded(repeatNb, compound, crossover, sizes, maxNbGenerations, resultsRatio);
+           var compoundResults = Compare_GeometricMetaheuristic_Crossover_KnownFunctions_Size_LargerFitness_Bounded(repeatNb, populationSize, compound, crossover, sizes, maxNbGenerations, resultsRatio);
 
 
             var ratios = new List<(double meanRatio, double limitRatio)>();
@@ -236,6 +241,10 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         public void Compare_WOA_DefaultUniform_KnownFunctions_Small_LargerFitness_Bounded()
         {
             var repeatNb = 1;
+
+            //Population Size
+            var populationSize = 100;
+
             var resultsRatio = new[] { 1.1, 1, 1.1, 2.5, 1.3 };
             int maxNbGenerations = 100;
             var crossover = new UniformCrossover();
@@ -249,7 +258,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
 
             
-            var compoundResults = Compare_GeometricMetaheuristic_Crossover_KnownFunctions_Size_LargerFitness_Bounded(repeatNb, compound, crossover, sizes, maxNbGenerations, resultsRatio);
+            var compoundResults = Compare_GeometricMetaheuristic_Crossover_KnownFunctions_Size_LargerFitness_Bounded(repeatNb, populationSize, compound, crossover, sizes, maxNbGenerations, resultsRatio);
 
 
             var ratios = new List<(double meanRatio, double limitRatio)>();
@@ -277,6 +286,10 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         public void Compare_FBI_DefaultOnePoint_KnownFunctions_Small_LargerFitness_Bounded()
         {
             var repeatNb = 1;
+
+            //Population Size
+            var populationSize = 100;
+
             var resultsRatio = new[] { 1.5, 1.5, 1E5, 1E4, 200 };
             int maxNbGenerations = 100;
             var crossover = new OnePointCrossover(2);
@@ -290,7 +303,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             };
 
 
-            var compoundResults = Compare_GeometricMetaheuristic_Crossover_KnownFunctions_Size_LargerFitness_Bounded(repeatNb, compound, crossover, sizes, maxNbGenerations, resultsRatio);
+            var compoundResults = Compare_GeometricMetaheuristic_Crossover_KnownFunctions_Size_LargerFitness_Bounded(repeatNb, populationSize, compound, crossover, sizes, maxNbGenerations, resultsRatio);
 
 
             var ratios = new List<(double meanRatio, double limitRatio)>();
@@ -314,6 +327,10 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         public void Compare_WOA_DefaultUniform_KnownFunctions_Large_LargerFitness_Bounded()
         {
             var repeatNb = 1;
+
+            //Population Size
+            var populationSize = 100;
+
             var crossover = new UniformCrossover();
 
             var resultsRatio = new[] { 1.5, 100, 1E10, 1E6, 1E5 };
@@ -325,7 +342,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                 MaxGenerations = maxNbGenerations,
             };
 
-            var compoundResults = Compare_GeometricMetaheuristic_Crossover_KnownFunctions_Size_LargerFitness_Bounded(repeatNb, compound, crossover, sizes, maxNbGenerations, resultsRatio);
+            var compoundResults = Compare_GeometricMetaheuristic_Crossover_KnownFunctions_Size_LargerFitness_Bounded(repeatNb, populationSize, compound, crossover, sizes, maxNbGenerations, resultsRatio);
 
 
             var ratios = new List<(double meanRatio, double limitRatio)>();
@@ -535,26 +552,71 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
         }
 
-
+        /// <summary>
+        /// Whale Optimization Algorithm seems to work best with PureReinsertion: Preventing collapse to early best seems critical, with Uniform reinsertion another good candidate, and FitnessBasedElitist/Pairwise worst fits. Note that statistical significance requires large problems and computation time
+        /// </summary>
         [Test]
-        public void Evolve_WOA_DifferentReinsertions_KnownFunctions_Small_Bounded()
+        public void Evolve_WOA_DifferentReinsertions_KnownFunctions_Composite_Large_PureReinsertionBest()
         {
-            var repeatNb = 1;
-            var resultsRatio = new[] { 1.5, 1.5, 1E5, 1E4, 1000 };
-            int maxNbGenerations = 100;
-            var crossover = new OnePointCrossover(2);
-            var sizes = SmallSizes;
+            var repeatNb = 5;
 
-
-
+            //Population Size
+            var populationSize = 100;
+            
+            int maxNbGenerations = 20;
             var compound = new WhaleOptimisationAlgorithm()
             {
                 MaxGenerations = maxNbGenerations,
+                NoMutation = true,
             };
 
-            var results = Evolve_GeometricCompound_DifferentReinsertions_KnownFunctions_Small(compound);
+            var reinsertionNames = ReinsertionService.GetReinsertionNames();
+            var reinsertions = reinsertionNames.Select(name => ReinsertionService.CreateReinsertionByName(name)).ToArray();
 
-            Assert.GreaterOrEqual(results.Count,0);
+            var functionName = CompositeFunctionName;
+            var pbSizes = LargeSizes.Skip(2).Take(1);
+            var results = Evolve_GeometricCompound_DifferentReinsertions_KnownFunctions_Small(repeatNb, populationSize, maxNbGenerations, compound, reinsertions, pbSizes, functionName);
+
+            var bestResult = results[0][0].MaxBy(r => r.Fitness);
+            var bestResultIndex = results[0][0].IndexOf(bestResult);
+            var bestReinsertion = reinsertions[bestResultIndex];
+            Assert.AreEqual(compound.GetDefaultReinsertion().GetType().Name, bestReinsertion.GetType().Name);
+            Assert.AreEqual(nameof(PureReinsertion), bestReinsertion.GetType().Name);
+            
+
+        }
+
+
+        /// <summary>
+        /// Forensic Based Investigation seems to work best with PureReinsertion: Preventing collapse to early best seems critical, with Uniform reinsertion another good candidate, and FitnessBasedElitist/Pairwise worst fits.
+        /// </summary>
+        [Test]
+        public void Evolve_FBI_DifferentReinsertions_KnownFunctions_Composite_Small_PairwiseReinsertionBest()
+        {
+            var repeatNb = 5;
+
+            //Population Size
+            var populationSize = 100;
+
+            int maxNbGenerations = 100;
+            var compound = new ForensicBasedInvestigation()
+            {
+                MaxGenerations = maxNbGenerations,
+                NoMutation = true,
+            };
+
+            var reinsertionNames = ReinsertionService.GetReinsertionNames();
+            var reinsertions = reinsertionNames.Select(name => ReinsertionService.CreateReinsertionByName(name)).ToArray();
+
+            var functionName = nameof(KnownFunctions.Rosenbrock);//CompositeFunctionName;
+            var pbSizes = SmallSizes.Skip(1).Take(1);
+            var results = Evolve_GeometricCompound_DifferentReinsertions_KnownFunctions_Small(repeatNb, populationSize, maxNbGenerations, compound, reinsertions, pbSizes, functionName);
+
+            var bestResult = results[0][0].MaxBy(r => r.Fitness);
+            var bestResultIndex = results[0][0].IndexOf(bestResult);
+            var bestReinsertion = reinsertions[bestResultIndex];
+            Assert.AreEqual(compound.GetDefaultReinsertion().GetType().Name, bestReinsertion.GetType().Name);
+            Assert.AreEqual(nameof(FitnessBasedPairwiseReinsertion), bestReinsertion.GetType().Name);
 
         }
 
@@ -652,7 +714,7 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
         /// <summary>
         /// This is a custom unit test to do some preliminary experiences. Interesting results can be made into dedicated unit tests. The test attribute is commented out by default
         /// </summary>
-        //[Test]
+        [Test]
         public void GridSearch()
         {
             try
@@ -671,6 +733,9 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                 var fitnessBasedElitist = new FitnessBasedElitistReinsertion();
                 var pure = new PureReinsertion();
                 var pairwise = new FitnessBasedPairwiseReinsertion();
+                var fitness = new FitnessBasedReinsertion();
+                var elitist = new ElitistReinsertion();
+                var uniform = new UniformReinsertion();
 
                 var defaultMaxTime = 300;
                 var defaultNbGens = 200;
@@ -678,12 +743,12 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
                 var testParams = new (KnownCompoundMetaheuristics kind, double duration, int nbGenerations, bool noMutation, int populationSize, IReinsertion reinsertion, bool forceReinsertion)[]
             {
-                (KnownCompoundMetaheuristics.Islands5DefaultNoMigration,  defaultMaxTime , defaultNbGens,  false, defaultPopSize, fitnessBasedElitist, false),
-                (KnownCompoundMetaheuristics.Islands5Default,  defaultMaxTime , defaultNbGens,  false, defaultPopSize, fitnessBasedElitist, false),
+                //(KnownCompoundMetaheuristics.Islands5DefaultNoMigration,  defaultMaxTime , defaultNbGens,  false, defaultPopSize, fitnessBasedElitist, false),
+                //(KnownCompoundMetaheuristics.Islands5Default,  defaultMaxTime , defaultNbGens,  false, defaultPopSize, fitnessBasedElitist, false),
                 //(KnownCompoundMetaheuristics.Islands5BestMixture,  maxTime, defaultNbGens,  true, defaultPopSize, fitnessBasedElitist, false),
                 //(KnownCompoundMetaheuristics.Islands5BestMixtureNoMigration,  maxTime, defaultNbGens,  true, defaultPopSize, fitnessBasedElitist, false),
 
-                (KnownCompoundMetaheuristics.Default,  defaultMaxTime , defaultNbGens, false, defaultPopSize, fitnessBasedElitist, false),
+                //(KnownCompoundMetaheuristics.Default,  defaultMaxTime , defaultNbGens, false, defaultPopSize, fitnessBasedElitist, false),
                 //(KnownCompoundMetaheuristics.Default,  maxTime, defaultNbGens, true, defaultPopSize, fitnessBasedElitist, false),
 
                 //(KnownCompoundMetaheuristics.EquilibriumOptimizer,  maxTime, defaultNbGens,  false, defaultPopSize, fitnessBasedElitist, false),
@@ -692,8 +757,13 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
                 //(KnownCompoundMetaheuristics.ForensicBasedInvestigation,  maxTime, 2* defaultNbGens,  true, 50, pairwise, false),
                 //(KnownCompoundMetaheuristics.ForensicBasedInvestigation,  maxTime, 2* defaultNbGens,  true, 250, pairwise, true),
 
-                (KnownCompoundMetaheuristics.WhaleOptimisation,  defaultMaxTime , defaultNbGens,  true, 50, pure, false),
-                (KnownCompoundMetaheuristics.WhaleOptimisation,  defaultMaxTime , defaultNbGens,  true, defaultPopSize, pure, false),
+                //(KnownCompoundMetaheuristics.WhaleOptimisation,  defaultMaxTime , defaultNbGens,  true, 50, pure, false),
+                (KnownCompoundMetaheuristics.WhaleOptimisation,  defaultMaxTime , defaultNbGens,  true, defaultPopSize, pure, true),
+                (KnownCompoundMetaheuristics.WhaleOptimisation,  defaultMaxTime , defaultNbGens,  true, defaultPopSize, fitnessBasedElitist, true),
+                (KnownCompoundMetaheuristics.WhaleOptimisation,  defaultMaxTime , defaultNbGens,  true, defaultPopSize, pairwise, true),
+                (KnownCompoundMetaheuristics.WhaleOptimisation,  defaultMaxTime , defaultNbGens,  true, defaultPopSize, fitness, true),
+                (KnownCompoundMetaheuristics.WhaleOptimisation,  defaultMaxTime , defaultNbGens,  true, defaultPopSize, elitist, true),
+                (KnownCompoundMetaheuristics.WhaleOptimisation,  defaultMaxTime , defaultNbGens,  true, defaultPopSize, uniform, true),
 
             };
 
@@ -851,10 +921,13 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
 
 
 
-        private IList<IList<(IEvolutionResult result1, IEvolutionResult result2)>> Compare_GeometricMetaheuristic_Crossover_KnownFunctions_Size_LargerFitness_Bounded(int repeatNb, GeometricMetaHeuristicBase geometricCompound, ICrossover crossover, IEnumerable<int> sizes, int maxNbGenerations, double[] resultsRatio)
+        private IList<IList<(IEvolutionResult result1, IEvolutionResult result2)>> Compare_GeometricMetaheuristic_Crossover_KnownFunctions_Size_LargerFitness_Bounded(int repeatNb, int populationSize, GeometricMetaHeuristicBase geometricCompound, ICrossover crossover, IEnumerable<int> sizes, int maxNbGenerations, double[] resultsRatio)
         {
 
+            
+
             var maxCoordinate = 5;
+
             double GetGeneValueFunction(int geneIndex, double d) => Math.Sign(d) * Math.Min(Math.Abs(d), maxCoordinate);
 
             IMetaHeuristic StandardHeuristic(int i) => new DefaultMetaHeuristic();
@@ -877,16 +950,15 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
             var reinsertion = new FitnessBasedElitistReinsertion();
 
-           var compoundResults = CompareMetaHeuristicsKnownFunctionsDifferentSizes(repeatNb, maxCoordinate, StandardHeuristic, pbSize => metaheuristic, crossover, sizes, termination, reinsertion);
+           var compoundResults = CompareMetaHeuristicsKnownFunctionsDifferentSizes(repeatNb, populationSize, maxCoordinate, StandardHeuristic, pbSize => metaheuristic, crossover, sizes, termination, reinsertion);
            return compoundResults;
             
 
         }
 
-        private IList<IList<IList<IEvolutionResult>>> Evolve_GeometricCompound_DifferentReinsertions_KnownFunctions_Small(GeometricMetaHeuristicBase geometricCompound)
+        private IList<IList<IList<IEvolutionResult>>> Evolve_GeometricCompound_DifferentReinsertions_KnownFunctions_Small(int repeatNb, int populationSize, int maxNbGenerations, GeometricMetaHeuristicBase geometricCompound, IEnumerable<IReinsertion> reinsertions, IEnumerable<int> sizes, string functionName = "")
         {
-            var repeatNb = 1;
-
+            
 
             var crossover = new OnePointCrossover(2);
 
@@ -905,33 +977,43 @@ namespace GeneticSharp.Domain.UnitTests.MetaHeuristics
             geometricCompound.SetGeometricConverter(noEmbeddingConverter);
             geometricCompound.ForceReinsertion = true;
 
-            var reinsertionNames = ReinsertionService.GetReinsertionNames();
-            var reinsertions = reinsertionNames.Select(name => ReinsertionService.CreateReinsertionByName(name));
+          
 
             var metaHeuristics = new List<IMetaHeuristic>();
             foreach (var currentReinsertion in reinsertions)
             {
                 geometricCompound.CustomReinsertion = currentReinsertion;
-                
                 var metaHeuristic = geometricCompound.Build();
+                if (currentReinsertion.CanExpand && !currentReinsertion.CanCollapse)
+                {
+                    metaHeuristic.ProbabilityConfig.Crossover.Strategy = ProbabilityStrategy.OverwriteProbability |
+                                                                         ProbabilityStrategy.TestProbability;
+                    metaHeuristic.ProbabilityConfig.Crossover.StaticProbability = 0.7F;
+                }
+                if (!currentReinsertion.CanExpand && currentReinsertion.CanCollapse)
+                {
+                    metaHeuristic.ProbabilityConfig.Crossover.Strategy = ProbabilityStrategy.OverwriteProbability |
+                                                                         ProbabilityStrategy.TestProbability;
+                    metaHeuristic.ProbabilityConfig.Crossover.StaticProbability = 1.3F;
+                }
                 metaHeuristics.Add(metaHeuristic);
             }
 
-            int maxNbGenerations = 100;
-            var sizes = SmallSizes;
+            
+
 
 
             //Termination
             var minFitness = double.MaxValue;
 
             int stagnationNb = 100;
-            TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(5);
+            TimeSpan maxTimeEvolving = TimeSpan.FromSeconds(20);
             var termination = GetTermination(minFitness, maxNbGenerations, stagnationNb, maxTimeEvolving);
             
             //This one is ignored
             var reinsertion = new FitnessBasedElitistReinsertion();
 
-            var compoundResults = EvolveMetaHeuristicsKnownFunctionsDifferentSizes(repeatNb, maxCoordinate, metaHeuristics.Select(m=> new Func<int, IMetaHeuristic>(pbSize => m)).ToArray(), crossover, sizes, termination, reinsertion);
+            var compoundResults = EvolveMetaHeuristicsKnownFunctionsDifferentSizes(repeatNb, populationSize,  maxCoordinate, metaHeuristics.Select(m=> new Func<int, IMetaHeuristic>(pbSize => m)).ToArray(), crossover, sizes, termination, reinsertion, functionName);
 
             return compoundResults;
 
