@@ -79,7 +79,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Compound
 
 
         /// <inheritdoc />
-        public override IContainerMetaHeuristic Build()
+        protected override IContainerMetaHeuristic BuildMainHeuristic()
         {
             var rnd = RandomizationProvider.Current;
 
@@ -112,37 +112,28 @@ namespace GeneticSharp.Domain.Metaheuristics.Compound
                     .WithTrue(new MatchMetaHeuristic()
                         .WithName("Random tracking")
                         .WithMatches(MatchingKind.Current, MatchingKind.Random)
-                        .WithSubMetaHeuristic(encirclingHeuristic))
+                        .WithCrossoverMetaHeuristic(encirclingHeuristic))
                     .WithFalse(new MatchMetaHeuristic()
                         .WithName("Best individual encircling")
                         .WithMatches(MatchingKind.Current, MatchingKind.Best)
-                        .WithSubMetaHeuristic(encirclingHeuristic)))
+                        .WithCrossoverMetaHeuristic(encirclingHeuristic)))
                 .WithFalse(new MatchMetaHeuristic()
                     .WithName("Bubble Net heuristic", "Exploitation phase, helicoidal approach")
                     .WithMatches(MatchingKind.Current, MatchingKind.Best)
-                    .WithSubMetaHeuristic(new CrossoverHeuristic()
+                    .WithCrossoverMetaHeuristic(new CrossoverHeuristic()
                         .WithName("Bubble Net crossover")
                         .WithCrossover(ParamScope.None,
                             (IMetaHeuristic h, IEvolutionContext ctx, double l) => new GeometricCrossover<object>(GeometricConverter.IsOrdered, 2, false)
                                 .WithLinearGeometricOperator((geneIndex, geneValues) => BubbleOperator(geneIndex, geneValues, GeometricConverter, l, HelicoidScale))
                                 .WithGeometryEmbedding(GeometricConverter.GetEmbedding()))));
 
-            //Removing default mutation operator 
-            if (NoMutation)
-            {
-                woaHeuristic.SubMetaHeuristic = new DefaultMetaHeuristic().WithScope(EvolutionStage.Selection | EvolutionStage.Reinsertion).WithName("Not Mutation Heuristic");
-            }
-
-            //Enforcing pure reinsertion
-            if (SetDefaultReinsertion)
-            {
-                var subHeuristic = woaHeuristic.SubMetaHeuristic;
-                woaHeuristic.SubMetaHeuristic = new ReinsertionHeuristic()
-                    { StaticOperator = new PureReinsertion(), SubMetaHeuristic = subHeuristic }.WithName("Forced Pure Reinsertion Heuristic");
-            }
-           
 
             return woaHeuristic;
+        }
+
+        public override IReinsertion GetDefaultReinsertion()
+        {
+            return new PureReinsertion();
         }
 
         /// <summary>
@@ -168,13 +159,13 @@ namespace GeneticSharp.Domain.Metaheuristics.Compound
                     .WithCaseGenerator(ParamScope.Generation, (h, ctx) => Math.Abs(ctx.GetParam<double>(h, nameof(WoaParam.a))) > 1)
                     .WithTrue(new MatchMetaHeuristic()
                         .WithMatches(MatchingKind.Current, MatchingKind.Random)
-                        .WithSubMetaHeuristic(updateTrackingCrossoverHeuristic))
+                        .WithCrossoverMetaHeuristic(updateTrackingCrossoverHeuristic))
                     .WithFalse(new MatchMetaHeuristic()
                         .WithMatches(MatchingKind.Current, MatchingKind.Best)
-                        .WithSubMetaHeuristic(updateTrackingCrossoverHeuristic)))
+                        .WithCrossoverMetaHeuristic(updateTrackingCrossoverHeuristic)))
                 .WithFalse(new MatchMetaHeuristic()
                     .WithMatches(MatchingKind.Current, MatchingKind.Best)
-                    .WithSubMetaHeuristic(new CrossoverHeuristic()
+                    .WithCrossoverMetaHeuristic(new CrossoverHeuristic()
                         .WithCrossover(ParamScope.None, (h, ctx) => new GeometricCrossover<object>(GeometricConverter.IsOrdered, 2, false)
                             .WithLinearGeometricOperator((geneIndex, geneValues) => GeometricConverter.DoubleToGene(geneIndex, Math.Abs(GeometricConverter.GeneToDouble(geneIndex, geneValues[1]) - GeometricConverter.GeneToDouble(geneIndex, geneValues[0]))
                                                                                    * Math.Exp(ctx.GetParam<double>(h, nameof(WoaParam.l))) *

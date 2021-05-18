@@ -72,7 +72,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Compound
 
 
 
-        public override IContainerMetaHeuristic Build()
+        protected override IContainerMetaHeuristic BuildMainHeuristic()
         {
             var rnd = RandomizationProvider.Current;
 
@@ -128,25 +128,8 @@ namespace GeneticSharp.Domain.Metaheuristics.Compound
                 })
                 .WithChildMetaHeuristic(centroidHeuristic)
                 .WithCustomMatchStep(new[] { new MatchingSettings() { MatchingKind = MatchingKind.Random } })
-                .WithSubMetaHeuristic(generationHeuristic);
+                .WithCrossoverMetaHeuristic(generationHeuristic);
 
-            //Removing default mutation operator 
-            if (NoMutation)
-            {
-                //Note that generationHeuristic's SubMetaHeuristic is used  instead of the root MatchMetaHeuristc the SubMetaHeuristic of which is the main operator 
-                generationHeuristic.SubMetaHeuristic = new DefaultMetaHeuristic().WithScope(EvolutionStage.Selection | EvolutionStage.Crossover | EvolutionStage.Reinsertion).WithName("Not Mutation Heuristic");
-            }
-
-            //Enforcing FitnessBasedElitistReinsertion
-            if (SetDefaultReinsertion)
-            {
-                var subHeuristic = generationHeuristic.SubMetaHeuristic;
-                generationHeuristic.SubMetaHeuristic = new ReinsertionHeuristic()
-                    { StaticOperator = new FitnessBasedElitistReinsertion(), SubMetaHeuristic = subHeuristic }.WithName("Forced Fitness Elitist Reinsertion Heuristic");
-            }
-
-
-           
 
 
             return eoHeuristic;

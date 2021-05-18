@@ -30,18 +30,29 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
 
        
 
-        public MatchMetaHeuristic() : this(new DefaultMetaHeuristic())
+        public MatchMetaHeuristic() : base(new DefaultMetaHeuristic())
         {
+            CrossoverProbabilityStrategy = ProbabilityStrategy.TestProbability | ProbabilityStrategy.OverwriteProbability;
         }
 
-        public MatchMetaHeuristic(IMetaHeuristic subMetaHeuristic/*, int numberOfMatches*/) : base(subMetaHeuristic)
+        public MatchMetaHeuristic(IMetaHeuristic crossMetaHeuristic) : this()
         {
-            //NumberOfMatches = numberOfMatches;
-            CrossoverProbabilityStrategy =
-                ProbabilityStrategy.TestProbability | ProbabilityStrategy.OverwriteProbability;
+            CrossMetaHeuristic = crossMetaHeuristic;
         }
 
-      
+        public MatchMetaHeuristic(IMetaHeuristic crossMetaHeuristic, IMetaHeuristic subMetaHeuristic) : base(subMetaHeuristic)
+        {
+            CrossoverProbabilityStrategy = ProbabilityStrategy.TestProbability | ProbabilityStrategy.OverwriteProbability;
+            CrossMetaHeuristic = crossMetaHeuristic;
+        }
+
+
+        /// <summary>
+        /// This metaheuristic is used by the MatchMetaHeuristic for crossover
+        /// </summary>
+        public IMetaHeuristic CrossMetaHeuristic { get; set; }
+
+
         protected override IList<IChromosome> DoMatchParentsAndCross(IEvolutionContext ctx, ICrossover crossover,
             float crossoverProbability,
             IList<IChromosome> parents)
@@ -75,7 +86,7 @@ namespace GeneticSharp.Domain.Metaheuristics.Primitives
                         var subContext = ctx.GetLocal(0);
                         subContext.SelectedParents = selectedParents;
                         var matchResult =
-                            base.DoMatchParentsAndCross(subContext, crossover, crossoverProbability, selectedParents);
+                            CrossMetaHeuristic.MatchParentsAndCross(subContext, crossover, crossoverProbability, selectedParents);
                         if (matchResult != null)
                         {
                             toReturn.AddRange(matchResult);

@@ -83,6 +83,19 @@ namespace GeneticSharp.Domain.Metaheuristics
 
 
         /// <summary>
+        /// This fluent helper allows to define the crossover metaHeuristic after the MatchMetaheuristic definition
+        /// </summary>
+        /// <param name="metaHeuristic">the MatchMetaheuristic to which to apply the fluent operator</param>
+        /// <param name="crossoverMetaHeuristic">the crossover metaHeuristic for the current MatchMetaheuristic</param>
+        /// <returns>the fluent MatchMetaheuristic </returns>
+        public static T WithCrossoverMetaHeuristic<T>(this T metaHeuristic, IMetaHeuristic crossoverMetaHeuristic) where T : MatchMetaHeuristic
+        {
+            metaHeuristic.CrossMetaHeuristic= crossoverMetaHeuristic;
+            return metaHeuristic;
+        }
+
+
+        /// <summary>
         /// This fluent helper allows to define the sub metaHeuristic after the container definition
         /// </summary>
         /// <param name="metaHeuristic">the MetaHeuristic to which to apply the fluent operator</param>
