@@ -23,6 +23,7 @@ Can be used in any kind of .NET Core and .NET Framework apps, like ASP .NET MVC,
 * [Application of genetic algorithms to optimize RFID antenna readings (paper)](https://github.com/gsalibi/artificial-intelligence-course/blob/master/Project%202/Relat%C3%B3rio.pdf) ![](https://img.shields.io/badge/BR-green.svg)
 * [Artificial Intelligence course in French engineering schools (course)](https://github.com/giacomelli/GeneticSharp/pull/43#issuecomment-433662175)
 * [A Software Development Framework for Complete Battery Characterization: Testing, Modelling & Parameterization (paper)](https://macsphere.mcmaster.ca/handle/11375/25423)
+* [Autoloader: Cargo Handling Software for Navy and Marine Aircraft (paper)](https://www.stottlerhenke.com/wp-content/uploads/2022/03/LODR-IEEE-Aero-2022-Paper_submitted_reduced.pdf)
 * [Automated selection of structural parameters for insulated glass units (paper)](http://dspace.lu.lv/dspace/handle/7/55809) ![](https://img.shields.io/badge/LV-red.svg)
 * [BlazorAI: Blazor Meets Artificial Intelligence (app)](https://www.blazor.ai/) [(Github)](https://github.com/lhalsey/BlazorAI)
 * [Context-Sensitive Code Completion: improving predictions with genetic algorithms (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Context-Sensitive-Code-Completion-improving-predictions-with-genetic-algorithms.pdf) [(Github)](https://github.com/godtopus/GeneCSCC)
