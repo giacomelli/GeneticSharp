@@ -28,7 +28,12 @@ namespace GeneticSharp.Domain.Fitnesses
         /// <param name="chromosome">Chromosome.</param>
         public double Evaluate (IChromosome chromosome)
         {
-            return m_func (chromosome);
+            double score = m_func (chromosome);
+            if (score <= 0.0)
+            {
+                throw new Exception("Chromosome fitness must give a score greater than zero");
+            }
+            return score;
         }
         #endregion
     }
