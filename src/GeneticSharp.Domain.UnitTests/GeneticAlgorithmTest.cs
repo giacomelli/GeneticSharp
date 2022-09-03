@@ -659,7 +659,7 @@ namespace GeneticSharp.Domain.UnitTests
             var selection = new EliteSelection();
             var crossover = new UniformCrossover();
             var mutation = new FlipBitMutation();
-            var termination = new FitnessStagnationTermination(100);
+            var termination = new FitnessStagnationTermination(1000);
 
             var ga = new GeneticAlgorithm(
                 population,
