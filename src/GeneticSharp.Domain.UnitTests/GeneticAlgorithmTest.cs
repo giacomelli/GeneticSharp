@@ -151,17 +151,17 @@ namespace GeneticSharp.Domain.UnitTests
                 target.TaskExecutor = taskExecutor;
 
                 Assert.AreEqual(GeneticAlgorithmState.NotStarted, target.State);
-                Assert.IsFalse(target.IsRunning);
+                Assert.IsFalse(target.IsRunning, "Should not be running before start");
 
                 target.Start();
 
                 Assert.AreEqual(GeneticAlgorithmState.TerminationReached, target.State);
-                Assert.IsFalse(target.IsRunning);
-                Assert.IsTrue(target.Population.CurrentGeneration.Chromosomes.Count >= 100);
-                Assert.IsTrue(target.Population.CurrentGeneration.Chromosomes.Count <= 150);
+                Assert.IsFalse(target.IsRunning, "Should not be running anymore");
+                Assert.IsTrue(target.Population.CurrentGeneration.Chromosomes.Count >= 100, "Chromosomes shoud be equal or greater than 100");
+                Assert.IsTrue(target.Population.CurrentGeneration.Chromosomes.Count <= 150, "Chromosomes shoud be equal or less than 150");
                 Assert.IsNotNull(target.Population.BestChromosome);
-                Assert.IsTrue(target.Population.BestChromosome.Fitness >= 0.9);
-                Assert.IsTrue(target.Population.Generations.Count > 0);
+                Assert.IsTrue(target.Population.BestChromosome.Fitness >= 0.9, $"Fitness should be equal or greater than 0.9, but is {target.Population.BestChromosome.Fitness}");
+                Assert.IsTrue(target.Population.Generations.Count > 0, "Generations should be greater than 0");
             });
 
             FlowAssert.IsAtLeastOneAttemptOk(20, () =>
