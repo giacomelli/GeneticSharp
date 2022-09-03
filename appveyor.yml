@@ -18,11 +18,7 @@ install:
   
 before_build:
 - cmd: dotnet --version
-- cmd: >-
-    @echo off
-    set JAVA_HOME=C:\Program Files\Java\jdk15
-    set Path=%JAVA_HOME%\bin;%Path%
-    echo Java 15 activated.
+- cmd: setJavaVersionForSonar.cmd
 
 build_script:
 # Cake.
