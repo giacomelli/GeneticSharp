@@ -14,13 +14,14 @@ assembly_info:
   
 install:
 - cmd: choco install gtksharp
+- cmd: choco install cake.portable
   
 before_build:
 - cmd: dotnet --version
 
 build_script:
 # Cake.
-- ps: .\build.ps1
+- cmd: dotnet cake
 
 after_build:
 # Build the GeneticSharp and GeneticSharp.Extensions NuGet packages.
