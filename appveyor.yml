@@ -14,7 +14,7 @@ assembly_info:
   
 install:
 - cmd: choco install gtksharp
-- cmd: choco install cake.portable
+- cmd: dotnet tool install --global Cake.Tool
   
 before_build:
 - cmd: dotnet --version
