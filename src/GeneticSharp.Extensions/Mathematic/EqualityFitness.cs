@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Fitnesses;
 
-namespace GeneticSharp.Extensions.Mathematic
+namespace GeneticSharp.Extensions
 {
     /// <summary>
     /// Fitness based on this paper: Genetic Algorithm for Solving Simple Mathematical Equality Problem.

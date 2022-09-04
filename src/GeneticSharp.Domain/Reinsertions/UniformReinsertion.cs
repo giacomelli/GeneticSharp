@@ -1,10 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Randomizations;
 
-namespace GeneticSharp.Domain.Reinsertions
+namespace GeneticSharp
 {
     /// <summary>
     /// Uniform Reinsertion.

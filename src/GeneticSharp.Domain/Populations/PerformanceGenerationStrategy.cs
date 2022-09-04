@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
-using GeneticSharp.Infrastructure.Framework.Commons;
 
-namespace GeneticSharp.Domain.Populations
+namespace GeneticSharp
 {
     /// <summary>
     /// An IGenerationStrategy's implementation which takes into account the performance and just keep the last one generations in the population.

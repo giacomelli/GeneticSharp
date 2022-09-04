@@ -1,5 +1,4 @@
 ﻿using BenchmarkDotNet.Attributes;
-using GeneticSharp.Domain.Randomizations;
 
 namespace GeneticSharp.Benchmarks
 {

@@ -1,5 +1,4 @@
 ﻿using System;
-using GeneticSharp.Domain.Reinsertions;
 using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Reinsertions

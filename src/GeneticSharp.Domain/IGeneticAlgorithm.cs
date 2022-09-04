@@ -1,7 +1,6 @@
 using System;
-using GeneticSharp.Domain.Chromosomes;
 
-namespace GeneticSharp.Domain
+namespace GeneticSharp
 {
     /// <summary>
     /// Defines a interface for a genetic algorithm.

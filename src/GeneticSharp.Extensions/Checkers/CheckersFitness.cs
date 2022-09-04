@@ -1,8 +1,6 @@
 ﻿using System.Linq;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Fitnesses;
 
-namespace GeneticSharp.Extensions.Checkers
+namespace GeneticSharp.Extensions
 {
     /// <summary>
     /// Checkers fitness.

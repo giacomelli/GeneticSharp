@@ -1,4 +1,3 @@
-using GeneticSharp.Domain.Chromosomes;
 using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Chromosomes

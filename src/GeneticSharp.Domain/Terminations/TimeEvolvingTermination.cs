@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel;
 
-namespace GeneticSharp.Domain.Terminations
+namespace GeneticSharp
 {
     /// <summary>
     /// Time Evolving Termination.

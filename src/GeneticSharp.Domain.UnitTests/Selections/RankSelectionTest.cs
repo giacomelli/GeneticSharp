@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Randomizations;
-using GeneticSharp.Domain.Selections;
 using NUnit.Framework;
 using NSubstitute;
-using GeneticSharp.Extensions.Tsp;
+using GeneticSharp.Extensions;
 
 namespace GeneticSharp.Domain.UnitTests.Selections
 {

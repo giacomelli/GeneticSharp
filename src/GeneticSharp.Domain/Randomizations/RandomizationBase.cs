@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq;
-using GeneticSharp.Infrastructure.Framework.Texts;
 
-namespace GeneticSharp.Domain.Randomizations
+namespace GeneticSharp
 {
     /// <summary>
     /// Base class for randomization.

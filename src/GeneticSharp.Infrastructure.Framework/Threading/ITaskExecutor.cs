@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace GeneticSharp.Infrastructure.Framework.Threading
+namespace GeneticSharp
 {
     /// <summary>
     /// Defines a interface to a task executor.

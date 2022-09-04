@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
-using GeneticSharp.Domain.Randomizations;
-using GeneticSharp.Infrastructure.Framework.Commons;
 
-namespace GeneticSharp.Domain.Chromosomes
+namespace GeneticSharp
 {
     /// <summary>
     /// Floating point chromosome with binary values (0 and 1).

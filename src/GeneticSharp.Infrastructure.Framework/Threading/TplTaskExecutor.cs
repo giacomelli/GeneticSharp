@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace GeneticSharp.Infrastructure.Framework.Threading
+namespace GeneticSharp
 {
     /// <summary>
     /// An ITaskExecutor's implementation that executes the tasks in a parallel fashion using Task Parallel Library (TPL).

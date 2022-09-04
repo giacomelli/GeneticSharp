@@ -1,4 +1,3 @@
-using GeneticSharp.Extensions.Checkers;
 using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Checkers

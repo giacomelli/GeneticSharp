@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GeneticSharp.Domain.Randomizations;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Randomizations
 {

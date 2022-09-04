@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using GeneticSharp.Domain.Chromosomes;
 
-namespace GeneticSharp.Domain.Crossovers
+namespace GeneticSharp
 {
     /// <summary>
     /// Alternating-position (AP).

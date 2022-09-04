@@ -1,7 +1,4 @@
 using System.Collections.Generic;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Randomizations;
 using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Populations

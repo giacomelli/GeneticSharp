@@ -1,9 +1,4 @@
-﻿using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Fitnesses;
-using GeneticSharp.Domain.Randomizations;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers.Issues
 {

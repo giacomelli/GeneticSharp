@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace GeneticSharp.Domain.Populations
+namespace GeneticSharp
 {
     /// <summary>
     /// An IGenerationStrategy's implementation that keeps all generations to further evaluation.

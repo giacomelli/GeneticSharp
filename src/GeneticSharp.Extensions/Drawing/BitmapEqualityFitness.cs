@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Fitnesses;
 
-namespace GeneticSharp.Extensions.Drawing
+namespace GeneticSharp.Extensions
 {
     /// <summary>
     /// Bitmap equality fitness.

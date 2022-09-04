@@ -2,17 +2,9 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Fitnesses;
-using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Domain.Selections;
-using GeneticSharp.Extensions.Drawing;
-using GeneticSharp.Infrastructure.Framework.Texts;
 using Gtk;
-using GeneticSharp.Domain;
-using GeneticSharp.Infrastructure.Framework.Threading;
 using System.Drawing.Imaging;
+using GeneticSharp.Extensions;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
 {

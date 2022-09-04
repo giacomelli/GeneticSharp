@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using GeneticSharp.Domain.Chromosomes;
 
-namespace GeneticSharp.Domain.Crossovers
+namespace GeneticSharp
 {
     /// <summary>
     /// Defines a interface for a crossover genetic operator.

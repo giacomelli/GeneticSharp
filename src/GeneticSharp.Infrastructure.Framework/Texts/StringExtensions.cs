@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace GeneticSharp.Infrastructure.Framework.Texts
+namespace GeneticSharp
 {
     /// <summary>
     /// String extensions.

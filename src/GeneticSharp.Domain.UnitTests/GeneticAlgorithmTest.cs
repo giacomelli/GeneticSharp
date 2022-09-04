@@ -2,16 +2,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Fitnesses;
-using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Randomizations;
-using GeneticSharp.Domain.Reinsertions;
-using GeneticSharp.Domain.Selections;
-using GeneticSharp.Domain.Terminations;
-using GeneticSharp.Infrastructure.Framework.Threading;
 using NUnit.Framework;
 using NSubstitute;
 

@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 
-namespace GeneticSharp.Domain.Mutations
+namespace GeneticSharp
 {
     /// <summary>
     /// Reverse Sequence Mutation (RSM).

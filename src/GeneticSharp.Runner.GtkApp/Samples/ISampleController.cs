@@ -1,12 +1,5 @@
 ﻿using System;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Fitnesses;
-using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Domain.Selections;
-using GeneticSharp.Domain.Terminations;
 using Gtk;
-using GeneticSharp.Domain;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
 {

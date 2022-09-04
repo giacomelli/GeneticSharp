@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using GeneticSharp.Domain.Chromosomes;
 using System.Collections.Generic;
 using System.Linq;
 

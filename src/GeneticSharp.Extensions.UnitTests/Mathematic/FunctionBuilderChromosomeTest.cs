@@ -1,5 +1,4 @@
-﻿using GeneticSharp.Extensions.Mathematic;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Mathematic
 {

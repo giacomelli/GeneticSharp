@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
-using GeneticSharp.Domain.Chromosomes;
 
-namespace GeneticSharp.Extensions.Mathematic
+namespace GeneticSharp.Extensions
 {
     /// <summary>
     /// Function builder chromosome.
@@ -111,7 +109,7 @@ namespace GeneticSharp.Extensions.Mathematic
         /// <param name="geneIndex">Gene index.</param>
         public override Gene GenerateGene(int geneIndex)
         {
-            var rnd = Domain.Randomizations.RandomizationProvider.Current;
+            var rnd = RandomizationProvider.Current;
             var op = m_availableOperations[rnd.GetInt(0, m_availableOperations.Count)];
 
             if (op.Equals("__INT__", StringComparison.OrdinalIgnoreCase))

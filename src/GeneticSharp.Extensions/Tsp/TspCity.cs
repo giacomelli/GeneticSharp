@@ -1,4 +1,4 @@
-namespace GeneticSharp.Extensions.Tsp
+namespace GeneticSharp.Extensions
 {
     /// <summary>
     /// Travelling Salesman city.

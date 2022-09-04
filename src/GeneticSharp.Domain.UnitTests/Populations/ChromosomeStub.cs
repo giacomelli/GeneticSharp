@@ -1,7 +1,4 @@
-﻿using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Randomizations;
-
-namespace GeneticSharp.Domain.UnitTests
+﻿namespace GeneticSharp.Domain.UnitTests
 {
     public class ChromosomeStub : ChromosomeBase
     {

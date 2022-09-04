@@ -1,6 +1,4 @@
 ﻿using System;
-using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Domain.Randomizations;
 using NSubstitute;
 using NUnit.Framework;
 

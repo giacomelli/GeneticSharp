@@ -1,5 +1,4 @@
-﻿using GeneticSharp.Domain.Terminations;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Terminations

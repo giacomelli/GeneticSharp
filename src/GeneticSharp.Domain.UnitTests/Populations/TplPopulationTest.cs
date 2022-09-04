@@ -1,8 +1,4 @@
 ﻿using System;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Randomizations;
-using GeneticSharp.Infrastructure.Framework.Collections;
 using NSubstitute;
 using NUnit.Framework;
 

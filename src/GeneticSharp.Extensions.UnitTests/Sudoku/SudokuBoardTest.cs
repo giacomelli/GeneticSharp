@@ -2,7 +2,6 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using GeneticSharp.Extensions.Sudoku;
 using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Sudoku

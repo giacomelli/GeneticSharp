@@ -1,8 +1,6 @@
 ﻿using System;
 using BenchmarkDotNet.Attributes;
-using GeneticSharp.Domain;
-using GeneticSharp.Domain.Terminations;
-using GeneticSharp.Extensions.Tsp;
+using GeneticSharp.Extensions;
 using NSubstitute;
 
 namespace GeneticSharp.Benchmarks

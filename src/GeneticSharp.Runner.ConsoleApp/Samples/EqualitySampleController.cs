@@ -1,9 +1,6 @@
-﻿using System;
+﻿using GeneticSharp.Extensions;
+using System;
 using System.ComponentModel;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Fitnesses;
-using GeneticSharp.Domain.Terminations;
-using GeneticSharp.Extensions.Mathematic;
 
 namespace GeneticSharp.Runner.ConsoleApp.Samples
 {

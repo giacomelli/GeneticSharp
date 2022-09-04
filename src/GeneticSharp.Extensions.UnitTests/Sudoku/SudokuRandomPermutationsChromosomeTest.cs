@@ -1,6 +1,4 @@
-﻿using System;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Extensions.Sudoku;
+﻿using GeneticSharp.Domain.UnitTests;
 using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Sudoku
@@ -44,11 +42,14 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
         [Test]
         public void Evolve_RandomPermutationsChromosome_VeryEasySudoku_Solved()
         {
-            var sudoku = SudokuTestHelper.CreateBoard(SudokuTestDifficulty.VeryEasy);
+            FlowAssert.IsAtLeastOneAttemptOk(10, () =>
+            {
+                var sudoku = SudokuTestHelper.CreateBoard(SudokuTestDifficulty.VeryEasy);
 
-            IChromosome chromosome = new SudokuRandomPermutationsChromosome(sudoku,2,3);
-            var fitness = SudokuTestHelper.Eval(chromosome, sudoku, 50, 0, 100);
-            Assert.AreEqual( 0, fitness);
+                IChromosome chromosome = new SudokuRandomPermutationsChromosome(sudoku, 2, 3);
+                var fitness = SudokuTestHelper.Eval(chromosome, sudoku, 50, 0, 100);
+                Assert.AreEqual(0, fitness);
+            });
         }
 
         /// <summary>
@@ -58,9 +59,12 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
         public void Evolve_RandomPermutationsChromosome_EasySudoku_Solved() {
             var sudoku = SudokuTestHelper.CreateBoard(SudokuTestDifficulty.Easy);
 
-            IChromosome chromosome = new SudokuPermutationsChromosome(sudoku);
-            var fitness = SudokuTestHelper.Eval(chromosome, sudoku, 1000, 0, 40);
-            Assert.AreEqual( 0, fitness);
+            FlowAssert.IsAtLeastOneAttemptOk(10, () =>
+            {
+                IChromosome chromosome = new SudokuPermutationsChromosome(sudoku);
+                var fitness = SudokuTestHelper.Eval(chromosome, sudoku, 1000, 0, 40);
+                Assert.AreEqual(0, fitness);
+            });
         }
 
 

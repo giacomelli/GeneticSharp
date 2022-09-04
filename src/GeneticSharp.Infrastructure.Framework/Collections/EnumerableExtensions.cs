@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace GeneticSharp.Infrastructure.Framework.Collections
+namespace GeneticSharp
 {
     /// <summary>
     /// Enumerable extensions.

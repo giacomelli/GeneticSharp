@@ -1,6 +1,5 @@
 ﻿using System;
 using NUnit.Framework;
-using GeneticSharp.Infrastructure.Framework.Commons;
 
 namespace GeneticSharp.Infrastructure.Framework.UnitTests.Commons
 {

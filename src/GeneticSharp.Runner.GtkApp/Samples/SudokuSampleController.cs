@@ -1,13 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Fitnesses;
-using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Domain.Selections;
-using GeneticSharp.Extensions.Multiple;
-using GeneticSharp.Extensions.Sudoku;
+using GeneticSharp.Extensions;
 using Gtk;
 
 namespace GeneticSharp.Runner.GtkApp.Samples

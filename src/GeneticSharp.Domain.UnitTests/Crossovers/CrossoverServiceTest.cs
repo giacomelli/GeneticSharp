@@ -1,5 +1,4 @@
 using System;
-using GeneticSharp.Domain.Crossovers;
 using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers

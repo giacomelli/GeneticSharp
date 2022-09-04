@@ -1,13 +1,6 @@
 ﻿using System;
 using BenchmarkDotNet.Attributes;
-using GeneticSharp.Domain;
-using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Selections;
-using GeneticSharp.Domain.Terminations;
-using GeneticSharp.Extensions.Tsp;
-using GeneticSharp.Infrastructure.Framework.Threading;
+using GeneticSharp.Extensions;
 
 namespace GeneticSharp.Benchmarks
 {

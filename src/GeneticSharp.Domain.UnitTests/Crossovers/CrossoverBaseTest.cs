@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Crossovers;
 using NUnit.Framework;
 using NSubstitute;
 

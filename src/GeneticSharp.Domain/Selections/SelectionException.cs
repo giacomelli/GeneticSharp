@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using System.Security.Permissions;
-using GeneticSharp.Infrastructure.Framework.Texts;
 
-namespace GeneticSharp.Domain.Selections
+namespace GeneticSharp
 {
     /// <summary>
     /// Exception throw when an error occurs during the execution of selection.

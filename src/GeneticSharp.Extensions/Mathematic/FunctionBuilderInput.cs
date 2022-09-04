@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GeneticSharp.Extensions.Mathematic
+namespace GeneticSharp.Extensions
 {
     /// <summary>
     /// Function builder input.

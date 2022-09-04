@@ -1,5 +1,4 @@
-﻿using GeneticSharp.Extensions.Sudoku;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Sudoku
 {

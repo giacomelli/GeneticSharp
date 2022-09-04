@@ -1,8 +1,4 @@
-﻿using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Domain.Randomizations;
-using GeneticSharp.Infrastructure.Framework.Texts;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Mutations

@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Domain.Randomizations;
-using GeneticSharp.Domain.Selections;
-using GeneticSharp.Infrastructure.Framework.Reflection;
 
-namespace GeneticSharp.Extensions.AutoConfig
+namespace GeneticSharp.Extensions
 {
     /// <summary>
     /// Auto config another genetic algorithm.

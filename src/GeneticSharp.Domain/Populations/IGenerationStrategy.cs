@@ -1,4 +1,4 @@
-﻿namespace GeneticSharp.Domain.Populations
+﻿namespace GeneticSharp
 {
     /// <summary>
     /// Defines a strategy to some key points of generation behavior inside a population.
