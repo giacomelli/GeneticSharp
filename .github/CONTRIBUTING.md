@@ -9,6 +9,8 @@
 
 * Open a new GitHub pull request with the fix.
 * Ensure the PR description clearly describes the problem and solution. Include the relevant issue number if applicable.
+* Provide a code sample showing the bug happening.
+* Write a unit test that exposes the bug.
 
 
 ### Do you intend to add a new feature or change an existing one?
