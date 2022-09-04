@@ -13,12 +13,12 @@ if (string.IsNullOrEmpty(sonarLogin))
 Task("Build")
     .Does(() =>
 {
-    var settings = new DotNetCoreBuildSettings
+    var settings = new DotNetBuildSettings
     {
         Configuration = "Release",
     };
 
-    DotNetCoreBuild(solutionDir, settings);
+    DotNetBuild(solutionDir, settings);
 });
 
 Task("Test")
