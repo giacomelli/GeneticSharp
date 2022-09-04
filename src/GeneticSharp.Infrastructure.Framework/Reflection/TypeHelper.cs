@@ -4,9 +4,8 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
-using GeneticSharp.Infrastructure.Framework.Texts;
 
-namespace GeneticSharp.Infrastructure.Framework.Reflection
+namespace GeneticSharp
 {
     /// <summary>
     /// Type helper.

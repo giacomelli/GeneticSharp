@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using GeneticSharp.Infrastructure.Framework.Threading;
 
 namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
 {

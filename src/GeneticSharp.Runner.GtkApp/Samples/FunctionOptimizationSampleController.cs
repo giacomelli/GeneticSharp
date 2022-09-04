@@ -2,13 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Fitnesses;
-using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Domain.Selections;
-using GeneticSharp.Domain.Terminations;
-using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Runner.GtkApp.Samples;
 using Gtk;
 
@@ -77,7 +70,7 @@ namespace GeneticSharp.Runner.GtkApp
             return new FitnessStagnationTermination(100);
         }
 
-        public override void ConfigGA(GeneticSharp.Domain.GeneticAlgorithm ga)
+        public override void ConfigGA(GeneticAlgorithm ga)
         {
             var latestFitness = 0.0;
 

@@ -1,18 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GeneticSharp.Domain;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Fitnesses;
-using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Selections;
-using GeneticSharp.Domain.Terminations;
+﻿using System.Linq;
 using GeneticSharp.Domain.UnitTests;
-using GeneticSharp.Extensions.Multiple;
-using GeneticSharp.Extensions.Tsp;
 using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Multiple
@@ -31,15 +18,15 @@ namespace GeneticSharp.Extensions.UnitTests.Multiple
             var selection = new EliteSelection();
             var crossover = new UniformCrossover();
             var mutation = new TworsMutation();
+            
+            // Given enough generations, the Multiple Chromosome should start exhibiting convergence
+            // we compare TSP /25 gen with 3*TSP / 500 gen
+            IChromosome chromosome = new TspChromosome(numberOfCities);
+            IFitness fitness = new TspFitness(numberOfCities, 0, 1000, 0, 1000);
+            var population = new Population(30, 30, chromosome);
 
-            FlowAssert.IsAtLeastOneAttemptOk(00, () =>
-            {
-                // Given enough generations, the Multiple Chromosome should start exhibiting convergence
-                // we compare TSP /25 gen with 3*TSP / 500 gen
-
-                IChromosome chromosome = new TspChromosome(numberOfCities);
-                IFitness fitness = new TspFitness(numberOfCities, 0, 1000, 0, 1000);
-                var population = new Population(30, 30, chromosome);
+            FlowAssert.IsAtLeastOneAttemptOk(10, () =>
+            {              
                 var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation)
                 {
                     Termination = new GenerationNumberTermination(26)

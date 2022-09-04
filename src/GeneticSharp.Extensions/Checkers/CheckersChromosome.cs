@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Randomizations;
 
-namespace GeneticSharp.Extensions.Checkers
+namespace GeneticSharp.Extensions
 {
     /// <summary>
     /// Checkers chromosome.

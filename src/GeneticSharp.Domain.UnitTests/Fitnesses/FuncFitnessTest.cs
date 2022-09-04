@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using GeneticSharp.Domain.Fitnesses;
 
 namespace GeneticSharp.Domain.UnitTests.Fitnesses
 {

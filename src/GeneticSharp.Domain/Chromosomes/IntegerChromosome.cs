@@ -1,9 +1,8 @@
-﻿using GeneticSharp.Domain.Randomizations;
-using System;
+﻿using System;
 using System.Collections;
 using System.Linq;
 
-namespace GeneticSharp.Domain.Chromosomes
+namespace GeneticSharp
 {
     /// <summary>
     /// Integer chromosome with binary values (0 and 1).

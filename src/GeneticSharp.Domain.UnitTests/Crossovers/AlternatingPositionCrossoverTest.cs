@@ -1,19 +1,10 @@
 ﻿using System.Collections.Generic;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Randomizations;
 using NUnit.Framework;
 using NSubstitute;
 using System;
-using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Fitnesses;
 using System.Linq;
-using GeneticSharp.Domain.Selections;
-using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Domain.Terminations;
-using System.Diagnostics;
-using GeneticSharp.Extensions.Tsp;
 using GeneticSharp.Domain.UnitTests.Crossovers.Issues;
+using GeneticSharp.Extensions;
 
 namespace GeneticSharp.Domain.UnitTests.Crossovers
 {

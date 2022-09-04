@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GeneticSharp.Domain.Chromosomes;
 
-namespace GeneticSharp.Extensions.Sudoku
+namespace GeneticSharp.Extensions
 {
     /// <summary>
     /// This abstract chromosome accounts for the target mask if given, and generates an extended mask with cell domains updated according to original mask

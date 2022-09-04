@@ -1,6 +1,4 @@
 using System;
-using GeneticSharp.Domain.Randomizations;
-using GeneticSharp.Infrastructure.Framework.Reflection;
 using NUnit.Framework;
 
 namespace GeneticSharp.Infrastructure.Framework.UnitTests.Reflection

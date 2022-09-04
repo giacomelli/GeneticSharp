@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using GeneticSharp.Domain.Randomizations;
 using System.Linq;
 
-namespace GeneticSharp.Domain.Mutations
+namespace GeneticSharp
 {
     /// <summary>
     /// Partial Shuffle Mutation (PSM).

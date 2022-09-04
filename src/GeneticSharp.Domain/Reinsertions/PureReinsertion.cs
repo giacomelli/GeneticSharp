@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Populations;
 
-namespace GeneticSharp.Domain.Reinsertions
+namespace GeneticSharp
 {
     /// <summary>
     /// Pure Reinsertion.

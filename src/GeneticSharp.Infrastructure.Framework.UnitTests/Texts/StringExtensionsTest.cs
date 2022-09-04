@@ -1,6 +1,4 @@
-﻿using System;
-using GeneticSharp.Infrastructure.Framework.Texts;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace GeneticSharp.Infrastructure.Framework.UnitTests.Texts
 {

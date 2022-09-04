@@ -1,8 +1,5 @@
 ﻿using System.Globalization;
 using Gdk;
-using GeneticSharp.Domain;
-using GeneticSharp.Domain.Populations;
-using GeneticSharp.Infrastructure.Framework.Texts;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
 {

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using GeneticSharp.Domain.Chromosomes;
 
-namespace GeneticSharp.Domain.Populations
+namespace GeneticSharp
 {
     /// <summary>
     /// Defines an interface for a population of candidate solutions (chromosomes).

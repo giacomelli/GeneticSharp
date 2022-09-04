@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
 using BenchmarkDotNet.Attributes;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Reinsertions;
-using GeneticSharp.Extensions.Tsp;
+using GeneticSharp.Extensions;
 
 namespace GeneticSharp.Benchmarks
 {

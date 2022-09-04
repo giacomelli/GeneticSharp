@@ -1,6 +1,4 @@
-using GeneticSharp.Domain.Chromosomes;
-
-namespace GeneticSharp.Domain.Fitnesses
+namespace GeneticSharp
 {
     /// <summary>
     /// Defines an interface for fitness function.

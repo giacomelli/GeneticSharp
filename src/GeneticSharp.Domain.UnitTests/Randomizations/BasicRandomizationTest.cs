@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
-using GeneticSharp.Domain.Randomizations;
 using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Randomizations

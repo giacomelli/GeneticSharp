@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Populations;
 
-namespace GeneticSharp.Domain.Reinsertions
+namespace GeneticSharp
 {
     /// <summary>
     /// Defines an interface for reinsertions.

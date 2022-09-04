@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace GeneticSharp.Domain.Mutations
+namespace GeneticSharp
 {
     /// <summary>
     /// Insertion Mutation.

@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Randomizations;
 using System.Linq;
-using GeneticSharp.Infrastructure.Framework.Texts;
 
-namespace GeneticSharp.Domain.Mutations
+namespace GeneticSharp
 {
     /// <summary>
     /// Base class for Mutations on a Sub-Sequence.

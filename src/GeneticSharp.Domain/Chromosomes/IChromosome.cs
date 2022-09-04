@@ -1,6 +1,6 @@
 using System;
 
-namespace GeneticSharp.Domain.Chromosomes
+namespace GeneticSharp
 {
     /// <summary>
     /// Defines an interface for a chromosome.

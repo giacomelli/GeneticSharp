@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Randomizations;
 
-namespace GeneticSharp.Extensions.Drawing
+namespace GeneticSharp.Extensions
 {
     /// <summary>
     /// A chromosome that represents a bitmap.

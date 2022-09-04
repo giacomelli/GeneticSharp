@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Randomizations;
 
-namespace GeneticSharp.Extensions.Sudoku
+namespace GeneticSharp.Extensions
 {
     /// <summary>
     /// This chromosome aims at increasing genetic diversity of SudokuPermutationsChromosome, which exhibits only 9 permutation genes 

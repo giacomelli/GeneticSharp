@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GeneticSharp.Domain.Chromosomes
+﻿namespace GeneticSharp
 {
     /// <summary>
     /// Defines a interface of a binary chromosome of 0 and 1 genes.

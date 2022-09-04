@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq;
-using GeneticSharp.Infrastructure.Framework.Texts;
 
-namespace GeneticSharp.Infrastructure.Framework.Commons
+namespace GeneticSharp
 {
     /// <summary>
     /// Binary string representation.

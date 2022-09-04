@@ -2,13 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Randomizations;
 
-namespace GeneticSharp.Domain
+namespace GeneticSharp
 {
     /// <summary>
     /// An IOperatorsStrategy's implmentation which use Task Parallel Library (TPL) for parallel execution.

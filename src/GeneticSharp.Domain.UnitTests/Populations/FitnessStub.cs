@@ -1,7 +1,5 @@
 using System.Linq;
 using System.Threading;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Fitnesses;
 
 namespace GeneticSharp.Domain.UnitTests
 {

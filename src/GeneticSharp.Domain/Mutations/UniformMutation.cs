@@ -1,12 +1,7 @@
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Randomizations;
-using GeneticSharp.Infrastructure.Framework.Texts;
-using GeneticSharp.Infrastructure.Framework.Commons;
 
-namespace GeneticSharp.Domain.Mutations
+namespace GeneticSharp
 {
     /// <summary>
     /// This operator replaces the value of the chosen gene with a uniform random value selected 

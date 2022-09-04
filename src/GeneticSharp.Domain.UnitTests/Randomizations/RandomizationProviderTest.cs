@@ -1,4 +1,3 @@
-using GeneticSharp.Domain.Randomizations;
 using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Randomizations

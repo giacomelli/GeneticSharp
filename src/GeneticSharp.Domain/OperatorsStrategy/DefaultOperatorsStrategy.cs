@@ -1,10 +1,6 @@
 ﻿using System.Collections.Generic;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Domain.Populations;
 
-namespace GeneticSharp.Domain
+namespace GeneticSharp
 {
     /// <summary>
     /// Defines an operators strategy which use a linear execution

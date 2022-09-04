@@ -1,15 +1,6 @@
-﻿using System;
+﻿using GeneticSharp.Extensions;
+using System;
 using System.ComponentModel;
-using GeneticSharp.Domain;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Fitnesses;
-using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Domain.Selections;
-using GeneticSharp.Domain.Terminations;
-using GeneticSharp.Extensions.AutoConfig;
-using GeneticSharp.Extensions.Tsp;
-using GeneticSharp.Infrastructure.Framework.Threading;
 
 namespace GeneticSharp.Runner.ConsoleApp.Samples
 {

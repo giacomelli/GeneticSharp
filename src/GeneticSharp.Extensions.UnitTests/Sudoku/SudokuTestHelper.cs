@@ -1,13 +1,5 @@
 ﻿using System;
 using System.Linq;
-using GeneticSharp.Domain;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Selections;
-using GeneticSharp.Domain.Terminations;
-using GeneticSharp.Extensions.Sudoku;
 
 namespace GeneticSharp.Extensions.UnitTests.Sudoku
 {
