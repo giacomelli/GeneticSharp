@@ -8,6 +8,7 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\GeneticSharp.Domain.UnitTests\GeneticSharp.Domain.UnitTests.csproj" />
     <ProjectReference Include="..\GeneticSharp.Domain\GeneticSharp.Domain.csproj" />
     <ProjectReference Include="..\GeneticSharp.Extensions\GeneticSharp.Extensions.csproj" />
     <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj" />
