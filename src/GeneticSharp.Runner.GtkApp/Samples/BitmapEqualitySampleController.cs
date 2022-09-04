@@ -10,9 +10,9 @@ using GeneticSharp.Domain.Selections;
 using GeneticSharp.Extensions.Drawing;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using Gtk;
-using GeneticSharp.Infrastructure.Framework.Commons;
 using GeneticSharp.Domain;
 using GeneticSharp.Infrastructure.Framework.Threading;
+using System.Drawing.Imaging;
 
 namespace GeneticSharp.Runner.GtkApp.Samples
 {
@@ -134,15 +134,15 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 
                         using (var ms = new MemoryStream())
                         {
-                            var converter = new ImageConverter();
 
-                            var imageBytes = (byte[])converter.ConvertTo(bitmap, typeof(byte[]));
+                            bitmap.Save(ms, ImageFormat.Png);
+                            var imageBytes = ms.ToArray();
                             var pb = new Gdk.Pixbuf(imageBytes);
                             var width = Context.DrawingArea.Width;
                             var height = Context.DrawingArea.Height;
 
                             pb = pb.ScaleSimple(width, height, Gdk.InterpType.Nearest);
-                            buffer.DrawPixbuf(gc, pb, 0, 0, 0, 100, width, height, Gdk.RgbDither.None, 0, 0);
+                            buffer.DrawPixbuf(gc, pb, 0, 0, 0, 100, width, height,  Gdk.RgbDither.None, 0, 0);
                         }
                     }
 

@@ -47,7 +47,7 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
             var sudoku = SudokuTestHelper.CreateBoard(SudokuTestDifficulty.VeryEasy);
 
             IChromosome chromosome = new SudokuRandomPermutationsChromosome(sudoku,2,3);
-            var fitness = SudokuTestHelper.Eval(chromosome, sudoku, 50, 0, 10);
+            var fitness = SudokuTestHelper.Eval(chromosome, sudoku, 50, 0, 100);
             Assert.AreEqual( 0, fitness);
         }
 

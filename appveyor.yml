@@ -1,5 +1,5 @@
 version: 2.6.{build}
-os: Visual Studio 2017
+os: Visual Studio 2022
 configuration: Release
 environment:
   clone_folder: c:\gs
@@ -14,13 +14,15 @@ assembly_info:
   
 install:
 - cmd: choco install gtksharp
+- cmd: dotnet tool install --global Cake.Tool
   
 before_build:
 - cmd: dotnet --version
+- cmd: setJavaVersionForSonar.cmd
 
 build_script:
 # Cake.
-- ps: .\build.ps1
+- cmd: dotnet cake
 
 after_build:
 # Build the GeneticSharp and GeneticSharp.Extensions NuGet packages.
