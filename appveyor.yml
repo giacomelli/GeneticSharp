@@ -1,4 +1,4 @@
-version: 2.6.{build}
+version: 3.0.{build}
 os: Visual Studio 2022
 configuration: Release
 environment:
