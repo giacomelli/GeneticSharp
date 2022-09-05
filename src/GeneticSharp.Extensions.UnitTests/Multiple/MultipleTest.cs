@@ -25,7 +25,7 @@ namespace GeneticSharp.Extensions.UnitTests.Multiple
             IFitness fitness = new TspFitness(numberOfCities, 0, 1000, 0, 1000);
             var population = new Population(30, 30, chromosome);
 
-            FlowAssert.IsAtLeastOneAttemptOk(10, () =>
+            FlowAssert.IsAtLeastOneAttemptOk(20, () =>
             {              
                 var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation)
                 {
