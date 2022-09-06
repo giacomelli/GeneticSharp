@@ -1,5 +1,4 @@
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Randomizations;
+using GeneticSharp;
 
 public class TspChromosome : ChromosomeBase
 {

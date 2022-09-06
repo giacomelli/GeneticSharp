@@ -1,12 +1,4 @@
-using System;
-using System.Threading;
-using GeneticSharp.Domain;
-using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Selections;
-using GeneticSharp.Domain.Terminations;
-
+using GeneticSharp;
 public class TspGA
 {
     GeneticAlgorithm _ga;

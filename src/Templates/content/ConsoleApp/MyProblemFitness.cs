@@ -1,5 +1,4 @@
-﻿using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Fitnesses;
+﻿using GeneticSharp;
 using System;
 
 namespace ConsoleApp
