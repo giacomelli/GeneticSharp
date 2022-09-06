@@ -32,6 +32,7 @@ Can be used in any kind of .NET 6, .NET Standard and .NET Framework apps, like A
 * [Design of a warehouse order picking policy using genetic algorithm (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Design-of-a-warehouse-order-picking-policy-using-genetic-algorithm.pdf)
 * [Development of a Coupled Hydrological and Buildup/Washoff Watershed Model (paper)](https://ascelibrary.org/doi/abs/10.1061/9780784482957.014) ![](https://img.shields.io/badge/BR-green.svg)
 * [Developing trading strategies with genetic algorithms (forum)](https://www.quantconnect.com/forum/discussion/2396/developing-trading-strategies-with-genetic-algorithms) [(paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Developing-Trading-Strategies-with-Genetic-Algorithms.pdf)
+* [Evolving Woodland Camouflage (paper)](https://ieeexplore.ieee.org/abstract/document/9850354)
 * [Fabrication of Adiabatic Quantum-Flux-Parametron Integrated Circuits Using an Automatic Placement Tool Based on Genetic Algorithms (paper)](https://ieeexplore.ieee.org/document/8643945)
 * [Frixel: 2D framing / pixel structural optimization (project)](https://github.com/EmilPoulsen/Frixel)
 * [Function optimization with GeneticSharp (tutorial)](http://diegogiacomelli.com.br/function-optimization-with-geneticsharp/)
