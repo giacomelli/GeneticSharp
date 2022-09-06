@@ -62,7 +62,7 @@
         StateHasChanged();
     }
 
-    protected override async Task OnAfterRenderAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!_initialized) {
             _initialized = true;

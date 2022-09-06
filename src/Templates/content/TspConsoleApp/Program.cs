@@ -1,10 +1,5 @@
-﻿using GeneticSharp.Domain;
-using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Selections;
-using GeneticSharp.Domain.Terminations;
-using GeneticSharp.Extensions.Tsp;
+﻿using GeneticSharp;
+using GeneticSharp.Extensions;
 using System;
 using System.Linq;
 
@@ -33,7 +28,7 @@ namespace TspConsoleApp
             };
             ga.GenerationRan += (s, e) =>
             {
-                Console.Clear();
+                Console.WriteLine("=".PadRight(80, '='));
                 Console.WriteLine($"Generation: {ga.GenerationsNumber}");
 
                 var c = ga.BestChromosome as TspChromosome;

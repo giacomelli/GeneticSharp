@@ -1,4 +1,4 @@
-﻿using GeneticSharp.Domain.Chromosomes;
+﻿using GeneticSharp;
 using System;
 
 namespace ConsoleApp
