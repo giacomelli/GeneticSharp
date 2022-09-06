@@ -24,7 +24,7 @@ Task("Build")
 Task("Test")
     .Does(() =>
 {
-    var settings = new DotNetCoreTestSettings
+    var settings = new DotNetTestSettings
     {
         ArgumentCustomization = args => {
             return args.Append("/p:CollectCoverage=true")
@@ -32,7 +32,7 @@ Task("Test")
         }
     };
 
-    DotNetCoreTest(solutionDir, settings);
+    DotNetTest(solutionDir, settings);
 });
 
 Task("SonarBegin")
