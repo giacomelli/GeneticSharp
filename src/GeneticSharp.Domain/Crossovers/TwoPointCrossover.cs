@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Infrastructure.Framework.Texts;
 
-namespace GeneticSharp.Domain.Crossovers
+namespace GeneticSharp
 {
     /// <summary>
     /// Two-Point Crossover (C2)

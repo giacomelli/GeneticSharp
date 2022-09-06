@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Randomizations;
 
-namespace GeneticSharp.Domain.Crossovers
+namespace GeneticSharp
 {
     /// <summary>
     /// The Uniform Crossover uses a fixed mixing ratio between two parents. 

@@ -1,6 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
-
-namespace GeneticSharp.Domain.Randomizations
+namespace GeneticSharp
 {
     /// <summary>
     /// Defines an interface for randomization.

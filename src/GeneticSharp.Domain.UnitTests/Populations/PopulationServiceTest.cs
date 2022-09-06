@@ -1,6 +1,4 @@
 ﻿using System;
-using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Randomizations;
 using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Populations

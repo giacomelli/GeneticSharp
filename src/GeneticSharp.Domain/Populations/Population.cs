@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Infrastructure.Framework.Commons;
 
-namespace GeneticSharp.Domain.Populations
+namespace GeneticSharp
 {
     /// <summary>
     /// Represents a population of candidate solutions (chromosomes).

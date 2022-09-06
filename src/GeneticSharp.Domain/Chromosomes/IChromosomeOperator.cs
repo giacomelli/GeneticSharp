@@ -1,4 +1,4 @@
-﻿namespace GeneticSharp.Domain.Chromosomes
+﻿namespace GeneticSharp
 {
     /// <summary>
     /// Defines a basic interface for operators which works with chromosomes.

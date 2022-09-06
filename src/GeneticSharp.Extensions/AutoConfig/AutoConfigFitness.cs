@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using GeneticSharp.Domain;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Fitnesses;
-using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Terminations;
-using GeneticSharp.Infrastructure.Framework.Threading;
 
-namespace GeneticSharp.Extensions.AutoConfig
+namespace GeneticSharp.Extensions
 {
     /// <summary>
     /// A fitness function to auto config another genetic algorithm.

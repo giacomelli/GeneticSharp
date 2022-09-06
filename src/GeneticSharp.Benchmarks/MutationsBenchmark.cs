@@ -1,7 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Extensions.Tsp;
+using GeneticSharp.Extensions;
 
 namespace GeneticSharp.Benchmarks
 {

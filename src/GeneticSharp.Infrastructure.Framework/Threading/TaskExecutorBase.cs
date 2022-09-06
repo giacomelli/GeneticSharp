@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace GeneticSharp.Infrastructure.Framework.Threading
+namespace GeneticSharp
 {
     /// <summary>
     /// Task executor base.

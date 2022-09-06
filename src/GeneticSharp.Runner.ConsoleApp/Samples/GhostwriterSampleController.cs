@@ -2,13 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Web;
-using GeneticSharp.Domain;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Fitnesses;
-using GeneticSharp.Extensions.Ghostwriter;
-using GeneticSharp.Infrastructure.Framework.Texts;
-using GeneticSharp.Infrastructure.Framework.Threading;
+using GeneticSharp.Extensions;
 using GeneticSharp.Runner.ConsoleApp.Samples.Resources;
 using Newtonsoft.Json;
 

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GeneticSharp.Infrastructure.Framework.Texts;
-using GeneticSharp.Infrastructure.Framework.Commons;
 
-namespace GeneticSharp.Domain.Terminations
+namespace GeneticSharp
 {
     /// <summary>
     /// A base class for logical operator terminations.

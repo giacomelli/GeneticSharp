@@ -1,5 +1,4 @@
 ﻿using System;
-using GeneticSharp.Extensions.Tsp;
 using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Tsp

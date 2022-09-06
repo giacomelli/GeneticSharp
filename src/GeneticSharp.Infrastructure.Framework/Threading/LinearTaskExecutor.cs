@@ -1,6 +1,6 @@
 using System;
 
-namespace GeneticSharp.Infrastructure.Framework.Threading
+namespace GeneticSharp
 {
     /// <summary>
     /// An ITaskExecutor's implementation that executes the tasks in a linear fashion.

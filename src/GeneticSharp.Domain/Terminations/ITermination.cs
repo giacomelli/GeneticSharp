@@ -1,4 +1,4 @@
-namespace GeneticSharp.Domain.Terminations
+namespace GeneticSharp
 {
     /// <summary>
     /// Defines the interface for a termination condition.

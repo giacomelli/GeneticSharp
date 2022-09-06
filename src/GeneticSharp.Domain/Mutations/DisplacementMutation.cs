@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using GeneticSharp.Domain.Randomizations;
 
-namespace GeneticSharp.Domain.Mutations
+namespace GeneticSharp
 {
     /// <summary>
     /// Displacement Mutation.

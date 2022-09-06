@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Randomizations;
 
-namespace GeneticSharp.Domain.Mutations
+namespace GeneticSharp
 {
     /// <summary>
     /// Twors mutation allows the exchange of position of two genes randomly chosen.

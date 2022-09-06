@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using GeneticSharp.Infrastructure.Framework.Threading;
 using NUnit.Framework;
 
 namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
@@ -65,7 +64,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
         {
             var pipeline = "1";
             var target = new ParallelTaskExecutor();
-            target.Timeout = TimeSpan.FromMilliseconds(2);
+            target.Timeout = TimeSpan.FromMilliseconds(5);
 
             target.Add(() =>
             {

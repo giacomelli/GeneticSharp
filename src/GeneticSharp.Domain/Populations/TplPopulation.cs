@@ -3,9 +3,8 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GeneticSharp.Domain.Chromosomes;
 
-namespace GeneticSharp.Domain.Populations
+namespace GeneticSharp
 {
     /// <summary>
     /// Represents a population of candidate solutions (chromosomes) using TPL to create them.

@@ -1,8 +1,6 @@
 ﻿using System;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Randomizations;
 
-namespace GeneticSharp.Extensions.Mathematic
+namespace GeneticSharp.Extensions
 {
     /// <summary>
     /// An equation chromosome.

@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using GeneticSharp.Infrastructure.Framework.Commons;
 
-namespace GeneticSharp.Extensions.Checkers
+namespace GeneticSharp.Extensions
 {
     /// <summary>
     /// The checkers player.

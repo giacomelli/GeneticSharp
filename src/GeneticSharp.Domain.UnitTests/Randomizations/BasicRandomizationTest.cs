@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
-using GeneticSharp.Domain.Randomizations;
 using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Randomizations
@@ -73,16 +72,19 @@ namespace GeneticSharp.Domain.UnitTests.Randomizations
         [Repeat(10)]
         public void GetDouble_ManyThreads_DiffRandomResult()
         {
-            var target = new BasicRandomization();
-            var actual = new BlockingCollection<int>();
-
-            Parallel.For(0, 1000, (i) =>
+            FlowAssert.IsAtLeastOneAttemptOk(10, () =>
             {
-                actual.Add(target.GetInt(0, int.MaxValue));
-            });
+                var target = new BasicRandomization();
+                var actual = new BlockingCollection<int>();
 
-            Assert.AreEqual(1000, actual.Count);
-            Assert.AreEqual(1000, actual.Distinct().Count());
+                Parallel.For(0, 1000, (i) =>
+                {
+                    actual.Add(target.GetInt(0, int.MaxValue));
+                });
+
+                Assert.AreEqual(1000, actual.Count);
+                Assert.AreEqual(1000, actual.Distinct().Count());
+            });
         }
 
         [Test]

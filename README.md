@@ -10,7 +10,7 @@
 
 GeneticSharp is a fast, extensible, multi-platform and multithreading C# Genetic Algorithm library that simplifies the development of applications using Genetic Algorithms (GAs).
 
-Can be used in any kind of .NET Core and .NET Framework apps, like ASP .NET MVC, ASP .NET Core, Blazor, Web Forms, UWP, Windows Forms, GTK#, Xamarin and Unity3D games.
+Can be used in any kind of .NET 6, .NET Standard and .NET Framework apps, like ASP .NET MVC, ASP .NET Core, Blazor, Web Forms, UWP, Windows Forms, GTK#, Xamarin, MAUI and Unity3D games.
 
 
 --------
@@ -189,7 +189,7 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
 
       
 ## Multi-platform
-- Mono, .NET Standard 2.0 and .NET Framework 4.6.2 support
+- .NET 6, .NET Standard 2.0, Mono and .NET Framework 4.6.2 support
 - Fully tested on Windows and MacOS
 
 ## Code quality
@@ -202,7 +202,7 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
 
 ## Setup
 
-### .NET Standard 2.0 and .NET Framework 4.6.2 
+### .NET 6
 Only GeneticSharp:
 
 ```shell
@@ -218,6 +218,13 @@ install-package GeneticSharp.Extensions
 You should use the [UnityNuGet](https://github.com/xoofx/UnityNuGet) to install GeneticSharp directly from NuGet.
 
 Or you can use the latest GeneticSharp.unitypackage available on our [release page](https://github.com/giacomelli/GeneticSharp/releases).
+
+## .NET Standard 2.0 and .NET Framework 4.6.2 
+To install previous version that support .NET Standard 2.0 and .NET Framework 4.6.2:
+
+```shell
+install-package GeneticSharp -Version 2.6.0
+```
 
 ## Mono and .NET Framework 3.5
 To install previous version that support .NET Framework 3.5:
@@ -292,7 +299,7 @@ Console.WriteLine("Best solution found has {0} fitness.", ga.BestChromosome.Fitn
 
 
 ## Templates for `dotnet new`
-If you're using .NET Core, you can install GeneticSharp.Templates:
+If you're using .NET 6 or .NET Core, you can install GeneticSharp.Templates:
 
 ```shell
 dotnet new -i GeneticSharp.Templates

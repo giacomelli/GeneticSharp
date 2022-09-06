@@ -1,4 +1,4 @@
-namespace GeneticSharp.Domain.Randomizations
+namespace GeneticSharp
 {
     /// <summary>
     /// The randomization provider use for all elements of current genetic algorithm execution.

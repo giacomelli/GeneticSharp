@@ -1,6 +1,4 @@
 ﻿using NUnit.Framework;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Randomizations;
 using NSubstitute;
 
 namespace GeneticSharp.Domain.UnitTests.Chromosomes

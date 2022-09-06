@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace GeneticSharp.Extensions.Checkers
+namespace GeneticSharp.Extensions
 {
     #region Enums
     /// <summary>

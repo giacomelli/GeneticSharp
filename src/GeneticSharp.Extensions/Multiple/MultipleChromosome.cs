@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using GeneticSharp.Domain.Chromosomes;
 
-namespace GeneticSharp.Extensions.Multiple
+namespace GeneticSharp.Extensions
 {
 
     /// <summary>

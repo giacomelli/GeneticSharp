@@ -1,7 +1,4 @@
-﻿using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Infrastructure.Framework.Commons;
-
-namespace GeneticSharp.Domain.Mutations
+﻿namespace GeneticSharp
 {
     /// <summary>
     /// Base class for IMutation's implementation.

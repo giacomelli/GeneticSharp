@@ -1,9 +1,4 @@
 ﻿using System;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Randomizations;
-using GeneticSharp.Domain.Terminations;
-using GeneticSharp.Extensions.AutoConfig;
-using GeneticSharp.Extensions.Tsp;
 using NSubstitute;
 using NUnit.Framework;
 

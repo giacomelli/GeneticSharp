@@ -1,8 +1,6 @@
 ﻿using System;
 using BenchmarkDotNet.Attributes;
-using GeneticSharp.Domain;
-using GeneticSharp.Domain.Terminations;
-using GeneticSharp.Extensions.Tsp;
+using GeneticSharp.Extensions;
 using NSubstitute;
 
 namespace GeneticSharp.Benchmarks
@@ -10,14 +8,8 @@ namespace GeneticSharp.Benchmarks
     [Config(typeof(DefaultConfig))]
     public class TerminationsBenchmark
     {
-        private ITermination _trueTermination = Substitute.For<ITermination>();
-        private ITermination _falseTermination = Substitute.For<ITermination>();
-
-        public TerminationsBenchmark()
-        {
-            _trueTermination.HasReached(null).ReturnsForAnyArgs(true);
-            _falseTermination.HasReached(null).ReturnsForAnyArgs(false);
-        }
+        private ITermination _trueTermination = new StubTermination(true);
+        private ITermination _falseTermination = new StubTermination(false);
 
         [Benchmark]
         public ITermination And()
@@ -46,7 +38,7 @@ namespace GeneticSharp.Benchmarks
             var ga = Substitute.For<IGeneticAlgorithm>();
             ga.BestChromosome.Returns(new TspChromosome(10) { Fitness = 1d });
             target.HasReached(ga);
-         
+
             return target;
         }
 
@@ -79,6 +71,18 @@ namespace GeneticSharp.Benchmarks
             target.HasReached(ga);
 
             return target;
+        }
+
+        class StubTermination : ITermination
+        {
+            bool _result;
+
+            public StubTermination(bool result)
+            {
+                _result = result;
+            }
+
+            public bool HasReached(IGeneticAlgorithm geneticAlgorithm) => _result;
         }
     }
 }

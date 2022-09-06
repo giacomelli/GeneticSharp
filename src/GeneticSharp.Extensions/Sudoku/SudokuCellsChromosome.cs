@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml;
-using System.Xml.Serialization;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Randomizations;
 
-namespace GeneticSharp.Extensions.Sudoku
+namespace GeneticSharp.Extensions
 {
     /// <summary>
 	/// This simple chromosome simply represents each cell by a gene with value between 1 and 9, accounting for the target mask if given

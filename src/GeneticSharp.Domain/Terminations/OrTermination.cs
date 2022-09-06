@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Linq;
 
-namespace GeneticSharp.Domain.Terminations
+namespace GeneticSharp
 {
     /// <summary>
     /// An termination where you can combine others ITerminations with a OR logical operator.

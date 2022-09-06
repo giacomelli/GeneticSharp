@@ -1,5 +1,4 @@
 ﻿using System;
-using GeneticSharp.Domain.Chromosomes;
 using NUnit.Framework;
 using NSubstitute;
 

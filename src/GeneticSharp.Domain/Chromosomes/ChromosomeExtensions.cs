@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using GeneticSharp.Infrastructure.Framework.Texts;
 
-namespace GeneticSharp.Domain.Chromosomes
+namespace GeneticSharp
 {
     /// <summary>
     /// Chromosome extensions.

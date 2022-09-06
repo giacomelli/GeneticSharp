@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
 
-namespace GeneticSharp.Domain.Randomizations
+namespace GeneticSharp
 {
     /// <summary>
     /// An IRandomization implementation using System.Random has pseudo-number generator.

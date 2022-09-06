@@ -1,12 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Randomizations;
-using GeneticSharp.Infrastructure.Framework.Texts;
 
-namespace GeneticSharp.Domain.Selections
+namespace GeneticSharp
 {
     /// <summary>
     /// Tournament selection involves running several "tournaments" among a few individuals chosen at random from the population.

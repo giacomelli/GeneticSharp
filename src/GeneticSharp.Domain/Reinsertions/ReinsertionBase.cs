@@ -1,9 +1,6 @@
 using System.Collections.Generic;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Populations;
-using GeneticSharp.Infrastructure.Framework.Commons;
 
-namespace GeneticSharp.Domain.Reinsertions
+namespace GeneticSharp
 {
     /// <summary>
     /// Base class for IReinsertion's implementations.

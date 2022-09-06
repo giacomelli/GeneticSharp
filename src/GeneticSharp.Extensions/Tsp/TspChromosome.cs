@@ -1,8 +1,6 @@
 using System;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Randomizations;
 
-namespace GeneticSharp.Extensions.Tsp
+namespace GeneticSharp.Extensions
 {
     /// <summary>
     /// Travelling Salesman Problem chromosome.

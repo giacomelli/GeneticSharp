@@ -2,11 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Fitnesses;
-using GeneticSharp.Domain.Randomizations;
 
-namespace GeneticSharp.Extensions.Tsp
+namespace GeneticSharp.Extensions
 {
     /// <summary>
     /// Travelling Salesman Problem fitness function.

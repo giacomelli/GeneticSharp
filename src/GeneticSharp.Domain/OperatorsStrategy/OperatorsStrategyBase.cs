@@ -1,12 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Randomizations;
 
-namespace GeneticSharp.Domain
+namespace GeneticSharp
 {
     /// <summary>
     /// Defines an operators base strategy to be inherited either with linear or parallel execution

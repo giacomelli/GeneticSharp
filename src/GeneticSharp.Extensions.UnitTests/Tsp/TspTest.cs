@@ -1,10 +1,3 @@
-using GeneticSharp.Domain;
-using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Selections;
-using GeneticSharp.Domain.Terminations;
-using GeneticSharp.Extensions.Tsp;
 using NUnit.Framework;
 
 namespace GeneticSharp.Extensions.UnitTests.Tsp

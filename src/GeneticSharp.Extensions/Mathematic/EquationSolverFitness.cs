@@ -1,8 +1,6 @@
 ﻿using System;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Fitnesses;
 
-namespace GeneticSharp.Extensions.Mathematic
+namespace GeneticSharp.Extensions
 {
     /// <summary>
     /// Equation solver fitness.

@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace GeneticSharp.Domain.Terminations
+namespace GeneticSharp
 {
     /// <summary>
     /// Generation number termination.

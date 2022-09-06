@@ -1,4 +1,4 @@
-namespace GeneticSharp.Extensions.Checkers
+namespace GeneticSharp.Extensions
 {
     /// <summary>
     /// A checkers' piece.

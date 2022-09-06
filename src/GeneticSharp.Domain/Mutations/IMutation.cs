@@ -1,6 +1,4 @@
-using GeneticSharp.Domain.Chromosomes;
-
-namespace GeneticSharp.Domain.Mutations
+namespace GeneticSharp
 {
     /// <summary>
     /// Mutation is a genetic operator used to maintain genetic diversity from one generation of a population of genetic algorithm 

@@ -1,14 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
-using GeneticSharp.Domain;
-using GeneticSharp.Domain.Chromosomes;
-using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Fitnesses;
-using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Domain.Selections;
-using GeneticSharp.Extensions.Tsp;
-using GeneticSharp.Infrastructure.Framework.Texts;
-using GeneticSharp.Infrastructure.Framework.Threading;
+using GeneticSharp.Extensions;
 using Gtk;
 
 namespace GeneticSharp.Runner.GtkApp.Samples

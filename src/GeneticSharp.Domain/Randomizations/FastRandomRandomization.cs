@@ -2,7 +2,7 @@
 using System.Threading;
 using SharpNeatLib.Maths;
 
-namespace GeneticSharp.Domain.Randomizations
+namespace GeneticSharp
 {
     /// <summary>
     /// An IRandomization using FastRandom has pseudo-number generator.

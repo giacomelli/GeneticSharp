@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-namespace GeneticSharp.Domain.Chromosomes
+namespace GeneticSharp
 {
     /// <summary>
     /// Represents a gene of a chromosome.

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using GeneticSharp.Infrastructure.Framework.Threading;
 using NUnit.Framework;
 
 namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading

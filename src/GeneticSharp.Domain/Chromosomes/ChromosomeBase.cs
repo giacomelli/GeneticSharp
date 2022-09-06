@@ -1,9 +1,7 @@
 using System;
 using System.Diagnostics;
-using GeneticSharp.Infrastructure.Framework.Texts;
-using GeneticSharp.Infrastructure.Framework.Commons;
 
-namespace GeneticSharp.Domain.Chromosomes
+namespace GeneticSharp
 {
     /// <summary>
     /// A base class for chromosomes.

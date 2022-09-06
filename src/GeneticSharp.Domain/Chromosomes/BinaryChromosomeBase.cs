@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq;
-using GeneticSharp.Domain.Randomizations;
 
-namespace GeneticSharp.Domain.Chromosomes
+namespace GeneticSharp
 {
     /// <summary>
     /// A base class for binary chromosome of 0 and 1 genes.
