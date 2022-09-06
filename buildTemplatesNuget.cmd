@@ -1,4 +1,4 @@
-SET PACKAGE_VERSION=1.1.0
+SET PACKAGE_VERSION=3.0.0
 
 cd .\src\Templates
 
