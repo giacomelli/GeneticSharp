@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using GeneticSharp.Domain.UnitTests;
 using NUnit.Framework;
 
 namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
@@ -64,7 +65,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
         {
             var pipeline = "1";
             var target = new ParallelTaskExecutor();
-            target.Timeout = TimeSpan.FromMilliseconds(5);
+            target.Timeout = TimeSpan.FromMilliseconds(2);
 
             target.Add(() =>
             {
@@ -106,34 +107,36 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
         [Test]
         public void Stop_ManyTasks_StopAll()
         {
-            var pipeline = "";
-            var target = new ParallelTaskExecutor();
-            target.Timeout = TimeSpan.FromMilliseconds(1000);
+            FlowAssert.IsAtLeastOneAttemptOk(10, () =>
+            {
+                var pipeline = "";
+                var target = new ParallelTaskExecutor();
+                target.Timeout = TimeSpan.FromMilliseconds(1000);
 
-            target.Add(() =>
-            {
-                Thread.Sleep(5);
-                pipeline += "1";
-            });
-            target.Add(() =>
-            {
-                Thread.Sleep(5);
-                pipeline += "2";
-            });
-            target.Add(() =>
-            {
-                Thread.Sleep(5);
-                pipeline += "3";
-            });
-
-            Parallel.Invoke(
-                () => Assert.IsTrue(target.Start()),
-                () =>
+                target.Add(() =>
                 {
-                    Thread.Sleep(100);
-                    target.Stop();
+                    Thread.Sleep(5);
+                    pipeline += "1";
+                });
+                target.Add(() =>
+                {
+                    Thread.Sleep(5);
+                    pipeline += "2";
+                });
+                target.Add(() =>
+                {
+                    Thread.Sleep(5);
+                    pipeline += "3";
                 });
 
+                Parallel.Invoke(
+                    () => Assert.IsTrue(target.Start()),
+                    () =>
+                    {
+                        Thread.Sleep(100);
+                        target.Stop();
+                    });
+            });
         }
 
         [Test]
