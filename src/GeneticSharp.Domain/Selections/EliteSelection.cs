@@ -5,22 +5,35 @@ using System.Linq;
 namespace GeneticSharp
 {
     /// <summary>
-    /// Selects the chromosomes with the best fitness.
+    /// Selects the chromosomes with the best fitness and a small portion of the best individuals
+    /// from the last generation is carried over (without any changes) to the next one.
     /// </summary>
     /// <remarks>
-    /// Also know as: Truncation Selection.
-    /// </remarks>    
+    /// <see href="https://en.wikipedia.org/wiki/Selection_(genetic_algorithm)">Wikipedia</see>
+    /// </remarks>
     [DisplayName("Elite")]
     public sealed class EliteSelection : SelectionBase
     {
-        #region Constructors
+        int _previousGenerationChromosomesNumber;
+        List<IChromosome> _previousGenerationChromosomes = new List<IChromosome>();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Selections.EliteSelection"/> class.
         /// </summary>
-        public EliteSelection() : base(2)
+        public EliteSelection() 
+            : this(1)
         {
         }
-        #endregion
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Selections.EliteSelection"/> class.
+        /// </summary>
+        /// <param name="previousGenerationChromosomesNumber">The number of best chromosomes of the previous generation to carried over to the next one.</param>
+        public EliteSelection(int previousGenerationChromosomesNumber) 
+            : base(2)
+        {
+            _previousGenerationChromosomesNumber = previousGenerationChromosomesNumber;
+        }
 
         #region ISelection implementation
         /// <summary>
@@ -31,8 +44,14 @@ namespace GeneticSharp
         /// <returns>The select chromosomes.</returns>
         protected override IList<IChromosome> PerformSelectChromosomes(int number, Generation generation)
         {
-            var ordered = generation.Chromosomes.OrderByDescending(c => c.Fitness);
-            return ordered.Take(number).ToList();
+            _previousGenerationChromosomes.AddRange(generation.Chromosomes);
+
+            var ordered = _previousGenerationChromosomes.OrderByDescending(c => c.Fitness);
+            var result = ordered.Take(number).ToList();
+
+            _previousGenerationChromosomes = result.Take(_previousGenerationChromosomesNumber).ToList();
+
+            return result;
         }
 
         #endregion

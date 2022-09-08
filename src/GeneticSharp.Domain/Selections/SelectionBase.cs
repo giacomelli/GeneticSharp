@@ -9,11 +9,8 @@ namespace GeneticSharp
     /// </summary>
     public abstract class SelectionBase : ISelection
     {
-        #region Fields
-        private readonly int m_minNumberChromosomes;
-        #endregion
+        readonly int m_minNumberChromosomes;
 
-        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Selections.SelectionBase"/> class.
         /// </summary>
@@ -22,9 +19,7 @@ namespace GeneticSharp
         {
             m_minNumberChromosomes = minNumberChromosomes;
         }
-        #endregion
-
-        #region ISelection implementation
+        
         /// <summary>
         /// Selects the number of chromosomes from the generation specified.
         /// </summary>
@@ -56,7 +51,6 @@ namespace GeneticSharp
         /// <returns>The selected chromosomes.</returns>
         /// <param name="number">The number of chromosomes to select.</param>
         /// <param name="generation">The generation where the selection will be made.</param>
-        protected abstract IList<IChromosome> PerformSelectChromosomes(int number, Generation generation);
-        #endregion
+        protected abstract IList<IChromosome> PerformSelectChromosomes(int number, Generation generation);        
     }
 }

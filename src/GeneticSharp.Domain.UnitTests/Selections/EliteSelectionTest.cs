@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using NSubstitute;
+using System.Linq;
 
 namespace GeneticSharp.Domain.UnitTests.Selections
 {
@@ -72,8 +73,46 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             actual = target.SelectChromosomes(3, generation);
             Assert.AreEqual(3, actual.Count);
             Assert.AreEqual(0.7, actual[0].Fitness);
-            Assert.AreEqual(0.5, actual[1].Fitness);
-            Assert.AreEqual(0.1, actual[2].Fitness);
+            Assert.AreEqual(0.7, actual[1].Fitness);
+            Assert.AreEqual(0.5, actual[2].Fitness);
+        }
+
+        /// <summary>
+        /// https://github.com/giacomelli/GeneticSharp/issues/72
+        /// </summary>
+        [Test()]
+        public void SelectChromosomes_Issue72_Solved()
+        {
+            var target = new EliteSelection();
+            var chromosomes = new IChromosome[10];
+
+            for (int i = 0; i < chromosomes.Length; i++)
+            {                
+                var c = Substitute.ForPartsOf<ChromosomeBase>(2);
+                c.Fitness = i;
+                chromosomes[i] = c;
+            }
+
+            var generation3 = new Generation(3, chromosomes.Take(4).ToList());            
+            var generation2 = new Generation(2, chromosomes.Skip(4).Take(3).ToList());
+            var generation1 = new Generation(1, chromosomes.Skip(7).Take(3).ToList());
+
+
+            var actual = target.SelectChromosomes(2, generation1);
+            Assert.AreEqual(2, actual.Count);
+            Assert.AreEqual(9, actual[0].Fitness);
+            Assert.AreEqual(8, actual[1].Fitness);
+
+            actual = target.SelectChromosomes(3, generation2);
+            Assert.AreEqual(3, actual.Count);
+            Assert.AreEqual(9, actual[0].Fitness);
+            Assert.AreEqual(6, actual[1].Fitness);
+            Assert.AreEqual(5, actual[2].Fitness);            
+
+            actual = target.SelectChromosomes(2, generation3);
+            Assert.AreEqual(2, actual.Count);
+            Assert.AreEqual(9, actual[0].Fitness);
+            Assert.AreEqual(3, actual[1].Fitness);
         }
     }
 }
