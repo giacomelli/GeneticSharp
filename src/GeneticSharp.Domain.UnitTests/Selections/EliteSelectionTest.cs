@@ -10,7 +10,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
     [Category("Selections")]
     public class EliteSelectionTest
     {
-        [Test()]
+        [Test]
         public void SelectChromosomes_InvalidNumber_Exception()
         {
             var target = new EliteSelection();
@@ -31,7 +31,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             }, "The number of selected chromosomes should be at least 2.");
         }
 
-        [Test()]
+        [Test]
         public void SelectChromosomes_NullGeneration_Exception()
         {
             var target = new EliteSelection();
@@ -44,7 +44,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             Assert.AreEqual("generation", actual.ParamName);
         }
 
-        [Test()]
+        [Test]
         public void SelectChromosomes_Generation_ChromosomesSelected()
         {
             var target = new EliteSelection();
@@ -60,27 +60,31 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             var c4 = Substitute.ForPartsOf<ChromosomeBase>(2);
             c4.Fitness = 0.7;
 
-            var generation = new Generation(1, new List<IChromosome>() {
+            var generation1 = new Generation(1, new List<IChromosome>() {
+                c1, c2, c3
+            });
+
+            var generation2 = new Generation(1, new List<IChromosome>() {
                 c1, c2, c3, c4
             });
 
 
-            var actual = target.SelectChromosomes(2, generation);
+            var actual = target.SelectChromosomes(2, generation1);
             Assert.AreEqual(2, actual.Count);
-            Assert.AreEqual(0.7, actual[0].Fitness);
-            Assert.AreEqual(0.5, actual[1].Fitness);
+            Assert.AreEqual(0.5, actual[0].Fitness);
+            Assert.AreEqual(0.1, actual[1].Fitness);
 
-            actual = target.SelectChromosomes(3, generation);
+            actual = target.SelectChromosomes(3, generation2);
             Assert.AreEqual(3, actual.Count);
             Assert.AreEqual(0.7, actual[0].Fitness);
-            Assert.AreEqual(0.7, actual[1].Fitness);
-            Assert.AreEqual(0.5, actual[2].Fitness);
+            Assert.AreEqual(0.5, actual[1].Fitness);
+            Assert.AreEqual(0.1, actual[2].Fitness);
         }
 
         /// <summary>
         /// https://github.com/giacomelli/GeneticSharp/issues/72
         /// </summary>
-        [Test()]
+        [Test]
         public void SelectChromosomes_Issue72_Solved()
         {
             var target = new EliteSelection();
