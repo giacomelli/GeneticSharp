@@ -8,7 +8,11 @@ namespace GeneticSharp
     /// </summary>
     public class Population : IPopulation
     {
-        #region Constructors
+        /// <summary>
+        /// Occurs when best chromosome changed.
+        /// </summary>
+        public event EventHandler BestChromosomeChanged;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Populations.Population"/> class.
         /// </summary>
@@ -36,16 +40,7 @@ namespace GeneticSharp
             Generations = new List<Generation>();
             GenerationStrategy = new PerformanceGenerationStrategy(10);
         }
-        #endregion
-
-        #region Events
-        /// <summary>
-        /// Occurs when best chromosome changed.
-        /// </summary>
-        public event EventHandler BestChromosomeChanged;
-        #endregion
-
-        #region Properties
+        
         /// <summary>
         /// Gets or sets the creation date.
         /// </summary>
@@ -101,10 +96,8 @@ namespace GeneticSharp
         /// Gets or sets the original chromosome of all population.
         /// </summary>
         /// <value>The adam chromosome.</value>
-        protected IChromosome AdamChromosome { get; set; }
-        #endregion
-
-        #region Public methods
+        protected IChromosome AdamChromosome { get; set; }        
+        
         /// <summary>
         /// Creates the initial generation.
         /// </summary>
@@ -159,10 +152,8 @@ namespace GeneticSharp
 
                 OnBestChromosomeChanged(EventArgs.Empty);
             }
-        }
-        #endregion
-
-        #region Protected methods
+        }        
+        
         /// <summary>
         /// Raises the best chromosome changed event.
         /// </summary>
@@ -170,7 +161,6 @@ namespace GeneticSharp
         protected virtual void OnBestChromosomeChanged(EventArgs args)
         {
             BestChromosomeChanged?.Invoke(this, args);
-        }
-        #endregion
+        }        
     }
 }

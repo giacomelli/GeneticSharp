@@ -187,19 +187,7 @@ namespace GeneticSharp
                     throw new ArgumentOutOfRangeException(nameof(startIndex), "There is no Gene on index {0} to be replaced.".With(startIndex));
                 }
 
-                var genesToBeReplacedLength = genes.Length;
-
-                var availableSpaceLength = m_length - startIndex;
-
-                if (genesToBeReplacedLength > availableSpaceLength)
-                {
-                    throw new ArgumentException(
-                        nameof(Gene),
-                        "The number of genes to be replaced is greater than available space, there is {0} genes between the index {1} and the end of chromosome, but there is {2} genes to be replaced."
-                        .With(availableSpaceLength, startIndex, genesToBeReplacedLength));
-                }
-
-                Array.Copy(genes, 0, m_genes, startIndex, genes.Length);
+                Array.Copy(genes, 0, m_genes, startIndex, Math.Min(genes.Length, m_length - startIndex));
 
                 Fitness = null;
             }

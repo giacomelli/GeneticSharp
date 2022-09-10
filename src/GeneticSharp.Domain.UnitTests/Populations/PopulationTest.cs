@@ -82,6 +82,38 @@ namespace GeneticSharp.Domain.UnitTests.Populations
 
             Assert.IsTrue(eventRaise);
         }
+
+        /// <summary>
+        /// https://github.com/giacomelli/GeneticSharp/issues/70
+        /// </summary>
+        [Test]
+        public void EndCurrentGeneration_Issue70_Solved()
+        {
+            var target = new Population(100, 100, new ChromosomeStub());
+
+            var eventRaise = false;
+            IChromosome lastChromosome = null;
+
+            target.BestChromosomeChanged += (e, a) =>
+            {
+                eventRaise = true;
+
+                if (lastChromosome != null && lastChromosome.Fitness == target.BestChromosome.Fitness)
+                    Assert.Fail("BestChromosomeChanged should only be raised if fitness is different.");
+
+                lastChromosome = target.BestChromosome;
+            };
+
+            target.CreateInitialGeneration();
+            target.CurrentGeneration.Chromosomes.Each(c => c.Fitness = 0);
+            target.CurrentGeneration.Chromosomes[1].Fitness = 1;
+            target.EndCurrentGeneration();
+
+            target.CurrentGeneration.Chromosomes[0].Fitness = 1;            
+            target.EndCurrentGeneration();
+
+            Assert.IsTrue(eventRaise);
+        }
     }
 }
 

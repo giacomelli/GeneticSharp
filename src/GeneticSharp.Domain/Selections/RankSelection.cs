@@ -59,7 +59,7 @@ namespace GeneticSharp
                                         .FirstOrDefault(r => r.Value >= pointer);
 
                 if (chromosome != null)
-                    selected.Add(chromosomes[chromosome.Index]);
+                    selected.Add(chromosomes[chromosome.Index].Clone());
             }
 
             return selected;
