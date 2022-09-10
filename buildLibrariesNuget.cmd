@@ -1,4 +1,4 @@
-SET PACKAGE_VERSION="3.0.0"
+SET PACKAGE_VERSION="3.1.2"
 
 mkdir .\src\nuget
 
