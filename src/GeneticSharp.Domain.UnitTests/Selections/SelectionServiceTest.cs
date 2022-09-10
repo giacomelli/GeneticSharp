@@ -12,13 +12,13 @@ namespace GeneticSharp.Domain.UnitTests.Selections
         {
             var actual = SelectionService.GetSelectionTypes();
 
-            Assert.AreEqual(5, actual.Count);
+            Assert.AreEqual(6, actual.Count);
             Assert.AreEqual(typeof(EliteSelection), actual[0]);
             Assert.AreEqual(typeof(RankSelection), actual[1]);
             Assert.AreEqual(typeof(RouletteWheelSelection), actual[2]);
             Assert.AreEqual(typeof(StochasticUniversalSamplingSelection), actual[3]);
             Assert.AreEqual(typeof(TournamentSelection), actual[4]);
-
+            Assert.AreEqual(typeof(TruncationSelection), actual[5]);
         }
 
         [Test()]
@@ -26,12 +26,13 @@ namespace GeneticSharp.Domain.UnitTests.Selections
         {
             var actual = SelectionService.GetSelectionNames();
 
-            Assert.AreEqual(5, actual.Count);
+            Assert.AreEqual(6, actual.Count);
             Assert.AreEqual("Elite", actual[0]);
             Assert.AreEqual("Rank", actual[1]);
             Assert.AreEqual("Roulette Wheel", actual[2]);
             Assert.AreEqual("Stochastic Universal Sampling", actual[3]);
             Assert.AreEqual("Tournament", actual[4]);
+            Assert.AreEqual("Truncation", actual[5]);
         }
 
         [Test()]
@@ -48,7 +49,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
         {
             Assert.Catch<ArgumentException>(() =>
             {
-                SelectionService.CreateSelectionByName("Elite", 1);
+                SelectionService.CreateSelectionByName("Elite", 1, 2);
             }, "A ISelection's implementation with name 'Elite' was found, but seems the constructor args were invalid.");
         }
 

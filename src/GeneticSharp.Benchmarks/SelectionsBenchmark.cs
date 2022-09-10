@@ -54,5 +54,21 @@ namespace GeneticSharp.Benchmarks
             target.SelectChromosomes(_chromosomesNumber, _generation);
             return target;
         }
+
+        [Benchmark]
+        public ISelection Rank()
+        {
+            var target = new RankSelection();
+            target.SelectChromosomes(_chromosomesNumber, _generation);
+            return target;
+        }
+
+        [Benchmark]
+        public ISelection Truncation()
+        {
+            var target = new TruncationSelection();
+            target.SelectChromosomes(_chromosomesNumber, _generation);
+            return target;
+        }
     }
 }

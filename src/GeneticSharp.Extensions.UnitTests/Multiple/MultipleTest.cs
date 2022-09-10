@@ -15,7 +15,7 @@ namespace GeneticSharp.Extensions.UnitTests.Multiple
         public void Evolve_CompareToSingleChromosome_Evolved()
         {
             int numberOfCities = 30;
-            var selection = new EliteSelection();
+            var selection = new TruncationSelection();
             var crossover = new UniformCrossover();
             var mutation = new TworsMutation();
             

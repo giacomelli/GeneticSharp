@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using NSubstitute;
+using System.Security.Cryptography;
 
 namespace GeneticSharp.Domain.UnitTests
 {
@@ -536,7 +537,15 @@ namespace GeneticSharp.Domain.UnitTests
                             target.Termination = new GenerationNumberTermination(25);
                             target.CrossoverProbability = reinsertion.CanExpand ? 0.75f : 1f;
 
-                            target.Start();
+                            try
+                            {
+                                target.Start();
+                            }
+                            catch(Exception ex)
+                            {
+                                throw new Exception($"GA start failed using selection:{s}, crossover:{c}, mutation:{m} and reinsertion:{r}. Error: {ex.Message}", ex);
+                            }
+
                             Assert.AreEqual(25, target.Population.Generations.Count);
                         }
                     }

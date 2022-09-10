@@ -15,7 +15,6 @@ namespace GeneticSharp
     [DisplayName("Tournament")]
     public class TournamentSelection : SelectionBase
     {
-        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="TournamentSelection"/> class.
         /// <remarks>
@@ -48,9 +47,7 @@ namespace GeneticSharp
             Size = size;
             AllowWinnerCompeteNextTournament = allowWinnerCompeteNextTournament;
         }
-        #endregion
-
-        #region Properties
+                
         /// <summary>
         /// Gets or sets the size of the tournament.
         /// <remarks>
@@ -66,9 +63,8 @@ namespace GeneticSharp
         /// </remarks>
         /// </summary>
         public bool AllowWinnerCompeteNextTournament { get; set; }
-        #endregion
+        
 
-        #region Methods
         /// <summary>
         /// Performs the selection of chromosomes from the generation specified.
         /// </summary>
@@ -94,7 +90,7 @@ namespace GeneticSharp
                 var randomIndexes = RandomizationProvider.Current.GetUniqueInts(Size, 0, candidates.Count);
                 var tournamentWinner = candidates.Where((c, i) => randomIndexes.Contains(i)).OrderByDescending(c => c.Fitness).First();
 
-                selected.Add(tournamentWinner);
+                selected.Add(tournamentWinner.Clone());
 
                 if (!AllowWinnerCompeteNextTournament)
                 {
@@ -103,7 +99,6 @@ namespace GeneticSharp
             }
 
             return selected;
-        }
-        #endregion
+        }        
     }
 }

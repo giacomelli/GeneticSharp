@@ -68,7 +68,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
 
             target.Add(() =>
             {
-                Thread.Sleep(10);
+                Thread.Sleep(1000);
                 pipeline += "2";
             });
 

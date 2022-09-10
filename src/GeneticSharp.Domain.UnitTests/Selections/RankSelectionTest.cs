@@ -4,6 +4,7 @@ using System.Linq;
 using NUnit.Framework;
 using NSubstitute;
 using GeneticSharp.Extensions;
+using NSubstitute.Routing.Handlers;
 
 namespace GeneticSharp.Domain.UnitTests.Selections
 {
@@ -17,7 +18,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             RandomizationProvider.Current = new BasicRandomization();
         }
 
-        [Test()]
+       [Test]
         public void SelectChromosomes_InvalidNumber_Exception()
         {
             var target = new RankSelection();
@@ -38,7 +39,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             }, "The number of selected chromosomes should be at least 2.");
         }
 
-        [Test()]
+       [Test]
         public void SelectChromosomes_NullGeneration_Exception()
         {
             var target = new RankSelection();
@@ -51,7 +52,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             Assert.AreEqual("generation", actual.ParamName);
         }
 
-        [Test()]
+       [Test]
         public void SelectChromosomes_Generation_ChromosomesSelected()
         {
             var target = new RankSelection();
@@ -157,7 +158,7 @@ namespace GeneticSharp.Domain.UnitTests.Selections
             Assert.AreEqual("RankSelection: There are chromosomes with null fitness.", actual.Message);
         }
 
-        [Test()]
+       [Test]
         public void SelectChromosomes_Generation_ChromosomesZeroFitness()
         {
             var target = new RankSelection();
@@ -179,6 +180,6 @@ namespace GeneticSharp.Domain.UnitTests.Selections
 
             var actual = target.SelectChromosomes(2, generation);
             Assert.AreEqual(2, actual.Count);
-        }
+        }      
     }
 }
