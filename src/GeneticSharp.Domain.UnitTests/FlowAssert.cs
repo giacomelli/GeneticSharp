@@ -49,6 +49,7 @@ namespace GeneticSharp.Domain.UnitTests
         public static void IsAtLeastOneAttemptOk(int maxAttempts, Action flow)
         {
             bool ok = false;
+            string failedMessage = null;
 
             for(int i = 0; i < maxAttempts; i++)
             {
@@ -63,10 +64,11 @@ namespace GeneticSharp.Domain.UnitTests
                     Debug.WriteLine(ex.Message);
                     Debug.WriteLine(ex.StackTrace);
                     ok = false;
+                    failedMessage = ex.Message;
                 }
             }
 
-            Assert.IsTrue(ok);
+            Assert.IsTrue(ok, $"All {maxAttempts} attempts failed\n\n{failedMessage}");
         }
     }
 }
