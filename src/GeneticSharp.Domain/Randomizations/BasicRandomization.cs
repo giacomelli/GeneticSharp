@@ -13,12 +13,13 @@ namespace GeneticSharp
     {
         private static readonly Random _globalRandom = new Random();
         private static readonly object _globalLock = new object();
+        private static int? _seed;
        
         /// <summary> 
         /// Random number generator 
         /// </summary> 
-        private static readonly ThreadLocal<Random> s_threadRandom = new ThreadLocal<Random>(NewRandom);
-
+        private static ThreadLocal<Random> _threadRandom = new ThreadLocal<Random>(NewRandom);
+        
         /// <summary> 
         /// Creates a new instance of Random. The seed is derived 
         /// from a global (static) instance of Random, rather 
@@ -28,7 +29,7 @@ namespace GeneticSharp
         {
             lock (_globalLock)
             {
-                return new Random(_globalRandom.Next());
+                return new Random(_seed ?? _globalRandom.Next());
             }
         }
 
@@ -36,7 +37,20 @@ namespace GeneticSharp
         /// Returns an instance of Random which can be used freely 
         /// within the current thread. 
         /// </summary> 
-        private static Random Instance { get { return s_threadRandom.Value; } }
+        private static Random Instance { get { return _threadRandom.Value; } }
+
+        /// <summary>
+        /// Resets the pseudorandom number generator (System.Random) initial seed.
+        /// </summary>
+        /// <param name="seed">The seed. Use null to reset to default one.</param>
+        /// <remarks>
+        /// Can be useful on situation where you need to generate the same result with the same parameter.
+        /// </remarks>
+        public static void ResetSeed(int? seed)
+        {
+            _seed = seed;            
+            _threadRandom = new ThreadLocal<Random>(NewRandom);
+        }
 
         /// <summary>
         /// Gets an integer value between minimum value (inclusive) and maximum value (exclusive).

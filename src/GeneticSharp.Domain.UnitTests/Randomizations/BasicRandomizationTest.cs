@@ -180,6 +180,26 @@ namespace GeneticSharp.Domain.UnitTests.Randomizations
                 Assert.IsTrue(actual[0] >= 2);
             });
         }
+
+        [Test]
+        public void ResetSeed_GetInt_SameResults()
+        {
+            BasicRandomization.ResetSeed(1);
+            var target = new BasicRandomization();
+            var actual = new int[10];
+
+            for (int i = 0; i < actual.Length; i++)
+            {
+                actual[i] = target.GetInt(int.MinValue, int.MaxValue);
+            }
+
+            BasicRandomization.ResetSeed(1);
+
+            for (int i = 0; i < actual.Length; i++)
+            {
+                Assert.AreEqual(actual[i], target.GetInt(int.MinValue, int.MaxValue));
+            }
+        }
     }
 }
 

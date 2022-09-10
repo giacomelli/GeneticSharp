@@ -202,6 +202,26 @@ namespace GeneticSharp.Domain.UnitTests.Randomizations
             var actual = target.GetInt(-10, -9);
             Assert.AreEqual(-10, actual);
         }
+
+        [Test]
+        public void ResetSeed_GetInt_SameResults()
+        {
+            FastRandomRandomization.ResetSeed(1);
+            var target = new FastRandomRandomization();
+            var actual = new int[10];
+
+            for (int i = 0; i < actual.Length; i++)
+            {
+                actual[i] = target.GetInt(int.MinValue, int.MaxValue);
+            }
+
+            FastRandomRandomization.ResetSeed(1);
+
+            for (int i = 0; i < actual.Length; i++)
+            {
+                Assert.AreEqual(actual[i], target.GetInt(int.MinValue, int.MaxValue));
+            }
+        }
     }
 }
 
