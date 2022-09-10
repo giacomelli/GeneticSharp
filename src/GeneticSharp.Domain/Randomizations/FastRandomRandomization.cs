@@ -12,11 +12,12 @@ namespace GeneticSharp
     {
         private static readonly FastRandom _globalRandom = new FastRandom(DateTime.Now.Millisecond);
         private static readonly object _globalLock = new object();
+        private static int? _seed;
 
         /// <summary> 
         /// Random number generator 
         /// </summary> 
-        private static readonly ThreadLocal<FastRandom> _threadRandom = new ThreadLocal<FastRandom>(NewRandom);
+        private static ThreadLocal<FastRandom> _threadRandom = new ThreadLocal<FastRandom>(NewRandom);
 
         /// <summary> 
         /// Creates a new instance of FastRandom. The seed is derived 
@@ -27,7 +28,7 @@ namespace GeneticSharp
         {
             lock (_globalLock)
             {
-                return new FastRandom(_globalRandom.Next(0, int.MaxValue));
+                return new FastRandom(_seed ?? _globalRandom.Next(0, int.MaxValue));
             }
         }
 
@@ -36,6 +37,19 @@ namespace GeneticSharp
         /// within the current thread. 
         /// </summary> 
         private static FastRandom Instance { get { return _threadRandom.Value; } }
+
+        /// <summary>
+        /// Resets the pseudorandom number generator (SharpNeatLib.Maths.FastRandom) initial seed.
+        /// </summary>
+        /// <param name="seed">The seed. Use null to reset to default one.</param>
+        /// <remarks>
+        /// Can be useful on situation where you need to generate the same result with the same parameter.
+        /// </remarks>
+        public static void ResetSeed(int? seed)
+        {
+            _seed = seed;            
+            _threadRandom = new ThreadLocal<FastRandom>(NewRandom);
+        }
 
         /// <summary>
         /// Gets an integer value between minimum value (inclusive) and maximum value (exclusive).

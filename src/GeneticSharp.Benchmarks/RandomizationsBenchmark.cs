@@ -1,4 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
+using System.Threading.Tasks;
 
 namespace GeneticSharp.Benchmarks
 {
@@ -53,6 +54,15 @@ namespace GeneticSharp.Benchmarks
         {
             _basic.GetUniqueInts(_arrayLength, _min, _max);
         }
+
+        [Benchmark]
+        public void Basic_GetInt_Threads()
+        {
+            Parallel.For(0, 100, i =>
+            {
+                _basic.GetInt(_min, _max);
+            });
+        }
         #endregion 
 
         #region FastRandom
@@ -96,6 +106,15 @@ namespace GeneticSharp.Benchmarks
         public void FastRandom_GetUniqueInts()
         {
             _fastRandom.GetUniqueInts(_arrayLength, _min, _max);
+        }
+
+        [Benchmark]
+        public void FastRandom_GetInt_Threads()
+        {
+            Parallel.For(0, 100, i =>
+            {
+                _fastRandom.GetInt(_min, _max);
+            });
         }
         #endregion 
     }

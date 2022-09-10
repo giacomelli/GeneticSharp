@@ -12,3 +12,6 @@ Did you search for your answer at GeneticSharp's Stack Overflow [tag](https://st
 
 **Ask a question**
 If you did not find your answer at wiki and Stack Overflow tag, please, describe your question.
+
+** Sample code **
+Provide a sample code of what you have tried so far.

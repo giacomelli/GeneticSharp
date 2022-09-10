@@ -126,22 +126,6 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         }
 
         [Test]
-        public void ReplaceGenes_GenesExceedChromosomeLength_Exception()
-        {
-            var target = Substitute.For<ChromosomeBase>(3);
-
-            Assert.Catch<ArgumentException>(() =>
-            {
-                target.ReplaceGenes(0, new Gene[] { new Gene(1), new Gene(2), new Gene(3), new Gene(4) });
-            }, "The number of genes to be replaced is greater than available space, there is 3 genes between the index 0 and the end of chromosome, but there is 4 genes to be replaced.");
-
-            Assert.Catch<ArgumentException>(() =>
-            {
-                target.ReplaceGenes(1, new Gene[] { new Gene(1), new Gene(2), new Gene(3) });
-            }, "The number of genes to be replaced is greater than available space, there is 2 genes between the index 1 and the end of chromosome, but there is 3 genes to be replaced.");
-        }
-
-        [Test]
         public void ReplaceGenes_ValidIndex_Replaced()
         {
             var target = Substitute.For<ChromosomeBase>(4);

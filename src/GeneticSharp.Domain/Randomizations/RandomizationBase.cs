@@ -7,8 +7,7 @@ namespace GeneticSharp
     /// Base class for randomization.
     /// </summary>
     public abstract class RandomizationBase : IRandomization
-    {
-        #region Methods
+    {        
         /// <summary>
         /// Gets an integer value between minimum value (inclusive) and maximum value (exclusive).
         /// </summary>
@@ -103,7 +102,6 @@ namespace GeneticSharp
         public virtual double GetDouble(double min, double max)
         {
             return min + ((max - min) * GetDouble());
-        }
-        #endregion
+        }        
     }
 }

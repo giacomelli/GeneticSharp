@@ -1,4 +1,7 @@
 ## How to contribute to GeneticSharp
+The idea behind GeneticSharp is to provide the basic and classic components that allow any programmer to quickly create a genetic algorithm using the .NET platform. Therefore, most of the basics and classic operators (crossovers, mutations, selections, reinsertions, and terminations) are implemented on it.
+
+Having said that is not the goal of GeneticSharp to implement or provide all the possible ways to use a genetic algorithm, so, any PR that is not related to new operators, performance improvements, or bug fixing has a great chance to be rejected, but, feel free to read the contributing guidelines below and give a try.
 
 ### Did you find a bug?
 

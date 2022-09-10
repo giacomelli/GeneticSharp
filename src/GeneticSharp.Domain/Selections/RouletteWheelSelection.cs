@@ -26,16 +26,13 @@ namespace GeneticSharp
     [DisplayName("Roulette Wheel")]
     public class RouletteWheelSelection : SelectionBase
     {
-        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Selections.RouletteWheelSelection"/> class.
         /// </summary>
         public RouletteWheelSelection() : base(2)
         {
         }
-        #endregion
 
-        #region ISelection implementation
         /// <summary>
         /// Selects from wheel.
         /// </summary>
@@ -57,7 +54,7 @@ namespace GeneticSharp
                                         .FirstOrDefault(r => r.Value >= pointer);
 
                 if (chromosome != null)
-                    selected.Add(chromosomes[chromosome.Index]);
+                    selected.Add(chromosomes[chromosome.Index].Clone());
             }
 
             return selected;
@@ -96,7 +93,6 @@ namespace GeneticSharp
             CalculateCumulativePercentFitness(chromosomes, rouletteWheel);
 
             return SelectFromWheel(number, chromosomes, rouletteWheel, () => rnd.GetDouble());
-        }
-        #endregion
+        }        
     }
 }
