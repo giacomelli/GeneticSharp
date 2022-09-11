@@ -217,5 +217,31 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
             otherThread.Stop();
             Assert.GreaterOrEqual(otherThreadCount, 2);
         }
+
+        [Test]
+        public void Stop_Before_Start()
+        {
+            var pipeline = "";
+            var target = new TplTaskExecutor();
+            target.Add(() =>
+            {
+                pipeline += "1";
+            });
+            target.Add(() =>
+            {
+                Thread.Sleep(100);
+                pipeline += "2";
+            });
+            target.Add(() =>
+            {
+                Thread.Sleep(10);
+                pipeline += "3";
+            });
+
+            target.Stop();
+            var actual = target.Start();
+            Assert.IsTrue(actual);
+            Assert.AreEqual("132", pipeline);
+        }
     }
 }
