@@ -243,5 +243,27 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
             Assert.IsTrue(actual);
             Assert.AreEqual("132", pipeline);
         }
+
+        [Test]        
+        public void Start_Stop_Incomplete()
+        {
+            long pipeline = 0;
+            var target = new TplTaskExecutor();
+            target.Timeout = TimeSpan.FromSeconds(5);
+
+            for (int i = 0; i < 1000; i++)
+            {
+                target.Add(() =>
+                {
+                    Interlocked.Increment(ref pipeline);
+                    target.Stop();
+                    Thread.Sleep(100);                                       
+                }); 
+            }
+       
+            var actual = target.Start();
+            Assert.IsFalse(actual);
+            Assert.Less(pipeline, 10);
+        }
     }
 }

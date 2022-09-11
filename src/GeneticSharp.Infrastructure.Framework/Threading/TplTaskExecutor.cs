@@ -26,13 +26,6 @@ namespace GeneticSharp
                 {
                     result = Parallel.For(0, Tasks.Count, new ParallelOptions() { CancellationToken = CancellationTokenSource.Token }, (i, state) =>
                     {
-                        // If cancellation token was requested.
-                        if (CancellationTokenSource.IsCancellationRequested)
-                        {
-                            state.Break();
-                            return;
-                        }
-
                         // Execute the target function (fitness).
                         Tasks[i]();
 
