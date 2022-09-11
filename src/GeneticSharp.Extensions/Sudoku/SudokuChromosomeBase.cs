@@ -19,21 +19,13 @@ namespace GeneticSharp.Extensions
         /// </summary>
         private  Dictionary<int, List<int>> _extendedMask;
 
-
-        /// <summary>
-        /// Constructor that accepts a Sudoku to solve
-        /// </summary>
-        /// <param name="targetSudokuBoard">the target sudoku to solve</param>
-        /// <param name="length">The number of genes for the sudoku chromosome</param>
-        public SudokuChromosomeBase(SudokuBoard targetSudokuBoard, int length) : this(targetSudokuBoard, null, length) {}
-
         /// <summary>
         /// Constructor that accepts an additional extended mask for quick cloning
         /// </summary>
         /// <param name="targetSudokuBoard">the target sudoku to solve</param>
         /// <param name="extendedMask">The cell domains after initial constraint propagation</param>
         /// <param name="length">The number of genes for the sudoku chromosome</param>
-        public SudokuChromosomeBase(SudokuBoard targetSudokuBoard, Dictionary<int, List<int>> extendedMask, int length) : base(length)
+        protected SudokuChromosomeBase(SudokuBoard targetSudokuBoard, Dictionary<int, List<int>> extendedMask, int length) : base(length)
         {
             _targetSudokuBoard = targetSudokuBoard;
             _extendedMask = extendedMask;

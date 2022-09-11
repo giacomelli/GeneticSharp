@@ -66,7 +66,7 @@ namespace GeneticSharp.Extensions
         /// <returns>an aggregated global fitness</returns>
         private static double ApplyAggregator(IEnumerable<IChromosome> childChromosomes, IFitness individualFitness, Func<IEnumerable<IChromosome>, Func<IChromosome, double>, double> aggregator)
         {
-            var chromosomesEnumerated = childChromosomes as IList<IChromosome> ?? childChromosomes.ToList();
+            var chromosomesEnumerated = childChromosomes.ToList();
             foreach (var childChromosome in chromosomesEnumerated)
             {
                 childChromosome.Fitness = individualFitness.Evaluate(childChromosome);

@@ -32,7 +32,7 @@ namespace GeneticSharp.Extensions.UnitTests.Sudoku
 
             var sudoku = SudokuTestHelper.CreateBoard(SudokuTestDifficulty.VeryEasy);
 
-            Assert.AreEqual(sudoku.Cells[0], 9);
+            Assert.AreEqual(sudoku.GetCell(0, 0), 9);
             Assert.AreEqual(sudoku.Cells[1], 0);
             Assert.AreEqual(sudoku.Cells[2], 2);
             Assert.AreEqual(sudoku.Cells[sudoku.Cells.Count - 2], 5);
