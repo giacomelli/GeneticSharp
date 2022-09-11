@@ -26,17 +26,19 @@ namespace GeneticSharp
                 {
                     result = Parallel.For(0, Tasks.Count, new ParallelOptions() { CancellationToken = CancellationTokenSource.Token }, (i, state) =>
                     {
-                        // Check if any has called Break().
-                        if (state.ShouldExitCurrentIteration && state.LowestBreakIteration < i)
+                        // If cancellation token was requested.
+                        if (CancellationTokenSource.IsCancellationRequested)
+                        {
+                            state.Break();
                             return;
+                        }
 
                         // Execute the target function (fitness).
                         Tasks[i]();
 
                         // If cancellation token was requested OR take more time expected on Timeout property, 
                         // then stop the running.
-                        if ((CancellationTokenSource.IsCancellationRequested && !state.ShouldExitCurrentIteration) 
-                        || ((DateTime.Now - startTime) > Timeout && !state.ShouldExitCurrentIteration))
+                        if (CancellationTokenSource.IsCancellationRequested || (DateTime.Now - startTime) > Timeout)
                             state.Break();
                     });
                 }

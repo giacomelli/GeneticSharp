@@ -59,21 +59,25 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
             Assert.AreEqual("132", pipeline);
         }
 
+
         [Test]
-        public void Start_Timeout_False()
+        [TestCase(1, 5000, false)]
+        [TestCase(1000, 1, true)]
+        public void Start_Timeout_Completed(int timeout, int timeExecutingTasks, bool expectedCompleted)
         {
             var pipeline = "1";
             var target = new TplTaskExecutor();
-            target.Timeout = TimeSpan.FromMilliseconds(2);
+            target.Timeout = TimeSpan.FromMilliseconds(timeout);
 
             target.Add(() =>
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(TimeSpan.FromMilliseconds(timeExecutingTasks));
                 pipeline += "2";
             });
 
             var actual = target.Start();
-            Assert.IsFalse(actual);
+            Assert.AreEqual(expectedCompleted, actual);
+            Assert.AreEqual("12", pipeline);
         }
 
         [Test]
@@ -134,7 +138,6 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
                     Thread.Sleep(100);
                     target.Stop();
                 });
-
         }
 
         [Test]
