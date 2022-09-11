@@ -89,10 +89,11 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
    - Others operators strategies can be added implementing [IOperatorsStrategy](src/GeneticSharp.Domain/IOperatorsStrategy.cs) interface.
 
 ### [Selections](src/GeneticSharp.Domain/Selections)
-   - [Elite](src/GeneticSharp.Domain/Selections/EliteSelection.cs) (also know as Truncate or Truncation)
+   - [Elite](src/GeneticSharp.Domain/Selections/EliteSelection.cs)
    - [Roulette Wheel](src/GeneticSharp.Domain/Selections/RouletteWheelSelection.cs)
    - [Stochastic Universal Sampling](src/GeneticSharp.Domain/Selections/StochasticUniversalSamplingSelection.cs)
    - [Tournament](src/GeneticSharp.Domain/Selections/TournamentSelection.cs)  
+   - [Truncation](src/GeneticSharp.Domain/Selections/TruncationSelection.cs)
    - Others selections can be added implementing [ISelection](src/GeneticSharp.Domain/Selections/ISelection.cs) interface or extending [SelectionBase](src/GeneticSharp.Domain/Selections/SelectionBase.cs). 
 
 ### [Crossovers](src/GeneticSharp.Domain/Crossovers)
