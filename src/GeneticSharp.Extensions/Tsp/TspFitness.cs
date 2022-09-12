@@ -16,7 +16,6 @@ namespace GeneticSharp.Extensions
     /// </summary>
     public class TspFitness : IFitness
     {
-        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.Tsp.TspFitness"/> class.
         /// </summary>
@@ -35,12 +34,12 @@ namespace GeneticSharp.Extensions
 
             if (maxX >= int.MaxValue)
             {
-                throw new ArgumentOutOfRangeException("maxX");
+                throw new ArgumentOutOfRangeException(nameof(maxX));
             }
 
             if (maxY >= int.MaxValue)
             {
-                throw new ArgumentOutOfRangeException("maxY");
+                throw new ArgumentOutOfRangeException(nameof(maxY));
             }
 
             for (int i = 0; i < numberOfCities; i++)
@@ -49,9 +48,7 @@ namespace GeneticSharp.Extensions
                 Cities.Add(city);
             }
         }
-        #endregion
-
-        #region Properties
+        
         /// <summary>
         /// Gets the cities.
         /// </summary>
@@ -80,10 +77,8 @@ namespace GeneticSharp.Extensions
         /// Gets the max y.
         /// </summary>
         /// <value>The max y.</value>
-        public int MaxY { get; private set; }
-        #endregion
-
-        #region IFitness implementation
+        public int MaxY { get; private set; }        
+        
         /// <summary>
         /// Performs the evaluation against the specified chromosome.
         /// </summary>
@@ -139,7 +134,6 @@ namespace GeneticSharp.Extensions
         private static double CalcDistanceTwoCities(TspCity one, TspCity two)
         {
             return Math.Sqrt(Math.Pow(two.X - one.X, 2) + Math.Pow(two.Y - one.Y, 2));
-        }
-        #endregion
+        }        
     }
 }

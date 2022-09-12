@@ -46,71 +46,74 @@ namespace GeneticSharp.Extensions
             get
             {
                 if (_extendedMask == null)
-                {
-                    // We generate 1 to 9 figures for convenience
-                    var indices = Enumerable.Range(1, 9).ToList();
-                    var extendedMask = new Dictionary<int, List<int>>(81);
-                    if (_targetSudokuBoard!=null)
-                    {
-                        //If target sudoku mask is provided, we generate an inverted mask with forbidden values by propagating rows, columns and boxes constraints
-                        var forbiddenMask = new Dictionary<int, List<int>>();
-                        List<int> targetList = null;
-                        for (var index = 0; index < _targetSudokuBoard.Cells.Count; index++)
-                        {
-                            var targetCell = _targetSudokuBoard.Cells[index];
-                            if (targetCell != 0)
-                            {
-                                //We parallelize going through all 3 constraint neighborhoods
-                                var row = index / 9;
-                                var col = index % 9;
-                                var boxStartIdx = (index / 27 * 27) + (index % 9 / 3 * 3);
+                    BuildExtenedMask();
 
-                                for (int i = 0; i < 9; i++)
+                return _extendedMask;
+            }
+        }
+
+        private void BuildExtenedMask()
+        {
+            // We generate 1 to 9 figures for convenience
+            var indices = Enumerable.Range(1, 9).ToList();
+            var extendedMask = new Dictionary<int, List<int>>(81);
+            if (_targetSudokuBoard != null)
+            {
+                //If target sudoku mask is provided, we generate an inverted mask with forbidden values by propagating rows, columns and boxes constraints
+                var forbiddenMask = new Dictionary<int, List<int>>();
+                List<int> targetList = null;
+                for (var index = 0; index < _targetSudokuBoard.Cells.Count; index++)
+                {
+                    var targetCell = _targetSudokuBoard.Cells[index];
+                    if (targetCell != 0)
+                    {
+                        //We parallelize going through all 3 constraint neighborhoods
+                        var row = index / 9;
+                        var col = index % 9;
+                        var boxStartIdx = (index / 27 * 27) + (index % 9 / 3 * 3);
+
+                        for (int i = 0; i < 9; i++)
+                        {
+                            //We go through all 9 cells in the 3 neighborhoods
+                            var boxtargetIdx = boxStartIdx + (i % 3) + ((i / 3) * 9);
+                            var targetIndices = new[] { (row * 9) + i, i * 9 + col, boxtargetIdx };
+                            foreach (var targetIndex in targetIndices)
+                            {
+                                if (targetIndex != index)
                                 {
-                                    //We go through all 9 cells in the 3 neighborhoods
-                                    var boxtargetIdx = boxStartIdx + (i % 3) + ((i / 3) * 9);
-                                    var targetIndices = new[] { (row * 9) + i, i * 9 + col, boxtargetIdx };
-                                    foreach (var targetIndex in targetIndices)
+                                    if (!forbiddenMask.TryGetValue(targetIndex, out targetList))
                                     {
-                                        if (targetIndex != index)
-                                        {
-                                            if (!forbiddenMask.TryGetValue(targetIndex, out targetList))
-                                            {
-                                                //If the current neighbor cell does not have a forbidden values list, we create it
-                                                targetList = new List<int>();
-                                                forbiddenMask[targetIndex] = targetList;
-                                            }
-                                            if (!targetList.Contains(targetCell))
-                                            {
-                                                // We add current cell value to the neighbor cell forbidden values
-                                                targetList.Add(targetCell);
-                                            }
-                                        }
+                                        //If the current neighbor cell does not have a forbidden values list, we create it
+                                        targetList = new List<int>();
+                                        forbiddenMask[targetIndex] = targetList;
+                                    }
+                                    if (!targetList.Contains(targetCell))
+                                    {
+                                        // We add current cell value to the neighbor cell forbidden values
+                                        targetList.Add(targetCell);
                                     }
                                 }
                             }
                         }
-                        
-                        // We invert the forbidden values mask to obtain the cell permitted values domains
-                        for (var index = 0; index < _targetSudokuBoard.Cells.Count; index++)
-                        {
-                            extendedMask[index] = indices.Where(i => !forbiddenMask[index].Contains(i)).ToList();
-                        }
-                        
                     }
-                    else
-                    {
-                        //If we have no sudoku mask, 1-9 numbers are allowed for all cells
-                        for (int i = 0; i < 81; i++)
-                        {
-                            extendedMask.Add(i, indices);
-                        }
-                    }
-                    _extendedMask = extendedMask;
-
                 }
-                return _extendedMask;
+
+                // We invert the forbidden values mask to obtain the cell permitted values domains
+                for (var index = 0; index < _targetSudokuBoard.Cells.Count; index++)
+                {
+                    extendedMask[index] = indices.Where(i => !forbiddenMask[index].Contains(i)).ToList();
+                }
+
             }
+            else
+            {
+                //If we have no sudoku mask, 1-9 numbers are allowed for all cells
+                for (int i = 0; i < 81; i++)
+                {
+                    extendedMask.Add(i, indices);
+                }
+            }
+            _extendedMask = extendedMask;
         }
 
         public abstract IList<SudokuBoard> GetSudokus();

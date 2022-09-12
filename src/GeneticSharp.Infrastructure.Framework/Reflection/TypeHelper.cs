@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
@@ -12,13 +11,11 @@ namespace GeneticSharp
     /// </summary>
     public static class TypeHelper
     {
-        #region Methods
         /// <summary>
         /// Gets types by interface name
         /// </summary>
         /// <typeparam name="TInterface">The interface.</typeparam>
         /// <returns>All types that implements the interface specified.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "is a good use for this case")]
         public static IList<Type> GetTypesByInterface<TInterface>()
         {
             var interfaceType = typeof(TInterface);
@@ -40,7 +37,6 @@ namespace GeneticSharp
         /// </summary>
         /// <typeparam name="TInterface">The interface.</typeparam>
         /// <returns>The crossover names.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "is a good use for this case")]
         public static IList<string> GetDisplayNamesByInterface<TInterface>()
         {
             return GetTypesByInterface<TInterface>()
@@ -65,7 +61,7 @@ namespace GeneticSharp
             }
             catch (MissingMethodException ex)
             {
-                throw new ArgumentException("A {0}'s implementation with name '{1}' was found, but seems the constructor args were invalid.".With(typeof(TInterface).Name, name), "constructorArgs", ex);
+                throw new ArgumentException("A {0}'s implementation with name '{1}' was found, but seems the constructor args were invalid.".With(typeof(TInterface).Name, name), nameof(constructorArgs), ex);
             }
         }
 
@@ -75,7 +71,6 @@ namespace GeneticSharp
         /// <returns>The TInterface's implementation type.</returns>
         /// <param name="name">The TInterface's implementation name.</param>
         /// <typeparam name="TInterface">The interface.</typeparam>
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter", Justification = "is a good use for this case")]
         public static Type GetTypeByName<TInterface>(string name)
         {
             var interfaceName = typeof(TInterface).Name;
@@ -85,7 +80,7 @@ namespace GeneticSharp
             
             if (crossoverType == null)
             {
-                throw new ArgumentException("There is no {0} implementation with name '{1}'.".With(interfaceName, name), "name");
+                throw new ArgumentException("There is no {0} implementation with name '{1}'.".With(interfaceName, name), nameof(name));
             }
 
             return crossoverType;
@@ -101,7 +96,6 @@ namespace GeneticSharp
             }
 
             return attribute as DisplayNameAttribute;
-        }
-        #endregion
+        }        
     }
 }

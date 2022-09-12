@@ -23,15 +23,15 @@ namespace GeneticSharp
         {
             if (minSize < 2)
             {
-                throw new ArgumentOutOfRangeException("minSize", "The minimum size for a population is 2 chromosomes.");
+                throw new ArgumentOutOfRangeException(nameof(minSize), "The minimum size for a population is 2 chromosomes.");
             }
 
             if (maxSize < minSize)
             {
-                throw new ArgumentOutOfRangeException("maxSize", "The maximum size for a population should be equal or greater than minimum size.");
+                throw new ArgumentOutOfRangeException(nameof(maxSize), "The maximum size for a population should be equal or greater than minimum size.");
             }
 
-            ExceptionHelper.ThrowIfNull("adamChromosome", adamChromosome);
+            ExceptionHelper.ThrowIfNull(nameof(adamChromosome), adamChromosome);
 
             CreationDate = DateTime.Now;
             MinSize = minSize;

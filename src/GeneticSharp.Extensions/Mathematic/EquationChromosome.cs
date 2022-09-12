@@ -7,7 +7,6 @@ namespace GeneticSharp.Extensions
     /// </summary>
     public sealed class EquationChromosome : ChromosomeBase
     {
-        #region Constructors        
         /// <summary>
         /// Initializes a new instance of the <see cref="EquationChromosome"/> class.
         /// </summary>
@@ -17,7 +16,7 @@ namespace GeneticSharp.Extensions
         {
             if (expectedResult >= int.MaxValue / 2)
             {
-                throw new ArgumentOutOfRangeException("expectedResult", expectedResult, "EquationChromosome expected value must be lower");
+                throw new ArgumentOutOfRangeException(nameof(expectedResult), expectedResult, "EquationChromosome expected value must be lower");
             }
 
             ResultRange = expectedResult * 2;
@@ -26,18 +25,14 @@ namespace GeneticSharp.Extensions
             {
                 ReplaceGene(i, GenerateGene(i));
             }
-        }
-        #endregion
-
-        #region Properties
+        }        
+        
         /// <summary>
         /// Gets the result range.
         /// </summary>
         /// <value>The result range.</value>
         public int ResultRange { get; private set; }
-        #endregion
 
-        #region Methods        
         /// <summary>
         /// Creates the new.
         /// </summary>
@@ -55,7 +50,6 @@ namespace GeneticSharp.Extensions
         public override Gene GenerateGene(int geneIndex)
         {
             return new Gene(RandomizationProvider.Current.GetInt(ResultRange * -1, ResultRange + 1));
-        }
-        #endregion
+        }        
     }
 }

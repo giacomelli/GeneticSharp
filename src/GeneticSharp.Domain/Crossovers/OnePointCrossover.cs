@@ -33,7 +33,6 @@ namespace GeneticSharp
     [DisplayName("One-Point")]
     public class OnePointCrossover : CrossoverBase
     {
-        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.OnePointCrossover"/> class.
         /// </summary>
@@ -48,18 +47,14 @@ namespace GeneticSharp
         /// </summary>
         public OnePointCrossover() : this(0)
         {
-        }
-        #endregion
-
-        #region Properties
+        }        
+        
         /// <summary>
         /// Gets or sets the index of the swap point.
         /// </summary>
         /// <value>The index of the swap point.</value>
         public int SwapPointIndex { get; set; }
-        #endregion
-
-        #region Methods        
+        
         /// <summary>
         /// Performs the cross with specified parents generating the children.
         /// </summary>
@@ -77,7 +72,7 @@ namespace GeneticSharp
             if (SwapPointIndex >= swapPointsLength)
             {
                 throw new ArgumentOutOfRangeException(
-                    "parents",
+                    nameof(parents),
                     "The swap point index is {0}, but there is only {1} genes. The swap should result at least one gene to each side.".With(SwapPointIndex, firstParent.Length));
             }
 
@@ -112,7 +107,6 @@ namespace GeneticSharp
             child.ReplaceGenes(cutGenesCount, rightParent.GetGenes().Skip(cutGenesCount).ToArray());
 
             return child;
-        }
-        #endregion
+        }        
     }
 }

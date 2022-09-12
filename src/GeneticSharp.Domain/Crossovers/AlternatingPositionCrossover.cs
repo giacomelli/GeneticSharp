@@ -52,7 +52,7 @@ namespace GeneticSharp
             return new List<IChromosome> { child1, child2 };
         }
 
-        private IChromosome CreateChild(IChromosome firstParent, IChromosome secondParent)
+        private static IChromosome CreateChild(IChromosome firstParent, IChromosome secondParent)
         {
             var child = firstParent.CreateNew();
             var childGenes = new Gene[firstParent.Length];

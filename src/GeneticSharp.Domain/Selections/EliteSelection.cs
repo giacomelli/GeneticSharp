@@ -14,7 +14,7 @@ namespace GeneticSharp
     [DisplayName("Elite")]
     public sealed class EliteSelection : SelectionBase
     {
-        int _previousGenerationChromosomesNumber;
+        readonly int _previousGenerationChromosomesNumber;
         List<IChromosome> _previousGenerationChromosomes;
 
         /// <summary>
