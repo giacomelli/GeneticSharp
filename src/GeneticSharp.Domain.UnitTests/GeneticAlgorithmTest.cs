@@ -758,12 +758,15 @@ namespace GeneticSharp.Domain.UnitTests
             target.TaskExecutor = new ParallelTaskExecutor();
 
             var stoppedCount = 0;
-            target.Stopped += (e, a) =>
+            void handleStopped(object sender, EventArgs args)
             {
                 Assert.AreEqual(GeneticAlgorithmState.Stopped, target.State);
                 Assert.IsFalse(target.IsRunning);
                 stoppedCount++;
             };
+
+            // Listening stopped event.
+            target.Stopped += handleStopped;
 
             Parallel.Invoke(
             () => target.Start(),
@@ -783,6 +786,19 @@ namespace GeneticSharp.Domain.UnitTests
                     Assert.AreEqual(GeneticAlgorithmState.Resumed, target.State);
                     Assert.IsTrue(target.IsRunning);
                 });
+
+            Assert.AreEqual(1, stoppedCount);
+
+            // Not listening Stopped event.
+            target.Stopped -= handleStopped;
+            
+            Parallel.Invoke(
+            () => target.Start(),
+            () =>
+            {
+                Thread.Sleep(500);
+                target.Stop();
+            });
 
             Assert.AreEqual(1, stoppedCount);
         }

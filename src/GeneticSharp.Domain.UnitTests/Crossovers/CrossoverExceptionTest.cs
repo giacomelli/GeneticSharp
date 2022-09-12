@@ -33,11 +33,20 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         }
 
         [Test]
-        public void Constructor_CrossoverAndMessageAndInnerException_CrossoverAndMessageAndInnerExcetion()
+        public void Constructor_CrossoverAndMessage_CrossoverAndMessage([Values] bool nullCrossover)
         {
-            var target = new CrossoverException(Substitute.For<ICrossover>(), "1", new Exception("2"));
-            Assert.IsNotNull(target.Crossover);
-            Assert.AreEqual(target.Crossover.GetType().Name + ": 1", target.Message);
+            var target = new CrossoverException(nullCrossover ? null : Substitute.For<ICrossover>(), "1");
+            Assert.AreEqual(nullCrossover, target.Crossover == null);
+            Assert.AreEqual(nullCrossover ? ": 1" : $"{target.Crossover.GetType().Name}: 1", target.Message);
+            Assert.IsNull(target.InnerException);
+        }
+
+        [Test]
+        public void Constructor_CrossoverAndMessageAndInnerException_CrossoverAndMessageAndInnerExcetion([Values] bool nullCrossover)
+        {
+            var target = new CrossoverException(nullCrossover ? null : Substitute.For<ICrossover>(), "1", new Exception("2"));
+            Assert.AreEqual(nullCrossover, target.Crossover == null);
+            Assert.AreEqual(nullCrossover ? ": 1" : $"{target.Crossover.GetType().Name}: 1", target.Message);
             Assert.AreEqual("2", target.InnerException.Message);
         }
 

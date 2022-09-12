@@ -25,19 +25,20 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         }
 
         [Test]
-        public void Constructor_MessageAndInnerException_MessageAndInnerExcetion()
+        public void Constructor_ReinsertionAndMessage_ReinsertionAndMessage([Values] bool nullReinsertion)
         {
-            var target = new ReinsertionException("1", new Exception("2"));
-            Assert.AreEqual("1", target.Message);
-            Assert.AreEqual("2", target.InnerException.Message);
+            var target = new ReinsertionException(nullReinsertion ? null : Substitute.For<IReinsertion>(), "1");
+            Assert.AreEqual(nullReinsertion, target.Reinsertion == null);
+            Assert.AreEqual(nullReinsertion ? ": 1" : $"{target.Reinsertion.GetType().Name}: 1", target.Message);
+            Assert.IsNull(target.InnerException);
         }
 
         [Test]
-        public void Constructor_ReinsertionAndMessageAndInnerException_ReinsertionAndMessageAndInnerExcetion()
+        public void Constructor_ReinsertionAndMessageAndInnerException_ReinsertionAndMessageAndInnerExcetion([Values] bool nullReinsertion)
         {
-            var target = new ReinsertionException(Substitute.For<IReinsertion>(), "1", new Exception("2"));
-            Assert.IsNotNull(target.Reinsertion);
-            Assert.AreEqual(target.Reinsertion.GetType().Name + ": 1", target.Message);
+            var target = new ReinsertionException(nullReinsertion ? null : Substitute.For<IReinsertion>(), "1", new Exception("2"));
+            Assert.AreEqual(nullReinsertion, target.Reinsertion == null);
+            Assert.AreEqual(nullReinsertion ? ": 1" : $"{target.Reinsertion.GetType().Name}: 1", target.Message);
             Assert.AreEqual("2", target.InnerException.Message);
         }
 

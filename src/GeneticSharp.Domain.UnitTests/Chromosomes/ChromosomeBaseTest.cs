@@ -331,6 +331,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
             var second = new ChromosomeStub(2.0);
 
             Assert.IsTrue(first > second);
+            Assert.IsFalse(second > first);
         }
     }
 }
