@@ -25,6 +25,14 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         }
 
         [Test]
+        public void Constructor_MessageAndInnerException_MessageAndInnerExcetion()
+        {
+            var target = new FitnessException("1", new Exception("2"));
+            Assert.AreEqual("1", target.Message);
+            Assert.AreEqual("2", target.InnerException.Message);
+        }
+
+        [Test]
         public void Constructor_FitnessAndMessage_FitnessAndMessage([Values] bool nullFitness)
         {
             var target = new FitnessException(nullFitness ? null : Substitute.For<IFitness>(), "1");

@@ -25,6 +25,14 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         }
 
         [Test]
+        public void Constructor_MessageAndInnerException_MessageAndInnerExcetion()
+        {
+            var target = new ReinsertionException("1", new Exception("2"));
+            Assert.AreEqual("1", target.Message);
+            Assert.AreEqual("2", target.InnerException.Message);
+        }
+
+        [Test]
         public void Constructor_ReinsertionAndMessage_ReinsertionAndMessage([Values] bool nullReinsertion)
         {
             var target = new ReinsertionException(nullReinsertion ? null : Substitute.For<IReinsertion>(), "1");

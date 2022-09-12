@@ -25,6 +25,14 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         }
 
         [Test]
+        public void Constructor_MessageAndInnerException_MessageAndInnerExcetion()
+        {
+            var target = new SelectionException("1", new Exception("2"));
+            Assert.AreEqual("1", target.Message);
+            Assert.AreEqual("2", target.InnerException.Message);
+        }
+
+        [Test]
         public void Constructor_SelectionAndMessage_SelectionAndMessage([Values] bool nullSelection)
         {
             var target = new SelectionException(nullSelection ? null : Substitute.For<ISelection>(), "1");
