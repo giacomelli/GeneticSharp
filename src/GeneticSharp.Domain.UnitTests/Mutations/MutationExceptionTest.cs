@@ -33,11 +33,20 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         }
 
         [Test]
-        public void Constructor_MutationAndMessageAndInnerException_MutationAndMessageAndInnerExcetion()
+        public void Constructor_MutationAndMessage_MutationAndMessage([Values] bool nullMutation)
         {
-            var target = new MutationException(Substitute.For<IMutation>(), "1", new Exception("2"));
-            Assert.IsNotNull(target.Mutation);
-            Assert.AreEqual(target.Mutation.GetType().Name + ": 1", target.Message);
+            var target = new MutationException(nullMutation ? null : Substitute.For<IMutation>(), "1");
+            Assert.AreEqual(nullMutation, target.Mutation == null);
+            Assert.AreEqual(nullMutation ? ": 1" : $"{target.Mutation.GetType().Name}: 1", target.Message);
+            Assert.IsNull(target.InnerException);
+        }
+
+        [Test]   
+        public void Constructor_MutationAndMessageAndInnerException_MutationAndMessageAndInnerExcetion([Values] bool nullMutation)
+        {
+            var target = new MutationException(nullMutation ? null : Substitute.For<IMutation>(), "1", new Exception("2"));
+            Assert.AreEqual(nullMutation, target.Mutation == null);
+            Assert.AreEqual(nullMutation ? ": 1" : $"{target.Mutation.GetType().Name}: 1", target.Message);
             Assert.AreEqual("2", target.InnerException.Message);
         }
 

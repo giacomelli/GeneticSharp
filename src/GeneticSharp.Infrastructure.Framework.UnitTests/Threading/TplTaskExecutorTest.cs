@@ -59,21 +59,25 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
             Assert.AreEqual("132", pipeline);
         }
 
+
         [Test]
-        public void Start_Timeout_False()
+        [TestCase(1, 5000, false)]
+        [TestCase(1000, 1, true)]
+        public void Start_Timeout_Completed(int timeout, int timeExecutingTasks, bool expectedCompleted)
         {
             var pipeline = "1";
             var target = new TplTaskExecutor();
-            target.Timeout = TimeSpan.FromMilliseconds(2);
+            target.Timeout = TimeSpan.FromMilliseconds(timeout);
 
             target.Add(() =>
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(TimeSpan.FromMilliseconds(timeExecutingTasks));
                 pipeline += "2";
             });
 
             var actual = target.Start();
-            Assert.IsFalse(actual);
+            Assert.AreEqual(expectedCompleted, actual);
+            Assert.AreEqual("12", pipeline);
         }
 
         [Test]
@@ -134,7 +138,6 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
                     Thread.Sleep(100);
                     target.Stop();
                 });
-
         }
 
         [Test]
@@ -213,6 +216,54 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
 
             otherThread.Stop();
             Assert.GreaterOrEqual(otherThreadCount, 2);
+        }
+
+        [Test]
+        public void Stop_Before_Start()
+        {
+            var pipeline = "";
+            var target = new TplTaskExecutor();
+            target.Add(() =>
+            {
+                pipeline += "1";
+            });
+            target.Add(() =>
+            {
+                Thread.Sleep(100);
+                pipeline += "2";
+            });
+            target.Add(() =>
+            {
+                Thread.Sleep(10);
+                pipeline += "3";
+            });
+
+            target.Stop();
+            var actual = target.Start();
+            Assert.IsTrue(actual);
+            Assert.AreEqual("132", pipeline);
+        }
+
+        [Test]        
+        public void Start_Stop_Incomplete()
+        {
+            long pipeline = 0;
+            var target = new TplTaskExecutor();
+            target.Timeout = TimeSpan.FromSeconds(5);
+
+            for (int i = 0; i < 1000; i++)
+            {
+                target.Add(() =>
+                {
+                    Interlocked.Increment(ref pipeline);
+                    target.Stop();
+                    Thread.Sleep(100);                                       
+                }); 
+            }
+       
+            var actual = target.Start();
+            Assert.IsFalse(actual);
+            Assert.Less(pipeline, 10);
         }
     }
 }

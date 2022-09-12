@@ -33,11 +33,20 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         }
 
         [Test]
-        public void Constructor_FitnessAndMessageAndInnerException_FitnessAndMessageAndInnerExcetion()
+        public void Constructor_FitnessAndMessage_FitnessAndMessage([Values] bool nullFitness)
         {
-            var target = new FitnessException(Substitute.For<IFitness>(), "1", new Exception("2"));
-            Assert.IsNotNull(target.Fitness);
-            Assert.AreEqual(target.Fitness.GetType().Name + ": 1", target.Message);
+            var target = new FitnessException(nullFitness ? null : Substitute.For<IFitness>(), "1");
+            Assert.AreEqual(nullFitness, target.Fitness == null);
+            Assert.AreEqual(nullFitness ? ": 1" : $"{target.Fitness.GetType().Name}: 1", target.Message);
+            Assert.IsNull(target.InnerException);
+        }
+
+        [Test]
+        public void Constructor_FitnessAndMessageAndInnerException_FitnessAndMessageAndInnerExcetion([Values] bool nullFitness)
+        {
+            var target = new FitnessException(nullFitness ? null : Substitute.For<IFitness>(), "1", new Exception("2"));
+            Assert.AreEqual(nullFitness, target.Fitness == null);
+            Assert.AreEqual(nullFitness ? ": 1" : $"{target.Fitness.GetType().Name}: 1", target.Message);
             Assert.AreEqual("2", target.InnerException.Message);
         }
 

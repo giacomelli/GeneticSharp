@@ -226,9 +226,7 @@ namespace GeneticSharp
                 m_state = value;
 
                 if (shouldStop)
-                {
-                    Stopped?.Invoke(this, EventArgs.Empty);
-                }
+                    Stopped.Invoke(this, EventArgs.Empty);
             }
         }
 

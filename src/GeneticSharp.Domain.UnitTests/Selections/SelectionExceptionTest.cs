@@ -33,11 +33,20 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         }
 
         [Test]
-        public void Constructor_SelectionAndMessageAndInnerException_SelectionAndMessageAndInnerExcetion()
+        public void Constructor_SelectionAndMessage_SelectionAndMessage([Values] bool nullSelection)
         {
-            var target = new SelectionException(Substitute.For<ISelection>(), "1", new Exception("2"));
-            Assert.IsNotNull(target.Selection);
-            Assert.AreEqual(target.Selection.GetType().Name + ": 1", target.Message);
+            var target = new SelectionException(nullSelection ? null : Substitute.For<ISelection>(), "1");
+            Assert.AreEqual(nullSelection, target.Selection == null);
+            Assert.AreEqual(nullSelection ? ": 1" : $"{target.Selection.GetType().Name}: 1", target.Message);
+            Assert.IsNull(target.InnerException);
+        }
+
+        [Test]
+        public void Constructor_SelectionAndMessageAndInnerException_SelectionAndMessageAndInnerExcetion([Values] bool nullSelection)
+        {
+            var target = new SelectionException(nullSelection ? null : Substitute.For<ISelection>(), "1", new Exception("2"));
+            Assert.AreEqual(nullSelection, target.Selection == null);
+            Assert.AreEqual(nullSelection ? ": 1" : $"{target.Selection.GetType().Name}: 1", target.Message);
             Assert.AreEqual("2", target.InnerException.Message);
         }
 
