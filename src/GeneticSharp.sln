@@ -1,25 +1,27 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticSharp.Domain", "GeneticSharp.Domain\GeneticSharp.Domain.csproj", "{C76DC1AD-FC7E-4168-BD19-101FF84A43F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneticSharp.Domain", "GeneticSharp.Domain\GeneticSharp.Domain.csproj", "{C76DC1AD-FC7E-4168-BD19-101FF84A43F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticSharp.Domain.UnitTests", "GeneticSharp.Domain.UnitTests\GeneticSharp.Domain.UnitTests.csproj", "{E415AA4F-C497-4908-96FC-CBA4F7604892}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneticSharp.Domain.UnitTests", "GeneticSharp.Domain.UnitTests\GeneticSharp.Domain.UnitTests.csproj", "{E415AA4F-C497-4908-96FC-CBA4F7604892}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticSharp.Runner.ConsoleApp", "GeneticSharp.Runner.ConsoleApp\GeneticSharp.Runner.ConsoleApp.csproj", "{A8BF51F3-7574-4AB3-BEF2-5C38E5AA0341}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneticSharp.Runner.ConsoleApp", "GeneticSharp.Runner.ConsoleApp\GeneticSharp.Runner.ConsoleApp.csproj", "{A8BF51F3-7574-4AB3-BEF2-5C38E5AA0341}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticSharp.Infrastructure.Framework", "GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj", "{1498D792-D02B-4A9E-8AFC-24AEBA0DEE54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneticSharp.Infrastructure.Framework", "GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj", "{1498D792-D02B-4A9E-8AFC-24AEBA0DEE54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticSharp.Infrastructure.Framework.UnitTests", "GeneticSharp.Infrastructure.Framework.UnitTests\GeneticSharp.Infrastructure.Framework.UnitTests.csproj", "{B1FCAE1D-305C-4357-B104-F75DF5C53582}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneticSharp.Infrastructure.Framework.UnitTests", "GeneticSharp.Infrastructure.Framework.UnitTests\GeneticSharp.Infrastructure.Framework.UnitTests.csproj", "{B1FCAE1D-305C-4357-B104-F75DF5C53582}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticSharp.Extensions", "GeneticSharp.Extensions\GeneticSharp.Extensions.csproj", "{699AF592-1E11-4084-B87E-9AC72ED7861B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneticSharp.Extensions", "GeneticSharp.Extensions\GeneticSharp.Extensions.csproj", "{699AF592-1E11-4084-B87E-9AC72ED7861B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticSharp.Extensions.UnitTests", "GeneticSharp.Extensions.UnitTests\GeneticSharp.Extensions.UnitTests.csproj", "{7A40EB21-E80F-4FD6-9503-A76D83B0620D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneticSharp.Extensions.UnitTests", "GeneticSharp.Extensions.UnitTests\GeneticSharp.Extensions.UnitTests.csproj", "{7A40EB21-E80F-4FD6-9503-A76D83B0620D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticSharp.Runner.GtkApp", "GeneticSharp.Runner.GtkApp\GeneticSharp.Runner.GtkApp.csproj", "{3B5D7E7E-28B3-490E-AFF0-A231F246A963}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneticSharp.Runner.GtkApp", "GeneticSharp.Runner.GtkApp\GeneticSharp.Runner.GtkApp.csproj", "{3B5D7E7E-28B3-490E-AFF0-A231F246A963}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticSharp.Benchmarks", "GeneticSharp.Benchmarks\GeneticSharp.Benchmarks.csproj", "{10697C20-79EF-4E03-981D-0497864DAE4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneticSharp.Benchmarks", "GeneticSharp.Benchmarks\GeneticSharp.Benchmarks.csproj", "{10697C20-79EF-4E03-981D-0497864DAE4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticSharp.Runner.MauiApp", "GeneticSharp.Runner.MauiApp\GeneticSharp.Runner.MauiApp.csproj", "{85CF3ACE-5A05-4965-8F85-5BD4CDC7882D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,12 @@ Global
 		{10697C20-79EF-4E03-981D-0497864DAE4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10697C20-79EF-4E03-981D-0497864DAE4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10697C20-79EF-4E03-981D-0497864DAE4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85CF3ACE-5A05-4965-8F85-5BD4CDC7882D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85CF3ACE-5A05-4965-8F85-5BD4CDC7882D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85CF3ACE-5A05-4965-8F85-5BD4CDC7882D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{85CF3ACE-5A05-4965-8F85-5BD4CDC7882D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85CF3ACE-5A05-4965-8F85-5BD4CDC7882D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85CF3ACE-5A05-4965-8F85-5BD4CDC7882D}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
