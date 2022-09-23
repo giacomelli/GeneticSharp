@@ -1,41 +1,64 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GeneticSharp.Runner.MauiApp.MainPage">
+             x:Class="GeneticSharp.Runner.MauiApp.MainPage"
+             xmlns:drawable="clr-namespace:GeneticSharp.Runner.MauiApp.Samples"
+             xmlns:viewmodel="clr-namespace:GeneticSharp.Runner.MauiApp.ViewModels"
+             x:DataType="viewmodel:MainViewModel">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Spacing="25"
-            Padding="30,0"
-            VerticalOptions="Center">
+    <ContentPage.Resources>
+        <drawable:GraphicsDrawable x:Key="drawable" />
+    </ContentPage.Resources>
 
-            <Image
-                Source="dotnet_bot.png"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                HeightRequest="200"
-                HorizontalOptions="Center" />
+    <Grid 
+        RowDefinitions="*" 
+        ColumnDefinitions="400, *"
+        Padding="25"
+        ColumnSpacing="25">
 
-            <Label
-                Text="Hello, World!"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
+        <Grid 
+            RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto" 
+            ColumnDefinitions="*, *, 60"
+            RowSpacing="10"
+            >
+            <!-- Problem -->
+            <Label Text="Samples" />
+            <Picker x:Name="samplePicker" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Picker.ItemsSource="{Binding Samples}" SelectedIndex="{Binding SamplesSelectedIndex}">
+          
+            </Picker>
 
-            <Label
-                Text="Welcome to .NET Multi-platform App UI"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                FontSize="18"
-                HorizontalOptions="Center" />
+            <VerticalStackLayout x:Name="sampleView" Grid.Row="1" Grid.ColumnSpan="3"/>
 
-            <Button
-                x:Name="CounterBtn"
-                Text="Click me"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Center" />
+            <!-- Population -->
+            <Label Text="Population size" Grid.Row="3" Grid.ColumnSpan="3"  HorizontalOptions="Center"/>
+            <Label Text="Min:" Grid.Row="4"/>
+            <Slider x:Name="populationMinSize" Minimum="2" Maximum="1000" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" />
+            
+            <Label Text="Max:" Grid.Row="5"/>
+            <Slider x:Name="populationMaxSize" Minimum="2" Maximum="1000" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" />
 
-        </VerticalStackLayout>
-    </ScrollView>
+            <Label Text="Generation strategy"  VerticalOptions="Center" Grid.Row="6"/>
+            <Picker x:Name="generationStrategyPicker" VerticalOptions="Center"  Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" 
+                    Picker.ItemsSource="{Binding GenerationStrategies}" 
+                    SelectedIndex="{Binding GenerationStrategiesSelectedIndex}"/>
+            <Button 
+                Command="{Binding OpenGenerationStrategyEditorCommand}"               
+                VerticalOptions="Center" Text="Edit" Grid.Row="6" Grid.Column="2" Margin="30" WidthRequest="60"></Button>
+
+            <Button 
+                Clicked="RunGAButton_Clicked"
+                VerticalOptions="Center" Text="Run" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3"></Button>
+        </Grid>
+
+        <Frame     
+            Grid.Column="1">
+            <GraphicsView 
+                x:Name="canvas"
+                Drawable="{StaticResource drawable}"
+            />
+
+        </Frame>
+
+    </Grid>
 
 </ContentPage>

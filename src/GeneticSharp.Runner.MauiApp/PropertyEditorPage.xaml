@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GeneticSharp.Runner.MauiApp.PropertyEditorPage"
+             xmlns:viewmodel="clr-namespace:GeneticSharp.Runner.MauiApp.ViewModels"
+             x:DataType="viewmodel:PropertyEditorViewModel"
+             Title="{Binding Title}">
+    <VerticalStackLayout  x:Name="propertiesView" Padding="25">
+    </VerticalStackLayout>
+</ContentPage>

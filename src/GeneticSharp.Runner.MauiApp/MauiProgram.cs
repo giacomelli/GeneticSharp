@@ -1,4 +1,6 @@
-﻿namespace GeneticSharp.Runner.MauiApp
+﻿using GeneticSharp.Runner.MauiApp.ViewModels;
+
+namespace GeneticSharp.Runner.MauiApp
 {
     public static class MauiProgram
     {
@@ -13,6 +15,11 @@
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            builder.Services
+                .AddSingleton<MainPage>()
+                .AddSingleton<MainViewModel>()
+                .AddTransient<PropertyEditorPage>()
+                .AddTransient<PropertyEditorViewModel>();
             return builder.Build();
         }
     }

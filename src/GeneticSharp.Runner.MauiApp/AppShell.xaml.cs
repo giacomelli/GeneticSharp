@@ -5,6 +5,9 @@
         public AppShell()
         {
             InitializeComponent();
+
+            Routing.RegisterRoute(nameof(PropertyEditorPage), typeof(PropertyEditorPage));
         }
+
     }
 }
