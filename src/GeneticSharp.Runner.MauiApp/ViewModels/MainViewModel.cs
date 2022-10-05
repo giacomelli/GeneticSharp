@@ -9,9 +9,9 @@ namespace GeneticSharp.Runner.MauiApp.ViewModels
         readonly OperatorInfo _generationStrategy = new(nameof(IGenerationStrategy), nameof(PerformanceGenerationStrategy));
         readonly OperatorInfo _selection = new(nameof(ISelection), nameof(EliteSelection));
         readonly OperatorInfo _crossover = new(nameof(ICrossover), nameof(OrderedCrossover));
-        readonly OperatorInfo _mutation = new(nameof(IMutation));
-        readonly OperatorInfo _reinsertion = new(nameof(IReinsertion));
-        readonly OperatorInfo _termination = new(nameof(ITermination));
+        readonly OperatorInfo _mutation = new(nameof(IMutation), nameof(ReverseSequenceMutation));
+        readonly OperatorInfo _reinsertion = new(nameof(IReinsertion), nameof(ElitistReinsertion));
+        readonly OperatorInfo _termination = new(nameof(ITermination), nameof(FitnessStagnationTermination));
 
         public MainViewModel()
         {
