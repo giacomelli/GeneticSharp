@@ -42,7 +42,7 @@ Can be used in any kind of .NET 6, .NET Standard and .NET Framework apps, like A
 * [GeneticSharp Car2D (sample)](http://diegogiacomelli.com.br/GeneticSharp-Car2D/)
 * [GeneticSharp Unity3d Samples (Android app)](https://play.google.com/store/apps/details?id=br.com.diegogiacomelli.geneticsharprunnersunityapp)
 * [Genetic Scheduler: a genetic algorithm for scheduling tasks with temporal restriction in distributed systems (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Genetic-Scheduler.pdf) ![](https://img.shields.io/badge/BR-green.svg)
-* [Genetic-WFC: Extending Wave Function Collapse With Genetic Search](https://ieeexplore.ieee.org/document/9836972)
+* [Genetic-WFC: Extending Wave Function Collapse With Genetic Search (paper)](https://ieeexplore.ieee.org/document/9836972)
 * [Human-Robot Collaborative Workflow for Remote Decommissioning and Demolition (paper)](https://conferences.lib.unb.ca/index.php/tcrc/article/view/616)
 * [Incremental Evolution of Stylized Images (paper)](https://link.springer.com/chapter/10.1007/978-3-030-72914-1_19)
 * [Lean Optimization: genetic optimization using LEAN (GitHub)](https://github.com/Jay-Jay-D/LeanOptimization) 
