@@ -16,6 +16,7 @@ Can be used in any kind of .NET 6, .NET Standard and .NET Framework apps, like A
 --------
 
 ## Projects, papers, journals, books, tutorials, courses and apps using GeneticSharp
+* [1st International Congress on Artificial Intelligence and Data Science (paper)](https://motto.tc/gorseller/files/kitaplar/icada2021.pdf)
 * [A bi-level optimisation approach for assembly line design using a nested genetic algorithm (paper)](https://www.tandfonline.com/doi/abs/10.1080/00207543.2020.1845411)
 * [A CPS-Based Simulation Platform for Long Production Factories (paper)](https://www.mdpi.com/2075-4701/9/10/1025/pdf)
 * [AeroVision: aircraft trajectories optimization and visualization (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/AeroVision-Aircraft-trajectories-optimization-and-visualization.pdf)
@@ -26,6 +27,7 @@ Can be used in any kind of .NET 6, .NET Standard and .NET Framework apps, like A
 * [Artificial Intelligence course in French engineering schools (course)](https://github.com/giacomelli/GeneticSharp/pull/43#issuecomment-433662175)
 * [A Software Development Framework for Complete Battery Characterization: Testing, Modelling & Parameterization (paper)](https://macsphere.mcmaster.ca/handle/11375/25423)
 * [Autoloader: Cargo Handling Software for Navy and Marine Aircraft (paper)](https://www.stottlerhenke.com/wp-content/uploads/2022/03/LODR-IEEE-Aero-2022-Paper_submitted_reduced.pdf)
+* [Automated linear design integrated microwave amplifier with distributed gain (paper)](https://scholar.archive.org/work/qp6k4sgorbanjer34zqfbjl7nq/access/wayback/https://vre.instel.ru/jour/article/download/1371/1102) ![](https://img.shields.io/badge/RU-red.svg)
 * [Automated selection of structural parameters for insulated glass units (paper)](http://dspace.lu.lv/dspace/handle/7/55809) ![](https://img.shields.io/badge/LV-red.svg)
 * [BlazorAI: Blazor Meets Artificial Intelligence (app)](https://www.blazor.ai/) [(Github)](https://github.com/lhalsey/BlazorAI)
 * [Context-Sensitive Code Completion: improving predictions with genetic algorithms (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Context-Sensitive-Code-Completion-improving-predictions-with-genetic-algorithms.pdf) [(Github)](https://github.com/godtopus/GeneCSCC)
@@ -36,6 +38,7 @@ Can be used in any kind of .NET 6, .NET Standard and .NET Framework apps, like A
 * [Developing trading strategies with genetic algorithms (forum)](https://www.quantconnect.com/forum/discussion/2396/developing-trading-strategies-with-genetic-algorithms) [(paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Developing-Trading-Strategies-with-Genetic-Algorithms.pdf)
 * [Evolving Woodland Camouflage (paper)](https://ieeexplore.ieee.org/abstract/document/9850354)
 * [Fabrication of Adiabatic Quantum-Flux-Parametron Integrated Circuits Using an Automatic Placement Tool Based on Genetic Algorithms (paper)](https://ieeexplore.ieee.org/document/8643945)
+* [Framework for graphical user interface testing (paper)](https://theses.cz/id/fn6jrd/24813.pdf) ![](https://img.shields.io/badge/CZ-blue.svg)
 * [Frixel: 2D framing / pixel structural optimization (project)](https://github.com/EmilPoulsen/Frixel)
 * [Function optimization with GeneticSharp (tutorial)](http://diegogiacomelli.com.br/function-optimization-with-geneticsharp/)
 * [General parametric design of a steel-glubam hybrid space truss (paper/book)](https://books.google.com.br/books?id=NO-yDwAAQBAJ&pg=PA223&lpg=PA223&dq=General+parametric+design+of+a+steel-glubam+hybrid+space+truss&source=bl&ots=ZKXlHYvcyv&sig=ACfU3U16QhsofRyEdRTAIN6_JDyEATPkqQ&hl=pt-BR&sa=X&ved=2ahUKEwjrs_XZgdTmAhW1CrkGHTA2BrMQ6AEwCnoECAoQAQ#v=onepage&q=geneticsharp&f=false)
@@ -52,10 +55,12 @@ Can be used in any kind of .NET 6, .NET Standard and .NET Framework apps, like A
 * [OpenFMSL: simulate stationary chemical processes using mass and energy balances (project)](https://github.com/Nukleon84/OpenFMSL)
 * [Optimization by genetic algorithm of lattices structures for the media generation in additive manufacturing (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Optimisation-par-algorithme-genetique-de-structures-lattices.pdf) ![](https://img.shields.io/badge/FR-blue.svg)
 * [Optimization of a Subsea Design using an Evolutionary Algorithm (paper)](https://www.onepetro.org/conference-paper/BHR-2019-023)
+* [Optimization of customer assignment problem (paper)](https://motto.tc/gorseller/files/kitaplar/icada2021.pdf)![](https://img.shields.io/badge/TR-red.svg)
 * [Optimization of patient flow in emergency departments using Genetic Algorithms (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Optimization-of-Patient-Flow-in-Emergency-Departments-using-Genetic-Algorithms.pdf)
-* [Optimisation of part orientation and design of support structures in laser powder bed fusion (paper)](https://link.springer.com/article/10.1007/s12008-022-00856-7)
+* [Optimization of part orientation and design of support structures in laser powder bed fusion (paper)](https://link.springer.com/article/10.1007/s12008-022-00856-7)
 * [Overload journal 142: Evolutionary computing frameworks for optimisation (journal)](https://accu.org/var/uploads/journals/Overload142.pdf)
 * [Path Finding with Genetic Algorithms (project)](https://yoloprogramming.com/post/2017/01/11/path-finding-with-genetic-algorithms)
+* [SiliFish: software to model spinal control of motor movement in larval zebrafish (project)](https://github.com/Bui-lab/SiliFish)
 * [Simulation-based layout optimization for multi-station assembly lines (paper)](https://link.springer.com/content/pdf/10.1007/s10845-021-01853-5.pdf)
 * [SurvivorAI: some experiments of survival scenarios (project)](https://github.com/giacomelli/SurvivorAI)
 * [System for the decision-making support of the synthesis of physical topology of collection and data transfer network in energy management system (paper)](http://hi-tech.asu.edu.ru/files/1(45)/193-210.pdf) ![](https://img.shields.io/badge/RU-red.svg)
