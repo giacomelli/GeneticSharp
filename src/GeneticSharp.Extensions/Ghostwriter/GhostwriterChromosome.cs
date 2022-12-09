@@ -14,7 +14,7 @@ namespace GeneticSharp.Extensions
 
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.Ghostwriter.GhostwriterChromosome"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.GhostwriterChromosome"/> class.
         /// </summary>
         /// <param name="maxTextWordLength">Max text word length.</param>
         /// <param name="words">The words.</param>

@@ -9,7 +9,7 @@ namespace GeneticSharp.Extensions
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.Checkers.CheckersFitness"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.CheckersFitness"/> class.
         /// </summary>
         /// <param name="board">The checkers board.</param>
         public CheckersFitness(CheckersBoard board)

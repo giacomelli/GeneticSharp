@@ -13,7 +13,7 @@ namespace GeneticSharp.Extensions
 
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.Checkers.CheckersChromosome"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.CheckersChromosome"/> class.
         /// </summary>
         /// <param name="movesAhead">Moves ahead.</param>
         /// <param name="boardSize">Board size.</param>

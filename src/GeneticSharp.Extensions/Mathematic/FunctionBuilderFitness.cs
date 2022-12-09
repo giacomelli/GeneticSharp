@@ -15,7 +15,7 @@ namespace GeneticSharp.Extensions
 
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.Mathematic.FunctionBuilderFitness"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.FunctionBuilderFitness"/> class.
         /// </summary>
         /// <param name="inputs">The arguments values and expected results of the function.</param>
         public FunctionBuilderFitness(params FunctionBuilderInput[] inputs)

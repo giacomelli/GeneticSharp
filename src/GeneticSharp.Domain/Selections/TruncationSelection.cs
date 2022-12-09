@@ -14,7 +14,7 @@ namespace GeneticSharp
     public sealed class TruncationSelection : SelectionBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Selections.TruncationSelection"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.TruncationSelection"/> class.
         /// </summary>
         public TruncationSelection() : base(2)
         {

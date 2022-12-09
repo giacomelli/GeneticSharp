@@ -17,7 +17,7 @@ namespace GeneticSharp.Extensions
     public class TspFitness : IFitness
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.Tsp.TspFitness"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.TspFitness"/> class.
         /// </summary>
         /// <param name="numberOfCities">The number of cities.</param>
         /// <param name="minX">The minimum city x coordinate.</param>

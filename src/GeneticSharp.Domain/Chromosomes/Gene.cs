@@ -16,7 +16,7 @@ namespace GeneticSharp
 
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Chromosomes.Gene"/> struct.
+        /// Initializes a new instance of the <see cref="GeneticSharp.Gene"/> struct.
         /// </summary>
         /// <param name="value">The gene initial value.</param>
         public Gene(object value)
@@ -68,20 +68,20 @@ namespace GeneticSharp
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>.
+        /// Returns a <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Gene"/>.
         /// </summary>
-        /// <returns>A <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>.</returns>
+        /// <returns>A <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Gene"/>.</returns>
         public override string ToString()
         {
             return Value != null ? Value.ToString() : String.Empty;
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="GeneticSharp.Domain.Chromosomes.Gene"/> is equal to the current <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>.
+        /// Determines whether the specified <see cref="GeneticSharp.Gene"/> is equal to the current <see cref="GeneticSharp.Gene"/>.
         /// </summary>
-        /// <param name="other">The <see cref="GeneticSharp.Domain.Chromosomes.Gene"/> to compare with the current <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>.</param>
-        /// <returns><c>true</c> if the specified <see cref="GeneticSharp.Domain.Chromosomes.Gene"/> is equal to the current
-        /// <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>; otherwise, <c>false</c>.</returns>
+        /// <param name="other">The <see cref="GeneticSharp.Gene"/> to compare with the current <see cref="GeneticSharp.Gene"/>.</param>
+        /// <returns><c>true</c> if the specified <see cref="GeneticSharp.Gene"/> is equal to the current
+        /// <see cref="GeneticSharp.Gene"/>; otherwise, <c>false</c>.</returns>
         public bool Equals(Gene other)
         {
             if (Value == null)
@@ -91,11 +91,11 @@ namespace GeneticSharp
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="System.Object"/> is equal to the current <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>.
+        /// Determines whether the specified <see cref="System.Object"/> is equal to the current <see cref="GeneticSharp.Gene"/>.
         /// </summary>
-        /// <param name="obj">The <see cref="System.Object"/> to compare with the current <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>.</param>
+        /// <param name="obj">The <see cref="System.Object"/> to compare with the current <see cref="GeneticSharp.Gene"/>.</param>
         /// <returns><c>true</c> if the specified <see cref="System.Object"/> is equal to the current
-        /// <see cref="GeneticSharp.Domain.Chromosomes.Gene"/>; otherwise, <c>false</c>.</returns>
+        /// <see cref="GeneticSharp.Gene"/>; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
             if (obj is Gene other)

@@ -18,7 +18,7 @@ namespace GeneticSharp
         List<IChromosome> _previousGenerationChromosomes;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Selections.EliteSelection"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.EliteSelection"/> class.
         /// </summary>
         public EliteSelection() 
             : this(1)
@@ -26,7 +26,7 @@ namespace GeneticSharp
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Selections.EliteSelection"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.EliteSelection"/> class.
         /// </summary>
         /// <param name="previousGenerationChromosomesNumber">The number of best chromosomes of the previous generation to carried over to the next one.</param>
         public EliteSelection(int previousGenerationChromosomesNumber) 

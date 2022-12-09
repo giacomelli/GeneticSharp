@@ -13,7 +13,7 @@ namespace GeneticSharp
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Terminations.FitnessThresholdTermination"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.FitnessThresholdTermination"/> class.
         /// </summary>
         /// <remarks>
         /// The default expected fitness is 1.00.
@@ -23,7 +23,7 @@ namespace GeneticSharp
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Terminations.FitnessThresholdTermination"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.FitnessThresholdTermination"/> class.
         /// </summary>
         /// <param name="expectedFitness">Expected fitness.</param>
         public FitnessThresholdTermination(double expectedFitness)

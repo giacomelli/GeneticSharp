@@ -22,7 +22,7 @@ namespace GeneticSharp
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.PositionBasedCrossover"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.PositionBasedCrossover"/> class.
         /// </summary>
         public PositionBasedCrossover()
         {

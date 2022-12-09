@@ -14,7 +14,7 @@ namespace GeneticSharp.Extensions
 
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.Mathematic.EquationSolverFitness"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.EquationSolverFitness"/> class.
         /// </summary>
         /// <param name="expectedResult">Expected result.</param>
         /// <param name="getEquationResult">Get equation result.</param>

@@ -11,7 +11,7 @@ namespace GeneticSharp
         private readonly object m_lock = new object();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Infrastructure.Framework.Threading.TaskExecutorBase"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.TaskExecutorBase"/> class.
         /// </summary>
         protected TaskExecutorBase()
         {
@@ -40,7 +40,7 @@ namespace GeneticSharp
 
         /// <summary>
         /// Gets a value indicating whether this
-        /// <see cref="GeneticSharp.Infrastructure.Framework.Threading.TaskExecutorBase"/> stop requested.
+        /// <see cref="GeneticSharp.TaskExecutorBase"/> stop requested.
         /// </summary>
         /// <value><c>true</c> if stop requested; otherwise, <c>false</c>.</value>
         protected bool StopRequested { get; private set; }

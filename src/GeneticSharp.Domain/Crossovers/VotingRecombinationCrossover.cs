@@ -35,7 +35,7 @@ namespace GeneticSharp
         private readonly int _threshold;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.VotingRecombinationCrossover"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.VotingRecombinationCrossover"/> class.
         /// </summary>
         /// <param name="parentsNumber">The number of parents need for cross.</param>
         /// <param name="threshold">An element occurs at least the threshold number of times, it is copied into the offspring</param>
@@ -51,8 +51,8 @@ namespace GeneticSharp
             _threshold = threshold;
         }
 
-        // <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.VotingRecombinationCrossover"/> class.
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeneticSharp.VotingRecombinationCrossover"/> class.
         /// </summary>
         public VotingRecombinationCrossover() : this(3, 2)
         {

@@ -7,7 +7,7 @@ namespace GeneticSharp.Extensions
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.Tsp.TspCity"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.TspCity"/> class.
         /// </summary>
         /// <param name="x">The x coordinate.</param>
         /// <param name="y">The y coordinate.</param>

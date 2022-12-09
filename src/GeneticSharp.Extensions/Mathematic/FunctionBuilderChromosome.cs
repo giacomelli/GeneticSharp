@@ -25,7 +25,7 @@ namespace GeneticSharp.Extensions
 
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.Mathematic.FunctionBuilderChromosome"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.FunctionBuilderChromosome"/> class.
         /// </summary>
         /// <param name="availableOperations">Available operations.</param>
         /// <param name="maxOperations">Max operations.</param>

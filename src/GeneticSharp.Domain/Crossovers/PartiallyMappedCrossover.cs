@@ -19,7 +19,7 @@ namespace GeneticSharp
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.PartiallyMappedCrossover"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.PartiallyMappedCrossover"/> class.
         /// </summary>
         public PartiallyMappedCrossover() : base(2, 2, 3)
         {
