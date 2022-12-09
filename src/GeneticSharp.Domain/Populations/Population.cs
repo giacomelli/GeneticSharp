@@ -146,7 +146,7 @@ namespace GeneticSharp
         {
             CurrentGeneration.End(MaxSize);
 
-            if (BestChromosome != CurrentGeneration.BestChromosome)
+            if (BestChromosome == null || BestChromosome.CompareTo(CurrentGeneration.BestChromosome) != 0)
             {
                 BestChromosome = CurrentGeneration.BestChromosome;
 
