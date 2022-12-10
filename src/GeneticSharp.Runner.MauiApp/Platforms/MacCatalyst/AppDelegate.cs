@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace GeneticSharp.Runner.MauiApp
+namespace GeneticSharp.Runner.MauiApp.Platforms.MacCatalyst
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate

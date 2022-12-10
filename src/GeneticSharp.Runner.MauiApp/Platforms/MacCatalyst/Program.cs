@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace GeneticSharp.Runner.MauiApp
+namespace GeneticSharp.Runner.MauiApp.Platforms.MacCatalyst
 {
     public class Program
     {

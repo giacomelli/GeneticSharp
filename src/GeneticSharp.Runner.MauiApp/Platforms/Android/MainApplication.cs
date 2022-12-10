@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace GeneticSharp.Runner.MauiApp
+namespace GeneticSharp.Runner.MauiApp.Platforms.Android
 {
     [Application]
     public class MainApplication : MauiApplication
