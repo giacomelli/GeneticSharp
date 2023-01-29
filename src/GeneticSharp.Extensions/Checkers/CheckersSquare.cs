@@ -120,7 +120,7 @@ namespace GeneticSharp.Extensions
         {
             if (CurrentPiece != null)
             {
-                if (CurrentPiece.CurrentSquare == this)
+                if (Equals(CurrentPiece.CurrentSquare, this))
                 {
                     CurrentPiece.CurrentSquare = null;
                 }
