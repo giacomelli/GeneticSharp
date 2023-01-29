@@ -9,7 +9,7 @@ namespace GeneticSharp
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Reinsertions.ReinsertionBase"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.ReinsertionBase"/> class.
         /// </summary>
         /// <param name="canCollapse">If set to <c>true</c> can collapse the number of selected chromosomes for reinsertion.</param>
         /// <param name="canExpand">If set to <c>true</c> can expand the number of selected chromosomes for reinsertion.</param>

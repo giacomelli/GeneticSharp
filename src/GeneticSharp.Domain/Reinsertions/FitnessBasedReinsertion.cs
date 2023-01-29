@@ -16,7 +16,7 @@ namespace GeneticSharp
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Reinsertions.FitnessBasedReinsertion"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.FitnessBasedReinsertion"/> class.
         /// </summary>
         public FitnessBasedReinsertion() : base(true, false)
         {

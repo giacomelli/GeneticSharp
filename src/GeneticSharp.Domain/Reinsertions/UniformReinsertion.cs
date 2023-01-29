@@ -15,7 +15,7 @@ namespace GeneticSharp
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Reinsertions.UniformReinsertion"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.UniformReinsertion"/> class.
         /// </summary>
         public UniformReinsertion() : base(false, true)
         {

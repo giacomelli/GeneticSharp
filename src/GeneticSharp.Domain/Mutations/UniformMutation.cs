@@ -19,7 +19,7 @@ namespace GeneticSharp
 
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Mutations.UniformMutation"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.UniformMutation"/> class.
         /// </summary>
         /// <param name="mutableGenesIndexes">Mutable genes indexes.</param>
         public UniformMutation(params int[] mutableGenesIndexes)
@@ -28,7 +28,7 @@ namespace GeneticSharp
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Mutations.UniformMutation"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.UniformMutation"/> class.
         /// </summary>
         /// <param name="allGenesMutable">If set to <c>true</c> all genes are mutable.</param>
         public UniformMutation(bool allGenesMutable)
@@ -37,7 +37,7 @@ namespace GeneticSharp
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Mutations.UniformMutation"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.UniformMutation"/> class.
         /// </summary>
         /// <remarks>Creates an instance of UniformMutation where some random genes will be mutated.</remarks>
         public UniformMutation() : this(false)

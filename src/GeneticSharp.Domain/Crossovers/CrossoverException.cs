@@ -11,7 +11,7 @@ namespace GeneticSharp
     {
         #region Constructors        
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.CrossoverException"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.CrossoverException"/> class.
         /// </summary>
         /// <param name="crossover">The crossover where occurred the error.</param>
         /// <param name="message">The error message.</param>
@@ -22,7 +22,7 @@ namespace GeneticSharp
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.CrossoverException"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.CrossoverException"/> class.
         /// </summary>
         /// <param name="crossover">The crossover where occurred the error.</param>
         /// <param name="message">The error message.</param>

@@ -10,7 +10,7 @@ namespace GeneticSharp
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Chromosomes.BinaryChromosomeBase"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.BinaryChromosomeBase"/> class.
         /// </summary>
         /// <param name="length">The length, in genes, of the chromosome.</param>
         protected BinaryChromosomeBase(int length) 
@@ -44,9 +44,9 @@ namespace GeneticSharp
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Domain.Chromosomes.BinaryChromosomeBase"/>.
+        /// Returns a <see cref="System.String"/> that represents the current <see cref="GeneticSharp.BinaryChromosomeBase"/>.
         /// </summary>
-        /// <returns>A <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Domain.Chromosomes.BinaryChromosomeBase"/>.</returns>
+        /// <returns>A <see cref="System.String"/> that represents the current <see cref="GeneticSharp.BinaryChromosomeBase"/>.</returns>
         public override string ToString ()
         {
             return String.Join (string.Empty, GetGenes ().Select (g => g.Value.ToString()).ToArray());

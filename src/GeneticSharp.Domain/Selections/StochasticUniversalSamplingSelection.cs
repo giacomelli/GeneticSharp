@@ -27,7 +27,7 @@ namespace GeneticSharp
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="GeneticSharp.Domain.Selections.StochasticUniversalSamplingSelection"/> class.
+        /// <see cref="GeneticSharp.StochasticUniversalSamplingSelection"/> class.
         /// </summary>
         public StochasticUniversalSamplingSelection()
         {

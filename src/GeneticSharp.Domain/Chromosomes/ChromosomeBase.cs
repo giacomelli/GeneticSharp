@@ -249,11 +249,11 @@ namespace GeneticSharp
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="System.Object"/> is equal to the current <see cref="GeneticSharp.Domain.Chromosomes.ChromosomeBase"/>.
+        /// Determines whether the specified <see cref="System.Object"/> is equal to the current <see cref="GeneticSharp.ChromosomeBase"/>.
         /// </summary>
-        /// <param name="obj">The <see cref="System.Object"/> to compare with the current <see cref="GeneticSharp.Domain.Chromosomes.ChromosomeBase"/>.</param>
+        /// <param name="obj">The <see cref="System.Object"/> to compare with the current <see cref="GeneticSharp.ChromosomeBase"/>.</param>
         /// <returns><c>true</c> if the specified <see cref="System.Object"/> is equal to the current
-        /// <see cref="GeneticSharp.Domain.Chromosomes.ChromosomeBase"/>; otherwise, <c>false</c>.</returns>
+        /// <see cref="GeneticSharp.ChromosomeBase"/>; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
             var other = obj as IChromosome;

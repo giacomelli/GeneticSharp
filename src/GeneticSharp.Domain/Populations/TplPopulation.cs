@@ -13,7 +13,7 @@ namespace GeneticSharp
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Populations.TplPopulation"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.TplPopulation"/> class.
         /// </summary>
         /// <param name="minSize">The minimum size (chromosomes).</param>
         /// <param name="maxSize">The maximum size (chromosomes).</param>

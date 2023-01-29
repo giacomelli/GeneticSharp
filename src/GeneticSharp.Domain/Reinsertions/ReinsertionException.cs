@@ -11,7 +11,7 @@ namespace GeneticSharp
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Reinsertions.ReinsertionException"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.ReinsertionException"/> class.
         /// </summary>
         /// <param name="reinsertion">The reinsertion where occurred the error.</param>
         /// <param name="message">The error message.</param>
@@ -22,7 +22,7 @@ namespace GeneticSharp
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Reinsertions.ReinsertionException"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.ReinsertionException"/> class.
         /// </summary>
         /// <param name="reinsertion">The Reinsertion where occurred the error.</param>
         /// <param name="message">The error message.</param>

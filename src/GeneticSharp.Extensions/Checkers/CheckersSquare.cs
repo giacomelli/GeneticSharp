@@ -39,7 +39,7 @@ namespace GeneticSharp.Extensions
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.Checkers.CheckersSquare"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.CheckersSquare"/> class.
         /// </summary>
         /// <param name="columnIndex">Column index.</param>
         /// <param name="rowIndex">Row index.</param>

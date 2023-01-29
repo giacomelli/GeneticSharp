@@ -17,7 +17,7 @@ namespace GeneticSharp.Extensions
 
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.Tsp.TspChromosome"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.TspChromosome"/> class.
         /// </summary>
         /// <param name="numberOfCities">Number of cities.</param>
         public TspChromosome(int numberOfCities) : base(numberOfCities)

@@ -28,7 +28,7 @@ namespace GeneticSharp.Extensions
  
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.Checkers.CheckersBoard"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.CheckersBoard"/> class.
         /// </summary>
         /// <param name="size">The board size in number of squares of each side.</param>
         public CheckersBoard(int size)
@@ -86,8 +86,8 @@ namespace GeneticSharp.Extensions
                             PlayerOnePieces.Add(piece);
                             square.PutPiece(piece);
                         }
-                        /// fi the actual line index is bigger than max lines index -3, 
-                        /// then it is a square for player two.
+                        // If the actual line index is bigger than max lines index -3, 
+                        // then it is a square for player two.
                         else if (r >= Size - 3)
                         {
                             var piece = new CheckersPiece(CheckersPlayer.PlayerTwo);

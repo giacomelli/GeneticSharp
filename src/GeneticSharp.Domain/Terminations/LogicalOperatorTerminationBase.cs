@@ -80,9 +80,9 @@ namespace GeneticSharp
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Domain.Terminations.LogicalOperatorTerminationBase"/>.
+        /// Returns a <see cref="System.String"/> that represents the current <see cref="GeneticSharp.LogicalOperatorTerminationBase"/>.
         /// </summary>
-        /// <returns>A <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Domain.Terminations.LogicalOperatorTerminationBase"/>.</returns>
+        /// <returns>A <see cref="System.String"/> that represents the current <see cref="GeneticSharp.LogicalOperatorTerminationBase"/>.</returns>
         public override string ToString()
         {
             return "{0} ({1})".With(GetType().Name, String.Join(", ", Terminations.Select(t => t.ToString()).ToArray()));

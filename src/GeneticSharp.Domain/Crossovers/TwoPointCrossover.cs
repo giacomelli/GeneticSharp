@@ -18,7 +18,7 @@ namespace GeneticSharp
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.TwoPointCrossover"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.TwoPointCrossover"/> class.
         /// </summary>
         /// <param name="swapPointOneGeneIndex">Swap point one gene index.</param>
         /// <param name="swapPointTwoGeneIndex">Swap point two gene index.</param>
@@ -35,7 +35,7 @@ namespace GeneticSharp
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.TwoPointCrossover"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.TwoPointCrossover"/> class.
         /// </summary>
         public TwoPointCrossover() : this(0, 1)
         {

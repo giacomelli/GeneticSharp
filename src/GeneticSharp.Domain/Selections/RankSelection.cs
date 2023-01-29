@@ -30,7 +30,7 @@ namespace GeneticSharp
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Selections.RankSelection"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.RankSelection"/> class.
         /// </summary>
         public RankSelection() : base(2)
         {

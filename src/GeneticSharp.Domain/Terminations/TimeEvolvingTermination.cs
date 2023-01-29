@@ -14,7 +14,7 @@ namespace GeneticSharp
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Terminations.TimeEvolvingTermination"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.TimeEvolvingTermination"/> class.
         /// </summary>
         /// <remarks>
         /// The default MaxTime is 1 minute.
@@ -24,7 +24,7 @@ namespace GeneticSharp
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Terminations.TimeEvolvingTermination"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.TimeEvolvingTermination"/> class.
         /// </summary>
         /// <param name="maxTime">The execution time to consider the termination has been reached.</param>
         public TimeEvolvingTermination(TimeSpan maxTime)

@@ -12,7 +12,7 @@ namespace GeneticSharp
         readonly int m_minNumberChromosomes;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Selections.SelectionBase"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.SelectionBase"/> class.
         /// </summary>
         /// <param name="minNumberChromosomes">Minimum number chromosomes support to be selected.</param>
         protected SelectionBase(int minNumberChromosomes)

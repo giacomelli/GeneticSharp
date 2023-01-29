@@ -25,7 +25,7 @@ namespace GeneticSharp
     public sealed class AlternatingPositionCrossover : CrossoverBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Crossovers.VotingRecombinationCrossover"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.VotingRecombinationCrossover"/> class.
         /// </summary>
         public AlternatingPositionCrossover() : base(2, 2)
         {

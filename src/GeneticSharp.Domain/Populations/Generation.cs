@@ -13,7 +13,7 @@ namespace GeneticSharp
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Populations.Generation"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.Generation"/> class.
         /// </summary>
         /// <param name="number">The generation number.</param>
         /// <param name="chromosomes">The chromosomes of the generation..</param>

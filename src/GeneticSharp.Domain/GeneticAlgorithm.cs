@@ -73,7 +73,7 @@ namespace GeneticSharp
 
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.GeneticAlgorithm"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.GeneticAlgorithm"/> class.
         /// </summary>
         /// <param name="population">The chromosomes population.</param>
         /// <param name="fitness">The fitness evaluation function.</param>

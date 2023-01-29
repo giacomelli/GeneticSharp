@@ -27,7 +27,7 @@ namespace GeneticSharp
     public class RouletteWheelSelection : SelectionBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Selections.RouletteWheelSelection"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.RouletteWheelSelection"/> class.
         /// </summary>
         public RouletteWheelSelection() : base(2)
         {

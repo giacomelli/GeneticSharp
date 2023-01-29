@@ -17,7 +17,7 @@ namespace GeneticSharp
 
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Domain.Mutations.FlipBitMutation"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.FlipBitMutation"/> class.
         /// </summary>
         public FlipBitMutation ()
         {

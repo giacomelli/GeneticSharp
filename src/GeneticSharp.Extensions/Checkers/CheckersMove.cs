@@ -34,7 +34,7 @@ namespace GeneticSharp.Extensions
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.Checkers.CheckersMove"/> class.
+        /// Initializes a new instance of the <see cref="GeneticSharp.Extensions.CheckersMove"/> class.
         /// </summary>
         /// <param name="piece">The piece which will be moved.</param>
         /// <param name="toSquare">The target square.</param>
