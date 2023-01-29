@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GeneticSharp" Version="3.1.2" />
+    <PackageReference Include="GeneticSharp" Version="3.1.4" />
   </ItemGroup>
 
 </Project>
