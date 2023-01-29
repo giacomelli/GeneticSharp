@@ -131,3 +131,4 @@ BenchmarkDotNet.Artifacts
 !/tools/buildTemplatesNuget.cmd
 !/tools/runBenchmarks.cmd
 !/tools/runBenchmarks.sh
+*.msi

@@ -13,7 +13,7 @@ assembly_info:
   assembly_informational_version: '{version}'
   
 install:
-- cmd: choco install gtksharp
+- ps: ./install-gtksharp.ps1
 - cmd: dotnet tool install --global Cake.Tool
   
 before_build:
