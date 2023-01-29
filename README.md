@@ -91,12 +91,12 @@ Add your own fitness evaluation, implementing [IFitness](src/GeneticSharp.Domain
    - [Generation strategy](src/GeneticSharp.Domain/Populations/IGenerationStrategy.cs)
      - [Performance strategy](src/GeneticSharp.Domain/Populations/PerformanceGenerationStrategy.cs)
      - [Tracking strategy](src/GeneticSharp.Domain/Populations/TrackingGenerationStrategy.cs)  
-     - Others generation strategies can be added implementing [IGenerationStrategy.cs](src/GeneticSharp.Domain/IGenerationStrategy.cs) interface.
+     - Others generation strategies can be added implementing [IGenerationStrategy.cs](src/GeneticSharp.Domain/Populations/IGenerationStrategy.cs) interface.
      
-### [Operators strategy](src/GeneticSharp.Domain/src/GeneticSharp.Domain/IOperatorsStrategy.cs)
-   - [DefaultOperatorsStrategy](src/GeneticSharp.Domain/DefaultOperatorsStrategy.cs)
-   - [TplOperatorsStrategy](src/GeneticSharp.Domain/TplOperatorsStrategy.cs)
-   - Others operators strategies can be added implementing [IOperatorsStrategy](src/GeneticSharp.Domain/IOperatorsStrategy.cs) interface.
+### [Operators strategy](src/GeneticSharp.Domain/src/GeneticSharp.Domain/OperatorsStrategy/IOperatorsStrategy.cs)
+   - [DefaultOperatorsStrategy](src/GeneticSharp.Domain/OperatorsStrategy/DefaultOperatorsStrategy.cs)
+   - [TplOperatorsStrategy](src/GeneticSharp.Domain/OperatorsStrategy/TplOperatorsStrategy.cs)
+   - Others operators strategies can be added implementing [IOperatorsStrategy](src/GeneticSharp.Domain/OperatorsStrategy/IOperatorsStrategy.cs) interface.
 
 ### [Selections](src/GeneticSharp.Domain/Selections)
    - [Elite](src/GeneticSharp.Domain/Selections/EliteSelection.cs)
