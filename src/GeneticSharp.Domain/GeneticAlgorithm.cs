@@ -68,7 +68,7 @@ namespace GeneticSharp
         private bool m_stopRequested;
         private readonly object m_lock = new object();
         private GeneticAlgorithmState m_state;
-        private Stopwatch m_stopwatch;
+        private readonly Stopwatch m_stopwatch = new Stopwatch();
         #endregion              
 
         #region Constructors
@@ -258,7 +258,7 @@ namespace GeneticSharp
             lock (m_lock)
             {
                 State = GeneticAlgorithmState.Started;
-                m_stopwatch = Stopwatch.StartNew();
+                m_stopwatch.Restart();
                 Population.CreateInitialGeneration();
                 m_stopwatch.Stop();
                 TimeEvolving = m_stopwatch.Elapsed;
