@@ -858,6 +858,42 @@ namespace GeneticSharp.Domain.UnitTests
             Assert.AreEqual(GeneticAlgorithmState.TerminationReached, target.State);
             Assert.IsFalse(target.IsRunning);
         }
+        
+        [Test]
+        public void Resume_PopulationFromAnotherGeneticAlgorithm_Resumed()
+        {
+            // Arrange
+            var selection = new EliteSelection();
+            var crossover = new OnePointCrossover(2);
+            var mutation = new UniformMutation();
+            var chromosome = new ChromosomeStub();
+            var population = new Population(100, 199, chromosome)
+            {
+                GenerationStrategy = new TrackingGenerationStrategy()
+            };
+            var fitnessStub = new FitnessStub { SupportsParallel = false };
+            
+            // initialize a GA and run it for 100 generations
+            var initialGeneticAlgorithm = new GeneticAlgorithm(population, fitnessStub, selection, crossover, mutation)
+            {
+                Termination = new GenerationNumberTermination(100)
+            };
+            initialGeneticAlgorithm.Start();
+
+            // initialize a new GA with the same population to run it for 100 generations more
+            var target = new GeneticAlgorithm(population, fitnessStub, selection, crossover, mutation)
+            {
+                Termination = new GenerationNumberTermination(200)
+            };
+
+            // Act
+            target.Resume();
+            
+            // Assert
+            Assert.AreEqual(200, target.Population.Generations.Count);
+            Assert.AreEqual(GeneticAlgorithmState.TerminationReached, target.State);
+            Assert.IsFalse(target.IsRunning);
+        }
 
     }
 }
