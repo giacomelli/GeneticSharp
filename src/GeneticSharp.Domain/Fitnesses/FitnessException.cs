@@ -75,7 +75,7 @@ namespace GeneticSharp
         /// Gets the fitness.
         /// </summary>
         /// <value>The fitness.</value>
-        public IFitness Fitness { get; private set; }
+        public IFitness? Fitness { get; private set; }
         #endregion
 
         #region Methods

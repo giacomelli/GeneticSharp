@@ -59,7 +59,7 @@ namespace GeneticSharp
         /// Gets the best chromosome.
         /// </summary>
         /// <value>The best chromosome.</value>
-        public IChromosome BestChromosome { get; internal set; }
+        public IChromosome? BestChromosome { get; internal set; }
         #endregion
 
         #region Methods
@@ -71,7 +71,7 @@ namespace GeneticSharp
         {
             Chromosomes = Chromosomes
                 .Where(ValidateChromosome)
-                .OrderByDescending(c => c.Fitness.Value)
+                .OrderByDescending(c => c.Fitness!.Value)
                 .ToList();
 
             if (Chromosomes.Count > chromosomesNumber)

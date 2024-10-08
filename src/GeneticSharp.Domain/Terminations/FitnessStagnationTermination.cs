@@ -52,7 +52,7 @@ namespace GeneticSharp
         /// <param name="geneticAlgorithm">The genetic algorithm.</param>
         protected override bool PerformHasReached(IGeneticAlgorithm geneticAlgorithm)
         {
-            var bestFitness = geneticAlgorithm.BestChromosome.Fitness.Value;
+            var bestFitness = geneticAlgorithm.BestChromosome!.Fitness!.Value;
 
             if (m_lastFitness == bestFitness)
             {

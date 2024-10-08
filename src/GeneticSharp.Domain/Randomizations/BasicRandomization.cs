@@ -37,7 +37,7 @@ namespace GeneticSharp
         /// Returns an instance of Random which can be used freely 
         /// within the current thread. 
         /// </summary> 
-        private static Random Instance { get { return _threadRandom.Value; } }
+        private static Random Instance { get { return _threadRandom.Value!; } }
 
         /// <summary>
         /// Resets the pseudorandom number generator (System.Random) initial seed.

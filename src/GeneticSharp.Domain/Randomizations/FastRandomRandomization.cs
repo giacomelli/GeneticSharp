@@ -36,7 +36,7 @@ namespace GeneticSharp
         /// Returns an instance of Random which can be used freely 
         /// within the current thread. 
         /// </summary> 
-        private static FastRandom Instance { get { return _threadRandom.Value; } }
+        private static FastRandom Instance { get { return _threadRandom.Value!; } }
 
         /// <summary>
         /// Resets the pseudorandom number generator (SharpNeatLib.Maths.FastRandom) initial seed.

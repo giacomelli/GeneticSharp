@@ -75,7 +75,7 @@ namespace GeneticSharp
         /// Gets the reinsertion.
         /// </summary>
         /// <value>The reinsertion.</value>
-        public IReinsertion Reinsertion { get; private set; }
+        public IReinsertion? Reinsertion { get; private set; }
         #endregion
 
         #region Methods

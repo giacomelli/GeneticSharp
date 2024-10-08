@@ -11,7 +11,7 @@ namespace GeneticSharp
         /// <summary>
         /// Occurs when best chromosome changed.
         /// </summary>
-        public event EventHandler BestChromosomeChanged;
+        public event EventHandler? BestChromosomeChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Population"/> class.
@@ -59,7 +59,7 @@ namespace GeneticSharp
         /// Gets or sets the current generation.
         /// </summary>
         /// <value>The current generation.</value>
-        public Generation CurrentGeneration { get; protected set; }
+        public Generation? CurrentGeneration { get; protected set; }
 
         /// <summary>
         /// Gets or sets the total number of generations executed.
@@ -85,7 +85,7 @@ namespace GeneticSharp
         /// Gets or sets the best chromosome.
         /// </summary>
         /// <value>The best chromosome.</value>
-        public IChromosome BestChromosome { get; protected set; }
+        public IChromosome? BestChromosome { get; protected set; }
 
         /// <summary>
         /// Gets or sets the generation strategy.
@@ -144,7 +144,7 @@ namespace GeneticSharp
         /// </summary>        
         public virtual void EndCurrentGeneration()
         {
-            CurrentGeneration.End(MaxSize);
+            CurrentGeneration!.End(MaxSize);
 
             if (BestChromosome == null || BestChromosome.CompareTo(CurrentGeneration.BestChromosome) != 0)
             {

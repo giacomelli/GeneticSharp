@@ -114,17 +114,17 @@ namespace GeneticSharp
         /// <summary>
         /// Occurs when generation ran.
         /// </summary>
-        public event EventHandler GenerationRan;
+        public event EventHandler? GenerationRan;
 
         /// <summary>
         /// Occurs when termination reached.
         /// </summary>
-        public event EventHandler TerminationReached;
+        public event EventHandler? TerminationReached;
 
         /// <summary>
         /// Occurs when stopped.
         /// </summary>
-        public event EventHandler Stopped;
+        public event EventHandler? Stopped;
         #endregion
 
         #region Properties
@@ -196,7 +196,7 @@ namespace GeneticSharp
         /// Gets the best chromosome.
         /// </summary>
         /// <value>The best chromosome.</value>
-        public IChromosome BestChromosome
+        public IChromosome? BestChromosome
         {
             get
             {
@@ -221,12 +221,12 @@ namespace GeneticSharp
 
             private set
             {
-                var shouldStop = Stopped != null && m_state != value && value == GeneticAlgorithmState.Stopped;
+                var shouldStop = m_state != value && value == GeneticAlgorithmState.Stopped;
 
                 m_state = value;
 
                 if (shouldStop)
-                    Stopped.Invoke(this, EventArgs.Empty);
+                    Stopped?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -393,7 +393,7 @@ namespace GeneticSharp
         {
             try
             {
-                var chromosomesWithoutFitness = Population.CurrentGeneration.Chromosomes.Where(c => !c.Fitness.HasValue).ToList();
+                var chromosomesWithoutFitness = Population.CurrentGeneration!.Chromosomes.Where(c => !c.Fitness.HasValue).ToList();
 
                 for (int i = 0; i < chromosomesWithoutFitness.Count; i++)
                 {
@@ -416,20 +416,18 @@ namespace GeneticSharp
                 TaskExecutor.Clear();
             }
 
-            Population.CurrentGeneration.Chromosomes = Population.CurrentGeneration.Chromosomes.OrderByDescending(c => c.Fitness.Value).ToList();
+            Population.CurrentGeneration.Chromosomes = Population.CurrentGeneration.Chromosomes.OrderByDescending(c => c.Fitness!.Value).ToList();
         }
 
         /// <summary>
         /// Runs the evaluate fitness.
         /// </summary>
         /// <param name="chromosome">The chromosome.</param>
-        private void RunEvaluateFitness(object chromosome)
+        private void RunEvaluateFitness(IChromosome chromosome)
         {
-            var c = chromosome as IChromosome;
-
             try
             {
-                c.Fitness = Fitness.Evaluate(c);
+                chromosome.Fitness = Fitness.Evaluate(chromosome);
             }
             catch (Exception ex)
             {
@@ -443,7 +441,7 @@ namespace GeneticSharp
         /// <returns>The parents.</returns>
         private IList<IChromosome> SelectParents()
         {
-            return Selection.SelectChromosomes(Population.MinSize, Population.CurrentGeneration);
+            return Selection.SelectChromosomes(Population.MinSize, Population.CurrentGeneration!);
         }
 
         /// <summary>

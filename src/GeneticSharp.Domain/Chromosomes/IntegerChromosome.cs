@@ -56,7 +56,7 @@ namespace GeneticSharp
         public int ToInteger()
         {
             var array = new int[1];
-            var genes = GetGenes().Select(g => (bool)g.Value).ToArray();
+            var genes = GetGenes().Select(g => (bool)g.Value!).ToArray();
             var bitArray = new BitArray(genes);
             bitArray.CopyTo(array, 0);
 
@@ -69,7 +69,7 @@ namespace GeneticSharp
         /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome"/>.</returns>
         public override string ToString()
         {
-            return String.Join("", GetGenes().Reverse().Select(g => (bool) g.Value ? "1" : "0").ToArray());
+            return String.Join("", GetGenes().Reverse().Select(g => (bool)g.Value! ? "1" : "0").ToArray());
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace GeneticSharp
         public override void FlipGene(int index)
         {
             var realIndex = Math.Abs(31 - index);
-            var value = (bool)GetGene(realIndex).Value;
+            var value = (bool)GetGene(realIndex).Value!;
 
             ReplaceGene(realIndex, new Gene(!value));
         }

@@ -12,7 +12,7 @@ namespace GeneticSharp
     public class UniformMutation : MutationBase
     {
         #region Fields
-        private int[] m_mutableGenesIndexes;
+        private int[]? m_mutableGenesIndexes;
 
         private readonly bool m_allGenesMutable;
         #endregion
