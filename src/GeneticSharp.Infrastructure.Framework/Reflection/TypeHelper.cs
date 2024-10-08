@@ -22,7 +22,7 @@ namespace GeneticSharp
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
             var selectedAssemblies = assemblies.Where(
-                a => a.FullName.StartsWith("GeneticSharp.", StringComparison.OrdinalIgnoreCase));
+                a => a.FullName!.StartsWith("GeneticSharp.", StringComparison.OrdinalIgnoreCase));
 
             var types = selectedAssemblies.SelectMany(a => a.GetTypes())
                     .Where(t => t.GetInterfaces().Any(i => i == interfaceType) && !t.IsAbstract)
@@ -57,7 +57,7 @@ namespace GeneticSharp
 
             try
             {
-                return (TInterface)Activator.CreateInstance(crossoverType, constructorArgs);
+                return (TInterface)Activator.CreateInstance(crossoverType, constructorArgs)!;
             }
             catch (MissingMethodException ex)
             {
@@ -95,7 +95,7 @@ namespace GeneticSharp
                 throw new InvalidOperationException("The member '{0}' has no DisplayNameAttribute.".With(member.Name));
             }
 
-            return attribute as DisplayNameAttribute;
+            return (attribute as DisplayNameAttribute)!;
         }        
     }
 }
