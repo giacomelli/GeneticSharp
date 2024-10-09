@@ -43,7 +43,7 @@ namespace GeneticSharp.Extensions
         /// <param name="targetSudokuBoard">the target sudoku to solve</param>
         /// <param name="nbPermutations">the number of permutation genes per row</param>
         /// <param name="nbSudokus">the number of Sudokus generated for evaluation</param>
-        public SudokuRandomPermutationsChromosome(SudokuBoard targetSudokuBoard, Dictionary<int, List<int>> extendedMask, int nbPermutations, int nbSudokus) : base(targetSudokuBoard, extendedMask, 9 * nbPermutations)
+        public SudokuRandomPermutationsChromosome(SudokuBoard? targetSudokuBoard, Dictionary<int, List<int>>? extendedMask, int nbPermutations, int nbSudokus) : base(targetSudokuBoard, extendedMask, 9 * nbPermutations)
         {
             _nbPermutations = nbPermutations;
             _nbSudokus = nbSudokus;
@@ -91,7 +91,7 @@ namespace GeneticSharp.Extensions
             var rnd = RandomizationProvider.Current;
             var switchIdx = rnd.GetInt(0, _nbPermutations);
             var permGeneIdx = switchIdx * 9 + rowIndex;
-            return (int)GetGene(permGeneIdx).Value;
+            return (int)GetGene(permGeneIdx).Value!;
         }
 
         public override IChromosome CreateNew()

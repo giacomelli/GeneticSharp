@@ -44,7 +44,7 @@ namespace GeneticSharp.Extensions
         /// <returns>The fitness of the chromosome.</returns>
         public double Evaluate(IChromosome chromosome)
         {
-            var c = chromosome as FunctionBuilderChromosome;
+            var c = (chromosome as FunctionBuilderChromosome)!;
             var function = c.BuildFunction();
             var fitness = 0.0;
 

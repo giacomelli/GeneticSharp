@@ -14,7 +14,7 @@ namespace GeneticSharp.Extensions
         /// <summary>
         /// The list of row permutations accounting for the mask
         /// </summary>
-        private  IList<IList<IList<int>>> _targetRowsPermutations;
+        private  IList<IList<IList<int>>>? _targetRowsPermutations;
 
 
         /// <summary>
@@ -26,19 +26,19 @@ namespace GeneticSharp.Extensions
         /// Constructor with a mask sudoku to solve, assuming a length of 9 genes
         /// </summary>
         /// <param name="targetSudokuBoard">the target sudoku to solve</param>
-        public SudokuPermutationsChromosome(SudokuBoard targetSudokuBoard) : this(targetSudokuBoard, 9) {}
+        public SudokuPermutationsChromosome(SudokuBoard? targetSudokuBoard) : this(targetSudokuBoard, 9) {}
 
         /// <summary>
         /// Constructor with a mask and a number of genes
         /// </summary>
         /// <param name="targetSudokuBoard">the target sudoku to solve</param>
         /// <param name="length">the number of genes</param>
-        public SudokuPermutationsChromosome(SudokuBoard targetSudokuBoard, int length) : this(targetSudokuBoard, null, length) {}    
+        public SudokuPermutationsChromosome(SudokuBoard? targetSudokuBoard, int length) : this(targetSudokuBoard, null, length) {}    
 
         /// <param name="targetSudokuBoard">the target sudoku to solve</param>
         /// <param name="extendedMask">The cell domains after initial constraint propagation</param>
         /// <param name="length">The number of genes for the sudoku chromosome</param>
-        public SudokuPermutationsChromosome(SudokuBoard targetSudokuBoard, Dictionary<int, List<int>> extendedMask, int length) : base(targetSudokuBoard, extendedMask, length) { }
+        public SudokuPermutationsChromosome(SudokuBoard? targetSudokuBoard, Dictionary<int, List<int>>? extendedMask, int length) : base(targetSudokuBoard, extendedMask, length) { }
 
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace GeneticSharp.Extensions
         /// <returns>the index of the permutation to apply</returns>
         protected virtual int GetPermutationIndex(int rowIndex)
         {
-            return (int)GetGene(rowIndex).Value;
+            return (int)GetGene(rowIndex).Value!;
         }
 
 

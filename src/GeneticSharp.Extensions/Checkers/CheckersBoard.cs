@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace GeneticSharp.Extensions
 {
@@ -57,10 +58,11 @@ namespace GeneticSharp.Extensions
         /// Gets the player two's pieces.
         /// </summary>
         public IList<CheckersPiece> PlayerTwoPieces { get; private set; }
-    
+
         /// <summary>
         /// Reset the board to initial state (player one and two with pieces in start positions).
         /// </summary>
+        [MemberNotNull(nameof(PlayerOnePieces), nameof(PlayerTwoPieces))]
         public void Reset()
         {
             // Creates the two lists of pieces por player one and two.ß
@@ -133,7 +135,7 @@ namespace GeneticSharp.Extensions
 
             // Gets the piece's actual position and movement kind.
             bool moved = false;
-            var from = GetSquare(move.Piece.CurrentSquare.ColumnIndex, move.Piece.CurrentSquare.RowIndex);
+            var from = GetSquare(move.Piece.CurrentSquare!.ColumnIndex, move.Piece.CurrentSquare.RowIndex);
             var moveKind = GetMoveKind(move);
 
             // Se the movement kind is invalid between From e To positions.
@@ -141,7 +143,7 @@ namespace GeneticSharp.Extensions
             {
                 // Moves the piece to 'To' position.
                 var to = GetSquare(move.ToSquare.ColumnIndex, move.ToSquare.RowIndex);
-                to.PutPiece(from.CurrentPiece);
+                to.PutPiece(from.CurrentPiece!);
 
                 // Geets the current indexModifier.
                 var indexModifier = to.State == CheckersSquareState.OccupiedByPlayerOne ? 1 : -1;
@@ -178,7 +180,7 @@ namespace GeneticSharp.Extensions
         {
             var kind = CheckersMoveKind.Invalid;
             var player = move.Piece.Player;
-            var currentSquareState = move.Piece.CurrentSquare.State;
+            var currentSquareState = move.Piece.CurrentSquare!.State;
 
             if (currentSquareState == CheckersSquareState.OccupiedByPlayerOne || currentSquareState == CheckersSquareState.OccupiedByPlayerTwo)
             {
@@ -219,7 +221,7 @@ namespace GeneticSharp.Extensions
             ExceptionHelper.ThrowIfNull("piece", piece);
 
             var capturableCount = 0;
-            var square = piece.CurrentSquare;
+            var square = piece.CurrentSquare!;
             var newRowIndex = square.RowIndex + (2 * GetIndexModifier(piece.Player));
 
             if (IsValidIndex(newRowIndex))
@@ -252,7 +254,7 @@ namespace GeneticSharp.Extensions
             ExceptionHelper.ThrowIfNull("piece", piece);
 
             var capturedCount = 0;
-            var square = piece.CurrentSquare;
+            var square = piece.CurrentSquare!;
 
             var indexModifier = GetIndexModifier(piece.Player);
             var enemyPieceRowIndex = square.RowIndex + indexModifier;

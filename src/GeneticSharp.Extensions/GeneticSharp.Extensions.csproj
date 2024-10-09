@@ -10,6 +10,7 @@
     <AssemblyCopyright>Diego Giacomelli, http://diegogiacomelli.com.br</AssemblyCopyright>
     <AssemblyTrademark></AssemblyTrademark>
     <AssemblyCulture></AssemblyCulture>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <!-- NuGet Package -->

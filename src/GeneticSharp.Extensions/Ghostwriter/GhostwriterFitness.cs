@@ -32,7 +32,7 @@ namespace GeneticSharp.Extensions
         public double Evaluate(IChromosome chromosome)
         {
             var c = chromosome as GhostwriterChromosome;
-            var text = c.BuildText();
+            var text = c!.BuildText();
 
             return m_evaluateFunc(text);
         }

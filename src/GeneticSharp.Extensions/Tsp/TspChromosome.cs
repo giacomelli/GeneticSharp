@@ -67,7 +67,7 @@ namespace GeneticSharp.Extensions
         public override IChromosome Clone()
         {
             var clone = base.Clone() as TspChromosome;
-            clone.Distance = Distance;
+            clone!.Distance = Distance;
 
             return clone;
         }

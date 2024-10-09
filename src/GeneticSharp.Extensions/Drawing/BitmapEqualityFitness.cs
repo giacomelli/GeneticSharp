@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 
 namespace GeneticSharp.Extensions
@@ -10,7 +11,7 @@ namespace GeneticSharp.Extensions
     public class BitmapEqualityFitness : IFitness
     {
         #region Fields
-        private IList<Color> m_targetBitmapPixels;
+        private IList<Color>? m_targetBitmapPixels;
         private int m_pixelsCount;
         #endregion
 
@@ -56,6 +57,7 @@ namespace GeneticSharp.Extensions
         /// Initializes the specified target bitmap.
         /// </summary>
         /// <param name="targetBitmap">The target bitmap.</param>
+        [MemberNotNull(nameof(m_targetBitmapPixels))]
         public void Initialize(Bitmap targetBitmap)
         {
             BitmapWidth = targetBitmap.Width;
@@ -76,8 +78,8 @@ namespace GeneticSharp.Extensions
 
             for (int i = 0; i < m_pixelsCount; i++)
             {
-                var targetPixel = m_targetBitmapPixels[i];
-                var chromosomePixel = (Color)chromosome.GetGene(i).Value;
+                var targetPixel = m_targetBitmapPixels![i];
+                var chromosomePixel = (Color)chromosome.GetGene(i).Value!;
 
                 fitness -= Math.Abs(targetPixel.R - chromosomePixel.R);
                 fitness -= Math.Abs(targetPixel.G - chromosomePixel.G);

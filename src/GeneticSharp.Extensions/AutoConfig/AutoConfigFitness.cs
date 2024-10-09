@@ -68,7 +68,7 @@ namespace GeneticSharp.Extensions
         /// <returns>The chromosome fitness.</returns>
         public double Evaluate(IChromosome chromosome)
         {
-            var autoConfigChromosome = chromosome as AutoConfigChromosome;
+            var autoConfigChromosome = (chromosome as AutoConfigChromosome)!;
             var selection = autoConfigChromosome.Selection;
             var crossover = autoConfigChromosome.Crossover;
             var mutation = autoConfigChromosome.Mutation;
@@ -89,7 +89,7 @@ namespace GeneticSharp.Extensions
                 return 0;
             }
 
-            return ga.BestChromosome.Fitness.Value;
+            return ga.BestChromosome!.Fitness!.Value;
         }
         #endregion
     }

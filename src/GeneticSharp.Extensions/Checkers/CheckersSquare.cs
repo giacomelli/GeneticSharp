@@ -74,7 +74,7 @@ namespace GeneticSharp.Extensions
         /// Gets the current piece.
         /// </summary>
         /// <value>The current piece.</value>
-        public CheckersPiece CurrentPiece { get; private set; }
+        public CheckersPiece? CurrentPiece { get; private set; }
         #endregion
 
         #region Methods
@@ -141,7 +141,7 @@ namespace GeneticSharp.Extensions
         /// <returns>
         ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             var other = obj as CheckersSquare;
 

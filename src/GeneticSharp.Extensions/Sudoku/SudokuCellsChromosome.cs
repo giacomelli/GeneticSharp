@@ -18,14 +18,14 @@ namespace GeneticSharp.Extensions
         /// Basic constructor with target sudoku to solve
         /// </summary>
         /// <param name="targetSudokuBoard">the target sudoku to solve</param>
-        public SudokuCellsChromosome(SudokuBoard targetSudokuBoard) : this( targetSudokuBoard, null) {}
+        public SudokuCellsChromosome(SudokuBoard? targetSudokuBoard) : this( targetSudokuBoard, null) {}
 
         /// <summary>
         /// Constructor with additional precomputed domains for faster cloning
         /// </summary>
         /// <param name="targetSudokuBoard">the target sudoku to solve</param>
         /// <param name="extendedMask">The cell domains after initial constraint propagation</param>
-        public SudokuCellsChromosome(SudokuBoard targetSudokuBoard, Dictionary<int, List<int>> extendedMask) : base(targetSudokuBoard, extendedMask, 81)
+        public SudokuCellsChromosome(SudokuBoard? targetSudokuBoard, Dictionary<int, List<int>>? extendedMask) : base(targetSudokuBoard, extendedMask, 81)
 	    {
 	    }
 
@@ -54,7 +54,7 @@ namespace GeneticSharp.Extensions
         /// <returns>A Sudoku board built from the 81 genes</returns>
         public override IList<SudokuBoard> GetSudokus()
         {
-            var sudoku = new SudokuBoard(GetGenes().Select(g => (int)g.Value));
+            var sudoku = new SudokuBoard(GetGenes().Select(g => (int)g.Value!));
             return new List<SudokuBoard>(new[] { sudoku });
         }
     }

@@ -6,7 +6,7 @@ namespace GeneticSharp.Extensions
     public class CheckersPiece
     {
         #region Fields
-        private CheckersSquare m_currentSquare;
+        private CheckersSquare? m_currentSquare;
         #endregion
 
         #region Contructors
@@ -29,7 +29,7 @@ namespace GeneticSharp.Extensions
         /// <summary>
         /// Gets or sets the current square.
         /// </summary>
-        public CheckersSquare CurrentSquare
+        public CheckersSquare? CurrentSquare
         {
             get
             {
