@@ -98,9 +98,13 @@ namespace GeneticSharp
                 }
             }
 
-            if(selected.Count < number && candidates.Any())
-				selected.Add(candidates.First().Clone());
-
+            while(selected.Count < number && candidates.Any())
+            {
+                var canditate = candidates.First().Clone();
+				selected.Add(canditate);
+				candidates.Remove(canditate);
+			}
+			
 			return selected;
         }        
     }
