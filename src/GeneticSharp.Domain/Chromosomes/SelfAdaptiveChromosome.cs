@@ -10,12 +10,6 @@ namespace GeneticSharp
         Uniform,
     }
 
-    public enum MutationType
-    {
-        Simple,
-        WithImprovement,
-        Strong,
-    }
 
     public class SelfAdaptiveChromosome : ChromosomeBase
     {
@@ -23,8 +17,7 @@ namespace GeneticSharp
         public Gene[] GenesValues { get; private set; }
         public double[] MutationProbabilities { get; private set; }
         public CrossoverType CrossoverType { get; private set; } 
-        public MutationType MutationType { get; private set; }  
-
+        
         public readonly double _minValue, _maxValue;
         
         public SelfAdaptiveChromosome(int length, double minValue = double.MinValue, double maxValue = double.MaxValue, double initMutationProvVal = 0.05, double mutationProbability = 0.1)
@@ -45,7 +38,6 @@ namespace GeneticSharp
             }
 
             CrossoverType = (CrossoverType)random.GetInt(0, Enum.GetValues(typeof(CrossoverType)).Length);
-            MutationType = (MutationType)random.GetInt(0, Enum.GetValues(typeof(MutationType)).Length);
         }
 
         public override IChromosome CreateNew()
@@ -66,9 +58,6 @@ namespace GeneticSharp
             var random = RandomizationProvider.Current;
             if (random.GetDouble() < MutationProbability)
                 CrossoverType = (CrossoverType)random.GetInt(0, Enum.GetValues(typeof(CrossoverType)).Length);
-
-            if (random.GetDouble() < MutationProbability)  
-                MutationType = (MutationType)random.GetInt(0, Enum.GetValues(typeof(MutationType)).Length);
         }
     }
 }
