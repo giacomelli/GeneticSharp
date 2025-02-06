@@ -26,9 +26,7 @@ namespace GeneticSharp
         public MutationType MutationType { get; private set; }  
 
         public readonly double _minValue, _maxValue;
-        private static readonly int CrossoverOperatorsCount = 3;
         
-
         public SelfAdaptiveChromosome(int length, double minValue = double.MinValue, double maxValue = double.MaxValue, double initMutationProvVal = 0.05, double mutationProbability = 0.1)
             : base(length)
         {
