@@ -36,36 +36,31 @@ namespace GeneticSharp
                     adaptiveChromosome.MutationProbabilities[i] = Math.Min(1.0, Math.Max(0, adaptiveChromosome.MutationProbabilities[i]));
                 }
 
+                if (random.GetDouble() >= adaptiveChromosome.MutationProbabilities[i])
+                    continue;
+                
+                double mutatedValue = 0;
                 switch (adaptiveChromosome.MutationType)
                 {
-                    case  MutationType.Simple:
-                        if (random.GetDouble() < adaptiveChromosome.MutationProbabilities[i])
-                        {
-                            double mutatedValue = (double)adaptiveChromosome.GenesValues[i].Value + random.GetDouble(-1, 1);
-                            adaptiveChromosome.GenesValues[i] = new Gene(mutatedValue);
-                            adaptiveChromosome.ReplaceGene(i, new Gene(mutatedValue));
-                        }
+                    case MutationType.Simple:
+                        mutatedValue = (double)adaptiveChromosome.GenesValues[i].Value + random.GetDouble(-1, 1);
                         break;
-                    case  MutationType.WithImprovement:
-                        if (random.GetDouble() < adaptiveChromosome.MutationProbabilities[i])
-                        {
-                            double mutatedValue = (double)adaptiveChromosome.GenesValues[i].Value + random.GetDouble(-0.5, 0.5);
-                            if (mutatedValue > (double)adaptiveChromosome.GenesValues[i].Value)
-                            {
-                                adaptiveChromosome.GenesValues[i] = new Gene(mutatedValue);
-                                adaptiveChromosome.ReplaceGene(i, new Gene(mutatedValue));
-                            }
-                        }
+                    case MutationType.WithImprovement:
+                        mutatedValue = (double)adaptiveChromosome.GenesValues[i].Value + random.GetDouble(-0.5, 0.5);
                         break;
-                    case  MutationType.Strong:
-                        if (random.GetDouble() < adaptiveChromosome.MutationProbabilities[i])
-                        {
-                            double mutatedValue = (double)adaptiveChromosome.GenesValues[i].Value + random.GetDouble(-2, 2);
-                            adaptiveChromosome.GenesValues[i] = new Gene(mutatedValue);
-                            adaptiveChromosome.ReplaceGene(i, new Gene(mutatedValue));
-                        }
+                    case MutationType.Strong:
+                        mutatedValue = (double)adaptiveChromosome.GenesValues[i].Value + random.GetDouble(-2, 2);
                         break;
                 }
+                mutatedValue = (double)adaptiveChromosome.GenesValues[i].Value + mutatedValue;
+
+                if (mutatedValue > adaptiveChromosome._maxValue)
+                    mutatedValue = adaptiveChromosome._maxValue;
+                else if (mutatedValue < adaptiveChromosome._minValue)
+                    mutatedValue = adaptiveChromosome._minValue;
+
+                adaptiveChromosome.GenesValues[i] = new Gene(mutatedValue);
+                adaptiveChromosome.ReplaceGene(i, new Gene(mutatedValue));
             }
         }
 

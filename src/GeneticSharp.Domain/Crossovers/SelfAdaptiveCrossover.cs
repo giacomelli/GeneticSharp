@@ -6,8 +6,6 @@ namespace GeneticSharp
 {
     public class SelfAdaptiveCrossover : CrossoverBase
     {
-        private static readonly int CrossoverOperatorsCount = 3;
-
         public SelfAdaptiveCrossover() : base(2, 2) { }
 
         protected override IList<IChromosome> PerformCross(IList<IChromosome> parents)
