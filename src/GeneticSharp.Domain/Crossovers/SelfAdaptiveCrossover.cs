@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using GeneticSharp;
 
 namespace GeneticSharp
 {
+    [DisplayName("Self Adaptive Crossover")]
     public class SelfAdaptiveCrossover : CrossoverBase
     {
         public SelfAdaptiveCrossover() : base(2, 2) { }
