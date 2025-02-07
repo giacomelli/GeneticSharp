@@ -9,7 +9,8 @@ public class SelfAdaptiveMutation : MutationBase
     private readonly double minMutationRate;
     private readonly double maxMutationRate;
 
-    public SelfAdaptiveMutation(double tau = 0.1, double minMutationRate = 0.01, double maxMutationRate = 1.0)
+    
+    public SelfAdaptiveMutation(double tau = 0.1, double minMutationRate = 0.05, double maxMutationRate = 0.9)
     {
         this.tau = tau;
         this.minMutationRate = minMutationRate;
@@ -36,17 +37,12 @@ public class SelfAdaptiveMutation : MutationBase
                 // Restringir la tasa de mutación dentro de límites
                 adaptiveChromosome.MutationProbabilities[i] = Math.Clamp(adaptiveChromosome.MutationProbabilities[i], minMutationRate, maxMutationRate);
             }
-                
-
+            
             // Aplicar mutación al gen con la tasa adaptada
             if (random.GetDouble() < adaptiveChromosome.MutationProbabilities[i])
             {
-                double mutatedValue = (double)adaptiveChromosome.GenesValues[i].Value * NextGaussian(0, 1);
-
-                // Restringir el nuevo valor dentro de los límites del problema
-                mutatedValue = Math.Clamp(mutatedValue, adaptiveChromosome._minValue, adaptiveChromosome._maxValue);
-
-                adaptiveChromosome.ReplaceGene(i, new Gene(mutatedValue));
+                var g = chromosome.GenerateGene(i);
+                adaptiveChromosome.ReplaceGene(i, g);
             }
         }
     }

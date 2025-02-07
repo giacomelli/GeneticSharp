@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using GeneticSharp;
 
 namespace GeneticSharp
@@ -18,91 +19,38 @@ namespace GeneticSharp
                 throw new ArgumentException("Both parents must be of type SelfAdaptiveChromosome.");
             }
 
-            var random = RandomizationProvider.Current;
-            CrossoverType crossoverType = parent1.CrossoverType; // Se usa el operador del primer padre
-
-            switch (crossoverType)
-            {
-                case  CrossoverType.OnePoin:
-                    return OnePointCrossover(parent1, parent2);
-                case  CrossoverType.TwoPoints:
-                    return TwoPointCrossover(parent1, parent2);
-                case  CrossoverType.Uniform:
-                    return UniformCrossover(parent1, parent2);
-                default:
-                    return OnePointCrossover(parent1, parent2);
-            }
-        }
-
-        private IList<IChromosome> OnePointCrossover(SelfAdaptiveChromosome parent1, SelfAdaptiveChromosome parent2)
-        {
-            int length = parent1.Length;
-            int crossoverPoint = RandomizationProvider.Current.GetInt(1, length - 1);
-
-            var offspring1 = parent1.CreateNew() as SelfAdaptiveChromosome;
-            var offspring2 = parent2.CreateNew() as SelfAdaptiveChromosome;
-
-            for (int i = 0; i < length; i++)
-            {
-                if (i < crossoverPoint)
-                {
-                    offspring1.ReplaceGene(i, parent1.GetGene(i));
-                    offspring2.ReplaceGene(i, parent2.GetGene(i));
-                }
-                else
-                {
-                    offspring1.ReplaceGene(i, parent2.GetGene(i));
-                    offspring2.ReplaceGene(i, parent1.GetGene(i));
-                }
-            }
-            return new List<IChromosome> { offspring1, offspring2 };
-        }
-
-        private IList<IChromosome> TwoPointCrossover(SelfAdaptiveChromosome parent1, SelfAdaptiveChromosome parent2)
-        {
-            int length = parent1.Length;
-            int point1 = RandomizationProvider.Current.GetInt(1, length / 2);
-            int point2 = RandomizationProvider.Current.GetInt(length / 2, length - 1);
-
-            var offspring1 = parent1.CreateNew() as SelfAdaptiveChromosome;
-            var offspring2 = parent2.CreateNew() as SelfAdaptiveChromosome;
-
-            for (int i = 0; i < length; i++)
-            {
-                if (i < point1 || i > point2)
-                {
-                    offspring1.ReplaceGene(i, parent1.GetGene(i));
-                    offspring2.ReplaceGene(i, parent2.GetGene(i));
-                }
-                else
-                {
-                    offspring1.ReplaceGene(i, parent2.GetGene(i));
-                    offspring2.ReplaceGene(i, parent1.GetGene(i));
-                }
-            }
-            return new List<IChromosome> { offspring1, offspring2 };
+            IList<IChromosome> ret = UniformCrossover(parent1, parent2);
+            return ret;
         }
 
         private IList<IChromosome> UniformCrossover(SelfAdaptiveChromosome parent1, SelfAdaptiveChromosome parent2)
         {
             int length = parent1.Length;
-            var offspring1 = parent1.CreateNew() as SelfAdaptiveChromosome;
-            var offspring2 = parent2.CreateNew() as SelfAdaptiveChromosome;
+            
+            
+            SelfAdaptiveChromosome offspring1 = (SelfAdaptiveChromosome)parent1.Clone();
+            SelfAdaptiveChromosome offspring2 = (SelfAdaptiveChromosome)parent2.Clone();
 
             for (int i = 0; i < length; i++)
             {
                 if (RandomizationProvider.Current.GetDouble() < 0.5)
                 {
-                    offspring1.ReplaceGene(i, parent1.GetGene(i));
-                    offspring2.ReplaceGene(i, parent2.GetGene(i));
+                    var v = offspring1.MutationProbabilities[i];
+                    offspring1.MutationProbabilities[i] = offspring2.MutationProbabilities[i];
+                    offspring2.MutationProbabilities[i] = v;
                 }
-                else
+                    
+
+                if (RandomizationProvider.Current.GetDouble() < 0.5)
                 {
-                    offspring1.ReplaceGene(i, parent2.GetGene(i));
-                    offspring2.ReplaceGene(i, parent1.GetGene(i));
+                    var g = offspring1.GetGene(i);
+                    offspring1.ReplaceGene(i, offspring2.GetGene(i));
+                    offspring2.ReplaceGene(i, g);
                 }
+                    
             }
-            return new List<IChromosome> { offspring1, offspring2 };
+
+            return new List<IChromosome>() { offspring1, offspring2 };
         }
     }
 }

@@ -1,33 +1,27 @@
 ﻿
 using System;
+using System.Linq;
 
 namespace GeneticSharp
 {
-    public enum CrossoverType
-    {
-        OnePoin,
-        TwoPoints,
-        Uniform,
-    }
-
+    
 
     public class SelfAdaptiveChromosome : ChromosomeBase
     {
-        public double MutationProbability { get; private set; }
         public Gene[] GenesValues { get; private set; }
         public double[] MutationProbabilities { get; private set; }
-        public CrossoverType CrossoverType { get; private set; } 
-        
+
+        double _initMutationProvVal;
         public readonly double _minValue, _maxValue;
         
-        public SelfAdaptiveChromosome(int length, double minValue = double.MinValue, double maxValue = double.MaxValue, double initMutationProvVal = 0.05, double mutationProbability = 0.1)
+        public SelfAdaptiveChromosome(int length, double minValue = double.MinValue, double maxValue = double.MaxValue, double initMutationProvVal = 0.05)
             : base(length)
         {
             _minValue = minValue;
             _maxValue = maxValue;
+            _initMutationProvVal = initMutationProvVal;
             GenesValues = new Gene[length];
             MutationProbabilities = new double[length];
-            MutationProbability = mutationProbability;
 
             var random = RandomizationProvider.Current;
             for (int i = 0; i < length; i++)
@@ -36,13 +30,19 @@ namespace GeneticSharp
                 MutationProbabilities[i] = initMutationProvVal;
                 ReplaceGene(i, GenesValues[i]);
             }
+        }
 
-            CrossoverType = (CrossoverType)random.GetInt(0, Enum.GetValues(typeof(CrossoverType)).Length);
+        public override IChromosome Clone()
+        {
+            SelfAdaptiveChromosome c = (SelfAdaptiveChromosome)CreateNew();
+            c.ReplaceGenes(0, base.GetGenes());
+            c.MutationProbabilities = MutationProbabilities.ToArray();
+            return c;
         }
 
         public override IChromosome CreateNew()
         {
-            return new SelfAdaptiveChromosome(GenesValues.Length, _minValue, _maxValue);
+            return new SelfAdaptiveChromosome(GenesValues.Length, _minValue, _maxValue, _initMutationProvVal);
         }
 
         public override Gene GenerateGene(int geneIndex)
@@ -53,11 +53,5 @@ namespace GeneticSharp
             return new Gene(value);
         }
 
-        public void MutateOperators()
-        {
-            var random = RandomizationProvider.Current;
-            if (random.GetDouble() < MutationProbability)
-                CrossoverType = (CrossoverType)random.GetInt(0, Enum.GetValues(typeof(CrossoverType)).Length);
-        }
     }
 }
