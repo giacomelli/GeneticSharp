@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using GeneticSharp;
 
 namespace GeneticSharp
@@ -7,16 +8,20 @@ namespace GeneticSharp
     [DisplayName("Self Adaptive Mutation")]
     public class SelfAdaptiveMutation : MutationBase
     {
-        private readonly double tau;
-        private readonly double minMutationRate;
-        private readonly double maxMutationRate;
+        public readonly double Tau = 0.1;
+        public readonly double MinMutationRate = 0.05;
+        public readonly double MaxMutationRate = 0.9;
 
+
+        public SelfAdaptiveMutation()
+        {
+        }
 
         public SelfAdaptiveMutation(double tau = 0.1, double minMutationRate = 0.05, double maxMutationRate = 0.9)
         {
-            this.tau = tau;
-            this.minMutationRate = minMutationRate;
-            this.maxMutationRate = maxMutationRate;
+            this.Tau = tau;
+            this.MinMutationRate = minMutationRate;
+            this.MaxMutationRate = maxMutationRate;
         }
 
         protected override void PerformMutate(IChromosome chromosome, float probability)
@@ -28,20 +33,19 @@ namespace GeneticSharp
 
             var random = RandomizationProvider.Current;
 
-            for (int i = 0; i < adaptiveChromosome.GenesValues.Length; i++)
+            for (int i = 0; i < adaptiveChromosome.Length; i++)
             {
-                if (random.GetDouble() < adaptiveChromosome.MutationProbabilities[i])
+                if (random.GetDouble() < adaptiveChromosome.GetMutationProbability(i))
                 {
                     // Mutación auto-adaptativa de la tasa de mutación
                     double normal = NextGaussian(0, 1);
-                    adaptiveChromosome.MutationProbabilities[i] *= Math.Exp(tau * normal);
-
-                    // Restringir la tasa de mutación dentro de límites
-                    adaptiveChromosome.MutationProbabilities[i] = Math.Clamp(adaptiveChromosome.MutationProbabilities[i], minMutationRate, maxMutationRate);
+                    double p = adaptiveChromosome.GetMutationProbability(i) * Math.Exp(Tau * normal);
+                    p = Math.Clamp(p, MinMutationRate, MaxMutationRate);
+                    adaptiveChromosome.SetMutationProbability(i,p);
                 }
 
                 // Aplicar mutación al gen con la tasa adaptada
-                if (random.GetDouble() < adaptiveChromosome.MutationProbabilities[i])
+                if (random.GetDouble() < adaptiveChromosome.GetMutationProbability(i))
                 {
                     var g = chromosome.GenerateGene(i);
                     adaptiveChromosome.ReplaceGene(i, g);

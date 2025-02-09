@@ -12,7 +12,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         {
             var actual = CrossoverService.GetCrossoverTypes();
 
-            Assert.AreEqual(12, actual.Count);
+            Assert.AreEqual(13, actual.Count);
             var index = -1;
             Assert.AreEqual(typeof(AlternatingPositionCrossover), actual[++index]);
             Assert.AreEqual(typeof(CutAndSpliceCrossover), actual[++index]);
@@ -22,10 +22,12 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             Assert.AreEqual(typeof(OrderedCrossover), actual[++index]);
             Assert.AreEqual(typeof(PartiallyMappedCrossover), actual[++index]);
             Assert.AreEqual(typeof(PositionBasedCrossover), actual[++index]);
+            Assert.AreEqual(typeof(SelfAdaptiveCrossover), actual[++index]);
             Assert.AreEqual(typeof(ThreeParentCrossover), actual[++index]);
             Assert.AreEqual(typeof(TwoPointCrossover), actual[++index]);
             Assert.AreEqual(typeof(UniformCrossover), actual[++index]);
             Assert.AreEqual(typeof(VotingRecombinationCrossover), actual[++index]);
+            
         }
 
         [Test()]
@@ -33,7 +35,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         {
             var actual = CrossoverService.GetCrossoverNames();
 
-            Assert.AreEqual(12, actual.Count);
+            Assert.AreEqual(13, actual.Count);
             var index = -1;
             Assert.AreEqual("Alternating-position (AP)", actual[++index]);
             Assert.AreEqual("Cut and Splice", actual[++index]);
@@ -43,6 +45,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             Assert.AreEqual("Ordered (OX1)", actual[++index]);
             Assert.AreEqual("Partially Mapped (PMX)", actual[++index]);
             Assert.AreEqual("Position-based (POS)", actual[++index]);
+            Assert.AreEqual("Self Adaptive Crossover", actual[++index]);
             Assert.AreEqual("Three Parent", actual[++index]);
             Assert.AreEqual("Two-Point", actual[++index]);
             Assert.AreEqual("Uniform", actual[++index]);

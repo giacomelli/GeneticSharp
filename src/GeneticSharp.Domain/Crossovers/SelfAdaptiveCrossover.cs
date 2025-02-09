@@ -37,9 +37,9 @@ namespace GeneticSharp
             {
                 if (RandomizationProvider.Current.GetDouble() < 0.5)
                 {
-                    var v = offspring1.MutationProbabilities[i];
-                    offspring1.MutationProbabilities[i] = offspring2.MutationProbabilities[i];
-                    offspring2.MutationProbabilities[i] = v;
+                    var v = offspring1.GetMutationProbability(i);
+                    offspring1.SetMutationProbability(i,offspring2.GetMutationProbability(i));
+                    offspring2.SetMutationProbability(i, v);
                 }
                     
 
