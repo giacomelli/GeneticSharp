@@ -97,7 +97,7 @@ namespace GeneticSharp
                     candidates.Remove(tournamentWinner);
                 }
             }
-
+             
             while(selected.Count < number && candidates.Any())
             {
                 var canditate = candidates.First().Clone();
