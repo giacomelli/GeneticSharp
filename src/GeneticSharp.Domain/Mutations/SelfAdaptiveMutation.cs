@@ -37,14 +37,12 @@ namespace GeneticSharp
             {
                 if (random.GetDouble() < adaptiveChromosome.GetMutationProbability(i))
                 {
-                    // Mutación auto-adaptativa de la tasa de mutación
                     double normal = NextGaussian(0, 1);
                     double p = adaptiveChromosome.GetMutationProbability(i) * Math.Exp(Tau * normal);
                     p = Math.Clamp(p, MinMutationRate, MaxMutationRate);
                     adaptiveChromosome.SetMutationProbability(i,p);
                 }
 
-                // Aplicar mutación al gen con la tasa adaptada
                 if (random.GetDouble() < adaptiveChromosome.GetMutationProbability(i))
                 {
                     var g = chromosome.GenerateGene(i);
