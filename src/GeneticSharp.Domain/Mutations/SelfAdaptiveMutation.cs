@@ -49,6 +49,12 @@ namespace GeneticSharp
                     adaptiveChromosome.ReplaceGene(i, g);
                 }
             }
+
+            if(random.GetDouble() < probability)
+            {
+                var crossoverTypes = Enum.GetValues(typeof(CrossoverType));
+                adaptiveChromosome.CrossoverType = (CrossoverType)crossoverTypes.GetValue(random.GetInt(0, crossoverTypes.Length));
+            }
         }
 
         private double NextGaussian(double mean, double stdDev)
