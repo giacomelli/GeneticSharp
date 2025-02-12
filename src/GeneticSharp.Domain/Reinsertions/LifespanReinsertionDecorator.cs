@@ -16,6 +16,12 @@ namespace GeneticSharp.Domain.LifeSpans
 
         public bool CanExpand => _baseReinsertion.CanExpand;
 
+        public LifespanReinsertionDecorator(int maxLifespan = 20)
+        {
+            _baseReinsertion = new ElitistReinsertion();
+            MaxLifespan = maxLifespan;
+        }
+
         public LifespanReinsertionDecorator(IReinsertion baseReinsertion, int maxLifespan = 20)
         {
             _baseReinsertion = baseReinsertion;

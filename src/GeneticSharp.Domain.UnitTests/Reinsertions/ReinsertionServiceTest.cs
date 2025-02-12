@@ -1,4 +1,5 @@
 ﻿using System;
+using GeneticSharp.Domain.LifeSpans;
 using NUnit.Framework;
 
 namespace GeneticSharp.Domain.UnitTests.Reinsertions
@@ -12,11 +13,12 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
         {
             var actual = ReinsertionService.GetReinsertionTypes();
 
-            Assert.AreEqual(4, actual.Count);
+            Assert.AreEqual(5, actual.Count);
             Assert.AreEqual(typeof(ElitistReinsertion), actual[0]);
             Assert.AreEqual(typeof(FitnessBasedReinsertion), actual[1]);
-            Assert.AreEqual(typeof(PureReinsertion), actual[2]);
-            Assert.AreEqual(typeof(UniformReinsertion), actual[3]);
+            Assert.AreEqual(typeof(LifespanReinsertionDecorator), actual[2]);
+            Assert.AreEqual(typeof(PureReinsertion), actual[3]);
+            Assert.AreEqual(typeof(UniformReinsertion), actual[4]);
         }
 
         [Test()]
@@ -24,11 +26,13 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
         {
             var actual = ReinsertionService.GetReinsertionNames();
 
-            Assert.AreEqual(4, actual.Count);
+            Assert.AreEqual(5, actual.Count);
             Assert.AreEqual("Elitist", actual[0]);
             Assert.AreEqual("Fitness Based", actual[1]);
-            Assert.AreEqual("Pure", actual[2]);
-            Assert.AreEqual("Uniform", actual[3]);
+            Assert.AreEqual("LifespanReinsertion", actual[2]);
+            Assert.AreEqual("Pure", actual[3]);
+            Assert.AreEqual("Uniform", actual[4]);
+            
         }
 
         [Test()]
