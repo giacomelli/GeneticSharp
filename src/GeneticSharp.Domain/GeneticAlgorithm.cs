@@ -175,6 +175,8 @@ namespace GeneticSharp
         /// </summary>
         public IReinsertion Reinsertion { get; set; }
 
+        
+
         /// <summary>
         /// Gets or sets the termination condition.
         /// </summary>
@@ -453,6 +455,7 @@ namespace GeneticSharp
         /// <returns>The result chromosomes.</returns>
         private IList<IChromosome> Cross(IList<IChromosome> parents)
         {
+
             return OperatorsStrategy.Cross(Population, Crossover, CrossoverProbability, parents);
         }
 

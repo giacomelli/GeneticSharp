@@ -28,6 +28,12 @@ namespace GeneticSharp
         int Length { get; }
         #endregion
 
+        /// <summary>
+        /// How many generation chromosome still alive
+        /// </summary>
+        /// <value>The age.</value>
+        int Age { get; set; }
+
         #region Methods
         /// <summary>
         /// Generates the gene for the specified index.

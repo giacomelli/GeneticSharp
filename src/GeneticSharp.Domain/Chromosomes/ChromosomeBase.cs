@@ -36,6 +36,11 @@ namespace GeneticSharp
         public double? Fitness { get; set; }
 
         /// <summary>
+        /// Gets or sets the age of the chromosome in the current problem.
+        /// </summary>
+        public int Age { get; set; }
+
+        /// <summary>
         /// Gets the length, in genes, of the chromosome.
         /// </summary>
         public int Length
