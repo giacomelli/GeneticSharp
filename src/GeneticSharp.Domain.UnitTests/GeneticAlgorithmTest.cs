@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using NSubstitute;
 using System.Security.Cryptography;
+using GeneticSharp.Domain.LifeSpans;
 
 namespace GeneticSharp.Domain.UnitTests
 {
@@ -492,61 +493,68 @@ namespace GeneticSharp.Domain.UnitTests
             var selections = SelectionService.GetSelectionNames();
             var crossovers = CrossoverService.GetCrossoverNames();
             var mutations = MutationService.GetMutationNames().Where(m => !m.Equals("Flip Bit"));
-            var reinsertions = ReinsertionService.GetReinsertionNames();
+            var reinsertions = ReinsertionService.GetReinsertionNames().Where(m => !m.Equals("LifespanReinsertion"));
             var chromosome = new OrderedChromosomeStub();
 
-            foreach (var s in selections)
+            foreach (var LifeSpan in new bool[] { true, false })
             {
-                foreach (var c in crossovers)
+
+
+                foreach (var s in selections)
                 {
-                    foreach (var m in mutations)
+                    foreach (var c in crossovers)
                     {
-                        foreach (var r in reinsertions)
+                        foreach (var m in mutations)
                         {
-                            var selection = SelectionService.CreateSelectionByName(s);
-                            var crossover = CrossoverService.CreateCrossoverByName(c);
-                            var mutation = MutationService.CreateMutationByName(m);
-                            var reinsertion = ReinsertionService.CreateReinsertionByName(r);
-
-                            if (crossover.IsOrdered ^ mutation.IsOrdered)
+                            foreach (var r in reinsertions)
                             {
-                                continue;
+                                var selection = SelectionService.CreateSelectionByName(s);
+                                var crossover = CrossoverService.CreateCrossoverByName(c);
+                                var mutation = MutationService.CreateMutationByName(m);
+                                var reinsertion = ReinsertionService.CreateReinsertionByName(r);
+                                if (LifeSpan)
+                                    reinsertion = new LifespanReinsertionDecorator(reinsertion);
+
+                                if (crossover.IsOrdered ^ mutation.IsOrdered)
+                                {
+                                    continue;
+                                }
+
+                                if (crossover.ParentsNumber > crossover.ChildrenNumber && !reinsertion.CanExpand)
+                                {
+                                    continue;
+                                }
+
+                                if (mutation is UniformMutation)
+                                {
+                                    mutation = new UniformMutation(1);
+                                }
+
+                                var target = new GeneticAlgorithm(
+                                     new Population(50, 50, chromosome.Clone())
+                                     {
+                                         GenerationStrategy = new TrackingGenerationStrategy()
+                                     },
+                                     new FitnessStub() { SupportsParallel = false },
+                                     selection,
+                                     crossover,
+                                     mutation);
+
+                                target.Reinsertion = reinsertion;
+                                target.Termination = new GenerationNumberTermination(25);
+                                target.CrossoverProbability = reinsertion.CanExpand ? 0.75f : 1f;
+
+                                try
+                                {
+                                    target.Start();
+                                }
+                                catch (Exception ex)
+                                {
+                                    throw new Exception($"GA start failed using selection:{s}, crossover:{c}, mutation:{m} and reinsertion:{r}. Error: {ex.Message}", ex);
+                                }
+
+                                Assert.AreEqual(25, target.Population.Generations.Count);
                             }
-
-                            if (crossover.ParentsNumber > crossover.ChildrenNumber && !reinsertion.CanExpand)
-                            {
-                                continue;
-                            }
-
-                            if (mutation is UniformMutation)
-                            {
-                                mutation = new UniformMutation(1);
-                            }
-
-                            var target = new GeneticAlgorithm(
-                                 new Population(50, 50, chromosome.Clone())
-                                 {
-                                     GenerationStrategy = new TrackingGenerationStrategy()
-                                 },
-                                 new FitnessStub() { SupportsParallel = false },
-                                 selection,
-                                 crossover,
-                                 mutation);
-
-                            target.Reinsertion = reinsertion;
-                            target.Termination = new GenerationNumberTermination(25);
-                            target.CrossoverProbability = reinsertion.CanExpand ? 0.75f : 1f;
-
-                            try
-                            {
-                                target.Start();
-                            }
-                            catch(Exception ex)
-                            {
-                                throw new Exception($"GA start failed using selection:{s}, crossover:{c}, mutation:{m} and reinsertion:{r}. Error: {ex.Message}", ex);
-                            }
-
-                            Assert.AreEqual(25, target.Population.Generations.Count);
                         }
                     }
                 }
