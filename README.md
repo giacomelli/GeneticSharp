@@ -8,16 +8,16 @@
 [![Stack Overflow](https://img.shields.io/badge/stackoverflow-GeneticSharp-orange.svg)](http://stackoverflow.com/questions/tagged/GeneticSharp)
 
 
-GeneticSharp is a fast, extensible, multi-platform and multithreading C# Genetic Algorithm library that simplifies the development of applications using Genetic Algorithms (GAs).
+GeneticSharp is a fast, extensible, multi-platform, and multithreading C# Genetic Algorithm library that simplifies the development of applications using Genetic Algorithms (GAs).
 
-Can be used in any kind of .NET 6, .NET Standard and .NET Framework apps, like ASP .NET MVC, ASP .NET Core, Blazor, Web Forms, UWP, Windows Forms, GTK#, Xamarin, MAUI and Unity3D games.
+It can be used in any kind of .NET 6, .NET Standard, and .NET Framework apps, like ASP .NET MVC, ASP .NET Core, Blazor, Web Forms, UWP, Windows Forms, GTK#, Xamarin, MAUI and Unity3D games.
 
 
 --------
 
-## Projects, papers, journals, books, tutorials, courses and apps using GeneticSharp
+## Projects, papers, journals, books, tutorials, courses, and apps using GeneticSharp
 * [1st International Congress on Artificial Intelligence and Data Science (paper)](https://motto.tc/gorseller/files/kitaplar/icada2021.pdf)
-* [A bi-level optimisation approach for assembly line design using a nested genetic algorithm (paper)](https://www.tandfonline.com/doi/abs/10.1080/00207543.2020.1845411)
+* [A bi-level optimization approach for assembly line design using a nested genetic algorithm (paper)](https://www.tandfonline.com/doi/abs/10.1080/00207543.2020.1845411)
 * [A CPS-Based Simulation Platform for Long Production Factories (paper)](https://www.mdpi.com/2075-4701/9/10/1025/pdf)
 * [About the possibilities of implementing genetic algorithms in the C# programming language (paper)](https://elibrary.ru/item.asp?id=36794042)  ![](https://img.shields.io/badge/RU-red.svg)
 * [AeroVision: aircraft trajectories optimization and visualization (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/AeroVision-Aircraft-trajectories-optimization-and-visualization.pdf)
@@ -25,19 +25,23 @@ Can be used in any kind of .NET 6, .NET Standard and .NET Framework apps, like A
 * [An Application-Oriented Cyber-Physical Production Optimisation System Architecture for the Steel Industry (paper)](https://www.sciencedirect.com/science/article/pii/S2405896322001719)
 * [An approach for the global search for top-quality six-bar dwell linkages (paper)](https://www.sciencedirect.com/science/article/pii/S0094114X22002282)
 * [Application of genetic algorithms to optimize RFID antenna readings (paper)](https://github.com/gsalibi/artificial-intelligence-course/blob/master/Project%202/Relat%C3%B3rio.pdf) ![](https://img.shields.io/badge/BR-green.svg)
+* [Approaches to Multi-Constraint Job Order Balancing (paper)](https://www.diva-portal.org/smash/get/diva2:1875545/FULLTEXT01.pdf)
 * [Artificial Intelligence course in French engineering schools (course)](https://github.com/giacomelli/GeneticSharp/pull/43#issuecomment-433662175)
 * [Artificial Intelligence for the Unstable Unicorns Game (paper)](https://dspace.cuni.cz/bitstream/handle/20.500.11956/183069/130360435.pdf)
 * [A Software Development Framework for Complete Battery Characterization: Testing, Modelling & Parameterization (paper)](https://macsphere.mcmaster.ca/handle/11375/25423)
 * [Autoloader: Cargo Handling Software for Navy and Marine Aircraft (paper)](https://www.stottlerhenke.com/wp-content/uploads/2022/03/LODR-IEEE-Aero-2022-Paper_submitted_reduced.pdf)
 * [Automated linear design integrated microwave amplifier with distributed gain (paper)](https://scholar.archive.org/work/qp6k4sgorbanjer34zqfbjl7nq/access/wayback/https://vre.instel.ru/jour/article/download/1371/1102) ![](https://img.shields.io/badge/RU-red.svg)
 * [Automated selection of structural parameters for insulated glass units (paper)](http://dspace.lu.lv/dspace/handle/7/55809) ![](https://img.shields.io/badge/LV-red.svg)
+* [Automatic refactoring for parallelization (paper)](https://eprints.ost.ch/id/eprint/760)
 * [BlazorAI: Blazor Meets Artificial Intelligence (app)](https://www.blazor.ai/) [(Github)](https://github.com/lhalsey/BlazorAI)
 * [Context-Sensitive Code Completion: improving predictions with genetic algorithms (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Context-Sensitive-Code-Completion-improving-predictions-with-genetic-algorithms.pdf) [(Github)](https://github.com/godtopus/GeneCSCC)
 * [Deriving Functions for Pareto Optimal Fronts Using Genetic Programming (paper/book)](https://books.google.com.br/books?id=w_lcDwAAQBAJ&lpg=PA473&ots=Rv7O6FhCSM&dq=%22GeneticSharp%22&hl=pt-BR&pg=PA464#v=onepage&q=%22GeneticSharp%22&f=false)
 * [Designing and creating a self managing distributed file system (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Designing-and-creating-a-self-managing-distributed-file-system.pdf)
+* [Design and optimization of a GFRP and steel hybrid prestressed SFRC beam based on numerical and analytical approaches (paper)](https://repositorium.sdum.uminho.pt/handle/1822/88537)
 * [Design of a warehouse order picking policy using genetic algorithm (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Design-of-a-warehouse-order-picking-policy-using-genetic-algorithm.pdf)
 * [Development of a Coupled Hydrological and Buildup/Washoff Watershed Model (paper)](https://ascelibrary.org/doi/abs/10.1061/9780784482957.014) ![](https://img.shields.io/badge/BR-green.svg)
 * [Developing trading strategies with genetic algorithms (forum)](https://www.quantconnect.com/forum/discussion/2396/developing-trading-strategies-with-genetic-algorithms) [(paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Developing-Trading-Strategies-with-Genetic-Algorithms.pdf)
+* [Discrete and mixed-variable experimental design with surrogate-based approach (paper)](https://pubs.rsc.org/en/content/articlehtml/2024/dd/d4dd00113c)
 * [Evolving Woodland Camouflage (paper)](https://ieeexplore.ieee.org/abstract/document/9850354)
 * [Fabrication of Adiabatic Quantum-Flux-Parametron Integrated Circuits Using an Automatic Placement Tool Based on Genetic Algorithms (paper)](https://ieeexplore.ieee.org/document/8643945)
 * [Framework for graphical user interface testing (paper)](https://theses.cz/id/fn6jrd/24813.pdf) ![](https://img.shields.io/badge/CZ-blue.svg)
@@ -54,6 +58,8 @@ Can be used in any kind of .NET 6, .NET Standard and .NET Framework apps, like A
 * [Lean Optimization: genetic optimization using LEAN (GitHub)](https://github.com/Jay-Jay-D/LeanOptimization) 
 * [Mapping of White Dwarfs in AM Her Systems (paper)](https://link.springer.com/article/10.1134/S1063773720120026)
 * [Modelling and Simulation Analysis of Goal-Oriented Business Process (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Modelling-and-Simulation-Analysis-of-Goal-Oriented-Business-Process.pdf) ![](https://img.shields.io/badge/LT-red.svg)
+* [Movement Simulation of a Handheld Device (paper)](https://theses.cz/id/ff90q1/thesis.pdf) ![](https://img.shields.io/badge/CZ-blue.svg)
+* [Multiple Autonomous Drone Mission Planning (paper)](https://run.unl.pt/bitstream/10362/178449/1/Jorge_2024.pdf) ![](https://img.shields.io/badge/PT-orange.svg)
 * [Object distribution system in a limited space using genetic algorithms (paper)](https://ela.kpi.ua/bitstream/123456789/29512/1/Kovalchuk_bakalavr.docx) ![](https://img.shields.io/badge/UA-yellow.svg) 
 * [OpenFMSL: simulate stationary chemical processes using mass and energy balances (project)](https://github.com/Nukleon84/OpenFMSL)
 * [Optimization by genetic algorithm of lattices structures for the media generation in additive manufacturing (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Optimisation-par-algorithme-genetique-de-structures-lattices.pdf) ![](https://img.shields.io/badge/FR-blue.svg)
@@ -62,10 +68,14 @@ Can be used in any kind of .NET 6, .NET Standard and .NET Framework apps, like A
 * [Optimization of patient flow in emergency departments using Genetic Algorithms (paper)](https://github.com/giacomelli/GeneticSharp/blob/master/docs/mentioning-GeneticSharp/Optimization-of-Patient-Flow-in-Emergency-Departments-using-Genetic-Algorithms.pdf)
 * [Optimization of part orientation and design of support structures in laser powder bed fusion (paper)](https://link.springer.com/article/10.1007/s12008-022-00856-7)
 * [Optimization of self-supporting steel towers for transmission lines with genetic algorithms (paper)](https://repositorio.ufmg.br/handle/1843/47381) ![](https://img.shields.io/badge/BR-green.svg)
+* [Optimized Work Schedule Generation in Construction Projects (paper)](https://www1.pub.informatik.uni-wuerzburg.de/pub/theses/2024-raies-masterarbeit.pdf)
 * [Overload journal 142: Evolutionary computing frameworks for optimisation (journal)](https://accu.org/var/uploads/journals/Overload142.pdf)
 * [Path Finding with Genetic Algorithms (project)](https://yoloprogramming.com/post/2017/01/11/path-finding-with-genetic-algorithms)
+* [Research of lift and transport machine systems plot of processing and food enterprises (paper)](http://socrates.vsau.org/b04213/html/cards/getfile.php/29620.pdf) ![](https://img.shields.io/badge/UA-yellow.svg) 
+* [Selecting Deconstruction Processes using Virtual Reality Comparisons (paper)](https://ieeexplore.ieee.org/abstract/document/10849358)
 * [SiliFish: software to model spinal control of motor movement in larval zebrafish (project)](https://github.com/Bui-lab/SiliFish)
 * [Simulation-based layout optimization for multi-station assembly lines (paper)](https://link.springer.com/content/pdf/10.1007/s10845-021-01853-5.pdf)
+* [Software system for intellectual formation of starting populations (paper)](https://ela.kpi.ua/server/api/core/bitstreams/a607c6ea-5dad-411e-96e9-c9f090a123b5/content) ![](https://img.shields.io/badge/UA-yellow.svg) 
 * [Study of methods of application of genetic algorithms for determining the viability of moving objects and their systems (paper)](https://dspace.cuni.cz/bitstream/handle/20.500.11956/183069/130360435.pdf)
 * [SurvivorAI: some experiments of survival scenarios (project)](https://github.com/giacomelli/SurvivorAI)
 * [System for the decision-making support of the synthesis of physical topology of collection and data transfer network in energy management system (paper)](http://hi-tech.asu.edu.ru/files/1(45)/193-210.pdf) ![](https://img.shields.io/badge/RU-red.svg)
@@ -73,6 +83,7 @@ Can be used in any kind of .NET 6, .NET Standard and .NET Framework apps, like A
 * [ThermalDesign (project)](https://github.com/simonjduff/ThermalDesign)
 * [TrussOptimization (project)](https://trussoptimizationweb.herokuapp.com)
 * [TSP with GeneticSharp and Unity3D (tutorial)](http://diegogiacomelli.com.br/tsp-with-GeneticSharp-and-Unity3d/)
+* [Using Genetic Algorithms for the Generation of Increasingly Challenging Terrain for Players to Navigate (paper)](https://ieeexplore.ieee.org/abstract/document/10570021)
 * [VetMedData.NET: a .NET Core class library for obtaining structured data on UK-licensed Veterinary Medicines (project)](https://github.com/Jongmassey/VetMedData.NET)
 * [Visualization of the process of solving selected optimization problems using genetic algorithms (paper)](https://dspace.cvut.cz/handle/10467/109406) ![](https://img.shields.io/badge/CZ-blue.svg)
 * Are you using GeneticSharp in your project? Please, [let me know!](https://twitter.com/ogiacomelli)
