@@ -13,14 +13,15 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         {
             var actual = MutationService.GetMutationTypes();
 
-            Assert.AreEqual(7, actual.Count);
+            Assert.AreEqual(8, actual.Count);
             Assert.AreEqual(typeof(DisplacementMutation), actual[0]);
             Assert.AreEqual(typeof(FlipBitMutation), actual[1]);
             Assert.AreEqual(typeof(InsertionMutation), actual[2]);
             Assert.AreEqual(typeof(PartialShuffleMutation), actual[3]);
             Assert.AreEqual(typeof(ReverseSequenceMutation), actual[4]);
-            Assert.AreEqual(typeof(TworsMutation), actual[5]);
-            Assert.AreEqual(typeof(UniformMutation), actual[6]);
+            Assert.AreEqual(typeof(SelfAdaptiveMutation), actual[5]);
+            Assert.AreEqual(typeof(TworsMutation), actual[6]);
+            Assert.AreEqual(typeof(UniformMutation), actual[7]);
         }
 
         [Test()]
@@ -28,14 +29,15 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         {
             var actual = MutationService.GetMutationNames();
 
-            Assert.AreEqual(7, actual.Count);
+            Assert.AreEqual(8, actual.Count);
             Assert.AreEqual("Displacement", actual[0]);
             Assert.AreEqual("Flip Bit", actual[1]);
             Assert.AreEqual("Insertion", actual[2]);
             Assert.AreEqual("Partial Shuffle (PSM)", actual[3]);
             Assert.AreEqual("Reverse Sequence (RSM)", actual[4]);
-            Assert.AreEqual("Twors", actual[5]);
-            Assert.AreEqual("Uniform", actual[6]);
+            Assert.AreEqual("Self Adaptive Mutation", actual[5]);
+            Assert.AreEqual("Twors", actual[6]);
+            Assert.AreEqual("Uniform", actual[7]);
         }
 
         [Test()]

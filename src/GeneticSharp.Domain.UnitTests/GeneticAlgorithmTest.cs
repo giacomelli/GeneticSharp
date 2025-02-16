@@ -493,8 +493,7 @@ namespace GeneticSharp.Domain.UnitTests
             var crossovers = CrossoverService.GetCrossoverNames();
             var mutations = MutationService.GetMutationNames().Where(m => !m.Equals("Flip Bit"));
             var reinsertions = ReinsertionService.GetReinsertionNames();
-            var chromosome = new OrderedChromosomeStub();
-
+            
             foreach (var s in selections)
             {
                 foreach (var c in crossovers)
@@ -507,6 +506,8 @@ namespace GeneticSharp.Domain.UnitTests
                             var crossover = CrossoverService.CreateCrossoverByName(c);
                             var mutation = MutationService.CreateMutationByName(m);
                             var reinsertion = ReinsertionService.CreateReinsertionByName(r);
+
+                            IChromosome chromosome =(IChromosome) (((crossover is SelfAdaptiveCrossover) || (mutation is SelfAdaptiveMutation)) ? new SelfAdaptiveChromosome(6, 0,6) : new OrderedChromosomeStub());
 
                             if (crossover.IsOrdered ^ mutation.IsOrdered)
                             {
@@ -523,12 +524,12 @@ namespace GeneticSharp.Domain.UnitTests
                                 mutation = new UniformMutation(1);
                             }
 
+                            var population = new Population(50, 50, chromosome.Clone()){ GenerationStrategy = new TrackingGenerationStrategy() };
+                            var fitness = new FitnessStub() { SupportsParallel = false };
+
                             var target = new GeneticAlgorithm(
-                                 new Population(50, 50, chromosome.Clone())
-                                 {
-                                     GenerationStrategy = new TrackingGenerationStrategy()
-                                 },
-                                 new FitnessStub() { SupportsParallel = false },
+                                 population,
+                                 fitness,
                                  selection,
                                  crossover,
                                  mutation);

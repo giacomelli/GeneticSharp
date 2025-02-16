@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading;
 
@@ -21,7 +22,7 @@ namespace GeneticSharp.Domain.UnitTests
             }
 
             var genes = chromosome.GetGenes();
-            double f = genes.Sum(g => (int)g.Value) / 20f;
+            double f = genes.Sum(g => Convert.ToInt32(g.Value)) / 20f;
 
             if (f > 1)
             {
