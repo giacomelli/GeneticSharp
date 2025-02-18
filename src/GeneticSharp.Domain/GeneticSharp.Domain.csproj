@@ -5,6 +5,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>GeneticSharp.Domain</AssemblyName>
+    <Nullable>enable</Nullable>
    </PropertyGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />

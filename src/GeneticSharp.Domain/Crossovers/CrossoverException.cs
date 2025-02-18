@@ -75,7 +75,7 @@ namespace GeneticSharp
         /// Gets the crossover.
         /// </summary>
         /// <value>The crossover.</value>
-        public ICrossover Crossover { get; private set; }
+        public ICrossover? Crossover { get; private set; }
         #endregion
 
         #region Methods

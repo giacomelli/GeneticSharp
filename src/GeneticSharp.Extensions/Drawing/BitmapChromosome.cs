@@ -104,7 +104,7 @@ namespace GeneticSharp.Extensions
             {
                 for (int y = 0; y < Height; y++)
                 {
-                    result.SetPixel(x, y, (Color)GetGene(geneIndex++).Value);
+                    result.SetPixel(x, y, (Color)GetGene(geneIndex++).Value!);
                 }
             }
 

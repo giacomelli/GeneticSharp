@@ -17,10 +17,10 @@ namespace GeneticSharp.Extensions
         public static int GetEquationResult(EquationChromosome equalityChromosome)
         {
             var genes = equalityChromosome.GetGenes();
-            var a = (int)genes[0].Value;
-            var b = (int)genes[1].Value;
-            var c = (int)genes[2].Value;
-            var d = (int)genes[3].Value;
+            var a = (int)genes[0].Value!;
+            var b = (int)genes[1].Value!;
+            var c = (int)genes[2].Value!;
+            var d = (int)genes[3].Value!;
 
             return a + (2 * b) + (3 * c) + (4 * d);
         }
@@ -35,7 +35,7 @@ namespace GeneticSharp.Extensions
             // a + 2b + 3c + 4d = 30
             var equalityChromosome = chromosome as EquationChromosome;
 
-            var fitness = Math.Abs(GetEquationResult(equalityChromosome) - 30);
+            var fitness = Math.Abs(GetEquationResult(equalityChromosome!) - 30);
 
             return fitness * -1;
         }

@@ -18,7 +18,7 @@ namespace GeneticSharp
         /// Gets the best chromosome.
         /// </summary>
         /// <value>The best chromosome.</value>
-        IChromosome BestChromosome { get; }
+        IChromosome? BestChromosome { get; }
 
         /// <summary>
         /// Gets the time evolving.

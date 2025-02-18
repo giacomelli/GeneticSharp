@@ -75,7 +75,7 @@ namespace GeneticSharp
         /// Gets the Selection.
         /// </summary>
         /// <value>The Selection.</value>
-        public ISelection Selection { get; private set; }
+        public ISelection? Selection { get; private set; }
         #endregion
 
         #region Methods

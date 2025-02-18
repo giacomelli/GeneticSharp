@@ -82,7 +82,7 @@ namespace GeneticSharp.Extensions
 
             foreach (var g in GetGenes())
             {
-                var op = g.Value.ToString();
+                var op = g.Value!.ToString();
 
                 if (!string.IsNullOrEmpty(op))
                 {

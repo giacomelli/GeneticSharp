@@ -36,7 +36,7 @@ namespace GeneticSharp
         /// <param name="parents">The parents.</param>
         /// <param name="firstParentIndex">the index of the first parent selected for a crossover</param>
         /// <returns>children for the current crossover if it was performed, null otherwise</returns>
-        protected static IList<IChromosome> SelectParentsAndCross(IPopulation population, ICrossover crossover,
+        protected static IList<IChromosome>? SelectParentsAndCross(IPopulation population, ICrossover crossover,
             float crossoverProbability, IList<IChromosome> parents, int firstParentIndex)
         {
             var selectedParents = parents.Skip(firstParentIndex).Take(crossover.ParentsNumber).ToList();

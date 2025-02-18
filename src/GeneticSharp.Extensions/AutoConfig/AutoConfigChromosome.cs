@@ -36,7 +36,7 @@ namespace GeneticSharp.Extensions
         {
             get
             {
-                return GetGene(0).Value as ISelection;
+                return (GetGene(0).Value as ISelection)!;
             }
         }
 
@@ -50,7 +50,7 @@ namespace GeneticSharp.Extensions
         {
             get
             {
-                return GetGene(1).Value as ICrossover;
+                return (GetGene(1).Value as ICrossover)!;
             }
         }
 
@@ -64,7 +64,7 @@ namespace GeneticSharp.Extensions
         {
             get
             {
-                return GetGene(2).Value as IMutation;
+                return (GetGene(2).Value as IMutation)!;
             }
         }
         #endregion

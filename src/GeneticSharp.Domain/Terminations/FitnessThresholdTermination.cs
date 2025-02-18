@@ -47,7 +47,7 @@ namespace GeneticSharp
         /// <param name="geneticAlgorithm">The genetic algorithm.</param>
         protected override bool PerformHasReached(IGeneticAlgorithm geneticAlgorithm)
         {
-            return geneticAlgorithm.BestChromosome.Fitness >= ExpectedFitness;
+            return geneticAlgorithm.BestChromosome!.Fitness >= ExpectedFitness;
         }
         #endregion
     }

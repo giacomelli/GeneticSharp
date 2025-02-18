@@ -34,7 +34,7 @@ namespace GeneticSharp
         /// Gets the current generation.
         /// </summary>
         /// <value>The current generation.</value>
-        Generation CurrentGeneration { get; }
+        Generation? CurrentGeneration { get; }
 
         /// <summary>
         /// Gets the total number of generations executed.
@@ -60,7 +60,7 @@ namespace GeneticSharp
         /// Gets the best chromosome.
         /// </summary>
         /// <value>The best chromosome.</value>
-        IChromosome BestChromosome { get; }
+        IChromosome? BestChromosome { get; }
 
         /// <summary>
         /// Gets or sets the generation strategy.

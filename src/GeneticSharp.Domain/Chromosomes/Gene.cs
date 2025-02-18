@@ -11,7 +11,7 @@ namespace GeneticSharp
     public struct Gene : IEquatable<Gene>
     {
         #region Fields
-        private object m_value;
+        private object? m_value;
         #endregion
 
         #region Constructors
@@ -19,7 +19,7 @@ namespace GeneticSharp
         /// Initializes a new instance of the <see cref="GeneticSharp.Gene"/> struct.
         /// </summary>
         /// <param name="value">The gene initial value.</param>
-        public Gene(object value)
+        public Gene(object? value)
         {
             m_value = value;
         }
@@ -31,7 +31,7 @@ namespace GeneticSharp
         /// Gets the value.
         /// </summary>
         /// <value>The value.</value>
-        public Object Value
+        public Object? Value
         {
             get
             {
@@ -73,7 +73,7 @@ namespace GeneticSharp
         /// <returns>A <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Gene"/>.</returns>
         public override string ToString()
         {
-            return Value != null ? Value.ToString() : String.Empty;
+            return Value?.ToString() ?? string.Empty;
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace GeneticSharp
         /// <param name="obj">The <see cref="System.Object"/> to compare with the current <see cref="GeneticSharp.Gene"/>.</param>
         /// <returns><c>true</c> if the specified <see cref="System.Object"/> is equal to the current
         /// <see cref="GeneticSharp.Gene"/>; otherwise, <c>false</c>.</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is Gene other)
             {

@@ -58,7 +58,7 @@ namespace GeneticSharp
         /// <param name="totalBits">Total bits.</param>
         /// <param name="fractionDigits">Fraction digits.</param>
         /// /// <param name="geneValues">Gene values.</param>
-        public FloatingPointChromosome(double[] minValue, double[] maxValue, int[] totalBits, int[] fractionDigits, double[] geneValues)
+        public FloatingPointChromosome(double[] minValue, double[] maxValue, int[] totalBits, int[] fractionDigits, double[]? geneValues)
             : base(totalBits.Sum())
         {
             m_minValue = minValue;
@@ -152,7 +152,7 @@ namespace GeneticSharp
         /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome"/>.</returns>
         public override string ToString()
         {
-            return String.Join("", GetGenes().Select(g => g.Value.ToString()).ToArray());
+            return String.Join("", GetGenes().Select(g => g.Value!.ToString()).ToArray());
         }
     }
 }

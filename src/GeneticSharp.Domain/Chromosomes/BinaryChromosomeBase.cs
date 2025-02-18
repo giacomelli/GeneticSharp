@@ -28,7 +28,7 @@ namespace GeneticSharp
         /// <param name="index">The gene index.</param>
         public virtual void FlipGene (int index)    
         {
-            var value = (int) GetGene (index).Value;
+            var value = (int)GetGene(index).Value!;
 
             ReplaceGene (index, new Gene (value == 0 ? 1 : 0));
         }
@@ -49,7 +49,7 @@ namespace GeneticSharp
         /// <returns>A <see cref="System.String"/> that represents the current <see cref="GeneticSharp.BinaryChromosomeBase"/>.</returns>
         public override string ToString ()
         {
-            return String.Join (string.Empty, GetGenes ().Select (g => g.Value.ToString()).ToArray());
+            return String.Join (string.Empty, GetGenes ().Select (g => g.Value!.ToString()).ToArray());
         }
         #endregion
     }

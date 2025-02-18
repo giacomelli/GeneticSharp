@@ -56,7 +56,7 @@ namespace GeneticSharp.Extensions
         /// <returns>The text.</returns>
         public string BuildText()
         {
-            return string.Join(" ", GetGenes().Select(g => g.Value.ToString()).ToArray());
+            return string.Join(" ", GetGenes().Select(g => g.Value!.ToString()).ToArray());
         }
         #endregion
     }

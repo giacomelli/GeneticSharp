@@ -25,7 +25,7 @@ namespace GeneticSharp.Extensions
 
             for (int i = 0; i < movesAhead; i++)
             {
-                Moves.Add(null);
+                Moves.Add(null!); // Replaced in GenerateGene
                 ReplaceGene(i, GenerateGene(i));
             }
         }
@@ -51,7 +51,7 @@ namespace GeneticSharp.Extensions
             from.PutPiece(new CheckersPiece(CheckersPlayer.PlayerOne));
 
             var to = FindPlayableSquare();
-            var move = new CheckersMove(from.CurrentPiece, to);
+            var move = new CheckersMove(from.CurrentPiece!, to);
 
             Moves[geneIndex] = move;
 
@@ -74,7 +74,7 @@ namespace GeneticSharp.Extensions
         public override IChromosome Clone()
         {
             var clone = base.Clone() as CheckersChromosome;
-            clone.Moves = Moves;
+            clone!.Moves = Moves;
 
             return clone;
         }

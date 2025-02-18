@@ -34,7 +34,7 @@ namespace GeneticSharp
         /// <summary>
         /// Gets or sets the cancellation token source.
         /// </summary>
-        protected CancellationTokenSource CancellationTokenSource { get; set; }
+        protected CancellationTokenSource? CancellationTokenSource { get; set; }
 
         /// <summary>
         /// Starts the tasks execution.

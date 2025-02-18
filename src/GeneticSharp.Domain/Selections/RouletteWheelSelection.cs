@@ -67,13 +67,13 @@ namespace GeneticSharp
         /// <param name="rouletteWheel">The roulette wheel.</param>
         protected static void CalculateCumulativePercentFitness(IList<IChromosome> chromosomes, IList<double> rouletteWheel)
         {
-            var sumFitness = chromosomes.Sum(c => c.Fitness.Value);
+            var sumFitness = chromosomes.Sum(c => c.Fitness!.Value);
 
             var cumulativePercent = 0.0;
 
             for (int i = 0; i < chromosomes.Count; i++)
             {
-                cumulativePercent += chromosomes[i].Fitness.Value / sumFitness;
+                cumulativePercent += chromosomes[i].Fitness!.Value / sumFitness;
                 rouletteWheel.Add(cumulativePercent);
             }
         }

@@ -15,7 +15,7 @@ namespace GeneticSharp
     public sealed class EliteSelection : SelectionBase
     {
         readonly int _previousGenerationChromosomesNumber;
-        List<IChromosome> _previousGenerationChromosomes;
+        List<IChromosome>? _previousGenerationChromosomes;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.EliteSelection"/> class.
@@ -47,7 +47,7 @@ namespace GeneticSharp
             if(generation.Number == 1)
                 _previousGenerationChromosomes = new List<IChromosome>();
 
-            _previousGenerationChromosomes.AddRange(generation.Chromosomes);
+            _previousGenerationChromosomes!.AddRange(generation.Chromosomes);
 
             var ordered = _previousGenerationChromosomes.OrderByDescending(c => c.Fitness);
             var result = ordered.Take(number).ToList();

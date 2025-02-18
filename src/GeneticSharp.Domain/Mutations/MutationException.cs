@@ -75,7 +75,7 @@ namespace GeneticSharp
         /// Gets the mutation.
         /// </summary>
         /// <value>The mutation.</value>
-        public IMutation Mutation { get; private set; }
+        public IMutation? Mutation { get; private set; }
         #endregion
 
         #region Methods

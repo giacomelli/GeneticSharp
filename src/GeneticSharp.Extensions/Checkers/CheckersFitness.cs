@@ -36,7 +36,7 @@ namespace GeneticSharp.Extensions
         public double Evaluate(IChromosome chromosome)
         {
             double fitness = 0;
-            var c = chromosome as CheckersChromosome;
+            var c = (chromosome as CheckersChromosome)!;
             double movesAhead = c.Moves.Count;
 
             var nextMovementFitness = EvaluateMove(c.Moves.First());

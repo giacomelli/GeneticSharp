@@ -35,7 +35,7 @@ namespace GeneticSharp.Extensions
         {
             var equalityChromosome = chromosome as EquationChromosome;
 
-            var fitness = Math.Abs(m_getEquationResult(equalityChromosome.GetGenes()) - m_expectedResult);
+            var fitness = Math.Abs(m_getEquationResult(equalityChromosome!.GetGenes()) - m_expectedResult);
 
             return fitness * -1;
         }
