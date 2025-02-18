@@ -85,7 +85,7 @@ namespace GeneticSharp
             var candidates = generation.Chromosomes.ToList();
             var selected = new List<IChromosome>();
 
-            while (selected.Count < number)
+            while (selected.Count < number && Size <= candidates.Count)
             {
                 var randomIndexes = RandomizationProvider.Current.GetUniqueInts(Size, 0, candidates.Count);
                 var tournamentWinner = candidates.Where((c, i) => randomIndexes.Contains(i)).OrderByDescending(c => c.Fitness).First();
@@ -97,8 +97,15 @@ namespace GeneticSharp
                     candidates.Remove(tournamentWinner);
                 }
             }
-
-            return selected;
+             
+            while(selected.Count < number && candidates.Any())
+            {
+                var canditate = candidates.First().Clone();
+				selected.Add(canditate);
+				candidates.Remove(canditate);
+			}
+			
+			return selected;
         }        
     }
 }
