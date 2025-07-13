@@ -12,7 +12,7 @@ namespace GeneticSharp
         /// Occurs when best chromosome changed.
         /// </summary>
         public event EventHandler BestChromosomeChanged;
-
+        private readonly IEnumerable<IChromosome> _seedPopulation = null;
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneticSharp.Population"/> class.
         /// </summary>
@@ -40,7 +40,28 @@ namespace GeneticSharp
             Generations = new List<Generation>();
             GenerationStrategy = new PerformanceGenerationStrategy(10);
         }
-        
+        public Population(int minSize, int maxSize, IList<IChromosome> seedPopulation)
+        {
+            if (minSize < 2)
+            {
+                throw new ArgumentOutOfRangeException(nameof(minSize), "The minimum size for a population is 2 chromosomes.");
+            }
+
+            if (maxSize < minSize)
+            {
+                throw new ArgumentOutOfRangeException(nameof(maxSize), "The maximum size for a population should be equal or greater than minimum size.");
+            }
+
+            ExceptionHelper.ThrowIfNull(nameof(seedPopulation), seedPopulation);
+
+            CreationDate = DateTime.Now;
+            MinSize = minSize;
+            MaxSize = maxSize;
+            _seedPopulation = seedPopulation;
+            AdamChromosome = seedPopulation[0];
+            Generations = new List<Generation>();
+            GenerationStrategy = new PerformanceGenerationStrategy(10);
+        }
         /// <summary>
         /// Gets or sets the creation date.
         /// </summary>
@@ -107,10 +128,14 @@ namespace GeneticSharp
             GenerationsNumber = 0;
 
             var chromosomes = new List<IChromosome>();
-
-            for (int i = 0; i < MinSize; i++)
+            if (_seedPopulation != null)
+            {
+                chromosomes.AddRange(_seedPopulation);
+            }
+            for (int i = chromosomes.Count; i < MinSize; i++)
             {
                 var c = AdamChromosome.CreateNew();
+                c.CreateGenes();
 
                 if (c == null)
                 {
