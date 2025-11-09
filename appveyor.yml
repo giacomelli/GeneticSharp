@@ -21,6 +21,8 @@ before_build:
 - ps: ./setJavaVersionForSonar.ps1
 
 build_script:
+- cmd: dotnet tool restore
+
 # Cake.
 - cmd: dotnet cake
 
