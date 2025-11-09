@@ -14,7 +14,7 @@ assembly_info:
   
 install:
 - ps: ./install-gtksharp.ps1
-- cmd: dotnet tool install --global Cake.Tool --version 4.2.0
+- cmd: dotnet tool install --global Cake.Tool
   
 before_build:
 - cmd: dotnet --version
