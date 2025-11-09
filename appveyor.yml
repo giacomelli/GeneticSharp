@@ -18,7 +18,7 @@ install:
   
 before_build:
 - cmd: dotnet --version
-- cmd: setJavaVersionForSonar.cmd
+- ps: setJavaVersionForSonar.ps1
 
 build_script:
 # Cake.
