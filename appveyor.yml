@@ -24,7 +24,7 @@ build_script:
 - cmd: dotnet tool restore
 
 # Cake.
-- cmd: dotnet cake
+- cmd: dotnet cake --settings_skippackageversioncheck=true
 
 after_build:
 # Build the GeneticSharp and GeneticSharp.Extensions NuGet packages.
