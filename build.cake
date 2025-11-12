@@ -1,7 +1,7 @@
 // Tools & Addins
-#tool dotnet:?package=dotnet-sonarscanner
-#addin nuget:?package=Cake.Sonar
-#addin nuget:?package=Cake.Git
+#tool dotnet:?package=dotnet-sonarscanner&version=11.0.0
+#addin nuget:?package=Cake.Sonar&version=5.0.0
+#addin nuget:?package=Cake.Git&version=5.0.1
 
 var target      = Argument("target", "Default");
 var solutionDir = "./src";
@@ -77,6 +77,7 @@ Task("SonarBegin")
         Url          = "https://sonarcloud.io",
         Token        = sonarLogin,
         Branch       = branch,
+        Verbose      = true,
         OpenCoverReportsPath = "**/coverage.opencover.xml",
         Exclusions = string.Join(",", new[]{
             "GeneticSharp.Benchmarks/**/*.cs",
@@ -96,7 +97,7 @@ Task("SonarEnd")
 {
     SonarEnd(new SonarEndSettings
     {
-        Token = sonarLogin
+        Token   = sonarLogin
     });
 });
 
