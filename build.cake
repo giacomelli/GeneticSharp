@@ -75,7 +75,7 @@ Task("SonarBegin")
         Key          = "GeneticSharp",
         Organization = "giacomelli-github",
         Url          = "https://sonarcloud.io",
-        Login        = sonarLogin,
+        Token        = sonarLogin,
         Branch       = branch,
         OpenCoverReportsPath = "**/coverage.opencover.xml",
         Exclusions = string.Join(",", new[]{
@@ -96,7 +96,7 @@ Task("SonarEnd")
 {
     SonarEnd(new SonarEndSettings
     {
-        Login = sonarLogin
+        Token = sonarLogin
     });
 });
 
