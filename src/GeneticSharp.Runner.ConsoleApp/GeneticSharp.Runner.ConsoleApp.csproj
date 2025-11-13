@@ -2,10 +2,10 @@
   <Import Project="..\msbuilds\GeneticSharp.dotnet-core.targets" />
   <Import Project="..\msbuilds\GeneticSharp.common.targets" />
   <Import Project="..\msbuilds\GeneticSharp.app.targets" />
-  
+
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <OutputType>Exe</OutputType>    
+    <OutputType>Exe</OutputType>
     <RuntimeIdentifiers>win7-x86;osx-x64;linux-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
@@ -13,7 +13,7 @@
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="NCalc.NetCore" Version="1.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta2" />
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="12.1.0" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.6.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,7 +21,7 @@
     <ProjectReference Include="..\GeneticSharp.Extensions\GeneticSharp.Extensions.csproj" />
     <ProjectReference Include="..\GeneticSharp.Infrastructure.Framework\GeneticSharp.Infrastructure.Framework.csproj" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <None Include="Resources\GhostwriterQuotex.json.txt" />
   </ItemGroup>

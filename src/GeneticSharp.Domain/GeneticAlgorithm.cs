@@ -390,24 +390,49 @@ namespace GeneticSharp
         /// Evaluates the fitness.
         /// </summary>
         private void EvaluateFitness()
-        {
+		{
+            var chromosomesWithoutFitness = Population.CurrentGeneration.Chromosomes.Where(c => !c.Fitness.HasValue).ToList();
+
+            if (Fitness is VectorFitness vectorFitness)
+			{
+                if (TaskExecutor is not LinearTaskExecutor)
+                {
+                    throw new InvalidOperationException("The vector fitness evaluation requires a LinearTaskExecutor.");
+				}
+
+				EvaluateVectorFitness(chromosomesWithoutFitness, vectorFitness);
+			}
+			else
+            {
+				EvaluateScalarFitness(chromosomesWithoutFitness);
+			}
+
+			Population.CurrentGeneration.Chromosomes = Population.CurrentGeneration.Chromosomes.OrderByDescending(c => c.Fitness.Value).ToList();
+		}
+
+		private void EvaluateVectorFitness(IList<IChromosome> chromosomesWithoutFitness, VectorFitness vectorFitness)
+		{
             try
             {
-                var chromosomesWithoutFitness = Population.CurrentGeneration.Chromosomes.Where(c => !c.Fitness.HasValue).ToList();
-
-                for (int i = 0; i < chromosomesWithoutFitness.Count; i++)
+                TaskExecutor.Add(() =>
                 {
-                    var c = chromosomesWithoutFitness[i];
-
-                    TaskExecutor.Add(() =>
+                    try
                     {
-                        RunEvaluateFitness(c);
-                    });
-                }
+                        var fitnessValues = vectorFitness.Evaluate(chromosomesWithoutFitness);
+                        for (int i = 0; i < chromosomesWithoutFitness.Count; i++)
+                        {
+                            chromosomesWithoutFitness[i].Fitness = fitnessValues[i];
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new FitnessException(Fitness, "Error executing Fitness.Evaluate for chromosome vector: {0}".With(ex.Message), ex);
+                    }
+                });
 
                 if (!TaskExecutor.Start())
                 {
-                    throw new TimeoutException("The fitness evaluation reached the {0} timeout.".With(TaskExecutor.Timeout));
+                    throw new TimeoutException("The vector fitness evaluation reached the {0} timeout.".With(TaskExecutor.Timeout));
                 }
             }
             finally
@@ -415,15 +440,39 @@ namespace GeneticSharp
                 TaskExecutor.Stop();
                 TaskExecutor.Clear();
             }
+		}
 
-            Population.CurrentGeneration.Chromosomes = Population.CurrentGeneration.Chromosomes.OrderByDescending(c => c.Fitness.Value).ToList();
-        }
+		private void EvaluateScalarFitness(IList<IChromosome> chromosomesWithoutFitness)
+		{
+			try
+			{
+				for (int i = 0; i < chromosomesWithoutFitness.Count; i++)
+				{
+					var c = chromosomesWithoutFitness[i];
 
-        /// <summary>
-        /// Runs the evaluate fitness.
-        /// </summary>
-        /// <param name="chromosome">The chromosome.</param>
-        private void RunEvaluateFitness(object chromosome)
+					TaskExecutor.Add(() =>
+					{
+						RunEvaluateFitness(c);
+					});
+				}
+
+				if (!TaskExecutor.Start())
+				{
+					throw new TimeoutException("The fitness evaluation reached the {0} timeout.".With(TaskExecutor.Timeout));
+				}
+			}
+			finally
+			{
+				TaskExecutor.Stop();
+				TaskExecutor.Clear();
+			}
+		}
+
+		/// <summary>
+		/// Runs the evaluate fitness.
+		/// </summary>
+		/// <param name="chromosome">The chromosome.</param>
+		private void RunEvaluateFitness(object chromosome)
         {
             var c = chromosome as IChromosome;
 
