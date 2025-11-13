@@ -7,26 +7,31 @@ var target      = Argument("target", "Default");
 var solutionDir = "./src";
 var sonarLogin  = EnvironmentVariable("GeneticSharp_SonarQube_login");
 
-// Detect branch name from CI or local git
 string DetectBranch()
 {
-    var fromEnv =
-        EnvironmentVariable("GITHUB_REF_NAME") ??
-        EnvironmentVariable("BUILD_SOURCEBRANCHNAME") ??
-        EnvironmentVariable("APPVEYOR_REPO_BRANCH");
+    // AppVeyor: PR source branch.
+    var appveyorPrBranch = EnvironmentVariable("APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH");
+    
+    if (!string.IsNullOrWhiteSpace(appveyorPrBranch))
+        return appveyorPrBranch;
 
-    if (!string.IsNullOrWhiteSpace(fromEnv))
-        return fromEnv;
+    // AppVeyor: normal branch.
+    var appveyorBranch = EnvironmentVariable("APPVEYOR_REPO_BRANCH");
+    
+    if (!string.IsNullOrWhiteSpace(appveyorBranch))
+        return appveyorBranch;   
 
+    // Local fallback.
     try 
     { 
         return GitBranchCurrent(".").FriendlyName; 
     }
     catch 
     { 
-        return "main"; 
+        return "master"; 
     }
 }
+
 var branch = DetectBranch();
 
 // Validation
@@ -77,7 +82,7 @@ Task("SonarBegin")
         Url          = "https://sonarcloud.io",
         Token        = sonarLogin,
         Branch       = branch,
-        Verbose      = true,
+        Verbose      = false,
         OpenCoverReportsPath = "**/coverage.opencover.xml",
         Exclusions = string.Join(",", new[]{
             "GeneticSharp.Benchmarks/**/*.cs",
