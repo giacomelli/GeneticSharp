@@ -18,6 +18,18 @@ namespace GeneticSharp
             MinThreads = 200;
             MaxThreads = 200;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="T:GeneticSharp.Infrastructure.Framework.Threading.ParallelTaskExecutor"/> class.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        public ParallelTaskExecutor(CancellationToken cancellationToken)
+            : base(cancellationToken)
+        {
+            MinThreads = 200;
+            MaxThreads = 200;
+        }
    
         /// <summary>
         /// Gets or sets the minimum threads.
@@ -47,12 +59,14 @@ namespace GeneticSharp
             try
             {
                 base.Start();
-                CancellationTokenSource = new CancellationTokenSource();
+                CancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(CancellationToken);
+                var token = CancellationTokenSource.Token;
                 var parallelTasks = new Task[Tasks.Count];
 
                 for (int i = 0; i < Tasks.Count; i++)
                 {
-                    parallelTasks[i] = Task.Run(Tasks[i], CancellationTokenSource.Token);
+                    var task = Tasks[i];
+                    parallelTasks[i] = Task.Run(async () => await task(token), token);
                 }
 
                 // Need to verify, because TimeSpan.MaxValue passed to Task.WaitAll throws a System.ArgumentOutOfRangeException.

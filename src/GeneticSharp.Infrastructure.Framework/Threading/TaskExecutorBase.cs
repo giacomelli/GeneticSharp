@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace GeneticSharp
 {
@@ -14,9 +16,19 @@ namespace GeneticSharp
         /// Initializes a new instance of the <see cref="GeneticSharp.TaskExecutorBase"/> class.
         /// </summary>
         protected TaskExecutorBase()
+            : this(CancellationToken.None)
         {
-            Tasks = new List<Action>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeneticSharp.TaskExecutorBase"/> class.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        protected TaskExecutorBase(CancellationToken cancellationToken)
+        {
+            Tasks = new List<Func<CancellationToken, ValueTask>>();
             Timeout = TimeSpan.MaxValue;
+            CancellationToken = cancellationToken;
         }
 
         /// <summary>
@@ -36,7 +48,12 @@ namespace GeneticSharp
         /// <summary>
         /// Gets the tasks.
         /// </summary>
-        protected IList<Action> Tasks { get; private set; }
+        protected IList<Func<CancellationToken, ValueTask>> Tasks { get; private set; }
+
+        /// <summary>
+        /// Gets the cancellation token.
+        /// </summary>
+        public CancellationToken CancellationToken { get; }
 
         /// <summary>
         /// Gets a value indicating whether this
@@ -44,12 +61,12 @@ namespace GeneticSharp
         /// </summary>
         /// <value><c>true</c> if stop requested; otherwise, <c>false</c>.</value>
         protected bool StopRequested { get; private set; }
-  
+
         /// <summary>
         /// Add the specified task to be executed.
         /// </summary>
         /// <param name="task">The task.</param>
-        public void Add(Action task)
+        public void Add(Func<CancellationToken, ValueTask> task)
         {
             Tasks.Add(task);
         }

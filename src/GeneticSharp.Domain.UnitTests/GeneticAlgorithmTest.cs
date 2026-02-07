@@ -683,6 +683,103 @@ namespace GeneticSharp.Domain.UnitTests
         }
 
         [Test()]
+        public void Start_AsyncFitness_Optimization()
+        {
+            var selection = new EliteSelection();
+            var crossover = new OnePointCrossover(2);
+            var mutation = new UniformMutation();
+            var chromosome = new ChromosomeStub();
+            var target = new GeneticAlgorithm(new Population(50, 50, chromosome),
+                new AsyncFitnessStub() { SupportsParallel = false }, selection, crossover, mutation);
+
+            target.Population.GenerationStrategy = new TrackingGenerationStrategy();
+            target.Termination = new GenerationNumberTermination(25);
+
+            target.Start();
+
+            Assert.AreEqual(GeneticAlgorithmState.TerminationReached, target.State);
+            Assert.IsFalse(target.IsRunning);
+            Assert.AreEqual(25, target.Population.Generations.Count);
+
+            var lastFitness = 0.0;
+
+            foreach (var g in target.Population.Generations)
+            {
+                Assert.GreaterOrEqual(g.BestChromosome.Fitness.Value, lastFitness);
+                lastFitness = g.BestChromosome.Fitness.Value;
+            }
+
+            Assert.GreaterOrEqual(lastFitness, 0.8);
+        }
+
+        [Test()]
+        public void Start_AsyncFitnessParallel_Optimization()
+        {
+            var taskExecutor = new ParallelTaskExecutor();
+            taskExecutor.MinThreads = 100;
+            taskExecutor.MaxThreads = 100;
+
+            var selection = new EliteSelection();
+            var crossover = new OnePointCrossover(1);
+            var mutation = new UniformMutation();
+            var chromosome = new ChromosomeStub();
+
+            FlowAssert.IsAtLeastOneAttemptOk(20, () =>
+            {
+                var target = new GeneticAlgorithm(new Population(100, 150, chromosome),
+                new AsyncFitnessStub() { SupportsParallel = true }, selection, crossover, mutation);
+                target.TaskExecutor = taskExecutor;
+
+                target.Start();
+
+                Assert.AreEqual(GeneticAlgorithmState.TerminationReached, target.State);
+                Assert.IsFalse(target.IsRunning);
+                Assert.IsNotNull(target.Population.BestChromosome);
+                Assert.IsTrue(target.Population.BestChromosome.Fitness >= 0.9, $"Fitness should be >= 0.9, but is {target.Population.BestChromosome.Fitness}");
+            });
+        }
+
+        [Test()]
+        public void Start_AsyncFitnessCancellation_OperationCanceled()
+        {
+            var cts = new CancellationTokenSource();
+            var taskExecutor = new LinearTaskExecutor(cts.Token);
+
+            var selection = new EliteSelection();
+            var crossover = new OnePointCrossover(2);
+            var mutation = new UniformMutation();
+            var chromosome = new ChromosomeStub();
+            var target = new GeneticAlgorithm(new Population(50, 50, chromosome),
+                new AsyncFitnessStub() { SupportsParallel = true, ParallelSleep = 5000 }, selection, crossover, mutation);
+            target.TaskExecutor = taskExecutor;
+            target.Termination = new GenerationNumberTermination(25);
+
+            cts.CancelAfter(100);
+
+            Assert.Catch<FitnessException>(() =>
+            {
+                target.Start();
+            });
+        }
+
+        [Test()]
+        public void Start_AsyncFitnessEvaluationFailed_FitnessException()
+        {
+            var selection = new RouletteWheelSelection();
+            var crossover = new OnePointCrossover(1);
+            var mutation = new UniformMutation();
+            var chromosome = new ChromosomeStub();
+            var fitness = new AsyncFuncFitness((c, ct) => throw new Exception("TEST"));
+
+            var target = new GeneticAlgorithm(new Population(100, 150, chromosome), fitness, selection, crossover, mutation);
+
+            Assert.Catch<FitnessException>(target.Start);
+
+            Assert.IsFalse(target.IsRunning);
+            Assert.AreEqual(GeneticAlgorithmState.Stopped, target.State);
+        }
+
+        [Test()]
         public void Stop_NotStarted_Exception()
         {
             var selection = new EliteSelection();
