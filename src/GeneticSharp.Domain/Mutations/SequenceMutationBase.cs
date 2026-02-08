@@ -8,6 +8,11 @@ namespace GeneticSharp
     /// </summary>
     public abstract class SequenceMutationBase : MutationBase
     {
+        /// <summary>
+        /// Gets the minimum chromosome length required by this mutation.
+        /// </summary>
+        public override int MinChromosomeLength => 3;
+
         #region Methods
         /// <summary>
         /// Mutate the specified chromosome.
@@ -37,7 +42,7 @@ namespace GeneticSharp
         /// <param name="chromosome">The chromosome.</param>
         protected virtual void ValidateLength(IChromosome chromosome)
         {
-            if (chromosome.Length < 3)
+            if (chromosome.Length < MinChromosomeLength)
             {
                 throw new MutationException(this, "A chromosome should have, at least, 3 genes. {0} has only {1} gene.".With(chromosome.GetType().Name, chromosome.Length));
             }

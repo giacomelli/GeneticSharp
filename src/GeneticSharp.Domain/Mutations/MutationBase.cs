@@ -10,6 +10,11 @@
         /// Gets or sets a value indicating whether the operator is ordered (if can keep the chromosome order).
         /// </summary>
         public bool IsOrdered { get; protected set; }
+
+        /// <summary>
+        /// Gets the minimum chromosome length required by this mutation.
+        /// </summary>
+        public virtual int MinChromosomeLength => 0;
         #endregion
 
         #region Methods
