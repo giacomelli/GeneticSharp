@@ -2,7 +2,7 @@
   <Import Project="..\msbuilds\GeneticSharp.dotnet-core.targets" />
   <Import Project="..\msbuilds\GeneticSharp.common.targets" />
   <PropertyGroup> 
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <AssemblyName>GeneticSharp.Infrastructure.Framework</AssemblyName>
     <PackageId>GeneticSharp.Infrastructure.Framework</PackageId>
   </PropertyGroup>

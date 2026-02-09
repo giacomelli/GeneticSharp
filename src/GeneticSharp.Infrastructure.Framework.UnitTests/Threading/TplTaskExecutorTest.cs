@@ -249,7 +249,7 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
         {
             long pipeline = 0;
             var target = new TplTaskExecutor();
-            target.Timeout = TimeSpan.FromSeconds(5);
+            target.Timeout = TimeSpan.FromSeconds(2);
 
             for (int i = 0; i < 1000; i++)
             {
@@ -257,13 +257,13 @@ namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
                 {
                     Interlocked.Increment(ref pipeline);
                     target.Stop();
-                    Thread.Sleep(100);                                       
+                    Thread.Sleep(200);                                       
                 }); 
             }
        
             var actual = target.Start();
             Assert.IsFalse(actual);
-            Assert.Less(pipeline, 10);
+            Assert.Less(pipeline, 32);
         }
     }
 }

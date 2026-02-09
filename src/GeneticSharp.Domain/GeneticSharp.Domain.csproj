@@ -3,7 +3,7 @@
   <Import Project="..\msbuilds\GeneticSharp.common.targets" />
   
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <AssemblyName>GeneticSharp.Domain</AssemblyName>
    </PropertyGroup>
   <ItemGroup>
