@@ -756,7 +756,7 @@ namespace GeneticSharp.Domain.UnitTests
 
             cts.CancelAfter(100);
 
-            Assert.Catch<FitnessException>(() =>
+            Assert.Catch<OperationCanceledException>(() =>
             {
                 target.Start();
             });

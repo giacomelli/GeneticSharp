@@ -44,7 +44,7 @@ namespace GeneticSharp
         {
             if (chromosome.Length < MinChromosomeLength)
             {
-                throw new MutationException(this, "A chromosome should have, at least, 3 genes. {0} has only {1} gene.".With(chromosome.GetType().Name, chromosome.Length));
+                throw new MutationException(this, "A chromosome should have, at least, {0} genes. {1} has only {2} gene.".With(MinChromosomeLength, chromosome.GetType().Name, chromosome.Length));
             }
         }
 

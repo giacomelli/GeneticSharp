@@ -81,6 +81,8 @@ namespace GeneticSharp
             finally
             {
                 ResetThreadPoolConfig(minWorker, minIOC, maxWorker, maxIOC);
+                CancellationTokenSource?.Dispose();
+                CancellationTokenSource = null;
                 IsRunning = false;
             }
         }

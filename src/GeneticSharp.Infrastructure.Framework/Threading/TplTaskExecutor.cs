@@ -60,6 +60,8 @@ namespace GeneticSharp
             }
             finally
             {
+                CancellationTokenSource?.Dispose();
+                CancellationTokenSource = null;
                 IsRunning = false;
             }
         }

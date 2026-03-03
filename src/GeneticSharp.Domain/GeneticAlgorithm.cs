@@ -441,9 +441,13 @@ namespace GeneticSharp
             {
                 c.Fitness = await asyncFitness.EvaluateAsync(c, ct);
             }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
             catch (Exception ex)
             {
-                throw new FitnessException(Fitness, "Error executing Fitness.Evaluate for chromosome: {0}".With(ex.Message), ex);
+                throw new FitnessException(Fitness, "Error executing Fitness.EvaluateAsync for chromosome: {0}".With(ex.Message), ex);
             }
         }
 
