@@ -11,6 +11,22 @@ namespace GeneticSharp
     public class TplTaskExecutor : ParallelTaskExecutor
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="TplTaskExecutor"/> class.
+        /// </summary>
+        public TplTaskExecutor()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TplTaskExecutor"/> class.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        public TplTaskExecutor(CancellationToken cancellationToken)
+            : base(cancellationToken)
+        {
+        }
+
+        /// <summary>
         /// Starts the tasks execution.
         /// </summary>
         /// <returns>If has reach the timeout or has been interrupted false, otherwise true.</returns>
@@ -19,31 +35,33 @@ namespace GeneticSharp
             try
             {
                 var startTime = DateTime.Now;
-                CancellationTokenSource = new CancellationTokenSource();
-                var result = new ParallelLoopResult();
+                CancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(CancellationToken);
+                var token = CancellationTokenSource.Token;
 
                 try
                 {
-                    result = Parallel.For(0, Tasks.Count, new ParallelOptions() { CancellationToken = CancellationTokenSource.Token }, (i, state) =>
-                    {
-                        // Execute the target function (fitness).
-                        Tasks[i]();
+                    Parallel.ForEachAsync(
+                        System.Linq.Enumerable.Range(0, Tasks.Count),
+                        new ParallelOptions() { CancellationToken = token },
+                        async (i, ct) =>
+                        {
+                            await Tasks[i](ct);
 
-                        // If cancellation token was requested OR take more time expected on Timeout property, 
-                        // then stop the running.
-                        if (CancellationTokenSource.IsCancellationRequested || (DateTime.Now - startTime) > Timeout)
-                            state.Break();
-                    });
+                            if ((DateTime.Now - startTime) > Timeout)
+                                CancellationTokenSource.Cancel();
+                        }).GetAwaiter().GetResult();
                 }
                 catch (OperationCanceledException)
                 {
-                    // Mute cancellation exception.
+                    return false;
                 }
 
-                return result.IsCompleted;
+                return true;
             }
             finally
             {
+                CancellationTokenSource?.Dispose();
+                CancellationTokenSource = null;
                 IsRunning = false;
             }
         }

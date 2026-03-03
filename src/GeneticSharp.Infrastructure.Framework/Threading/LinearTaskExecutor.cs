@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 
 namespace GeneticSharp
 {
@@ -7,6 +8,22 @@ namespace GeneticSharp
     /// </summary>
     public class LinearTaskExecutor : TaskExecutorBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LinearTaskExecutor"/> class.
+        /// </summary>
+        public LinearTaskExecutor()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LinearTaskExecutor"/> class.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        public LinearTaskExecutor(CancellationToken cancellationToken)
+            : base(cancellationToken)
+        {
+        }
+
         #region implemented abstract members of TaskExecutorBase
         /// <summary>
         /// Starts the tasks execution.
@@ -27,7 +44,7 @@ namespace GeneticSharp
                     return true;
                 }
 
-                Tasks[i]();
+                Tasks[i](CancellationToken).GetAwaiter().GetResult();
 
                 // If take more time expected on Timeout property,
                 // tehn stop thre running.

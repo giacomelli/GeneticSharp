@@ -1,5 +1,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace GeneticSharp
 {
@@ -21,6 +23,11 @@ namespace GeneticSharp
         /// <c>true</c> if this instance is running; otherwise, <c>false</c>.
         /// </value>
         bool IsRunning { get; }
+
+        /// <summary>
+        /// Gets the cancellation token.
+        /// </summary>
+        CancellationToken CancellationToken { get; }
         #endregion
 
         #region Methods
@@ -28,7 +35,7 @@ namespace GeneticSharp
         /// Add the specified task to be executed.
         /// </summary>
         /// <param name="task">The task.</param>
-        void Add(Action task);
+        void Add(Func<CancellationToken, ValueTask> task);
 
         /// <summary>
         /// Clear all the tasks.

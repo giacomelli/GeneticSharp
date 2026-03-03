@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace GeneticSharp.Infrastructure.Framework.UnitTests.Threading
 {
     public class StubTaskExecutor : TaskExecutorBase
     {
-        public IList<Action> GetTasks()
+        public IList<Func<CancellationToken, ValueTask>> GetTasks()
         {
             return Tasks;
         }

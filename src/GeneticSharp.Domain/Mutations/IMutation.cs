@@ -24,6 +24,11 @@ namespace GeneticSharp
     public interface IMutation : IChromosomeOperator
     {
         /// <summary>
+        /// Gets the minimum chromosome length required by this mutation.
+        /// </summary>
+        int MinChromosomeLength { get; }
+
+        /// <summary>
         /// Mutate the specified chromosome.
         /// </summary>
         /// <param name="chromosome">The chromosome.</param>

@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace GeneticSharp
 {
@@ -399,10 +401,7 @@ namespace GeneticSharp
                 {
                     var c = chromosomesWithoutFitness[i];
 
-                    TaskExecutor.Add(() =>
-                    {
-                        RunEvaluateFitness(c);
-                    });
+                    TaskExecutor.Add(ct => RunEvaluateFitness(c, ct));
                 }
 
                 if (!TaskExecutor.Start())
@@ -419,13 +418,10 @@ namespace GeneticSharp
             Population.CurrentGeneration.Chromosomes = Population.CurrentGeneration.Chromosomes.OrderByDescending(c => c.Fitness.Value).ToList();
         }
 
-        /// <summary>
-        /// Runs the evaluate fitness.
-        /// </summary>
-        /// <param name="chromosome">The chromosome.</param>
-        private void RunEvaluateFitness(object chromosome)
+        private ValueTask RunEvaluateFitness(IChromosome c, CancellationToken ct)
         {
-            var c = chromosome as IChromosome;
+            if (Fitness is IAsyncFitness asyncFitness)
+                return RunEvaluateFitnessAsync(c, asyncFitness, ct);
 
             try
             {
@@ -434,6 +430,24 @@ namespace GeneticSharp
             catch (Exception ex)
             {
                 throw new FitnessException(Fitness, "Error executing Fitness.Evaluate for chromosome: {0}".With(ex.Message), ex);
+            }
+
+            return default;
+        }
+
+        private async ValueTask RunEvaluateFitnessAsync(IChromosome c, IAsyncFitness asyncFitness, CancellationToken ct)
+        {
+            try
+            {
+                c.Fitness = await asyncFitness.EvaluateAsync(c, ct);
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new FitnessException(Fitness, "Error executing Fitness.EvaluateAsync for chromosome: {0}".With(ex.Message), ex);
             }
         }
 
